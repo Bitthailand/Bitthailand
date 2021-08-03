@@ -27,14 +27,6 @@
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <div class="main-content">
-            <div class="breadcrumb">
-                    <h1 class="mr-2">ขายสินค้า</h1>
-                    <ul>
-                        <li><a href="index.php">Dashboard</a></li>
-                        <li>ขายสินค้า</li>
-                    </ul>
-            </div>
-            <div class="separator-breadcrumb border-top"></div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -93,8 +85,8 @@
                             <div class="mb-1">
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
-                                        <h3 class="ul-widget1__title d-none"> Title </h3>
-                                        <span class="ul-widget__desc d-none"> Detail </span>
+                                        <h3 class="ul-widget1__title "> ขายสินค้า </h3>
+                                        <span class="ul-widget__desc "> รายการใบเสนอราคา </span>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">

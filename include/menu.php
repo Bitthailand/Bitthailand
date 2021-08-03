@@ -32,7 +32,7 @@
                                         <input id="drop-2" type="checkbox" />
                                         <ul>
                                             <li><a href="productionlist.php"><i class="nav-icon mr-2 i-Line-Chart-2"></i><span class="item-name">รายการสั่งผลิต</span></a></li>
-                                            <li><a href="products.php"><i class="nav-icon mr-2 i-Line-Chart-2"></i><span class="item-name">รายการสินค้า</span></a></li>
+                                            <li><a href="productlist.php"><i class="nav-icon mr-2 i-Line-Chart-2"></i><span class="item-name">รายการสินค้า</span></a></li>
                                         </ul>
                                     </div>
                                 </div>

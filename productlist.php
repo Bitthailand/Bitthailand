@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Production | รายการสั่งผลิตสินค้า</title>
+    <title>Product | รายการสินค้า</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -30,33 +30,13 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                    <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/productionlist.php">
-                                    <h3 class="h5 font-weight-bold"> รายการสั่งผลิต
-                                        <span class="badge badge-pill badge-danger">1</span>
-                                    </h3>
-                                    <span>รายการสินค้าที่อยู่ระหว่างการผลิต
-                                        <span class="badge badge-warning"> Wait </span>
-                                    </span>
-                                </a>
-                            </li>
 
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/productionfinishlist.php">
-                                    <h3 class="h5 font-weight-bold"> รายการสำเร็จ</h3>
-                                    <span>รายการสินค้าที่ผลิตเรียบร้อย
-                                        <span class="badge badge-success"> Success </span>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
                         <div class="tab-content">
                             <div class="mb-1">
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
-                                        <h3 class="ul-widget1__title "> ผลิตสินค้า </h3>
-                                        <span class="ul-widget__desc "> รายการสั่งผลิตสินค้า </span>
+                                        <h3 class="ul-widget1__title "> สินค้า </h3>
+                                        <span class="ul-widget__desc "> รายการสินค้า </span>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
@@ -64,7 +44,6 @@
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                    <option value="po_id">รหัสสั่งผลิต</option>
                                                         <option value="po_date">วันที่สั่งผลิต</option>
                                                         <option value="plane_id">แพที่ผลิต</option>
                                                         <option value="product_id">รหัสสินค้า</option>
@@ -105,9 +84,6 @@
                                 <table class="table table-hover text-nowrap table-sm">
                                     <thead>
                                         <tr>
-                                            <th>รหัสสั่งผลิต</th>
-                                            <th>วันที่สั่ง</th>
-                                            <th>แพที่</th>
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
                                             <th>ชื่อสินค้า</th>                                            
@@ -124,9 +100,6 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td> PD640800001 </td>
-                                            <td> 29 ก.ค. 2021 17:53</td>
-                                            <td> <strong>5</strong> </td>
                                             <td> <strong>FP03100020</strong> </td>
                                             <td> <strong>120</strong> </td>
                                             <td> เสารั้ว 3x3" </td>                                            
