@@ -28,11 +28,12 @@
                             <li>
                                 <div>
                                     <div>
-                                        <label class="toggle" for="drop-2">ผลิตสินค้า</label><a href="/productionlist.php"><i class="nav-icon i-Library mr-2"></i> ผลิตสินค้า</a>
-<!--                                         <input id="drop-2" type="checkbox" />
+                                        <label class="toggle" for="drop-2">ผลิตสินค้า</label><a href="#"><i class="nav-icon i-Library mr-2"></i> ผลิตสินค้า</a>
+                                        <input id="drop-2" type="checkbox" />
                                         <ul>
-                                            <li><a href="cards.html"><i class="nav-icon mr-2 i-Line-Chart-2"></i><span class="item-name">สั่งผลิตสินค้า</span></a></li>
-                                        </ul> -->
+                                            <li><a href="productionlist.php"><i class="nav-icon mr-2 i-Line-Chart-2"></i><span class="item-name">รายการสั่งผลิต</span></a></li>
+                                            <li><a href="products.php"><i class="nav-icon mr-2 i-Line-Chart-2"></i><span class="item-name">รายการสินค้า</span></a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </li>
