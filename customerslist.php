@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (isset($_SESSION["usernamex"])) { } else {
+    header("location:signin.php");
+}
+include './include/connect.php';
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">

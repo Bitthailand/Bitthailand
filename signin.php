@@ -1,4 +1,49 @@
 <!DOCTYPE html>
+<?php 
+session_start();
+unset($_SESSION['username']);
+include './include/connect.php';
+include './include/config.php';
+error_reporting(~E_NOTICE);
+$action = $_REQUEST['action'];
+if ($action == 'login') {
+    $username = $_REQUEST['username'];
+    $password = $_REQUEST['password'];
+    // $scon->getlogin($username, $password);
+    $sql = "SELECT * FROM employee  where username= '$username' ";
+    $rs = mysqli_query($conn, $sql);
+    $numRows = mysqli_num_rows($rs);
+    if ($numRows  == 1) {
+        $row = mysqli_fetch_assoc($rs);
+        // if(password_verify($password,$row['password'])){
+        if ($password == $row['password']) {
+            session_start();
+            echo "Password verified $row[username] ";
+            $_SESSION["username"] = $row['username'];
+            $_SESSION["rule"] = $row['rule'];
+            $_SESSION["time"] = time() + 30;
+            header('Location: index.php');
+        } else {
+?>
+
+            <script>
+                $(document).ready(function() {
+                    showAlert("รหัสผ่านไม่ถูกต้อง", "alert-danger");
+                });
+            </script>
+        <?php
+        }
+    } else {
+        ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ไม่พบผู้ใช้นี้", "alert-danger");
+            });
+        </script>
+<?php
+    }
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +52,7 @@
     <title>Signin | Gull Admin Template</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet">
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet">
+
 </head>
 <div class="auth-layout-wrap" style="background-image: url(../../dist-assets/images/photo-wide-4.jpg)">
     <div class="auth-content">
@@ -16,17 +62,21 @@
                     <div class="p-4">
                         <div class="auth-logo text-center mb-4"><img src="../../dist-assets/images/logo.png" alt=""></div>
                         <h1 class="mb-3 text-18">Sign In</h1>
-                        <form>
+
+                       
+                        <form method="POST">
                             <div class="form-group">
-                                <label for="email">User Name</label>
-                                <input class="form-control form-control-rounded" id="email" type="email">
+                                <label for="username">User Name</label>
+                                <input class="form-control form-control-rounded" name="username" type="text"   placeholder="Username" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input class="form-control form-control-rounded" id="password" type="password">
+                                <input class="form-control form-control-rounded" name="password" type="password"  placeholder="password" required>
                             </div>
+                            <input type="hidden" name="action" value="login">
                             <button class="btn btn-rounded btn-primary btn-block mt-2">Sign In</button>
                         </form>
+                        <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
                         <div class="mt-3 text-center">
                             <a class="text-muted" href="forgot.php">
                                 <u>Forgot Password?</u></a>
