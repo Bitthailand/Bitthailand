@@ -133,7 +133,84 @@
 
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td> CUS000001 </td>
+                                            <td> คุณพูนศักดิ์</td>
+                                            <td> - </td>
+                                            <td> 123/456 ถ.ชยางค์กูล </td>
+                                            <td> ในเมือง </td>
+                                            <td>
+                                                เมือง
+                                            </td>
+                                            <td> อุบลราชธานี </td>
+                                            <td>
+                                                0999999999
+                                            </td>
+                                            <td> 2904311034586 </td>
+                                            <td> - </td>
+                                            <td>
 
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
+                                                    <i class="i-Check font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
+                                                    <i class="i-File font-weight-bold"></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> CUS000001 </td>
+                                            <td> คุณพูนศักดิ์</td>
+                                            <td> - </td>
+                                            <td> 123/456 ถ.ชยางค์กูล </td>
+                                            <td> ในเมือง </td>
+                                            <td>
+                                                เมือง
+                                            </td>
+                                            <td> อุบลราชธานี </td>
+                                            <td>
+                                                0999999999
+                                            </td>
+                                            <td> 2904311034586 </td>
+                                            <td> - </td>
+                                            <td>
+
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
+                                                    <i class="i-Check font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
+                                                    <i class="i-File font-weight-bold"></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> CUS000001 </td>
+                                            <td> คุณพูนศักดิ์</td>
+                                            <td> - </td>
+                                            <td> 123/456 ถ.ชยางค์กูล </td>
+                                            <td> ในเมือง </td>
+                                            <td>
+                                                เมือง
+                                            </td>
+                                            <td> อุบลราชธานี </td>
+                                            <td>
+                                                0999999999
+                                            </td>
+                                            <td> 2904311034586 </td>
+                                            <td> - </td>
+                                            <td>
+
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
+                                                    <i class="i-Check font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
+                                                    <i class="i-File font-weight-bold"></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
