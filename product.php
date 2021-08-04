@@ -34,86 +34,69 @@
                                 <form class="tab-pane fade active show" method="post">
 
                                     <div class="border-bottom text-primary">
-                                        <div class="card-title">เพิ่มข้อมูลลูกค้า</div>
+                                        <div class="card-title">เพิ่มข้อมูลสินค้า</div>
                                     </div>
                                     <div class="row mt-4">
                                     </div>
                                     <div class="form-row mt-3">
 
-                                        <div class="form-group col-md-4">
-                                            <label for="accNameId"><strong>รหัสลูกค้า <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="customer_id" id="customer_id" class="classcus form-control" placeholder="รหัสลูกค้า" required>
+                                        <div class="form-group col-md-2">
+                                            <label for="product_id"><strong>รหัสสินค้า <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="product_id" id="product_id" class="classcus form-control" placeholder="รหัสสินค้า" required>
+                                        </div>
+
+                                        <div class="form-group col-md-1">
+                                            <label for="product_type"><strong>ประเภทสินค้า <span class="text-danger">*</span></strong></label>
+                                            <select class="classcus custom-select" name="product_type" id="product_type" required>
+                                                <option value="PT001">เสารั้วลวดหนาม</option>
+                                                <option value="PT002">เสาเข็มไอ</option>
+                                                <option value="PT003">เสาเข็มสี่เหลี่ยม</option>
+                                                <option value="PT004">กำแพงกันดิน</option>
+                                                <option value="PT005">เสาไฟฟ้า</option>
+                                                <option value="PT006">ลวดหนาม</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-1">
+                                            <label for="product_name"><strong>ขนาดความยาว <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                        </div>
+
+                                        <div class="form-group col-md-1">
+                                            <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span>*</strong></label>
+                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ขนาดลวด" required >
+                                        </div>
+
+                                        <div class="form-group col-md-1">
+                                            <label for="phone"><strong>จำนวนเส้นลวด <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
+                                        </div>
+
+                                        <div class="form-group col-md-1">
+                                            <label for="unit"><strong>หน่วยนับ <span class="text-danger">*</span></strong></label>
+                                            <select class="classcus custom-select" name="unit" id="unit" required>
+                                                <option value="ต้น">ต้น</option>
+                                                <option value="แผ่น">แผ่น</option>
+                                                <option value="ชิ้น">ชิ้น</option>
+                                                <option value="อัน">อัน</option>
+                                                <option value="ถุง">ถุง</option>
+                                                <option value="ลัง">ลัง</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-1">
+                                            <label for="accAddressId"><strong>ราคาต่อหน่วย <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="address" class="classcus form-control" id="address" placeholder="ราคาต่อหน่วย" required="">
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
+                                            <label for="tax_number"><strong>ข้อมูลพิเศษ <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off" >
                                         </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="accNameId"><strong>ชื่อบริษัท <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ชื่อบริษัท" >
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="phone"><strong>เบอร์โทร <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="tax_number"><strong>เลขที่ผู้เสียภาษี <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="เลขที่ผู้เสียภาษี" autocomplete="off" >
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="referral"><strong>บุคคลอ้างอิง <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="referral" id="referral" class="classcus form-control" placeholder="บุคคลอ้างอิง" autocomplete="off" >
-                                        </div>
-
+                                        
                                         <div class="form-group col-md-12">
-                                            <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="province"><strong>จังหวัด <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="province" id="province" required>
-                                                <option value="อุบลราชธานี">อุบลราชธานี</option>
-                                                <option value="ยโสธร">ยโสธร</option>
-                                                <option value="อำนาจเจริญ">อำนาจเจริญ</option>
-                                                <option value="ศรีสะเกษ">ศรีสะเกษ</option>
-                                                <option value="บุรีรัม">บุรีรัม</option>
-                                                <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="district"><strong>อำเภอ <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="district" id="district" required>
-                                                <option value="เมือง">เมือง</option>
-                                                <option value="เขื่องใน">เขื่องใน</option>
-                                                <option value="วารินชำราบ">วารินชำราบ</option>
-                                                <option value="สว่างวีระวงศ์">สว่างวีระวงศ์</option>
-                                                <option value="เหล่าเสือโก้ก">เหล่าเสือโก้ก</option>
-                                                <option value="ม่วงสามสิบ">ม่วงสามสิบ</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="subdistrict"><strong>ตำบล <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="subdistrict" id="subdistrict" required>
-                                                <option value="ในเมือง">ในเมือง</option>
-                                                <option value="หนองขอน">หนองขอน</option>
-                                                <option value="ขามใหญ่">ขามใหญ่</option>
-                                                <option value="แจระแม">แจระแม</option>
-                                                <option value="หนองบ่อ">หนองบ่อ</option>
-                                                <option value="ไร่น้อย">ไร่น้อย</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-md-12">
-                                            <label for="delivery_address"><strong>ที่อยู่ส่งสินค้า <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="ที่อยู่ส่งสินค้า" >
+                                            <label for="delivery_address"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="หมายเหตุ" >
                                         </div>
 
 
@@ -125,11 +108,11 @@
                                         <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                         <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
 
-                                        <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มลูกค้า</button>
+                                        <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มสินค้า</button>
                                         <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
-                                            <span class="ladda-label">ยืนยันการเพิ่มลูกค้า</span>
+                                            <span class="ladda-label">ยืนยันการเพิ่มสินค้า</span>
                                         </button>
-                                        <a class="btn btn-outline-danger m-1" href="/customerslist.php" type="button">กลับหน้ารายการ</a>
+                                        <a class="btn btn-outline-danger m-1" href="/inventorylist.php" type="button">กลับไปหน้าสต๊อกสินค้า</a>
                                     </div>
 
                                 </form>
