@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Stocks | รายการสินค้าคงคลัง</title>
+    <title>Order | เสนอราคา</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -27,127 +27,114 @@
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <div class="main-content">
-
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="card">
+                            <div class="tab-content" id="myTabContent">
+                                <form class="tab-pane fade active show" method="post">
 
-                        <div class="tab-content">
-                            <div class="mb-1">
-                                <div class="ul-widget__item">
-                                    <div class="ul-widget__info">
-                                        <h3 class="ul-widget1__title "> สต๊อกสินค้า </h3>
-                                        <span class="ul-widget__desc "> รายการสต๊อกสินค้า </span>
+                                    <div class="border-bottom text-primary">
+                                        <div class="card-title">เพิ่มข้อมูลลูกค้า</div>
                                     </div>
-                                    <div class="text-left">
-                                        <div class="row">
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="product_id">รหัสสินค้า</option>
-                                                        <option value="product_name">ชื่อสินค้า</option>
-                                                        <option value="unit_price">ราคาต่อหน่วย</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchNameId"> คำที่ต้องการค้น</label>
-                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchRowsId"> Row </label>
-                                                    <select id="searchRowsId" class="custom-select">
-                                                        <option value="10"> 10 </option>
-                                                        <option value="20" selected=""> 20 </option>
-                                                        <option value="30"> 30 </option>
-                                                        <option value="40"> 40 </option>
-                                                        <option value="50"> 50 </option>
-                                                        <option value="100"> 100 </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                            <a href="/customer.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มลูกค้าใหม่</a>
+                                    <div class="row mt-4">
+                                    </div>
+                                    <div class="form-row mt-3">
 
-                                           </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="accNameId"><strong>รหัสลูกค้า <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="customer_id" id="customer_id" class="classcus form-control" placeholder="รหัสลูกค้า" required>
                                         </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="accNameId"><strong>ชื่อบริษัท <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ชื่อบริษัท" >
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="phone"><strong>เบอร์โทร <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="tax_number"><strong>เลขที่ผู้เสียภาษี <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="เลขที่ผู้เสียภาษี" autocomplete="off" >
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="referral"><strong>บุคคลอ้างอิง <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="referral" id="referral" class="classcus form-control" placeholder="บุคคลอ้างอิง" autocomplete="off" >
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="province"><strong>จังหวัด <span class="text-danger">*</span></strong></label>
+                                            <select class="classcus custom-select" name="province" id="province" required>
+                                                <option value="อุบลราชธานี">อุบลราชธานี</option>
+                                                <option value="ยโสธร">ยโสธร</option>
+                                                <option value="อำนาจเจริญ">อำนาจเจริญ</option>
+                                                <option value="ศรีสะเกษ">ศรีสะเกษ</option>
+                                                <option value="บุรีรัม">บุรีรัม</option>
+                                                <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="district"><strong>อำเภอ <span class="text-danger">*</span></strong></label>
+                                            <select class="classcus custom-select" name="district" id="district" required>
+                                                <option value="เมือง">เมือง</option>
+                                                <option value="เขื่องใน">เขื่องใน</option>
+                                                <option value="วารินชำราบ">วารินชำราบ</option>
+                                                <option value="สว่างวีระวงศ์">สว่างวีระวงศ์</option>
+                                                <option value="เหล่าเสือโก้ก">เหล่าเสือโก้ก</option>
+                                                <option value="ม่วงสามสิบ">ม่วงสามสิบ</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="subdistrict"><strong>ตำบล <span class="text-danger">*</span></strong></label>
+                                            <select class="classcus custom-select" name="subdistrict" id="subdistrict" required>
+                                                <option value="ในเมือง">ในเมือง</option>
+                                                <option value="หนองขอน">หนองขอน</option>
+                                                <option value="ขามใหญ่">ขามใหญ่</option>
+                                                <option value="แจระแม">แจระแม</option>
+                                                <option value="หนองบ่อ">หนองบ่อ</option>
+                                                <option value="ไร่น้อย">ไร่น้อย</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <label for="delivery_address"><strong>ที่อยู่ส่งสินค้า <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="ที่อยู่ส่งสินค้า" >
+                                        </div>
+
+
                                     </div>
-                                </div>
+                                  
+                                    <hr>
+
+                                    <div class="text-right">
+                                        <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
+                                        <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
+
+                                        <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มลูกค้า</button>
+                                        <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
+                                            <span class="ladda-label">ยืนยันการเพิ่มลูกค้า</span>
+                                        </button>
+                                        <a class="btn btn-outline-danger m-1" href="/customerslist.php" type="button">กลับหน้ารายการ</a>
+                                    </div>
+
+                                </form>
+
                             </div>
-
-                            <!-- ============ Table Start ============= -->
-                            <div class="table-responsive">
-                                <table class="table table-hover text-nowrap table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>รหัสสินค้า</th>
-                                            <th>ชื่อสินค้า</th>
-                                            <th>ความยาว</th>
-                                            <th>ขนาดลวด</th>
-                                            <th>จำนวนเส้นลวด</th>
-                                            <th>ราคาต่อหน่วย</th>
-                                            <th>ข้อมูลเพิ่มเติม</th>
-                                            <th>สต๊อกโรงงาน 1</th>
-                                            <th>สต๊อกโรงงาน 2</th>
-                                            <th>หน่วยนับ</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td> FP03100020 </td>
-                                            <td> เสารั้ว 3x3"</td>
-                                            <td> 1.00 </td>
-                                            <td> 4 </td>
-                                            <td> 2 </td>
-                                            <td> 45.00 </td>
-                                            <td>
-                                                -
-                                            </td>
-                                            <td> 62 </td>
-                                            <td> 78 </td>
-                                            <td> ต้น </td>
-                                            <td>
-
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
-
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan="14"> &nbsp;</td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- ============ Table End ============= -->
-
-                            <div class="mb-5 mt-3">
-                                <nav aria-label="Page navigation ">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Previous"><span aria-hidden="true">«</span><span
-                                                    class="sr-only">Previous</span></a></li>
-                                        <!-- <| 123 |> -->
-                                        <li class="page-item active"><a class="page-link" href="#" onclick="clickNav(1)">1</a></li>
-                                        <!-- <| 123 ...|>  -->
-
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Next"><span aria-hidden="true">»</span><span
-                                                    class="sr-only">Next</span></a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-
-
-
                         </div>
                     </div>
                 </div>
