@@ -45,6 +45,7 @@
                                                     <label for="searchColumnId"> ประเภท </label>
                                                     <select id="searchColumnId" class="custom-select" name="column">
                                                         <option value="product_id">รหัสสินค้า</option>
+                                                        <option value="product_type">ประเภทสินค้า</option>
                                                         <option value="product_name">ชื่อสินค้า</option>
                                                         <option value="unit_price">ราคาต่อหน่วย</option>
                                                     </select>
@@ -70,7 +71,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                            <a href="/customer.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มลูกค้าใหม่</a>
+                                            <a href="/product.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มสินค้าใหม่</a>
 
                                            </div>
                                         </div>
@@ -84,6 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>รหัสสินค้า</th>
+                                            <th>ประเภทสินค้า</th>
                                             <th>ชื่อสินค้า</th>
                                             <th>ความยาว</th>
                                             <th>ขนาดลวด</th>
@@ -99,6 +101,7 @@
                                     <tbody>
                                         <tr>
                                             <td> FP03100020 </td>
+                                            <td> เสารั้วลวดหนาม </td>
                                             <td> เสารั้ว 3x3"</td>
                                             <td> 1.00 </td>
                                             <td> 4 </td>
@@ -112,13 +115,9 @@
                                             <td> ต้น </td>
                                             <td>
 
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                    <i class="i-Check font-weight-bold"></i>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product.php?product_id=FP03100020">
+                                                    <i class="i-Pen-2 font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
-
                                             </td>
                                         </tr>
 

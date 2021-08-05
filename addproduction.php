@@ -34,91 +34,127 @@
                                 <form class="tab-pane fade active show" method="post">
 
                                     <div class="border-bottom text-primary">
-                                        <div class="card-title">เพิ่มข้อมูลลูกค้า</div>
+                                        <div class="card-title">เพิ่มรายการสั่งผลิตสินค้า</div>
                                     </div>
                                     <div class="row mt-4">
                                     </div>
                                     <div class="form-row mt-3">
 
-                                        <div class="form-group col-md-4">
-                                            <label for="accNameId"><strong>รหัสลูกค้า <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="customer_id" id="customer_id" class="classcus form-control" placeholder="รหัสลูกค้า" required>
+                                        <div class="form-group col-md-2">
+                                            <label for="production_id"><strong>รหัสสั่งผลิต <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="production_id" id="production_id" class="classcus form-control" placeholder="รหัสสั่งผลิต" required>
                                         </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
+                                        <div class="viewDateClass col pr-0 ">
+                                            <div class="form-group">
+                                                <label for="searchSDateId">วันที่สั่งผลิต</label>
+                                                <input id="searchSDateId" class="form-control" type="date" min="2021-06-01" name="start" value="2021-08-04" required="">
+                                            </div>
+                                        </div>
+                                        <div class="viewDateClass col pr-0 ">
+                                            <div class="form-group">
+                                                <label for="searchEDateId">เช็คเขาสต๊อกภายในวันที่</label>
+                                                <input id="searchEDateId" class="form-control" type="date" name="end" value="2021-08-04" required="">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label for="accNameId"><strong>ชื่อบริษัท <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ชื่อบริษัท" >
-                                        </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label for="phone"><strong>เบอร์โทร <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="tax_number"><strong>เลขที่ผู้เสียภาษี <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="เลขที่ผู้เสียภาษี" autocomplete="off" >
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="referral"><strong>บุคคลอ้างอิง <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="referral" id="referral" class="classcus form-control" placeholder="บุคคลอ้างอิง" autocomplete="off" >
-                                        </div>
-
-                                        <div class="form-group col-md-12">
-                                            <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="province"><strong>จังหวัด <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="province" id="province" required>
-                                                <option value="อุบลราชธานี">อุบลราชธานี</option>
-                                                <option value="ยโสธร">ยโสธร</option>
-                                                <option value="อำนาจเจริญ">อำนาจเจริญ</option>
-                                                <option value="ศรีสะเกษ">ศรีสะเกษ</option>
-                                                <option value="บุรีรัม">บุรีรัม</option>
-                                                <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
+                                        <div class="form-group col-md-1">
+                                            <label for="plant"><strong>แพที่ผลิต <span class="text-danger">*</span></strong></label>
+                                            <select class="classcus custom-select" name="plant" id="plant" required>
+                                                <option value="1">1 โรงงาน 1</option>
+                                                <option value="2">2 โรงงาน 1</option>
+                                                <option value="3">3 โรงงาน 1</option>
+                                                <option value="4">4 โรงงาน 1</option>
+                                                <option value="5">5 โรงงาน 1</option>
+                                                <option value="6">6 โรงงาน 1</option>
                                             </select>
                                         </div>
 
+                                        <div class="row">
+
+                                                <div class="form-group col-md-4">
+                                                    <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
+                                                    <select class="classcus custom-select" name="product" id="product" required>
+                                                        <option value="FP03100020">เสารั้ว 3x3" ยาว 1.00 ขนาดลวด 4 จำนวน 2 เส้น </option>
+                                                        <option value="FP03145020">เสารั้ว 3x3" ยาว 1.45 ขนาดลวด 4 จำนวน 2 เส้น</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                    <label for="accNameId"><strong>จำนวนสั่งผลิต <span class="text-danger">*</span></strong></label>
+                                                    <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
+                                                </div>
+
+                                                <!-- ============ Table Start ============= -->
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover text-nowrap table-sm">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>รหัสสินค้า</th>
+                                                                <th>ชื่อสินค้า</th>
+                                                                <th>หน้ากว้าง</th>
+                                                                <th>ความยาว</th>
+                                                                <th>ขนาดลวด</th>
+                                                                <th>จำนวนลวด</th>
+                                                                <th>เซอร์คีย์(เส้น)</th>
+                                                                <th>คอนกรีตคำนวณ</th>
+                                                                <th>คอนกรีตใช้จริง</th>
+                                                                <th>จำนวนสั่งผลิต</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td> <strong>FP03100020</strong> </td>
+                                                                <td> เสารั้ว 3x3" </td>
+                                                                <td> <strong>3"</strong> </td>
+                                                                <td> 1.00 </td>
+                                                                <td>
+                                                                    4
+                                                                </td>
+                                                                <td> 5 </td>
+                                                                <td> - </td>
+                                                                <td> 2.21 </td>
+                                                                <td> - </td>
+                                                                <td> 120 </td>
+                                                                <td>
+
+                                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า"
+                                                                        href="/customer.php?customer_id=CUS000001">
+                                                                        <i class="i-Check font-weight-bold"></i>
+                                                                    </a>
+                                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า"
+                                                                        href="/orderlist.php?statement=268">
+                                                                        <i class="i-File font-weight-bold"></i>
+                                                                    </a>
+
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td colspan="14"> &nbsp;</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- ============ Table End ============= -->
+
+                                        </div>
+                                        
                                         <div class="form-group col-md-4">
-                                            <label for="district"><strong>อำเภอ <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="district" id="district" required>
-                                                <option value="เมือง">เมือง</option>
-                                                <option value="เขื่องใน">เขื่องใน</option>
-                                                <option value="วารินชำราบ">วารินชำราบ</option>
-                                                <option value="สว่างวีระวงศ์">สว่างวีระวงศ์</option>
-                                                <option value="เหล่าเสือโก้ก">เหล่าเสือโก้ก</option>
-                                                <option value="ม่วงสามสิบ">ม่วงสามสิบ</option>
-                                            </select>
+                                            <label for="accNameId"><strong>พ.ท.(Sq.m) <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label for="subdistrict"><strong>ตำบล <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="subdistrict" id="subdistrict" required>
-                                                <option value="ในเมือง">ในเมือง</option>
-                                                <option value="หนองขอน">หนองขอน</option>
-                                                <option value="ขามใหญ่">ขามใหญ่</option>
-                                                <option value="แจระแม">แจระแม</option>
-                                                <option value="หนองบ่อ">หนองบ่อ</option>
-                                                <option value="ไร่น้อย">ไร่น้อย</option>
-                                            </select>
+                                            <label for="accNameId"><strong>ความยาวลวด(ทั้งแพ) <span class="text-danger">*</span></strong></label>
+                                            <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ความยาวลวด(ทั้งแพ)" required>
                                         </div>
-
-                                        <div class="form-group col-md-12">
-                                            <label for="delivery_address"><strong>ที่อยู่ส่งสินค้า <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="ที่อยู่ส่งสินค้า" >
-                                        </div>
-
 
                                     </div>
-                                  
+
                                     <hr>
 
                                     <div class="text-right">
