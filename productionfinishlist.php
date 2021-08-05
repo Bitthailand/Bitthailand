@@ -30,7 +30,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                    <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/productionlist.php">
                                     <h3 class="h5 font-weight-bold"> รายการสั่งผลิต
@@ -64,7 +64,7 @@
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                    <option value="po_id">รหัสสั่งผลิต</option>
+                                                        <option value="po_id">รหัสสั่งผลิต</option>
                                                         <option value="po_date">วันที่สั่งผลิต</option>
                                                         <option value="plane_id">แพที่ผลิต</option>
                                                         <option value="product_id">รหัสสินค้า</option>
@@ -94,24 +94,24 @@
                                             <div class="col-auto">
 
 
-                                           </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- ============ Table Start ============= -->
-                            <div class="table-responsive">
-                                <table class="table table-hover text-nowrap table-sm">
+                            <div id="productionorder" class="table-responsive">
+                                <table role="table" class="table table-hover text-nowrap table-sm">
                                     <thead>
-                                        <tr>
+                                        <tr class="table-secondary">
                                             <th>รหัสสั่งผลิต</th>
-                                            <th>วันที่สั่ง</th>
                                             <th>แพที่</th>
+                                            <th>วันที่สั่ง</th>
+                                            <th>กำหนดเสร็จ</th>
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
-                                            <th>ชื่อสินค้า</th>                                            
-                                            <th>ความยาว</th>                                            
+                                            <th>ชื่อสินค้า</th>
+                                            <th>ความยาว</th>
                                             <th>ขนาดลวด</th>
                                             <th>จำนวนลวด</th>
                                             <th>เริ่มเท</th>
@@ -119,43 +119,116 @@
                                             <th>วันที่เช็คเข้าสต๊อก</th>
                                             <th>สมบูรณ์</th>
                                             <th>ไม่สมบูรณ์</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td> PD640800001 </td>
-                                            <td> 29 ก.ค. 2021 17:53</td>
-                                            <td> <strong>5</strong> </td>
-                                            <td> <strong>FP03100020</strong> </td>
-                                            <td> <strong>120</strong> </td>
-                                            <td> เสารั้ว 3x3" </td>                                            
-                                            <td> 1.00 </td>                                            
                                             <td>
-                                                4
+                                                <strong> PD640800001 </strong>
                                             </td>
-                                            <td> 5 </td>
-                                            <td> 29 ก.ค. 2021 17:53 </td>
-                                            <td> 29 ก.ค. 2021 17:53 </td>
-                                            <td> 29 ก.ค. 2021 17:53 </td>
-                                            <td> 115 </td>
-                                            <td> 5 </td>
-                                            <td>
-
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
-
-                                            </td>
+                                            <td><strong>5</strong></td>
+                                            <td> <strong>29 ก.ค. 2021 17:53</strong></td>
+                                            <td> <strong>5 ส.ค. 2021</strong></td>
+                                            <td>FP03100020</td>
+                                            <td>120</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>1.00</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>115</td>
+                                            <td>5</td>
                                         </tr>
-
+                                        <tr class="table table-hover text-nowrap table-sm">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>120</strong></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>115</strong></td>
+                                            <td><strong>5</strong></td>
+                                        </tr>
                                         <tr>
-                                            <td colspan="14"> &nbsp;</td>
+                                            <td>
+                                                <strong> PD640800002 </strong>
+                                            </td>
+                                            <td><strong>5</strong></td>
+                                            <td> <strong>23 ก.ค. 2021 11:23</strong></td>
+                                            <td> <strong>5 ส.ค. 2021</strong></td>
+                                            <td>FP03100020</td>
+                                            <td>100</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>1.00</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>100</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td>FP03145020</td>
+                                            <td>60</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>1.45</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>59</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td>FP03200020</td>
+                                            <td>40</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>2.00</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>29 ก.ค. 2021 17:53</td>
+                                            <td>39</td>
+                                            <td>1</td>
                                         </tr>
 
+                                        <tr class="table table-hover text-nowrap table-sm">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>200</strong></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>198</strong></td>
+                                            <td><strong>2</strong></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

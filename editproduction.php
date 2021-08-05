@@ -82,7 +82,7 @@
                                         </div>
 
                                         <button class="btn btn-outline-primary ripple m-1" type="button"
-                                            style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
+                                            style=" height: 33px; margin-top: 24px!important;">แก้ไขข้อมูลสั่งผลิต</button>
 
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
@@ -119,6 +119,9 @@
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
                                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                                 </a>
+                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="บันทึกการใช้คอนกรีต" href="#">
+                                                                    <i class="i-Gear font-weight-bold"></i>
+                                                                </a>
                                                                 <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
                                                                     <i class="i-Close-Window font-weight-bold"></i>
                                                                 </a>
@@ -138,6 +141,9 @@
                                                             <td>
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
                                                                     <i class="i-Pen-2 font-weight-bold"></i>
+                                                                </a>
+                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="บันทึกการใช้คอนกรีต" href="#">
+                                                                    <i class="i-Gear font-weight-bold"></i>
                                                                 </a>
                                                                 <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
                                                                     <i class="i-Close-Window font-weight-bold"></i>
@@ -169,9 +175,9 @@
                                     <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                     <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
 
-                                    <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการสั่งผลิต</button>
+                                    <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการแก้ไข</button>
                                     <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
-                                        <span class="ladda-label">ยืนยันการสั่งผลิต</span>
+                                        <span class="ladda-label">ยืนยันการแก้ไข</span>
                                     </button>
                                     <a class="btn btn-outline-danger m-1" href="/productionlist.php" type="button">กลับหน้ารายการสั่งผลิต</a>
                                 </div>
