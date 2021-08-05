@@ -30,14 +30,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="tab-content" id="myTabContent">
+                            <div class="tab-content" >
                                 <form class="tab-pane fade active show" method="post">
 
                                     <div class="border-bottom text-primary">
                                         <div class="card-title">เพิ่มรายการสั่งผลิตสินค้า</div>
                                     </div>
-                                    <div class="row mt-4">
-                                    </div>
+
                                     <div class="form-row mt-3">
 
                                         <div class="form-group col-md-2">
@@ -59,7 +58,7 @@
                                         </div>
 
 
-                                        <div class="form-group col-md-1">
+                                        <div class="form-group col-md-2">
                                             <label for="plant"><strong>แพที่ผลิต <span class="text-danger">*</span></strong></label>
                                             <select class="classcus custom-select" name="plant" id="plant" required>
                                                 <option value="1">1 โรงงาน 1</option>
@@ -72,77 +71,20 @@
                                         </div>
 
                                         <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
+                                                <select class="classcus custom-select" name="product" id="product" required>
+                                                    <option value="FP03100020">เสารั้ว 3x3" ยาว 1.00 ขนาดลวด 4 จำนวน 2 เส้น </option>
+                                                    <option value="FP03145020">เสารั้ว 3x3" ยาว 1.45 ขนาดลวด 4 จำนวน 2 เส้น</option>
+                                                </select>
+                                            </div>
 
-                                                <div class="form-group col-md-4">
-                                                    <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                                    <select class="classcus custom-select" name="product" id="product" required>
-                                                        <option value="FP03100020">เสารั้ว 3x3" ยาว 1.00 ขนาดลวด 4 จำนวน 2 เส้น </option>
-                                                        <option value="FP03145020">เสารั้ว 3x3" ยาว 1.45 ขนาดลวด 4 จำนวน 2 เส้น</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group col-md-4">
-                                                    <label for="accNameId"><strong>จำนวนสั่งผลิต <span class="text-danger">*</span></strong></label>
-                                                    <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
-                                                </div>
-
-                                                <!-- ============ Table Start ============= -->
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover text-nowrap table-sm">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>รหัสสินค้า</th>
-                                                                <th>ชื่อสินค้า</th>
-                                                                <th>หน้ากว้าง</th>
-                                                                <th>ความยาว</th>
-                                                                <th>ขนาดลวด</th>
-                                                                <th>จำนวนลวด</th>
-                                                                <th>เซอร์คีย์(เส้น)</th>
-                                                                <th>คอนกรีตคำนวณ</th>
-                                                                <th>คอนกรีตใช้จริง</th>
-                                                                <th>จำนวนสั่งผลิต</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td> <strong>FP03100020</strong> </td>
-                                                                <td> เสารั้ว 3x3" </td>
-                                                                <td> <strong>3"</strong> </td>
-                                                                <td> 1.00 </td>
-                                                                <td>
-                                                                    4
-                                                                </td>
-                                                                <td> 5 </td>
-                                                                <td> - </td>
-                                                                <td> 2.21 </td>
-                                                                <td> - </td>
-                                                                <td> 120 </td>
-                                                                <td>
-
-                                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า"
-                                                                        href="/customer.php?customer_id=CUS000001">
-                                                                        <i class="i-Check font-weight-bold"></i>
-                                                                    </a>
-                                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า"
-                                                                        href="/orderlist.php?statement=268">
-                                                                        <i class="i-File font-weight-bold"></i>
-                                                                    </a>
-
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td colspan="14"> &nbsp;</td>
-                                                            </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <!-- ============ Table End ============= -->
-
+                                            <div class="form-group col-md-4">
+                                                <label for="accNameId"><strong>จำนวนสั่งผลิต <span class="text-danger">*</span></strong></label>
+                                                <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
+                                            </div>
                                         </div>
-                                        
+
                                         <div class="form-group col-md-4">
                                             <label for="accNameId"><strong>พ.ท.(Sq.m) <span class="text-danger">*</span></strong></label>
                                             <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
@@ -174,8 +116,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div><!-- Footer Start -->
             <div class="flex-grow-1"></div>
             <div class="app-footer">
