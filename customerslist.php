@@ -5,7 +5,7 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-
+error_reporting(0);
 $action= $_REQUEST['action'];
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
@@ -24,6 +24,16 @@ if ($action == 'del') {
     <?php }
       }
 
+
+?>
+<?php $keyword=$_POST['keyword'];
+$column=$_REQUEST['column'];
+$row=$_REQUEST['row'];
+if($column==''){ } else{
+    $columx="AND '$column' LIKE'$keyword%'";
+    // echo"$columx";
+   
+} 
 
 ?>
 <!DOCTYPE html>
@@ -73,32 +83,35 @@ if ($action == 'del') {
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="customer_id">รหัสลูกค้า</option>
-                                                        <option value="customer_name">ชื่อลูกค้า</option>
-                                                        <option value="company">บริษัท</option>
-                                                        <option value="address">ที่อยู่</option>
-                                                        <option value="phone">เบอร์โทร</option>
-                                                        <option value="tax_number">เลขที่ผู้เสียภาษี</option>
+                                                    <option value="customer_id" <?php echo $column=='customer_id'?'selected':''; ?>> รหัสลูกค้า </option>
+                                                    <option value="customer_name" <?php echo $column=='customer_name'?'selected':''; ?>>ชื่อลูกค้า </option>
+                                                    <option value="company" <?php echo $column=='company'?'selected':''; ?>>บริษัท </option>
+                                                    <option value="address" <?php echo $column=='address'?'selected':''; ?>>ที่อยู่ </option>  
+                                                    <option value="phone" <?php echo $column=='phone'?'selected':''; ?>>เบอร์โทร </option>  
+                                                    <option value="tax_number" <?php echo $column=='tax_number'?'selected':''; ?>>เลขที่ผู้เสียภาษี</option>  
+                                                      
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
+                                                    
                                                     <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
-                                                        <option value="10"> 10 </option>
-                                                        <option value="20" selected=""> 20 </option>
-                                                        <option value="30"> 30 </option>
-                                                        <option value="40"> 40 </option>
-                                                        <option value="50"> 50 </option>
-                                                        <option value="100"> 100 </option>
-                                                    </select>
+                                                    <option value="10" <?php echo $row==10?'selected':''; ?>> 10 </option>
+                                                    <option value="20" <?php echo $row==20?'selected':''; ?>> 20 </option>
+                                                    <option value="30" <?php echo $row==30?'selected':''; ?>> 30 </option>
+                                                    <option value="40" <?php echo $row==40?'selected':''; ?>> 40 </option>
+                                                    <option value="50" <?php echo $row==50?'selected':''; ?>> 50 </option>
+                                                    <option value="100" <?php echo $row==100?'selected':''; ?>> 100 </option>
+                                                </select>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
@@ -143,14 +156,14 @@ if ($action == 'del') {
                                         $previous_page = $page_no - 1;
                                         $next_page = $page_no + 1;
                                         $adjacents = "2";
-
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `customer`");
+                                          
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `customer` where  status='0'  ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `customer` LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `customer` where status='0'  LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
                                                 <td><?php echo $row['customer_id']; ?></td>
@@ -165,14 +178,12 @@ if ($action == 'del') {
                                                 <td><?php echo $row['contact_name']; ?></td>
                                                 <td>
 
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                        <i class="i-Check font-weight-bold"></i>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
+                                                        <i class="i-pen-2 font-weight-bold"></i>
                                                     </a>
-                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                        <i class="i-File font-weight-bold"></i>
-                                                    </a>
+                                                 
                                                     <button type="button" class="btn btn-outline-info btn-sm line-height-1"  data-id="<?php echo $row['customer_id']; ?>" data-toggle="modal"
-                                                    data-target="#myModal_del"><i class="fa fa-close"></i> </button>
+                                                    data-target="#myModal_del">  <i class="i-Close-Window font-weight-bold"></i> </button>
 
                                                 </td>
                                             </tr>
