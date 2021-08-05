@@ -2,7 +2,7 @@
 
 $host = "localhost"; /* Host name */
 $user = "root"; /* User */
-$password = "123456789"; /* Password */
+$password = ""; /* Password */
 $dbname = "stock"; /* Database name */
 $conn= mysqli_connect($host, $user, $password,$dbname);
 mysqli_query($conn,"SET CHARACTER SET 'utf8'");

@@ -90,3 +90,4 @@ setTimeout( function() {
 
 }
 </script>
+<?php error_reporting(~E_NOTICE); ?>
