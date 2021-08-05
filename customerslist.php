@@ -1,9 +1,30 @@
 <?php
 session_start();
-if (isset($_SESSION["username"])) { } else {
+if (isset($_SESSION["username"])) {
+} else {
     header("location:signin.php");
 }
 include './include/connect.php';
+
+$action= $_REQUEST['action'];
+if ($action == 'del') {
+    $del_id = $_REQUEST['del_id'];
+    
+    $sql = "DELETE FROM customer  WHERE customer_id='$del_id' ";
+    if ($conn->query($sql) === TRUE) { ?>
+        <script>  $(document).ready(function() {
+            showAlert( "ลบรายการสำเร็จ", "alert-primary" );   
+                });
+    </script>
+    <?php  } else { ?>
+        <script>  $(document).ready(function() {
+            showAlert( "ไม่สามารถลบรายการได้", "alert-danger" );   
+                        });
+            </script>
+    <?php }
+      }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -16,6 +37,7 @@ include './include/connect.php';
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
 <body class="text-left">
@@ -30,7 +52,11 @@ include './include/connect.php';
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+              <!-- แจ้งเตือน -->
+       <div id="alert_placeholder"  style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;" ></div>
+         <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
+                
 
                 <div class="row">
                     <div class="col-md-12">
@@ -76,9 +102,9 @@ include './include/connect.php';
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                            <a href="/customer.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มลูกค้าใหม่</a>
+                                                <a href="/customer.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มลูกค้าใหม่</a>
 
-                                           </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -87,6 +113,7 @@ include './include/connect.php';
                             <!-- ============ Table Start ============= -->
                             <div class="table-responsive">
                                 <table class="table table-hover text-nowrap table-sm">
+
                                     <thead>
                                         <tr>
                                             <th>customer ID</th>
@@ -103,298 +130,440 @@ include './include/connect.php';
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td> CUS000001 </td>
-                                            <td> คุณพูนศักดิ์</td>
-                                            <td> - </td>
-                                            <td> 123/456 ถ.ชยางค์กูล </td>
-                                            <td> ในเมือง </td>
-                                            <td>
-                                                เมือง
-                                            </td>
-                                            <td> อุบลราชธานี </td>
-                                            <td>
-                                                0999999999
-                                            </td>
-                                            <td> 2904311034586 </td>
-                                            <td> - </td>
-                                            <td>
 
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
+                                        <?php
+                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+                                            $page_no = $_GET['page_no'];
+                                        } else {
+                                            $page_no = 1;
+                                        }
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td> CUS000001 </td>
-                                            <td> คุณพูนศักดิ์</td>
-                                            <td> - </td>
-                                            <td> 123/456 ถ.ชยางค์กูล </td>
-                                            <td> ในเมือง </td>
-                                            <td>
-                                                เมือง
-                                            </td>
-                                            <td> อุบลราชธานี </td>
-                                            <td>
-                                                0999999999
-                                            </td>
-                                            <td> 2904311034586 </td>
-                                            <td> - </td>
-                                            <td>
+                                        $total_records_per_page = 10;
+                                        $offset = ($page_no - 1) * $total_records_per_page;
+                                        $previous_page = $page_no - 1;
+                                        $next_page = $page_no + 1;
+                                        $adjacents = "2";
 
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `customer`");
+                                        $total_records = mysqli_fetch_array($result_count);
+                                        $total_records = $total_records['total_records'];
+                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
+                                        $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td> CUS000001 </td>
-                                            <td> คุณพูนศักดิ์</td>
-                                            <td> - </td>
-                                            <td> 123/456 ถ.ชยางค์กูล </td>
-                                            <td> ในเมือง </td>
-                                            <td>
-                                                เมือง
-                                            </td>
-                                            <td> อุบลราชธานี </td>
-                                            <td>
-                                                0999999999
-                                            </td>
-                                            <td> 2904311034586 </td>
-                                            <td> - </td>
-                                            <td>
+                                        $result = mysqli_query($conn, "SELECT * FROM `customer` LIMIT $offset, $total_records_per_page");
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <tr>
+                                                <td><?php echo $row['customer_id']; ?></td>
+                                                <td><?php echo $row['customer_name']; ?></td>
+                                                <td><?php echo $row['company_name']; ?></td>
+                                                <td><?php echo $row['bill_address']; ?></td>
+                                                <td><?php echo $row['subdistrict']; ?></td>
+                                                <td><?php echo $row['district']; ?></td>
+                                                <td><?php echo $row['province']; ?></td>
+                                                <td><?php echo $row['tel']; ?></td>
+                                                <td><?php echo $row['tax_number']; ?></td>
+                                                <td><?php echo $row['contact_name']; ?></td>
+                                                <td>
 
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
+                                                        <i class="i-Check font-weight-bold"></i>
+                                                    </a>
+                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
+                                                        <i class="i-File font-weight-bold"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-info btn-sm line-height-1"  data-id="<?php echo $row['customer_id']; ?>" data-toggle="modal"
+                                                    data-target="#myModal_del"><i class="fa fa-close"></i> </button>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td> CUS000001 </td>
-                                            <td> คุณพูนศักดิ์</td>
-                                            <td> - </td>
-                                            <td> 123/456 ถ.ชยางค์กูล </td>
-                                            <td> ในเมือง </td>
-                                            <td>
-                                                เมือง
-                                            </td>
-                                            <td> อุบลราชธานี </td>
-                                            <td>
-                                                0999999999
-                                            </td>
-                                            <td> 2904311034586 </td>
-                                            <td> - </td>
-                                            <td>
+                                                </td>
+                                            </tr>
 
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
-
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
-
                                     </tbody>
                                 </table>
-                            </div>
-                            <!-- ============ Table End ============= -->
+                                <!-- ============ Table End ============= -->
+                                <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
+                                    <strong>Page <?php echo $page_no . " of " . $total_no_of_pages; ?></strong>
+                                </div>
 
-                            <div class="mb-5 mt-3">
+
+
+                              
+
+
+                                <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Previous"><span aria-hidden="true">«</span><span
-                                                    class="sr-only">Previous</span></a></li>
-                                        <!-- <| 123 |> -->
-                                        <li class="page-item active"><a class="page-link" href="#" onclick="clickNav(1)">1</a></li>
-                                        <!-- <| 123 ...|>  -->
+                                <ul class="pagination justify-content-center">
+                                    <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                    ?>
 
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Next"><span aria-hidden="true">»</span><span
-                                                    class="sr-only">Next</span></a></li>
-                                    </ul>
-                                </nav>
+                                    <li class="page-item" <?php if ($page_no <= 1) { 
+                                            echo "class='disabled'";
+                                        } ?>>
+                                        <a <?php if ($page_no > 1) {
+                                                echo "href='?page_no=$previous_page' ";
+                                            } ?>>Previous</a>
+                                    </li>
+
+                                    <?php
+                                    if ($total_no_of_pages <= 10) {
+                                        for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                            if ($counter == $page_no) {
+                                                echo "<li class='active'><a>$counter</a></li>";
+                                            } else {
+                                                echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                            }
+                                        }
+                                    } elseif ($total_no_of_pages > 10) {
+
+                                        if ($page_no <= 4) {
+                                            for ($counter = 1; $counter < 8; $counter++) {
+                                                if ($counter == $page_no) {
+                                                    echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                } else {
+                                                    echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                                }
+                                            }
+                                        ?> 
+                                        <li class="page-item"><a>...</a></li>
+                                         <li><a href='?page_no=<?php echo"$second_last";?>'><?php echo"$second_last";?></a></li>
+                                         <li><a href='?page_no=<?php echo"$total_no_of_pages";?>'><?php echo"$total_no_of_pages";?></a></li>
+                                       <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                          <li class="page-item"><a class="page-link"  href='?page_no=1'>1</a></li>"
+                                          <li class="page-item"><a class="page-link"  href='?page_no=2'>2</a></li>
+                                          <li class="page-item"><a>...</a></li>
+                                          <?php  for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                 <li class='active'><a><?php echo"$counter";?></a></li>
+                                               <?php  } else { ?>
+                                                <li><a href='?page_no=<?php echo"$counter";?>'><?php echo"$counter";?></a></li>
+                                             <?php    }
+                                            }
+                                            echo "<li><a>...</a></li>";
+                                            echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
+                                            echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
+                                        } else {
+                                            echo "<li><a href='?page_no=1'>1</a></li>";
+                                            echo "<li><a href='?page_no=2'>2</a></li>";
+                                            echo "<li><a>...</a></li>";
+
+                                            for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                if ($counter == $page_no) {
+                                                    echo "<li class='active'><a>$counter</a></li>";
+                                                } else {
+                                                 ?> <li><a class="page-link"  href='?page_no=$counter' ><?php echo "$counter";?></a></li>
+                                              <?php   }
+                                            }
+                                        }
+                                    }
+                                    ?>
+
+                                    <li   <?php if ($page_no >= $total_no_of_pages) {
+                                            echo "class='disabled'";
+                                        } ?>>
+                                        <a <?php if ($page_no < $total_no_of_pages) {
+                                                echo "href='?page_no=$next_page'";
+                                            } ?>>Next</a>
+                                    </li>
+
+
+                               
+                                  
+
+
+
+                                    <?php if ($page_no < $total_no_of_pages) {
+                                        echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
+                                    } ?>
+                                </ul>
+
+
+
+                           
+                    </div>
+
+
+                </div><!-- Footer Start -->
+                <div class="flex-grow-1"></div>
+                <div class="app-footer">
+                    <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
+                        <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                        <span class="flex-grow-1"></span>
+                        <div class="d-flex align-items-center">
+                            <img class="logo" src="../../dist-assets/images/logo.png" alt="">
+                            <div>
+                                <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
+                                <p class="m-0">All rights reserved</p>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
-
-            </div><!-- Footer Start -->
-            <div class="flex-grow-1"></div>
-            <div class="app-footer">
-                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
-                        target="_blank">Buy Gull HTML</a>
-                    <span class="flex-grow-1"></span>
-                    <div class="d-flex align-items-center">
-                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                        <div>
-                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                            <p class="m-0">All rights reserved</p>
+                <!-- fotter end -->
+            </div>
+        </div><!-- ============ Search UI Start ============= -->
+        <div class="search-ui">
+            <div class="search-header">
+                <img src="../../dist-assets/images/logo.png" alt="" class="logo">
+                <button class="search-close btn btn-icon bg-transparent float-right mt-2">
+                    <i class="i-Close-Window text-22 text-muted"></i>
+                </button>
+            </div>
+            <input type="text" placeholder="Type here" class="search-input" autofocus>
+            <div class="search-title">
+                <span class="text-muted">Search results</span>
+            </div>
+            <div class="search-results list-horizontal">
+                <div class="list-item col-md-12 p-0">
+                    <div class="card o-hidden flex-row mb-4 d-flex">
+                        <div class="list-thumb d-flex">
+                            <!-- TUMBNAIL -->
+                            <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
+                        </div>
+                        <div class="flex-grow-1 pl-2 d-flex">
+                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                <!-- OTHER DATA -->
+                                <a href="" class="w-40 w-sm-100">
+                                    <div class="item-title">Headphone 1</div>
+                                </a>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                    <del class="text-secondary">$400</del>
+                                </p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                    <span class="badge badge-danger">Sale</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item col-md-12 p-0">
+                    <div class="card o-hidden flex-row mb-4 d-flex">
+                        <div class="list-thumb d-flex">
+                            <!-- TUMBNAIL -->
+                            <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
+                        </div>
+                        <div class="flex-grow-1 pl-2 d-flex">
+                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                <!-- OTHER DATA -->
+                                <a href="" class="w-40 w-sm-100">
+                                    <div class="item-title">Headphone 1</div>
+                                </a>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                    <del class="text-secondary">$400</del>
+                                </p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                    <span class="badge badge-primary">New</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item col-md-12 p-0">
+                    <div class="card o-hidden flex-row mb-4 d-flex">
+                        <div class="list-thumb d-flex">
+                            <!-- TUMBNAIL -->
+                            <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
+                        </div>
+                        <div class="flex-grow-1 pl-2 d-flex">
+                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                <!-- OTHER DATA -->
+                                <a href="" class="w-40 w-sm-100">
+                                    <div class="item-title">Headphone 1</div>
+                                </a>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                    <del class="text-secondary">$400</del>
+                                </p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                    <span class="badge badge-primary">New</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item col-md-12 p-0">
+                    <div class="card o-hidden flex-row mb-4 d-flex">
+                        <div class="list-thumb d-flex">
+                            <!-- TUMBNAIL -->
+                            <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
+                        </div>
+                        <div class="flex-grow-1 pl-2 d-flex">
+                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                <!-- OTHER DATA -->
+                                <a href="" class="w-40 w-sm-100">
+                                    <div class="item-title">Headphone 1</div>
+                                </a>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                    <del class="text-secondary">$400</del>
+                                </p>
+                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                    <span class="badge badge-primary">New</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- fotter end -->
-        </div>
-    </div><!-- ============ Search UI Start ============= -->
-    <div class="search-ui">
-        <div class="search-header">
-            <img src="../../dist-assets/images/logo.png" alt="" class="logo">
-            <button class="search-close btn btn-icon bg-transparent float-right mt-2">
-                <i class="i-Close-Window text-22 text-muted"></i>
-            </button>
-        </div>
-        <input type="text" placeholder="Type here" class="search-input" autofocus>
-        <div class="search-title">
-            <span class="text-muted">Search results</span>
-        </div>
-        <div class="search-results list-horizontal">
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
+            <!-- PAGINATION CONTROL -->
+            <div class="col-md-12 mt-5 text-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination d-inline-flex">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
                             </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-danger">Sale</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
                             </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
-        <!-- PAGINATION CONTROL -->
-        <div class="col-md-12 mt-5 text-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination d-inline-flex">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <!-- ============ Search UI End ============= -->
-    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+        <!-- ============ Search UI End ============= -->
+        <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+        <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+        <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="../../dist-assets/js/scripts/script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+        <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+        <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+        <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
 
+
+<!-- Modal DEL  -->
+<div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
+                                    <span>*</span></strong></label>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="del">
+                        <input type="hidden" name="del_id" id="del_id" value="">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
+                            DELETE</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ Form Search Start ============= -->
+<form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN;?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD;?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW;?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE;?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
+<!-- ============ Form Search End ============= -->
+
+<!-- ============ Modal Start ============= -->
+<!-- modal load -->
+<div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="mt-1">
+                        Load ...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ============ Modal End ============= -->
+<script>
+    /* ===== search start ===== */
+    function modalLoad(){
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
+    function clickNav(page){
+        modalLoad();
+
+        $("#FSPageId").val(page);
+        $("#FSButtonID").click();
+    }
+    $("#searchRowsId").on("change",function () {
+        modalLoad();
+
+        let row = $("#searchRowsId").val();
+        $("#FSRowId").val(row);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
+    });
+    $("#searchNameId").on("change",function () {
+        modalLoad();
+
+        let name = $("#searchNameId").val();
+        $("#FSKeywordId").val(name);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
+    });
+    /* ===== search end ===== */
+
+    //click next link
+    $(".linkLoadModalNext").on('click',function () {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    });
+</script>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
+</script>
 </html>

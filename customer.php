@@ -1,5 +1,50 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+$sql = "SELECT * FROM provinces";
+$query = mysqli_query($conn, $sql);
 
+
+$sql2 = "SELECT * FROM  customer ";
+$rs2 = $conn->query($sql2);
+$row2 = $rs2->fetch_assoc();  
+$action= $_REQUEST['action'];
+$action = $review["action"] ?? "";
+if ($action == 'add') {
+    $customer_id = $_REQUEST['customer_id'];  
+    $customer_name= $_REQUEST['customer_name']; 
+    $company_name = $_REQUEST['company_name'];   
+    $bill_address= $_REQUEST['bill_address'];  
+    $subdistrict = $_REQUEST['subdistrict'];
+    $district= $_REQUEST['district'];
+    $province= $_REQUEST['province'];
+    $tel = $_REQUEST['tel'];
+    $tax_number = $_REQUEST['tax_number'];
+    $contact_name = $_REQUEST['contact_name'];
+    $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) {?>
+                 <script>
+                 $(document).ready(function() {
+                     showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
+                 });
+                 </script>
+     <?php    } else { 
+                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name)
+                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name')";                 
+                    if ($conn->query($sql) === TRUE) {  ?>
+                            <script>
+                                $(document).ready(function() {
+                                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                                });
+                                </script>
+                        <?php   }   }   }
+                        
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -26,6 +71,9 @@
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+                <!-- แจ้งเตือน -->
+       <div id="alert_placeholder"  style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;" ></div>
+         <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
                 <div class="row">
                     <div class="col-md-12">
@@ -52,79 +100,73 @@
 
                                         <div class="form-group col-md-4">
                                             <label for="accNameId"><strong>ชื่อบริษัท <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ชื่อบริษัท" >
+                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ชื่อบริษัท">
                                         </div>
 
                                         <div class="form-group col-md-4">
                                             <label for="phone"><strong>เบอร์โทร <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
+                                            <input type="text" name="tel" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
                                         </div>
 
                                         <div class="form-group col-md-4">
                                             <label for="tax_number"><strong>เลขที่ผู้เสียภาษี <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="เลขที่ผู้เสียภาษี" autocomplete="off" >
+                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="เลขที่ผู้เสียภาษี" autocomplete="off">
                                         </div>
 
                                         <div class="form-group col-md-4">
                                             <label for="referral"><strong>บุคคลอ้างอิง <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="referral" id="referral" class="classcus form-control" placeholder="บุคคลอ้างอิง" autocomplete="off" >
+                                            <input type="text" name="contact_name" id="contact_name" class="classcus form-control" placeholder="บุคคลอ้างอิง" autocomplete="off">
                                         </div>
 
                                         <div class="form-group col-md-12">
                                             <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
+                                            <input type="text" name="bill_address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
                                         </div>
 
                                         <div class="form-group col-md-4">
                                             <label for="province"><strong>จังหวัด <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="province" id="province" required>
-                                                <option value="อุบลราชธานี">อุบลราชธานี</option>
-                                                <option value="ยโสธร">ยโสธร</option>
-                                                <option value="อำนาจเจริญ">อำนาจเจริญ</option>
-                                                <option value="ศรีสะเกษ">ศรีสะเกษ</option>
-                                                <option value="บุรีรัม">บุรีรัม</option>
-                                                <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
+
+                                            <select name="province" id="province" class="classcus custom-select " required>
+                                                <option value="">เลือกจังหวัด</option>
+                                                <?php while ($result = mysqli_fetch_assoc($query)) : ?>
+                                                    <option value="<?= $result['id'] ?>"><?= $result['name_th'] ?></option>
+                                                <?php endwhile; ?>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-4">
                                             <label for="district"><strong>อำเภอ <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="district" id="district" required>
-                                                <option value="เมือง">เมือง</option>
-                                                <option value="เขื่องใน">เขื่องใน</option>
-                                                <option value="วารินชำราบ">วารินชำราบ</option>
-                                                <option value="สว่างวีระวงศ์">สว่างวีระวงศ์</option>
-                                                <option value="เหล่าเสือโก้ก">เหล่าเสือโก้ก</option>
-                                                <option value="ม่วงสามสิบ">ม่วงสามสิบ</option>
+
+
+                                            <select name="district" id="amphure" class="classcus custom-select" required>
+                                                <option value="">เลือกอำเภอ</option>
                                             </select>
+
                                         </div>
 
                                         <div class="form-group col-md-4">
                                             <label for="subdistrict"><strong>ตำบล <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="subdistrict" id="subdistrict" required>
-                                                <option value="ในเมือง">ในเมือง</option>
-                                                <option value="หนองขอน">หนองขอน</option>
-                                                <option value="ขามใหญ่">ขามใหญ่</option>
-                                                <option value="แจระแม">แจระแม</option>
-                                                <option value="หนองบ่อ">หนองบ่อ</option>
-                                                <option value="ไร่น้อย">ไร่น้อย</option>
+
+
+                                            <select name="subdistrict" id="district" class="classcus custom-select">
+                                                <option value="">เลือกตำบล</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-12">
                                             <label for="delivery_address"><strong>ที่อยู่ส่งสินค้า <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="ที่อยู่ส่งสินค้า" >
+                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="ที่อยู่ส่งสินค้า">
                                         </div>
 
 
                                     </div>
-                                  
+
                                     <hr>
 
                                     <div class="text-right">
                                         <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                         <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
-
+                                        <input type="hidden" name="action" value="add">
                                         <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มลูกค้า</button>
                                         <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
                                             <span class="ladda-label">ยืนยันการเพิ่มลูกค้า</span>
@@ -139,13 +181,11 @@
                     </div>
                 </div>
 
-
             </div><!-- Footer Start -->
             <div class="flex-grow-1"></div>
             <div class="app-footer">
                 <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
-                        target="_blank">Buy Gull HTML</a>
+                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
                     <span class="flex-grow-1"></span>
                     <div class="d-flex align-items-center">
                         <img class="logo" src="../../dist-assets/images/logo.png" alt="">
@@ -297,6 +337,9 @@
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+    <script src="../../dist-assets/js/jquery.min.js"></script>
+    <script src="../../dist-assets/js/script.js"></script>
+   
 </body>
 
 </html>

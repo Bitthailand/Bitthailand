@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <?php 
 session_start();
-unset($_SESSION['username']);
+// unset($_SESSION['username']);
 include './include/connect.php';
 include './include/config.php';
-error_reporting(~E_NOTICE);
+
 $action = $_REQUEST['action'];
+// htmlentities($_REQUEST["action"]);
 if ($action == 'login') {
     $username = $_REQUEST['username'];
     $password = $_REQUEST['password'];
+    // echo"$username";
     // $scon->getlogin($username, $password);
     $sql = "SELECT * FROM employee  where username= '$username' ";
     $rs = mysqli_query($conn, $sql);
     $numRows = mysqli_num_rows($rs);
+
+
     if ($numRows  == 1) {
         $row = mysqli_fetch_assoc($rs);
         // if(password_verify($password,$row['password'])){
