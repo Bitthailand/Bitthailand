@@ -38,7 +38,7 @@
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-2">
                                         <label for="production_id"><strong>รหัสสั่งผลิต <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="production_id" id="production_id" class="classcus form-control" placeholder="รหัสสั่งผลิต" required>
+                                        <input type="text" name="production_id" id="production_id" class="classcus form-control" placeholder="รหัสสั่งผลิต" value="PD640800001" required>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
