@@ -305,14 +305,67 @@
 
     <!-- Modal บันทึกการใช้คอนกรีต -->
     <div class="modal fade" id="medalconcreteuse" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="medalconcreteuseTitle-2">บันทีกการใช้ คอนกรีต</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                    ...
+
+                    <!-- ============ Table Start ============= -->
+                    <div id="productionorder" class="table-responsive">
+                        <table role="table" class="table table-hover text-nowrap table-sm">
+                            <thead>
+                                <tr class="table-secondary">
+
+                                    <th>รหัสสินค้า</th>
+                                    <th>จำนวนผลิต</th>
+                                    <th>ชื่อสินค้า</th>
+                                    <th>ความยาว</th>
+                                    <th>พ.ท.(Sq.m)</th>
+                                    <th>ลวดยาว(ทั้งแพ)</th>
+                                    <th>คอนกรีตคำนวณ</th>
+                                    <th>ใช้คอนกรีตจริง</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                  <tr>
+                                    <td>FP03100020</td>
+                                    <td>100</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.00</td>
+                                    <td>44.10</td>
+                                    <td>648</td>
+                                     <td>2.36</td>
+                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+
+                                    <td>FP03145020</td>
+                                    <td>60</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.45</td>
+                                    <td>44.10</td>
+                                    <td>648</td>
+                                    <td>2.90</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+                                    <td>FP03200020</td>
+                                    <td>40</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>2.00</td>
+                                    <td>44.10</td>
+                                    <td>648</td>
+                                    <td>2.68</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- ============ Table End ============= -->
 
                 </div>
                 <div class="modal-footer">
@@ -323,16 +376,62 @@
         </div>
     </div>
 
-        <!-- Modal เช็คสินค้าเข้าสต๊อก -->
-        <div class="modal fade" id="medalstockcheck" tabindex="-1" role="dialog" aria-labelledby="medalstockcheckTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <!-- Modal เช็คสินค้าเข้าสต๊อก -->
+    <div class="modal fade" id="medalstockcheck" tabindex="-1" role="dialog" aria-labelledby="medalstockcheckTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="medalstockcheckTitle-2">เช็คสินค้าเข้าสต๊อก</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                
+                
+                    <!-- ============ Table Start ============= -->
+                    <div id="productionorder" class="table-responsive">
+                        <table role="table" class="table table-hover text-nowrap table-sm">
+                            <thead>
+                                <tr class="table-secondary">
+
+                                    <th>รหัสสินค้า</th>                                    
+                                    <th>ชื่อสินค้า</th>
+                                    <th>ความยาว</th>                               
+                                    <th>จำนวนผลิต</th>
+                                    <th>สมบูรณ์</th>
+                                    <th>ไม่สมบูรณ์</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                  <tr>
+                                    <td>FP03100020</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.00</td>
+                                    <td>100</td>
+                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+
+                                    <td>FP03145020</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.45</td>
+                                    <td>60</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+                                    <td>FP03200020</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>2.00</td>
+                                    <td>40</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- ============ Table End ============= -->
 
                 </div>
                 <div class="modal-footer">
