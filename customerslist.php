@@ -5,36 +5,53 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
+include './include/config.php';
 error_reporting(0);
-$action= $_REQUEST['action'];
+$action = $_REQUEST['action'];
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
-    
+
     $sql = "DELETE FROM customer  WHERE customer_id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
-        <script>  $(document).ready(function() {
-            showAlert( "ลบรายการสำเร็จ", "alert-primary" );   
-                });
-    </script>
+        <script>
+            $(document).ready(function() {
+                showAlert("ลบรายการสำเร็จ", "alert-primary");
+            });
+        </script>
     <?php  } else { ?>
-        <script>  $(document).ready(function() {
-            showAlert( "ไม่สามารถลบรายการได้", "alert-danger" );   
-                        });
-            </script>
-    <?php }
-      }
+        <script>
+            $(document).ready(function() {
+                showAlert("ไม่สามารถลบรายการได้", "alert-danger");
+            });
+        </script>
+<?php }
+}
 
 
 ?>
-<?php $keyword=$_POST['keyword'];
-$column=$_REQUEST['column'];
-$row=$_REQUEST['row'];
-if($column==''){ } else{
-    $columx="AND '$column' LIKE'$keyword%'";
-    // echo"$columx";
-   
-} 
-
+<?php $keyword = $_POST['keyword'];
+$column = $_REQUEST['column'];
+$rowS = $_REQUEST['row'];
+if ($column == '') {
+} else {
+    $columx = "AND $column LIKE'$keyword%'";
+    // echo"$columx";   
+}
+if ($keyword == '') {
+} else {
+    $keywordx = "AND customer_id LIKE'$keyword%'
+               OR customer_name LIKE'$keyword%'
+               OR  company_name LIKE'$keyword%'
+               OR tel LIKE'$keyword%'
+               OR contact_name  LIKE'$keyword%' 
+               OR bill_address LIKE'$keyword%' ";
+    //    echo"$keywordx";
+}
+if ($rowS == '') {
+    $total_records_per_page = 10;
+} else {
+    $total_records_per_page = $rowS;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -62,11 +79,11 @@ if($column==''){ } else{
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
-              <!-- แจ้งเตือน -->
-       <div id="alert_placeholder"  style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;" ></div>
-         <!-- ปิดการแจ้งเตือน -->
+            <!-- แจ้งเตือน -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
-                
+
 
                 <div class="row">
                     <div class="col-md-12">
@@ -83,35 +100,37 @@ if($column==''){ } else{
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                    <option value="customer_id" <?php echo $column=='customer_id'?'selected':''; ?>> รหัสลูกค้า </option>
-                                                    <option value="customer_name" <?php echo $column=='customer_name'?'selected':''; ?>>ชื่อลูกค้า </option>
-                                                    <option value="company" <?php echo $column=='company'?'selected':''; ?>>บริษัท </option>
-                                                    <option value="address" <?php echo $column=='address'?'selected':''; ?>>ที่อยู่ </option>  
-                                                    <option value="phone" <?php echo $column=='phone'?'selected':''; ?>>เบอร์โทร </option>  
-                                                    <option value="tax_number" <?php echo $column=='tax_number'?'selected':''; ?>>เลขที่ผู้เสียภาษี</option>  
-                                                      
+                                                        <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
+                                                        <option value="customer_id" <?php echo $column == 'customer_id' ? 'selected' : ''; ?>> รหัสลูกค้า </option>
+                                                        <option value="customer_name" <?php echo $column == 'customer_name' ? 'selected' : ''; ?>>ชื่อลูกค้า </option>
+                                                        <option value="company" <?php echo $column == 'company' ? 'selected' : ''; ?>>บริษัท </option>
+                                                        <option value="address" <?php echo $column == 'address' ? 'selected' : ''; ?>>ที่อยู่ </option>
+                                                        <option value="phone" <?php echo $column == 'phone' ? 'selected' : ''; ?>>เบอร์โทร </option>
+                                                        <option value="tax_number" <?php echo $column == 'tax_number' ? 'selected' : ''; ?>>เลขที่ผู้เสียภาษี</option>
+
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
-                                                    
+
                                                     <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
-                                                    <option value="10" <?php echo $row==10?'selected':''; ?>> 10 </option>
-                                                    <option value="20" <?php echo $row==20?'selected':''; ?>> 20 </option>
-                                                    <option value="30" <?php echo $row==30?'selected':''; ?>> 30 </option>
-                                                    <option value="40" <?php echo $row==40?'selected':''; ?>> 40 </option>
-                                                    <option value="50" <?php echo $row==50?'selected':''; ?>> 50 </option>
-                                                    <option value="100" <?php echo $row==100?'selected':''; ?>> 100 </option>
-                                                </select>
+
+                                                        <option value="10" <?php echo $rowS == 10 ? 'selected' : ''; ?>> 10 </option>
+                                                        <option value="20" <?php echo $rowS == 20 ? 'selected' : ''; ?>> 20 </option>
+                                                        <option value="30" <?php echo $rowS == 30 ? 'selected' : ''; ?>> 30 </option>
+                                                        <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
+                                                        <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
+                                                        <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
@@ -151,39 +170,58 @@ if($column==''){ } else{
                                             $page_no = 1;
                                         }
 
-                                        $total_records_per_page = 10;
+                                        // $total_records_per_page = 10;
                                         $offset = ($page_no - 1) * $total_records_per_page;
                                         $previous_page = $page_no - 1;
                                         $next_page = $page_no + 1;
                                         $adjacents = "2";
-                                          
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `customer` where  status='0'  ");
+
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `customer` where  status='0' $columx $keywordx  ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `customer` where status='0'  LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `customer` where status='0' $columx $keywordx LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
                                                 <td><?php echo $row['customer_id']; ?></td>
                                                 <td><?php echo $row['customer_name']; ?></td>
                                                 <td><?php echo $row['company_name']; ?></td>
                                                 <td><?php echo $row['bill_address']; ?></td>
-                                                <td><?php echo $row['subdistrict']; ?></td>
-                                                <td><?php echo $row['district']; ?></td>
-                                                <td><?php echo $row['province']; ?></td>
+                                                <td><?php
+                                                    $sql3 = "SELECT * FROM districts  WHERE id= '$row[subdistrict]'";
+                                                    $rs3= $conn->query($sql3);
+                                                    $row3 = $rs3->fetch_assoc();
+                                                    echo $row3['name_th'];
+
+                                                    ?>
+                                                </td>
+                                                <td><?php
+                                                    $sql4 = "SELECT * FROM amphures  WHERE id= '$row[district]'";
+                                                    $rs4= $conn->query($sql4);
+                                                    $row4 = $rs4->fetch_assoc();
+                                                    echo $row4['name_th'];
+
+                                                    ?>
+                                                <td><?php
+                                                    $sql5 = "SELECT * FROM provinces  WHERE id= '$row[province]'";
+                                                    $rs5= $conn->query($sql5);
+                                                    $row5 = $rs5->fetch_assoc();
+                                                    echo $row5['name_th'];
+
+                                                    ?>
+                                                </td>
                                                 <td><?php echo $row['tel']; ?></td>
                                                 <td><?php echo $row['tax_number']; ?></td>
                                                 <td><?php echo $row['contact_name']; ?></td>
                                                 <td>
 
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
-                                                        <i class="i-pen-2 font-weight-bold"></i>
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer_update.php?customer_id=<?php echo $row['customer_id']; ?>">
+                                                        <i class="i-Pen-2 font-weight-bold"></i>
                                                     </a>
-                                                 
-                                                    <button type="button" class="btn btn-outline-info btn-sm line-height-1"  data-id="<?php echo $row['customer_id']; ?>" data-toggle="modal"
-                                                    data-target="#myModal_del">  <i class="i-Close-Window font-weight-bold"></i> </button>
+
+                                                    <button type="button" class="btn btn-outline-info btn-sm line-height-1" data-id="<?php echo $row['customer_id']; ?>" data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
 
                                                 </td>
                                             </tr>
@@ -204,264 +242,263 @@ if($column==''){ } else{
 
 
 
-                              
+
 
 
                                 <div class="mb-5 mt-3">
-                                <nav aria-label="Page navigation ">
-                                <ul class="pagination justify-content-center">
-                                    <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
-                                    ?>
+                                    <nav aria-label="Page navigation ">
+                                        <ul class="pagination justify-content-center">
+                                            <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                            ?>
 
-                                    <li class="page-item" <?php if ($page_no <= 1) { 
-                                            echo "class='disabled'";
-                                        } ?>>
-                                        <a <?php if ($page_no > 1) {
-                                                echo "href='?page_no=$previous_page' ";
-                                            } ?>>Previous</a>
-                                    </li>
+                                            <li class="page-item" <?php if ($page_no <= 1) {
+                                                                        echo "class='disabled'";
+                                                                    } ?>>
+                                                <a <?php if ($page_no > 1) {
+                                                        echo "href='?page_no=$previous_page' ";
+                                                    } ?>>Previous</a>
+                                            </li>
 
-                                    <?php
-                                    if ($total_no_of_pages <= 10) {
-                                        for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
-                                            if ($counter == $page_no) {
-                                                echo "<li class='active'><a>$counter</a></li>";
-                                            } else {
-                                                echo "<li><a href='?page_no=$counter'>$counter</a></li>";
-                                            }
-                                        }
-                                    } elseif ($total_no_of_pages > 10) {
+                                            <?php
+                                            if ($total_no_of_pages <= 10) {
+                                                for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                                    if ($counter == $page_no) {
+                                                        echo "<li class='active'><a>$counter</a></li>";
+                                                    } else {
+                                                        echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                                    }
+                                                }
+                                            } elseif ($total_no_of_pages > 10) {
 
-                                        if ($page_no <= 4) {
-                                            for ($counter = 1; $counter < 8; $counter++) {
-                                                if ($counter == $page_no) {
-                                                    echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                if ($page_no <= 4) {
+                                                    for ($counter = 1; $counter < 8; $counter++) {
+                                                        if ($counter == $page_no) {
+                                                            echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                        } else {
+                                                            echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                                        }
+                                                    }
+                                            ?>
+                                                    <li class="page-item"><a>...</a></li>
+                                                    <li><a href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                    <li><a href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                    <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>"
+                                                    <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                                    <li class="page-item"><a>...</a></li>
+                                                    <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                        if ($counter == $page_no) { ?>
+                                                            <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                        <?php  } else { ?>
+                                                            <li><a href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                        <?php    }
+                                                    }
+                                                    echo "<li><a>...</a></li>";
+                                                    echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
+                                                    echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
                                                 } else {
-                                                    echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                                    echo "<li><a href='?page_no=1'>1</a></li>";
+                                                    echo "<li><a href='?page_no=2'>2</a></li>";
+                                                    echo "<li><a>...</a></li>";
+
+                                                    for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                        if ($counter == $page_no) {
+                                                            echo "<li class='active'><a>$counter</a></li>";
+                                                        } else {
+                                                        ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                            <?php   }
+                                                    }
                                                 }
                                             }
-                                        ?> 
-                                        <li class="page-item"><a>...</a></li>
-                                         <li><a href='?page_no=<?php echo"$second_last";?>'><?php echo"$second_last";?></a></li>
-                                         <li><a href='?page_no=<?php echo"$total_no_of_pages";?>'><?php echo"$total_no_of_pages";?></a></li>
-                                       <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
-                                          <li class="page-item"><a class="page-link"  href='?page_no=1'>1</a></li>"
-                                          <li class="page-item"><a class="page-link"  href='?page_no=2'>2</a></li>
-                                          <li class="page-item"><a>...</a></li>
-                                          <?php  for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
-                                                if ($counter == $page_no) { ?>
-                                                 <li class='active'><a><?php echo"$counter";?></a></li>
-                                               <?php  } else { ?>
-                                                <li><a href='?page_no=<?php echo"$counter";?>'><?php echo"$counter";?></a></li>
-                                             <?php    }
-                                            }
-                                            echo "<li><a>...</a></li>";
-                                            echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
-                                            echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
-                                        } else {
-                                            echo "<li><a href='?page_no=1'>1</a></li>";
-                                            echo "<li><a href='?page_no=2'>2</a></li>";
-                                            echo "<li><a>...</a></li>";
+                                            ?>
 
-                                            for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-                                                if ($counter == $page_no) {
-                                                    echo "<li class='active'><a>$counter</a></li>";
-                                                } else {
-                                                 ?> <li><a class="page-link"  href='?page_no=$counter' ><?php echo "$counter";?></a></li>
-                                              <?php   }
-                                            }
-                                        }
-                                    }
-                                    ?>
+                                            <li <?php if ($page_no >= $total_no_of_pages) {
+                                                    echo "class='disabled'";
+                                                } ?>>
+                                                <a <?php if ($page_no < $total_no_of_pages) {
+                                                        echo "href='?page_no=$next_page'";
+                                                    } ?>>Next</a>
+                                            </li>
 
-                                    <li   <?php if ($page_no >= $total_no_of_pages) {
-                                            echo "class='disabled'";
-                                        } ?>>
-                                        <a <?php if ($page_no < $total_no_of_pages) {
-                                                echo "href='?page_no=$next_page'";
-                                            } ?>>Next</a>
+
+
+
+
+
+
+                                            <?php if ($page_no < $total_no_of_pages) {
+                                                echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
+                                            } ?>
+                                        </ul>
+
+
+
+
+                                </div>
+
+
+                            </div><!-- Footer Start -->
+                            <div class="flex-grow-1"></div>
+                            <div class="app-footer">
+                                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
+                                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                                    <span class="flex-grow-1"></span>
+                                    <div class="d-flex align-items-center">
+                                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
+                                        <div>
+                                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
+                                            <p class="m-0">All rights reserved</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fotter end -->
+                        </div>
+                    </div><!-- ============ Search UI Start ============= -->
+                    <div class="search-ui">
+                        <div class="search-header">
+                            <img src="../../dist-assets/images/logo.png" alt="" class="logo">
+                            <button class="search-close btn btn-icon bg-transparent float-right mt-2">
+                                <i class="i-Close-Window text-22 text-muted"></i>
+                            </button>
+                        </div>
+                        <input type="text" placeholder="Type here" class="search-input" autofocus>
+                        <div class="search-title">
+                            <span class="text-muted">Search results</span>
+                        </div>
+                        <div class="search-results list-horizontal">
+                            <div class="list-item col-md-12 p-0">
+                                <div class="card o-hidden flex-row mb-4 d-flex">
+                                    <div class="list-thumb d-flex">
+                                        <!-- TUMBNAIL -->
+                                        <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
+                                    </div>
+                                    <div class="flex-grow-1 pl-2 d-flex">
+                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                            <!-- OTHER DATA -->
+                                            <a href="" class="w-40 w-sm-100">
+                                                <div class="item-title">Headphone 1</div>
+                                            </a>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                                <del class="text-secondary">$400</del>
+                                            </p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                                <span class="badge badge-danger">Sale</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-item col-md-12 p-0">
+                                <div class="card o-hidden flex-row mb-4 d-flex">
+                                    <div class="list-thumb d-flex">
+                                        <!-- TUMBNAIL -->
+                                        <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
+                                    </div>
+                                    <div class="flex-grow-1 pl-2 d-flex">
+                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                            <!-- OTHER DATA -->
+                                            <a href="" class="w-40 w-sm-100">
+                                                <div class="item-title">Headphone 1</div>
+                                            </a>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                                <del class="text-secondary">$400</del>
+                                            </p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                                <span class="badge badge-primary">New</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-item col-md-12 p-0">
+                                <div class="card o-hidden flex-row mb-4 d-flex">
+                                    <div class="list-thumb d-flex">
+                                        <!-- TUMBNAIL -->
+                                        <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
+                                    </div>
+                                    <div class="flex-grow-1 pl-2 d-flex">
+                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                            <!-- OTHER DATA -->
+                                            <a href="" class="w-40 w-sm-100">
+                                                <div class="item-title">Headphone 1</div>
+                                            </a>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                                <del class="text-secondary">$400</del>
+                                            </p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                                <span class="badge badge-primary">New</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-item col-md-12 p-0">
+                                <div class="card o-hidden flex-row mb-4 d-flex">
+                                    <div class="list-thumb d-flex">
+                                        <!-- TUMBNAIL -->
+                                        <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
+                                    </div>
+                                    <div class="flex-grow-1 pl-2 d-flex">
+                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                            <!-- OTHER DATA -->
+                                            <a href="" class="w-40 w-sm-100">
+                                                <div class="item-title">Headphone 1</div>
+                                            </a>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                                <del class="text-secondary">$400</del>
+                                            </p>
+                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                                <span class="badge badge-primary">New</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- PAGINATION CONTROL -->
+                        <div class="col-md-12 mt-5 text-center">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination d-inline-flex">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
                                     </li>
-
-
-                               
-                                  
-
-
-
-                                    <?php if ($page_no < $total_no_of_pages) {
-                                        echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
-                                    } ?>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
                                 </ul>
-
-
-
-                           
-                    </div>
-
-
-                </div><!-- Footer Start -->
-                <div class="flex-grow-1"></div>
-                <div class="app-footer">
-                    <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                        <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
-                        <span class="flex-grow-1"></span>
-                        <div class="d-flex align-items-center">
-                            <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                            <div>
-                                <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                                <p class="m-0">All rights reserved</p>
-                            </div>
+                            </nav>
                         </div>
                     </div>
-                </div>
-                <!-- fotter end -->
-            </div>
-        </div><!-- ============ Search UI Start ============= -->
-        <div class="search-ui">
-            <div class="search-header">
-                <img src="../../dist-assets/images/logo.png" alt="" class="logo">
-                <button class="search-close btn btn-icon bg-transparent float-right mt-2">
-                    <i class="i-Close-Window text-22 text-muted"></i>
-                </button>
-            </div>
-            <input type="text" placeholder="Type here" class="search-input" autofocus>
-            <div class="search-title">
-                <span class="text-muted">Search results</span>
-            </div>
-            <div class="search-results list-horizontal">
-                <div class="list-item col-md-12 p-0">
-                    <div class="card o-hidden flex-row mb-4 d-flex">
-                        <div class="list-thumb d-flex">
-                            <!-- TUMBNAIL -->
-                            <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
-                        </div>
-                        <div class="flex-grow-1 pl-2 d-flex">
-                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                <!-- OTHER DATA -->
-                                <a href="" class="w-40 w-sm-100">
-                                    <div class="item-title">Headphone 1</div>
-                                </a>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                    <del class="text-secondary">$400</del>
-                                </p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                    <span class="badge badge-danger">Sale</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-item col-md-12 p-0">
-                    <div class="card o-hidden flex-row mb-4 d-flex">
-                        <div class="list-thumb d-flex">
-                            <!-- TUMBNAIL -->
-                            <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
-                        </div>
-                        <div class="flex-grow-1 pl-2 d-flex">
-                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                <!-- OTHER DATA -->
-                                <a href="" class="w-40 w-sm-100">
-                                    <div class="item-title">Headphone 1</div>
-                                </a>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                    <del class="text-secondary">$400</del>
-                                </p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                    <span class="badge badge-primary">New</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-item col-md-12 p-0">
-                    <div class="card o-hidden flex-row mb-4 d-flex">
-                        <div class="list-thumb d-flex">
-                            <!-- TUMBNAIL -->
-                            <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
-                        </div>
-                        <div class="flex-grow-1 pl-2 d-flex">
-                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                <!-- OTHER DATA -->
-                                <a href="" class="w-40 w-sm-100">
-                                    <div class="item-title">Headphone 1</div>
-                                </a>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                    <del class="text-secondary">$400</del>
-                                </p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                    <span class="badge badge-primary">New</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-item col-md-12 p-0">
-                    <div class="card o-hidden flex-row mb-4 d-flex">
-                        <div class="list-thumb d-flex">
-                            <!-- TUMBNAIL -->
-                            <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
-                        </div>
-                        <div class="flex-grow-1 pl-2 d-flex">
-                            <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                <!-- OTHER DATA -->
-                                <a href="" class="w-40 w-sm-100">
-                                    <div class="item-title">Headphone 1</div>
-                                </a>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                    <del class="text-secondary">$400</del>
-                                </p>
-                                <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                    <span class="badge badge-primary">New</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- PAGINATION CONTROL -->
-            <div class="col-md-12 mt-5 text-center">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination d-inline-flex">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <!-- ============ Search UI End ============= -->
-        <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-        <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-        <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-        <script src="../../dist-assets/js/scripts/script.min.js"></script>
-        <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-        <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-        <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-        <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-        <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-        <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+                    <!-- ============ Search UI End ============= -->
+                    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+                    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+                    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/script.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+                    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
 
 
 <!-- Modal DEL  -->
-<div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
+<div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -497,10 +534,10 @@ if($column==''){ } else{
 
 <!-- ============ Form Search Start ============= -->
 <form class="d-none" method="POST">
-    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN;?>" placeholder="">
-    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD;?>" placeholder="">
-    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW;?>" placeholder="">
-    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE;?>" placeholder="">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
     <button class="btn" id="FSButtonID" type="submit"></button>
 </form>
 <!-- ============ Form Search End ============= -->
@@ -526,19 +563,20 @@ if($column==''){ } else{
 <!-- ============ Modal End ============= -->
 <script>
     /* ===== search start ===== */
-    function modalLoad(){
+    function modalLoad() {
         $("#ModalLoadId").modal({
             backdrop: 'static',
             'keyboard': false,
         });
     };
-    function clickNav(page){
+
+    function clickNav(page) {
         modalLoad();
 
         $("#FSPageId").val(page);
         $("#FSButtonID").click();
     }
-    $("#searchRowsId").on("change",function () {
+    $("#searchRowsId").on("change", function() {
         modalLoad();
 
         let row = $("#searchRowsId").val();
@@ -548,7 +586,7 @@ if($column==''){ } else{
         $("#FSButtonID").click();
 
     });
-    $("#searchNameId").on("change",function () {
+    $("#searchNameId").on("change", function() {
         modalLoad();
 
         let name = $("#searchNameId").val();
@@ -561,7 +599,7 @@ if($column==''){ } else{
     /* ===== search end ===== */
 
     //click next link
-    $(".linkLoadModalNext").on('click',function () {
+    $(".linkLoadModalNext").on('click', function() {
         $("#ModalLoadId").modal({
             backdrop: 'static',
             'keyboard': false,
@@ -569,12 +607,13 @@ if($column==''){ } else{
     });
 </script>
 <script>
-$('#myModal_del').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var id = button.data('id')
-    var modal = $(this)
-    modal.find('#del_id').val(id)
+    $('#myModal_del').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('#del_id').val(id)
 
-})
+    })
 </script>
+
 </html>
