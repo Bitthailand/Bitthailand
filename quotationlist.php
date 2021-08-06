@@ -121,8 +121,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <button class="btn btn-outline-primary mt-4" type="button" onclick="modalBank()">
-                                                    <i class="i-Bank"></i> เปิด Order ใหม่ </button>
+                                            <a href="/addorder.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เปิด Order ใหม่</a>
                                             </div>
                                         </div>
                                     </div>
