@@ -26,8 +26,6 @@ if ($action == 'del') {
         </script>
 <?php }
 }
-
-
 ?>
 <?php $keyword = $_POST['keyword'];
 $column = $_REQUEST['column'];
@@ -56,15 +54,22 @@ if ($rowS == '') {
 <!DOCTYPE html>
 <html lang="en" dir="">
 
+
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Customer | รายการลูกค้า</title>
+    <title>Order | เสนอราคา</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .table-sm th, .table-sm td {
+    padding: 0.3rem;
+    font-size: 0.813rem!important;
+}
+    </style>
 </head>
 
 <body class="text-left">
@@ -145,7 +150,6 @@ if ($rowS == '') {
                             <!-- ============ Table Start ============= -->
                             <div class="table-responsive">
                                 <table class="table table-hover text-nowrap table-sm">
-
                                     <thead>
                                         <tr>
                                             <th>customer ID</th>
@@ -162,6 +166,7 @@ if ($rowS == '') {
                                         </tr>
                                     </thead>
                                     <tbody>
+
 
                                         <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
@@ -191,7 +196,7 @@ if ($rowS == '') {
                                                 <td><?php echo $row['bill_address']; ?></td>
                                                 <td><?php
                                                     $sql3 = "SELECT * FROM districts  WHERE id= '$row[subdistrict]'";
-                                                    $rs3= $conn->query($sql3);
+                                                    $rs3 = $conn->query($sql3);
                                                     $row3 = $rs3->fetch_assoc();
                                                     echo $row3['name_th'];
 
@@ -199,14 +204,14 @@ if ($rowS == '') {
                                                 </td>
                                                 <td><?php
                                                     $sql4 = "SELECT * FROM amphures  WHERE id= '$row[district]'";
-                                                    $rs4= $conn->query($sql4);
+                                                    $rs4 = $conn->query($sql4);
                                                     $row4 = $rs4->fetch_assoc();
                                                     echo $row4['name_th'];
 
                                                     ?>
                                                 <td><?php
                                                     $sql5 = "SELECT * FROM provinces  WHERE id= '$row[province]'";
-                                                    $rs5= $conn->query($sql5);
+                                                    $rs5 = $conn->query($sql5);
                                                     $row5 = $rs5->fetch_assoc();
                                                     echo $row5['name_th'];
 
@@ -235,265 +240,248 @@ if ($rowS == '') {
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- ============ Table End ============= -->
-                                <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
-                                    <strong>Page <?php echo $page_no . " of " . $total_no_of_pages; ?></strong>
-                                </div>
+                            </div>
 
+                            <!-- ============ Table End ============= -->
 
+                         
+                            <div class="mb-5 mt-3">
+                                <nav aria-label="Page navigation ">
+                                    <ul class="pagination justify-content-center">
+                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                        ?>
+                                        <li class="page-item" <?php if ($page_no <= 1) {
+                                                                    echo "class='disabled'";
+                                                                } ?>>
+                                            <a class="page-link" <?php if ($page_no > 1) {
+                                                    echo "href='?page_no=$previous_page' ";
+                                                } ?>>Previous</a>
+                                        </li>
 
-
-
-
-                                <div class="mb-5 mt-3">
-                                    <nav aria-label="Page navigation ">
-                                        <ul class="pagination justify-content-center">
-                                            <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
-                                            ?>
-
-                                            <li class="page-item" <?php if ($page_no <= 1) {
-                                                                        echo "class='disabled'";
-                                                                    } ?>>
-                                                <a <?php if ($page_no > 1) {
-                                                        echo "href='?page_no=$previous_page' ";
-                                                    } ?>>Previous</a>
-                                            </li>
-
-                                            <?php
-                                            if ($total_no_of_pages <= 10) {
-                                                for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                        <?php
+                                        if ($total_no_of_pages <= 10) {
+                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
+                                               <?php  } else { ?>
+                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
+                                              <?php   }
+                                            }
+                                        } elseif ($total_no_of_pages > 10) {
+                                            if ($page_no <= 4) {
+                                                for ($counter = 1; $counter < 8; $counter++) {
                                                     if ($counter == $page_no) {
-                                                        echo "<li class='active'><a>$counter</a></li>";
-                                                    } else {
-                                                        echo "<li><a href='?page_no=$counter'>$counter</a></li>";
-                                                    }
+                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                    } else { ?>
+                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
+                                                   <?php  }
                                                 }
-                                            } elseif ($total_no_of_pages > 10) {
-
-                                                if ($page_no <= 4) {
-                                                    for ($counter = 1; $counter < 8; $counter++) {
-                                                        if ($counter == $page_no) {
-                                                            echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                        } else {
-                                                            echo "<li><a href='?page_no=$counter'>$counter</a></li>";
-                                                        }
-                                                    }
-                                            ?>
-                                                    <li class="page-item"><a>...</a></li>
-                                                    <li><a href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                                    <li><a href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                        ?>
+                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                                 <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
-                                                    <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>"
-                                                    <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                    <li class="page-item"><a>...</a></li>
-                                                    <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
-                                                        if ($counter == $page_no) { ?>
-                                                            <li class='active'><a><?php echo "$counter"; ?></a></li>
-                                                        <?php  } else { ?>
-                                                            <li><a href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                        <?php    }
-                                                    }
-                                                    echo "<li><a>...</a></li>";
-                                                    echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
-                                                    echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
-                                                } else {
-                                                    echo "<li><a href='?page_no=1'>1</a></li>";
-                                                    echo "<li><a href='?page_no=2'>2</a></li>";
-                                                    echo "<li><a>...</a></li>";
+                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li class="page-item"><a>...</a></li>
+                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else { ?>
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php    }
+                                                } ?>
+                                                <li><a class="page-link">...</a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
+                                            <?php  } else { ?>
+                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
+                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                               <li><a class="page-link">...</a></li>
 
-                                                    for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-                                                        if ($counter == $page_no) {
-                                                            echo "<li class='active'><a>$counter</a></li>";
-                                                        } else {
-                                                        ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
-                                            <?php   }
-                                                    }
+                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
+                                                  <?php  } else {
+                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                        <?php   }
                                                 }
                                             }
-                                            ?>
+                                        }
+                                        ?>
 
-                                            <li <?php if ($page_no >= $total_no_of_pages) {
-                                                    echo "class='disabled'";
-                                                } ?>>
-                                                <a <?php if ($page_no < $total_no_of_pages) {
-                                                        echo "href='?page_no=$next_page'";
-                                                    } ?>>Next</a>
-                                            </li>
+                                        <li <?php if ($page_no >= $total_no_of_pages) {
+                                                echo "class='disabled'";
+                                            } ?>>
+                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
+                                                    echo "href='?page_no=$next_page'";
+                                                } ?>>Next</a>
+                                        </li>
 
+                                        <?php if ($page_no < $total_no_of_pages) { ?>
+                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                      <?php   } ?>
+                                    </ul>
 
-
-
-
-
-
-                                            <?php if ($page_no < $total_no_of_pages) {
-                                                echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
-                                            } ?>
-                                        </ul>
-
-
-
-
-                                </div>
-
-
-                            </div><!-- Footer Start -->
-                            <div class="flex-grow-1"></div>
-                            <div class="app-footer">
-                                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
-                                    <span class="flex-grow-1"></span>
-                                    <div class="d-flex align-items-center">
-                                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                                        <div>
-                                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                                            <p class="m-0">All rights reserved</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <!-- fotter end -->
                         </div>
-                    </div><!-- ============ Search UI Start ============= -->
-                    <div class="search-ui">
-                        <div class="search-header">
-                            <img src="../../dist-assets/images/logo.png" alt="" class="logo">
-                            <button class="search-close btn btn-icon bg-transparent float-right mt-2">
-                                <i class="i-Close-Window text-22 text-muted"></i>
-                            </button>
-                        </div>
-                        <input type="text" placeholder="Type here" class="search-input" autofocus>
-                        <div class="search-title">
-                            <span class="text-muted">Search results</span>
-                        </div>
-                        <div class="search-results list-horizontal">
-                            <div class="list-item col-md-12 p-0">
-                                <div class="card o-hidden flex-row mb-4 d-flex">
-                                    <div class="list-thumb d-flex">
-                                        <!-- TUMBNAIL -->
-                                        <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
-                                    </div>
-                                    <div class="flex-grow-1 pl-2 d-flex">
-                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                            <!-- OTHER DATA -->
-                                            <a href="" class="w-40 w-sm-100">
-                                                <div class="item-title">Headphone 1</div>
-                                            </a>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                                <del class="text-secondary">$400</del>
-                                            </p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                                <span class="badge badge-danger">Sale</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-item col-md-12 p-0">
-                                <div class="card o-hidden flex-row mb-4 d-flex">
-                                    <div class="list-thumb d-flex">
-                                        <!-- TUMBNAIL -->
-                                        <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
-                                    </div>
-                                    <div class="flex-grow-1 pl-2 d-flex">
-                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                            <!-- OTHER DATA -->
-                                            <a href="" class="w-40 w-sm-100">
-                                                <div class="item-title">Headphone 1</div>
-                                            </a>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                                <del class="text-secondary">$400</del>
-                                            </p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                                <span class="badge badge-primary">New</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-item col-md-12 p-0">
-                                <div class="card o-hidden flex-row mb-4 d-flex">
-                                    <div class="list-thumb d-flex">
-                                        <!-- TUMBNAIL -->
-                                        <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
-                                    </div>
-                                    <div class="flex-grow-1 pl-2 d-flex">
-                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                            <!-- OTHER DATA -->
-                                            <a href="" class="w-40 w-sm-100">
-                                                <div class="item-title">Headphone 1</div>
-                                            </a>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                                <del class="text-secondary">$400</del>
-                                            </p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                                <span class="badge badge-primary">New</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-item col-md-12 p-0">
-                                <div class="card o-hidden flex-row mb-4 d-flex">
-                                    <div class="list-thumb d-flex">
-                                        <!-- TUMBNAIL -->
-                                        <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
-                                    </div>
-                                    <div class="flex-grow-1 pl-2 d-flex">
-                                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                            <!-- OTHER DATA -->
-                                            <a href="" class="w-40 w-sm-100">
-                                                <div class="item-title">Headphone 1</div>
-                                            </a>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                                <del class="text-secondary">$400</del>
-                                            </p>
-                                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                                <span class="badge badge-primary">New</span>
-                                            </p>
-                                        </div>
+                        <!-- Footer Start -->
+                        <div class="flex-grow-1"></div>
+                        <div class="app-footer">
+                            <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
+                                <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                                <span class="flex-grow-1"></span>
+                                <div class="d-flex align-items-center">
+                                    <img class="logo" src="../../dist-assets/images/logo.png" alt="">
+                                    <div>
+                                        <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
+                                        <p class="m-0">All rights reserved</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- PAGINATION CONTROL -->
-                        <div class="col-md-12 mt-5 text-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination d-inline-flex">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
+                        <!-- fotter end -->
+                    </div>
+                </div><!-- ============ Search UI Start ============= -->
+                <div class="search-ui">
+                    <div class="search-header">
+                        <img src="../../dist-assets/images/logo.png" alt="" class="logo">
+                        <button class="search-close btn btn-icon bg-transparent float-right mt-2">
+                            <i class="i-Close-Window text-22 text-muted"></i>
+                        </button>
+                    </div>
+                    <input type="text" placeholder="Type here" class="search-input" autofocus>
+                    <div class="search-title">
+                        <span class="text-muted">Search results</span>
+                    </div>
+                    <div class="search-results list-horizontal">
+                        <div class="list-item col-md-12 p-0">
+                            <div class="card o-hidden flex-row mb-4 d-flex">
+                                <div class="list-thumb d-flex">
+                                    <!-- TUMBNAIL -->
+                                    <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
+                                </div>
+                                <div class="flex-grow-1 pl-2 d-flex">
+                                    <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                        <!-- OTHER DATA -->
+                                        <a href="" class="w-40 w-sm-100">
+                                            <div class="item-title">Headphone 1</div>
                                         </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                            <del class="text-secondary">$400</del>
+                                        </p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                            <span class="badge badge-danger">Sale</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-item col-md-12 p-0">
+                            <div class="card o-hidden flex-row mb-4 d-flex">
+                                <div class="list-thumb d-flex">
+                                    <!-- TUMBNAIL -->
+                                    <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
+                                </div>
+                                <div class="flex-grow-1 pl-2 d-flex">
+                                    <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                        <!-- OTHER DATA -->
+                                        <a href="" class="w-40 w-sm-100">
+                                            <div class="item-title">Headphone 1</div>
                                         </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                            <del class="text-secondary">$400</del>
+                                        </p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                            <span class="badge badge-primary">New</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-item col-md-12 p-0">
+                            <div class="card o-hidden flex-row mb-4 d-flex">
+                                <div class="list-thumb d-flex">
+                                    <!-- TUMBNAIL -->
+                                    <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
+                                </div>
+                                <div class="flex-grow-1 pl-2 d-flex">
+                                    <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                        <!-- OTHER DATA -->
+                                        <a href="" class="w-40 w-sm-100">
+                                            <div class="item-title">Headphone 1</div>
+                                        </a>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                            <del class="text-secondary">$400</del>
+                                        </p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                            <span class="badge badge-primary">New</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-item col-md-12 p-0">
+                            <div class="card o-hidden flex-row mb-4 d-flex">
+                                <div class="list-thumb d-flex">
+                                    <!-- TUMBNAIL -->
+                                    <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
+                                </div>
+                                <div class="flex-grow-1 pl-2 d-flex">
+                                    <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
+                                        <!-- OTHER DATA -->
+                                        <a href="" class="w-40 w-sm-100">
+                                            <div class="item-title">Headphone 1</div>
+                                        </a>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100">$300
+                                            <del class="text-secondary">$400</del>
+                                        </p>
+                                        <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
+                                            <span class="badge badge-primary">New</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- ============ Search UI End ============= -->
-                    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-                    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+                    <!-- PAGINATION CONTROL -->
+                    <div class="col-md-12 mt-5 text-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination d-inline-flex">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- ============ Search UI End ============= -->
+                <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+                <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+                <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+                <script src="../../dist-assets/js/scripts/script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+                <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+                <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+                <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
 
 
