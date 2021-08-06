@@ -30,7 +30,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                    <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link active" href="/productionlist.php">
                                     <h3 class="h5 font-weight-bold"> รายการสั่งผลิต
@@ -64,7 +64,7 @@
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                    <option value="po_id">รหัสสั่งผลิต</option>
+                                                        <option value="po_id">รหัสสั่งผลิต</option>
                                                         <option value="po_date">วันที่สั่งผลิต</option>
                                                         <option value="plane_id">แพที่ผลิต</option>
                                                         <option value="product_id">รหัสสินค้า</option>
@@ -92,70 +92,174 @@
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                            <a href="/addproduction.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มรายการสั่งผลิต</a>
+                                                <a href="/addproduction.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มรายการสั่งผลิต</a>
 
-                                           </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- ============ Table Start ============= -->
-                            <div class="table-responsive">
-                                <table class="table table-hover text-nowrap table-sm">
+                            <div id="productionorder" class="table-responsive">
+                                <table role="table" class="table table-hover text-nowrap table-sm">
                                     <thead>
-                                        <tr>
+                                        <tr class="table-secondary">
                                             <th>รหัสสั่งผลิต</th>
-                                            <th>วันที่สั่ง</th>
                                             <th>แพที่</th>
+                                            <th>วันที่สั่ง</th>
+                                            <th>กำหนดเสร็จ</th>
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
-                                            <th>ชื่อสินค้า</th>                                            
-                                            <th>ความยาว</th>                                            
+                                            <th>ชื่อสินค้า</th>
+                                            <th>ความยาว</th>
                                             <th>ขนาดลวด</th>
                                             <th>จำนวนลวด</th>
                                             <th>พ.ท.(Sq.m)</th>
-                                            <th>ความยาวลวด(ทั้งแพ)</th>
+                                            <th>ลวดยาว(ทั้งแพ)</th>
                                             <th>เซอร์คีย์(เส้น)</th>
                                             <th>คอนกรีตคำนวณ</th>
-                                            <th>คอนกรีตใช้จริง</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td> PD640800001 </td>
-                                            <td> 29 ก.ค. 2021 17:53</td>
-                                            <td> <strong>5</strong> </td>
-                                            <td> <strong>FP03100020</strong> </td>
-                                            <td> <strong>120</strong> </td>
-                                            <td> เสารั้ว 3x3" </td>                                            
-                                            <td> 1.00 </td>                                            
                                             <td>
-                                                4
+                                                <strong> PD640800001 </strong>
                                             </td>
-                                            <td> 5 </td>
-                                            <td> 44.10 </td>
-                                            <td> 648 </td>
-                                            <td> - </td>
-                                            <td> 2.21 </td>
-                                            <td> - </td>
+                                            <td><strong>5</strong></td>
+                                            <td> <strong>29 ก.ค. 2021 17:53</strong></td>
+                                            <td> <strong>5 ส.ค. 2021</strong></td>
+                                            <td>FP03100020</td>
+                                            <td>120</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>1.00</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>44.10</td>
+                                            <td>648</td>
+                                            <td>-</td>
+                                            <td>2.21</td>
                                             <td>
-
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า" href="/customer.php?customer_id=CUS000001">
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต"
+                                                    href="editproduction.php?po_id=PD640800001">
+                                                    <i class="i-Pen-2 font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทึกการใช้คอนกรีต"
+                                                    data-target="#medalconcreteuse">
+                                                    <i class="i-Gear font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
                                                     <i class="i-Check font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูรายการสั่งสินค้า" href="/orderlist.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
+                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
+                                                    <i class="i-Close-Window font-weight-bold"></i>
                                                 </a>
-
                                             </td>
                                         </tr>
-
+                                        <tr class="table table-hover text-nowrap table-sm">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>120</strong></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
                                         <tr>
-                                            <td colspan="14"> &nbsp;</td>
+                                            <td>
+                                                <strong> PD640800002 </strong>
+                                            </td>
+                                            <td><strong>5</strong></td>
+                                            <td> <strong>23 ก.ค. 2021 11:23</strong></td>
+                                            <td> <strong>5 ส.ค. 2021</strong></td>
+                                            <td>FP03100020</td>
+                                            <td>100</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>1.00</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>44.10</td>
+                                            <td>648</td>
+                                            <td>-</td>
+                                            <td>2.36</td>
+                                            <td>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต"
+                                                    href="editproduction.php?po_id=PD640800002">
+                                                    <i class="i-Pen-2 font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทึกการใช้คอนกรีต"
+                                                    data-target="#medalconcreteuse">
+                                                    <i class="i-Gear font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
+                                                    <i class="i-Check font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
+                                                    <i class="i-Close-Window font-weight-bold"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td>FP03145020</td>
+                                            <td>60</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>1.45</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>44.10</td>
+                                            <td>648</td>
+                                            <td>-</td>
+                                            <td>2.90</td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td>FP03200020</td>
+                                            <td>40</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>2.00</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>44.10</td>
+                                            <td>648</td>
+                                            <td>-</td>
+                                            <td>2.68</td>
+                                            <td> </td>
                                         </tr>
 
+                                        <tr class="table table-hover text-nowrap table-sm">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>200</strong></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td> </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -175,13 +279,9 @@
                                     </ul>
                                 </nav>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
 
             </div><!-- Footer Start -->
             <div class="flex-grow-1"></div>
@@ -201,135 +301,147 @@
             </div>
             <!-- fotter end -->
         </div>
-    </div><!-- ============ Search UI Start ============= -->
-    <div class="search-ui">
-        <div class="search-header">
-            <img src="../../dist-assets/images/logo.png" alt="" class="logo">
-            <button class="search-close btn btn-icon bg-transparent float-right mt-2">
-                <i class="i-Close-Window text-22 text-muted"></i>
-            </button>
-        </div>
-        <input type="text" placeholder="Type here" class="search-input" autofocus>
-        <div class="search-title">
-            <span class="text-muted">Search results</span>
-        </div>
-        <div class="search-results list-horizontal">
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
+    </div>
+
+    <!-- Modal บันทึกการใช้คอนกรีต -->
+    <div class="modal fade" id="medalconcreteuse" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">บันทีกการใช้ คอนกรีต</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- ============ Table Start ============= -->
+                    <div id="productionorder" class="table-responsive">
+                        <table role="table" class="table table-hover text-nowrap table-sm">
+                            <thead>
+                                <tr class="table-secondary">
+
+                                    <th>รหัสสินค้า</th>
+                                    <th>จำนวนผลิต</th>
+                                    <th>ชื่อสินค้า</th>
+                                    <th>ความยาว</th>
+                                    <th>พ.ท.(Sq.m)</th>
+                                    <th>ลวดยาว(ทั้งแพ)</th>
+                                    <th>คอนกรีตคำนวณ</th>
+                                    <th>ใช้คอนกรีตจริง</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                  <tr>
+                                    <td>FP03100020</td>
+                                    <td>100</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.00</td>
+                                    <td>44.10</td>
+                                    <td>648</td>
+                                     <td>2.36</td>
+                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+
+                                    <td>FP03145020</td>
+                                    <td>60</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.45</td>
+                                    <td>44.10</td>
+                                    <td>648</td>
+                                    <td>2.90</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+                                    <td>FP03200020</td>
+                                    <td>40</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>2.00</td>
+                                    <td>44.10</td>
+                                    <td>648</td>
+                                    <td>2.68</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-danger">Sale</span>
-                            </p>
-                        </div>
-                    </div>
+                    <!-- ============ Table End ============= -->
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
+                    <button class="btn btn-primary ml-2" type="button">บันทึก</button>
                 </div>
             </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- PAGINATION CONTROL -->
-        <div class="col-md-12 mt-5 text-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination d-inline-flex">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
+
+    <!-- Modal เช็คสินค้าเข้าสต๊อก -->
+    <div class="modal fade" id="medalstockcheck" tabindex="-1" role="dialog" aria-labelledby="medalstockcheckTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalstockcheckTitle-2">เช็คสินค้าเข้าสต๊อก</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                
+                
+                    <!-- ============ Table Start ============= -->
+                    <div id="productionorder" class="table-responsive">
+                        <table role="table" class="table table-hover text-nowrap table-sm">
+                            <thead>
+                                <tr class="table-secondary">
+
+                                    <th>รหัสสินค้า</th>                                    
+                                    <th>ชื่อสินค้า</th>
+                                    <th>ความยาว</th>                               
+                                    <th>จำนวนผลิต</th>
+                                    <th>สมบูรณ์</th>
+                                    <th>ไม่สมบูรณ์</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                  <tr>
+                                    <td>FP03100020</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.00</td>
+                                    <td>100</td>
+                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+
+                                    <td>FP03145020</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>1.45</td>
+                                    <td>60</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+                                <tr>
+                                    <td>FP03200020</td>
+                                    <td>เสารั้ว 3x3"</td>
+                                    <td>2.00</td>
+                                    <td>40</td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- ============ Table End ============= -->
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
+                    <button class="btn btn-primary ml-2" type="button">บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ============ Search UI End ============= -->
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>

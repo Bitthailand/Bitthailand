@@ -41,12 +41,12 @@
                                     <div class="form-row mt-3">
 
                                         <div class="form-group col-md-2">
-                                            <label for="product_id"><strong>รหัสสินค้า <span class="text-danger">*</span></strong></label>
+                                            <label for="product_id"><strong>รหัสสินค้า <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_id" id="product_id" class="classcus form-control" placeholder="รหัสสินค้า" required>
                                         </div>
 
-                                        <div class="form-group col-md-1">
-                                            <label for="product_type"><strong>ประเภทสินค้า <span class="text-danger">*</span></strong></label>
+                                        <div class="form-group col-md-2">
+                                            <label for="product_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
                                             <select class="classcus custom-select" name="product_type" id="product_type" required>
                                                 <option value="PT001">เสารั้วลวดหนาม</option>
                                                 <option value="PT002">เสาเข็มไอ</option>
@@ -58,22 +58,22 @@
                                         </div>
 
                                         <div class="form-group col-md-1">
-                                            <label for="product_name"><strong>ขนาดความยาว <span class="text-danger">*</span></strong></label>
+                                            <label for="product_name"><strong>ความยาว <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
 
                                         <div class="form-group col-md-1">
-                                            <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span>*</strong></label>
+                                            <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
                                             <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ขนาดลวด" required >
                                         </div>
 
                                         <div class="form-group col-md-1">
-                                            <label for="phone"><strong>จำนวนเส้นลวด <span class="text-danger">*</span></strong></label>
+                                            <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
                                             <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
                                         </div>
 
                                         <div class="form-group col-md-1">
-                                            <label for="unit"><strong>หน่วยนับ <span class="text-danger">*</span></strong></label>
+                                            <label for="unit"><strong>หน่วยนับ <span class="text-danger"></span></strong></label>
                                             <select class="classcus custom-select" name="unit" id="unit" required>
                                                 <option value="ต้น">ต้น</option>
                                                 <option value="แผ่น">แผ่น</option>
@@ -85,11 +85,11 @@
                                         </div>
 
                                         <div class="form-group col-md-1">
-                                            <label for="accAddressId"><strong>ราคาต่อหน่วย <span class="text-danger">*</span></strong></label>
+                                            <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
                                             <input type="text" name="address" class="classcus form-control" id="address" placeholder="ราคาต่อหน่วย" required="">
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label for="tax_number"><strong>ข้อมูลพิเศษ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off" >
                                         </div>
