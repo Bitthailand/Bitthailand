@@ -215,62 +215,72 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="medalmodalcustomerlistTitle-2">บันทีกการใช้ คอนกรีต</h5>
+                    <h5 class="modal-title" id="medalmodalcustomerlistTitle-2">เลือกรายการลูกค้า</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
+                    <div class="col-auto">
+                        <div class="text-left">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <div class="form-group">
+                                        <label for="searchNameId"> ค้นหา</label>
+                                        <input id="searchNameId" class="form-control" placeholder="ใส่คำที่ต้องการค้นหา" type="text" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============ Table Start ============= -->
+                        <div id="productionorder" class="table-responsive">
+                            <table role="table" class="table table-hover text-nowrap table-sm">
+                                <thead>
+                                    <tr class="table-secondary">
 
-                    <!-- ============ Table Start ============= -->
-                    <div id="productionorder" class="table-responsive">
-                        <table role="table" class="table table-hover text-nowrap table-sm">
-                            <thead>
-                                <tr class="table-secondary">
+                                        <th>รหัสลูกค้า</th>
+                                        <th>ชื่อลูกค้า</th>
+                                        <th>ที่อยู่</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CUS640800001</td>
+                                        <td>คุณเวนิช พุ่มจันทร์</td>
+                                        <td>ตำบลหนองเป็ด อำเภอเมือง จ.ยโสธร 35000</td>
+                                    </tr>
+                                    <tr>
 
-                                    <th>รหัสลูกค้า</th>
-                                    <th>ชื่อลูกค้า</th>
-                                    <th>ที่อยู่</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>CUS640800001</td>
-                                    <td>คุณเวนิช พุ่มจันทร์</td>
-                                    <td>ตำบลหนองเป็ด อำเภอเมือง จ.ยโสธร 35000</td>
-                                </tr>
-                                <tr>
+                                        <td>CUS640800002</td>
+                                        <td>กฤษณะ ยศวิปาน</td>
+                                        <td>บ้านหนองค้า ต.หนองค้า อ.พยุห์ ศรีสะเกษ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS640800003</td>
+                                        <td>ภัทราวดี คำบ่อ</td>
+                                        <td>บ้านหนองช้าง ต.หนองขอน จ.อุบล</td>
+                                    </tr>
 
-                                    <td>CUS640800002</td>
-                                    <td>กฤษณะ ยศวิปาน</td>
-                                    <td>บ้านหนองค้า ต.หนองค้า อ.พยุห์ ศรีสะเกษ</td>
-                                </tr>
-                                <tr>
-                                    <td>CUS640800003</td>
-                                    <td>ภัทราวดี คำบ่อ</td>
-                                    <td>บ้านหนองช้าง ต.หนองขอน จ.อุบล</td>
-                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ============ Table End ============= -->
 
-                            </tbody>
-                        </table>
                     </div>
-                    <!-- ============ Table End ============= -->
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+        <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+        <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+        <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="../../dist-assets/js/scripts/script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+        <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+        <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+        <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
 
 </html>
