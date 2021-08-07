@@ -64,9 +64,15 @@ if ($rowS == '') {
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- <link href="../../dist-assets/css/plugins/bootstrap.min.css" rel="stylesheet" /> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
-
+<style>
+        .table-sm th, .table-sm td {
+    padding: 0.3rem;
+    font-size: 0.813rem!important;
+}
+    </style>
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -83,8 +89,6 @@ if ($rowS == '') {
             <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
             <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
-
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="tab-content">
@@ -107,23 +111,19 @@ if ($rowS == '') {
                                                         <option value="address" <?php echo $column == 'address' ? 'selected' : ''; ?>>ที่อยู่ </option>
                                                         <option value="phone" <?php echo $column == 'phone' ? 'selected' : ''; ?>>เบอร์โทร </option>
                                                         <option value="tax_number" <?php echo $column == 'tax_number' ? 'selected' : ''; ?>>เลขที่ผู้เสียภาษี</option>
-
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
-
                                                     <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
-
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
-
                                                         <option value="10" <?php echo $rowS == 10 ? 'selected' : ''; ?>> 10 </option>
                                                         <option value="20" <?php echo $rowS == 20 ? 'selected' : ''; ?>> 20 </option>
                                                         <option value="30" <?php echo $rowS == 30 ? 'selected' : ''; ?>> 30 </option>
@@ -135,17 +135,14 @@ if ($rowS == '') {
                                             </div>
                                             <div class="col-auto">
                                                 <a href="/customer.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มลูกค้าใหม่</a>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- ============ Table Start ============= -->
                             <div class="table-responsive">
                                 <table class="table table-hover text-nowrap table-sm">
-
                                     <thead>
                                         <tr>
                                             <th>customer ID</th>
@@ -162,14 +159,12 @@ if ($rowS == '') {
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
                                         } else {
                                             $page_no = 1;
                                         }
-
                                         // $total_records_per_page = 10;
                                         $offset = ($page_no - 1) * $total_records_per_page;
                                         $previous_page = $page_no - 1;
@@ -224,10 +219,8 @@ if ($rowS == '') {
 
                                                 <button type="button" class="btn btn-outline-info btn-sm line-height-1" data-id="<?php echo $row['customer_id']; ?>"
                                                     data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
-
                                             </td>
                                         </tr>
-
                                         <?php
                                         }
                                         mysqli_close($conn);
@@ -241,12 +234,6 @@ if ($rowS == '') {
                                 <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
                                     <strong>Page <?php echo $page_no . " of " . $total_no_of_pages; ?></strong>
                                 </div>
-
-
-
-
-
-
                                 <div class="mb-5 mt-3">
                                     <nav aria-label="Page navigation ">
                                         <ul class="pagination justify-content-center">
@@ -321,31 +308,17 @@ if ($rowS == '') {
                                                         echo "href='?page_no=$next_page'";
                                                     } ?>>Next</a>
                                             </li>
-
-
-
-
-
-
-
                                             <?php if ($page_no < $total_no_of_pages) {
                                                 echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
                                             } ?>
                                         </ul>
-
-
-
-
                                 </div>
-
-
                             </div>
                             <!-- Header -->
                             <?php include './include/footer.php'; ?>
                             <!-- =============== Header End ================-->
                         </div>
                     </div>
-
                     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
                     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
                     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -357,7 +330,6 @@ if ($rowS == '') {
                     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
                     <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
-
 
 <!-- Modal DEL  -->
 <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

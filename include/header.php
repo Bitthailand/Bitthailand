@@ -56,7 +56,7 @@
                 <!-- Notificaiton End-->
                 <!-- User avatar dropdown-->
                 <div class="dropdown">
-                    <div class="user col align-self-end"><img id="userDropdown" src="./assets/images/faces/1.jpg" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
+                    <div class="user col align-self-end"><img id="userDropdown" src="./dist-assets/images/faces/1.jpg" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <div class="dropdown-header"><i class="i-Lock-User mr-1"></i> Timothy Carlson</div><a class="dropdown-item">Account settings</a><a class="dropdown-item">Billing history</a><a class="dropdown-item" href="signout.php">Sign out</a>
                         </div>
