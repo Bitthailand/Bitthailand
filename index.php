@@ -16,12 +16,12 @@ session_start();
 
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
-    <!-- Header -->
-    <?php include './include/header.php'; ?>
-    <!-- =============== Header End ================-->
+        <!-- Header -->
+        <?php include './include/header.php'; ?>
+        <!-- =============== Header End ================-->
         <!-- side bar menu -->
         <?php include './include/menu.php'; ?>
-    <!-- =============== Left side End ================-->
+        <!-- =============== Left side End ================-->
 
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
@@ -125,8 +125,10 @@ session_start();
                                     <div class="card-header d-flex align-items-center border-0">
                                         <h3 class="w-50 float-left card-title m-0">New Users</h3>
                                         <div class="dropdown dropleft text-right w-50 float-right">
-                                            <button class="btn bg-gray-100" id="dropdownMenuButton1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="nav-icon i-Gear-2"></i></button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"><a class="dropdown-item" href="#">Add new user</a><a class="dropdown-item" href="#">View All users</a><a class="dropdown-item" href="#">Something else here</a></div>
+                                            <button class="btn bg-gray-100" id="dropdownMenuButton1" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false"><i class="nav-icon i-Gear-2"></i></button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"><a class="dropdown-item" href="#">Add new user</a><a
+                                                    class="dropdown-item" href="#">View All users</a><a class="dropdown-item" href="#">Something else here</a></div>
                                         </div>
                                     </div>
                                     <div>
@@ -149,7 +151,8 @@ session_start();
                                                         <td><img class="rounded-circle m-0 avatar-sm-table" src="../../dist-assets/images/faces/1.jpg" alt="" /></td>
                                                         <td>Smith@gmail.com</td>
                                                         <td><span class="badge badge-success">Active</span></td>
-                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2" href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
+                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2"
+                                                                href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">2</th>
@@ -157,7 +160,8 @@ session_start();
                                                         <td><img class="rounded-circle m-0 avatar-sm-table" src="../../dist-assets/images/faces/1.jpg" alt="" /></td>
                                                         <td>Jhon@gmail.com</td>
                                                         <td><span class="badge badge-info">Pending</span></td>
-                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2" href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
+                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2"
+                                                                href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">3</th>
@@ -165,7 +169,8 @@ session_start();
                                                         <td><img class="rounded-circle m-0 avatar-sm-table" src="../../dist-assets/images/faces/1.jpg" alt="" /></td>
                                                         <td>Otto@gmail.com</td>
                                                         <td><span class="badge badge-warning">Not Active</span></td>
-                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2" href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
+                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2"
+                                                                href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">4</th>
@@ -173,7 +178,8 @@ session_start();
                                                         <td><img class="rounded-circle m-0 avatar-sm-table" src="../../dist-assets/images/faces/1.jpg" alt="" /></td>
                                                         <td>Mathew@gmail.com</td>
                                                         <td><span class="badge badge-success">Active</span></td>
-                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2" href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
+                                                        <td><a class="text-success mr-2" href="#"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a><a class="text-danger mr-2"
+                                                                href="#"><i class="nav-icon i-Close-Window font-weight-bold"></i></a></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -187,7 +193,8 @@ session_start();
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div class="card-title">Top Selling Products</div>
-                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/headphone-4.jpg" alt="" />
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3"
+                                        src="../../dist-assets/images/products/headphone-4.jpg" alt="" />
                                     <div class="flex-grow-1">
                                         <h5><a href="">Wireless Headphone E23</a></h5>
                                         <p class="m-0 text-small text-muted">Lorem ipsum dolor sit amet consectetur.</p>
@@ -202,7 +209,8 @@ session_start();
                                         </button>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/headphone-2.jpg" alt="" />
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3"
+                                        src="../../dist-assets/images/products/headphone-2.jpg" alt="" />
                                     <div class="flex-grow-1">
                                         <h5><a href="">Wireless Headphone Y902</a></h5>
                                         <p class="m-0 text-small text-muted">Lorem ipsum dolor sit amet consectetur.</p>
@@ -217,7 +225,8 @@ session_start();
                                         </button>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/headphone-3.jpg" alt="" />
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3"
+                                        src="../../dist-assets/images/products/headphone-3.jpg" alt="" />
                                     <div class="flex-grow-1">
                                         <h5><a href="">Wireless Headphone E09</a></h5>
                                         <p class="m-0 text-small text-muted">Lorem ipsum dolor sit amet consectetur.</p>
@@ -232,7 +241,8 @@ session_start();
                                         </button>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/headphone-4.jpg" alt="" />
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3"><img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3"
+                                        src="../../dist-assets/images/products/headphone-4.jpg" alt="" />
                                     <div class="flex-grow-1">
                                         <h5><a href="">Wireless Headphone X89</a></h5>
                                         <p class="m-0 text-small text-muted">Lorem ipsum dolor sit amet consectetur.</p>
@@ -251,7 +261,8 @@ session_start();
                         </div>
                         <div class="card mb-4">
                             <div class="card-body p-0">
-                                <div class="card-title border-bottom d-flex align-items-center m-0 p-3"><span>User activity</span><span class="flex-grow-1"></span><span class="badge badge-pill badge-warning">Updated daily</span></div>
+                                <div class="card-title border-bottom d-flex align-items-center m-0 p-3"><span>User activity</span><span class="flex-grow-1"></span><span
+                                        class="badge badge-pill badge-warning">Updated daily</span></div>
                                 <div class="d-flex border-bottom justify-content-between p-3">
                                     <div class="flex-grow-1"><span class="text-small text-muted">Pages / Visit</span>
                                         <h5 class="m-0">2065</h5>
@@ -297,154 +308,14 @@ session_start();
                         </div>
                     </div>
                 </div><!-- end of main-content -->
-            </div><!-- Footer Start -->
-            <div class="flex-grow-1"></div>
-            <div class="app-footer">
+            </div>
 
-                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
-                    <span class="flex-grow-1"></span>
-                    <div class="d-flex align-items-center">
-                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                        <div>
-                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                            <p class="m-0">All rights reserved</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- fotter end -->
-        </div>
-    </div><!-- ============ Search UI Start ============= -->
-    <div class="search-ui">
-        <div class="search-header">
-            <img src="../../dist-assets/images/logo.png" alt="" class="logo">
-            <button class="search-close btn btn-icon bg-transparent float-right mt-2">
-                <i class="i-Close-Window text-22 text-muted"></i>
-            </button>
-        </div>
-        <input type="text" placeholder="Type here" class="search-input" autofocus>
-        <div class="search-title">
-            <span class="text-muted">Search results</span>
-        </div>
-        <div class="search-results list-horizontal">
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-danger">Sale</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- PAGINATION CONTROL -->
-        <div class="col-md-12 mt-5 text-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination d-inline-flex">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <!-- Header -->
+            <?php include './include/footer.php'; ?>
+            <!-- =============== Header End ================-->
+
         </div>
     </div>
-    <!-- ============ Search UI End ============= -->
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>

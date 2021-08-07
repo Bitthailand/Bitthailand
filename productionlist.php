@@ -112,12 +112,12 @@
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
                                             <th>ชื่อสินค้า</th>
-                                            <th>ความยาว</th>
+                                            <th>หนา</th>
+                                            <th>กว้าง</th>
+                                            <th>ยาว</th>
                                             <th>ขนาดลวด</th>
                                             <th>จำนวนลวด</th>
                                             <th>พ.ท.(Sq.m)</th>
-                                            <th>ลวดยาว(ทั้งแพ)</th>
-                                            <th>เซอร์คีย์(เส้น)</th>
                                             <th>คอนกรีตคำนวณ</th>
                                             <th>Action</th>
                                         </tr>
@@ -134,10 +134,10 @@
                                             <td>120</td>
                                             <td>เสารั้ว 3x3"</td>
                                             <td>1.00</td>
+                                            <td>1.00</td>
+                                            <td>1.00</td>
                                             <td>4</td>
                                             <td>5</td>
-                                            <td>44.10</td>
-                                            <td>648</td>
                                             <td>-</td>
                                             <td>2.21</td>
                                             <td>
@@ -145,7 +145,7 @@
                                                     href="editproduction.php?po_id=PD640800001">
                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทึกการใช้คอนกรีต"
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
                                                     data-target="#medalconcreteuse">
                                                     <i class="i-Gear font-weight-bold"></i>
                                                 </a>
@@ -185,10 +185,10 @@
                                             <td>100</td>
                                             <td>เสารั้ว 3x3"</td>
                                             <td>1.00</td>
+                                            <td>1.00</td>
+                                            <td>1.00</td>
                                             <td>4</td>
                                             <td>5</td>
-                                            <td>44.10</td>
-                                            <td>648</td>
                                             <td>-</td>
                                             <td>2.36</td>
                                             <td>
@@ -196,7 +196,7 @@
                                                     href="editproduction.php?po_id=PD640800002">
                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทึกการใช้คอนกรีต"
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
                                                     data-target="#medalconcreteuse">
                                                     <i class="i-Gear font-weight-bold"></i>
                                                 </a>
@@ -216,12 +216,12 @@
                                             <td>FP03145020</td>
                                             <td>60</td>
                                             <td>เสารั้ว 3x3"</td>
+                                            <td>1.00</td>
+                                            <td>1.00</td>
                                             <td>1.45</td>
                                             <td>4</td>
                                             <td>5</td>
                                             <td>44.10</td>
-                                            <td>648</td>
-                                            <td>-</td>
                                             <td>2.90</td>
                                             <td> </td>
                                         </tr>
@@ -233,12 +233,12 @@
                                             <td>FP03200020</td>
                                             <td>40</td>
                                             <td>เสารั้ว 3x3"</td>
+                                            <td>1.00</td>
+                                            <td>1.00</td>
                                             <td>2.00</td>
                                             <td>4</td>
                                             <td>5</td>
                                             <td>44.10</td>
-                                            <td>648</td>
-                                            <td>-</td>
                                             <td>2.68</td>
                                             <td> </td>
                                         </tr>
@@ -303,69 +303,28 @@
         </div>
     </div>
 
-    <!-- Modal บันทึกการใช้คอนกรีต -->
+    <!-- Modal บันทึกวันเวลา เท -->
     <div class="modal fade" id="medalconcreteuse" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="medalconcreteuseTitle-2">บันทีกการใช้ คอนกรีต</h5>
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">บันทีกการเทคอนกรีต</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
-                    <!-- ============ Table Start ============= -->
-                    <div id="productionorder" class="table-responsive">
-                        <table role="table" class="table table-hover text-nowrap table-sm">
-                            <thead>
-                                <tr class="table-secondary">
-
-                                    <th>รหัสสินค้า</th>
-                                    <th>จำนวนผลิต</th>
-                                    <th>ชื่อสินค้า</th>
-                                    <th>ความยาว</th>
-                                    <th>พ.ท.(Sq.m)</th>
-                                    <th>ลวดยาว(ทั้งแพ)</th>
-                                    <th>คอนกรีตคำนวณ</th>
-                                    <th>ใช้คอนกรีตจริง</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                  <tr>
-                                    <td>FP03100020</td>
-                                    <td>100</td>
-                                    <td>เสารั้ว 3x3"</td>
-                                    <td>1.00</td>
-                                    <td>44.10</td>
-                                    <td>648</td>
-                                     <td>2.36</td>
-                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                </tr>
-                                <tr>
-
-                                    <td>FP03145020</td>
-                                    <td>60</td>
-                                    <td>เสารั้ว 3x3"</td>
-                                    <td>1.45</td>
-                                    <td>44.10</td>
-                                    <td>648</td>
-                                    <td>2.90</td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                </tr>
-                                <tr>
-                                    <td>FP03200020</td>
-                                    <td>40</td>
-                                    <td>เสารั้ว 3x3"</td>
-                                    <td>2.00</td>
-                                    <td>44.10</td>
-                                    <td>648</td>
-                                    <td>2.68</td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                    <div class="viewDateClass col pr-0 ">
+                        <div class="form-group">
+                            <label for="searchSDateId">วันเวลาเท</label>
+                            <input id="searchSDateId" class="form-control" type="datetime-local" min="2021-06-01" name="start" value="2021-08-04" required="">
+                        </div>
                     </div>
-                    <!-- ============ Table End ============= -->
+                    <div class="viewDateClass col pr-0 ">
+                        <div class="form-group">
+                            <label for="searchEDateId">วันเวลาเทเสร็จ</label>
+                            <input id="searchEDateId" class="form-control" type="datetime-local" name="end" value="2021-08-04" required="">
+                        </div>
+                    </div>
 
                 </div>
                 <div class="modal-footer">
@@ -378,37 +337,37 @@
 
     <!-- Modal เช็คสินค้าเข้าสต๊อก -->
     <div class="modal fade" id="medalstockcheck" tabindex="-1" role="dialog" aria-labelledby="medalstockcheckTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered " role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="medalstockcheckTitle-2">เช็คสินค้าเข้าสต๊อก</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                
-                
+
+
                     <!-- ============ Table Start ============= -->
                     <div id="productionorder" class="table-responsive">
                         <table role="table" class="table table-hover text-nowrap table-sm">
                             <thead>
                                 <tr class="table-secondary">
 
-                                    <th>รหัสสินค้า</th>                                    
+                                    <th>รหัสสินค้า</th>
                                     <th>ชื่อสินค้า</th>
-                                    <th>ความยาว</th>                               
+                                    <th>ความยาว</th>
                                     <th>จำนวนผลิต</th>
                                     <th>สมบูรณ์</th>
                                     <th>ไม่สมบูรณ์</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                  <tr>
+                                <tr>
                                     <td>FP03100020</td>
                                     <td>เสารั้ว 3x3"</td>
                                     <td>1.00</td>
                                     <td>100</td>
-                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                     <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
+                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
                                 </tr>
                                 <tr>
 
