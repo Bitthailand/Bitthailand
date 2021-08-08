@@ -77,10 +77,13 @@
                                             <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
                                         </div>
                                         <div class="form-group col-md-2">
+                                            <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="concrete_cal" id="concrete_cal" class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
                                         </div>
-
                                         <button class="btn btn-outline-primary ripple m-1" type="button"
                                             style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
 
@@ -92,13 +95,14 @@
                                                         <tr>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
-                                                            <th>หน้ากว้าง</th>
-                                                            <th>ความยาว</th>
+                                                            <th>หนา</th>
+                                                            <th>กว้าง</th>
+                                                            <th>ยาว</th>
+                                                            <th>พื้นที่หน้าตัด</th>
                                                             <th>ขนาดลวด</th>
                                                             <th>จำนวนลวด</th>
-                                                            <th>เซอร์คีย์(เส้น)</th>
                                                             <th>คอนกรีตคำนวณ</th>
-                                                            <th>คอนกรีตใช้จริง</th>
+                                                            <th>พ.ท.(Sq.m)</th>
                                                             <th>จำนวนสั่งผลิต</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -107,9 +111,10 @@
                                                         <tr>
                                                             <td> <strong>FP03100020</strong> </td>
                                                             <td> เสารั้ว 3x3" </td>
+                                                            <td> - </td>
                                                             <td> <strong>3"</strong> </td>
                                                             <td> 1.00 </td>
-                                                            <td> 4 </td>
+                                                            <td> - </td>
                                                             <td> 5 </td>
                                                             <td> - </td>
                                                             <td> 2.21 </td>
@@ -127,9 +132,10 @@
                                                         <tr>
                                                             <td> <strong>FP03145020</strong> </td>
                                                             <td> เสารั้ว 3x3" </td>
+                                                            <td> - </td>
                                                             <td> <strong>3"</strong> </td>
                                                             <td> 1.45 </td>
-                                                            <td> 4 </td>
+                                                            <td> - </td>
                                                             <td> 5 </td>
                                                             <td> - </td>
                                                             <td> 2.59 </td>
@@ -153,14 +159,7 @@
                                         </div>
                                         <!-- ============ Table End ============= -->
                                     </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="accNameId"><strong>ความยาวลวด(ทั้งแพ) <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ความยาวลวด(ทั้งแพ)" required>
-                                    </div>
+
                                 </div>
 
                                 <hr>
@@ -181,154 +180,12 @@
                         <!-- </div> -->
                     </div>
                 </div>
-            </div><!-- Footer Start -->
-            <div class="flex-grow-1"></div>
-            <div class="app-footer">
-                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
-                        target="_blank">Buy Gull HTML</a>
-                    <span class="flex-grow-1"></span>
-                    <div class="d-flex align-items-center">
-                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                        <div>
-                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                            <p class="m-0">All rights reserved</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <!-- fotter end -->
-        </div>
-    </div><!-- ============ Search UI Start ============= -->
-    <div class="search-ui">
-        <div class="search-header">
-            <img src="../../dist-assets/images/logo.png" alt="" class="logo">
-            <button class="search-close btn btn-icon bg-transparent float-right mt-2">
-                <i class="i-Close-Window text-22 text-muted"></i>
-            </button>
-        </div>
-        <input type="text" placeholder="Type here" class="search-input" autofocus>
-        <div class="search-title">
-            <span class="text-muted">Search results</span>
-        </div>
-        <div class="search-results list-horizontal">
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-danger">Sale</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item col-md-12 p-0">
-                <div class="card o-hidden flex-row mb-4 d-flex">
-                    <div class="list-thumb d-flex">
-                        <!-- TUMBNAIL -->
-                        <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
-                    </div>
-                    <div class="flex-grow-1 pl-2 d-flex">
-                        <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                            <!-- OTHER DATA -->
-                            <a href="" class="w-40 w-sm-100">
-                                <div class="item-title">Headphone 1</div>
-                            </a>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                <del class="text-secondary">$400</del>
-                            </p>
-                            <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                <span class="badge badge-primary">New</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- PAGINATION CONTROL -->
-        <div class="col-md-12 mt-5 text-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination d-inline-flex">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <!-- Header -->
+            <?php include './include/footer.php'; ?>
+            <!-- =============== Header End ================-->
         </div>
     </div>
-    <!-- ============ Search UI End ============= -->
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>

@@ -216,6 +216,7 @@ if ($action == 'edit') {
                     </div>
                 </div>
 
+<<<<<<< HEAD
             </div><!-- Footer Start -->
             <div class="flex-grow-1"></div>
             <div class="app-footer">
@@ -239,6 +240,14 @@ if ($action == 'edit') {
     <!-- PAGINATION CONTROL -->
 
     <!-- ============ Search UI End ============= -->
+=======
+            </div>
+            <!-- Header -->
+            <?php include './include/footer.php'; ?>
+            <!-- =============== Header End ================-->
+        </div>
+    </div>
+>>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>

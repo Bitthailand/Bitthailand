@@ -56,17 +56,30 @@
                                                 <option value="PT006">ลวดหนาม</option>
                                             </select>
                                         </div>
+<<<<<<< HEAD
                                         <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalproducttype" style=" height: 33px; margin-top: 24px!important;">เพิ่มประเภทสินค้า</button>
+=======
+                                        <div class="form-group col-md-1">
+                                            <label for="product_name"><strong>ความหนา <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                        </div>
+                                        <div class="form-group col-md-1">
+                                            <label for="product_name"><strong>ความกว้าง <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                        </div>
+>>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
-
+                                        <div class="form-group col-md-1">
+                                            <label for="product_name"><strong>พื้นที่หน้าตัด <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                        </div>
                                         <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
                                             <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
-
                                         <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
                                             <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
