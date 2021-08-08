@@ -56,6 +56,9 @@
                                                 <option value="PT006">ลวดหนาม</option>
                                             </select>
                                         </div>
+<<<<<<< HEAD
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalproducttype" style=" height: 33px; margin-top: 24px!important;">เพิ่มประเภทสินค้า</button>
+=======
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความหนา <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
@@ -64,6 +67,7 @@
                                             <label for="product_name"><strong>ความกว้าง <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
+>>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
@@ -74,7 +78,7 @@
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ขนาดลวด" required >
+                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
@@ -100,17 +104,17 @@
 
                                         <div class="form-group col-md-3">
                                             <label for="tax_number"><strong>ข้อมูลพิเศษ <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off" >
+                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off">
                                         </div>
-                                        
+
                                         <div class="form-group col-md-12">
                                             <label for="delivery_address"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="หมายเหตุ" >
+                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="หมายเหตุ">
                                         </div>
 
 
                                     </div>
-                                  
+
                                     <hr>
 
                                     <div class="text-right">
@@ -136,8 +140,7 @@
             <div class="flex-grow-1"></div>
             <div class="app-footer">
                 <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
-                        target="_blank">Buy Gull HTML</a>
+                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
                     <span class="flex-grow-1"></span>
                     <div class="d-flex align-items-center">
                         <img class="logo" src="../../dist-assets/images/logo.png" alt="">
@@ -151,6 +154,36 @@
             <!-- fotter end -->
         </div>
     </div><!-- ============ Search UI Start ============= -->
+    <!--  -->
+    <!-- Modal เพิ่มประเภทสินค้า -->
+
+    <div class="modal fade" id="modalproducttype" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มประเภทสินค้า</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                   <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="type_id"><strong>รหัสประเภท <span class="text-danger"></span></strong></label>
+                        <input type="text" name="ptype_id" id="ptype_id" class="classcus form-control" placeholder="รหัสประเภท" required="">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="type_name"><strong>ชื่อประเภท <span class="text-danger"></span></strong></label>
+                        <input type="text" name="ptype_name" id="ptype_name" class="classcus form-control" placeholder="รหัสประเภท" required="">
+                    </div>
+                   </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ตกลง</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  -->
     <div class="search-ui">
         <div class="search-header">
             <img src="../../dist-assets/images/logo.png" alt="" class="logo">

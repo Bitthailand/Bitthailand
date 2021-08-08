@@ -9,7 +9,16 @@ include './include/config.php';
 $sql = "SELECT * FROM provinces";
 $query = mysqli_query($conn, $sql);
 
+$sql5 = "SELECT MAX(id) AS id_run FROM customer  ";
+$rs5 = $conn->query($sql5);
+$row_run = $rs5->fetch_assoc(); 
 
+$datetodat=date('Y-m-d');
+ $date=explode(" ",$datetodat);
+ $dat=datethai_cus($date[0]);
+ $code_new=$row_run['id_run']+1;
+ $code = sprintf('%05d', $code_new);
+ $cus_id=$dat.$code;
 
 $action= $_REQUEST['action'];
 if ($action == 'add') {
@@ -23,10 +32,20 @@ if ($action == 'add') {
     $tel = $_REQUEST['tel'];
     $tax_number = $_REQUEST['tax_number'];
     $contact_name = $_REQUEST['contact_name'];
-    $delivery_address=$_REQUEST['delivery_address'];
+    // $delivery_address=$_REQUEST['delivery_address'];
     $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {?>
+<<<<<<< HEAD
+                 <script>
+                 $(document).ready(function() {
+                     showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
+                 });
+                 </script>
+     <?php    } else { 
+                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name)
+                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name')";                 
+=======
 <script>
 $(document).ready(function() {
     showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
@@ -35,6 +54,7 @@ $(document).ready(function() {
 <?php    } else { 
                    $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,delivery_address)
                    VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$delivery_address')";                 
+>>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
                     if ($conn->query($sql) === TRUE) {  ?>
 <script>
 $(document).ready(function() {
@@ -88,7 +108,7 @@ $(document).ready(function() {
 
                                         <div class="form-group col-md-4">
                                             <label for="accNameId"><strong>รหัสลูกค้า <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="customer_id" id="customer_id" class="classcus form-control" placeholder="รหัสลูกค้า" required>
+                                            <input type="text" name="customer_id" id="customer_id"  value="<?php echo"$cus_id";?>"  class="classcus form-control" placeholder="รหัสลูกค้า" required>
                                         </div>
 
                                         <div class="form-group col-md-4">
@@ -151,10 +171,7 @@ $(document).ready(function() {
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-12">
-                                            <label for="delivery_address"><strong>ที่อยู่ส่งสินค้า <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="ที่อยู่ส่งสินค้า">
-                                        </div>
+                                     
 
 
                                     </div>

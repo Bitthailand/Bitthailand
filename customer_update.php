@@ -9,44 +9,38 @@ include './include/config.php';
 $sql = "SELECT * FROM provinces";
 $query = mysqli_query($conn, $sql);
 $customer_id = $_REQUEST['customer_id'];
-$sql5 = "SELECT * FROM customer  WHERE customer_id = '$customer_id'";
-$rs5 = $conn->query($sql5);
-$row = $rs5->fetch_assoc();
+
 
 
 $action = $_REQUEST['action'];
-if ($action == 'add') {
-    $customer_id = $_REQUEST['customer_id'];
+if ($action == 'edit') {
+    $edit_id = $_REQUEST['edit_id'];
     $customer_name = $_REQUEST['customer_name'];
     $company_name = $_REQUEST['company_name'];
     $bill_address = $_REQUEST['bill_address'];
-    $subdistrict = $_REQUEST['subdistrict'];
-    $district = $_REQUEST['district'];
-    $province = $_REQUEST['province'];
+    $chk = $_REQUEST['chk'];
+    if($chk=='1'){
+        $subdistrict = $_REQUEST['subdistrict'];
+        $district = $_REQUEST['district'];
+        $province = $_REQUEST['province'];
+    }
+  
     $tel = $_REQUEST['tel'];
     $tax_number = $_REQUEST['tax_number'];
     $contact_name = $_REQUEST['contact_name'];
-    $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
-    $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) { ?>
+    $sql = "UPDATE customer  SET customer_name='$customer_name',company_name='$company_name',bill_address='$bill_address',tel='$tel',tax_number='$tax_number',contact_name='$contact_name'  where customer_id='$edit_id'";
+    if($chk=='1'){
+        $sql = "UPDATE customer  SET subdistrict='$subdistrict',district='$district',province='$province' where customer_id='$edit_id'";   
+    }
+
+    if ($conn->query($sql) === TRUE) {  ?>
         <script>
             $(document).ready(function() {
-                showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
+                showAlert("แก้ไขข้อมูลลูกค้าสำเร็จ", "alert-success");
             });
         </script>
-        <?php    } else {
-        $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name)
-                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name')";
-        if ($conn->query($sql) === TRUE) {  ?>
-            <script>
-                $(document).ready(function() {
-                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
-                });
-            </script>
 <?php   }
-    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -83,7 +77,9 @@ if ($action == 'add') {
                         <div class="card">
                             <div class="tab-content" id="myTabContent">
                                 <form class="tab-pane fade active show" method="post">
-
+                                    <?php $sql5 = "SELECT * FROM customer  WHERE customer_id = '$customer_id'";
+                                    $rs5 = $conn->query($sql5);
+                                    $row = $rs5->fetch_assoc(); ?>
                                     <div class="border-bottom text-primary">
                                         <div class="card-title">แก้ไขข้อมูลลูกค้า</div>
                                     </div>
@@ -161,15 +157,15 @@ if ($action == 'add') {
                                             <input type="text" class="classcus form-control" value="<?php echo $row3['name_th']; ?>" placeholder="ตำบล" disabled>
                                         </div>
                                         <div class="form-group col-md-12">
-                                        <label for="chkPassport">
-                                            <input type="checkbox" id="chkPassport" />
-                                            แก้ไขข้อมูลจังหวัด
-                                        </label>
+                                            <label for="chkPassport">
+                                                <input type="checkbox" id="chkPassport" name="chk" value="1" />
+                                                แก้ไขข้อมูลจังหวัด
+                                            </label>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="province"><strong>จังหวัด <span class="text-danger">*</span></strong></label>
 
-                                            <select name="province" id="province" class="classcus custom-select "  disabled="disabled" >
+                                            <select name="province" id="province" class="classcus custom-select " disabled="disabled">
                                                 <option value="">เลือกจังหวัด</option>
                                                 <?php while ($result = mysqli_fetch_assoc($query)) : ?>
                                                     <option value="<?= $result['id'] ?>"><?= $result['name_th'] ?></option>
@@ -196,19 +192,15 @@ if ($action == 'add') {
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-12">
-                                            <label for="delivery_address"><strong>ที่อยู่ส่งสินค้า <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" value="<?php echo $row['delivery_address']; ?>" placeholder="ที่อยู่ส่งสินค้า">
-                                        </div>
+                                      
 
 
                                     </div>
-
+                                
                                     <hr>
-
                                     <div class="text-right">
-                                        <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
-                                        <input type="hidden" name="edit_id" value="<?php $row['customer_id']; ?>">
+                                        <input type="hidden" name="edit_id" value="<?php echo $row['customer_id']; ?>">
+
                                         <input type="hidden" name="action" value="edit">
                                         <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มลูกค้า</button>
                                         <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
@@ -224,12 +216,38 @@ if ($action == 'add') {
                     </div>
                 </div>
 
+<<<<<<< HEAD
+            </div><!-- Footer Start -->
+            <div class="flex-grow-1"></div>
+            <div class="app-footer">
+                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
+                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                    <span class="flex-grow-1"></span>
+                    <div class="d-flex align-items-center">
+                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
+                        <div>
+                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
+                            <p class="m-0">All rights reserved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- fotter end -->
+        </div>
+    </div><!-- ============ Search UI Start ============= -->
+
+
+    <!-- PAGINATION CONTROL -->
+
+    <!-- ============ Search UI End ============= -->
+=======
             </div>
             <!-- Header -->
             <?php include './include/footer.php'; ?>
             <!-- =============== Header End ================-->
         </div>
     </div>
+>>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -245,7 +263,7 @@ if ($action == 'add') {
         $(function() {
             $("#chkPassport").click(function() {
                 if ($(this).is(":checked")) {
-                    
+
                     $("#province").removeAttr("disabled");
                     $("#district").removeAttr("disabled");
                     $("#amphure").removeAttr("disabled");
