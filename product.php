@@ -174,7 +174,7 @@ if ($action == 'add') {
                                             </select>
 
                                         </div>
-                                        <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalunit" style=" height: 33px; margin-top: 24px!important;">เพิ่มหน่วยนับ</button>
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modal2" style=" height: 33px; margin-top: 24px!important;">เพิ่มหน่วยนับ</button>
                                         <div class="form-group col-md-1">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
                                             <input type="text" name="address" class="classcus form-control" id="address" placeholder="ราคาต่อหน่วย" required="">
@@ -271,13 +271,13 @@ if ($action == 'add') {
         <!--  -->
 
         <!-- Modal เพิ่มหน่วยนับ -->
-        <div class="modal fade" id="modalproducttype" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
 
             <div class="modal-content">
                 <form class="tab-pane fade active show" method="post">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มประเภทสินค้า</h5>
+                        <h5 class="modal-title" id="modalTitle-2">เพิ่มประเภทสินค้า</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
