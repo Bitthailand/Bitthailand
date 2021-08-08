@@ -170,7 +170,7 @@
 
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบมัดจำสินค้า"
                                                     href="/tranActionConfirm.php?statement=268">
-                                                    <i class="i-Check font-weight-bold"></i>
+                                                    <i class="i-File-2 font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน"
                                                     href="/orderViews.php?statement=268">
@@ -221,14 +221,9 @@
                                     </ul>
                                 </nav>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <!-- Header -->
             <?php include './include/footer.php'; ?>
