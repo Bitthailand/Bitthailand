@@ -1,5 +1,39 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
 
+
+$action = $_REQUEST['action'];
+
+if ($action == 'add_type') {
+    $ptype_id = $_REQUEST['ptype_id'];
+    $ptype_name = $_REQUEST['ptype_name'];
+
+    $sqlx = "SELECT * FROM product_type WHERE ptype_id='$ptype_id' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ข้อมูลประเภทสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
+            });
+        </script>
+        <?php    } else {
+        $sql = "INSERT INTO product_type (ptype_id,ptype_name)
+                   VALUES ('$ptype_id','$ptype_name')";
+        if ($conn->query($sql) === TRUE) {  ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("บันทึกข้อประเภทสินค้ามูลสำเร็จ", "alert-success");
+                });
+            </script>
+<?php   }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -26,6 +60,9 @@
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+            <!-- แจ้งเตือน -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
                 <div class="row">
                     <div class="col-md-12">
@@ -47,27 +84,27 @@
 
                                         <div class="form-group col-md-2">
                                             <label for="product_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
+                                         
+
                                             <select class="classcus custom-select" name="product_type" id="product_type" required>
-                                                <option value="PT001">เสารั้วลวดหนาม</option>
-                                                <option value="PT002">เสาเข็มไอ</option>
-                                                <option value="PT003">เสาเข็มสี่เหลี่ยม</option>
-                                                <option value="PT004">กำแพงกันดิน</option>
-                                                <option value="PT005">เสาไฟฟ้า</option>
-                                                <option value="PT006">ลวดหนาม</option>
+                                                <?php
+                                                $sql6 = "SELECT *  FROM  product_type  order by ptype_id DESC ";
+                                                $result6 = mysqli_query($conn, $sql6);
+                                                if (mysqli_num_rows($result6) > 0) {
+                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                ?>
+                                                        <option value="<?php echo$row6['ptype_id'] ?>" <?php
+                                                         if (isset($row['ptype_id']) && ($row['ptype_id'] == $row6['id'])) { echo "selected"; ?>>
+                                                        <?php echo "$row6[ptype_name]"; } else {      ?>
+                                                        <option value="<?php echo $row6['ptype_id']; ?>"> <?php echo $row6['ptype_name'];  ?>
+                                                        <?php } ?>
+                                                        </option>
+                                                <?php  }
+                                                }  ?>
+
                                             </select>
                                         </div>
-<<<<<<< HEAD
                                         <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalproducttype" style=" height: 33px; margin-top: 24px!important;">เพิ่มประเภทสินค้า</button>
-=======
-                                        <div class="form-group col-md-1">
-                                            <label for="product_name"><strong>ความหนา <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
-                                        </div>
-                                        <div class="form-group col-md-1">
-                                            <label for="product_name"><strong>ความกว้าง <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
-                                        </div>
->>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
@@ -95,6 +132,9 @@
                                                 <option value="ถุง">ถุง</option>
                                                 <option value="ลัง">ลัง</option>
                                             </select>
+
+
+                                            
                                         </div>
 
                                         <div class="form-group col-md-1">
@@ -159,28 +199,35 @@
 
     <div class="modal fade" id="modalproducttype" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มประเภทสินค้า</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-                   <div class="row">
-                    <div class="form-group col-md-4">
-                        <label for="type_id"><strong>รหัสประเภท <span class="text-danger"></span></strong></label>
-                        <input type="text" name="ptype_id" id="ptype_id" class="classcus form-control" placeholder="รหัสประเภท" required="">
+           
+                <div class="modal-content">
+                <form class="tab-pane fade active show" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มประเภทสินค้า</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="type_name"><strong>ชื่อประเภท <span class="text-danger"></span></strong></label>
-                        <input type="text" name="ptype_name" id="ptype_name" class="classcus form-control" placeholder="รหัสประเภท" required="">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="type_id"><strong>รหัสประเภท <span class="text-danger"></span></strong></label>
+                                <input type="text" name="ptype_id"  class="classcus form-control" placeholder="รหัสประเภท" required="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="type_name"><strong>ชื่อประเภท <span class="text-danger"></span></strong></label>
+                                <input type="text" name="ptype_name"  class="classcus form-control" placeholder="รหัสประเภท" required="">
+                            </div>
+                        </div>
                     </div>
-                   </div>
+                    <div class="modal-footer">
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="add">
+                        <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
+
+                        <input type="hidden" name="action" value="add_type">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ตกลง</button>
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
-                </div>
-            </div>
+                <form>
         </div>
     </div>
     <!--  -->

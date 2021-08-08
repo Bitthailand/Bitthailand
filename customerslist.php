@@ -64,17 +64,12 @@ if ($rowS == '') {
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-<<<<<<< HEAD
     <style>
         .table-sm th, .table-sm td {
     padding: 0.3rem;
     font-size: 0.813rem!important;
 }
     </style>
-=======
-    <!-- <link href="../../dist-assets/css/plugins/bootstrap.min.css" rel="stylesheet" /> -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
->>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
 </head>
 <style>
         .table-sm th, .table-sm td {
@@ -168,11 +163,8 @@ if ($rowS == '') {
                                         </tr>
                                     </thead>
                                     <tbody>
-<<<<<<< HEAD
 
 
-=======
->>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
                                         <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
@@ -244,21 +236,9 @@ if ($rowS == '') {
                                         </tr>
                                     </tbody>
                                 </table>
-<<<<<<< HEAD
                             </div>
 
                             <!-- ============ Table End ============= -->
-=======
-                                <!-- ============ Table End ============= -->
-                                <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
-                                    <strong>Page <?php echo $page_no . " of " . $total_no_of_pages; ?></strong>
-                                </div>
-                                <div class="mb-5 mt-3">
-                                    <nav aria-label="Page navigation ">
-                                        <ul class="pagination justify-content-center">
-                                            <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
-                                            ?>
->>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
 
                          
                             <div class="mb-5 mt-3">
@@ -292,7 +272,6 @@ if ($rowS == '') {
                                                       <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
                                                    <?php  }
                                                 }
-<<<<<<< HEAD
                                         ?>
                                                 <li class="page-item"><a>...</a></li>
                                                 <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
@@ -499,80 +478,6 @@ if ($rowS == '') {
                 <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
                 <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
                 <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
-=======
-                                            } elseif ($total_no_of_pages > 10) {
-
-                                                if ($page_no <= 4) {
-                                                    for ($counter = 1; $counter < 8; $counter++) {
-                                                        if ($counter == $page_no) {
-                                                            echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                        } else {
-                                                            echo "<li><a href='?page_no=$counter'>$counter</a></li>";
-                                                        }
-                                                    }
-                                            ?>
-                                            <li class="page-item"><a>...</a></li>
-                                            <li><a href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                            <li><a href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                            <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
-                                            <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>"
-                                            <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                            <li class="page-item"><a>...</a></li>
-                                            <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
-                                                        if ($counter == $page_no) { ?>
-                                            <li class='active'><a><?php echo "$counter"; ?></a></li>
-                                            <?php  } else { ?>
-                                            <li><a href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                            <?php    }
-                                                    }
-                                                    echo "<li><a>...</a></li>";
-                                                    echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
-                                                    echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
-                                                } else {
-                                                    echo "<li><a href='?page_no=1'>1</a></li>";
-                                                    echo "<li><a href='?page_no=2'>2</a></li>";
-                                                    echo "<li><a>...</a></li>";
-
-                                                    for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-                                                        if ($counter == $page_no) {
-                                                            echo "<li class='active'><a>$counter</a></li>";
-                                                        } else {
-                                                        ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
-                                            <?php   }
-                                                    }
-                                                }
-                                            }
-                                            ?>
-
-                                            <li <?php if ($page_no >= $total_no_of_pages) {
-                                                    echo "class='disabled'";
-                                                } ?>>
-                                                <a <?php if ($page_no < $total_no_of_pages) {
-                                                        echo "href='?page_no=$next_page'";
-                                                    } ?>>Next</a>
-                                            </li>
-                                            <?php if ($page_no < $total_no_of_pages) {
-                                                echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
-                                            } ?>
-                                        </ul>
-                                </div>
-                            </div>
-                            <!-- Header -->
-                            <?php include './include/footer.php'; ?>
-                            <!-- =============== Header End ================-->
-                        </div>
-                    </div>
-                    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-                    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
->>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
 </body>
 
 <!-- Modal DEL  -->

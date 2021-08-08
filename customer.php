@@ -36,7 +36,6 @@ if ($action == 'add') {
     $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {?>
-<<<<<<< HEAD
                  <script>
                  $(document).ready(function() {
                      showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
@@ -45,16 +44,6 @@ if ($action == 'add') {
      <?php    } else { 
                    $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name)
                    VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name')";                 
-=======
-<script>
-$(document).ready(function() {
-    showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
-});
-</script>
-<?php    } else { 
-                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,delivery_address)
-                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$delivery_address')";                 
->>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
                     if ($conn->query($sql) === TRUE) {  ?>
 <script>
 $(document).ready(function() {
