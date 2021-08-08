@@ -167,14 +167,17 @@
                                                 <span class="font-weight-bold"> 81,525.00 </span>
                                             </td>
                                             <td>
-
+                                            <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
+                                                    href="/tranActionConfirm.php?statement=268">
+                                                    <i class="i-File font-weight-bold"></i>
+                                                </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบมัดจำสินค้า"
                                                     href="/tranActionConfirm.php?statement=268">
-                                                    <i class="i-Check font-weight-bold"></i>
+                                                    <i class="i-File font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน"
                                                     href="/orderViews.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
+                                                    <i class="i-Files font-weight-bold"></i>
                                                 </a>
 
                                                 <!-- action : ร่วม statement กับ sms -->
@@ -221,14 +224,9 @@
                                     </ul>
                                 </nav>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <!-- Header -->
             <?php include './include/footer.php'; ?>
