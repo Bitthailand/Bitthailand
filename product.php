@@ -28,7 +28,7 @@ if ($action == 'add_type') {
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
-                    showAlert("บันทึกข้อประเภทสินค้ามูลสำเร็จ", "alert-success");
+                    showAlert("บันทึกประเภทสินค้ามูลสำเร็จ", "alert-success");
                 });
             </script>
         <?php   }
@@ -50,7 +50,7 @@ if ($action == 'add_unit') {
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
-                    showAlert("บันทึกข้อหน่วยนับสำเร็จ", "alert-success");
+                    showAlert("บันทึกหน่วยนับสำเร็จ", "alert-success");
                 });
             </script>
         <?php   }
@@ -58,35 +58,35 @@ if ($action == 'add_unit') {
 }
 
 if ($action == 'add') {
-    $product_id= $_REQUEST['product_id'];
+    $product_id = $_REQUEST['product_id'];
     $type_id = $_REQUEST['type_id'];
     $product_name = $_REQUEST['product_name'];
     $width = $_REQUEST['width'];
     $size = $_REQUEST['size'];
-    $type_id = $_REQUEST['dia_size'];
+    $dia_size = $_REQUEST['dia_size'];
     $dia_count = $_REQUEST['dia_count'];
-    $unit = $_REQUEST['unit'];
+    $units = $_REQUEST['unit'];
     $unit_price = $_REQUEST['unit_price'];
     $spacial = $_REQUEST['spacial'];
     $fac1_stock = $_REQUEST['fac1_stock'];
     $fac2_stock = $_REQUEST['fac2_stock'];
-    $remark = $_REQUEST['remark'];
+    $remarks = $_REQUEST['remarks'];
 
-    $sqlx = "SELECT * FROM product_type WHERE ptype_id='$ptype_id' ";
+    $sqlx = "SELECT * FROM product  WHERE product_id='$product_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
         <script>
             $(document).ready(function() {
-                showAlert("ข้อมูลประเภทสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
+                showAlert("ข้อมูลสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
             });
         </script>
         <?php    } else {
-        $sql = "INSERT INTO product_type (ptype_id,ptype_name)
-                   VALUES ('$ptype_id','$ptype_name')";
+        $sql = "INSERT INTO product (product_id,ptype_id,product_name,width,size,dia_size,dia_count,units,unit_price,spacial,fac1_stock,fac2_stock,remarks )
+                   VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$unit','$unit_price','$spacial','$fac1_stock','$fac2_stock','$remarks')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
-                    showAlert("บันทึกข้อประเภทสินค้ามูลสำเร็จ", "alert-success");
+                    showAlert("บันทึกข้อมูลสินค้ามูลสำเร็จ", "alert-success");
                 });
             </script>
 <?php   }
@@ -119,7 +119,7 @@ if ($action == 'add') {
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <!-- แจ้งเตือน -->
-            <!-- <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div> -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
             <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
                 <div class="row">
@@ -139,12 +139,15 @@ if ($action == 'add') {
                                             <label for="product_id"><strong>รหัสสินค้า <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_id" id="product_id" class="classcus form-control" placeholder="รหัสสินค้า" required>
                                         </div>
-
+                                        <div class="form-group col-md-2">
+                                            <label for="product_id"><strong>ชื่อสินค้า <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="product_name" class="classcus form-control" placeholder="ชื่อสินค้า" required>
+                                        </div>
                                         <div class="form-group col-md-2">
                                             <label for="product_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
 
 
-                                            <select class="classcus custom-select" name="product_type" id="product_type" required>
+                                            <select class="classcus custom-select" name="type_id" id="type_id" required>
                                                 <?php
                                                 $sql6 = "SELECT *  FROM  product_type  order by ptype_id DESC ";
                                                 $result6 = mysqli_query($conn, $sql6);
@@ -167,26 +170,27 @@ if ($action == 'add') {
                                         <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalproducttype" style=" height: 33px; margin-top: 24px!important;">เพิ่มประเภทสินค้า</button>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="text" name="width" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>พื้นที่หน้าตัด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="product_name" id="product_name" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="text" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ขนาดลวด" required>
+                                            <input type="text" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
+                                            <input type="text" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
                                         </div>
-
+                                    </div>
+                                    <div class="form-row mt-3">
                                         <div class="form-group col-md-1">
                                             <label for="unit"><strong>หน่วยนับ <span class="text-danger"></span></strong></label>
 
 
-                                            <select class="classcus custom-select" name="unit" id="unit" required>
+                                            <select class="classcus custom-select" name="units" id="unit" required>
                                                 <?php
                                                 $sql6 = "SELECT *  FROM  unit order by unit_name DESC ";
                                                 $result6 = mysqli_query($conn, $sql6);
@@ -210,71 +214,80 @@ if ($action == 'add') {
                                         <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modal2" style=" height: 33px; margin-top: 24px!important;">เพิ่มหน่วยนับ</button>
                                         <div class="form-group col-md-1">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="address" class="classcus form-control" id="address" placeholder="ราคาต่อหน่วย" required="">
+                                            <input type="text" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
                                         </div>
 
                                         <div class="form-group col-md-3">
                                             <label for="tax_number"><strong>ข้อมูลพิเศษ <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off">
+                                            <input type="text" name="spacial" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off">
                                         </div>
 
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-4">
                                             <label for="delivery_address"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="delivery_address" class="classcus form-control" id="delivery_address" placeholder="หมายเหตุ">
+                                            <input type="text" name="remarks" class="classcus form-control" placeholder="หมายเหตุ">
                                         </div>
 
 
                                     </div>
-
-                                    <hr>
-
-                                    <div class="text-right">
-                                        <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
-                                        <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
-
-                                        <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มสินค้า</button>
-                                        <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
-                                            <span class="ladda-label">ยืนยันการเพิ่มสินค้า</span>
-                                        </button>
-                                        <a class="btn btn-outline-danger m-1" href="/inventorylist.php" type="button">กลับไปหน้าสต๊อกสินค้า</a>
+                                    <div class="form-row mt-3">
+                                        <div class="form-group col-md-4">
+                                            <label for="accAddressId"><strong>สต๊อกโรงงาน 1 <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="fac1_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="accAddressId"><strong>สต๊อกโรงงาน 2 <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="fac2_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
+                                        </div>
                                     </div>
-
-                                </form>
-
                             </div>
-                        </div>
-                    </div>
-                </div>
+                            <hr>
 
+                            <div class="text-right">
 
-            </div><!-- Footer Start -->
-            <div class="flex-grow-1"></div>
-            <div class="app-footer">
-                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
-                    <span class="flex-grow-1"></span>
-                    <div class="d-flex align-items-center">
-                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                        <div>
-                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                            <p class="m-0">All rights reserved</p>
+                                <input type="hidden" name="action" value="add">
+                                <button class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มสินค้า</button>
+                                <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
+                                    <span class="ladda-label">ยืนยันการเพิ่มสินค้า</span>
+                                </button>
+                                <a class="btn btn-outline-danger m-1" href="/inventorylist.php" type="button">กลับไปหน้าสต๊อกสินค้า</a>
+                            </div>
+
+                            </form>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- fotter end -->
+
+
+        </div><!-- Footer Start -->
+        <div class="flex-grow-1"></div>
+        <div class="app-footer">
+            <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
+                <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                <span class="flex-grow-1"></span>
+                <div class="d-flex align-items-center">
+                    <img class="logo" src="../../dist-assets/images/logo.png" alt="">
+                    <div>
+                        <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
+                        <p class="m-0">All rights reserved</p>
+                    </div>
+                </div>
+            </div>
         </div>
+        <!-- fotter end -->
+    </div>
     </div><!-- ============ Search UI Start ============= -->
     <!--  -->
-   
 
- <!-- Modal เพิ่มประเภทสินค้า -->
+
+    <!-- Modal เพิ่มประเภทสินค้า -->
 
     <div class="modal fade" id="modalproducttype" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
 
             <div class="modal-content">
-                <form  method="post">
+                <form method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มประเภทสินค้า</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -293,63 +306,62 @@ if ($action == 'add') {
                     </div>
                     <div class="modal-footer">
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                            <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
                             <input type="hidden" name="action" value="add_type">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                <form>
+                </form>
             </div>
         </div>
 
     </div>
-       
 
- <!-- Modal เพิ่มหน่วยนับ -->
 
- <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
+    <!-- Modal เพิ่มหน่วยนับ -->
+
+    <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
 
             <div class="modal-content">
-                <form  method="post">
+                <form method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มหน่วยนับ</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="type_id"><strong>รหัสประเภท <span class="text-danger"></span></strong></label>
-                                <input type="text" name="ptype_id" class="classcus form-control" placeholder="รหัสประเภท" required="">
+                            <div class="form-group col-md-10">
+                                <label for="type_id"><strong>ชื่อหน่วยนับ <span class="text-danger"></span></strong></label>
+                                <input type="text" name="unit_name" class="classcus form-control" placeholder="ชื่อหน่วยนับ" required="">
                             </div>
-                          
+
                         </div>
                     </div>
                     <div class="modal-footer">
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary" name="add-data1"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                            <button type="submit" class="btn btn-primary" name="add-data1"><span class="glyphicon glyphicon-plus"></span> Add</button>
                             <input type="hidden" name="action" value="add_unit">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                <form>
+                </form>
             </div>
         </div>
 
     </div>
 
 
-            <!-- ============ Search UI End ============= -->
-            <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-            <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-            <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-            <script src="../../dist-assets/js/scripts/script.min.js"></script>
-            <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-            <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-            <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-            <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-            <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+    <!-- ============ Search UI End ============= -->
+    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../../dist-assets/js/scripts/script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
 
 </html>
-
