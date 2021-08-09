@@ -34,10 +34,43 @@ if ($action == 'add_type') {
         <?php   }
     }
 }
+if ($action == 'add_unit') {
+    $unit_name = $_REQUEST['unit_name'];
+    $sqlx = "SELECT * FROM unit  WHERE unit_name='$unit_name' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ข้อมูลหน่วยนับซ้ำไม่สามารถบันทึกได้", "alert-danger");
+            });
+        </script>
+        <?php    } else {
+        $sql = "INSERT INTO unit (unit_name)
+                   VALUES ('$unit_name')";
+        if ($conn->query($sql) === TRUE) {  ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("บันทึกข้อหน่วยนับสำเร็จ", "alert-success");
+                });
+            </script>
+        <?php   }
+    }
+}
 
 if ($action == 'add') {
-    $ptype_id = $_REQUEST['ptype_id'];
-    $ptype_name = $_REQUEST['ptype_name'];
+    $product_id= $_REQUEST['product_id'];
+    $type_id = $_REQUEST['type_id'];
+    $product_name = $_REQUEST['product_name'];
+    $width = $_REQUEST['width'];
+    $size = $_REQUEST['size'];
+    $type_id = $_REQUEST['dia_size'];
+    $dia_count = $_REQUEST['dia_count'];
+    $unit = $_REQUEST['unit'];
+    $unit_price = $_REQUEST['unit_price'];
+    $spacial = $_REQUEST['spacial'];
+    $fac1_stock = $_REQUEST['fac1_stock'];
+    $fac2_stock = $_REQUEST['fac2_stock'];
+    $remark = $_REQUEST['remark'];
 
     $sqlx = "SELECT * FROM product_type WHERE ptype_id='$ptype_id' ";
     $result = mysqli_query($conn, $sqlx);
@@ -86,7 +119,7 @@ if ($action == 'add') {
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <!-- แจ้งเตือน -->
-            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div> -->
             <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
                 <div class="row">
@@ -233,13 +266,15 @@ if ($action == 'add') {
         </div>
     </div><!-- ============ Search UI Start ============= -->
     <!--  -->
-    <!-- Modal เพิ่มประเภทสินค้า -->
+   
+
+ <!-- Modal เพิ่มประเภทสินค้า -->
 
     <div class="modal fade" id="modalproducttype" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
 
             <div class="modal-content">
-                <form class="tab-pane fade active show" method="post">
+                <form  method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มประเภทสินค้า</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -258,26 +293,27 @@ if ($action == 'add') {
                     </div>
                     <div class="modal-footer">
                         <div class="modal-footer">
-                            <input type="hidden" name="action" value="add">
-                            <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
-
+                          <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
                             <input type="hidden" name="action" value="add_type">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                    <form>
+                <form>
             </div>
         </div>
-        <!--  -->
 
-        <!-- Modal เพิ่มหน่วยนับ -->
-        <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalTitle-2" style="display: none;" aria-hidden="true">
+    </div>
+       
+
+ <!-- Modal เพิ่มหน่วยนับ -->
+
+ <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalproducttypeTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
 
             <div class="modal-content">
-                <form class="tab-pane fade active show" method="post">
+                <form  method="post">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle-2">เพิ่มประเภทสินค้า</h5>
+                        <h5 class="modal-title" id="modalproducttypeTitle-2">เพิ่มหน่วยนับ</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
@@ -286,153 +322,23 @@ if ($action == 'add') {
                                 <label for="type_id"><strong>รหัสประเภท <span class="text-danger"></span></strong></label>
                                 <input type="text" name="ptype_id" class="classcus form-control" placeholder="รหัสประเภท" required="">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="type_name"><strong>ชื่อประเภท <span class="text-danger"></span></strong></label>
-                                <input type="text" name="ptype_name" class="classcus form-control" placeholder="รหัสประเภท" required="">
-                            </div>
+                          
                         </div>
                     </div>
                     <div class="modal-footer">
                         <div class="modal-footer">
-                            <input type="hidden" name="action" value="add">
-                            <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
-
-                            <input type="hidden" name="action" value="add_type">
+                          <button type="submit" class="btn btn-primary" name="add-data1"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                            <input type="hidden" name="action" value="add_unit">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                    <form>
+                <form>
             </div>
         </div>
-            <!--  -->
-            <div class="search-ui">
-                <div class="search-header">
-                    <img src="../../dist-assets/images/logo.png" alt="" class="logo">
-                    <button class="search-close btn btn-icon bg-transparent float-right mt-2">
-                        <i class="i-Close-Window text-22 text-muted"></i>
-                    </button>
-                </div>
-                <input type="text" placeholder="Type here" class="search-input" autofocus>
-                <div class="search-title">
-                    <span class="text-muted">Search results</span>
-                </div>
-                <div class="search-results list-horizontal">
-                    <div class="list-item col-md-12 p-0">
-                        <div class="card o-hidden flex-row mb-4 d-flex">
-                            <div class="list-thumb d-flex">
-                                <!-- TUMBNAIL -->
-                                <img src="../../dist-assets/images/products/headphone-1.jpg" alt="">
-                            </div>
-                            <div class="flex-grow-1 pl-2 d-flex">
-                                <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                    <!-- OTHER DATA -->
-                                    <a href="" class="w-40 w-sm-100">
-                                        <div class="item-title">Headphone 1</div>
-                                    </a>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                        <del class="text-secondary">$400</del>
-                                    </p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                        <span class="badge badge-danger">Sale</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-item col-md-12 p-0">
-                        <div class="card o-hidden flex-row mb-4 d-flex">
-                            <div class="list-thumb d-flex">
-                                <!-- TUMBNAIL -->
-                                <img src="../../dist-assets/images/products/headphone-2.jpg" alt="">
-                            </div>
-                            <div class="flex-grow-1 pl-2 d-flex">
-                                <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                    <!-- OTHER DATA -->
-                                    <a href="" class="w-40 w-sm-100">
-                                        <div class="item-title">Headphone 1</div>
-                                    </a>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                        <del class="text-secondary">$400</del>
-                                    </p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                        <span class="badge badge-primary">New</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-item col-md-12 p-0">
-                        <div class="card o-hidden flex-row mb-4 d-flex">
-                            <div class="list-thumb d-flex">
-                                <!-- TUMBNAIL -->
-                                <img src="../../dist-assets/images/products/headphone-3.jpg" alt="">
-                            </div>
-                            <div class="flex-grow-1 pl-2 d-flex">
-                                <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                    <!-- OTHER DATA -->
-                                    <a href="" class="w-40 w-sm-100">
-                                        <div class="item-title">Headphone 1</div>
-                                    </a>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                        <del class="text-secondary">$400</del>
-                                    </p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                        <span class="badge badge-primary">New</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-item col-md-12 p-0">
-                        <div class="card o-hidden flex-row mb-4 d-flex">
-                            <div class="list-thumb d-flex">
-                                <!-- TUMBNAIL -->
-                                <img src="../../dist-assets/images/products/headphone-4.jpg" alt="">
-                            </div>
-                            <div class="flex-grow-1 pl-2 d-flex">
-                                <div class="card-body align-self-center d-flex flex-column justify-content-between align-items-lg-center flex-lg-row">
-                                    <!-- OTHER DATA -->
-                                    <a href="" class="w-40 w-sm-100">
-                                        <div class="item-title">Headphone 1</div>
-                                    </a>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">Gadget</p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100">$300
-                                        <del class="text-secondary">$400</del>
-                                    </p>
-                                    <p class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges">
-                                        <span class="badge badge-primary">New</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- PAGINATION CONTROL -->
-                <div class="col-md-12 mt-5 text-center">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination d-inline-flex">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+
+    </div>
+
+
             <!-- ============ Search UI End ============= -->
             <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
             <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
@@ -446,3 +352,4 @@ if ($action == 'add') {
 </body>
 
 </html>
+
