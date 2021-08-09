@@ -172,7 +172,7 @@
                                             </td>
                                             <td>
                                             <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/tranActionConfirm.php?statement=268">
+                                                    href="/quotation.php?quotation_id=QT6401052">
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
