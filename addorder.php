@@ -36,13 +36,20 @@
                                     <div class="card-title">เพิ่ม Order ใหม่</div>
                                 </div>
                                 <div class="form-row mt-3">
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-1">
                                         <label for="order_id"><strong>รหัส Order <span class="text-danger"></span></strong></label>
                                         <input type="text" name="order_id" id="order_id" class="classcus form-control" placeholder="รหัส Order" required>
                                     </div>
                                     <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalcustomerlist"
                                         style=" height: 33px; margin-top: 24px!important;">เลือกลูกค้า</button>
                                     <a class="btn btn-outline-primary m-1" href="/customer.php" type="button" style=" height: 33px; margin-top: 24px!important;">เพิ่มลูกค้าใหม่</a>
+                                    <div class="form-group col-md-1">
+                                            <label for="customer_type"><strong>ประเภทลูกค้า <span class="text-danger"></span></strong></label>
+                                            <select class="classcus custom-select" name="customer_type" id="customer_type" required>
+                                                <option value="เงินสด">เงินสด</option>
+                                                <option value="เครดิต">เครดิต</option>
+                                            </select>
+                                        </div>
                                     <div class="form-group col-md-2">
                                         <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger">*</span></strong></label>
                                         <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
@@ -190,23 +197,10 @@
                         <!-- </div> -->
                     </div>
                 </div>
-            </div><!-- Footer Start -->
-            <div class="flex-grow-1"></div>
-            <div class="app-footer">
-                <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
-                        target="_blank">Buy Gull HTML</a>
-                    <span class="flex-grow-1"></span>
-                    <div class="d-flex align-items-center">
-                        <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                        <div>
-                            <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                            <p class="m-0">All rights reserved</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <!-- fotter end -->
+            <!-- Header -->
+            <?php include './include/footer.php'; ?>
+            <!-- =============== Header End ================-->
         </div>
     </div>
 
