@@ -65,7 +65,7 @@ if ($action == 'add') {
     $size = $_REQUEST['size'];
     $dia_size = $_REQUEST['dia_size'];
     $dia_count = $_REQUEST['dia_count'];
-    $units = $_REQUEST['unit'];
+    $units = $_REQUEST['units'];
     $unit_price = $_REQUEST['unit_price'];
     $spacial = $_REQUEST['spacial'];
     $fac1_stock = $_REQUEST['fac1_stock'];
@@ -82,7 +82,7 @@ if ($action == 'add') {
         </script>
         <?php    } else {
         $sql = "INSERT INTO product (product_id,ptype_id,product_name,width,size,dia_size,dia_count,units,unit_price,spacial,fac1_stock,fac2_stock,remarks )
-                   VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$unit','$unit_price','$spacial','$fac1_stock','$fac2_stock','$remarks')";
+                   VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$units','$unit_price','$spacial','$fac1_stock','$fac2_stock','$remarks')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -170,19 +170,19 @@ if ($action == 'add') {
                                         <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalproducttype" style=" height: 33px; margin-top: 24px!important;">เพิ่มประเภทสินค้า</button>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="width" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="number" name="width" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>พื้นที่หน้าตัด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="number" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
+                                            <input type="number" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
+                                            <input type="number" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
                                         </div>
                                     </div>
                                     <div class="form-row mt-3">
@@ -214,7 +214,7 @@ if ($action == 'add') {
                                         <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modal2" style=" height: 33px; margin-top: 24px!important;">เพิ่มหน่วยนับ</button>
                                         <div class="form-group col-md-1">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
+                                            <input type="number" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
                                         </div>
 
                                         <div class="form-group col-md-3">
@@ -232,11 +232,11 @@ if ($action == 'add') {
                                     <div class="form-row mt-3">
                                         <div class="form-group col-md-4">
                                             <label for="accAddressId"><strong>สต๊อกโรงงาน 1 <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="fac1_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
+                                            <input type="number" name="fac1_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="accAddressId"><strong>สต๊อกโรงงาน 2 <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="fac2_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
+                                            <input type="number" name="fac2_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
                                         </div>
                                     </div>
                             </div>

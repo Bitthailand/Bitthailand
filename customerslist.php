@@ -30,13 +30,11 @@ $(document).ready(function() {
 <?php $keyword = $_POST['keyword'];
 $column = $_REQUEST['column'];
 $rowS = $_REQUEST['row'];
-if ($column == '') {
-} else {
+if(empty($column)&&($keyword)) {}else{
     $columx = "AND $column LIKE'$keyword%'";
     // echo"$columx";   
 }
-if ($keyword == '') {
-} else {
+if (($column=="")&&($keyword == "$keyword")) {
     $keywordx = "AND customer_id LIKE'$keyword%'
                OR customer_name LIKE'$keyword%'
                OR  company_name LIKE'$keyword%'
@@ -320,6 +318,7 @@ if ($rowS == '') {
                                     </ul>
 
                             </div>
+
                         </div>
                         <!-- Footer Start -->
                         <div class="flex-grow-1"></div>
