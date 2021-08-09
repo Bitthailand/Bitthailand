@@ -30,10 +30,9 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- ============ Tab Menu ============= -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/quotationlist.php">
+                                <a class="linkLoadModalNext nav-link " href="/quotationlist.php">
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
                                         <span class="badge badge-pill badge-danger">1</span>
                                     </h3>
@@ -43,9 +42,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/ailist.php">
+                                <a class="linkLoadModalNext nav-link active" href="/ailist.php">
                                     <h3 class="h5 font-weight-bold"> Order มัดจำ
-                                    <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger">1</span>
                                     </h3>
                                     <span>Order ที่มัดจำเรียบร้อย
                                         <span class="badge badge-warning"> Wait </span>
@@ -64,7 +63,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/tranDW.php">
-                                    <h3 class="h5 font-weight-bold"> Order สำเร็จ</h3>
+                                    <h3 class="h5 font-weight-bold"> Order สำเร็จ
+                                   
+                                    </h3>
                                     <span>Order ที่ส่งสินค้าเรียบร้อย
                                         <span class="badge badge-success"> Pass </span>
                                     </span>
@@ -79,7 +80,6 @@
                                 </a>
                             </li>
                         </ul>
-                        <!-- ============ End Tab Menu ============= -->
                         <div class="tab-content">
 
                             <!-- ============ Alert Message Start ============= -->
@@ -124,9 +124,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <a href="/addorder.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เปิด Order ใหม่</a>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -140,6 +138,7 @@
                                             <th>วันที่</th>
                                             <th>Order ID</th>
                                             <th>เลขใบเสนอราคา</th>
+                                            <th>เลขใบมัดจำสินค้า</th>
                                             <th>ชื่อลูกค้า</th>
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
@@ -156,6 +155,7 @@
                                             <td> 29 ก.ค. 2021 17:53 </td>
                                             <td> OR6400001</td>
                                             <td> QT6401052</td>
+                                            <td> AI6401001</td>
                                             <td> คุณพูนศักดิ์ </td>
                                             <td> 0999999999 </td>
                                             <td>
@@ -171,14 +171,6 @@
                                                 <span class="font-weight-bold"> 81,525.00 </span>
                                             </td>
                                             <td>
-                                            <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/tranActionConfirm.php?statement=268">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
-                                                    href="/tranActionConfirm.php?statement=268">
-                                                    <i class="i-Money-Bag font-weight-bold"></i>
-                                                </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
                                                     href="/orderViews.php?statement=268">
                                                     <i class="i-Car-Items font-weight-bold"></i>
