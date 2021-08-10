@@ -233,7 +233,7 @@ if ($rowS == '') {
                                                      </td>
                                                 <td>
 
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product.php?product_id=FP03100020">
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product_update.php?product_id=<?php echo$row["product_id"];?>">
                                                         <i class="i-Pen-2 font-weight-bold"></i>
                                                     </a>
                                                 </td>

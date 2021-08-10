@@ -43,6 +43,10 @@ if (($column=="")&&($keyword == "$keyword")) {
                OR bill_address LIKE'$keyword%' ";
     //    echo"$keywordx";
 }
+if (($column=="")&&($keyword == "")) {
+    $columx ="";
+    $keywordx ="";
+}
 if ($rowS == '') {
     $total_records_per_page = 10;
 } else {
