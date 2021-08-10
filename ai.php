@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Quotation | ใบเสนอราคา</title>
+    <title>Order | เสนอราคา</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -160,10 +160,12 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>รวมเป็นเงินทั้งสิ้น <span>10,617.00</span></p>
-                                                        <p>หัก ส่วนลด <span>00.00</span></p>
-                                                        <p>จำนวนเงินก่อนรวมภาษี <span>9,922.43</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>694.57</span></p>
+                                                        <p>รวมเป็นเงิน <span>49,135.75</span></p>
+                                                        <p>หักส่วนลด <span>00.00</span></p>
+                                                        <p>ยอดหลังหักส่วนลด <span>49,135.75</span></p>
+                                                        <p>หักเงินมัดจำ # <span>00.00</span></p>
+                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>49,135.75</span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>3,214.49</span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -176,8 +178,8 @@
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
-                                                                <p>รวมเป็นเงิน</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>10,617.00</span></h5>
+                                                                <p>ราคาสินค้า</p>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>45,921.26</span></h5>
                                                             </div>
                                                         </div>
                                                     </div>

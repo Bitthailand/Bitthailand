@@ -17,21 +17,21 @@ if ($action == 'add_type') {
     $sqlx = "SELECT * FROM product_type WHERE ptype_id='$ptype_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ข้อมูลประเภทสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
-            });
-        </script>
-        <?php    } else {
+<script>
+$(document).ready(function() {
+    showAlert("ข้อมูลประเภทสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
+});
+</script>
+<?php    } else {
         $sql = "INSERT INTO product_type (ptype_id,ptype_name)
                    VALUES ('$ptype_id','$ptype_name')";
         if ($conn->query($sql) === TRUE) {  ?>
-            <script>
-                $(document).ready(function() {
-                    showAlert("บันทึกประเภทสินค้ามูลสำเร็จ", "alert-success");
-                });
-            </script>
-        <?php   }
+<script>
+$(document).ready(function() {
+    showAlert("บันทึกประเภทสินค้ามูลสำเร็จ", "alert-success");
+});
+</script>
+<?php   }
     }
 }
 if ($action == 'add_unit') {
@@ -39,21 +39,21 @@ if ($action == 'add_unit') {
     $sqlx = "SELECT * FROM unit  WHERE unit_name='$unit_name' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ข้อมูลหน่วยนับซ้ำไม่สามารถบันทึกได้", "alert-danger");
-            });
-        </script>
-        <?php    } else {
+<script>
+$(document).ready(function() {
+    showAlert("ข้อมูลหน่วยนับซ้ำไม่สามารถบันทึกได้", "alert-danger");
+});
+</script>
+<?php    } else {
         $sql = "INSERT INTO unit (unit_name)
                    VALUES ('$unit_name')";
         if ($conn->query($sql) === TRUE) {  ?>
-            <script>
-                $(document).ready(function() {
-                    showAlert("บันทึกหน่วยนับสำเร็จ", "alert-success");
-                });
-            </script>
-        <?php   }
+<script>
+$(document).ready(function() {
+    showAlert("บันทึกหน่วยนับสำเร็จ", "alert-success");
+});
+</script>
+<?php   }
     }
 }
 
@@ -77,20 +77,20 @@ if ($action == 'add') {
     $sqlx = "SELECT * FROM product  WHERE product_id='$product_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ข้อมูลสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
-            });
-        </script>
-        <?php    } else {
+<script>
+$(document).ready(function() {
+    showAlert("ข้อมูลสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
+});
+</script>
+<?php    } else {
         $sql = "INSERT INTO product (product_id,ptype_id,product_name,width,size,dia_size,dia_count,units,unit_price,spacial,fac1_stock,fac2_stock,remarks,area,thickness )
                    VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$units','$unit_price','$spacial','$fac1_stock','$fac2_stock','$remarks','$area','$thickness')";
         if ($conn->query($sql) === TRUE) {  ?>
-            <script>
-                $(document).ready(function() {
-                    showAlert("บันทึกข้อมูลสินค้ามูลสำเร็จ", "alert-success");
-                });
-            </script>
+<script>
+$(document).ready(function() {
+    showAlert("บันทึกข้อมูลสินค้ามูลสำเร็จ", "alert-success");
+});
+</script>
 <?php   }
     }
 }
@@ -141,11 +141,11 @@ if ($action == 'add') {
                                             <label for="product_id"><strong>รหัสสินค้า <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_id" id="product_id" class="classcus form-control" placeholder="รหัสสินค้า" required>
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="product_id"><strong>ชื่อสินค้า <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" class="classcus form-control" placeholder="ชื่อสินค้า" required>
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="product_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
 
 
@@ -156,55 +156,52 @@ if ($action == 'add') {
                                                 if (mysqli_num_rows($result6) > 0) {
                                                     while ($row6 = mysqli_fetch_assoc($result6)) {
                                                 ?>
-                                                        <option value="<?php echo $row6['ptype_id'] ?>" <?php
+                                                <option value="<?php echo $row6['ptype_id'] ?>" <?php
                                                                                                         if (isset($row['ptype_id']) && ($row['ptype_id'] == $row6['id'])) {
                                                                                                             echo "selected"; ?>>
-                                                        <?php echo "$row6[ptype_name]";
+                                                    <?php echo "$row6[ptype_name]";
                                                                                                         } else {      ?>
-                                                        <option value="<?php echo $row6['ptype_id']; ?>"> <?php echo $row6['ptype_name'];  ?>
-                                                        <?php } ?>
-                                                        </option>
+                                                <option value="<?php echo $row6['ptype_id']; ?>"> <?php echo $row6['ptype_name'];  ?>
+                                                    <?php } ?>
+                                                </option>
                                                 <?php  }
                                                 }  ?>
 
                                             </select>
                                         </div>
-                                        <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalproducttype" style=" height: 33px; margin-top: 24px!important;">เพิ่มประเภทสินค้า</button>
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalproducttype"
+                                            style=" height: 33px; margin-top: 24px!important;">เพิ่มประเภทสินค้า</button>
                                     </div>
                                     <div class="form-row mt-3">
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-1">
                                             <label for="thickness"><strong>ความหนา <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
+                                            <input type="number" step="0.01" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-1">
                                             <label for="product_name"><strong>หน้ากว้าง <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="width" class="classcus form-control" placeholder="หน้ากว้าง" required>
+                                            <input type="number" step="0.01" name="width" class="classcus form-control" placeholder="หน้ากว้าง" required>
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว<span class="text-danger"></span></strong></label>
-                                            <input type="number" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="number" step="0.01" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
-                                        <div class="form-group col-md-2">
-                                            <label for="area"><strong>พื้นที่หน้าตัดเสาเข็มไอ <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="area" class="classcus form-control" placeholder="พื้นที่หน้าตัดเสาเข็มไอ" required>
+                                        <div class="form-group col-md-1">
+                                            <label for="area"><strong>พท.หน้าตัด <span class="text-danger"></span></strong></label>
+                                            <input type="number" step="0.01" name="area" class="classcus form-control" placeholder="พื้นที่หน้าตัดเสาเข็มไอ" required>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
                                             <input type="number" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
-                                    </div>
-
-
-                                    <div class="form-row mt-3">
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
                                             <input type="number" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-1">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
                                             <input type="number" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-1">
                                             <label for="unit"><strong>หน่วยนับ <span class="text-danger"></span></strong></label>
                                             <select class="classcus custom-select" name="units" id="unit" required>
                                                 <?php
@@ -213,44 +210,36 @@ if ($action == 'add') {
                                                 if (mysqli_num_rows($result6) > 0) {
                                                     while ($row6 = mysqli_fetch_assoc($result6)) {
                                                 ?>
-                                                        <option value="<?php echo $row6['id'] ?>" <?php if (isset($row['units']) && ($row['units'] == $row6['id'])) {
+                                                <option value="<?php echo $row6['id'] ?>" <?php if (isset($row['units']) && ($row['units'] == $row6['id'])) {
                                                                                                         echo "selected"; ?>>
-                                                        <?php echo "$row6[unit_name]";  } else {      ?>
-                                                        <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['unit_name'];  ?>
-                                                        <?php } ?>
-                                                        </option>
+                                                    <?php echo "$row6[unit_name]";  } else {      ?>
+                                                <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['unit_name'];  ?>
+                                                    <?php } ?>
+                                                </option>
                                                 <?php  }
                                                 }  ?>
-
                                             </select>
-
                                         </div>
-                                        <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modal2" style=" height: 33px; margin-top: 24px!important;">เพิ่มหน่วยนับ</button>
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modal2"
+                                            style=" height: 33px; margin-top: 24px!important;">เพิ่มหน่วยนับ</button>
                                         <div class="form-group col-md-4">
                                             <label for="tax_number"><strong>ข้อมูลพิเศษ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="spacial" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off">
                                         </div>
-
-                                    </div>
-
-                                    <div class="form-row mt-3">
                                         <div class="form-group col-md-4">
                                             <label for="delivery_address"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="remarks" class="classcus form-control" placeholder="หมายเหตุ">
                                         </div>
-
-
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-1" hidden>
                                             <label for="accAddressId"><strong>สต๊อกโรงงาน 1 <span class="text-danger"></span></strong></label>
                                             <input type="number" name="fac1_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-1" hidden>
                                             <label for="accAddressId"><strong>สต๊อกโรงงาน 2 <span class="text-danger"></span></strong></label>
                                             <input type="number" name="fac2_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
                                         </div>
-                                     </div>
+                                    </div>
                                     <hr>
-
                                     <div class="text-right">
                                         <input type="hidden" name="action" value="add">
                                         <button class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มสินค้า</button>
@@ -272,7 +261,8 @@ if ($action == 'add') {
             <div class="flex-grow-1"></div>
             <div class="app-footer">
                 <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
+                        target="_blank">Buy Gull HTML</a>
                     <span class="flex-grow-1"></span>
                     <div class="d-flex align-items-center">
                         <img class="logo" src="../../dist-assets/images/logo.png" alt="">
