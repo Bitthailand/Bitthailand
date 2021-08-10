@@ -1,5 +1,23 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
 
+
+$sql5 = "SELECT MAX(id) AS id_run FROM production_order ";
+$rs5 = $conn->query($sql5);
+$row_run = $rs5->fetch_assoc();
+
+$datetodat = date('Y-m-d');
+$date = explode(" ", $datetodat);
+$dat = datethai_po($date[0]);
+$code_new = $row_run['id_run'] + 1;
+$code = sprintf('%05d', $code_new);
+$po_id = $dat . $code;
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -12,6 +30,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
+    </style>
 </head>
 
 <body class="text-left">
@@ -38,7 +63,7 @@
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-2">
                                         <label for="production_id"><strong>รหัสสั่งผลิต <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="production_id" id="production_id" class="classcus form-control" placeholder="รหัสสั่งผลิต" required>
+                                        <input type="text" name="production_id" value="<?php echo "$po_id"; ?>" class="classcus form-control" placeholder="รหัสสั่งผลิต" required>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
@@ -84,8 +109,7 @@
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="concrete_cal" id="concrete_cal" class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
                                         </div>
-                                        <button class="btn btn-outline-primary ripple m-1" type="button"
-                                            style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
 
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
@@ -108,48 +132,34 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td> <strong>FP03100020</strong> </td>
-                                                            <td> เสารั้ว 3x3" </td>
-                                                            <td> - </td>
-                                                            <td> <strong>3"</strong> </td>
-                                                            <td> 1.00 </td>
-                                                            <td> - </td>
-                                                            <td> 5 </td>
-                                                            <td> - </td>
-                                                            <td> 2.21 </td>
-                                                            <td> - </td>
-                                                            <td> 120 </td>
-                                                            <td>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
-                                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                                </a>
-                                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
-                                                                    <i class="i-Close-Window font-weight-bold"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td> <strong>FP03145020</strong> </td>
-                                                            <td> เสารั้ว 3x3" </td>
-                                                            <td> - </td>
-                                                            <td> <strong>3"</strong> </td>
-                                                            <td> 1.45 </td>
-                                                            <td> - </td>
-                                                            <td> 5 </td>
-                                                            <td> - </td>
-                                                            <td> 2.59 </td>
-                                                            <td> - </td>
-                                                            <td> 90 </td>
-                                                            <td>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
-                                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                                </a>
-                                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
-                                                                    <i class="i-Close-Window font-weight-bold"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                        <?php
+                                                        $sql = "SELECT * FROM rub_deposit  where status='deposit' order by date_create  ASC ";
+                                                        $result = mysqli_query($conn, $sql);
+                                                        if (mysqli_num_rows($result) > 0) {
+                                                            while ($row1 = mysqli_fetch_assoc($result)) { ?>
+                                                                <tr>
+                                                                    <td> <strong>FP03100020</strong> </td>
+                                                                    <td> เสารั้ว 3x3" </td>
+                                                                    <td> - </td>
+                                                                    <td> <strong>3"</strong> </td>
+                                                                    <td> 1.00 </td>
+                                                                    <td> - </td>
+                                                                    <td> 5 </td>
+                                                                    <td> - </td>
+                                                                    <td> 2.21 </td>
+                                                                    <td> - </td>
+                                                                    <td> 120 </td>
+                                                                    <td>
+                                                                        <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
+                                                                            <i class="i-Pen-2 font-weight-bold"></i>
+                                                                        </a>
+                                                                        <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
+                                                                            <i class="i-Close-Window font-weight-bold"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                        <?php }
+                                                        } ?>
                                                         <tr>
                                                             <td colspan="14"> &nbsp;</td>
                                                         </tr>
@@ -195,6 +205,62 @@
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+
+    <!-- ============ Form Search End ============= -->
 </body>
+<form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
+<!-- ============ Modal End ============= -->
+<script>
+    /* ===== search start ===== */
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
+
+    function clickNav(page) {
+        modalLoad();
+
+        $("#FSPageId").val(page);
+        $("#FSButtonID").click();
+    }
+    $("#searchRowsId").on("change", function() {
+        modalLoad();
+
+        let row = $("#searchRowsId").val();
+        $("#FSRowId").val(row);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
+    });
+    $("#searchNameId").on("change", function() {
+        modalLoad();
+
+        let name = $("#searchNameId").val();
+        $("#FSKeywordId").val(name);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
+    });
+    /* ===== search end ===== */
+
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    });
+</script>
 
 </html>

@@ -1,5 +1,12 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
 
+error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -219,11 +226,11 @@
                                 <div class="col-auto">
                                     <div class="form-group">
                                         <label for="searchNameId"> ค้นหา</label>
-                                        <input id="searchNameId" class="form-control" placeholder="ใส่คำที่ต้องการค้นหา" type="text" value="">
+                                        <input id="myInput" class="form-control" placeholder="ใส่คำที่ต้องการค้นหา" type="text" value="">
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         <!-- ============ Table Start ============= -->
                         <div id="productionorder" class="table-responsive">
                             <table role="table" class="table table-hover text-nowrap table-sm">
@@ -235,19 +242,19 @@
                                         <th>ที่อยู่</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>CUS640800001</td>
+                                <tbody id="myTable">
+                                <tr data-toggle="modal" data-id="3" data-target="#orderModal">
+                                        <td> <a href="javascript:void(0);">CUS640800001</a></td>
                                         <td>คุณเวนิช พุ่มจันทร์</td>
                                         <td>ตำบลหนองเป็ด อำเภอเมือง จ.ยโสธร 35000</td>
                                     </tr>
-                                    <tr>
+                                    <tr data-toggle="modal" data-id="32" data-target="#orderModal">
 
                                         <td>CUS640800002</td>
                                         <td>กฤษณะ ยศวิปาน</td>
                                         <td>บ้านหนองค้า ต.หนองค้า อ.พยุห์ ศรีสะเกษ</td>
                                     </tr>
-                                    <tr>
+                                    <tr data-toggle="modal" data-id="4" data-target="#orderModal">
                                         <td>CUS640800003</td>
                                         <td>ภัทราวดี คำบ่อ</td>
                                         <td>บ้านหนองช้าง ต.หนองขอน จ.อุบล</td>
@@ -276,5 +283,34 @@
         <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
         <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
-
+<script>
+    $(function(){
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show:false,
+        
+    }).on('show', function(){
+          var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow  + '</b>'))
+    });
+    
+    $(".table-striped").find('tr[data-target]').on('click', function(){
+        //or do your operations here instead of on show of modal to populate values to modal.
+         $('#orderModal').data('orderid',$(this).data('id'));
+    });
+    
+});
+</script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 </html>
