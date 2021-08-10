@@ -83,8 +83,8 @@ $(document).ready(function() {
 });
 </script>
 <?php    } else {
-        $sql = "INSERT INTO product (product_id,ptype_id,product_name,width,size,dia_size,dia_count,units,unit_price,spacial,fac1_stock,fac2_stock,remarks,area,thickness )
-                   VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$units','$unit_price','$spacial','$fac1_stock','$fac2_stock','$remarks','$area','$thickness')";
+        $sql = "INSERT INTO product (product_id,ptype_id,product_name,width,size,dia_size,dia_count,units,unit_price,spacial,remarks,area,thickness )
+                   VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$units','$unit_price','$spacial','$remarks','$area','$thickness')";
         if ($conn->query($sql) === TRUE) {  ?>
 <script>
 $(document).ready(function() {
@@ -175,31 +175,31 @@ $(document).ready(function() {
                                     <div class="form-row mt-3">
                                         <div class="form-group col-md-1">
                                             <label for="thickness"><strong>ความหนา <span class="text-danger"></span></strong></label>
-                                            <input type="number" step="0.01" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
+                                            <input type="text" step="0.01" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>หน้ากว้าง <span class="text-danger"></span></strong></label>
-                                            <input type="number" step="0.01" name="width" class="classcus form-control" placeholder="หน้ากว้าง" required>
+                                            <input type="text" step="0.01" name="width" class="classcus form-control" placeholder="หน้ากว้าง" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว<span class="text-danger"></span></strong></label>
-                                            <input type="number" step="0.01" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="text" step="0.01" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="area"><strong>พท.หน้าตัด <span class="text-danger"></span></strong></label>
-                                            <input type="number" step="0.01" name="area" class="classcus form-control" placeholder="พื้นที่หน้าตัดเสาเข็มไอ" required>
+                                            <input type="text" step="0.01" name="area" class="classcus form-control" placeholder="พื้นที่หน้าตัดเสาเข็มไอ" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
+                                            <input type="text" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
+                                            <input type="text" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
+                                            <input type="text" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="unit"><strong>หน่วยนับ <span class="text-danger"></span></strong></label>
@@ -230,14 +230,7 @@ $(document).ready(function() {
                                             <label for="delivery_address"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="remarks" class="classcus form-control" placeholder="หมายเหตุ">
                                         </div>
-                                        <div class="form-group col-md-1" hidden>
-                                            <label for="accAddressId"><strong>สต๊อกโรงงาน 1 <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="fac1_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
-                                        </div>
-                                        <div class="form-group col-md-1" hidden>
-                                            <label for="accAddressId"><strong>สต๊อกโรงงาน 2 <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="fac2_stock" class="classcus form-control" placeholder="สต๊อกโรงงาน 1" required="">
-                                        </div>
+                                       
                                     </div>
                                     <hr>
                                     <div class="text-right">
