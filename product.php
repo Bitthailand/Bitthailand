@@ -175,31 +175,31 @@ $(document).ready(function() {
                                     <div class="form-row mt-3">
                                         <div class="form-group col-md-1">
                                             <label for="thickness"><strong>ความหนา <span class="text-danger"></span></strong></label>
-                                            <input type="text" step="0.01" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
+                                            <input type="number" step="0.01" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>หน้ากว้าง <span class="text-danger"></span></strong></label>
-                                            <input type="text" step="0.01" name="width" class="classcus form-control" placeholder="หน้ากว้าง" required>
+                                            <input type="number" step="0.01" name="width" class="classcus form-control" placeholder="หน้ากว้าง" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>ความยาว<span class="text-danger"></span></strong></label>
-                                            <input type="text" step="0.01" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="number" step="0.01" name="size" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="area"><strong>พท.หน้าตัด <span class="text-danger"></span></strong></label>
-                                            <input type="text" step="0.01" name="area" class="classcus form-control" placeholder="พื้นที่หน้าตัดเสาเข็มไอ" required>
+                                            <input type="number" step="0.01" name="area" class="classcus form-control" placeholder="พื้นที่หน้าตัดเสาเข็มไอ" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
+                                            <input type="number" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
+                                            <input type="number" name="dia_count" class="classcus form-control" placeholder="จำนวนเส้นลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
+                                            <input type="number" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="unit"><strong>หน่วยนับ <span class="text-danger"></span></strong></label>
