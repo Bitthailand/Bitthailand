@@ -16,9 +16,10 @@ $(function() {
 
         $.get('get_product.php?ptype_id=' + t[0] + '&width=' + t[1], function(data) {
             var result = JSON.parse(data);
+            console.log('re', result)
             $.each(result, function(index, item) {
                 productxObject.append(
-                    $('<option></option>').val(item.product_id).html(item.product_name)
+                    $('<option></option>').val(item.product_id).html(item.product_name + 'ยาว ', item.width)
                 );
             });
         });
