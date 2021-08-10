@@ -37,56 +37,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- ============ Tab Menu ============= -->
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/quotationlist.php">
-                                    <h3 class="h5 font-weight-bold"> Order เสนอราคา
-                                        <span class="badge badge-pill badge-danger">1</span>
-                                    </h3>
-                                    <span>รายการ Order ที่อยู่ระหว่างการเสนอราคา
-                                        <span class="badge badge-warning"> Wait </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/ailist.php">
-                                    <h3 class="h5 font-weight-bold"> Order มัดจำ
-                                        <span class="badge badge-pill badge-danger">1</span>
-                                    </h3>
-                                    <span>Order ที่มัดจำเรียบร้อย
-                                        <span class="badge badge-warning"> Wait </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/tranW.php">
-                                    <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                        <span class="badge badge-pill badge-danger">1</span>
-                                    </h3>
-                                    <span>Order ชำระเงินเรียบร้อย
-                                        <span class="badge badge-warning"> Wait </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/tranDW.php">
-                                    <h3 class="h5 font-weight-bold"> Order สำเร็จ</h3>
-                                    <span>Order ที่ส่งสินค้าเรียบร้อย
-                                        <span class="badge badge-success"> Pass </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/tranDWLog.php">
-                                    <h3 class="h5 font-weight-bold"> Order Log </h3>
-                                    <span> รายการ Order ทั้งหมด
-                                        <span class="badge badge-light"> Log </span>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- ============ End Tab Menu ============= -->
+
                         <div class="tab-content">
                             <div class="card">
                                 <div class="tab-content" id="myTabContent">

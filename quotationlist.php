@@ -172,19 +172,19 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/quotation.php?quotation_id=QT6401052">
+                                                    href="/quotation.php?quotation_id=QT6401052" target="_blank">
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
-                                                    href="/ai.php?ai_id=AI6401052">
+                                                    href="/ai.php?ai_id=AI6401052" target="_blank">
                                                     <i class="i-Money-Bag font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/saleorder.php?saleorder_id=268">
+                                                    href="/saleorder.php?saleorder_id=268" target="_blank">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)"
-                                                    href="/hs.php?hs_id=268">
+                                                    href="/hs.php?hs_id=268" target="_blank">
                                                     <i class="i-Files font-weight-bold"></i>
                                                 </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
