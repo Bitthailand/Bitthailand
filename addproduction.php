@@ -18,6 +18,8 @@ $dat = datethai_po($date[0]);
 $code_new = $row_run['id_run'] + 1;
 $code = sprintf('%05d', $code_new);
 $po_id = $dat . $code;
+$sql = "SELECT * FROM plant";
+$query = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -30,6 +32,7 @@ $po_id = $dat . $code;
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    
     <style>
         .table-sm th,
         .table-sm td {
@@ -79,15 +82,19 @@ $po_id = $dat . $code;
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="plant"><strong>แพที่ผลิต <span class="text-danger"></span></strong></label>
-                                        <select class="classcus custom-select" name="plant" id="plant" required>
-                                            <option value="0">เลือก</option>
-                                            <option value="1">1 โรงงาน 1</option>
-                                            <option value="2">2 โรงงาน 1</option>
-                                            <option value="3">3 โรงงาน 1</option>
-                                            <option value="4">4 โรงงาน 1</option>
-                                            <option value="5">5 โรงงาน 1</option>
-                                            <option value="6">6 โรงงาน 1</option>
-                                        </select>
+                                      
+
+
+                                        <select name="plant" id="plant" class="classcus custom-select " required>
+                                                <option value="">เลือกแพ</option>
+                                                <?php while ($result = mysqli_fetch_assoc($query)) : ?>
+                                                <option value="<?= $result['ptype_id'] ?>|<?= $result['width'] ?>">แพที่<?= $result['plant_id'] ?>-<?= $result['factory'] ?></option>
+                                                <?php endwhile; ?>
+                                            </select>
+
+                                            <select name="productx" id="productx" class="classcus custom-select" required>
+                                                <option value="">เลือกสินค้าผลิต</option>
+                                            </select>
                                     </div>
                                     <div class="row mt-12">
                                         <div class="form-group col-md-4">
@@ -97,6 +104,7 @@ $po_id = $dat . $code;
                                                 <option value="FP03145020">เสารั้ว 3x3" ยาว 1.45 ขนาดลวด 4 จำนวน 2 เส้น</option>
                                             </select>
                                         </div>
+                                      
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
@@ -133,13 +141,20 @@ $po_id = $dat . $code;
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $sql = "SELECT * FROM rub_deposit  where status='deposit' order by date_create  ASC ";
+                                                        $sql = "SELECT * FROM production_detail  where po_id='$po_id' order by date_create  ASC ";
                                                         $result = mysqli_query($conn, $sql);
                                                         if (mysqli_num_rows($result) > 0) {
                                                             while ($row1 = mysqli_fetch_assoc($result)) { ?>
                                                                 <tr>
-                                                                    <td> <strong>FP03100020</strong> </td>
-                                                                    <td> เสารั้ว 3x3" </td>
+                                                                    <td> <strong><?php echo $row['product_id']; ?></strong> </td>
+                                                                    <td>
+                                                                        <?php
+                                                                        $sql3 = "SELECT * FROM product  WHERE id= '$row[product_id]'";
+                                                                        $rs3 = $conn->query($sql3);
+                                                                        $row3 = $rs3->fetch_assoc();
+                                                                        echo $row3['product_name'];
+
+                                                                        ?></td>
                                                                     <td> - </td>
                                                                     <td> <strong>3"</strong> </td>
                                                                     <td> 1.00 </td>
@@ -205,7 +220,8 @@ $po_id = $dat . $code;
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+    <script src="../../dist-assets/js/jquery.min.js"></script>
+    <script src="../../dist-assets/js/script_face.js"></script>
 
     <!-- ============ Form Search End ============= -->
 </body>
