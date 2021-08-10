@@ -176,15 +176,15 @@
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
-                                                    href="/tranActionConfirm.php?statement=268">
+                                                    href="/ai.php?ai_id=AI6401052">
                                                     <i class="i-Money-Bag font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/orderViews.php?statement=268">
+                                                    href="/saleorder.php?saleorder_id=268">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)"
-                                                    href="/orderViews.php?statement=268">
+                                                    href="/hs.php?hs_id=268">
                                                     <i class="i-Files font-weight-bold"></i>
                                                 </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"

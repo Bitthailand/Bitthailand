@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Quotation | ใบเสนอราคา</title>
+    <title>HS | ใบเสร็จรับเงิน</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -92,7 +92,7 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบเสนอราคา</button>
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบเสร็จรับเงิน</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
@@ -100,10 +100,11 @@
                                                 <div class="col-md-6">
                                                     <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
                                                     <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
+                                                    <p>โทร 061-4362825</p>
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
-                                                    <h4 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h4>
+                                                    <h4 class="font-weight-bold">ใบเสร็จรับเงิน/ใบกำกับภาษี</h4>
                                                 </div>
                                             </div>
                                             <div class="mt-3 mb-4 border-top"></div>
@@ -111,19 +112,21 @@
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
                                                     <p><strong>ชื่อลูกค้า : </strong>คุณ มนต์ชัย สุขเกษม</p>
+                                                    <p><strong>บริษัท : </strong>หจก. ปอณรัตน์พานิชย์</p>
                                                     <p><strong>ที่อยู่ : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
+                                                    <p>เลขที่ประจำตัวผู้เสียภาษี 0345498300908 สำนักงานใหญ่</p>
                                                     <p><strong>โทร : </strong> 093-6954224</p>
                                                     <p><strong>อ้างอิง : </strong></p>
-                                                    <p>บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
+                                                    <p>ขนส่งโดย : </p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ใบเสนอราคา <span>QT6401061</span></p>
-                                                        <p>ลำดับการสั่งซื้อ <span>OR6400024</span></p>
+                                                        <p>เลขที่ใบเสนอราคา <span>HS6401477</span></p>
                                                         <p>วันที่ <span>31-ก.ค.-64</span></p>
-                                                        <p>ยืนราคา : 0 วัน <span>ถึงวันที่ 05/07/64</span></p>
-                                                        <p>เงื่อนไขการชำระเงิน : <span>เงินสด</span></p>
+                                                        <p>ลำดับการสั่งซื้อ <span>OR6400024</span></p>
+                                                        <p>พนักงานขาย <span>-</span></p>
+                                                        <p>เขตการขาย <span>-</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -133,10 +136,10 @@
                                                         <thead class="bg-gray-300">
                                                             <tr>
                                                                 <th scope="col" class="text-center">No.</th>
-                                                                <th scope="col"class="text-center">รหัสสินค้า/รายละเอียด</th>
-                                                                <th scope="col"class="text-center">จำนวน</th>
-                                                                <th scope="col"class="text-center">หน่วยละ</th>
-                                                                <th scope="col"class="text-center">ราคารวมภาษี</th>
+                                                                <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
+                                                                <th scope="col" class="text-center">จำนวน</th>
+                                                                <th scope="col" class="text-center">หน่วยละ</th>
+                                                                <th scope="col" class="text-center">ราคารวมภาษี</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -159,10 +162,12 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>รวมเป็นเงินทั้งสิ้น <span>10,617.00</span></p>
+                                                        <p>รวมเป็นเงิน <span>10,617.00</span></p>
                                                         <p>หัก ส่วนลด <span>00.00</span></p>
-                                                        <p>จำนวนเงินก่อนรวมภาษี <span>9,922.43</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>694.57</span></p>
+                                                        <p>ยอดหลังหักส่วนลด <span>10,617.00</span></p>
+                                                        <p>หักเงินมัดจำ #AI6408006 <span>3,500.00</span></p>
+                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>7,117.00</span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>465.60</span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -175,8 +180,8 @@
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
-                                                                <p>รวมเป็นเงิน</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>10,617.00</span></h5>
+                                                                <p>ราคาสินค้า</p>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>6,651.40</span></h5>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -185,36 +190,22 @@
                                             <div class="mt-3 mb-4 border-top"></div>
                                             <div class="col-md-12">
                                                 <div class="col-md-12 mb-3 mb-sm-0">
-                                                    <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
-                                                    <p>1.มัดจำไม่น้อยกว่า 30% ขอมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง ก่อนลงสินค้า </p>
-                                                    <p>2.ผู้ซื้อเป็นผู้จัดเตรียมถนนชั่วคราว/สถานที่ ให้รถส่งสินค้าเข้าถึงจุดส่งสินค้า หรือ จะลงสินค้าเท่าที่รถสามารถเข้าได้ </p>
-                                                    <p>3.ขอสงวนสิทธิ์ในการลงสอนค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
-                                                    <p>4.สอนค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทขอเก็บค่าดูแลสินค้า 5%
-                                                        ต่อเดือนของมูลค่าสินค้า </p>
-                                                    <p>5.การสั่งสินค้า/ซื้อสินค้าแล้ว ทางบริษัทไม่รับคืนสินค้า </p>
-                                                    <p>6.กรณีผู้ซื้อตรวจรับสอนค้าจำนวนถูกต้องและสภาพเรียบร้อย บริษัทไม่รับผิดชอบหลังการตรวจรับแล้ว </p>
-                                                    <br>
-                                                    <h5 class="font-weight-bold">วิธีการชำระเงิน</h5>
-                                                    <p>ชื่อบัญชี : บจก.วันเอ็ม ชื่อธนาคาร/เลขที่บัญชี : ธนาคารกสิกรไทย ออกทรัพย์ สาขาสินีย์ทาวเวอร์ เลขที่บัญชี 685-2-29088-7 </p>
+                                                    <p>ได้รับสินค้าตามรายการข้างบนนี้ไว้ถูกต้อง และอยู่ในสภาพเรียบร้อยทุกประการ </p>
                                                 </div>
-                                                <div class="mt-3 mb-4 border-top"></div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row">
-                                                    <div class="col-md-4 text-center">
-                                                        <p> ____________________</p>
+                                                    <div class="col-md-6">
+                                                        <p></p>
                                                         <br>
-                                                        <p>ผู้อนุมัติ<span></span></p>
+                                                        <p><span></span></p>
                                                         <br>
-                                                        <p>วันที่ ________/__________/__________ <span></span></p>
+                                                        <p>ผู้รับสินค้า/ผู้จ่ายเงิน  __________________________ <span></span></p>
                                                     </div>
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-5 text-center">
+                                                    <div class="col-md-6 text-center">
                                                         <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
                                                         <br>
-                                                        <p>ผู้รับมอบอำนวจ ____________________ <span></span></p>
-                                                        <br>
-                                                        <p>วันที่ ________/__________/__________ <span></span></p>
+                                                        <p>ผู้รับเงิน____________________ ผู้รับมอบอำนวจ _____________________ <span></span></p>
                                                     </div>
                                                 </div>
                                             </div>
