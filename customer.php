@@ -24,6 +24,8 @@ $action= $_REQUEST['action'];
 if ($action == 'add') {
     $customer_id = $_REQUEST['customer_id'];  
     $customer_name= $_REQUEST['customer_name']; 
+    $customer_type= $_REQUEST['customer_type']; 
+    
     $company_name = $_REQUEST['company_name'];   
     $bill_address= $_REQUEST['bill_address'];  
     $subdistrict = $_REQUEST['subdistrict'];
@@ -42,8 +44,8 @@ $(document).ready(function() {
 });
 </script>
 <?php    } else { 
-                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name)
-                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name')";                 
+                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type)
+                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type')";                 
                     if ($conn->query($sql) === TRUE) {  ?>
 <script>
 $(document).ready(function() {
@@ -102,9 +104,25 @@ $(document).ready(function() {
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="customer_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
-                                            <select class="classcus custom-select" name="customer_type" id="customer_type" required>
-                                                <option value="เงินสด">เงินสด</option>
-                                                <option value="เครดิต">เครดิต</option>
+                                           
+                                            <select class="classcus custom-select" name="customer_type" id="type_id" required>
+                                                <?php
+                                                $sql6 = "SELECT *  FROM  customer_type  order by id DESC ";
+                                                $result6 = mysqli_query($conn, $sql6);
+                                                if (mysqli_num_rows($result6) > 0) {
+                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                ?>
+                                                <option value="<?php echo $row6['id'] ?>" <?php
+                                                                                                        if (isset($row['customer_type']) && ($row['customer_type'] == $row6['id'])) {
+                                                                                                            echo "selected"; ?>>
+                                                    <?php echo "$row6[name]";
+                                                                                                        } else {      ?>
+                                                <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
+                                                    <?php } ?>
+                                                </option>
+                                                <?php  }
+                                                }  ?>
+
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">

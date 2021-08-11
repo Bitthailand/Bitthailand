@@ -18,6 +18,7 @@ if ($action == 'edit') {
     $customer_name = $_REQUEST['customer_name'];
     $company_name = $_REQUEST['company_name'];
     $bill_address = $_REQUEST['bill_address'];
+    $customer_type=$_REQUEST['customer_type'];
     $chk = $_REQUEST['chk'];
     if($chk=='1'){
         $subdistrict = $_REQUEST['subdistrict'];
@@ -28,7 +29,7 @@ if ($action == 'edit') {
     $tel = $_REQUEST['tel'];
     $tax_number = $_REQUEST['tax_number'];
     $contact_name = $_REQUEST['contact_name'];
-    $sql = "UPDATE customer  SET customer_name='$customer_name',company_name='$company_name',bill_address='$bill_address',tel='$tel',tax_number='$tax_number',contact_name='$contact_name'  where customer_id='$edit_id'";
+    $sql = "UPDATE customer  SET customer_name='$customer_name',company_name='$company_name',bill_address='$bill_address',tel='$tel',tax_number='$tax_number',contact_name='$contact_name',customer_type='$customer_type'  where customer_id='$edit_id'";
     if($chk=='1'){
         $sql = "UPDATE customer  SET subdistrict='$subdistrict',district='$district',province='$province' where customer_id='$edit_id'";   
     }
@@ -87,11 +88,33 @@ if ($action == 'edit') {
                                     </div>
                                     <div class="form-row mt-3">
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="accNameId"><strong>รหัสลูกค้า <span class="text-danger">*</span></strong></label>
                                             <input type="text" name="customer_id" value="<?php echo $row['customer_id']; ?>" class="classcus form-control" disabled>
                                         </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="customer_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
+                                           
+                                            <select class="classcus custom-select" name="customer_type" id="type_id" required>
+                                                <?php
+                                                $sql6 = "SELECT *  FROM  customer_type  order by id DESC ";
+                                                $result6 = mysqli_query($conn, $sql6);
+                                                if (mysqli_num_rows($result6) > 0) {
+                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                ?>
+                                                <option value="<?php echo $row6['id'] ?>" <?php
+                                                                                                        if (isset($row['customer_type']) && ($row['customer_type'] == $row6['id'])) {
+                                                                                                            echo "selected"; ?>>
+                                                    <?php echo "$row6[name]";
+                                                                                                        } else {      ?>
+                                                <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
+                                                    <?php } ?>
+                                                </option>
+                                                <?php  }
+                                                }  ?>
 
+                                            </select>
+                                        </div>
                                         <div class="form-group col-md-4">
                                             <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger">*</span></strong></label>
                                             <input type="text" name="customer_name" id="customer_name" value="<?php echo $row['customer_name']; ?>" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>

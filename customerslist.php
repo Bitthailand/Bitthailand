@@ -152,6 +152,7 @@ if ($rowS == '') {
                                     <thead>
                                         <tr>
                                             <th>customer ID</th>
+                                            <th>ประเภทลูกค้า</th>
                                             <th>ชื่อลูกค้า</th>
                                             <th>บริษัท</th>
                                             <th>ที่อยู่</th>
@@ -189,6 +190,14 @@ if ($rowS == '') {
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                         <tr>
                                             <td><?php echo $row['customer_id']; ?></td>
+                                            <td><?php
+                                                    $sql2 = "SELECT * FROM customer_type   WHERE id= '$row[customer_type]'";
+                                                    $rs2 = $conn->query($sql2);
+                                                    $row2 = $rs2->fetch_assoc();
+                                                    echo $row2['name'];
+
+                                                    ?>
+                                            </td>
                                             <td><?php echo $row['customer_name']; ?></td>
                                             <td><?php echo $row['company_name']; ?></td>
                                             <td><?php echo $row['bill_address']; ?></td>
