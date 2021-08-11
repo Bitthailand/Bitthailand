@@ -51,25 +51,28 @@ error_reporting(0);
                                         style=" height: 33px; margin-top: 24px!important;">เลือกลูกค้า</button>
                                     <a class="btn btn-outline-primary m-1" href="/customer.php" type="button" style=" height: 33px; margin-top: 24px!important;">เพิ่มลูกค้าใหม่</a>
                                     <div class="form-group col-md-1">
-                                            <label for="customer_type"><strong>ประเภทลูกค้า <span class="text-danger"></span></strong></label>
-                                            <select class="classcus custom-select" name="customer_type" id="customer_type" required>
-                                                <option value="เงินสด">เงินสด</option>
-                                                <option value="เครดิต">เครดิต</option>
-                                            </select>
-                                        </div>
+                                        <label for="customer_type"><strong>รับสินค้า <span class="text-danger"></span></strong></label>
+                                        <select class="classcus custom-select" name="customer_type" id="customer_type" required>
+                                            <option value="เงินสด">รับกลับเอง</option>
+                                            <option value="เครดิต">บริษัทส่งให้</option>
+                                        </select>
+                                    </div>
                                     <div class="form-group col-md-2">
-                                        <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger">*</span></strong></label>
+                                        <label for="accNameId"><strong>ประเภทลูกค้า <span class="text-danger"></span></strong></label>
+                                        <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ประเภทลูกค้า" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger"></span></strong></label>
                                         <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <label for="phone"><strong>เบอร์โทร <span class="text-danger">*</span></strong></label>
+                                        <label for="phone"><strong>เบอร์โทร <span class="text-danger"></span></strong></label>
                                         <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
+                                    <div class="form-group col-md-12">
+                                        <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger"></span></strong></label>
                                         <input type="text" name="address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
                                     </div>
-
                                     <div class="row mt-12">
                                         <div class="form-group col-md-2">
                                             <label for="product_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
@@ -83,7 +86,7 @@ error_reporting(0);
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
+                                            <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger"></span></strong></label>
                                             <select class="classcus custom-select" name="product" id="product" required>
                                                 <option value="FP03100020">เสารั้ว 3x3" ยาว 1.00 ขนาดลวด 4 จำนวน 2 เส้น </option>
                                                 <option value="FP03145020">เสารั้ว 3x3" ยาว 1.45 ขนาดลวด 4 จำนวน 2 เส้น</option>
@@ -161,7 +164,6 @@ error_reporting(0);
                                         </div>
                                         <!-- ============ Table End ============= -->
                                     </div>
-
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
                                             <label for="delivery_date">กำหนดส่งสินค้า</label>
@@ -169,7 +171,7 @@ error_reporting(0);
                                         </div>
                                     </div>
                                     <div class="form-group col-md-8">
-                                        <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger">*</span></strong></label>
+                                        <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
                                         <input type="text" name="delivery_Address" class="classcus form-control" id="delivery_Address" placeholder="ที่อยู่" required="">
                                     </div>
                                     <div class="form-group col-md-1">
@@ -185,9 +187,7 @@ error_reporting(0);
                                         <input type="text" name="discount" id="discount" class="classcus form-control" placeholder="ส่วนลด" required>
                                     </div>
                                 </div>
-
                                 <hr>
-
                                 <div class="text-right">
                                     <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                     <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
@@ -230,7 +230,7 @@ error_reporting(0);
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <!-- ============ Table Start ============= -->
                         <div id="productionorder" class="table-responsive">
                             <table role="table" class="table table-hover text-nowrap table-sm">
@@ -243,7 +243,7 @@ error_reporting(0);
                                     </tr>
                                 </thead>
                                 <tbody id="myTable">
-                                <tr data-toggle="modal" data-id="3" data-target="#orderModal">
+                                    <tr data-toggle="modal" data-id="3" data-target="#orderModal">
                                         <td> <a href="javascript:void(0);">CUS640800001</a></td>
                                         <td>คุณเวนิช พุ่มจันทร์</td>
                                         <td>ตำบลหนองเป็ด อำเภอเมือง จ.ยโสธร 35000</td>
@@ -284,33 +284,34 @@ error_reporting(0);
         <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
 <script>
-    $(function(){
+$(function() {
     $('#orderModal').modal({
         keyboard: true,
         backdrop: "static",
-        show:false,
-        
-    }).on('show', function(){
-          var getIdFromRow = $(this).data('orderid');
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
         //make your ajax call populate items or what even you need
-        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow  + '</b>'))
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
     });
-    
-    $(".table-striped").find('tr[data-target]').on('click', function(){
+
+    $(".table-striped").find('tr[data-target]').on('click', function() {
         //or do your operations here instead of on show of modal to populate values to modal.
-         $('#orderModal').data('orderid',$(this).data('id'));
+        $('#orderModal').data('orderid', $(this).data('id'));
     });
-    
+
 });
 </script>
 <script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+$(document).ready(function() {
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
     });
-  });
 });
 </script>
+
 </html>
