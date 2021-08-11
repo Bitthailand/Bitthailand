@@ -31,38 +31,54 @@ if ($action == 'add_po') {
     $po_id = $_REQUEST['po_idd1'];
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
-
-    echo "$product_id";
-    echo "$qty";
-    echo "$po_id";
-    echo "$sqm";
-    echo "$concrete_cal";
-    echo "$action";
+    $plant = $_REQUEST['plant'];
+    // echo "$product_id";
+    // echo "$qty";
+    // echo "$po_id";
+    // echo "$sqm";
+    // echo "$concrete_cal";
+    $plant_id = explode("|", $plant);
+    // echo "$plant_id[0]";
     // $delivery_address=$_REQUEST['delivery_address'];
     $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_id' AND product_id='$product_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
         <script>
             $(document).ready(function() {
-                showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
+                showAlert("ข้อมูลรายการสินค้าผลิตซ้ำไม่สามารถบันทึกได้", "alert-danger");
             });
         </script>
         <?php    } else {
-        $sql = "INSERT INTO production_detail (po_id,product_id)
-                                       VALUES ('$po_id','$product_id')";
+        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id)
+                                       VALUES ('$po_id','$product_id','$qty','$sqm','$plant_id[0]')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
                     showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
                 });
             </script>
-<?php   }
+        <?php   }
     }
 }
 
+if ($action == 'edit') {
+    $edit_id = $_REQUEST['edit_id'];
+    $qty = $_REQUEST['qty'];
+    $sqm = $_REQUEST['sqm'];
+    $concrete_cal = $_REQUEST['concrete_cal'];
 
+    $sql = "UPDATE production_detail    SET qty='$qty',sqm='$sqm',concrete_cal='$concrete_cal'  where id='$edit_id'";
 
+    if ($conn->query($sql) === TRUE) {  ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("แก้ไขข้อมูลผลิตสินค้าสำเร็จ", "alert-success");
+            });
+        </script>
+<?php   }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -155,11 +171,12 @@ if ($action == 'add_po') {
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
+                                           
                                             <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="concrete_cal" id="concrete_cal" class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
+                                            <input type="text" name="concrete_cal" id="concrete_cal" <?php echo "$po_id"; ?> class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
                                         </div>
                                         <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
                                         <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
@@ -200,19 +217,21 @@ if ($action == 'add_po') {
                                                                         echo $row3['product_name'];
 
                                                                         ?></td>
-                                                                    <td> - </td>
-                                                                    <td> <strong>3"</strong> </td>
-                                                                    <td> 1.00 </td>
-                                                                    <td> - </td>
-                                                                    <td> 5 </td>
-                                                                    <td> - </td>
-                                                                    <td> 2.21 </td>
-                                                                    <td> - </td>
-                                                                    <td> 120 </td>
+                                                                    <td> <?php echo $row3['thickness']; ?></td>
+                                                                    <td> <strong><?php echo $row3['width']; ?></strong> </td>
+                                                                    <td><?php echo $row3['size']; ?></td>
+                                                                    <td><?php echo $row3['area']; ?></td>
+                                                                    <td> <?php echo $row3['dia_size']; ?></td>
+                                                                    <td> <?php echo $row3['dia_count']; ?> </td>
+                                                                    <td> <?php echo $row3['size']; ?></td>
+                                                                    <td> <?php echo $row['sqm']; ?> </td>
+                                                                    <td><?php echo $row['qty']; ?></td>
                                                                     <td>
-                                                                        <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
-                                                                            <i class="i-Pen-2 font-weight-bold"></i>
-                                                                        </a>
+                                                                        <?php echo $row['po_id']; ?>
+                                                                        <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+
+
+
                                                                         <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
                                                                             <i class="i-Close-Window font-weight-bold"></i>
                                                                         </a>
@@ -278,6 +297,7 @@ if ($action == 'add_po') {
     <input type="text" id="FSsqm" name="sqm" value="<?php echo $sqm; ?>" placeholder="">
     <input type="text" id="FSpo_date" name="po_date" value="<?php echo $po_date; ?>" placeholder="">
     <input type="text" id="FSpo_enddate" name="po_enddate" value="<?php echo $po_enddate; ?>" placeholder="">
+    <input type="text" id="FSplant" name="plant" value="<?php echo $po_enddate; ?>" placeholder="">
     <input type="text" name="action" value="add_po">
     <input type="hidden" id="FSpo_id" name="po_idd1" value="<?php echo "$po_id"; ?>">
     <button class="btn" id="FSButtonID" type="submit"></button>
@@ -301,6 +321,24 @@ if ($action == 'add_po') {
         </div>
     </div>
 </div>
+<div class="modal fade" id="Modaledit" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                    แก้ไขข้อมูลสินค้าผลิต</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="dynamic-content"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- modal_end -->
 <script>
     /* ===== search start ===== */
     function modalLoad() {
@@ -316,7 +354,16 @@ if ($action == 'add_po') {
         $("#FSPageId").val(page);
         $("#FSButtonID").click();
     }
+    $("#qty").on("change", function() {
+    modalLoad();
 
+    let qty = $("#qty").val();
+    let po_id = $("#po_id").val();
+    $("#FSqtyx").val(qty);
+    $("#FSqtyx").val(po_id );
+    $("#FSButtonID").click();
+
+});
     $("#btu").click("change", function() {
         modalLoad();
 
@@ -327,6 +374,7 @@ if ($action == 'add_po') {
         let concrete_cal = $("#concrete_cal").val();
         let po_date = $("#po_date").val();
         let po_enddate = $("#po_enddate").val();
+        let plant = $("#plant").val();
         console.log('xxx', name)
         $("#FSqty").val(name);
         $("#FSproductx").val(column);
@@ -335,6 +383,7 @@ if ($action == 'add_po') {
         $("#FSconcrete_cal").val(concrete_cal);
         $("#FSpo_date").val(po_date);
         $("#FSpo_enddate").val(po_enddate);
+        $("#FSplant").val(plant);
         $("#FSButtonID").click();
 
     });
@@ -345,6 +394,39 @@ if ($action == 'add_po') {
         $("#ModalLoadId").modal({
             backdrop: 'static',
             'keyboard': false,
+        });
+    });
+
+    $(document).ready(function() {
+
+        $(document).on('click', '#edit_po', function(e) {
+
+            e.preventDefault();
+
+            var uid = $(this).data('id'); // get id of clicked row
+            console.log('xxxc', uid)
+            $('#dynamic-content').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
+
+            $.ajax({
+                    url: 'addproduction_edit.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content').html(''); // blank before load.
+                    $('#dynamic-content').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
+
         });
     });
 </script>

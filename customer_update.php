@@ -116,8 +116,6 @@ if ($action == 'edit') {
                                             <label for="referral"><strong>บุคคลอ้างอิง <span class="text-danger"></span></strong></label>
                                             <input type="text" name="contact_name" id="contact_name" value="<?php echo $row['contact_name']; ?>" class="classcus form-control" placeholder="บุคคลอ้างอิง" autocomplete="off">
                                         </div>
-
-
                                         <div class="form-group col-md-12">
                                             <?php
                                             $sql5 = "SELECT * FROM provinces  WHERE id= '$row[province]'";
@@ -130,8 +128,6 @@ if ($action == 'edit') {
                                             $sql3 = "SELECT * FROM districts  WHERE id= '$row[subdistrict]'";
                                             $rs3 = $conn->query($sql3);
                                             $row3 = $rs3->fetch_assoc();
-
-
                                             ?>
                                             <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
                                             <input type="text" name="bill_address" class="classcus form-control" id="address" value="<?php echo $row['bill_address']; ?>" placeholder="ที่อยู่">
@@ -216,7 +212,6 @@ if ($action == 'edit') {
                     </div>
                 </div>
 
-<<<<<<< HEAD
             </div><!-- Footer Start -->
             <div class="flex-grow-1"></div>
             <div class="app-footer">
@@ -240,14 +235,6 @@ if ($action == 'edit') {
     <!-- PAGINATION CONTROL -->
 
     <!-- ============ Search UI End ============= -->
-=======
-            </div>
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
-        </div>
-    </div>
->>>>>>> b685939885eb4d40b9474a77b1df70f96d1ec0c4
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
