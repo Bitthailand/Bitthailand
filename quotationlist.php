@@ -140,6 +140,7 @@
                                             <th>วันที่</th>
                                             <th>Order ID</th>
                                             <th>เลขใบเสนอราคา</th>
+                                            <th>ประเภทลูกค้า</th>
                                             <th>ชื่อลูกค้า</th>
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
@@ -156,6 +157,7 @@
                                             <td> 29 ก.ค. 2021 17:53 </td>
                                             <td> OR6400001</td>
                                             <td> QT6401052</td>
+                                            <td> เงินสด</td>
                                             <td> คุณพูนศักดิ์ </td>
                                             <td> 0999999999 </td>
                                             <td>
@@ -187,13 +189,62 @@
                                                     href="/hs.php?hs_id=268" target="_blank">
                                                     <i class="i-Files font-weight-bold"></i>
                                                 </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบกำกับสินค้า(IV)"
+                                                    href="/iv.php?iv_id=267" target="_blank" hidden>
+                                                    <i class="i-Shopping-Cart font-weight-bold"></i>
+                                                </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
                                                     data-target="#medalcancleorder">
                                                     <i class="i-Close-Window font-weight-bold"></i>
                                                 </div>
                                             </td>
                                         </tr>
-
+                                        <tr>
+                                            <td> 29 ก.ค. 2021 17:53 </td>
+                                            <td> OR6400002</td>
+                                            <td> QT6401053</td>
+                                            <td> เครดิต</td>
+                                            <td> คุณธนนวัต </td>
+                                            <td> 0888888888 </td>
+                                            <td>
+                                                เมือง
+                                            </td>
+                                            <td> ยโสธร </td>
+                                            <td>
+                                                <span class="font-weight-bold"> 0.00 </span>
+                                            </td>
+                                            <td> <span class="font-weight-bold"> 6,651.59 </span> </td>
+                                            <td> <span class="font-weight-bold"> 953.41 </span> </td>
+                                            <td>
+                                                <span class="font-weight-bold"> 7,545.00 </span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
+                                                    href="/quotation.php?quotation_id=QT6401052" target="_blank">
+                                                    <i class="i-File font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
+                                                    href="/ai.php?ai_id=AI6401052" target="_blank">
+                                                    <i class="i-Money-Bag font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
+                                                    href="/saleorder.php?saleorder_id=268" target="_blank">
+                                                    <i class="i-Car-Items font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)"
+                                                    href="/hs.php?hs_id=268" target="_blank" hidden>
+                                                    <i class="i-Files font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบกำกับสินค้า(IV)"
+                                                    href="/iv.php?iv_id=268" target="_blank">
+                                                    <i class="i-Shopping-Cart font-weight-bold"></i>
+                                                </a>
+                                                <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
+                                                    data-target="#medalcancleorder">
+                                                    <i class="i-Close-Window font-weight-bold"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
