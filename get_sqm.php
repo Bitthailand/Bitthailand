@@ -1,6 +1,6 @@
 <?php
 include './include/connect.php';
-$sql = "SELECT * FROM product WHERE product_id={$_GET['sqm_id']}";
+$sql = "SELECT * FROM product WHERE id={$_GET['sqm_id']}";
 $query = mysqli_query($conn, $sql);
 $json = array();
 while($result = mysqli_fetch_assoc($query)) {    

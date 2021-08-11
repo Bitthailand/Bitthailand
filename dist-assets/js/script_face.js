@@ -1,7 +1,7 @@
 $(function() {
     var plantObject = $('#plant');
     var productxObject = $('#productx');
-    // var sqmObject = $('#sqm');
+    var sqmObject = $('#sqm');
     // on change province
     plantObject.on('change', function() {
         var plantId = $(this).val();
@@ -13,19 +13,54 @@ $(function() {
         console.log("xx", t[0])
         console.log("yy", t[1])
         productxObject.html('<option value="">เลือกสินค้าผลิต</option>');
-        // sqmObject.html('<option value="">เลือกตำบล</option>');
+        sqmObject.html('<option value="">เลือก</option>');
 
         $.get('get_product.php?ptype_id=' + t[0] + '&width=' + t[1], function(data) {
             var result = JSON.parse(data);
             console.log('re', result)
             $.each(result, function(index, item) {
                 productxObject.append(
-                    $('<option></option>').val(item.product_id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
+                    $('<option></option>').val(item.id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
                 );
             });
         });
     });
 
     // on change amphure
+    productxObject.on('change', function() {
+        var sqmId = $(this).val();
+        console.log('sqmId', sqmId);
+        sqmObject.html('');
 
+        $.get('get_sqm.php?sqm_id=' + sqmId, function(data) {
+            var result = JSON.parse(data);
+            console.log('rexx', result)
+            $.each(result, function(index, item) {
+                let thickness;
+                let area;
+                // var cal_cons;
+                var cal_item = item.width * item.size;
+
+                if (typeof item.area !== 'undefined') {
+                    var cal_cons = item.width * item.size * item.thickness;
+                } else {
+                    var cal_cons = item.width * item.size * item.thickness * item.area;
+                }
+
+
+                console.log('cal_cons', cal_cons);
+
+
+                var df = 1;
+                console.log('calitem', cal_item);
+
+                $('#sqm1').val(cal_item.toFixed(2))
+                $('#qty').val(df)
+                $('#sqm').val(cal_item.toFixed(2))
+                $('#concrete_cal').val(cal_cons.toFixed(2))
+                $('#concrete_cal1').val(cal_cons.toFixed(2))
+
+            });
+        });
+    });
 });

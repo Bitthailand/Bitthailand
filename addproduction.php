@@ -26,21 +26,24 @@ $po_date = $_REQUEST['po_date'];
 $po_enddate = $_REQUEST['po_enddate'];
 
 if ($action == 'add_po') {
-    $product_id = $_REQUEST['productx'];
+    $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
     $po_id = $_REQUEST['po_idd1'];
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
     $plant = $_REQUEST['plant'];
-    // echo "$product_id";
-    // echo "$qty";
-    // echo "$po_id";
-    // echo "$sqm";
-    // echo "$concrete_cal";
+    $sql5 = "SELECT * FROM product where  id='$productx' ";
+    $rs5 = $conn->query($sql5);
+    $row5 = $rs5->fetch_assoc();
+    echo "$row5[product_id]";
+    echo "$qty";
+    echo "$po_id";
+    echo "$sqm";
+    echo "$concrete_cal";
     $plant_id = explode("|", $plant);
     // echo "$plant_id[0]";
     // $delivery_address=$_REQUEST['delivery_address'];
-    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_id' AND product_id='$product_id' ";
+    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_id' AND product_id='$row5[product_id]' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
         <script>
@@ -49,8 +52,8 @@ if ($action == 'add_po') {
             });
         </script>
         <?php    } else {
-        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id)
-                                       VALUES ('$po_id','$product_id','$qty','$sqm','$plant_id[0]')";
+        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
+                                       VALUES ('$po_id','$row5[product_id]','$qty','$sqm','$plant_id[0]','$concrete_cal')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -78,7 +81,26 @@ if ($action == 'edit') {
 <?php   }
 }
 ?>
+<script language="JavaScript">
+    function fncASum() {
+        {
+            let sqmx = $("#sqm1").val();
+            let concrete_calx = $("#concrete_cal1").val();
+            console.log('SQM1', sqmx);
+            console.log('concrete_calxxxx', concrete_calx);
+            // console.log('SQM2',qty);
+            document.frmAMain['sqm'].value = parseFloat(document.frmAMain['qty'].value) * sqmx;
+            document.frmAMain['concrete_cal'].value = parseFloat(document.frmAMain['qty'].value) * concrete_calx;
 
+        }
+        let Asum = 0;
+
+        parseFloat(document.frmAMain['sqm'].value);
+        parseFloat(document.frmAMain['concrete_cal'].value);
+
+        // document.frmAMain.total.value = Asum;
+    }
+</script>
 
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -121,7 +143,7 @@ if ($action == 'edit') {
                     <div class="col-md-12">
                         <!-- <div class="card"> -->
                         <div class="tab-content">
-                            <form class="tab-pane fade active show" method="post">
+                            <form name='frmAMain' id='inputform2' class="tab-pane fade active show" method="post">
                                 <div class="border-bottom text-primary">
                                     <div class="card-title">เพิ่มรายการสั่งผลิตสินค้า</div>
                                 </div>
@@ -150,7 +172,7 @@ if ($action == 'edit') {
                                         <select name="plant" id="plant" class="classcus custom-select " required>
                                             <option value="">เลือกแพ</option>
                                             <?php while ($result = mysqli_fetch_assoc($query)) : ?>
-                                                <option value="<?= $result['ptype_id'] ?>|<?= $result['width'] ?>">แพที่<?= $result['plant_id'] ?>-<?= $result['factory'] ?></option>
+                                                <option value="<?= $result['ptype_id'] ?>|<?= $result['width'] ?>"> แพที่<?= $result['plant_id'] ?>-<?= $result['factory'] ?></option>
                                             <?php endwhile; ?>
                                         </select>
 
@@ -160,19 +182,25 @@ if ($action == 'edit') {
                                     <div class="row mt-12">
                                         <div class="form-group col-md-4">
                                             <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                            <select name="productx" id="productx" class="classcus custom-select" required>
+                                            <select name="productx" id="productx" class="classcus custom-select" data-index="1" required>
                                                 <option value="">เลือกสินค้าผลิต</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
+                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();" required>
+                                            <input type="hidden" name="sqm1" id="sqm1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+
                                         </div>
+
                                         <div class="form-group col-md-2">
                                             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
-                                           
+
                                             <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
+
+
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
@@ -223,11 +251,11 @@ if ($action == 'edit') {
                                                                     <td><?php echo $row3['area']; ?></td>
                                                                     <td> <?php echo $row3['dia_size']; ?></td>
                                                                     <td> <?php echo $row3['dia_count']; ?> </td>
-                                                                    <td> <?php echo $row3['size']; ?></td>
+                                                                    <td> <?php echo $row['concrete_cal']; ?></td>
                                                                     <td> <?php echo $row['sqm']; ?> </td>
                                                                     <td><?php echo $row['qty']; ?></td>
                                                                     <td>
-                                                                        <?php echo $row['po_id']; ?>
+
                                                                         <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
 
@@ -354,21 +382,12 @@ if ($action == 'edit') {
         $("#FSPageId").val(page);
         $("#FSButtonID").click();
     }
-    $("#qty").on("change", function() {
-    modalLoad();
 
-    let qty = $("#qty").val();
-    let po_id = $("#po_id").val();
-    $("#FSqtyx").val(qty);
-    $("#FSqtyx").val(po_id );
-    $("#FSButtonID").click();
-
-});
     $("#btu").click("change", function() {
         modalLoad();
 
         let name = $("#qty").val();
-        let column = $("#productx").val();
+        let productx = $("#productx").val();
         let po_id = $("#po_id").val();
         let sqm = $("#sqm").val();
         let concrete_cal = $("#concrete_cal").val();
@@ -377,7 +396,7 @@ if ($action == 'edit') {
         let plant = $("#plant").val();
         console.log('xxx', name)
         $("#FSqty").val(name);
-        $("#FSproductx").val(column);
+        $("#FSproductx").val(productx);
         $("#FSpo_id").val(po_id);
         $("#FSsqm").val(sqm);
         $("#FSconcrete_cal").val(concrete_cal);
@@ -428,6 +447,17 @@ if ($action == 'edit') {
                 });
 
         });
+    });
+</script>
+
+<script>
+    $('#inputform2').on('keydown', 'input', function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            var $this = $(event.target);
+            var index = parseFloat($this.attr('data-index'));
+            $('[data-index="' + (index + 1).toString() + '"]').focus();
+        }
     });
 </script>
 
