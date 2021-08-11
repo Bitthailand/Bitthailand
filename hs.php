@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
+    <title>HS | ใบเสร็จรับเงิน</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -37,12 +37,13 @@
 
                 <div class="row">
                     <div class="col-md-12">
+
                         <div class="tab-content">
                             <div class="card">
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบเสนอราคา</button>
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบเสร็จรับเงิน</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
@@ -54,27 +55,29 @@
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
-                                                    <h4 class="font-weight-bold">ใบรับเงินมัดจำ/ใบกำกับภาษี</h4>
+                                                    <h4 class="font-weight-bold">ใบเสร็จรับเงิน/ใบกำกับภาษี</h4>
                                                 </div>
                                             </div>
                                             <div class="mt-3 mb-4 border-top"></div>
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
-                                                    <p><strong>ชื่อลูกค้า : </strong>ปอณรัตน์พา</p>
+                                                    <p><strong>ชื่อลูกค้า : </strong>คุณ มนต์ชัย สุขเกษม</p>
                                                     <p><strong>บริษัท : </strong>หจก. ปอณรัตน์พานิชย์</p>
                                                     <p><strong>ที่อยู่ : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
-                                                    <p>เลขที่ประจำตัวผู้เสียภาษี 0343560001118 สำนักงานใหญ่</p>
+                                                    <p>เลขที่ประจำตัวผู้เสียภาษี 0345498300908 สำนักงานใหญ่</p>
                                                     <p><strong>โทร : </strong> 093-6954224</p>
                                                     <p><strong>อ้างอิง : </strong></p>
+                                                    <p>ขนส่งโดย : </p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ <span> AI6408006</span></p>
-                                                        <p>วันที่ <span> 02/08/64</span></p>
-                                                        <p>วันที่ครบกำหนด <span> 02/08/64</span></p>
-                                                        <p>พนักงานขาย : <span> -</span></p>
+                                                        <p>เลขที่ใบเสนอราคา <span>HS6401477</span></p>
+                                                        <p>วันที่ <span>31-ก.ค.-64</span></p>
+                                                        <p>ลำดับการสั่งซื้อ <span>OR6400024</span></p>
+                                                        <p>พนักงานขาย <span>-</span></p>
+                                                        <p>เขตการขาย <span>-</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,28 +87,38 @@
                                                         <thead class="bg-gray-300">
                                                             <tr>
                                                                 <th scope="col" class="text-center">No.</th>
-                                                                <th scope="col" class="text-center">รายการ</th>
+                                                                <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
+                                                                <th scope="col" class="text-center">จำนวน</th>
+                                                                <th scope="col" class="text-center">หน่วยละ</th>
                                                                 <th scope="col" class="text-center">ราคารวมภาษี</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row" class="text-center">1</th>
-                                                                <td>รับรายได้มัดจำแผ่นพื้น</td>
-                                                                <td class="text-right">3,500.00</td>
+                                                                <td>FP03100020 เสารั้ว 3x3" 1.00 1.00 1.00</td>
+                                                                <td class="text-right">120</td>
+                                                                <td class="text-right">45.00</td>
+                                                                <td class="text-right">5400.00</td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row" class="text-center"></th>
-                                                                <td></td>
-                                                                <td class="text-right"></td>
+                                                                <th scope="row" class="text-center">2</th>
+                                                                <td>FP03100025 เสารั้ว 3x3" 1.00 1.00 1.00</td>
+                                                                <td class="text-right">60</td>
+                                                                <td class="text-right">45.00</td>
+                                                                <td class="text-right">2700.00</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>49,135.75</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>228.97</span></p>
+                                                        <p>รวมเป็นเงิน <span>10,617.00</span></p>
+                                                        <p>หัก ส่วนลด <span>00.00</span></p>
+                                                        <p>ยอดหลังหักส่วนลด <span>10,617.00</span></p>
+                                                        <p>หักเงินมัดจำ #AI6408006 <span>3,500.00</span></p>
+                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>7,117.00</span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>465.60</span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -119,7 +132,7 @@
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>ราคาสินค้า</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>3,271.03</span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>6,651.40</span></h5>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -127,78 +140,23 @@
                                             </div>
                                             <div class="mt-3 mb-4 border-top"></div>
                                             <div class="col-md-12">
-                                                <div class="row">
-                                                    <p>การชำระเงินด้วยเช็คจะสมบูรณ์เมื่อบริษัทได้รับเงินตามเช็คเรียบร้อย </p>
-                                                    <p></p>                                                    
-                                                </div>
-                                                <div class="row">                                                    
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-                                                        <p>เงินสด _______________</p>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-
-                                                    </div>
-                                                </div>
-                                                <div class="row">                                                    
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-                                                        <p>โอนเข้าบัญชี _______________<span></span></p>
-                                                        <br>
-                                                        <p>เช็คธนาคาร ________________ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-                                                        <p>เลขที่ _______________<span></span></p>
-                                                        <br>
-                                                        <p>เช็คเลขที่ ________________ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-                                                        <p>ลงวันที่ _____/______/______ <span></span></p>
-                                                        <br>
-                                                        <p>ลงวันที่ _____/______/______ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <p></p>
-                                                        <br>
-                                                        <p>จำนวนเงิน __________________ <span></span></p>
-                                                        <br>
-                                                        <p>จำนวนเงิน __________________ <span></span></p>
-                                                    </div>
+                                                <div class="col-md-12 mb-3 mb-sm-0">
+                                                    <p>ได้รับสินค้าตามรายการข้างบนนี้ไว้ถูกต้อง และอยู่ในสภาพเรียบร้อยทุกประการ </p>
                                                 </div>
                                             </div>
-                                            <div class="mt-3 mb-4 border-top"></div>
                                             <div class="col-md-12">
                                                 <div class="row">
-                                                    <div class="col-md-4 text-center">
-                                                        <p> ____________________</p>
+                                                    <div class="col-md-6">
+                                                        <p></p>
                                                         <br>
-                                                        <p>ผู้อนุมัติ<span></span></p>
+                                                        <p><span></span></p>
                                                         <br>
-                                                        <p>วันที่ ________/__________/__________ <span></span></p>
+                                                        <p>ผู้รับสินค้า/ผู้จ่ายเงิน  __________________________ <span></span></p>
                                                     </div>
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-5 text-center">
+                                                    <div class="col-md-6 text-center">
                                                         <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
                                                         <br>
-                                                        <p>ผู้รับมอบอำนวจ ____________________ <span></span></p>
-                                                        <br>
-                                                        <p>วันที่ ________/__________/__________ <span></span></p>
+                                                        <p>ผู้รับเงิน____________________ ผู้รับมอบอำนวจ _____________________ <span></span></p>
                                                     </div>
                                                 </div>
                                             </div>

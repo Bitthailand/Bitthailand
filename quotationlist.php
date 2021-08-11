@@ -45,7 +45,7 @@
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/ailist.php">
                                     <h3 class="h5 font-weight-bold"> Order มัดจำ
-                                    <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger">1</span>
                                     </h3>
                                     <span>Order ที่มัดจำเรียบร้อย
                                         <span class="badge badge-warning"> Wait </span>
@@ -55,7 +55,7 @@
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/tranW.php">
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                    <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger">1</span>
                                     </h3>
                                     <span>Order ชำระเงินเรียบร้อย
                                         <span class="badge badge-warning"> Wait </span>
@@ -171,22 +171,26 @@
                                                 <span class="font-weight-bold"> 81,525.00 </span>
                                             </td>
                                             <td>
-                                            <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/quotation.php?quotation_id=QT6401052">
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
+                                                    href="/quotation.php?quotation_id=QT6401052" target="_blank">
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
-                                                    href="/tranActionConfirm.php?statement=268">
+                                                    href="/ai.php?ai_id=AI6401052" target="_blank">
                                                     <i class="i-Money-Bag font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/orderViews.php?statement=268">
+                                                    href="/saleorder.php?saleorder_id=268" target="_blank">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)"
-                                                    href="/orderViews.php?statement=268">
+                                                    href="/hs.php?hs_id=268" target="_blank">
                                                     <i class="i-Files font-weight-bold"></i>
                                                 </a>
+                                                <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
+                                                    data-target="#medalcancleorder">
+                                                    <i class="i-Close-Window font-weight-bold"></i>
+                                                </div>
                                             </td>
                                         </tr>
 
@@ -231,6 +235,27 @@
             <!-- Header -->
             <?php include './include/footer.php'; ?>
             <!-- =============== Header End ================-->
+        </div>
+    </div>
+
+    <!-- Modal ยกเลิก Order -->
+    <div class="modal fade" id="medalcancleorder" tabindex="-1" role="dialog" aria-labelledby="medalcancleorderTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalcancleorderTitle-2">ยกเลิก Order</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <p class="text-danger text-16 line-height-1 mb-2">คุณต้องการยกเลิก Order : OR6400001 ใช่หรือไม่ ?</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
+                    <button class="btn btn-primary ml-2" type="button">ใช่</button>
+                </div>
+            </div>
         </div>
     </div>
 

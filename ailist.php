@@ -172,11 +172,11 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/orderViews.php?statement=268">
+                                                    href="/saleorder.php?saleorder_id=268">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)"
-                                                    href="/orderViews.php?statement=268">
+                                                    href="/hs.php?hs_id=268">
                                                     <i class="i-Files font-weight-bold"></i>
                                                 </a>
                                             </td>
