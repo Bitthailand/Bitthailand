@@ -36,12 +36,12 @@ if ($action == 'add') {
     $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {?>
-                 <script>
-                 $(document).ready(function() {
-                     showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
-                 });
-                 </script>
-     <?php    } else { 
+<script>
+$(document).ready(function() {
+    showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
+});
+</script>
+<?php    } else { 
                    $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name)
                    VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name')";                 
                     if ($conn->query($sql) === TRUE) {  ?>
@@ -95,42 +95,49 @@ $(document).ready(function() {
                                     </div>
                                     <div class="form-row mt-3">
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="accNameId"><strong>รหัสลูกค้า <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="customer_id" id="customer_id"  value="<?php echo"$cus_id";?>"  class="classcus form-control" placeholder="รหัสลูกค้า" required>
+                                            <input type="text" name="customer_id" id="customer_id" value="<?php echo"$cus_id";?>" class="classcus form-control"
+                                                placeholder="รหัสลูกค้า" required>
                                         </div>
-
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
+                                            <label for="customer_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
+                                            <select class="classcus custom-select" name="customer_type" id="customer_type" required>
+                                                <option value="เงินสด">เงินสด</option>
+                                                <option value="เครดิต">เครดิต</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-2">
                                             <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger">*</span></strong></label>
                                             <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="accNameId"><strong>ชื่อบริษัท <span class="text-danger"></span></strong></label>
                                             <input type="text" name="company_name" id="company_name" class="classcus form-control" placeholder="ชื่อบริษัท">
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="phone"><strong>เบอร์โทร <span class="text-danger">*</span></strong></label>
                                             <input type="text" name="tel" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="tax_number"><strong>เลขที่ผู้เสียภาษี <span class="text-danger"></span></strong></label>
                                             <input type="text" name="tax_number" id="tax_number" class="classcus form-control" placeholder="เลขที่ผู้เสียภาษี" autocomplete="off">
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="referral"><strong>บุคคลอ้างอิง <span class="text-danger"></span></strong></label>
                                             <input type="text" name="contact_name" id="contact_name" class="classcus form-control" placeholder="บุคคลอ้างอิง" autocomplete="off">
                                         </div>
 
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-10">
                                             <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
                                             <input type="text" name="bill_address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="province"><strong>จังหวัด <span class="text-danger">*</span></strong></label>
 
                                             <select name="province" id="province" class="classcus custom-select " required>
@@ -141,7 +148,7 @@ $(document).ready(function() {
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="district"><strong>อำเภอ <span class="text-danger">*</span></strong></label>
 
 
@@ -151,7 +158,7 @@ $(document).ready(function() {
 
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="subdistrict"><strong>ตำบล <span class="text-danger">*</span></strong></label>
 
 
@@ -160,7 +167,7 @@ $(document).ready(function() {
                                             </select>
                                         </div>
 
-                                     
+
 
 
                                     </div>
