@@ -20,7 +20,50 @@ $code = sprintf('%05d', $code_new);
 $po_id = $dat . $code;
 $sql = "SELECT * FROM plant";
 $query = mysqli_query($conn, $sql);
+
+$action = $_REQUEST['action'];
+$po_date = $_REQUEST['po_date'];
+$po_enddate = $_REQUEST['po_enddate'];
+
+if ($action == 'add_po') {
+    $product_id = $_REQUEST['productx'];
+    $qty = $_REQUEST['qty'];
+    $po_id = $_REQUEST['po_idd1'];
+    $sqm = $_REQUEST['sqm'];
+    $concrete_cal = $_REQUEST['concrete_cal'];
+
+    echo "$product_id";
+    echo "$qty";
+    echo "$po_id";
+    echo "$sqm";
+    echo "$concrete_cal";
+    echo "$action";
+    // $delivery_address=$_REQUEST['delivery_address'];
+    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_id' AND product_id='$product_id' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
+            });
+        </script>
+        <?php    } else {
+        $sql = "INSERT INTO production_detail (po_id,product_id)
+                                       VALUES ('$po_id','$product_id')";
+        if ($conn->query($sql) === TRUE) {  ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                });
+            </script>
+<?php   }
+    }
+}
+
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="">
 
@@ -32,7 +75,7 @@ $query = mysqli_query($conn, $sql);
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-    
+
     <style>
         .table-sm th,
         .table-sm td {
@@ -54,6 +97,9 @@ $query = mysqli_query($conn, $sql);
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+            <!-- แจ้งเตือน -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
                 <div class="row">
                     <div class="col-md-12">
@@ -71,40 +117,38 @@ $query = mysqli_query($conn, $sql);
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
                                             <label for="searchSDateId">วันที่สั่งผลิต</label>
-                                            <input id="searchSDateId" class="form-control" type="date" min="2021-06-01" name="start" value="2021-08-04" required="">
+                                            <input id="po_date" class="form-control" type="date" min="2021-06-01" name="start" value="<?php echo "$po_date"; ?>" required="">
                                         </div>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
                                             <label for="searchEDateId">เช็คเขาสต๊อกภายในวันที่</label>
-                                            <input id="searchEDateId" class="form-control" type="date" name="end" value="2021-08-04" required="">
+                                            <input id="po_enddate" class="form-control" type="date" name="end" value="<?php echo "$po_enddate"; ?>" required="">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="plant"><strong>แพที่ผลิต <span class="text-danger"></span></strong></label>
-                                      
+
 
 
                                         <select name="plant" id="plant" class="classcus custom-select " required>
-                                                <option value="">เลือกแพ</option>
-                                                <?php while ($result = mysqli_fetch_assoc($query)) : ?>
+                                            <option value="">เลือกแพ</option>
+                                            <?php while ($result = mysqli_fetch_assoc($query)) : ?>
                                                 <option value="<?= $result['ptype_id'] ?>|<?= $result['width'] ?>">แพที่<?= $result['plant_id'] ?>-<?= $result['factory'] ?></option>
-                                                <?php endwhile; ?>
-                                            </select>
+                                            <?php endwhile; ?>
+                                        </select>
 
-                                            <select name="productx" id="productx" class="classcus custom-select" required>
-                                                <option value="">เลือกสินค้าผลิต</option>
-                                            </select>
+
                                     </div>
+
                                     <div class="row mt-12">
                                         <div class="form-group col-md-4">
                                             <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="product" id="product" required>
-                                                <option value="FP03100020">เสารั้ว 3x3" ยาว 1.00 ขนาดลวด 4 จำนวน 2 เส้น </option>
-                                                <option value="FP03145020">เสารั้ว 3x3" ยาว 1.45 ขนาดลวด 4 จำนวน 2 เส้น</option>
+                                            <select name="productx" id="productx" class="classcus custom-select" required>
+                                                <option value="">เลือกสินค้าผลิต</option>
                                             </select>
                                         </div>
-                                      
+
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
@@ -117,7 +161,8 @@ $query = mysqli_query($conn, $sql);
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="concrete_cal" id="concrete_cal" class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
                                         </div>
-                                        <button class="btn btn-outline-primary ripple m-1" type="button" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
+                                        <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
 
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
@@ -144,12 +189,12 @@ $query = mysqli_query($conn, $sql);
                                                         $sql = "SELECT * FROM production_detail  where po_id='$po_id' order by date_create  ASC ";
                                                         $result = mysqli_query($conn, $sql);
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            while ($row1 = mysqli_fetch_assoc($result)) { ?>
+                                                            while ($row = mysqli_fetch_assoc($result)) { ?>
                                                                 <tr>
                                                                     <td> <strong><?php echo $row['product_id']; ?></strong> </td>
                                                                     <td>
                                                                         <?php
-                                                                        $sql3 = "SELECT * FROM product  WHERE id= '$row[product_id]'";
+                                                                        $sql3 = "SELECT * FROM product  WHERE product_id= '$row[product_id]'";
                                                                         $rs3 = $conn->query($sql3);
                                                                         $row3 = $rs3->fetch_assoc();
                                                                         echo $row3['product_name'];
@@ -220,19 +265,42 @@ $query = mysqli_query($conn, $sql);
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-    <script src="../../dist-assets/js/jquery.min.js"></script>
+    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
     <script src="../../dist-assets/js/script_face.js"></script>
+
 
     <!-- ============ Form Search End ============= -->
 </body>
 <form class="d-none" method="POST">
-    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
-    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
-    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
-    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <input type="text" id="FSproductx" name="productx" value="<?php echo $FSproductx; ?>" placeholder="">
+    <input type="text" id="FSqty" name="qty" value="<?php echo $qty; ?>" placeholder="">
+    <input type="text" id="FSconcrete_cal" name="concrete_cal" value="<?php echo $concrete_cal; ?>" placeholder="">
+    <input type="text" id="FSsqm" name="sqm" value="<?php echo $sqm; ?>" placeholder="">
+    <input type="text" id="FSpo_date" name="po_date" value="<?php echo $po_date; ?>" placeholder="">
+    <input type="text" id="FSpo_enddate" name="po_enddate" value="<?php echo $po_enddate; ?>" placeholder="">
+    <input type="text" name="action" value="add_po">
+    <input type="hidden" id="FSpo_id" name="po_idd1" value="<?php echo "$po_id"; ?>">
     <button class="btn" id="FSButtonID" type="submit"></button>
 </form>
 <!-- ============ Modal End ============= -->
+
+<!-- modal load -->
+<div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="mt-1">
+                        Load ...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 <script>
     /* ===== search start ===== */
     function modalLoad() {
@@ -248,23 +316,25 @@ $query = mysqli_query($conn, $sql);
         $("#FSPageId").val(page);
         $("#FSButtonID").click();
     }
-    $("#searchRowsId").on("change", function() {
+
+    $("#btu").click("change", function() {
         modalLoad();
 
-        let row = $("#searchRowsId").val();
-        $("#FSRowId").val(row);
-        let column = $("#searchColumnId").val();
-        $("#FSColumnId").val(column);
-        $("#FSButtonID").click();
-
-    });
-    $("#searchNameId").on("change", function() {
-        modalLoad();
-
-        let name = $("#searchNameId").val();
-        $("#FSKeywordId").val(name);
-        let column = $("#searchColumnId").val();
-        $("#FSColumnId").val(column);
+        let name = $("#qty").val();
+        let column = $("#productx").val();
+        let po_id = $("#po_id").val();
+        let sqm = $("#sqm").val();
+        let concrete_cal = $("#concrete_cal").val();
+        let po_date = $("#po_date").val();
+        let po_enddate = $("#po_enddate").val();
+        console.log('xxx', name)
+        $("#FSqty").val(name);
+        $("#FSproductx").val(column);
+        $("#FSpo_id").val(po_id);
+        $("#FSsqm").val(sqm);
+        $("#FSconcrete_cal").val(concrete_cal);
+        $("#FSpo_date").val(po_date);
+        $("#FSpo_enddate").val(po_enddate);
         $("#FSButtonID").click();
 
     });

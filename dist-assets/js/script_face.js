@@ -19,7 +19,7 @@ $(function() {
             console.log('re', result)
             $.each(result, function(index, item) {
                 productxObject.append(
-                    $('<option></option>').val(item.product_id).html(item.product_name + 'ยาว ', item.width)
+                    $('<option></option>').val(item.product_id).html(item.product_name + '  ยาว' + item.width + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
                 );
             });
         });
