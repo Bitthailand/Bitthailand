@@ -190,7 +190,7 @@
                                                     <i class="i-Files font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบกำกับสินค้า(IV)"
-                                                    href="/iv.php?iv_id=267" target="_blank" hidden>
+                                                    href="/invoice.php?iv_id=267" target="_blank" hidden>
                                                     <i class="i-Shopping-Cart font-weight-bold"></i>
                                                 </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
@@ -236,7 +236,7 @@
                                                     <i class="i-Files font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบกำกับสินค้า(IV)"
-                                                    href="/iv.php?iv_id=268" target="_blank">
+                                                    href="/invoice.php?iv_id=268" target="_blank">
                                                     <i class="i-Shopping-Cart font-weight-bold"></i>
                                                 </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
