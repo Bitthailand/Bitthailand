@@ -6,32 +6,8 @@ if (isset($_SESSION["username"])) {
 }
 include './include/connect.php';
 include './include/config.php';
-?>
-<?php $keyword = $_POST['keyword'];
-$column = $_REQUEST['column'];
-$rowS = $_REQUEST['row'];
-if(empty($column)&&($keyword)) {}else{
-    $columx = "AND $column LIKE'$keyword%'";
-    // echo"$columx";   
-}
-if (($column=="")&&($keyword == "$keyword")) {
-    $keywordx = "AND customer_id LIKE'$keyword%'
-               OR customer_name LIKE'$keyword%'
-               OR  company_name LIKE'$keyword%'
-               OR tel LIKE'$keyword%'
-               OR contact_name  LIKE'$keyword%' 
-               OR bill_address LIKE'$keyword%' ";
-    //    echo"$keywordx";
-}
-if (($column=="")&&($keyword == "")) {
-    $columx ="";
-    $keywordx ="";
-}
-if ($rowS == '') {
-    $total_records_per_page = 10;
-} else {
-    $total_records_per_page = $rowS;
-}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -145,55 +121,47 @@ if ($rowS == '') {
                                     <thead>
                                         <tr class="table-secondary">
                                             <th>รหัสสั่งผลิต</th>
-                                            <th>วันที่สั่งผลิต</th>
-                                            <th>วันที่สั่งเข้าสต็อก</th>
-                                            <th>วันที่เท</th>
-                                            <th>วันที่เสร็จ</th>
-                                            <th>จำนวนรายการ</th>
-                                            <th>บันทึกโดย</th>
+                                            <th>แพที่</th>
+                                            <th>วันที่สั่ง</th>
+                                            <th>กำหนดเสร็จ</th>
+                                            <th>รหัสสินค้า</th>
+                                            <th>จำนวนผลิต</th>
+                                            <th>ชื่อสินค้า</th>
+                                            <th>หนา</th>
+                                            <th>กว้าง</th>
+                                            <th>ยาว</th>
+                                            <th>ขนาดลวด</th>
+                                            <th>จำนวนลวด</th>
+                                            <th>พ.ท.(Sq.m)</th>
+                                            <th>คอนกรีตคำนวณ</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
-                                            $page_no = $_GET['page_no'];
-                                        } else {
-                                            $page_no = 1;
-                                        }
-                                        // $total_records_per_page = 10;
-                                        $offset = ($page_no - 1) * $total_records_per_page;
-                                        $previous_page = $page_no - 1;
-                                        $next_page = $page_no + 1;
-                                        $adjacents = "2";
-
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order` where  status='0' $columx $keywordx  ");
-                                        $total_records = mysqli_fetch_array($result_count);
-                                        $total_records = $total_records['total_records'];
-                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
-                                        $second_last = $total_no_of_pages - 1; // total page minus 1
-
-                                        $result = mysqli_query($conn, "SELECT * FROM `production_order` where status='0' $columx $keywordx LIMIT $offset, $total_records_per_page");
-                                        while ($row = mysqli_fetch_array($result)) { 
-                                            ?>
                                         <tr>
                                             <td>
-                                                <strong> <?php echo $row['po_id']; ?></strong>
+                                                <strong> PD640800001 </strong>
                                             </td>
-                                            <td><strong><?php echo $row['po_date'];?></strong></td>
-                                            <td> <strong><?php echo $row['po_enddate'];?></strong></td>
-                                            <td> <strong><?php echo $row['po_stop'];?></strong></td>
-                                            <td> <strong><?php echo $row['po_enddate'];?></strong></td>
-                                            <td> <strong>0</strong></td>
-                                            <td> <strong><?php echo $row['employee_id'];?></strong></td>
-
-                                         
-
+                                            <td><strong>5</strong></td>
+                                            <td> <strong>29 ก.ค. 2021 17:53</strong></td>
+                                            <td> <strong>5 ส.ค. 2021</strong></td>
+                                            <td>FP03100020</td>
+                                            <td>120</td>
+                                            <td>เสารั้ว 3x3"</td>
+                                            <td>1.00</td>
+                                            <td>1.00</td>
+                                            <td>1.00</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>-</td>
+                                            <td>2.21</td>
                                             <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id'];?>">
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต"
+                                                    href="editproduction.php?po_id=PD640800001">
                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต" data-target="#medalconcreteuse">
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
+                                                    data-target="#medalconcreteuse">
                                                     <i class="i-Gear font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
@@ -204,10 +172,6 @@ if ($rowS == '') {
                                                 </a>
                                             </td>
                                         </tr>
-                                        <?php
-                                        }
-                                        mysqli_close($conn);
-                                        ?>
                                         <tr class="table table-hover text-nowrap table-sm">
                                             <td></td>
                                             <td></td>
@@ -217,12 +181,15 @@ if ($rowS == '') {
                                             <td><strong>120</strong></td>
                                             <td></td>
                                             <td></td>
-                                            
-                                           
-                                          
-                                           
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-
+                                      
                                     </tbody>
                                 </table>
                             </div>
@@ -231,85 +198,17 @@ if ($rowS == '') {
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
-                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
-                                        ?>
-                                        <li class="page-item" <?php if ($page_no <= 1) {
-                                                                    echo "class='disabled'";
-                                                                } ?>>
-                                            <a class="page-link" <?php if ($page_no > 1) {
-                                                    echo "href='?page_no=$previous_page' ";
-                                                } ?>>Previous</a>
-                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Previous"><span aria-hidden="true">«</span><span
+                                                    class="sr-only">Previous</span></a></li>
+                                        <!-- <| 123 |> -->
+                                        <li class="page-item active"><a class="page-link" href="#" onclick="clickNav(1)">1</a></li>
+                                        <!-- <| 123 ...|>  -->
 
-                                        <?php
-                                        if ($total_no_of_pages <= 10) {
-                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
-                                                if ($counter == $page_no) { ?>
-                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
-                                               <?php  } else { ?>
-                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
-                                              <?php   }
-                                            }
-                                        } elseif ($total_no_of_pages > 10) {
-                                            if ($page_no <= 4) {
-                                                for ($counter = 1; $counter < 8; $counter++) {
-                                                    if ($counter == $page_no) {
-                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                    } else { ?>
-                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
-                                                   <?php  }
-                                                }
-                                        ?>
-                                                <li class="page-item"><a>...</a></li>
-                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
-                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li class="page-item"><a>...</a></li>
-                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
-                                                    <?php  } else { ?>
-                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                    <?php    }
-                                                } ?>
-                                                <li><a class="page-link">...</a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
-                                            <?php  } else { ?>
-                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
-                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
-                                               <li><a class="page-link">...</a></li>
-
-                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
-                                                  <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
-                                        <?php   }
-                                                }
-                                            }
-                                        }
-                                        ?>
-
-                                        <li <?php if ($page_no >= $total_no_of_pages) {
-                                                echo "class='disabled'";
-                                            } ?>>
-                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
-                                                    echo "href='?page_no=$next_page'";
-                                                } ?>>Next</a>
-                                        </li>
-
-                                        <?php if ($page_no < $total_no_of_pages) { ?>
-                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
-                                      <?php   } ?>
+                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Next"><span aria-hidden="true">»</span><span
+                                                    class="sr-only">Next</span></a></li>
                                     </ul>
-
+                                </nav>
                             </div>
-
-                        </div>
-                            <!--  -->
                         </div>
                     </div>
                 </div>
@@ -318,7 +217,8 @@ if ($rowS == '') {
             <div class="flex-grow-1"></div>
             <div class="app-footer">
                 <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
+                        target="_blank">Buy Gull HTML</a>
                     <span class="flex-grow-1"></span>
                     <div class="d-flex align-items-center">
                         <img class="logo" src="../../dist-assets/images/logo.png" alt="">

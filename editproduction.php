@@ -1,4 +1,20 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+$po_id=$_REQUEST['po_id'];
+$sql5 = "SELECT * FROM production_order where po_id='$po_id' ";
+$rs5 = $conn->query($sql5);
+$row = $rs5->fetch_assoc();
+$emp_id = $_SESSION["username"];
+// ตัดคำแพ
+$plant = $_REQUEST['plant'];
+$plant_id = explode("|", $plant);
+$plantx = $plant_id[2];
 
 ?>
 <!DOCTYPE html>
@@ -12,6 +28,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
+    </style>
 </head>
 
 <body class="text-left">
@@ -38,49 +61,69 @@
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-2">
                                         <label for="production_id"><strong>รหัสสั่งผลิต <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="production_id" id="production_id" class="classcus form-control" placeholder="รหัสสั่งผลิต" value="PD640800001"
-                                            required>
+                                        <input type="text" name="production_id" id="production_id" class="classcus form-control" placeholder="รหัสสั่งผลิต" value="<?=$row['po_id'];?>"
+                                            required disabled>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
                                             <label for="searchSDateId">วันที่สั่งผลิต</label>
-                                            <input id="searchSDateId" class="form-control" type="date" min="2021-06-01" name="start" value="2021-08-04" required="">
+                                            <input id="po_date" class="form-control" type="date" min="2021-06-01" name="start" value="<?=$row['po_date']?>" required="">
                                         </div>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
-                                            <label for="searchEDateId">เช็คเขาสต๊อกภายในวันที่</label>
-                                            <input id="searchEDateId" class="form-control" type="date" name="end" value="2021-08-04" required="">
+                                            <label for="searchEDateId">เช็คเข้าสต๊อกภายในวันที่</label>
+                                            <input id="po_enddate" class="form-control" type="date" name="end" value="<?=$row['po_enddate']?>" required="">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="plant"><strong>แพที่ผลิต <span class="text-danger"></span></strong></label>
-                                        <select class="classcus custom-select" name="plant" id="plant" required>
-                                            <option value="0">เลือก</option>
-                                            <option value="1">1 โรงงาน 1</option>
-                                            <option value="2">2 โรงงาน 1</option>
-                                            <option value="3">3 โรงงาน 1</option>
-                                            <option value="4">4 โรงงาน 1</option>
-                                            <option value="5">5 โรงงาน 1</option>
-                                            <option value="6">6 โรงงาน 1</option>
+                                        <select name="plant" id="plant" class="classcus custom-select " required>
+                                            <?php
+                                            $sql6 = "SELECT *  FROM plant   order by id DESC ";
+                                            $result6 = mysqli_query($conn, $sql6);
+                                            if (mysqli_num_rows($result6) > 0) {
+                                                while ($row6 = mysqli_fetch_assoc($result6)) {
+                                            ?>
+                                                    <option value="<?= $row6['ptype_id'] ?>|<?= $row6['width'] ?>|<?= $row6['plant_id'] ?>" <?php if (isset($plantx) && ($plantx == $row6['plant_id'])) {
+                                                                                                                                                echo "selected"; ?>>
+                                                        แพที่<?= $row6['plant_id'] ?>-<?= $row6['factory'] ?>
+                                                    <?php  } else {      ?>
+                                                    <option value="<?= $row6['ptype_id'] ?>|<?= $row6['width'] ?>|<?= $row6['plant_id'] ?>"> แพที่<?= $row6['plant_id'] ?>-<?= $row6['factory'] ?>
+                                                    <?php } ?>
+                                                    </option>
+                                            <?php  }
+                                            }  ?>
+
                                         </select>
                                     </div>
                                     <div class="row mt-12">
-                                        <div class="form-group col-md-4">
+                                    <div class="form-group col-md-4">
                                             <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="product" id="product" required>
-                                                <option value="FP03100020">เสารั้ว 3x3" ยาว 1.00 ขนาดลวด 4 จำนวน 2 เส้น </option>
-                                                <option value="FP03145020">เสารั้ว 3x3" ยาว 1.45 ขนาดลวด 4 จำนวน 2 เส้น</option>
+                                            <select name="productx" id="productx" class="classcus custom-select" data-index="1">
+                                                <option value="">เลือกสินค้าผลิต</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
+                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
+                                            <input type="hidden" name="sqm1" id="sqm1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
+
+                                            <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
+
+
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="concrete_cal" id="concrete_cal" class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
+                                            <input type="text" name="concrete_cal" id="concrete_cal" <?php echo "$po_id"; ?> class="classcus form-control" placeholder="คำนวณคอนกรีต">
                                         </div>
+                                        <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
 
                                         <button class="btn btn-outline-primary ripple m-1" type="button"
                                             style=" height: 33px; margin-top: 24px!important;">แก้ไขข้อมูลสั่งผลิต</button>
@@ -90,67 +133,57 @@
                                             <div class="table-responsive">
                                                 <table class="table table-hover text-nowrap table-sm">
                                                     <thead>
-                                                        <tr>
+                                                    <tr>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
-                                                            <th>หน้ากว้าง</th>
-                                                            <th>ความยาว</th>
+                                                            <th>หนา</th>
+                                                            <th>กว้าง</th>
+                                                            <th>ยาว</th>
+                                                            <th>พื้นที่หน้าตัด</th>
                                                             <th>ขนาดลวด</th>
                                                             <th>จำนวนลวด</th>
-                                                            <th>เซอร์คีย์(เส้น)</th>
                                                             <th>คอนกรีตคำนวณ</th>
-                                                            <th>คอนกรีตใช้จริง</th>
+                                                            <th>พ.ท.(Sq.m)</th>
                                                             <th>จำนวนสั่งผลิต</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td> <strong>FP03100020</strong> </td>
-                                                            <td> เสารั้ว 3x3" </td>
-                                                            <td> <strong>3"</strong> </td>
-                                                            <td> 1.00 </td>
-                                                            <td> 4 </td>
-                                                            <td> 5 </td>
-                                                            <td> - </td>
-                                                            <td> 2.21 </td>
-                                                            <td> - </td>
-                                                            <td> 120 </td>
-                                                            <td>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
-                                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                                </a>
-                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="บันทึกการใช้คอนกรีต" href="#">
-                                                                    <i class="i-Gear font-weight-bold"></i>
-                                                                </a>
-                                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
-                                                                    <i class="i-Close-Window font-weight-bold"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td> <strong>FP03145020</strong> </td>
-                                                            <td> เสารั้ว 3x3" </td>
-                                                            <td> <strong>3"</strong> </td>
-                                                            <td> 1.45 </td>
-                                                            <td> 4 </td>
-                                                            <td> 5 </td>
-                                                            <td> - </td>
-                                                            <td> 2.59 </td>
-                                                            <td> - </td>
-                                                            <td> 90 </td>
-                                                            <td>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="#">
-                                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                                </a>
-                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="บันทึกการใช้คอนกรีต" href="#">
-                                                                    <i class="i-Gear font-weight-bold"></i>
-                                                                </a>
-                                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
-                                                                    <i class="i-Close-Window font-weight-bold"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                    <?php
+                                                        $sql = "SELECT * FROM production_detail  where po_id='$po_id' order by date_create  ASC ";
+                                                        $result = mysqli_query($conn, $sql);
+                                                        if (mysqli_num_rows($result) > 0) {
+                                                            while ($row = mysqli_fetch_assoc($result)) { ?>
+                                                                <tr>
+                                                                    <td> <strong><?php echo $row['product_id']; ?></strong> </td>
+                                                                    <td>
+                                                                        <?php
+                                                                        $sql3 = "SELECT * FROM product  WHERE product_id= '$row[product_id]'";
+                                                                        $rs3 = $conn->query($sql3);
+                                                                        $row3 = $rs3->fetch_assoc();
+                                                                        echo $row3['product_name'];
+
+                                                                        ?></td>
+                                                                    <td> <?php echo $row3['thickness']; ?></td>
+                                                                    <td> <strong><?php echo $row3['width']; ?></strong> </td>
+                                                                    <td><?php echo $row3['size']; ?></td>
+                                                                    <td><?php echo $row3['area']; ?></td>
+                                                                    <td> <?php echo $row3['dia_size']; ?></td>
+                                                                    <td> <?php echo $row3['dia_count']; ?> </td>
+                                                                    <td> <?php echo $row['concrete_cal']; ?></td>
+                                                                    <td> <?php echo $row['sqm']; ?> </td>
+                                                                    <td><?php echo $row['qty']; ?></td>
+                                                                    <td>
+
+                                                                        <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+
+                                                                        <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการผลิต"> <i class="i-Close-Window font-weight-bold"></i> </button>
+
+                                                                    </td>
+                                                                </tr>
+                                                        <?php }
+                                                        } ?>
+                                                       
                                                         <tr>
                                                             <td colspan="14"> &nbsp;</td>
                                                         </tr>
@@ -160,14 +193,7 @@
                                         </div>
                                         <!-- ============ Table End ============= -->
                                     </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="accNameId"><strong>ความยาวลวด(ทั้งแพ) <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ความยาวลวด(ทั้งแพ)" required>
-                                    </div>
+                                   
                                 </div>
 
                                 <hr>
@@ -204,6 +230,227 @@
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+    <script src="../../dist-assets/js/script_face.js"></script>
 </body>
 
+
+<form class="d-none" method="POST">
+    <input type="text" id="FSproductx" name="productx" value="<?php echo $FSproductx; ?>" placeholder="">
+    <input type="text" id="FSqty" name="qty" value="<?php echo $qty; ?>" placeholder="">
+    <input type="text" id="FSconcrete_cal" name="concrete_cal" value="<?php echo $concrete_cal; ?>" placeholder="">
+    <input type="text" id="FSsqm" name="sqm" value="<?php echo $sqm; ?>" placeholder="">
+    <input type="text" id="FSpo_date" name="po_date" value="<?php echo $po_date; ?>" placeholder="">
+    <input type="text" id="FSpo_enddate" name="po_enddate" value="<?php echo $po_enddate; ?>" placeholder="">
+    <input type="text" id="FSplant" name="plant" value="<?php echo $po_enddate; ?>" placeholder="">
+    <input type="text" name="action" value="add_po">
+    <input type="hidden" id="FSpo_id" name="po_idd1" value="<?php echo "$po_id"; ?>">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
+<!-- ============ Modal End ============= -->
+
+<!-- modal load -->
+<div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="mt-1">
+                        Load ...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div id="Modaledit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                    แก้ไขข้อมูลสินค้าผลิต</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <!-- mysql data will be load here -->
+                <div id="dynamic-content"></div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal DEL  -->
+<div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
+                                    <span>*</span></strong></label>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="del">
+                        <input type="hidden" name="del_id" id="del_id" value="">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
+                            DELETE</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal_end -->
+<script>
+    /* ===== search start ===== */
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
+
+    function clickNav(page) {
+        modalLoad();
+
+        $("#FSPageId").val(page);
+        $("#FSButtonID").click();
+    }
+
+    $("#btu").click("change", function() {
+        modalLoad();
+
+        let name = $("#qty").val();
+        let productx = $("#productx").val();
+        let po_id = $("#po_id").val();
+        let sqm = $("#sqm").val();
+        let concrete_cal = $("#concrete_cal").val();
+        let po_date = $("#po_date").val();
+        let po_enddate = $("#po_enddate").val();
+        let plant = $("#plant").val();
+        console.log('xxx', name)
+        $("#FSqty").val(name);
+        $("#FSproductx").val(productx);
+        $("#FSpo_id").val(po_id);
+        $("#FSsqm").val(sqm);
+        $("#FSconcrete_cal").val(concrete_cal);
+        $("#FSpo_date").val(po_date);
+        $("#FSpo_enddate").val(po_enddate);
+        $("#FSplant").val(plant);
+        $("#FSButtonID").click();
+
+    });
+    /* ===== search end ===== */
+
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        $(document).on('click', '#edit_po', function(e) {
+
+            e.preventDefault();
+
+            var uid = $(this).data('id'); // get id of clicked row
+
+            $('#dynamic-content').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
+
+            $.ajax({
+                    url: 'addproduction_edit.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content').html(''); // blank before load.
+                    $('#dynamic-content').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
+
+        });
+    });
+</script>
+
+
+<script>
+    $('#inputform2').on('keydown', 'input', function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            var $this = $(event.target);
+            var index = parseFloat($this.attr('data-index'));
+            $('[data-index="' + (index + 1).toString() + '"]').focus();
+        }
+    });
+</script>
+<script>
+    $('#myModal_del').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('#del_id').val(id)
+
+    })
+</script>
+<script language="JavaScript">
+    function fncASum() {
+        {
+            let sqmx = $("#sqm1").val();
+            let concrete_calx = $("#concrete_cal1").val();
+            console.log('SQM1', sqmx);
+            console.log('concrete_calxxxx', concrete_calx);
+            // console.log('SQM2',qty);
+            document.frmAMain['sqm'].value = parseFloat(document.frmAMain['qty'].value) * sqmx;
+            document.frmAMain['concrete_cal'].value = parseFloat(document.frmAMain['qty'].value) * concrete_calx;
+
+        }
+        let Asum = 0;
+
+        parseFloat(document.frmAMain['sqm'].value);
+        parseFloat(document.frmAMain['concrete_cal'].value);
+
+        // document.frmAMain.total.value = Asum;
+    }
+</script>
 </html>

@@ -18,32 +18,34 @@ $dat = datethai_po($date[0]);
 $code_new = $row_run['id_run'] + 1;
 $code = sprintf('%05d', $code_new);
 $po_id = $dat . $code;
-$sql = "SELECT * FROM plant";
-$query = mysqli_query($conn, $sql);
+$emp_id = $_SESSION["username"];
 
 $action = $_REQUEST['action'];
 $po_date = $_REQUEST['po_date'];
 $po_enddate = $_REQUEST['po_enddate'];
 
+// ตัดคำแพ
+$plant = $_REQUEST['plant'];
+$plant_id = explode("|", $plant);
+$plantx = $plant_id[2];
+
+// =============================
+
+// =============================
+// 
 if ($action == 'add_po') {
     $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
-    $po_id = $_REQUEST['po_idd1'];
+    $po_idx = $_REQUEST['po_idd1'];
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
     $plant = $_REQUEST['plant'];
     $sql5 = "SELECT * FROM product where  id='$productx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
-    echo "$row5[product_id]";
-    echo "$qty";
-    echo "$po_id";
-    echo "$sqm";
-    echo "$concrete_cal";
     $plant_id = explode("|", $plant);
-    // echo "$plant_id[0]";
-    // $delivery_address=$_REQUEST['delivery_address'];
-    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_id' AND product_id='$row5[product_id]' ";
+
+    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_idx' AND product_id='$row5[product_id]' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
         <script>
@@ -53,7 +55,7 @@ if ($action == 'add_po') {
         </script>
         <?php    } else {
         $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
-                                       VALUES ('$po_id','$row5[product_id]','$qty','$sqm','$plant_id[0]','$concrete_cal')";
+                                       VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -67,18 +69,62 @@ if ($action == 'add_po') {
 if ($action == 'edit') {
     $edit_id = $_REQUEST['edit_id'];
     $qty = $_REQUEST['qty'];
-    $sqm = $_REQUEST['sqm'];
-    $concrete_cal = $_REQUEST['concrete_cal'];
-
+    $sqm = $_REQUEST['textbox5'];
+    $concrete_cal = $_REQUEST['textbox6'];
     $sql = "UPDATE production_detail    SET qty='$qty',sqm='$sqm',concrete_cal='$concrete_cal'  where id='$edit_id'";
-
     if ($conn->query($sql) === TRUE) {  ?>
         <script>
             $(document).ready(function() {
                 showAlert("แก้ไขข้อมูลผลิตสินค้าสำเร็จ", "alert-success");
             });
         </script>
-<?php   }
+    <?php   }
+}
+
+if ($action == 'add') {
+    $production_id = $_REQUEST['production_id'];
+    $po_date = $_REQUEST['start'];
+    $po_enddate = $_REQUEST['end'];
+    // $plant_id= $_REQUEST['plantx']; 
+
+    // $delivery_address=$_REQUEST['delivery_address'];
+    $sqlx = "SELECT * FROM production_order  WHERE po_id='$production_id' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ข้อมูลใบสั่งผลิตซ้ำไม่สามารถบันทึกได้", "alert-danger");
+            });
+        </script>
+        <?php    } else {
+        $sql = "INSERT INTO production_order  (po_id,po_date,po_enddate,employee_id)
+                   VALUES ('$production_id','$po_date','$po_enddate','$emp_id')";
+        if ($conn->query($sql) === TRUE) {  ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                });
+            </script>
+        <?php   }
+    }
+}
+if ($action == 'del') {
+    $del_id = $_REQUEST['del_id'];
+
+    $sql = "DELETE FROM production_detail  WHERE  id='$del_id' ";
+    if ($conn->query($sql) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ลบรายการสำเร็จ", "alert-primary");
+            });
+        </script>
+    <?php  } else { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ไม่สามารถลบรายการได้", "alert-danger");
+            });
+        </script>
+<?php }
 }
 ?>
 <script language="JavaScript">
@@ -160,36 +206,43 @@ if ($action == 'edit') {
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
-                                            <label for="searchEDateId">เช็คเขาสต๊อกภายในวันที่</label>
+                                            <label for="searchEDateId">เช็คเข้าสต๊อกภายในวันที่</label>
                                             <input id="po_enddate" class="form-control" type="date" name="end" value="<?php echo "$po_enddate"; ?>" required="">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="plant"><strong>แพที่ผลิต <span class="text-danger"></span></strong></label>
-
-
-
                                         <select name="plant" id="plant" class="classcus custom-select " required>
-                                            <option value="">เลือกแพ</option>
-                                            <?php while ($result = mysqli_fetch_assoc($query)) : ?>
-                                                <option value="<?= $result['ptype_id'] ?>|<?= $result['width'] ?>"> แพที่<?= $result['plant_id'] ?>-<?= $result['factory'] ?></option>
-                                            <?php endwhile; ?>
+                                            <?php
+                                            $sql6 = "SELECT *  FROM plant   order by id DESC ";
+                                            $result6 = mysqli_query($conn, $sql6);
+                                            if (mysqli_num_rows($result6) > 0) {
+                                                while ($row6 = mysqli_fetch_assoc($result6)) {
+                                            ?>
+                                                    <option value="<?= $row6['ptype_id'] ?>|<?= $row6['width'] ?>|<?= $row6['plant_id'] ?>" <?php if (isset($plantx) && ($plantx == $row6['plant_id'])) {
+                                                                                                                                                echo "selected"; ?>>
+                                                        แพที่<?= $row6['plant_id'] ?>-<?= $row6['factory'] ?>
+                                                    <?php  } else {      ?>
+                                                    <option value="<?= $row6['ptype_id'] ?>|<?= $row6['width'] ?>|<?= $row6['plant_id'] ?>"> แพที่<?= $row6['plant_id'] ?>-<?= $row6['factory'] ?>
+                                                    <?php } ?>
+                                                    </option>
+                                            <?php  }
+                                            }  ?>
+
                                         </select>
-
-
                                     </div>
 
                                     <div class="row mt-12">
                                         <div class="form-group col-md-4">
                                             <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                            <select name="productx" id="productx" class="classcus custom-select" data-index="1" required>
+                                            <select name="productx" id="productx" class="classcus custom-select" data-index="1">
                                                 <option value="">เลือกสินค้าผลิต</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();" required>
+                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
                                             <input type="hidden" name="sqm1" id="sqm1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
                                             <input type="hidden" name="concrete_cal1" id="concrete_cal1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
 
@@ -198,13 +251,13 @@ if ($action == 'edit') {
                                         <div class="form-group col-md-2">
                                             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
 
-                                            <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
+                                            <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
 
 
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="concrete_cal" id="concrete_cal" <?php echo "$po_id"; ?> class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
+                                            <input type="text" name="concrete_cal" id="concrete_cal" <?php echo "$po_id"; ?> class="classcus form-control" placeholder="คำนวณคอนกรีต">
                                         </div>
                                         <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
                                         <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
@@ -258,11 +311,8 @@ if ($action == 'edit') {
 
                                                                         <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
+                                                                        <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการผลิต"> <i class="i-Close-Window font-weight-bold"></i> </button>
 
-
-                                                                        <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
-                                                                            <i class="i-Close-Window font-weight-bold"></i>
-                                                                        </a>
                                                                     </td>
                                                                 </tr>
                                                         <?php }
@@ -285,6 +335,7 @@ if ($action == 'edit') {
                                     <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                     <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
 
+                                    <input type="hidden" name="action" value="add">
                                     <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการสั่งผลิต</button>
                                     <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
                                         <span class="ladda-label">ยืนยันการสั่งผลิต</span>
@@ -349,7 +400,10 @@ if ($action == 'edit') {
         </div>
     </div>
 </div>
-<div class="modal fade" id="Modaledit" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+
+
+
+<div id="Modaledit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -360,12 +414,53 @@ if ($action == 'edit') {
                 </button>
             </div>
             <div class="modal-body">
+
+                <!-- mysql data will be load here -->
                 <div id="dynamic-content"></div>
             </div>
+
+
 
         </div>
     </div>
 </div>
+
+
+<!-- Modal DEL  -->
+<div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
+                                    <span>*</span></strong></label>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="del">
+                        <input type="hidden" name="del_id" id="del_id" value="">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
+                            DELETE</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- modal_end -->
 <script>
     /* ===== search start ===== */
@@ -415,7 +510,9 @@ if ($action == 'edit') {
             'keyboard': false,
         });
     });
+</script>
 
+<script>
     $(document).ready(function() {
 
         $(document).on('click', '#edit_po', function(e) {
@@ -423,7 +520,7 @@ if ($action == 'edit') {
             e.preventDefault();
 
             var uid = $(this).data('id'); // get id of clicked row
-            console.log('xxxc', uid)
+
             $('#dynamic-content').html(''); // leave this div blank
             $('#modal-loader').show(); // load ajax loader on button click
 
@@ -450,6 +547,7 @@ if ($action == 'edit') {
     });
 </script>
 
+
 <script>
     $('#inputform2').on('keydown', 'input', function(event) {
         if (event.which == 13) {
@@ -459,6 +557,15 @@ if ($action == 'edit') {
             $('[data-index="' + (index + 1).toString() + '"]').focus();
         }
     });
+</script>
+<script>
+    $('#myModal_del').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('#del_id').val(id)
+
+    })
 </script>
 
 </html>

@@ -41,9 +41,10 @@ $(function() {
                 // var cal_cons;
                 var cal_item = item.width * item.size;
 
-                if (typeof item.area !== 'undefined') {
+                if (item.area !== 'undefined') {
                     var cal_cons = item.width * item.size * item.thickness;
-                } else {
+                }
+                if (item.area >= 1) {
                     var cal_cons = item.width * item.size * item.thickness * item.area;
                 }
 
