@@ -199,7 +199,7 @@ $(document).ready(function() {
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" required>
+                                            <input type="number" name="unit_price" step="0.01"  class="classcus form-control" placeholder="ราคาต่อหน่วย" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="unit"><strong>หน่วยนับ <span class="text-danger"></span></strong></label>

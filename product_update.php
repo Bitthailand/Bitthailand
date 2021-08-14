@@ -188,7 +188,7 @@ if ($action == 'add_unit') {
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
-                                            <input type="number" value="<?php echo $row['dia_size']; ?>" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
+                                            <input type="number" value="<?php echo $row['dia_size']; ?>" name="dia_size" step="0.01"  class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
                                     </div>
 
@@ -200,7 +200,7 @@ if ($action == 'add_unit') {
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="accAddressId"><strong>ราคา <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="unit_price" value="<?php echo $row['unit_price']; ?>" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
+                                            <input type="number" name="unit_price" step="0.01"   value="<?php echo $row['unit_price']; ?>" class="classcus form-control" placeholder="ราคาต่อหน่วย" required="">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="unit"><strong>หน่วยนับ <span class="text-danger"></span></strong></label>
