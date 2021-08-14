@@ -184,8 +184,8 @@ error_reporting(0);
                                     <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
 
                                     <a class="btn btn-outline-primary m-1" href="/quotation.php" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
-                                    <a class="btn btn-outline-primary m-1" href="/hs.php" type="button" target="_blank">ออกใบเสร็จรับเงิน(HS)</a>
-                                    <a class="btn btn-outline-primary m-1" href="/saleorder.php" type="button" target="_blank">ออกใบส่งของ(SO)</a>
+                                    <a class="btn btn-outline-primary m-1 disabled" href="/hs.php" type="button" target="_blank">ออกใบเสร็จรับเงิน(HS)</a>
+                                    <a class="btn btn-outline-primary m-1 disabled" href="/saleorder.php" type="button" target="_blank">ออกใบส่งของ(SO)</a>
                                     <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยัน Order</button>
                                     <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
                                         <span class="ladda-label">ยืนยัน Order</span>
