@@ -14,7 +14,93 @@ $emp_id = $_SESSION["username"];
 // ตัดคำแพ
 $plant = $_REQUEST['plant'];
 $plant_id = explode("|", $plant);
+$action = $_REQUEST['action'];
 $plantx = $plant_id[2];
+if ($action == 'add_po') {
+    $productx = $_REQUEST['productx'];
+    $qty = $_REQUEST['qty'];
+    $po_idx = $_REQUEST['po_idd1'];
+    $sqm = $_REQUEST['sqm'];
+    $concrete_cal = $_REQUEST['concrete_cal'];
+    $plant = $_REQUEST['plant'];
+    $sql5 = "SELECT * FROM product where  id='$productx' ";
+    $rs5 = $conn->query($sql5);
+    $row5 = $rs5->fetch_assoc();
+    $plant_id = explode("|", $plant);
+echo"xxx";
+    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_idx' AND product_id='$row[product_id]' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ข้อมูลรายการสินค้าผลิตซ้ำไม่สามารถบันทึกได้", "alert-danger");
+            });
+        </script>
+        <?php    } else {
+        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
+                                       VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal')";
+        if ($conn->query($sql) === TRUE) {  ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                });
+            </script>
+        <?php   }
+    }
+}
+
+if ($action == 'edit') {
+    $edit_id = $_REQUEST['edit_id'];
+    $qty = $_REQUEST['qty'];
+    $sqm = $_REQUEST['textbox5'];
+    $concrete_cal = $_REQUEST['textbox6'];
+    $sql = "UPDATE production_detail    SET qty='$qty',sqm='$sqm',concrete_cal='$concrete_cal'  where id='$edit_id'";
+    if ($conn->query($sql) === TRUE) {  ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("แก้ไขข้อมูลผลิตสินค้าสำเร็จ", "alert-success");
+            });
+        </script>
+    <?php   }
+}
+
+if ($action == 'del') {
+    $del_id = $_REQUEST['del_id'];
+
+    $sql = "DELETE FROM production_detail  WHERE  id='$del_id' ";
+    if ($conn->query($sql) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ลบรายการสำเร็จ", "alert-primary");
+            });
+        </script>
+    <?php  } else { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ไม่สามารถลบรายการได้", "alert-danger");
+            });
+        </script>
+<?php }
+}
+
+if ($action == 'update') {
+    // echo"xx";
+    $edit_id= $_REQUEST['edit_id'];
+    $po_date = $_REQUEST['start'];
+    $po_enddate = $_REQUEST['end'];
+    // $plant_id= $_REQUEST['plantx']; 
+    // echo"$edit_id";
+    // $delivery_address=$_REQUEST['delivery_address'];
+
+    $sql = "UPDATE production_order    SET po_date='$po_date',po_enddate='$po_enddate'  where po_id='$edit_id'";
+    if ($conn->query($sql) === TRUE) {  ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("แก้ไขข้อมูลผลิตสินค้าสำเร็จ", "alert-success");
+            });
+        </script>
+    <?php   }
+}
 
 ?>
 <!DOCTYPE html>
@@ -49,6 +135,9 @@ $plantx = $plant_id[2];
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+              <!-- แจ้งเตือน -->
+              <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
                 <div class="row">
                     <div class="col-md-12">
@@ -125,9 +214,9 @@ $plantx = $plant_id[2];
                                         </div>
                                         <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
 
-                                        <button class="btn btn-outline-primary ripple m-1" type="button"
-                                            style=" height: 33px; margin-top: 24px!important;">แก้ไขข้อมูลสั่งผลิต</button>
-
+                                       
+                                            <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">แก้ไขข้อมูลสั่งผลิต</button>
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
                                             <div class="table-responsive">
@@ -201,7 +290,8 @@ $plantx = $plant_id[2];
                                 <div class="text-right">
                                     <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                     <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
-
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="edit_id" value="<?php echo $po_id; ?>">
                                     <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการแก้ไข</button>
                                     <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
                                         <span class="ladda-label">ยืนยันการแก้ไข</span>

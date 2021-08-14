@@ -193,9 +193,11 @@ if ($rowS == '') {
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id'];?>">
                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต" data-target="#medalconcreteuse">
+                                                <!-- <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต" data-target="#medalconcreteuse">
                                                     <i class="i-Gear font-weight-bold"></i>
-                                                </a>
+                                                </a> -->
+                                                <button type="button" class="btn btn-outline-info btn-sm line-height-1" title="บันทีกการเทคอนกรีต"  data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#medalconcreteuse" id="edit_po">   <i class="i-Gear font-weight-bold"></i> </button>
+
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
                                                     <i class="i-Check font-weight-bold"></i>
                                                 </a>
