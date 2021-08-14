@@ -191,7 +191,7 @@ $(document).ready(function() {
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="accNameId"><strong>ขนาดลวด <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="dia_size" class="classcus form-control" placeholder="ขนาดลวด" required>
+                                            <input type="number" name="dia_size" step="0.01"  class="classcus form-control" placeholder="ขนาดลวด" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="phone"><strong>จำนวนลวด <span class="text-danger"></span></strong></label>
