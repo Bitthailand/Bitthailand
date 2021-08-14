@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
+    <title>Sale Order | ใบส่งของ</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -41,28 +41,27 @@
                             <div class="card">
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
-
+                                        <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบส่งของ</button>
+                                        </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
                                                     <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
-                                                    <p>โทร 061-4362825</p>
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
-                                                    <h4 class="font-weight-bold">ใบรับเงินมัดจำ/ใบกำกับภาษี</h4>
+                                                    <h4 class="font-weight-bold">ใบส่งของ</h4>
                                                 </div>
                                             </div>
                                             <div class="mt-3 mb-4 border-top"></div>
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
-                                                    <p><strong>ชื่อลูกค้า : </strong>ปอณรัตน์พา</p>
-                                                    <p><strong>บริษัท : </strong>หจก. ปอณรัตน์พานิชย์</p>
-                                                    <p><strong>ที่อยู่ : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
-                                                    <p>เลขที่ประจำตัวผู้เสียภาษี 0343560001118 สำนักงานใหญ่</p>
+                                                    <p><strong>ชื่อลูกค้า : </strong>คุณ มนต์ชัย สุขเกษม</p>
+                                                    <p><strong>ที่อยู่จัดส่ง : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
                                                     <p><strong>โทร : </strong> 093-6954224</p>
                                                     <p><strong>อ้างอิง : </strong></p>
                                                 </div>
@@ -70,22 +69,18 @@
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
                                                         <div class="form-group col-md-12">
-                                                            <label for="ai_id"><strong>เลขที่ใบมัดจำ <span class="text-danger"></span></strong></label>
-                                                            <input type="text" name="ai_id" class="classcus form-control" id="ai_id" placeholder="เลขที่ใบรับมัดจำ">
+                                                            <p>ลำดับการสั่งซื้อ <span>OR6400024</span></p>
                                                         </div>
-                                                        <div class="viewDateClass col pr-12 ">
+                                                        <div class="form-group col-md-12">
+                                                            <label for="ai_id"><strong>เลขที่ใบส่งของ <span class="text-danger"></span></strong></label>
+                                                            <input type="text" name="ai_id" class="classcus form-control" id="ai_id" placeholder="เลขที่ใบส่งของ">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่</label>
                                                                 <input id="delivery_date" class="form-control" type="date" min="2021-06-01" name="start" value="2021-08-04">
                                                             </div>
                                                         </div>
-                                                        <div class="viewDateClass col pr-12 ">
-                                                            <div class="form-group">
-                                                                <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                <input id="delivery_date" class="form-control" type="date" min="2021-06-01" name="start" value="2021-08-04">
-                                                            </div>
-                                                        </div>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,60 +89,42 @@
                                                     <table class="table table-hover mb-4">
                                                         <thead class="bg-gray-300">
                                                             <tr>
-                                                                <th scope="col" class="text-center" width="5%">No.</th>
-                                                                <th scope="col" class="text-center" width="75%">รายการ</th>
-                                                                <th scope="col" class="text-center" width="20%">ราคารวมภาษี</th>
+                                                                <th scope="col" class="text-center">No.</th>
+                                                                <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
+                                                                <th scope="col" class="text-center">จำนวนในสต๊อก</th>
+                                                                <th scope="col" class="text-center">จำนวนสั่ง</th>
+                                                                <th scope="col" class="text-center">จำนวนส่ง</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row" class="text-center">1</th>
-                                                                <td><input class="form-control" value="" type="text" placeholder="รับรายได้มัดจำ"></td>
+                                                                <td>FP03100020 เสารั้ว 3x3" 1.00 1.00 1.00</td>
+                                                                <td class="text-right">40</td>
+                                                                <td class="text-right">60</td>
                                                                 <td class="text-right"><input class="form-control" value="" type="number" placeholder="ค่ามัดจำ"></td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row" class="text-center"></th>
-                                                                <td></td>
-                                                                <td class="text-right"></td>
+                                                                <th scope="row" class="text-center">2</th>
+                                                                <td>FP03100025 เสารั้ว 3x3" 1.00 1.00 1.00</td>
+                                                                <td class="text-right">200</td>
+                                                                <td class="text-right">60</td>
+                                                                <td class="text-right"><input class="form-control" value="" type="number" placeholder="ค่ามัดจำ"></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="invoice-summary">
-                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>49,135.75</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>228.97</span></p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <p>ตัวอักษร :</p>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <p>หนึ่งหมื่นหกร้อยสิบเจ็ดบาทถ้วน</p>
-                                                        </div>
-                                                        <div class="col-md-4 text-right">
-                                                            <div class="row" style="justify-content: flex-end; margin-right: 0;">
-                                                                <p>ราคาสินค้า</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>3,271.03</span></h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            </div>
+                                            <div class="mt-3 mb-4 border-top"></div>
+                                            <div class="d-sm-flex mb-5" data-view="print">
+                                                <span class="m-auto"></span>
+                                                <a class="btn btn-outline-primary m-1" href="/ai.php" type="button" target="_blank">พิมพ์ใบส่งของ</a>
+                                                <a class="btn btn-outline-primary m-1" href="#" type="button">บันทึกการส่งของ</a>
                                             </div>
 
                                         </div>
                                         <!-- ==== / Print Area =====-->
-                                        <div class="mt-3 mb-4 border-top"></div>
-                                        <br>
-                                        <div class="d-sm-flex mb-5" data-view="print">
-                                            <span class="m-auto"></span>
-                                            <a class="btn btn-outline-primary m-1" href="/ai.php" type="button" target="_blank">พิมพ์ใบมัดจำ</a>
-                                            <a class="btn btn-outline-primary m-1" href="#" type="button" target="_blank">บันทึกใบมัดจำ</a>
-                                        </div>
                                     </div>
-
                                 </div>
                             </div>
 
