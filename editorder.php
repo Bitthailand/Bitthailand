@@ -15,7 +15,7 @@ error_reporting(0);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
+    <title>Order | แก้ไข Order</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -40,7 +40,7 @@ error_reporting(0);
                         <div class="tab-content">
                             <form class="tab-pane fade active show" method="post">
                                 <div class="border-bottom text-primary">
-                                    <div class="card-title">เพิ่ม Order ใหม่</div>
+                                    <div class="card-title">แก้ไข Order</div>
                                 </div>
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-1">
@@ -107,9 +107,12 @@ error_reporting(0);
                                                             <th>รหัสสินค้า</th>
                                                             <th>ประเภทสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
-                                                            <th>ราคาต่อหน่วย</th>
+                                                            <th>หน้ากว้าง</th>
+                                                            <th>ความยาว</th>
+                                                            <th>ขนาดลวด</th>
+                                                            <th>จำนวนลวด</th>
+                                                            <th>เซอร์คีย์(เส้น)</th>
                                                             <th>จำนวนที่สั่ง</th>
-                                                            <th>รวมเป็นเงิน</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -117,10 +120,13 @@ error_reporting(0);
                                                         <tr>
                                                             <td> <strong>FP03100020</strong> </td>
                                                             <td> เสารั้วลวดหนาม</td>
-                                                            <td> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร </td>
-                                                            <td> 45 </td>
+                                                            <td> เสารั้ว 3x3" </td>
+                                                            <td> <strong>3"</strong> </td>
+                                                            <td> 1.00 </td>
+                                                            <td> 4 </td>
+                                                            <td> 5 </td>
+                                                            <td> - </td>
                                                             <td> 120 </td>
-                                                            <td> 5,400.00 </td>
                                                             <td>
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขจำนวนที่สั่ง" href="#">
                                                                     <i class="i-Pen-2 font-weight-bold"></i>
@@ -133,10 +139,13 @@ error_reporting(0);
                                                         <tr>
                                                             <td> <strong>FP03145020</strong> </td>
                                                             <td> เสารั้วลวดหนาม</td>
-                                                            <td> 	เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 1.45 เมตร </td>
-                                                            <td> 60 </td>
+                                                            <td> เสารั้ว 3x3" </td>
+                                                            <td> <strong>3"</strong> </td>
+                                                            <td> 1.45 </td>
+                                                            <td> 4 </td>
+                                                            <td> 5 </td>
+                                                            <td> - </td>
                                                             <td> 90 </td>
-                                                            <td> 5,000.00 </td>
                                                             <td>
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขจำนวนที่สั่ง" href="#">
                                                                     <i class="i-Pen-2 font-weight-bold"></i>
@@ -183,15 +192,13 @@ error_reporting(0);
                                     <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                     <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
 
-                                    <a class="btn btn-outline-primary m-1" href="/quotation.php" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
-                                    <a class="btn btn-outline-primary m-1" href="/hs.php" type="button" target="_blank">ออกใบเสร็จรับเงิน(HS)</a>
-                                    <a class="btn btn-outline-primary m-1" href="/saleorder.php" type="button" target="_blank">ออกใบส่งของ(SO)</a>
                                     <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยัน Order</button>
                                     <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
-                                        <span class="ladda-label">ยืนยัน Order</span>
+                                        <span class="ladda-label">ยืนยันการแก้ไข</span>
                                     </button>
                                     <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการ Order</a>
                                 </div>
+
                             </form>
                         </div>
                         <!-- </div> -->

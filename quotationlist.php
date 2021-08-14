@@ -173,25 +173,21 @@
                                                 <span class="font-weight-bold"> 81,525.00 </span>
                                             </td>
                                             <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
+                                                <!--   <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
                                                     href="/quotation.php?quotation_id=QT6401052" target="_blank">
                                                     <i class="i-File font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
-                                                    href="/ai.php?ai_id=AI6401052" target="_blank">
+                                                </a> -->
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)"
+                                                    href="/addai.php?order_id=OR6401052">
                                                     <i class="i-Money-Bag font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ส่งสินค้า(SO)"
                                                     href="/saleorder.php?saleorder_id=268" target="_blank">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)"
-                                                    href="/hs.php?hs_id=268" target="_blank">
-                                                    <i class="i-Files font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบกำกับสินค้า(IV)"
-                                                    href="/invoice.php?iv_id=267" target="_blank" hidden>
-                                                    <i class="i-Shopping-Cart font-weight-bold"></i>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order"
+                                                    href="/editorder.php?order_id=OR6400001">
+                                                    <i class="i-Check font-weight-bold"></i>
                                                 </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
                                                     data-target="#medalcancleorder">
@@ -219,25 +215,17 @@
                                                 <span class="font-weight-bold"> 7,545.00 </span>
                                             </td>
                                             <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
+                                                <!-- <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
                                                     href="/quotation.php?quotation_id=QT6401052" target="_blank">
                                                     <i class="i-File font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบรับมัดจำสินค้า(AI)"
-                                                    href="/ai.php?ai_id=AI6401052" target="_blank">
-                                                    <i class="i-Money-Bag font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
+                                                </a> -->
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ส่งสินค้า(SO)"
                                                     href="/saleorder.php?saleorder_id=268" target="_blank">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)"
-                                                    href="/hs.php?hs_id=268" target="_blank" hidden>
-                                                    <i class="i-Files font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบกำกับสินค้า(IV)"
-                                                    href="/invoice.php?iv_id=268" target="_blank">
-                                                    <i class="i-Shopping-Cart font-weight-bold"></i>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order"
+                                                    href="/editorder.php?order_id=OR6400001">
+                                                    <i class="i-Check font-weight-bold"></i>
                                                 </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
                                                     data-target="#medalcancleorder">
@@ -248,7 +236,6 @@
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>
