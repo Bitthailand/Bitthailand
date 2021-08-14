@@ -41,9 +41,7 @@
                             <div class="card">
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
-                                        <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบส่งของ</button>
-                                        </div>
+
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
                                             <div class="row">
@@ -102,14 +100,14 @@
                                                                 <td>FP03100020 เสารั้ว 3x3" 1.00 1.00 1.00</td>
                                                                 <td class="text-right">40</td>
                                                                 <td class="text-right">60</td>
-                                                                <td class="text-right"><input class="form-control" value="" type="number" placeholder="ค่ามัดจำ"></td>
+                                                                <td class="text-right"><input class="form-control" value="" type="number" placeholder="จำนวนที่ส่ง"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="text-center">2</th>
                                                                 <td>FP03100025 เสารั้ว 3x3" 1.00 1.00 1.00</td>
                                                                 <td class="text-right">200</td>
                                                                 <td class="text-right">60</td>
-                                                                <td class="text-right"><input class="form-control" value="" type="number" placeholder="ค่ามัดจำ"></td>
+                                                                <td class="text-right"><input class="form-control" value="" type="number" placeholder="จำนวนที่ส่ง"></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -118,7 +116,7 @@
                                             <div class="mt-3 mb-4 border-top"></div>
                                             <div class="d-sm-flex mb-5" data-view="print">
                                                 <span class="m-auto"></span>
-                                                <a class="btn btn-outline-primary m-1" href="/ai.php" type="button" target="_blank">พิมพ์ใบส่งของ</a>
+                                                <a class="btn btn-outline-primary m-1" href="/saleorder.php" type="button" target="_blank">พิมพ์ใบส่งของ</a>
                                                 <a class="btn btn-outline-primary m-1" href="#" type="button">บันทึกการส่งของ</a>
                                             </div>
 
