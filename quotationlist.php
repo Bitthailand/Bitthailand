@@ -182,7 +182,7 @@
                                                     <i class="i-Money-Bag font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ส่งสินค้า(SO)"
-                                                    href="/saleorder.php?saleorder_id=268" target="_blank">
+                                                    href="/addsaleorder.php?saleorder_id=268">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order"
@@ -220,7 +220,7 @@
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a> -->
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ส่งสินค้า(SO)"
-                                                    href="/saleorder.php?saleorder_id=268" target="_blank">
+                                                    href="/addsaleorder.php?saleorder_id=268">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order"
