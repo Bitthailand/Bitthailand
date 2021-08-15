@@ -172,7 +172,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/saleorder.php?saleorder_id=268" target="_blank">
+                                                    href="/addsaleorder.php?saleorder_id=268">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)" href="/hs.php?hs_id=268"
@@ -210,7 +210,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/saleorder.php?saleorder_id=268" target="_blank">
+                                                    href="/addsaleorder.php?saleorder_id=268">
                                                     <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)" href="/hs.php?hs_id=268"
