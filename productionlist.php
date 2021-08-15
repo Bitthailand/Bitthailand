@@ -183,57 +183,64 @@ if ($rowS == '') {
 
                                         $result = mysqli_query($conn, "SELECT * FROM `production_order`     LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) {
-                            
+
 
                                             $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' ");
                                             $total = mysqli_fetch_array($count);
-
+                                            $count = 0;
                                             $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]'";
                                             $resultxx = mysqli_query($conn, $sqlxx);
                                             if (mysqli_num_rows($resultxx) > 0) {
-                                                while ($row1 = mysqli_fetch_assoc($resultxx)) {
-
-
-
+                                                $num = @mysqli_num_rows($resultxx);
+                                                $row_cnt = $resultxx->num_rows;
+                                                // while ($row1 = mysqli_fetch_assoc($resultxx)) {
+                                                while ($row2 = mysqli_fetch_array($resultxx)) {
                                         ?>
-                                                  <?php for ($x = 1; $x <= $total['total']; $x++) {  ?>    <tr>
-                                                       
-                                                      <td> <?php echo "$total[total]"; ?>
-                                                           
-                                                               
-                                                              
-                                                                <?php echo $x == 1 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
-                                                         
-                                                            </td>
-                                                           
-                                                        <td> <?php echo $x == 1 ? '<strong>' . $row['po_date'] . '</strong>' : ''; ?></td>
-                                                        <td> <?php echo $x == 1 ? '<strong>' . $row['po_enddate'] . '</strong>' : ''; ?></td>
-                                                        <td><?php echo $row['product_id']; ?></td>
-                                                        <td>120</td>
-                                                        <td>เสารั้ว 3x3"</td>
-                                                        <td>1.00</td>
-                                                        <td>1.00</td>
-                                                        <td>1.00</td>
-                                                        <td>4</td>
-                                                        <td>5</td>
-                                                        <td>-</td>
-                                                        <td>2.21</td>
+                                                    <tr>
                                                         <td>
-                                                            <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id']; ?>">
-                                                                <i class="i-Pen-2 font-weight-bold"></i>
-                                                            </a>
-                                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต" data-target="#medalconcreteuse">
-                                                                <i class="i-Gear font-weight-bold"></i>
-                                                            </a>
-                                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
-                                                                <i class="i-Check font-weight-bold"></i>
-                                                            </a>
-                                                            <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
-                                                                <i class="i-Close-Window font-weight-bold"></i>
-                                                            </a>
+                                                            <?php
+                                                            $x = $count++;
+                                                            echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
+
+                                                        </td>
+
+                                                        <td> <?php echo $x == 0 ? '<strong>' . $row['po_date'] . '</strong>' : ''; ?></td>
+                                                        <td> <?php echo $x == 0 ? '<strong>' . $row['po_enddate'] . '</strong>' : ''; ?></td>
+                                                        <td><?php echo $row2['product_id']; ?></td>
+                                                        <td><?php echo $row2['qty']; ?></td>
+                                                        <?php
+                                                        $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
+                                                        $rsx = $conn->query($sqlx);
+                                                        $rowx = $rsx->fetch_assoc();
+
+                                                        ?>
+                                                        <td><?php echo $rowx['product_name']; ?></td>
+                                                        <td><?php echo $rowx['thickness']; ?></td>
+                                                        <td><?php echo $rowx['width']; ?></td>
+                                                        <td><?php echo $rowx['size']; ?></td>
+                                                        <td> <?php echo $rowx['dia_count']; ?> </td>
+                                                        <td> <?php echo $rowx['dia_size']; ?></td>
+                                                        <td> <?php echo $row2['sqm']; ?></td>
+                                                        <td> <?php echo $row2['concrete_cal']; ?></td>
+
+                                                        <td>
+                                                            <?php if ($x == 0) { ?>
+                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id']; ?>">
+                                                                    <i class="i-Pen-2 font-weight-bold"></i>
+                                                                </a>
+                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต" data-target="#medalconcreteuse">
+                                                                    <i class="i-Gear font-weight-bold"></i>
+                                                                </a>
+                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
+                                                                    <i class="i-Check font-weight-bold"></i>
+                                                                </a>
+                                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
+                                                                    <i class="i-Close-Window font-weight-bold"></i>
+                                                                </a>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr> <?php
-                                                  }
+
                                                         }
                                                     }
                                                 }
