@@ -145,7 +145,7 @@ if ($rowS == '') {
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
                                         <h3 class="ul-widget1__title "> ตั้งค่า </h3>
-                                        <span class="ul-widget__desc "> รายการsหน่วยนับ</span>
+                                        <span class="ul-widget__desc "> รายการหน่วยนับ</span>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
