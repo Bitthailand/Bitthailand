@@ -144,7 +144,7 @@
                                         <div class="d-sm-flex mb-5" data-view="print">
                                             <span class="m-auto"></span>
                                             <a class="btn btn-outline-primary m-1" href="/ai.php" type="button" target="_blank">พิมพ์ใบมัดจำ</a>
-                                            <a class="btn btn-outline-primary m-1" href="#" type="button" target="_blank">บันทึกใบมัดจำ</a>
+                                            <a class="btn btn-outline-primary m-1" href="#" type="button">บันทึกใบมัดจำ</a>
                                         </div>
                                     </div>
 

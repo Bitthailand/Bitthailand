@@ -44,20 +44,20 @@
                             </li>
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/ailist.php">
-                                    <h3 class="h5 font-weight-bold"> Order มัดจำ
+                                    <h3 class="h5 font-weight-bold"> Order รอส่ง
                                         <span class="badge badge-pill badge-danger">1</span>
                                     </h3>
-                                    <span>Order ที่มัดจำเรียบร้อย
+                                    <span>Order รอส่งสินค้า
                                         <span class="badge badge-warning"> Wait </span>
                                     </span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/tranW.php">
-                                    <h3 class="h5 font-weight-bold"> Order รอส่ง
+                                <a class="linkLoadModalNext nav-link" href="/creditlist.php">
+                                    <h3 class="h5 font-weight-bold"> รอเคลียเครดิต
                                         <span class="badge badge-pill badge-danger">1</span>
                                     </h3>
-                                    <span>Order ชำระเงินเรียบร้อย
+                                    <span>ลูกค้าเครดิตรอเคลียยอด
                                         <span class="badge badge-warning"> Wait </span>
                                     </span>
                                 </a>
