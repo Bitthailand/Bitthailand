@@ -7,7 +7,11 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 include './include/config.php';
 ?>
-<?php $keyword = $_POST['keyword'];
+<?php 
+
+error_reporting(0);
+$action = $_REQUEST['action'];
+$keyword = $_POST['keyword'];
 $column = $_REQUEST['column'];
 $rowS = $_REQUEST['row'];
 if (empty($column) && ($keyword)) {
@@ -33,7 +37,25 @@ if ($rowS == '') {
 } else {
     $total_records_per_page = $rowS;
 }
+if ($action =='edit_prox') {
+    // echo"xx";
+    $edit_id= $_REQUEST['edit_id'];   
+    // echo"$edit_id";
+    $po_start = $_REQUEST['po_start'];
+    $po_stop = $_REQUEST['po_stop'];
+//    echo"$po_stop";
+//    echo"$po_start";
+    $sqlxxx = "UPDATE production_order  SET po_start='$po_start',po_stop='$po_stop' where id='$edit_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+<script>
+$(document).ready(function() {
+    showAlert("บันทึกข้อมูลการเทคอนกรีตสำเร็จ", "alert-primary");
+});
+</script>
+<?php }  
+ }
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="">
 
@@ -66,6 +88,9 @@ if ($rowS == '') {
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+                <!-- แจ้งเตือน -->
+                <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
 
                 <div class="row">
@@ -146,9 +171,10 @@ if ($rowS == '') {
                                     <thead>
                                         <tr class="table-secondary">
                                             <th>รหัสสั่งผลิต</th>
-
                                             <th>วันที่สั่ง</th>
                                             <th>กำหนดเสร็จ</th>
+                                            <th>วันที่เท</th>
+                                            <th>กำหนดเทเสร็จ</th>
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
                                             <th>ชื่อสินค้า</th>
@@ -203,9 +229,31 @@ if ($rowS == '') {
                                                             echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
 
                                                         </td>
-
-                                                        <td> <?php echo $x == 0 ? '<strong>' . $row['po_date'] . '</strong>' : ''; ?></td>
-                                                        <td> <?php echo $x == 0 ? '<strong>' . $row['po_enddate'] . '</strong>' : ''; ?></td>
+                                                      
+                                                        <td> <?php if ($x == 0) {  $date=explode(" ",$row['po_date'] );
+                                                          $dat=datethai2($date[0]); 
+                                                          echo '<strong>' .$dat. '</strong>';
+                                                        }?>
+                                                          
+                                                        <td>
+                                                        <?php if ($x == 0) {  $date=explode(" ",$row['po_enddate'] );
+                                                          $dat=datethai2($date[0]); 
+                                                          echo '<strong>' .$dat. '</strong>';
+                                                        }?>
+                                                       
+                                                        <td>
+                                                        <?php if ($x == 0) {  $date=explode(" ",$row['po_start'] );
+                                                          $dat=datethai2($date[0]); 
+                                                          echo '<strong>' .$dat.'-'.$date[1]. '</strong>';
+                                                        }?> 
+                                                        
+                                                       
+                                                        <td> 
+                                                        <?php if ($x == 0) {  $date=explode(" ",$row['po_stop'] );
+                                                          $dat=datethai2($date[0]); 
+                                                          echo '<strong>' .$dat.'-'.$date[1]. '</strong>';
+                                                        }?>     
+                                                      
                                                         <td><?php echo $row2['product_id']; ?></td>
                                                         <td><?php echo $row2['qty']; ?></td>
                                                         <?php
@@ -228,9 +276,8 @@ if ($rowS == '') {
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id']; ?>">
                                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                                 </a>
-                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต" data-target="#medalconcreteuse">
-                                                                    <i class="i-Gear font-weight-bold"></i>
-                                                                </a>
+                                                    
+                                                                <button data-toggle="modal" data-target="#medalconcreteuse" title="บันทีกการเทคอนกรีต" data-id="<?php echo $row['id']; ?>" id="edit_pro" class="btn btn-outline-success btn-sm line-height-1">   <i class="i-Gear font-weight-bold"></i> </button>
                                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
                                                                     <i class="i-Check font-weight-bold"></i>
                                                                 </a>
@@ -315,24 +362,10 @@ if ($rowS == '') {
                 </div>
                 <div class="modal-body">
 
-                    <div class="viewDateClass col pr-0 ">
-                        <div class="form-group">
-                            <label for="searchSDateId">วันเวลาเท</label>
-                            <input id="searchSDateId" class="form-control" type="datetime-local" min="2021-06-01" name="start" value="2021-08-04" required="">
-                        </div>
-                    </div>
-                    <div class="viewDateClass col pr-0 ">
-                        <div class="form-group">
-                            <label for="searchEDateId">วันเวลาเทเสร็จ</label>
-                            <input id="searchEDateId" class="form-control" type="datetime-local" name="end" value="2021-08-04" required="">
-                        </div>
-                    </div>
+                       <div id="dynamic-content"></div>
 
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
-                    <button class="btn btn-primary ml-2" type="button">บันทึก</button>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -417,3 +450,51 @@ if ($rowS == '') {
 </body>
 
 </html>
+
+
+<script>
+    $(document).ready(function() {
+
+        $(document).on('click', '#edit_pro', function(e) {
+
+            e.preventDefault();
+
+            var uid = $(this).data('id'); // get id of clicked row
+
+            $('#dynamic-content').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
+
+            $.ajax({
+                    url: 'productionlist_editpo.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content').html(''); // blank before load.
+                    $('#dynamic-content').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
+
+        });
+    });
+</script>
+
+
+<script>
+    $('#inputform2').on('keydown', 'input', function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            var $this = $(event.target);
+            var index = parseFloat($this.attr('data-index'));
+            $('[data-index="' + (index + 1).toString() + '"]').focus();
+        }
+    });
+</script>

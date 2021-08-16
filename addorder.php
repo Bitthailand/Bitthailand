@@ -7,6 +7,8 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 
 error_reporting(0);
+$CUS_ID = $_REQUEST['CUS_ID'];
+echo "$CUS_ID";
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -47,8 +49,7 @@ error_reporting(0);
                                         <label for="order_id"><strong>รหัส Order <span class="text-danger"></span></strong></label>
                                         <input type="text" name="order_id" id="order_id" class="classcus form-control" placeholder="รหัส Order" required>
                                     </div>
-                                    <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalcustomerlist"
-                                        style=" height: 33px; margin-top: 24px!important;">เลือกลูกค้า</button>
+                                    <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalcustomerlist" style=" height: 33px; margin-top: 24px!important;">เลือกลูกค้า</button>
                                     <a class="btn btn-outline-primary m-1" href="/customer.php" type="button" style=" height: 33px; margin-top: 24px!important;">เพิ่มลูกค้าใหม่</a>
                                     <div class="form-group col-md-1">
                                         <label for="customer_type"><strong>รับสินค้า <span class="text-danger"></span></strong></label>
@@ -59,19 +60,20 @@ error_reporting(0);
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="accNameId"><strong>ประเภทลูกค้า <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ประเภทลูกค้า" required>
+                                        <input type="text" name="customer_type" id="Fcus_type_name" class="classcus form-control" placeholder="ประเภทลูกค้า" required>
+                                        <input type="hidden" name="customer_type" id="Fcus_type_id" class="classcus form-control">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="customer_name" id="customer_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
+                                        <input type="text" name="customer_name" id="Fcus_name" class="classcus form-control" placeholder="ชื่อ-นามสกุล" required>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="phone"><strong>เบอร์โทร <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="phone" id="phone" class="classcus form-control" placeholder="เบอร์โทร" required>
+                                        <input type="text" name="phone" id="Fcus_tel" class="classcus form-control" placeholder="เบอร์โทร" required>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
+                                        <input type="text" name="address" class="classcus form-control" id="Fcus_bill_address" placeholder="ที่อยู่" required="">
                                     </div>
                                     <div class="row mt-12">
                                         <div class="form-group col-md-2">
@@ -133,7 +135,7 @@ error_reporting(0);
                                                         <tr>
                                                             <td> <strong>FP03145020</strong> </td>
                                                             <td> เสารั้วลวดหนาม</td>
-                                                            <td> 	เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 1.45 เมตร </td>
+                                                            <td> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 1.45 เมตร </td>
                                                             <td> 60 </td>
                                                             <td> 90 </td>
                                                             <td> 5,000.00 </td>
@@ -225,43 +227,56 @@ error_reporting(0);
                             </div>
                         </div>
                         <!-- ============ Table Start ============= -->
-                        <div id="productionorder" class="table-responsive">
-                            <table role="table" class="table table-hover text-nowrap table-sm">
-                                <thead>
-                                    <tr class="table-secondary">
+                        <div class="modal-content">
+                            <div id="productionorder" class="table-responsive">
+                                <table role="table" class="table table-hover text-nowrap table-sm">
+                                    <thead>
+                                        <tr class="table-secondary">
+                                            <th>เลือก</th>
+                                            <th>รหัสลูกค้า</th>
+                                            <th>ชื่อลูกค้า</th>
+                                            <th>ที่อยู่</th>
 
-                                        <th>รหัสลูกค้า</th>
-                                        <th>ชื่อลูกค้า</th>
-                                        <th>ที่อยู่</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="myTable">
-                                    <tr data-toggle="modal" data-id="3" data-target="#orderModal">
-                                        <td> <a href="javascript:void(0);">CUS640800001</a></td>
-                                        <td>คุณเวนิช พุ่มจันทร์</td>
-                                        <td>ตำบลหนองเป็ด อำเภอเมือง จ.ยโสธร 35000</td>
-                                    </tr>
-                                    <tr data-toggle="modal" data-id="32" data-target="#orderModal">
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                        <?php
+                                        $sqlxx = "SELECT *  FROM customer  order by customer_id  DESC";
+                                        $resultxx = mysqli_query($conn, $sqlxx);
+                                        if (mysqli_num_rows($resultxx) > 0) {
+                                            while ($row1 = mysqli_fetch_assoc($resultxx)) {
 
-                                        <td>CUS640800002</td>
-                                        <td>กฤษณะ ยศวิปาน</td>
-                                        <td>บ้านหนองค้า ต.หนองค้า อ.พยุห์ ศรีสะเกษ</td>
-                                    </tr>
-                                    <tr data-toggle="modal" data-id="4" data-target="#orderModal">
-                                        <td>CUS640800003</td>
-                                        <td>ภัทราวดี คำบ่อ</td>
-                                        <td>บ้านหนองช้าง ต.หนองขอน จ.อุบล</td>
-                                    </tr>
+                                        ?>
+                                                <tr data-toggle="modal" data-id="3" data-target="#orderModal">
 
-                                </tbody>
-                            </table>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="cus_id" id="cus_id<?php echo $row1['id']; ?>" value="<?php echo $row1['id']; ?>" onclick="selection()" data-dismiss="modal">
+                                                            <label class="btn btn-outline-primary" for="cus_id<?php echo $row1['id']; ?>">เลือกลูกค้า</label><br>
+                                                        </div>
+                                                    </td>
+                                                    <td> <?php echo $row1['customer_id']; ?> </td>
+                                                    <td><?php echo "$row1[customer_name]"; ?></td>
+                                                    <td><?php echo "$row1[bill_address]"; ?></td>
+
+                                            <?php }
+                                        } ?>
+
+                                    </tbody>
+                                </table>
+                                <div class="modal-footer">
+
+
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ปิด</button>
+                                    <button class="btn btn-secondary " type="button" onclick="selection()" data-dismiss="modal">เลือกลูกค้า</button>
+
+                                </div>
+                            </div>
                         </div>
                         <!-- ============ Table End ============= -->
 
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -275,36 +290,157 @@ error_reporting(0);
         <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
         <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
         <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-</body>
-<script>
-$(function() {
-    $('#orderModal').modal({
-        keyboard: true,
-        backdrop: "static",
-        show: false,
+        <!-- ============ Script End ============= -->
 
-    }).on('show', function() {
-        var getIdFromRow = $(this).data('orderid');
-        //make your ajax call populate items or what even you need
-        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
-    });
+        <!-- ============ Tooltip Starts ============ -->
+        <script src="/dist-assets/js/scripts/tooltip.script.min.js"></script>
+        <!-- ============ Tooltip End ============ -->
 
-    $(".table-striped").find('tr[data-target]').on('click', function() {
-        //or do your operations here instead of on show of modal to populate values to modal.
-        $('#orderModal').data('orderid', $(this).data('id'));
-    });
+        <!-- ============ btnLoad Script Starts ============ -->
+        <script src="/dist-assets/js/plugins/spin.min.js"></script>
+        <script src="/dist-assets/js/plugins/ladda.min.js"></script>
+        <!-- ============ btnLoad Script End ============ -->
 
-});
-</script>
-<script>
-$(document).ready(function() {
-    $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-});
-</script>
+        <!-- ============ dataTable Script Starts ============ -->
+        <script src="/dist-assets/js/plugins/datatables.min.js"></script>
+        <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
+        <!-- ============ dataTable Script End ============ -->
 
-</html>
+        <!-- ============ Modal Script Starts ============ -->
+        <script src="/dist-assets/js/plugins/sweetalert2.min.js"></script>
+
+        <!--  -->
+        <!-- modal load -->
+        <div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                            <div class="mt-1">
+                                Load ...
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <form class="d-none" method="POST">
+            <input type="text" id="Fcus_id" name="CUS_ID" value="<?php echo $CUS_ID; ?>" placeholder="">
+            <input type="hidden" id="FSpo_id" name="po_idd1" value="<?php echo "$po_id"; ?>">
+            <button class="btn" id="FSButtonID" type="submit"></button>
+        </form>
+        <!-- ============ Modal Script End ============ -->
+        <script>
+            function modalLoad() {
+                $("#ModalLoadId").modal({
+                    backdrop: 'static',
+                    'keyboard': false,
+                });
+            };
+
+            function clickNav(page) {
+                modalLoad();
+
+                $("#FSPageId").val(page);
+                $("#FSButtonID").click();
+            }
+
+            function selection() {
+
+                let cusid = $("input:radio[name=cus_id]:checked").val()
+                if (cusid === undefined || cusid === '') {
+                    alert('xxxx');
+                } else {
+
+                    // alert('d' + d);
+                    console.log('dds', cusid)
+
+
+                    $.get('get_customer.php?cus_id=' + cusid, function(data) {
+                        var result = JSON.parse(data);
+                        console.log('cus', result)
+                        $.each(result, function(index, cus) {
+
+
+                                $("#Fid").val(cus.id);
+                                $("#Fcus_id").val(cus.customer_id);
+                                $("#Fcus_name").val(cus.customer_name);
+                                $("#Fcus_tel").val(cus.tel);
+
+                                $("#Fcus_type_id").val(cus.customer_type);
+                                //    
+                                $.get('get_customer_type.php?type_id=' + cus.customer_type, function(data) {
+                                    var result = JSON.parse(data);
+                                    console.log('cus_type', result)
+                                    $.each(result, function(index, custype) {
+                                            $("#Fcus_type_name").val(custype.name);
+                                        }
+
+
+                                    );
+                                });
+                                $.get('get_district1.php?subdistrict_id=' + cus.subdistrict, function(data) {
+                                    var result = JSON.parse(data);
+                                    console.log('cus_subdistrict', result)
+                                    $.each(result, function(index, subdistrict) {
+                                            $("#Fcus_subdistrict").val(subdistrict.name_th);
+
+                                            let bill = cus.bill_address+subdistrict.name_th;
+                                            $("#Fcus_bill_address").val(bill);
+                                        }
+
+
+                                    );
+                                });
+                                // 
+
+
+                            }
+
+
+                        );
+                    });
+                }
+            }
+
+            function address() {
+
+
+
+            }
+        </script>
+        <script>
+            $(function() {
+                $('#orderModal').modal({
+                    keyboard: true,
+                    backdrop: "static",
+                    show: false,
+
+                }).on('show', function() {
+                    var getIdFromRow = $(this).data('orderid');
+                    //make your ajax call populate items or what even you need
+                    $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+                });
+
+                $(".table-striped").find('tr[data-target]').on('click', function() {
+                    //or do your operations here instead of on show of modal to populate values to modal.
+                    $('#orderModal').data('orderid', $(this).data('id'));
+                });
+
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>

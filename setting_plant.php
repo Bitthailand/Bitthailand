@@ -188,10 +188,9 @@ if ($rowS == '') {
                                     <thead>
                                         <tr>
                                             <th>รหัสแพ</th>
-                                            <th>ความกว้าง</th>
-                                            <th>โรงงาน</th>
+                                            <th>โรงงาน</th> 
                                             <th>ประเภทสินค้า</th>
-
+                                            <th>ความกว้าง</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -220,9 +219,8 @@ if ($rowS == '') {
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr data-target="#orderModal">
                                                 <td><?php echo $row['plant_id']; ?></td>
-                                                <td><?php echo $row['width']; ?></td>
+                                               
                                                 <td><?php echo $row['factory']; ?></td>
-
                                                 <td><?php
                                                     $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
                                                     $rs3 = $conn->query($sql3);
@@ -231,6 +229,8 @@ if ($rowS == '') {
 
                                                     ?>
                                                 </td>
+                                                <td><?php echo $row['width']; ?></td>
+                                               
 
                                                 <td>
 
