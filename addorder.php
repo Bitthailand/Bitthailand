@@ -5,10 +5,19 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-
+include './include/config.php';
 error_reporting(0);
-$CUS_ID = $_REQUEST['CUS_ID'];
-echo "$CUS_ID";
+$sql5 = "SELECT MAX(id) AS id_run FROM orders  ";
+$rs5 = $conn->query($sql5);
+$row_run = $rs5->fetch_assoc(); 
+
+$datetodat=date('Y-m-d');
+ $date=explode(" ",$datetodat);
+ $dat=datethai_order($date[0]);
+ $code_new=$row_run['id_run']+1;
+ $code = sprintf('%05d', $code_new);
+ $roder_id=$dat.$code;
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -21,6 +30,12 @@ echo "$CUS_ID";
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th, .table-sm td {
+    padding: 0.3rem;
+    font-size: 0.813rem!important;
+}
+    </style>
 </head>
 
 <body class="text-left">
@@ -45,9 +60,9 @@ echo "$CUS_ID";
                                     <div class="card-title">เพิ่ม Order ใหม่</div>
                                 </div>
                                 <div class="form-row mt-3">
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-2">
                                         <label for="order_id"><strong>รหัส Order <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="order_id" id="order_id" class="classcus form-control" placeholder="รหัส Order" required>
+                                        <input type="text" name="order_id" id="order_id" value="<?=$roder_id?>" class="classcus form-control" placeholder="รหัส Order" required>
                                     </div>
                                     <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalcustomerlist" style=" height: 33px; margin-top: 24px!important;">เลือกลูกค้า</button>
                                     <a class="btn btn-outline-primary m-1" href="/customer.php" type="button" style=" height: 33px; margin-top: 24px!important;">เพิ่มลูกค้าใหม่</a>
@@ -388,9 +403,9 @@ echo "$CUS_ID";
                                     var result = JSON.parse(data);
                                     console.log('cus_subdistrict', result)
                                     $.each(result, function(index, subdistrict) {
-                                            $("#Fcus_subdistrict").val(subdistrict.name_th);
+                                         
 
-                                            let bill = cus.bill_address+subdistrict.name_th;
+                                            let bill = cus.bill_address+' '+'ตำบล.'+subdistrict.TUM+' อำเภอ.'+subdistrict.AUM+' จังหวัด.'+subdistrict.PRO;
                                             $("#Fcus_bill_address").val(bill);
                                         }
 
