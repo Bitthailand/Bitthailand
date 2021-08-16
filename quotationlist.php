@@ -173,24 +173,15 @@
                                                 <span class="font-weight-bold"> 81,525.00 </span>
                                             </td>
                                             <td>
-                                                <!--   <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/quotation.php?quotation_id=QT6401052" target="_blank">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a> -->
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)"
                                                     href="/addai.php?order_id=OR6401052">
                                                     <i class="i-Money-Bag font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ส่งสินค้า(SO)"
-                                                    href="/addsaleorder.php?saleorder_id=268">
-                                                    <i class="i-Car-Items font-weight-bold"></i>
                                                 </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order"
                                                     href="/editorder.php?order_id=OR6400001">
                                                     <i class="i-Check font-weight-bold"></i>
                                                 </a>
-                                                <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
-                                                    data-target="#medalcancleorder">
+                                                <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="ยกเลิก Order" data-target="#medalcancleorder">
                                                     <i class="i-Close-Window font-weight-bold"></i>
                                                 </div>
                                             </td>
@@ -215,20 +206,15 @@
                                                 <span class="font-weight-bold"> 7,545.00 </span>
                                             </td>
                                             <td>
-                                                <!-- <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/quotation.php?quotation_id=QT6401052" target="_blank">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a> -->
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ส่งสินค้า(SO)"
-                                                    href="/addsaleorder.php?saleorder_id=268">
-                                                    <i class="i-Car-Items font-weight-bold"></i>
-                                                </a>
+                                                <div class="btn btn-outline-success btn-sm line-height-1" data-toggle="modal" title="ยืนยันสั่งสินค้า"
+                                                    data-target="#medalconfirmorder">
+                                                    <i class="i-Memory-Card-3 font-weight-bold"></i>
+                                                </div>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order"
                                                     href="/editorder.php?order_id=OR6400001">
                                                     <i class="i-Check font-weight-bold"></i>
                                                 </a>
-                                                <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="บันทีกการเทคอนกรีต"
-                                                    data-target="#medalcancleorder">
+                                                <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="ยกเลิก Order" data-target="#medalcancleorder">
                                                     <i class="i-Close-Window font-weight-bold"></i>
                                                 </div>
                                             </td>
@@ -285,9 +271,26 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-
                     <p class="text-danger text-16 line-height-1 mb-2">คุณต้องการยกเลิก Order : OR6400001 ใช่หรือไม่ ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
+                    <button class="btn btn-primary ml-2" type="button">ใช่</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Modal ยืนยันสั่งผลิต -->
+    <div class="modal fade" id="medalconfirmorder" tabindex="-1" role="dialog" aria-labelledby="medalconfirmorder" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalconfirmorder">ยืนยันสั่งผลิต</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger text-16 line-height-1 mb-2">ยืนยันสั่งผลิต Order : OR6400001 ใช่หรือไม่ ?</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
