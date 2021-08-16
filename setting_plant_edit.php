@@ -22,10 +22,27 @@ $row = $rs->fetch_assoc();
             <input type="text" name="plant_id"   value="<?=$row['plant_id']?>"  id="plant_id" class="classcus form-control" placeholder="รหัสแพ" required disabled>
         </div>
         <div class="form-group col-md-3">
-            <label for="accNameId"><strong>ความกว้างของแพ <span class="text-danger"></span></strong></label>
-            <input type="number" name="width"  value="<?=$row['width']?>"   step="0.01" class="classcus form-control" placeholder="ความกว้างแพ">
-        </div>
+            <label for="accNameId"><strong>โรงงาน<span class="text-danger">*</span></strong></label>
+            <select class="classcus custom-select" name="factory" id="type_id" required>
+                <?php
+                $sql6 = "SELECT *  FROM  factory order by id DESC ";
+                $result6 = mysqli_query($conn, $sql6);
+                if (mysqli_num_rows($result6) > 0) {
+                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                ?>
+                        <option value="<?php echo $row6['name'] ?>" <?php
+                                                                    if (isset($row['factory']) && ($row['factory'] == $row6['name'])) {
+                                                                        echo "selected"; ?>>
+                        <?php echo "$row6[name]";
+                                                                    } else {      ?>
+                        <option value="<?php echo $row6['name']; ?>"> <?php echo $row6['name'];  ?>
+                        <?php } ?>
+                        </option>
+                <?php  }
+                }  ?>
 
+            </select>
+        </div>
         <div class="form-group col-md-3">
             <label for="customer_type"><strong>ประเภทสินค้า <span class="text-danger"></span></strong></label>
 
@@ -50,27 +67,12 @@ $row = $rs->fetch_assoc();
             </select>
         </div>
         <div class="form-group col-md-3">
-            <label for="accNameId"><strong>โรงงาน<span class="text-danger">*</span></strong></label>
-            <select class="classcus custom-select" name="factory" id="type_id" required>
-                <?php
-                $sql6 = "SELECT *  FROM  factory order by id DESC ";
-                $result6 = mysqli_query($conn, $sql6);
-                if (mysqli_num_rows($result6) > 0) {
-                    while ($row6 = mysqli_fetch_assoc($result6)) {
-                ?>
-                        <option value="<?php echo $row6['name'] ?>" <?php
-                                                                    if (isset($row['factory']) && ($row['factory'] == $row6['name'])) {
-                                                                        echo "selected"; ?>>
-                        <?php echo "$row6[name]";
-                                                                    } else {      ?>
-                        <option value="<?php echo $row6['name']; ?>"> <?php echo $row6['name'];  ?>
-                        <?php } ?>
-                        </option>
-                <?php  }
-                }  ?>
-
-            </select>
+            <label for="accNameId"><strong>ความกว้างของแพ <span class="text-danger"></span></strong></label>
+            <input type="number" name="width"  value="<?=$row['width']?>"   step="0.01" class="classcus form-control" placeholder="ความกว้างแพ">
         </div>
+
+       
+      
 
 
     </div>

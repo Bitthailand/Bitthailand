@@ -9,14 +9,14 @@ include './include/config.php';
 error_reporting(0);
 $sql5 = "SELECT MAX(id) AS id_run FROM orders  ";
 $rs5 = $conn->query($sql5);
-$row_run = $rs5->fetch_assoc(); 
+$row_run = $rs5->fetch_assoc();
 
-$datetodat=date('Y-m-d');
- $date=explode(" ",$datetodat);
- $dat=datethai_order($date[0]);
- $code_new=$row_run['id_run']+1;
- $code = sprintf('%05d', $code_new);
- $roder_id=$dat.$code;
+$datetodat = date('Y-m-d');
+$date = explode(" ", $datetodat);
+$dat = datethai_order($date[0]);
+$code_new = $row_run['id_run'] + 1;
+$code = sprintf('%05d', $code_new);
+$roder_id = $dat . $code;
 
 ?>
 <!DOCTYPE html>
@@ -31,10 +31,11 @@ $datetodat=date('Y-m-d');
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
     <style>
-        .table-sm th, .table-sm td {
-    padding: 0.3rem;
-    font-size: 0.813rem!important;
-}
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
     </style>
 </head>
 
@@ -62,21 +63,25 @@ $datetodat=date('Y-m-d');
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-2">
                                         <label for="order_id"><strong>รหัส Order <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="order_id" id="order_id" value="<?=$roder_id?>" class="classcus form-control" placeholder="รหัส Order" required>
+                                        <input type="text" name="order_id" id="order_id" value="<?= $roder_id ?>" class="classcus form-control" placeholder="รหัส Order" required>
                                     </div>
                                     <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modalcustomerlist" style=" height: 33px; margin-top: 24px!important;">เลือกลูกค้า</button>
                                     <a class="btn btn-outline-primary m-1" href="/customer.php" type="button" style=" height: 33px; margin-top: 24px!important;">เพิ่มลูกค้าใหม่</a>
                                     <div class="form-group col-md-1">
                                         <label for="customer_type"><strong>รับสินค้า <span class="text-danger"></span></strong></label>
-                                        <select class="classcus custom-select" name="customer_type" id="customer_type" required>
-                                            <option value="เงินสด">รับกลับเอง</option>
-                                            <option value="เครดิต">บริษัทส่งให้</option>
+
+
+                                        <select id="cus_back" class="classcus custom-select" name="cus_back">
+
+                                            <option value="b1" <?php echo $cus_back == 'b1' ? 'selected' : ''; ?>> รับกลับเอง </option>
+                                            <option value="b2" <?php echo $cus_back == 'b2' ? 'selected' : ''; ?>>บริษัทส่งให้</option>
+
                                         </select>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="accNameId"><strong>ประเภทลูกค้า <span class="text-danger"></span></strong></label>
                                         <input type="text" name="customer_type" id="Fcus_type_name" class="classcus form-control" placeholder="ประเภทลูกค้า" required>
-                                        <input type="hidden" name="customer_type" id="Fcus_type_id" class="classcus form-control">
+                                        <input type="hidden" name="customer_type_id" id="Fcus_type_id" class="classcus form-control">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="accNameId"><strong>ชื่อ-นามสกุล <span class="text-danger"></span></strong></label>
@@ -380,54 +385,47 @@ $datetodat=date('Y-m-d');
                         var result = JSON.parse(data);
                         console.log('cus', result)
                         $.each(result, function(index, cus) {
-
-
-                                $("#Fid").val(cus.id);
-                                $("#Fcus_id").val(cus.customer_id);
-                                $("#Fcus_name").val(cus.customer_name);
-                                $("#Fcus_tel").val(cus.tel);
-
-                                $("#Fcus_type_id").val(cus.customer_type);
-                                //    
-                                $.get('get_customer_type.php?type_id=' + cus.customer_type, function(data) {
-                                    var result = JSON.parse(data);
-                                    console.log('cus_type', result)
-                                    $.each(result, function(index, custype) {
-                                            $("#Fcus_type_name").val(custype.name);
-                                        }
-
-
-                                    );
+                            $("#Fid").val(cus.id);
+                            $("#Fcus_id").val(cus.customer_id);
+                            $("#Fcus_name").val(cus.customer_name);
+                            $("#Fcus_tel").val(cus.tel);
+                            $("#Fcus_type_id").val(cus.customer_type);
+                            //    
+                            $.get('get_customer_type.php?type_id=' + cus.customer_type, function(data) {
+                                var result = JSON.parse(data);
+                                console.log('cus_type', result)
+                                $.each(result, function(index, custype) {
+                                    $("#Fcus_type_name").val(custype.name);
                                 });
-                                $.get('get_district1.php?subdistrict_id=' + cus.subdistrict, function(data) {
-                                    var result = JSON.parse(data);
-                                    console.log('cus_subdistrict', result)
-                                    $.each(result, function(index, subdistrict) {
-                                         
-
-                                            let bill = cus.bill_address+' '+'ตำบล.'+subdistrict.TUM+' อำเภอ.'+subdistrict.AUM+' จังหวัด.'+subdistrict.PRO;
-                                            $("#Fcus_bill_address").val(bill);
-                                        }
-
-
-                                    );
+                            });
+                            $.get('get_district1.php?subdistrict_id=' + cus.subdistrict, function(data) {
+                                var result = JSON.parse(data);
+                                console.log('cus_subdistrict', result)
+                                $.each(result, function(index, subdistrict) {
+                                    let bill = cus.bill_address + ' ' + 'ตำบล.' + subdistrict.TUM + ' อำเภอ.' + subdistrict.AUM + ' จังหวัด.' + subdistrict.PRO;
+                                    $("#Fcus_bill_address").val(bill);
                                 });
-                                // 
-
-
-                            }
-
-
-                        );
+                            });
+                            // 
+                        });
                     });
                 }
             }
 
-            function address() {
+            $("#cus_back").on("change", function() {
+                // modalLoad();
 
+                let cus_back = $("#cus_back").val();
+                let cus_type_id = $("#Fcus_type_id").val();
+                console.log('ct', cus_back);
+                console.log('ct2', cus_type_id)
 
+                $("#Fcus_back").val(cus_back);
 
-            }
+                $("#Fcus_type_id2").val(cus_type_id);
+                // $("#FSButtonID").click();
+
+            });
         </script>
         <script>
             $(function() {
