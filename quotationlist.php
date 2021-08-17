@@ -181,6 +181,10 @@
                                                     href="/editorder.php?order_id=OR6400001">
                                                     <i class="i-Check font-weight-bold"></i>
                                                 </a>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
+                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
+                                                    <i class="i-Eye font-weight-bold"></i>
+                                                </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="ยกเลิก Order" data-target="#medalcancleorder">
                                                     <i class="i-Close-Window font-weight-bold"></i>
                                                 </div>
@@ -213,6 +217,10 @@
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order"
                                                     href="/editorder.php?order_id=OR6400001">
                                                     <i class="i-Check font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
+                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
+                                                    <i class="i-Eye font-weight-bold"></i>
                                                 </a>
                                                 <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="ยกเลิก Order" data-target="#medalcancleorder">
                                                     <i class="i-Close-Window font-weight-bold"></i>
