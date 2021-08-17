@@ -1,5 +1,17 @@
 <?php
-
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+unset($_SESSION['order_id']);
+$emp_id=$_SESSION["username"];
+$sql = "DELETE FROM orders  WHERE status_button='0' AND emp_id='$emp_id'  ";
+if ($conn->query($sql) === TRUE) { } 
+$sql2 = "DELETE FROM order_details  WHERE status_button='0'AND emp_id='$emp_id'  ";
+if ($conn->query($sql2) === TRUE) { } 
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -12,6 +24,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th, .table-sm td {
+    padding: 0.3rem;
+    font-size: 0.813rem!important;
+}
+    </style>
 </head>
 
 <body class="text-left">
@@ -125,7 +143,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <a href="/addorder.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เปิด Order ใหม่</a>
+                                                <a href="/addorder.php?status_order=new" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เปิด Order ใหม่</a>
                                             </div>
                                         </div>
                                     </div>
