@@ -49,7 +49,7 @@
                             <li>
                                 <div>
                                     <div>
-                                        <label class="toggle" for="drop-2">ขนส่งสินค้า</label><a href="#"><i class="nav-icon mr-2 i-File-Clipboard-File--Text"></i> ขนส่งสินค้า</a>
+                                        <label class="toggle" for="drop-2">ขนส่งสินค้า</label><a href="deliverylist.php"><i class="nav-icon mr-2 i-File-Clipboard-File--Text"></i> ขนส่งสินค้า</a>
                                     </div>
                                 </div>
                             </li>

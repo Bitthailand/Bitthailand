@@ -122,7 +122,9 @@
                                             <div class="mt-3 mb-4 border-top"></div>
                                             <div class="d-sm-flex mb-5" data-view="print">
                                                 <span class="m-auto"></span>
-                                                <a class="btn btn-outline-primary m-1" href="/saleorder.php" type="button" target="_blank">พิมพ์ใบส่งของ</a>
+                                                <a class="btn btn-outline-primary m-1" href="/saleorder.php" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>
+                                                <a class="btn btn-outline-primary m-1" href="/hs.php" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
+                                                <a class="btn btn-outline-primary m-1" href="/invoice.php" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a>
                                                 <a class="btn btn-outline-primary m-1" href="#" type="button">บันทึกการส่งของ</a>
                                             </div>
 
