@@ -63,7 +63,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/ordersuccesslist.php">
+                                <a class="linkLoadModalNext nav-link " href="/ordersuccesslist.php">
                                     <h3 class="h5 font-weight-bold"> Order สำเร็จ</h3>
                                     <span>Order ที่ส่งสินค้าเรียบร้อย
                                         <span class="badge badge-success"> Pass </span>
@@ -71,7 +71,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/orderloglist.php">
+                                <a class="linkLoadModalNext nav-link active" href="/orderloglist.php">
                                     <h3 class="h5 font-weight-bold"> Order Log </h3>
                                     <span> รายการ Order ทั้งหมด
                                         <span class="badge badge-light"> Log </span>
