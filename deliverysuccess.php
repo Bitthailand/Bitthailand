@@ -133,7 +133,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001">
+                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>
                                                 </a>
 
@@ -152,7 +152,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001">
+                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>
                                                 </a>
                                             </td>

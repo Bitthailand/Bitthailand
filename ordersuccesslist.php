@@ -43,7 +43,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/ailist.php">
+                                <a class="linkLoadModalNext nav-link " href="/ailist.php">
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
                                         <span class="badge badge-pill badge-danger">1</span>
                                     </h3>
@@ -63,7 +63,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/ordersuccesslist.php">
+                                <a class="linkLoadModalNext nav-link active" href="/ordersuccesslist.php">
                                     <h3 class="h5 font-weight-bold"> Order สำเร็จ</h3>
                                     <span>Order ที่ส่งสินค้าเรียบร้อย
                                         <span class="badge badge-success"> Pass </span>

@@ -88,11 +88,12 @@
                                                         <thead class="bg-gray-300">
                                                             <tr>
                                                                 <th scope="col" class="text-center" width="5%">No.</th>
-                                                                <th scope="col" class="text-center" width="45%">รหัสสินค้า/รายละเอียด</th>
-                                                                <th scope="col" class="text-center" width="10%">จำนวนในสต๊อก</th>
-                                                                <th scope="col" class="text-center" width="10%">จำนวนสั่ง</th>
-                                                                <th scope="col" class="text-center" width="10%">ส่งแล้ว</th>
-                                                                <th scope="col" class="text-center" width="10%">ยังไม่ส่ง</th>
+                                                                <th scope="col" class="text-center" width="35%">รหัสสินค้า/รายละเอียด</th>
+                                                                <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
+                                                                <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
+                                                                <th scope="col" class="text-center" width="10%">จำนวนที่ต้องส่ง</th>
+                                                                <th scope="col" class="text-center" width="10%">โรงงาน 1</th>
+                                                                <th scope="col" class="text-center" width="10%">โรงงาน 2</th>
                                                                 <th scope="col" class="text-center" width="10%">จำนวนส่ง</th>
                                                             </tr>
                                                         </thead>
@@ -101,19 +102,21 @@
                                                                 <th scope="row" class="text-center">1</th>
                                                                 <td>FP03100020 เสารั้ว 3x3" 1.00 1.00 1.00</td>
                                                                 <td class="text-center">40</td>
-                                                                <td class="text-center">60</td>
-                                                                <td class="text-center">0</td>
+                                                                <td class="text-center">20</td>
                                                                 <td class="text-center">60</td>
                                                                 <td class="text-center"><input class="form-control" value="" type="number" placeholder="จำนวนที่ส่ง"></td>
+                                                                <td class="text-center"><input class="form-control" value="" type="number" placeholder="จำนวนที่ส่ง"></td>
+                                                                <td class="text-center">60</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="text-center">2</th>
                                                                 <td>FP03100025 เสารั้ว 3x3" 1.00 1.00 1.00</td>
                                                                 <td class="text-center">200</td>
-                                                                <td class="text-center">60</td>
-                                                                <td class="text-center">0</td>
+                                                                <td class="text-center">50</td>
                                                                 <td class="text-center">60</td>
                                                                 <td class="text-center"><input class="form-control" value="" type="number" placeholder="จำนวนที่ส่ง"></td>
+                                                                <td class="text-center"><input class="form-control" value="" type="number" placeholder="จำนวนที่ส่ง"></td>
+                                                                <td class="text-center">60</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

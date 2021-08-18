@@ -141,7 +141,7 @@
                                                     <i class="i-Check font-weight-bold"></i>
                                                 </div>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001">
+                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>
                                                 </a>
 
@@ -168,7 +168,7 @@
                                                     <i class="i-Check font-weight-bold"></i>
                                                 </div>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001">
+                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>
                                                 </a>
 
