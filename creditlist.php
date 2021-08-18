@@ -89,8 +89,8 @@
                             <div class="mb-1">
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
-                                        <h3 class="ul-widget1__title "> ขายสินค้า </h3>
-                                        <span class="ul-widget__desc "> รายการใบเสนอราคา </span>
+                                        <h3 class="ul-widget1__title "> รายการวางบิล </h3>
+                                        <span class="ul-widget__desc "> รายการวางบิลของลูกค้าเครดิต </span>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
@@ -136,61 +136,49 @@
                                     <thead>
                                         <tr class="table-secondary">
                                             <th>รหัส BI</th>
+                                            <th>วันที่วางบิล</th>
                                             <th>ชื่อลูกค้า</th>
-                                            <th>กำหนดเสร็จ</th>
-                                            <th>วันที่เท</th>
-                                            <th>กำหนดเทเสร็จ</th>
-                                            <th>รหัสสินค้า</th>
-                                            <th>จำนวนผลิต</th>
-                                            <th>ชื่อสินค้า</th>
-                                            <th>หนา</th>
-                                            <th>กว้าง</th>
-                                            <th>ยาว</th>
-                                            <th>ขนาดลวด</th>
-                                            <th>จำนวนลวด</th>
-                                            <th>พ.ท.(Sq.m)</th>
-                                            <th>คอนกรีตคำนวณ</th>
+                                            <th>เลขที่ใบกำกับ</th>
+                                            <th>วันที่</th>
+                                            <th>ครบกำหนด</th>
+                                            <th>จำนวนเงิน</th>
+                                            <th>ชำระแล้ว</th>
+                                            <th>เงินคงค้าง</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <strong>PO640800056</strong>
+                                                <strong>BI6405002</strong>
                                             </td>
-                                            <td> <strong>13 ส.ค.64</strong>
-                                            </td>
-                                            <td>
-                                                <strong>13 ส.ค.64</strong>
+                                            <td> <strong>13 พ.ค.64</strong>
                                             </td>
                                             <td>
-                                                <strong>16 ส.ค.64-15:48:00</strong>
+                                                <strong>โฮมเมท</strong>
                                             </td>
                                             <td>
-                                                <strong>18 ส.ค.64-15:48:00</strong>
+                                                <strong>IV6400048</strong>
                                             </td>
-                                            <td>FP03200020</td>
-                                            <td>1</td>
-                                            <td>เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                            <td>0.07</td>
-                                            <td>0.07</td>
-                                            <td>2.00</td>
-                                            <td> 2.00 </td>
-                                            <td> 4</td>
-                                            <td> 0.70</td>
-                                            <td> 0.07</td>
                                             <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="editproduction.php?po_id=PO640800056"
-                                                    data-original-title="แก้ไขข้อมูลสั่งผลิต">
+                                                24 พ.ค.64
+                                            </td>
+                                            <td>24 พ.ค.64</td>
+                                            <td>3,705.00</td>
+                                            <td>0.00</td>
+                                            <td>3,705.00</td>
+                                            <td>
+                                                <span class="badge badge-warning p-1">รอวางบิล</span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="bi.php?po_id=PO640800056"
+                                                    data-original-title="วาลบิล">
                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                 </a>
-                                                <button data-toggle="modal" data-target="#medalconcreteuse" title="บันทีกการเทคอนกรีต" data-id="56" id="edit_pro"
-                                                    class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Gear font-weight-bold"></i> </button>
-                                                <button data-toggle="modal" data-target="#medalstock" title="บันทีกการเทคอนกรีต" data-id="56" id="edit_stock"
-                                                    class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
-                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="" href="#"
-                                                    data-original-title="ยกเลิกรายการผลิต">
-                                                    <i class="i-Close-Window font-weight-bold"></i>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="biinvoice.php?po_id=PO640800056"
+                                                    data-original-title="ชำระเงิน">
+                                                    <i class="i-Money-Bag font-weight-bold"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -198,207 +186,20 @@
                                             <td> </td>
                                             <td> </td>
                                             <td> </td>
+                                            <td>
+                                                <strong>IV6400048</strong>
+                                            </td>
+                                            <td>
+                                                24 พ.ค.64
+                                            </td>
+                                            <td>24 พ.ค.64</td>
+                                            <td>3,705.00</td>
+                                            <td>0.00</td>
+                                            <td>3,705.00</td>
+                                            <td>
+                                                <span class="badge badge-warning p-1">รอวางบิล</span>
+                                            </td>
                                             <td> </td>
-                                            <td> </td>
-                                            <td>FP03145020</td>
-                                            <td>1</td>
-                                            <td>เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 1.45 เมตร</td>
-                                            <td>0.05</td>
-                                            <td>0.35</td>
-                                            <td>1.45</td>
-                                            <td> 2.00 </td>
-                                            <td> 4</td>
-                                            <td> 0.51</td>
-                                            <td> 0.03</td>
-                                            <td> </td>
-                                        </tr>
-                                        <tr>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td>FP03200020</td>
-                                            <td>3</td>
-                                            <td>เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                            <td>0.07</td>
-                                            <td>0.07</td>
-                                            <td>2.00</td>
-                                            <td> 2.00 </td>
-                                            <td> 4</td>
-                                            <td> 2.10</td>
-                                            <td> 0.21</td>
-                                            <td> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>PO640800057</strong>
-                                            </td>
-                                            <td> <strong>12 ส.ค.64</strong>
-                                            </td>
-                                            <td>
-                                                <strong>21 ส.ค.64</strong>
-                                            </td>
-                                            <td>
-                                                <strong>-</strong>
-                                            </td>
-                                            <td>
-                                                <strong>-</strong>
-                                            </td>
-                                            <td>FP03145020</td>
-                                            <td>1</td>
-                                            <td>เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 1.45 เมตร</td>
-                                            <td>0.05</td>
-                                            <td>0.35</td>
-                                            <td>1.45</td>
-                                            <td> 2.00 </td>
-                                            <td> 4</td>
-                                            <td> 0.51</td>
-                                            <td> 0.03</td>
-
-                                            <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="editproduction.php?po_id=PO640800057"
-                                                    data-original-title="แก้ไขข้อมูลสั่งผลิต">
-                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                </a>
-
-                                                <button data-toggle="modal" data-target="#medalconcreteuse" title="บันทีกการเทคอนกรีต" data-id="57" id="edit_pro"
-                                                    class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Gear font-weight-bold"></i> </button>
-                                                <button data-toggle="modal" data-target="#medalstock" title="บันทีกการเทคอนกรีต" data-id="57" id="edit_stock"
-                                                    class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
-
-                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="" href="#"
-                                                    data-original-title="ยกเลิกรายการผลิต">
-                                                    <i class="i-Close-Window font-weight-bold"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>PO640800058</strong>
-                                            </td>
-
-                                            <td> <strong>19 ส.ค.64</strong>
-                                            </td>
-                                            <td>
-                                                <strong>21 ส.ค.64</strong>
-                                            </td>
-                                            <td>
-                                                <strong>-</strong>
-
-
-                                            </td>
-                                            <td>
-                                                <strong>-</strong>
-
-                                            </td>
-                                            <td>FP03250020</td>
-                                            <td>50</td>
-                                            <td>เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.50 เมตร</td>
-                                            <td>0.05</td>
-                                            <td>0.35</td>
-                                            <td>2.50</td>
-                                            <td> 2.00 </td>
-                                            <td> 4</td>
-                                            <td> 44.00</td>
-                                            <td> 2.00</td>
-
-                                            <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="editproduction.php?po_id=PO640800058"
-                                                    data-original-title="แก้ไขข้อมูลสั่งผลิต">
-                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                </a>
-
-                                                <button data-toggle="modal" data-target="#medalconcreteuse" title="บันทีกการเทคอนกรีต" data-id="59" id="edit_pro"
-                                                    class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Gear font-weight-bold"></i> </button>
-                                                <button data-toggle="modal" data-target="#medalstock" title="บันทีกการเทคอนกรีต" data-id="59" id="edit_stock"
-                                                    class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
-
-                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="" href="#"
-                                                    data-original-title="ยกเลิกรายการผลิต">
-                                                    <i class="i-Close-Window font-weight-bold"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-
-                                            </td>
-
-                                            <td>
-                                            </td>
-                                            <td>
-
-                                            </td>
-                                            <td>
-
-
-
-                                            </td>
-                                            <td>
-
-
-                                            </td>
-                                            <td>FP0325020</td>
-                                            <td>2</td>
-                                            <td>เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.50 เมตร</td>
-                                            <td>0.07</td>
-                                            <td>0.07</td>
-                                            <td>2.50</td>
-                                            <td> 2.00 </td>
-                                            <td> 4</td>
-                                            <td> 0.36</td>
-                                            <td> 0.02</td>
-
-                                            <td>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>PO640800060</strong>
-                                            </td>
-
-                                            <td> <strong>19 ส.ค.64</strong>
-                                            </td>
-                                            <td>
-                                                <strong>19 ส.ค.64</strong>
-                                            </td>
-                                            <td>
-                                                <strong>-</strong>
-
-
-                                            </td>
-                                            <td>
-                                                <strong>-</strong>
-
-                                            </td>
-                                            <td>FP0325020</td>
-                                            <td>3</td>
-                                            <td>เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.50 เมตร</td>
-                                            <td>0.07</td>
-                                            <td>0.07</td>
-                                            <td>2.50</td>
-                                            <td> 2.00 </td>
-                                            <td> 4</td>
-                                            <td> 0.54</td>
-                                            <td> 0.03</td>
-
-                                            <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="editproduction.php?po_id=PO640800060"
-                                                    data-original-title="แก้ไขข้อมูลสั่งผลิต">
-                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                </a>
-
-                                                <button data-toggle="modal" data-target="#medalconcreteuse" title="บันทีกการเทคอนกรีต" data-id="60" id="edit_pro"
-                                                    class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Gear font-weight-bold"></i> </button>
-                                                <button data-toggle="modal" data-target="#medalstock" title="บันทีกการเทคอนกรีต" data-id="60" id="edit_stock"
-                                                    class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
-
-                                                <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="" href="#"
-                                                    data-original-title="ยกเลิกรายการผลิต">
-                                                    <i class="i-Close-Window font-weight-bold"></i>
-                                                </a>
-                                            </td>
                                         </tr>
                                         <tr class="table table-hover text-nowrap table-sm">
                                             <td></td>
@@ -406,23 +207,91 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td><strong>120</strong></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td><strong>7,410.00</strong></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>BI6405002</strong>
+                                            </td>
+                                            <td> <strong>13 พ.ค.64</strong>
+                                            </td>
+                                            <td>
+                                                <strong>โฮมเมท</strong>
+                                            </td>
+                                            <td>
+                                                <strong>IV6400048</strong>
+                                            </td>
+                                            <td>
+                                                24 พ.ค.64
+                                            </td>
+                                            <td>24 พ.ค.64</td>
+                                            <td>3,705.00</td>
+                                            <td>0.00</td>
+                                            <td>3,705.00</td>
+                                            <td>
+                                                <span class="badge badge-warning p-1">วางบิล</span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="bi.php?po_id=PO640800056"
+                                                    data-original-title="วาลบิล">
+                                                    <i class="i-Pen-2 font-weight-bold"></i>
+                                                </a>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="" href="biinvoice.php?po_id=PO640800056"
+                                                    data-original-title="ชำระเงิน">
+                                                    <i class="i-Money-Bag font-weight-bold"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td>
+                                                <strong>IV6400048</strong>
+                                            </td>
+                                            <td>
+                                                24 พ.ค.64
+                                            </td>
+                                            <td>24 พ.ค.64</td>
+                                            <td>3,705.00</td>
+                                            <td>0.00</td>
+                                            <td>3,705.00</td>
+                                            <td>
+                                                <span class="badge badge-warning p-1">วางบิล</span>
+                                            </td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr class="table table-hover text-nowrap table-sm">
+                                            <td></td>
 
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>7,410.00</strong></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <!-- ============ Table End ============= -->
-                            <div class="mt-1">
+<!--                             <div class="mt-1">
                                 <span class="text-danger mr-1">**</span>
                                 <span class="text-muted"> มัดจำขั้นต่ำ 30% เมื่อทำการสั่งซื้อสินค้า</span>
                             </div>
@@ -433,7 +302,7 @@
                             <div class="">
                                 <span class="text-danger mr-1">**</span>
                                 <span class="text-muted">ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาคิดเพิ่มชั่วโมงละ 500 บาท</span>
-                            </div>
+                            </div> -->
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
