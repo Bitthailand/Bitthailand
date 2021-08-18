@@ -135,7 +135,7 @@ function datethai_qt($date1)
             $date = $temp[2];
         }
         $year = substr(($temp[0] + 543), 2, 2);
-        return  "QT".$year.$month_th_name[intval($temp[1])];
+        return  "QT".$year;
     }
 }
 function datethai3($date1)

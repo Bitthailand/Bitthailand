@@ -306,10 +306,10 @@ $(document).ready(function() {
                                                     href="/quotation.php?order_id=<?= $row['order_id'] ?>">
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=OR6401052">
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>">
                                                         <i class="i-Money-Bag font-weight-bold"></i>
                                                     </a>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=OR6400001">
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>
                                                    
