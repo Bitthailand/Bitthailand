@@ -58,9 +58,9 @@ if ($action == 'edit_prox') {
         <?php }
 }
 if ($action == 'add_stock') {
-    echo "xx";
+    // echo "xx";
     $po_id = $_REQUEST['po_id'];
-    echo "$po_id";
+    // echo "$po_id";
     $sql = "SELECT * FROM production_order  WHERE id= '$po_id'";
     $rs = $conn->query($sql);
     $row = $rs->fetch_assoc();
@@ -84,7 +84,7 @@ if ($action == 'add_stock') {
                 $sqlx2 = "SELECT * FROM plant  WHERE plant_id= '$rowx[plant_id]'";
                 $rsx2 = $conn->query($sqlx2);
                 $rowx2 = $rsx2->fetch_assoc();
-                echo $rowx2['factory_id'];
+                // echo $rowx2['factory_id'];
                 // นับจำนวนที่มีอยู๋ในสต็อก
                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$rowx[product_id]'";
                 $rsx3 = $conn->query($sqlx3);

@@ -41,7 +41,29 @@ if ($rowS == '') {
 } else {
     $total_records_per_page = $rowS;
 }
+$action = $_REQUEST['action'];
+if ($action == 'del') {
+    $del_id = $_REQUEST['del_id'];
+
+    // $sql = "DELETE FROM customer  WHERE customer_id='$del_id' ";
+    $sql = "UPDATE orders    SET status='1'  where id='$del_id' ";
+
+    if ($conn->query($sql) === TRUE) { ?>
+<script>
+$(document).ready(function() {
+    showAlert("ลบรายการสำเร็จ", "alert-primary");
+});
+</script>
+<?php  } else { ?>
+<script>
+$(document).ready(function() {
+    showAlert("ไม่สามารถลบรายการได้", "alert-danger");
+});
+</script>
+<?php }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="">
 
@@ -229,39 +251,67 @@ if ($rowS == '') {
                                                 </td>
                                                 <td> <?= $row['order_id'] ?></td>
                                                 <td> <?= $row['qt_id'] ?></td>
-                                                <td><?php 
+                                                <td><?php
                                                     $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
                                                     $rs2 = $conn->query($sql2);
                                                     $row2 = $rs2->fetch_assoc();
                                                     // ====
                                                     $sql3 = "SELECT * FROM customer WHERE customer_id= '$row[cus_id]'";
                                                     $rs3 = $conn->query($sql3);
-                                                    $row3= $rs3->fetch_assoc(); 
+                                                    $row3 = $rs3->fetch_assoc();
                                                     ?>
-                                                    <?=$row2['name']?></td>
-                                                <td> <?=$row3['customer_name']?></td>
-                                                <td> <?=$row3['tel']?> </td>
+                                                    <?= $row2['name'] ?></td>
+                                                <td> <?= $row3['customer_name'] ?></td>
+                                                <td> <?= $row3['tel'] ?> </td>
                                                 <td>
-                                                    เมือง
+                                                    <?php
+                                                    $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
+                                                    $rs2 = $conn->query($sql2);
+                                                    $row2 = $rs2->fetch_assoc();
+                                                    echo $row2['name_th'];
+                                                    ?>
                                                 </td>
-                                                <td> อุบลราชธานี </td>
+                                                <td> <?php
+                                                        $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
+                                                        $rs2 = $conn->query($sql2);
+                                                        $row2 = $rs2->fetch_assoc();
+                                                        echo $row2['name_th'];
+                                                        ?> </td>
                                                 <td>
-                                                    <span class="font-weight-bold"> 0.00 </span>
+                                                    <span class="font-weight-bold"><?php echo number_format($row['discount'], '2', '.', ',') ?> </span>
                                                 </td>
-                                                <td> <span class="font-weight-bold"> 76,191.59 </span> </td>
-                                                <td> <span class="font-weight-bold"> 5,333.41 </span> </td>
                                                 <td>
-                                                    <span class="font-weight-bold"> 81,525.00 </span>
+                                                    <?php
+                                                    $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
+                                                    $rsx4 = $conn->query($sqlx4);
+                                                    $rowx4 = $rsx4->fetch_assoc();
+
+                                                    ?>
+                                                    <?php $sub_total = $rowx4['total'] - $row['discount'];
+                                                    $tax = ($sub_total * 0.07);
+                                                    $grand_total = ($sub_total + $tax);
+                                                    ?>
+                                                    <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                </td>
+                                                <td> <span class="font-weight-bold"> <?php echo number_format($tax, '2', '.', ',') ?></span> </td>
+                                                <td>
+                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td>
+                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
+                                                    href="/quotation.php?order_id=<?= $row['order_id'] ?>">
+                                                    <i class="i-File font-weight-bold"></i>
+                                                </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=OR6401052">
                                                         <i class="i-Money-Bag font-weight-bold"></i>
                                                     </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=OR6400001">
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>
-                                                    <div class="btn btn-outline-danger btn-sm line-height-1" data-toggle="modal" title="ยกเลิก Order" data-target="#medalcancleorder">
-                                                        <i class="i-Close-Window font-weight-bold"></i>
+                                                   
+                                                       
+                                                        <button type="button" class="btn btn-outline-danger btn-sm line-height-1" title="ยกเลิก Order"  data-id="<?php echo $row['id']; ?>"
+                                                    data-toggle="modal" data-target="#myModal_del">  <i class="i-Close-Window font-weight-bold"></i> </button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -297,18 +347,18 @@ if ($rowS == '') {
                                                                     echo "class='disabled'";
                                                                 } ?>>
                                             <a class="page-link" <?php if ($page_no > 1) {
-                                                    echo "href='?page_no=$previous_page' ";
-                                                } ?>>Previous</a>
+                                                                        echo "href='?page_no=$previous_page' ";
+                                                                    } ?>>Previous</a>
                                         </li>
 
                                         <?php
                                         if ($total_no_of_pages <= 10) {
                                             for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
                                                 if ($counter == $page_no) { ?>
-                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
-                                               <?php  } else { ?>
-                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
-                                              <?php   }
+                                                    <li class='page-item active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                <?php  } else { ?>
+                                                    <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php   }
                                             }
                                         } elseif ($total_no_of_pages > 10) {
                                             if ($page_no <= 4) {
@@ -316,14 +366,14 @@ if ($rowS == '') {
                                                     if ($counter == $page_no) {
                                                         echo "<li class='page-item  active'><a>$counter</a></li>";
                                                     } else { ?>
-                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
-                                                   <?php  }
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                <?php  }
                                                 }
-                                        ?>
+                                                ?>
                                                 <li class="page-item"><a>...</a></li>
-                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                            <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
                                                 <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
                                                 <li class="page-item"><a>...</a></li>
@@ -332,20 +382,20 @@ if ($rowS == '') {
                                                         <li class='active'><a><?php echo "$counter"; ?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                    <?php    }
+                                                <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
+                                                <li><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><? echo "$second_last"; ?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><? echo "$total_no_of_pages"; ?></a></li>";
                                             <?php  } else { ?>
-                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
-                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
-                                               <li><a class="page-link">...</a></li>
+                                                <li><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li><a class="page-link">...</a></li>
 
-                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
-                                                  <?php  } else {
+                                                        <li class='active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else {
                                                     ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
@@ -357,13 +407,13 @@ if ($rowS == '') {
                                                 echo "class='disabled'";
                                             } ?>>
                                             <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
-                                                    echo "href='?page_no=$next_page'";
-                                                } ?>>Next</a>
+                                                                        echo "href='?page_no=$next_page'";
+                                                                    } ?>>Next</a>
                                         </li>
 
                                         <?php if ($page_no < $total_no_of_pages) { ?>
-                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
-                                      <?php   } ?>
+                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                        <?php   } ?>
                                     </ul>
                                 </nav>
                             </div>
@@ -414,6 +464,40 @@ if ($rowS == '') {
             </div>
         </div>
     </div>
+<!-- Modal DEL  -->
+<div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-10">
+                            <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
+                                    <span>*</span></strong></label>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="del">
+                        <input type="hidden" name="del_id" id="del_id" value="">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
+                            DELETE</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
@@ -427,3 +511,12 @@ if ($rowS == '') {
 </body>
 
 </html>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
+</script>
