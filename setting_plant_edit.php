@@ -23,19 +23,20 @@ $row = $rs->fetch_assoc();
         </div>
         <div class="form-group col-md-3">
             <label for="accNameId"><strong>โรงงาน<span class="text-danger">*</span></strong></label>
-            <select class="classcus custom-select" name="factory" id="type_id" required>
+          
+            <select class="classcus custom-select" name="factory"  required>
                 <?php
-                $sql6 = "SELECT *  FROM  factory order by id DESC ";
-                $result6 = mysqli_query($conn, $sql6);
-                if (mysqli_num_rows($result6) > 0) {
-                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                $sql7 = "SELECT *  FROM  factory order by id DESC ";
+                $result7 = mysqli_query($conn, $sql7);
+                if (mysqli_num_rows($result7) > 0) {
+                    while ($row7= mysqli_fetch_assoc($result7)) {
                 ?>
-                        <option value="<?php echo $row6['name'] ?>" <?php
-                                                                    if (isset($row['factory']) && ($row['factory'] == $row6['name'])) {
+                        <option value="<?php echo $row7['id'] ?>" <?php
+                                                                    if (isset($row['factory_id']) && ($row['factory_id'] == $row7['id'])) {
                                                                         echo "selected"; ?>>
-                        <?php echo "$row6[name]";
+                        <?php echo "$row7[name]";
                                                                     } else {      ?>
-                        <option value="<?php echo $row6['name']; ?>"> <?php echo $row6['name'];  ?>
+                        <option value="<?php echo $row7['id']; ?>"> <?php echo $row7['name'];  ?>
                         <?php } ?>
                         </option>
                 <?php  }

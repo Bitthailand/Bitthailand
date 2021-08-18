@@ -43,8 +43,12 @@ if ($action == 'add') {
             });
         </script>
         <?php    } else {
-        $sql = "INSERT INTO plant (plant_id,factory,ptype_id,width)
-                   VALUES ('$plant_id','$factory','$ptype_id','$width')";
+            $sql2 = "SELECT * FROM factory  WHERE id= '$factory'";
+            $rs2 = $conn->query($sql2);
+            $row2 = $rs2->fetch_assoc();
+
+        $sql = "INSERT INTO plant (plant_id,factory,factory_id,ptype_id,width)
+                   VALUES ('$plant_id','$row2[name]','$factory','$ptype_id','$width')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -60,7 +64,11 @@ if ($action =='edit') {
     $factory = $_REQUEST['factory'];
     $ptype_id = $_REQUEST['ptype_id'];
     $width = $_REQUEST['width'];
-    $sqlxxx = "UPDATE plant  SET factory='$factory',ptype_id='$ptype_id',width='$width' where id='$edit_id'";
+
+    $sql2 = "SELECT * FROM factory  WHERE id= '$factory'";
+    $rs2 = $conn->query($sql2);
+    $row2 = $rs2->fetch_assoc();
+    $sqlxxx = "UPDATE plant  SET factory_id='$factory',factory='$row2[name]',ptype_id='$ptype_id',width='$width' where id='$edit_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
 <script>
 $(document).ready(function() {
@@ -380,12 +388,12 @@ if ($rowS == '') {
                                                 if (mysqli_num_rows($result6) > 0) {
                                                     while ($row6 = mysqli_fetch_assoc($result6)) {
                                                 ?>
-                                                        <option value="<?php echo $row6['name'] ?>" <?php
-                                                                                                    if (isset($row['factory']) && ($row['factory'] == $row6['name'])) {
+                                                        <option value="<?php echo $row6['id'] ?>" <?php
+                                                                                                    if (isset($row['factory_id']) && ($row['factory_id'] == $row6['id'])) {
                                                                                                         echo "selected"; ?>>
                                                         <?php echo "$row6[name]";
                                                                                                     } else {      ?>
-                                                        <option value="<?php echo $row6['name']; ?>"> <?php echo $row6['name'];  ?>
+                                                        <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
                                                         <?php } ?>
                                                         </option>
                                                 <?php  }

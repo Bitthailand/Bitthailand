@@ -220,7 +220,7 @@ if ($rowS == '') {
                                                 <td> <?php echo $row["dia_count"]; ?> </td>
                                                 <td> <?php echo $row["unit_price"]; ?> </td>
                                                 <td><?php echo $row["spacial"]; ?> </td>
-                                                <td> <?php echo $row["fac2_stock"]; ?> </td>
+                                                <td> <?php echo $row["fac1_stock"]; ?> </td>
                                                 <td>
                                                 <?php echo $row["fac2_stock"]; ?> </td>
                                                 <td> <?php

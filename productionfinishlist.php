@@ -1,5 +1,42 @@
 <?php
-
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+?>
+<?php
+error_reporting(0);
+$action = $_REQUEST['action'];
+$keyword = $_POST['keyword'];
+$column = $_REQUEST['column'];
+$rowS = $_REQUEST['row'];
+$emp_id = $_SESSION["username"];
+if (empty($column) && ($keyword)) {
+} else {
+    $columx = "AND $column LIKE'$keyword%'";
+    // echo"$columx";   
+}
+if (($column == "") && ($keyword == "$keyword")) {
+    $keywordx = "AND customer_id LIKE'$keyword%'
+               OR customer_name LIKE'$keyword%'
+               OR  company_name LIKE'$keyword%'
+               OR tel LIKE'$keyword%'
+               OR contact_name  LIKE'$keyword%' 
+               OR bill_address LIKE'$keyword%' ";
+    //    echo"$keywordx";
+}
+if (($column == "") && ($keyword == "")) {
+    $columx = "";
+    $keywordx = "";
+}
+if ($rowS == '') {
+    $total_records_per_page = 10;
+} else {
+    $total_records_per_page = $rowS;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -12,6 +49,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
+    </style>
 </head>
 
 <body class="text-left">
@@ -34,7 +78,10 @@
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/productionlist.php">
                                     <h3 class="h5 font-weight-bold"> รายการสั่งผลิต
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <?php $sql_count = "SELECT COUNT(*) AS CO FROM production_order  WHERE  status='0' AND status_cf='0' ";
+                                        $rs_count = $conn->query($sql_count);
+                                        $row_count = $rs_count->fetch_assoc();
+                                        ?> <span class="badge badge-pill badge-danger"><?= $row_count['CO'] ?></span>
                                     </h3>
                                     <span>รายการสินค้าที่อยู่ระหว่างการผลิต
                                         <span class="badge badge-warning"> Wait </span>
@@ -105,12 +152,12 @@
                                     <thead>
                                         <tr class="table-secondary">
                                             <th>รหัสสั่งผลิต</th>
-                                            <th>แพที่</th>
                                             <th>วันที่สั่ง</th>
                                             <th>กำหนดเสร็จ</th>
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
                                             <th>ชื่อสินค้า</th>
+                                            <th>แพที่</th>
                                             <th>หนา</th>
                                             <th>กว้าง</th>
                                             <th>ยาว</th>
@@ -122,113 +169,97 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <strong> PD640800001 </strong>
-                                            </td>
-                                            <td><strong>5</strong></td>
-                                            <td> <strong>29 ก.ค. 2021 17:53</strong></td>
-                                            <td> <strong>5 ส.ค. 2021</strong></td>
-                                            <td>FP03100020</td>
-                                            <td>120</td>
-                                            <td>เสารั้ว 3x3"</td>
-                                            <td>0.35</td>
-                                            <td>0.05</td>
-                                            <td>1.45</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>115</td>
-                                            <td>5</td>
-                                        </tr>
-                                        <tr class="table table-hover text-nowrap table-sm">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><strong>120</strong></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><strong>115</strong></td>
-                                            <td><strong>5</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong> PD640800002 </strong>
-                                            </td>
-                                            <td><strong>5</strong></td>
-                                            <td> <strong>23 ก.ค. 2021 11:23</strong></td>
-                                            <td> <strong>5 ส.ค. 2021</strong></td>
-                                            <td>FP03100020</td>
-                                            <td>100</td>
-                                            <td>เสารั้ว 3x3"</td>
-                                            <td>1.00</td>
-                                            <td>4</td>
-                                            <td>5</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>100</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td>FP03145020</td>
-                                            <td>60</td>
-                                            <td>เสารั้ว 3x3"</td>
-                                            <td>1.45</td>
-                                            <td>4</td>
-                                            <td>5</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>59</td>
-                                            <td>1</td>
-                                        </tr>
-                                        <tr>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td> </td>
-                                            <td>FP03200020</td>
-                                            <td>40</td>
-                                            <td>เสารั้ว 3x3"</td>
-                                            <td>2.00</td>
-                                            <td>4</td>
-                                            <td>5</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>29 ก.ค. 2021 17:53</td>
-                                            <td>39</td>
-                                            <td>1</td>
-                                        </tr>
+                                        <?php
+                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+                                            $page_no = $_GET['page_no'];
+                                        } else {
+                                            $page_no = 1;
+                                        }
+                                        // $total_records_per_page = 10;
+                                        $offset = ($page_no - 1) * $total_records_per_page;
+                                        $previous_page = $page_no - 1;
+                                        $next_page = $page_no + 1;
+                                        $adjacents = "2";
 
-                                        <tr class="table table-hover text-nowrap table-sm">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><strong>200</strong></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><strong>198</strong></td>
-                                            <td><strong>2</strong></td>
-                                        </tr>
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where status='0' AND status_cf='1'  ");
+                                        $total_records = mysqli_fetch_array($result_count);
+                                        $total_records = $total_records['total_records'];
+                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
+                                        $second_last = $total_no_of_pages - 1; // total page minus 1
+
+                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='1'  LIMIT $offset, $total_records_per_page");
+                                        while ($row = mysqli_fetch_array($result)) {
+
+
+                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'  ");
+                                            $total = mysqli_fetch_array($count);
+                                            $count = 0;
+                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0'  ";
+                                            $resultxx = mysqli_query($conn, $sqlxx);
+                                            if (mysqli_num_rows($resultxx) > 0) {
+                                                $num = @mysqli_num_rows($resultxx);
+                                                $row_cnt = $resultxx->num_rows;
+                                                // while ($row1 = mysqli_fetch_assoc($resultxx)) {
+                                                while ($row2 = mysqli_fetch_array($resultxx)) {
+                                        ?>
+                                                    <tr>
+                                                        <td>
+                                                        <?php
+                                                            $x = $count++;
+                                                            echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
+                                                        </td>
+                                                      
+                                                        <td> <?php if ($x == 0) {
+                                                                    $date = explode(" ", $row['po_date']);
+                                                                    $dat = datethai2($date[0]);
+                                                                    echo '<strong>' . $dat . '</strong>';
+                                                                } ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php if ($x == 0) {
+                                                                $date = explode(" ", $row['po_enddate']);
+                                                                $dat = datethai2($date[0]);
+                                                                echo '<strong>' . $dat . '</strong>';
+                                                            } ?>
+                                                        </td>
+                                                        <td><?php echo $row2['product_id']; ?></td>
+                                                   
+                                                        <td><strong><?php echo $row2['qty']; ?></strong></td>
+                                                        <td>   <?php
+                                                        $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
+                                                        $rsx = $conn->query($sqlx);
+                                                        $rowx = $rsx->fetch_assoc();
+
+                                                        ?><?php echo $rowx['product_name']; ?></td>
+                                                        <td><strong><?php echo $row2['plant_id']; ?></strong></td>
+                                                        <td><?php echo $rowx['thickness']; ?></td>
+                                                        <td><?php echo $rowx['width']; ?></td>
+                                                        <td><?php echo $rowx['size']; ?></td>
+                                                        <td>
+                                                           
+                                                            <?php $date = explode(" ", $row['po_start']);
+                                                                $dat = datethai2($date[0]);
+                                                                echo $dat . '-' . $date[1]; ?></td>
+                                                        <td><?php 
+                                                         $date = explode(" ", $row['po_stop']);
+                                                         $dat = datethai2($date[0]);
+                                                         echo  $dat . '-' . $date[1];
+                                                        ?></td>
+                                                        <td><?php 
+                                                         $date = explode(" ", $row['stock_date']);
+                                                         $dat = datethai2($date[0]);
+                                                         echo  $dat . '-' . $date[1];
+                                                        ?></td>
+                                                        <td><?=$row2['a_type'];?></td>
+                                                        <td><?=$row2['b_type'];?></td>
+                                                    </tr>
+                                        <?php
+                                                }
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -237,14 +268,79 @@
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Previous"><span aria-hidden="true">«</span><span
-                                                    class="sr-only">Previous</span></a></li>
-                                        <!-- <| 123 |> -->
-                                        <li class="page-item active"><a class="page-link" href="#" onclick="clickNav(1)">1</a></li>
-                                        <!-- <| 123 ...|>  -->
+                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                        ?>
+                                        <li class="page-item" <?php if ($page_no <= 1) {
+                                                                    echo "class='disabled'";
+                                                                } ?>>
+                                            <a class="page-link" <?php if ($page_no > 1) {
+                                                    echo "href='?page_no=$previous_page' ";
+                                                } ?>>Previous</a>
+                                        </li>
 
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Next"><span aria-hidden="true">»</span><span
-                                                    class="sr-only">Next</span></a></li>
+                                        <?php
+                                        if ($total_no_of_pages <= 10) {
+                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
+                                               <?php  } else { ?>
+                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
+                                              <?php   }
+                                            }
+                                        } elseif ($total_no_of_pages > 10) {
+                                            if ($page_no <= 4) {
+                                                for ($counter = 1; $counter < 8; $counter++) {
+                                                    if ($counter == $page_no) {
+                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                    } else { ?>
+                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
+                                                   <?php  }
+                                                }
+                                        ?>
+                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li class="page-item"><a>...</a></li>
+                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else { ?>
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php    }
+                                                } ?>
+                                                <li><a class="page-link">...</a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
+                                            <?php  } else { ?>
+                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
+                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                               <li><a class="page-link">...</a></li>
+
+                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
+                                                  <?php  } else {
+                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                        <?php   }
+                                                }
+                                            }
+                                        }
+                                        ?>
+
+                                        <li <?php if ($page_no >= $total_no_of_pages) {
+                                                echo "class='disabled'";
+                                            } ?>>
+                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
+                                                    echo "href='?page_no=$next_page'";
+                                                } ?>>Next</a>
+                                        </li>
+
+                                        <?php if ($page_no < $total_no_of_pages) { ?>
+                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                      <?php   } ?>
                                     </ul>
                                 </nav>
                             </div>
@@ -260,8 +356,7 @@
             <div class="flex-grow-1"></div>
             <div class="app-footer">
                 <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970"
-                        target="_blank">Buy Gull HTML</a>
+                    <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
                     <span class="flex-grow-1"></span>
                     <div class="d-flex align-items-center">
                         <img class="logo" src="../../dist-assets/images/logo.png" alt="">
