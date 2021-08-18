@@ -2,11 +2,11 @@
 include './include/connect.php';
 
 $id = intval($_REQUEST['id']);
-echo "$id";
+// echo "$id";
 $sql = "SELECT * FROM production_detail  WHERE id = '$id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-echo "$row[po_id]";
+// echo "$row[po_id]";
 $sql2 = "SELECT * FROM plant  WHERE plant_id = '$row[plant_id]'";
 $rs2 = $conn->query($sql2);
 $row2 = $rs2->fetch_assoc();

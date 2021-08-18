@@ -54,6 +54,26 @@ $(document).ready(function() {
 </script>
 <?php }  
  }
+ if ($action =='add_stock') {
+echo"xx";
+$po_id=$_REQUEST['po_id'];
+echo"$po_id";
+$sql = "SELECT * FROM production_order  WHERE id= '$po_id'";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+$sqlxx = "SELECT *  FROM production_detail  where po_id= '$row[po_id]' ORDER BY id DESC";
+$resultxx = mysqli_query($conn, $sqlxx);
+if (mysqli_num_rows($resultxx) > 0) {
+    while ($rowx = mysqli_fetch_assoc($resultxx)) {
+        $product_id=$rowx['product_id'];
+     
+       $stock_a=$_POST['a_type'][$product_id][++$id];
+       $stock_b=$_POST['a_type'][$product_id][++$id2];
+       echo 'A'.$stock_a.'B'.$stock_b.'ID'.$product_id.'<br>';
+
+    }}
+ }
+
 ?>
 
 <!DOCTYPE html>
@@ -278,9 +298,8 @@ $(document).ready(function() {
                                                                 </a>
                                                     
                                                                 <button data-toggle="modal" data-target="#medalconcreteuse" title="บันทีกการเทคอนกรีต" data-id="<?php echo $row['id']; ?>" id="edit_pro" class="btn btn-outline-success btn-sm line-height-1">   <i class="i-Gear font-weight-bold"></i> </button>
-                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="modal" title="เช็คสินค้าเข้าสต๊อก" data-target="#medalstockcheck">
-                                                                    <i class="i-Check font-weight-bold"></i>
-                                                                </a>
+                                                                <button data-toggle="modal" data-target="#medalstock" title="บันทีกการเทคอนกรีต" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1">   <i class="i-Check font-weight-bold"></i> </button>
+                                                               
                                                                 <a class="btn btn-outline-danger btn-sm line-height-1" data-toggle="tooltip" title="ยกเลิกรายการผลิต" href="#">
                                                                     <i class="i-Close-Window font-weight-bold"></i>
                                                                 </a>
@@ -369,72 +388,24 @@ $(document).ready(function() {
             </div>
         </div>
     </div>
-
-    <!-- Modal เช็คสินค้าเข้าสต๊อก -->
-    <div class="modal fade" id="medalstockcheck" tabindex="-1" role="dialog" aria-labelledby="medalstockcheckTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered " role="document">
+ <!-- Modal บันทึกสต็อก-->
+ <div class="modal fade" id="medalstock" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="medalstockcheckTitle-2">เช็คสินค้าเข้าสต๊อก</h5>
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">เช็คสินค้าเข้าสต๊อก</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
-
-                    <!-- ============ Table Start ============= -->
-                    <div id="productionorder" class="table-responsive">
-                        <table role="table" class="table table-hover text-nowrap table-sm">
-                            <thead>
-                                <tr class="table-secondary">
-
-                                    <th>รหัสสินค้า</th>
-                                    <th>ชื่อสินค้า</th>
-                                    <th>ความยาว</th>
-                                    <th>จำนวนผลิต</th>
-                                    <th>สมบูรณ์</th>
-                                    <th>ไม่สมบูรณ์</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>FP03100020</td>
-                                    <td>เสารั้ว 3x3"</td>
-                                    <td>1.00</td>
-                                    <td>100</td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                </tr>
-                                <tr>
-
-                                    <td>FP03145020</td>
-                                    <td>เสารั้ว 3x3"</td>
-                                    <td>1.45</td>
-                                    <td>60</td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                </tr>
-                                <tr>
-                                    <td>FP03200020</td>
-                                    <td>เสารั้ว 3x3"</td>
-                                    <td>2.00</td>
-                                    <td>40</td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                    <td><input class="form-control" type="text" placeholder="ใส่ข้อมูล"></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- ============ Table End ============= -->
+                       <div id="dynamic-content1"></div>
 
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>
-                    <button class="btn btn-primary ml-2" type="button">บันทึก</button>
-                </div>
+                
             </div>
         </div>
     </div>
+
 
     <!-- ============ Search UI End ============= -->
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
@@ -487,7 +458,40 @@ $(document).ready(function() {
     });
 </script>
 
+<script>
+    $(document).ready(function() {
 
+        $(document).on('click', '#edit_stock', function(e) {
+
+            e.preventDefault();
+
+            var uid = $(this).data('id'); // get id of clicked row
+
+            $('#dynamic-content1').html(''); // leave this div blank
+            $('#modal-loader1').show(); // load ajax loader on button click
+
+            $.ajax({
+                    url: 'productionlist_stock.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content1').html(''); // blank before load.
+                    $('#dynamic-content1').html(data); // load here
+                    $('#modal-loader1').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content1').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader1').hide();
+                });
+
+        });
+    });
+</script>
 <script>
     $('#inputform2').on('keydown', 'input', function(event) {
         if (event.which == 13) {
