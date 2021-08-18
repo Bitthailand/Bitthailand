@@ -283,6 +283,7 @@ if ($action == 'del') {
                                             <th>จำนวนลวด</th>
                                             <th>พ.ท.(Sq.m)</th>
                                             <th>คอนกรีตคำนวณ</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -364,7 +365,9 @@ if ($action == 'del') {
                                                         <td> <?php echo $rowx['dia_size']; ?></td>
                                                         <td> <?php echo $row2['sqm']; ?></td>
                                                         <td> <?php echo $row2['concrete_cal']; ?></td>
-
+                                                        <td>
+                                                        <span class="badge badge-success p-1">เข้าสต๊อก</span>
+                                                        </td>
                                                         <td>
                                                             <?php if ($x == 0) { ?>
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id']; ?>">
