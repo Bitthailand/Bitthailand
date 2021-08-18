@@ -71,7 +71,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/orderloglist.php">
+                                <a class="linkLoadModalNext nav-link" href="/tranDWLog.php">
                                     <h3 class="h5 font-weight-bold"> Order Log </h3>
                                     <span> รายการ Order ทั้งหมด
                                         <span class="badge badge-light"> Log </span>
