@@ -42,6 +42,9 @@ if ($status_order == 'confirm') {
     if ($rs['cus_back'] == 2) {
         $cus_back1 = "บริษัทจัดส่งให้";
     }
+    if ($rs['cus_back'] == 3) {
+        $cus_back1 = "รับกลับเองวันหลัง";
+    }
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $delivery_date = $_REQUEST['delivery_date'];
@@ -191,8 +194,57 @@ if ($action == 'add') {
                         showAlert("บันทึกข้อมูลสั่งสินค้าสำเร็จ", "alert-success");
                     });
                 </script>
-<?php   }
-        } else {
+            <?php   }
+            // ============ปิดเงื่อนไขการอับเดตรหัสสินค้า
+            $sql5 = "SELECT MAX(id) AS id_run FROM quotation ";
+            $rs5 = $conn->query($sql5);
+            $row_run = $rs5->fetch_assoc();
+        
+            $datetodat = date('Y-m-d');
+            $date = explode(" ", $datetodat);
+            $dat = datethai_qt($date[0]);
+            $code_new = $row_run['id_run'] + 1;
+            $code = sprintf('%05d', $code_new);
+            $qt_id = $dat . $code;
+
+            if(($cus_type==1)&&($cus_back==2)){
+                $sql8 = "INSERT INTO  quotation(qt_number,order_id)
+                VALUES ('$qt_id','$order_idx')";
+                 $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                 if ($conn->query($sql8) === TRUE) {
+                }
+                if ($conn->query($sql9) === TRUE) {
+                }
+            }
+            
+            if(($cus_type==1)&&($cus_back==3)){
+                $sql8 = "INSERT INTO  quotation(qt_number,order_id)
+                VALUES ('$qt_id','$order_idx')";
+                 $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                 if ($conn->query($sql8) === TRUE) {
+                }
+                if ($conn->query($sql9) === TRUE) {
+                }
+            }
+            if($cus_type==2){
+                $sql8 = "INSERT INTO  quotation(qt_number,order_id)
+                VALUES ('$qt_id','$order_idx')";
+                 $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                 if ($conn->query($sql8) === TRUE) {
+                }
+                if ($conn->query($sql9) === TRUE) {
+                }
+            }
+            // ============ปิดการสร้างรหัส QT
+
+
+        } else {  ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("ไม่สามารถบันทึกได้เนื่องจากไม่มีรายการสั่งสินค้า", "alert-danger");
+                });
+            </script>
+<?php
         }
     }
 }
@@ -262,6 +314,7 @@ if ($action == 'add') {
                                             <select id="cus_back" class="classcus custom-select" name="cus_back">
                                                 <option value="1" <?php echo $Fcus_back == '1' ? 'selected' : ''; ?>> รับกลับเอง </option>
                                                 <option value="2" <?php echo $Fcus_back == '2' ? 'selected' : ''; ?>>บริษัทส่งให้</option>
+                                                <option value="3" <?php echo $Fcus_back == '3' ? 'selected' : ''; ?>>รับกลับเองวันหลัง</option>
                                             </select>
                                         <?php } ?>
                                     </div>
@@ -298,6 +351,7 @@ if ($action == 'add') {
                                         <?php } ?>
                                     </div>
                                     <div class="row mt-12">
+
                                         <div class="form-group col-md-2">
                                             <label for="product_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
 
@@ -323,10 +377,11 @@ if ($action == 'add') {
 
 
                                         </div>
+
                                         <div class="form-group col-md-4">
-                                            <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger"></span></strong></label>
+                                            <label for="product"><strong>สินค้าที่สั่งชื้อ <span class="text-danger"></span></strong></label>
                                             <select name="productx" id="productx" class="classcus custom-select" data-index="1">
-                                                <option value="">เลือกสินค้าผลิต</option>
+                                                <option value="">เลือกสินค้าสั่งชื้อ</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
@@ -337,9 +392,11 @@ if ($action == 'add') {
                                             <label for="qty"><strong>จำนวนที่สั่ง <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่ง" data-index="1" onKeyUp="fncASum();">
                                         </div>
-
-                                        <input type="hidden" name="order_id" id="Forder_id" value="<?php echo "$order_id"; ?>">
-                                        <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มรายการ</button>
+                                        <?php if ($status_order == 'confirm') {
+                                        } else {  ?>
+                                            <input type="hidden" name="order_id" id="Forder_id" value="<?php echo "$order_id"; ?>">
+                                            <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มรายการ</button>
+                                        <?php } ?>
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
                                             <div class="table-responsive">
@@ -459,16 +516,18 @@ if ($action == 'add') {
                                         // echo "$rs[order_id]";
                                     ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 1)) { ?>
-                                            <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?=$rs['order_id']?>" type="button" target="_blank">ออกใบเสร็จรับเงิน(HS)</a>
-                                            <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?=$rs['order_id']?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
+                                            <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสร็จรับเงิน(HS)</a>
+                                            <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
                                         <?php } ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 2)) { ?>
-                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?=$rs['order_id']?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
+                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
                                         <?php } ?>
-
-                                        <?php if ($rs['cus_type'] == 2){ ?>
-                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?=$rs['order_id']?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
-                                            <?php } ?>
+                                        <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 3)) { ?>
+                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
+                                        <?php } ?>
+                                        <?php if ($rs['cus_type'] == 2) { ?>
+                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
+                                        <?php } ?>
                                     <?php } else { ?>
                                         <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยัน Order</button>
                                         <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">

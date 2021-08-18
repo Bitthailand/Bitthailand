@@ -1,4 +1,26 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config_date.php';
+$order_id= $_REQUEST['order_id'];
+$sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+// ====
+$sql2 = "SELECT * FROM customer_type  WHERE id= '$row[cus_type]'";
+$rs2 = $conn->query($sql2);
+$row2 = $rs2->fetch_assoc();
+// ====
+$sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
+$rs3 = $conn->query($sql3);
+$row3= $rs3->fetch_assoc();
+// ===
+$strStartDate =$row['qt_date'];
+$strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
 
 ?>
 <!DOCTYPE html>
@@ -18,6 +40,11 @@
         margin-top: 0;
         margin-bottom: 0.1rem;
     }
+    .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
     </style>
 </head>
 
@@ -60,20 +87,23 @@
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
-                                                    <p><strong>ชื่อลูกค้า : </strong>คุณ มนต์ชัย สุขเกษม</p>
-                                                    <p><strong>ที่อยู่ : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
-                                                    <p><strong>โทร : </strong> 093-6954224</p>
-                                                    <p><strong>อ้างอิง : </strong></p>
+                                                    <p><strong>ชื่อลูกค้า : </strong>คุณ <?=$row3['customer_name']?></p>
+                                                    <p><strong>ที่อยู่ : </strong><?=$row3['bill_address']?></p>
+                                                    <p><strong>โทร : </strong> <?=$row3['tel']?></p>
+                                                    <p><strong>อ้างอิง : </strong><?=$row3['contact_name']?></p>
                                                     <p>บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ใบเสนอราคา <span>QT6401061</span></p>
-                                                        <p>ลำดับการสั่งซื้อ <span>OR6400024</span></p>
-                                                        <p>วันที่ <span>31-ก.ค.-64</span></p>
-                                                        <p>ยืนราคา : 0 วัน <span>ถึงวันที่ 05/07/64</span></p>
-                                                        <p>เงื่อนไขการชำระเงิน : <span>เงินสด</span></p>
+                                                        <p>เลขที่ใบเสนอราคา <span><?php echo"$row[qt_id]";?></span></p>
+                                                        <p>ลำดับการสั่งซื้อ <span><?php echo"$row[order_id]";?></span></p>
+                                                        <p>วันที่ <span><?php $date=explode(" ",$row['qt_date'] ); $dat=datethai2($date[0]);
+                                                        echo"$dat";?> </span></p>
+                                                        <p>ยืนราคา :<?php echo"$row[date_confirm]";?>วัน <span>ถึงวันที่ 
+                                                        <?php $date=explode(" ",$strNewDate ); $dat=datethai2($date[0]);
+                                                        echo"$dat";?></span></p>
+                                                        <p>เงื่อนไขการชำระเงิน : <span><?=$row2['name']?></span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -90,29 +120,46 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                        <?php
+                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by date_create  ASC ";
+                                                        $result_pro = mysqli_query($conn, $sql_pro);
+                                                        if (mysqli_num_rows($result_pro) > 0) {
+                                                            while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
                                                             <tr>
-                                                                <th scope="row" class="text-center">1</th>
-                                                                <td>FP03100020 เสารั้ว 3x3" 1.00 1.00 1.00</td>
-                                                                <td class="text-right">120</td>
-                                                                <td class="text-right">45.00</td>
-                                                                <td class="text-right">5400.00</td>
+                                                                <th scope="row" class="text-center"><?=++$id;?></th>
+                                                                <td>
+                                                                <?php
+                                                                        $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                                        $rsx3 = $conn->query($sqlx3);
+                                                                        $rowx3 = $rsx3->fetch_assoc();
+                                                                        echo $rowx3['product_id'].$rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
+                                                                        ?>
+
+                                                                </td>
+                                                                <td class="text-right"><?=$row_pro['qty']?></td>
+                                                                <td class="text-right"><?=$row_pro['unit_price']?></td>
+                                                                <td class="text-right"><?=$row_pro['total_price']?></td>
                                                             </tr>
-                                                            <tr>
-                                                                <th scope="row" class="text-center">2</th>
-                                                                <td>FP03100025 เสารั้ว 3x3" 1.00 1.00 1.00</td>
-                                                                <td class="text-right">60</td>
-                                                                <td class="text-right">45.00</td>
-                                                                <td class="text-right">2700.00</td>
-                                                            </tr>
+                                                         <?php } } ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>รวมเป็นเงินทั้งสิ้น <span>10,617.00</span></p>
-                                                        <p>หัก ส่วนลด <span>00.00</span></p>
-                                                        <p>จำนวนเงินก่อนรวมภาษี <span>9,922.43</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>694.57</span></p>
+                                                    <?php
+                                                                        $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$order_id'";
+                                                                        $rsx4 = $conn->query($sqlx4);
+                                                                        $rowx4 = $rsx4->fetch_assoc();
+                                                                       
+                                                                        ?>
+                                                        <p>รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($rowx4['total'],'2','.',',')?></span></p>
+                                                        <p>หัก ส่วนลด <span><?php echo number_format($row['discount'],'2','.',',')?></span></p>
+                                                        <?php $sub_total=$rowx4['total']-$row['discount']; 
+                                                        $tax = ($sub_total*0.07);
+                                                        $grand_total = ($sub_total + $tax);
+                                                        ?>
+                                                        <p>จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($sub_total,'2','.',',')?></span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม <?=$row['tax']?>% <span><?php echo number_format($tax,'2','.',',')?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -121,12 +168,12 @@
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p>หนึ่งหมื่นหกร้อยสิบเจ็ดบาทถ้วน</p>
+                                                            <p><?php echo Convert($grand_total);?></p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>รวมเป็นเงิน</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>10,617.00</span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total,'2','.',',')?></span></h5>
                                                             </div>
                                                         </div>
                                                     </div>

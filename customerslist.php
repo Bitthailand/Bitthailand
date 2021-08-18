@@ -11,7 +11,9 @@ $action = $_REQUEST['action'];
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
 
-    $sql = "DELETE FROM customer  WHERE customer_id='$del_id' ";
+    // $sql = "DELETE FROM customer  WHERE customer_id='$del_id' ";
+    $sql = "UPDATE customer    SET status='1'  where customer_id='$del_id' ";
+
     if ($conn->query($sql) === TRUE) { ?>
 <script>
 $(document).ready(function() {
@@ -329,7 +331,7 @@ if ($rowS == '') {
                                            <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
                                       <?php   } ?>
                                     </ul>
-
+                                </nav>
                             </div>
 
                         </div>
