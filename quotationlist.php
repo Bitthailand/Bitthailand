@@ -133,7 +133,7 @@ $(document).ready(function() {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/tranDW.php">
+                                <a class="linkLoadModalNext nav-link" href="/ordersuccesslist.php">
                                     <h3 class="h5 font-weight-bold"> Order สำเร็จ</h3>
                                     <span>Order ที่ส่งสินค้าเรียบร้อย
                                         <span class="badge badge-success"> Pass </span>
@@ -141,7 +141,7 @@ $(document).ready(function() {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/tranDWLog.php">
+                                <a class="linkLoadModalNext nav-link" href="/orderloglist.php">
                                     <h3 class="h5 font-weight-bold"> Order Log </h3>
                                     <span> รายการ Order ทั้งหมด
                                         <span class="badge badge-light"> Log </span>
@@ -219,6 +219,7 @@ $(document).ready(function() {
                                             <th>ก่อนรวมภาษี</th>
                                             <th>ภาษี</th>
                                             <th>ยอดรวม</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -296,6 +297,9 @@ $(document).ready(function() {
                                                 <td> <span class="font-weight-bold"> <?php echo number_format($tax, '2', '.', ',') ?></span> </td>
                                                 <td>
                                                     <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
+                                                </td>
+                                                <td>
+                                                <span class="badge badge-warning p-1">เสนอราคา</span>
                                                 </td>
                                                 <td>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
