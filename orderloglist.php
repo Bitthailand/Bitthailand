@@ -169,13 +169,10 @@
                                                 <span class="font-weight-bold"> 81,525.00 </span>
                                             </td>
                                             <td>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/addsaleorder.php?saleorder_id=268">
-                                                    <i class="i-Car-Items font-weight-bold"></i>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order"
+                                                    href="/orderview.php?saleorder_id=268" target="_blank">
+                                                    <i class="i-Eye font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="สั่งสินค้าเพิ่ม" href="/editorder.php?order_id=OR6400001">
-                                                        <i class="i-Check font-weight-bold"></i>
-                                                    </a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -197,13 +194,10 @@
                                                 <span class="font-weight-bold"> 7,545.00 </span>
                                             </td>
                                             <td>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/addsaleorder.php?saleorder_id=268">
-                                                    <i class="i-Car-Items font-weight-bold"></i>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order"
+                                                    href="/orderview.php?saleorder_id=268" target="_blank">
+                                                    <i class="i-Eye font-weight-bold"></i>
                                                 </a>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="สั่งสินค้าเพิ่ม" href="/editorder.php?order_id=OR6400001">
-                                                        <i class="i-Check font-weight-bold"></i>
-                                                    </a>
                                             </td>
                                         </tr>
                                         <tr>

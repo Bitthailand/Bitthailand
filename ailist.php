@@ -146,6 +146,7 @@
                                             <th>ก่อนรวมภาษี</th>
                                             <th>ภาษี</th>
                                             <th>ยอดรวม</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -167,6 +168,9 @@
                                             <td> <span class="font-weight-bold"> 5,333.41 </span> </td>
                                             <td>
                                                 <span class="font-weight-bold"> 81,525.00 </span>
+                                            </td>
+                                            <td>
+                                            <span class="badge badge-warning p-1">มัดจำ</span>
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
@@ -195,6 +199,9 @@
                                             <td> <span class="font-weight-bold"> 953.41 </span> </td>
                                             <td>
                                                 <span class="font-weight-bold"> 7,545.00 </span>
+                                            </td>
+                                            <td>
+                                            <span class="badge badge-warning p-1">ยืนยันสั่งสินค้า</span>
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
