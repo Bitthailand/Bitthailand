@@ -54,7 +54,7 @@ $(function() {
                 }
 
 
-                console.log('cal_cons', cal_cons);
+                console.log('cal_cons', cal_cons.toFixed(2));
 
 
                 var df = 1;
