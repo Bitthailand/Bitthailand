@@ -1487,12 +1487,12 @@ pre code {
 .table th,
 .table td {
     padding: 0.75rem;
-    vertical-align: top;
+    vertical-align: middle;
     border-top: 1px solid #dee2e6;
 }
 
 .table thead th {
-    vertical-align: bottom;
+    vertical-align: middle;
     border-bottom: 2px solid #dee2e6;
 }
 
@@ -31593,7 +31593,7 @@ div.tab-border {
 
 .invoice-summary p span,
 .invoice-summary h5 span {
-    width: 120px;
+    width: 145px;
 }
 
 .invoice-summary p span .small-input,

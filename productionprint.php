@@ -49,104 +49,108 @@
                                         <div id="print-area">
                                             <div class="row">
                                                 <div class="col-md-12 text-sm-center">
-                                                    <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด/ ONE M CO.,LTD.</h4>
+                                                    <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด/ 1M CO.,LTD.</h4>
                                                     <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000 โทร 061-4362825</p>
 
                                                     <p>290 MU 1 Krasop, Mueang Ubon Ratchathani, Ubon Ratchathani 34000, Tel. 045-953-448</p>
+                                                    <div class="mt-3 mb-4 border-top"></div>
                                                 </div>
+
                                                 <div class="col-md-12 text-sm-center">
                                                     <h4 class="font-weight-bold">ใบสั่งผลิตสินค้า</h4>
                                                 </div>
                                             </div>
-                                            <div class="mt-3 mb-4 border-top"></div>
+
                                             <div class="row">
                                                 <div class="col-md-12 table-responsive">
                                                     <table class="table table-hover mb-4">
-                                                        <thead class="bg-gray-300">
-                                                            <tr>
-                                                                <th scope="col" class="text-center">ลำดับ</th>
-                                                                <th scope="col" class="text-center">ว.ด.ป.</th>
-                                                                <th scope="col" class="text-center">โรงงาน</th>
-                                                                <th scope="col" class="text-center">รายการ</th>
-                                                                <th scope="col" class="text-center">จำนวน(P)</th>
-                                                                <th scope="col" class="text-center">พ.ท.(Sq.m.)</th>
-                                                                <th scope="col" class="text-center">ขนาดลวด Dai.(mm.)</th>
-                                                                <th scope="col" class="text-center">จำนวน(เส้น)</th>
-                                                                <th scope="col" class="text-center">คอนกรีต(ลบ.ม.)</th>
+                                                        <thead>
+
+                                                            <col>
+                                                            <colgroup span="2"></colgroup>
+                                                            <colgroup span="2"></colgroup>
+                                                            </col>
+                                                            <tr class="bg-gray-300">
+                                                                <th rowspan="2" scope="rowgroup" class="text-center" width="3%">ลำดับ</th>
+                                                                <th rowspan="2" scope="rowgroup" class="text-center" width="10%">ว.ด.ป.</th>
+                                                                <th rowspan="2" scope="rowgroup" class="text-center" width="3%">โรงงาน</th>
+                                                                <th rowspan="2" scope="rowgroup" class="text-center" width="3%">แพ</th>
+                                                                <th rowspan="2" scope="rowgroup" class="text-center" width="38%">รายการ</th>
+                                                                <th colspan="1" scope="colgroup" class="text-center" width="5%">จำนวน</th>
+                                                                <th colspan="1" scope="colgroup" class="text-center" width="5%">พ.ท.</th>
+                                                                <th colspan="1" scope="colgroup" class="text-center" width="12%">ขนาดลวด</th>
+                                                                <th colspan="1" scope="colgroup" class="text-center" width="13%">จำนวนลวด</th>
+                                                                <th colspan="1" scope="colgroup" class="text-center" width="10%">คอนกรีต</th>
+                                                            </tr>
+                                                            <tr class="bg-gray-300">
+                                                                <th scope="col" class="text-center">(P)</th>
+                                                                <th scope="col" class="text-center">(Sq.m.)</th>
+                                                                <th scope="col" class="text-center">Dai.(mm.)</th>
+                                                                <th scope="col" class="text-center">(เส้น)</th>
+                                                                <th scope="col" class="text-center">(ลบ.ม.)</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <th scope="row" class="text-center">1</th>
-                                                                <td>2 ส.ค. 21</td>
-                                                                <td class="text-right">2</td>
-                                                                <td class="text-right">แผ่นพื้น 0.35*0.05*3.00</td>
+                                                                <td scope="row" class="text-center">1</td>
+                                                                <td class="text-center">2 ส.ค. 21</td>
+                                                                <td class="text-center">2</td>
+                                                                <td class="text-center">35</td>
+                                                                <td class="text-left">แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x4.00 เมตร</td>
                                                                 <td class="text-right">66</td>
                                                                 <td class="text-right">69.30</td>
-                                                                <td class="text-right">4</td>
-                                                                <td class="text-right">5</td>
+                                                                <td class="text-center">4</td>
+                                                                <td class="text-center">5</td>
                                                                 <td class="text-right">3.47</td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row" class="text-center"></th>
+                                                                <td scope="row" class="text-center"></td>
                                                                 <td></td>
                                                                 <td class="text-right"></td>
-                                                                <td class="text-right">แผ่นพื้น 0.35*0.05*2.00</td>
+                                                                <td class="text-right">35</td>
+                                                                <td class="text-left">แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.50 เมตร</td>
                                                                 <td class="text-right">78</td>
                                                                 <td class="text-right">54.60</td>
-                                                                <td class="text-right">4</td>
-                                                                <td class="text-right">5</td>
+                                                                <td class="text-center">4</td>
+                                                                <td class="text-center">5</td>
                                                                 <td class="text-right">2.73</td>
+                                                            </tr>
+                                                            <tr class="bg-gray-200">
+                                                                <td scope="row" class="text-center"></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-right"></td>
+                                                                <td class="text-right"><strong>รวม</strong></td>
+                                                                <td class="text-right"><strong>144</strong></td>
+                                                                <td class="text-right"><strong>123.90</strong></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-right"><strong>6.20 </strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>รวมเป็นเงิน <span>10,617.00</span></p>
-                                                        <p>หัก ส่วนลด <span>00.00</span></p>
-                                                        <p>ยอดหลังหักส่วนลด <span>10,617.00</span></p>
-                                                        <p>หักเงินมัดจำ #AI6408006 <span>3,500.00</span></p>
-                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>7,117.00</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>465.60</span></p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <p>ตัวอักษร :</p>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <p>หนึ่งหมื่นหกร้อยสิบเจ็ดบาทถ้วน</p>
-                                                        </div>
-                                                        <div class="col-md-4 text-right">
-                                                            <div class="row" style="justify-content: flex-end; margin-right: 0;">
-                                                                <p>ราคาสินค้า</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>6,651.40</span></h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 mb-4 border-top"></div>
-                                            <div class="col-md-12">
-                                                <div class="col-md-12 mb-3 mb-sm-0">
-                                                    <p>ได้รับสินค้าตามรายการข้างบนนี้ไว้ถูกต้อง และอยู่ในสภาพเรียบร้อยทุกประการ </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <p></p>
+                                                        <p> ผู้สั่งผลิต <span>_____________________</span></p>
                                                         <br>
-                                                        <p><span></span></p>
+                                                        <p> ผู้ควบคุมการผลิต <span>_____________________</span></p>
                                                         <br>
-                                                        <p>ผู้รับสินค้า/ผู้จ่ายเงิน __________________________ <span>วันที่ ______/________/______</span></p>
-                                                    </div>
-                                                    <div class="col-md-6 text-center">
-                                                        <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
+                                                        <p> ผู้รับเหมา <span>_____________________</span></p>
                                                         <br>
-                                                        <p> ผู้รับมอบอำนวจ _____________________ <span></span></p>
+                                                        <p> ผู้ควบคุมคุณภาพ <span>_____________________</span></p>
                                                     </div>
                                                 </div>
                                             </div>
