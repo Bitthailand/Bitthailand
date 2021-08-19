@@ -9,7 +9,7 @@ include './include/config.php';
 $sql = "SELECT * FROM provinces";
 $query = mysqli_query($conn, $sql);
 
-$sql5 = "SELECT MAX(id) AS id_run FROM customer  ";
+$sql5 = "SELECT COUNT(id) AS id_run FROM customer  ";
 $rs5 = $conn->query($sql5);
 $row_run = $rs5->fetch_assoc(); 
 
@@ -25,7 +25,7 @@ if ($action == 'add') {
     $customer_id = $_REQUEST['customer_id'];  
     $customer_name= $_REQUEST['customer_name']; 
     $customer_type= $_REQUEST['customer_type']; 
-    echo"xx";
+    // echo"xx";
     $company_name = $_REQUEST['company_name'];   
     $bill_address= $_REQUEST['bill_address'];  
     $subdistrict = $_REQUEST['subdistrict'];

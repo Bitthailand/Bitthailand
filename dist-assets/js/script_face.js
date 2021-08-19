@@ -44,13 +44,13 @@ $(function() {
                 let thickness;
                 let area;
                 // var cal_cons;
-                var cal_item = item.width * item.size;
+                var cal_item = Math.round(item.width * item.size * 100) / 100;
 
                 if (item.area !== 'undefined') {
-                    var cal_cons = item.width * item.size * item.thickness;
+                    var cal_cons = Math.round(item.width * item.size * item.thickness * 100) / 100;
                 }
                 if (item.area >= 1) {
-                    var cal_cons = item.width * item.size * item.thickness * item.area;
+                    var cal_cons = Math.round(item.width * item.size * item.thickness * item.area * 100) / 100;
                 }
 
 
@@ -58,14 +58,14 @@ $(function() {
 
 
                 var df = 1;
-                console.log('calitem', cal_item.toFixed(2));
+                console.log('calitem', cal_item.toFixed(3));
 
 
                 $('#qty').val(df)
-                $('#sqm').val(cal_item.toFixed(2))
-                $('#sqm1').val(cal_item.toFixed(2))
-                $('#concrete_cal').val(cal_cons.toFixed(2))
-                $('#concrete_cal1').val(cal_cons.toFixed(2))
+                $('#sqm').val(cal_item.toFixed(3))
+                $('#sqm1').val(cal_item.toFixed(3))
+                $('#concrete_cal').val(cal_cons.toFixed(3))
+                $('#concrete_cal1').val(cal_cons.toFixed(3))
 
             });
         });
