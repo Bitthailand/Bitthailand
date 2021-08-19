@@ -34,7 +34,7 @@ $concrete_cal = $_REQUEST['concrete_cal'];
 $productx = $_REQUEST['productx'];
 $sqm = $_REQUEST['sqm'];
 // echo "$productx";
-// echo "$plant";
+echo "$plant";
 // =============================
 
 // =============================
@@ -43,6 +43,8 @@ if ($action == 'add_po') {
     $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
     $po_idx = $_REQUEST['po_idd1'];
+    echo"$po_idx";
+    echo"$productx";
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
     $plant = $_REQUEST['plant'];
@@ -50,19 +52,39 @@ if ($action == 'add_po') {
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
     $plant_id = explode("|", $plant);
+    $plantx = $plant_id[2];
+    $sqlx = "SELECT * FROM production_detail   WHERE product_id='$row5[product_id]' AND plant_id ='$plantx' AND po_id='$po_idx'";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+echo"xxx";
+            $qtyx = $row['qty'] + $qty;
+            $sqmx=$row['sqm']+$sqm;
+            $concrete_calx=$row['concrete_cal']+$concrete_cal;
+
+            $sql = "UPDATE production_detail    SET qty='$qtyx',sqm='$sqmx',concrete_cal='$concrete_calx'  where product_id='$row5[product_id]'  AND plant_id ='$plantx' AND po_id='$po_idx'";
 
 
+            if ($conn->query($sql) === TRUE) {  ?>
+                <script>
+                    $(document).ready(function() {
+                        showAlert("บันทึกข้อมูลสำเร็จxx", "alert-success");
+                    });
+                </script>
+            <?php }
+        }
+    } else {
 
-    $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
+        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
                                        VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal')";
-    if ($conn->query($sql) === TRUE) {  ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
-            });
-        </script>
-    <?php   }
-    // }
+        if ($conn->query($sql) === TRUE) {  ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                });
+            </script>
+        <?php   }
+    }
 }
 
 if ($action == 'edit') {
@@ -139,8 +161,8 @@ if ($action == 'del') {
 
         }
 
-        document.frmAMain['sqm'].value.toFixed(2);
-        document.frmAMain['concrete_cal'].value.toFixed(2);
+        document.frmAMain['sqm'].value;
+        document.frmAMain['concrete_cal'].value;
 
         // document.frmAMain.total.value = Asum;
     }
@@ -256,7 +278,7 @@ if ($action == 'del') {
                                                     if (mysqli_num_rows($result6) > 0) {
                                                         while ($row6 = mysqli_fetch_assoc($result6)) {
                                                     ?>
-                                                            <option value="<?= $row6['id'] ?>" <?php if (isset($productx) && ($productx== $row6['id'])) {
+                                                            <option value="<?= $row6['id'] ?>" <?php if (isset($productx) && ($productx == $row6['id'])) {
                                                                                                     echo "selected"; ?>>
                                                                 <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
                                                             <?php  } else {      ?>
@@ -305,7 +327,7 @@ if ($action == 'del') {
                                                             <th>พื้นที่หน้าตัด</th>
                                                             <th>ขนาดลวด</th>
                                                             <th>จำนวนลวด</th>
-                                                           
+
                                                             <th>พ.ท.(Sq.m)</th>
                                                             <th>คอนกรีตคำนวณ</th>
                                                             <th>จำนวนสั่งผลิต</th>
@@ -336,7 +358,7 @@ if ($action == 'del') {
                                                                     <td><?php echo $row3['area']; ?></td>
                                                                     <td> <?php echo $row3['dia_size']; ?></td>
                                                                     <td> <?php echo $row3['dia_count']; ?> </td>
-                                                                  
+
                                                                     <td> <?php echo $row['sqm']; ?> </td>
                                                                     <td> <?php echo $row['concrete_cal']; ?></td>
                                                                     <td><?php echo $row['qty']; ?></td>
