@@ -273,8 +273,8 @@ if ($action == 'del') {
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
-                                            <input type="hidden" name="sqm1" id="sqm1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
-                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal"; ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
 
                                         </div>
 
