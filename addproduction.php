@@ -33,7 +33,7 @@ $plant_ptype = $plant_id[0];
 $concrete_cal = $_REQUEST['concrete_cal'];
 $productx = $_REQUEST['productx'];
 $sqm = $_REQUEST['sqm'];
-echo "$productx";
+// echo "$productx";
 // echo "$plant";
 // =============================
 
@@ -134,14 +134,13 @@ if ($action == 'del') {
             console.log('SQM1', sqmx);
             console.log('concrete_calxxxx', concrete_calx);
             // console.log('SQM2',qty);
-            document.frmAMain['sqm'].value = parseFloat(document.frmAMain['qty'].value) * sqmx;
-            document.frmAMain['concrete_cal'].value = parseFloat(document.frmAMain['qty'].value) * concrete_calx;
+            document.frmAMain['sqm'].value = document.frmAMain['qty'].value * sqmx;
+            document.frmAMain['concrete_cal'].value = document.frmAMain['qty'].value * concrete_calx;
 
         }
-        let Asum = 0;
 
-        parseFloat(document.frmAMain['sqm'].value);
-        parseFloat(document.frmAMain['concrete_cal'].value);
+        document.frmAMain['sqm'].value.toFixed(2);
+        document.frmAMain['concrete_cal'].value.toFixed(2);
 
         // document.frmAMain.total.value = Asum;
     }
