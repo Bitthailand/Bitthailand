@@ -28,7 +28,13 @@ $po_enddate = $_REQUEST['po_enddate'];
 $plant = $_REQUEST['plant'];
 $plant_id = explode("|", $plant);
 $plantx = $plant_id[2];
-
+$plant_w = $plant_id[1];
+$plant_ptype = $plant_id[0];
+$concrete_cal = $_REQUEST['concrete_cal'];
+$productx = $_REQUEST['productx'];
+$sqm = $_REQUEST['sqm'];
+echo "$productx";
+// echo "$plant";
 // =============================
 
 // =============================
@@ -46,16 +52,16 @@ if ($action == 'add_po') {
     $plant_id = explode("|", $plant);
 
 
-      
-        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
+
+    $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
                                        VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal')";
-        if ($conn->query($sql) === TRUE) {  ?>
-            <script>
-                $(document).ready(function() {
-                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
-                });
-            </script>
-        <?php   }
+    if ($conn->query($sql) === TRUE) {  ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+            });
+        </script>
+    <?php   }
     // }
 }
 
@@ -205,6 +211,12 @@ if ($action == 'del') {
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="plant"><strong>แพที่ผลิต <span class="text-danger"></span></strong></label>
+
+                                        <?php
+                                        $plant = $_REQUEST['plant'];
+                                        if (empty($plant)) {
+                                        }
+                                        ?>
                                         <select name="plant" id="plant" class="classcus custom-select " required>
                                             <?php
                                             $sql6 = "SELECT *  FROM plant   order by id DESC ";
@@ -228,14 +240,39 @@ if ($action == 'del') {
                                     <div class="row mt-12">
                                         <div class="form-group col-md-4">
                                             <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                            <select name="productx" id="productx" class="classcus custom-select" data-index="1">
-                                                <option value="">เลือกสินค้าผลิต</option>
-                                            </select>
+                                            <?php
+                                            $plant = $_REQUEST['plant'];
+                                            if (empty($plant)) {
+
+                                            ?>
+                                                <select name="productx" id="productx" class="classcus custom-select" data-index="1">
+                                                    <option value="">เลือกสินค้าผลิต</option>
+                                                </select>
+
+                                            <?php } else { ?>
+                                                <select name="productx" id="productx" class="classcus custom-select " required>
+                                                    <?php
+                                                    $sql6 = "SELECT *  FROM product where ptype_id='$plant_ptype'  AND width='$plant_w'  order by id DESC ";
+                                                    $result6 = mysqli_query($conn, $sql6);
+                                                    if (mysqli_num_rows($result6) > 0) {
+                                                        while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                    ?>
+                                                            <option value="<?= $row6['id'] ?>" <?php if (isset($productx) && ($productx== $row6['id'])) {
+                                                                                                    echo "selected"; ?>>
+                                                                <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
+                                                            <?php  } else {      ?>
+                                                            <option value="<?= $row6['id'] ?>"> <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
+                                                            <?php } ?>
+                                                            </option>
+                                                    <?php  }
+                                                    }  ?>
+                                                </select>
+                                            <?php } ?>
                                         </div>
 
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
+                                            <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
                                             <input type="hidden" name="sqm1" id="sqm1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
                                             <input type="hidden" name="concrete_cal1" id="concrete_cal1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
 
@@ -244,13 +281,11 @@ if ($action == 'del') {
                                         <div class="form-group col-md-2">
                                             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
 
-                                            <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
-
-
+                                            <input type="text" name="sqm" id="sqm" value="<?= $sqm ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="concrete_cal" id="concrete_cal" <?php echo "$po_id"; ?> class="classcus form-control" placeholder="คำนวณคอนกรีต">
+                                            <input type="text" name="concrete_cal" id="concrete_cal" value="<?php echo "$concrete_cal"; ?>" class="classcus form-control" placeholder="คำนวณคอนกรีต">
                                         </div>
                                         <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
                                         <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
@@ -261,17 +296,19 @@ if ($action == 'del') {
                                                 <table class="table table-hover text-nowrap table-sm">
                                                     <thead>
                                                         <tr>
+                                                            <th>แพที่</th>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
-                                                            <th>แพที่</th>
+
                                                             <th>หนา</th>
                                                             <th>กว้าง</th>
                                                             <th>ยาว</th>
                                                             <th>พื้นที่หน้าตัด</th>
                                                             <th>ขนาดลวด</th>
                                                             <th>จำนวนลวด</th>
-                                                            <th>คอนกรีตคำนวณ</th>
+                                                           
                                                             <th>พ.ท.(Sq.m)</th>
+                                                            <th>คอนกรีตคำนวณ</th>
                                                             <th>จำนวนสั่งผลิต</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -283,6 +320,7 @@ if ($action == 'del') {
                                                         if (mysqli_num_rows($result) > 0) {
                                                             while ($row = mysqli_fetch_assoc($result)) { ?>
                                                                 <tr>
+                                                                    <td> <?php echo $row['plant_id']; ?></td>
                                                                     <td> <strong><?php echo $row['product_id']; ?></strong> </td>
                                                                     <td>
                                                                         <?php
@@ -292,15 +330,16 @@ if ($action == 'del') {
                                                                         echo $row3['product_name'];
 
                                                                         ?></td>
-                                                                         <td> <?php echo $row['plant_id']; ?></td>
+
                                                                     <td> <?php echo $row3['thickness']; ?></td>
                                                                     <td> <strong><?php echo $row3['width']; ?></strong> </td>
                                                                     <td><?php echo $row3['size']; ?></td>
                                                                     <td><?php echo $row3['area']; ?></td>
                                                                     <td> <?php echo $row3['dia_size']; ?></td>
                                                                     <td> <?php echo $row3['dia_count']; ?> </td>
-                                                                    <td> <?php echo $row['concrete_cal']; ?></td>
+                                                                  
                                                                     <td> <?php echo $row['sqm']; ?> </td>
+                                                                    <td> <?php echo $row['concrete_cal']; ?></td>
                                                                     <td><?php echo $row['qty']; ?></td>
                                                                     <td>
 
@@ -497,6 +536,11 @@ if ($action == 'del') {
 
     });
     /* ===== search end ===== */
+    function selection5() {
+        let plant1 = $("#plant1").val();
+        console.log('plant1', plant1)
+
+    };
 
     //click next link
     $(".linkLoadModalNext").on('click', function() {
@@ -542,7 +586,16 @@ if ($action == 'del') {
     });
 </script>
 
-
+<script>
+    $(document).ready(function() {
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 <script>
     $('#inputform2').on('keydown', 'input', function(event) {
         if (event.which == 13) {

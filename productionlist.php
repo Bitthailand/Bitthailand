@@ -291,11 +291,11 @@ if ($action == 'del') {
                                             <th>รหัสสั่งผลิต</th>
                                             <th>วันที่สั่ง</th>
                                             <th>กำหนดเสร็จ</th>
-                                           
+                                            <th>แพที่</th>
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
                                             <th>ชื่อสินค้า</th>
-                                            <th>แพที่</th>
+                                           
                                             <th>หนา</th>
                                             <th>กว้าง</th>
                                             <th>ยาว</th>
@@ -358,7 +358,7 @@ if ($action == 'del') {
                                                                 echo '<strong>' . $dat . '</strong>';
                                                             } ?>
                                                         </td>
-
+                                                        <td><?php echo $row2['plant_id']; ?></td>
                                                         <td><?php echo $row2['product_id']; ?></td>
                                                         <td><?php echo $row2['qty']; ?></td>
                                                         <?php
@@ -368,7 +368,7 @@ if ($action == 'del') {
 
                                                         ?>
                                                         <td><?php echo $rowx['product_name']; ?></td>
-                                                        <td><?php echo $row2['plant_id']; ?></td>
+                                                       
                                                         <td><?php echo $rowx['thickness']; ?></td>
                                                         <td><?php echo $rowx['width']; ?></td>
                                                         <td><?php echo $rowx['size']; ?></td>
