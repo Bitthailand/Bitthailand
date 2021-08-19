@@ -158,8 +158,8 @@ if ($action == 'del') {
             console.log('SQM1', sqmx);
             console.log('concrete_calxxxx', concrete_calx);
             // console.log('SQM2',qty);
-            document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx).toFixed(2);
-            document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx).toFixed(2);
+            document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx).toFixed(3);
+            document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx).toFixed(3);
 
         }
 

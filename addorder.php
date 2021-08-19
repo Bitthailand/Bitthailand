@@ -85,19 +85,20 @@ if ($action == 'add_product') {
     $send_price = $_REQUEST['Fsend_price'];
     $send_qty = $_REQUEST['Fsend_qty'];
     $TF = $_REQUEST['FTF'];
+    $disunit = $_REQUEST['Fdisunit'];
     echo 'TF' . $TF;
     echo 'send_qty' . $send_qty;
     echo 'send_price' . $send_price;
     echo 'send_to' . $send_to;
 
 
-
-    $total_price = $Fqty * $Funit_price;
+$total_disunit=$Funit_price-$disunit;
+    $total_price = $Fqty * $total_disunit;
     $status_order = 'update';
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
-    if ($TF == 1) {
+    if ($TF == 1) {  // ค่าจัดส่ง
         $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
         $result2 = mysqli_query($conn, $sql2);
         if (mysqli_num_rows($result2) > 0) {
@@ -146,8 +147,8 @@ if ($action == 'add_product') {
                 }
             }
             // echo "in";
-            $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id)
-            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','0','$emp_id')";
+            $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit)
+            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','0','$emp_id','$disunit')";
             if ($conn->query($sql) === TRUE) { ?>
                 <script>
                     $(document).ready(function() {
@@ -441,7 +442,7 @@ if ($action == 'add') {
 
                                         <div class="form-group col-md-1" id="ifYes_price" style="display: block;">
                                             <label for="qty"><strong>ส่วนลด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="disunit" id="disunit" class="classcus form-control" placeholder="ลดต่อหน่วย" disabled>
+                                            <input type="text" name="disunit" id="disunit" class="classcus form-control" placeholder="ลดต่อหน่วย" >
                                         </div>
                                         <div class="form-group col-md-1" id="ifYes_price2" style="display: block;">
                                             <label for="stock1"><strong>โรงงาน1 <span class="text-danger"></span></strong></label>
@@ -479,6 +480,7 @@ if ($action == 'add') {
                                                             <th>ประเภทสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
                                                             <th>ราคาต่อหน่วย</th>
+                                                            <th>ลดต่อหน่วย</th>
                                                             <th>จำนวนที่สั่ง</th>
                                                             <th>รวมเป็นเงิน</th>
                                                             <?php if ($status_order == 'confirm') {
@@ -510,6 +512,7 @@ if ($action == 'add') {
                                                                         ?>
                                                                     </td>
                                                                     <td> <?= $row_pro['unit_price'] ?> </td>
+                                                                    <td> <?= $row_pro['disunit'] ?> </td>
                                                                     <td> <?= $row_pro['qty'] ?></td>
                                                                     <td><?= $row_pro['total_price'] ?> </td>
                                                                     <?php if ($status_order == 'confirm') {
@@ -800,6 +803,7 @@ if ($action == 'add') {
             <input type="text" id="FFsend_to" name="Fsend_to" value="<?php echo $Fsend_to; ?>" placeholder="">
             <input type="text" id="FFsend_qty" name="Fsend_qty" value="<?php echo $Fsend_qty; ?>" placeholder="">
             <input type="text" id="FFsend_price" name="Fsend_price" value="<?php echo $Fsend_price; ?>" placeholder="">
+            <input type="text" id="FFdisunit" name="Fdisunit" value="<?php echo $Fdisunit; ?>" placeholder="">
             <input type="text" id="FFTF" name="FTF" value="<?php echo $FTF; ?>" placeholder="">
 
 
@@ -1076,6 +1080,7 @@ if ($action == 'add') {
                 let Ftax = $("#tax").val();
                 let Fdiscount = $("#discount").val();
                 let Forder_id = $("#order_id").val();
+                let Fdisunit= $("#disunit").val();
 
                 // ==============สถานที่จัดส่ง
                 let send_to = $("#send_to").val();
@@ -1110,6 +1115,7 @@ if ($action == 'add') {
                 $("#FFdiscount").val(Fdiscount);
                 $("#FFcus_back").val(Fcus_back);
                 $("#FForder_id").val(Forder_id);
+                $("#FFdisunit").val(Fdisunit);
                 $("#FSButtonID").click();
             });
             /* ===== search end ===== */
