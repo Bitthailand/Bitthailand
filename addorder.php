@@ -81,22 +81,23 @@ if ($action == 'add_product') {
     $Funit_price = $_REQUEST['Funit_price'];
     $Fqty = $_REQUEST['Fqty'];
     $Forder_id = $_REQUEST['Forder_id'];
+    $send_to = $_REQUEST['Fsend_to'];
+    $send_price = $_REQUEST['Fsend_price'];
+    $send_qty = $_REQUEST['Fsend_qty'];
+    $TF = $_REQUEST['FTF'];
+    echo 'TF' . $TF;
+    echo 'send_qty' . $send_qty;
+    echo 'send_price' . $send_price;
+    echo 'send_to' . $send_to;
+
+
+
     $total_price = $Fqty * $Funit_price;
     $status_order = 'update';
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
-
-    $sqlx = "SELECT * FROM order_details   WHERE order_id='$Forder_id' AND product_id='$row5[product_id]' ";
-    $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ข้อมูลรายการสั่งสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
-            });
-        </script>
-        <?php    } else {
-        // สินค้าไม่ซ้ำ ให้มาตรวจสอบ ถ้ามี ==1 ให้ เพิ่มรายการลงในตาราง orders
+    if ($TF == 1) {
         $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
         $result2 = mysqli_query($conn, $sql2);
         if (mysqli_num_rows($result2) > 0) {
@@ -104,20 +105,57 @@ if ($action == 'add_product') {
         } else {
             // echo "ordersss";
             $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
-        VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
+    VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
             if ($conn->query($sqlx5) === TRUE) {
             }
         }
-        // echo "in";
+
+
+        $send_total=$send_price*$send_qty;
         $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id)
-            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','0','$emp_id')";
+        VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$send_qty','$send_price','$send_total','0','$emp_id')";
         if ($conn->query($sql) === TRUE) { ?>
             <script>
                 $(document).ready(function() {
-                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                    showAlert("บันทึกข้อมูลจัดส่งสำเร็จ", "alert-success");
                 });
             </script>
+    <?php   }
+ 
+
+    } else {
+        $sqlx = "SELECT * FROM order_details   WHERE order_id='$Forder_id' AND product_id='$row5[product_id]' ";
+        $result = mysqli_query($conn, $sqlx);
+        if (mysqli_num_rows($result) > 0) { ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("ข้อมูลรายการสั่งสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
+                });
+            </script>
+            <?php    } else {
+            // สินค้าไม่ซ้ำ ให้มาตรวจสอบ ถ้ามี ==1 ให้ เพิ่มรายการลงในตาราง orders
+            $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
+            $result2 = mysqli_query($conn, $sql2);
+            if (mysqli_num_rows($result2) > 0) {
+                // echo "orders";
+            } else {
+                // echo "ordersss";
+                $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
+        VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
+                if ($conn->query($sqlx5) === TRUE) {
+                }
+            }
+            // echo "in";
+            $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id)
+            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','0','$emp_id')";
+            if ($conn->query($sql) === TRUE) { ?>
+                <script>
+                    $(document).ready(function() {
+                        showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                    });
+                </script>
         <?php   }
+        }
     }
 }
 
@@ -399,7 +437,7 @@ if ($action == 'add') {
                                         </div>
                                         <div class="form-group col-md-2" id="ifYes_price1" style="display: none;">
                                             <label for="qty"><strong>ราคาจัดส่ง <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="unit_price" id="unit_price" class="classcus form-control" placeholder="ราคาค่าจัดส่ง">
+                                            <input type="text" name="send_price" id="send_price" class="classcus form-control" placeholder="ราคาค่าจัดส่ง">
                                         </div>
 
 
@@ -413,11 +451,15 @@ if ($action == 'add') {
                                             <input type="text" name="stock2" id="stock2" class="classcus form-control" placeholder="จำนวนสินค้า" disabled>
                                         </div>
 
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-2" id="ifYes_qty" style="display: block;">
                                             <label for="qty"><strong>จำนวนที่สั่ง <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่ง" data-index="1" onkeyup="calculate()">
                                         </div>
-
+                                        <div class="form-group col-md-2" id="ifYes_qty2" style="display: none;">
+                                            <label for="qty"><strong>จำนวนรอบ <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="send_qty" id="send_qty" value="<?= $send_qty ?>" class="classcus form-control" placeholder="จำนวนสั่ง" data-index="1" onkeyup="calculate1()">
+                                            <input type="hidden" name="TF" id="TF" class="classcus form-control">
+                                        </div>
                                         <?php if ($status_order == 'confirm') {
                                         } else {  ?>
                                             <input type="hidden" name="order_id" id="Forder_id" value="<?php echo "$order_id"; ?>">
@@ -751,6 +793,13 @@ if ($action == 'add') {
             <input type="text" id="FFproduct_type" name="Fproduct_type" value="<?php echo $Fproduct_type; ?>" placeholder="">
             <input type="text" id="FFproductx" name="Fproductx" value="<?php echo $Fproductx; ?>" placeholder="">
             <input type="text" id="FFunit_price" name="Funit_price" value="<?php echo $Funit_price; ?>" placeholder="">
+            <input type="text" id="FFsend_to" name="Fsend_to" value="<?php echo $Fsend_to; ?>" placeholder="">
+            <input type="text" id="FFsend_qty" name="Fsend_qty" value="<?php echo $Fsend_qty; ?>" placeholder="">
+            <input type="text" id="FFsend_price" name="Fsend_price" value="<?php echo $Fsend_price; ?>" placeholder="">
+            <input type="text" id="FFTF" name="FTF" value="<?php echo $FTF; ?>" placeholder="">
+
+
+
             <input type="text" id="status_order" name="status_order" value="update" placeholder="">
             <input type="text" id="FFqty" name="Fqty" value="<?php echo $Fqty; ?>" placeholder="">
 
@@ -787,10 +836,6 @@ if ($action == 'add') {
                 </div>
             </div>
         </div>
-
-
-
-
         <script>
             $('#myModal_del').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget)
@@ -823,8 +868,7 @@ if ($action == 'add') {
                 $("#Ddiscount").val(Fdiscount);
                 $("#Dcus_back").val(Fcus_back);
                 $("#Dorder_id").val(Forder_id);
-                console.log('Fcus_type_name', Fcus_type_name)
-
+                console.log('Fcus_type_name', Fcus_type_name);
             })
         </script>
         <!-- ============ Modal Script End ============ -->
@@ -965,29 +1009,47 @@ if ($action == 'add') {
                 let stock1S = $("#stock1").val();
                 let stock2S = $("#stock2").val();
                 let s_cus_back = $("#cus_back").val();
-                let sum_stock1x=0;
-                console.log('stock1S',stock1S)
-                console.log('stock2S',stock2S)
+                let sum_stock1x = 0;
+                console.log('stock1S', stock1S)
+                console.log('stock2S', stock2S)
                 sum_stock1x = Number(stock1S) + Number(stock2S);
-                if(s_cus_back==1){
+                if (s_cus_back == 1) {
                     console.log('stock1xxx', sum_stock1x);
-                    if(sum_stock1x==0){
+                    if (sum_stock1x == 0) {
                         document.getElementById("btu").disabled = true;
 
                     }
-                    if(sum_stock1x<=qty){
+                    if (sum_stock1x <= qty) {
                         document.getElementById("btu").disabled = true;
 
-                    }else{
+                    } else {
                         document.getElementById("btu").disabled = false;
 
                     }
-                }else{
+                } else {
                     document.getElementById("btu").disabled = false;
                 }
-               
+
                 console.log('qty', qty);
-              
+
+            };
+
+            function calculate1() {
+                let send_qty = $("#send_qty").val();
+                let send_price = $("#send_price").val();
+
+
+
+                console.log('send_qty ', send_qty);
+                console.log('send_price', send_price);
+
+                if (send_qty == 0 || send_qty == undefined || send_qty == '') {
+                    document.getElementById("btu").disabled = true;
+
+                } else {
+                    document.getElementById("btu").disabled = false;
+                }
+
             };
             $("#btu").click("change", function() {
                 modalLoad();
@@ -1010,6 +1072,22 @@ if ($action == 'add') {
                 let Ftax = $("#tax").val();
                 let Fdiscount = $("#discount").val();
                 let Forder_id = $("#order_id").val();
+
+                // ==============สถานที่จัดส่ง
+                let send_to = $("#send_to").val();
+                let send_price = $("#send_price").val();
+                let send_qty = $("#send_qty").val();
+                let TF = $("#TF").val();
+
+                console.log('send_to', send_to)
+                console.log('send_price', send_price)
+                console.log('send_qty', send_qty)
+
+                $("#FFsend_to").val(send_to);
+                $("#FFsend_price").val(send_price);
+                $("#FFsend_qty").val(send_qty);
+                $("#FFTF").val(TF);
+                // =============
                 $("#FFqty").val(Fqty);
                 $("#FFproductx").val(Fproductx);
                 $("#FFproduct_type").val(Fproduct_type);
