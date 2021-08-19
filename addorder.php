@@ -968,17 +968,26 @@ if ($action == 'add') {
                 let sum_stock1x=0;
                 console.log('stock1S',stock1S)
                 console.log('stock2S',stock2S)
-                 sum_stock1x = stock1S + stock2S;
-                // if(s_cus_back==1){
-                //     if(sum_stock1x==0||qty>0){
-                //         document.getElementById("btu").disabled = true;
+                sum_stock1x = Number(stock1S) + Number(stock2S);
+                if(s_cus_back==1){
+                    console.log('stock1xxx', sum_stock1x);
+                    if(sum_stock1x==0){
+                        document.getElementById("btu").disabled = true;
 
-                //     }
-                // }
+                    }
+                    if(sum_stock1x<=qty){
+                        document.getElementById("btu").disabled = true;
+
+                    }else{
+                        document.getElementById("btu").disabled = false;
+
+                    }
+                }else{
+                    document.getElementById("btu").disabled = false;
+                }
                
-                // if()
                 console.log('qty', qty);
-                console.log('stock1xxx', sum_stock1x);
+              
             };
             $("#btu").click("change", function() {
                 modalLoad();

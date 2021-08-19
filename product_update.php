@@ -180,7 +180,7 @@ if ($action == 'add_unit') {
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="product_name"><strong>ความยาว<span class="text-danger"></span></strong></label>
-                                            <input type="number" step="0.01"  name="size" value="<?php echo $row['size']; ?>" class="classcus form-control" placeholder="ขนาดความยาว" required>
+                                            <input type="number" step="0.001"  name="size" value="<?php echo $row['size']; ?>" class="classcus form-control" placeholder="ขนาดความยาว" required>
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="area"><strong>พื้นที่หน้าตัดเสาเข็มไอ <span class="text-danger"></span></strong></label>

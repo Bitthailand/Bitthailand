@@ -1,5 +1,6 @@
 $(function() {
     var plantObject = $('#plant');
+    var plantObject1 = $('#plant1');
     var productxObject = $('#productx');
     var sqmObject = $('#sqm');
     // on change province
@@ -25,6 +26,10 @@ $(function() {
             });
         });
     });
+
+    // 
+
+
 
     // on change amphure
     productxObject.on('change', function() {
@@ -53,7 +58,7 @@ $(function() {
 
 
                 var df = 1;
-                console.log('calitem', cal_item);
+                console.log('calitem', cal_item.toFixed(2));
 
                 $('#sqm1').val(cal_item.toFixed(2))
                 $('#qty').val(df)
