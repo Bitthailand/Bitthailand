@@ -8,7 +8,7 @@ include './include/connect.php';
 include './include/config.php';
 
 
-$sql5 = "SELECT MAX(id) AS id_run FROM production_order ";
+$sql5 = "SELECT COUNT(id) AS id_run FROM production_order ";
 $rs5 = $conn->query($sql5);
 $row_run = $rs5->fetch_assoc();
 

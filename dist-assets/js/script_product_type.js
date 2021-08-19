@@ -68,10 +68,12 @@ $(function() {
                 let stock2 = item.fac2_stock;
                 let sum;
                 var df = 1;
+                var disunit = 0;
                 console.log('stock1', stock1);
 
 
                 $('#qty').val(df);
+                $('#disunit').val(disunit);
                 $('#unit_price').val(unit_price);
                 $('#stock1').val(stock1);
                 $('#stock2').val(stock2);

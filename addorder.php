@@ -11,7 +11,7 @@ error_reporting(0);
 $emp_id = $_SESSION["username"];
 // echo "$status_order";
 if ($status_order == 'new') {
-    $sql5 = "SELECT MAX(id) AS id_run FROM orders  ";
+    $sql5 = "SELECT COUNT(id) AS id_run FROM orders  ";
     $rs5 = $conn->query($sql5);
     $row_run = $rs5->fetch_assoc();
 
@@ -431,7 +431,6 @@ if ($action == 'add') {
                                         </div>
 
                                         <div class="form-group col-md-1" id="ifYes_price" style="display: block;">
-
                                             <label for="qty"><strong>ราคา <span class="text-danger"></span></strong></label>
                                             <input type="text" name="unit_price" id="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" disabled>
                                         </div>
@@ -440,7 +439,10 @@ if ($action == 'add') {
                                             <input type="text" name="send_price" id="send_price" class="classcus form-control" placeholder="ราคาค่าจัดส่ง">
                                         </div>
 
-
+                                        <div class="form-group col-md-1" id="ifYes_price" style="display: block;">
+                                            <label for="qty"><strong>ส่วนลด <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="disunit" id="disunit" class="classcus form-control" placeholder="ลดต่อหน่วย" disabled>
+                                        </div>
                                         <div class="form-group col-md-1" id="ifYes_price2" style="display: block;">
                                             <label for="stock1"><strong>โรงงาน1 <span class="text-danger"></span></strong></label>
                                             <input type="text" name="stock1" id="stock1" class="classcus form-control" placeholder="จำนวนสินค้า" disabled>
@@ -451,7 +453,7 @@ if ($action == 'add') {
                                             <input type="text" name="stock2" id="stock2" class="classcus form-control" placeholder="จำนวนสินค้า" disabled>
                                         </div>
 
-                                        <div class="form-group col-md-2" id="ifYes_qty" style="display: block;">
+                                        <div class="form-group col-md-1" id="ifYes_qty" style="display: block;">
                                             <label for="qty"><strong>จำนวนที่สั่ง <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่ง" data-index="1" onkeyup="calculate()">
                                         </div>
@@ -462,9 +464,11 @@ if ($action == 'add') {
                                         </div>
                                         <?php if ($status_order == 'confirm') {
                                         } else {  ?>
+                                        <div class="form-group col-md-1">
                                             <input type="hidden" name="order_id" id="Forder_id" value="<?php echo "$order_id"; ?>">
                                             <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มรายการ</button>
-                                        <?php } ?>
+                                            </div>
+                                            <?php } ?>
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
                                             <div class="table-responsive">
