@@ -337,7 +337,7 @@ if ($rowS == '') {
                                             <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
                                         <?php   } ?>
                                     </ul>
-
+                                </nav>
                             </div>
 
                         </div>

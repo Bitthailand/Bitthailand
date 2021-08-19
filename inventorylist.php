@@ -251,8 +251,6 @@ if ($rowS == '') {
                             </div>
                             <!-- ============ Table End ============= -->
 
-                            <!--  -->
-
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
@@ -330,27 +328,10 @@ if ($rowS == '') {
                                             <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
                                         <?php   } ?>
                                     </ul>
-
+                                </nav>
                             </div>
 
-
-
-
-                            <!--  -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                      
                         </div><!-- Footer Start -->
                         <div class="flex-grow-1"></div>
                         <div class="app-footer">

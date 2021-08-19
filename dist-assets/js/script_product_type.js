@@ -19,8 +19,14 @@ $(function() {
             document.getElementById("ifYes_price1").style.display = "block";
             document.getElementById("ifYes_price2").style.display = "none";
             document.getElementById("ifYes_price3").style.display = "none";
+            document.getElementById("ifYes_qty").style.display = "none";
+            document.getElementById("ifYes_qty2").style.display = "block";
+            document.getElementById("btu").disabled = false;
             var df = 1;
-            $('#qty').val(df);
+            var TF = 1;
+            // $('#qty').val(df);
+            $('#send_qty').val(df);
+            $('#TF').val(TF);
 
         } else {
             document.getElementById("ifYes").style.display = "none";
@@ -29,6 +35,8 @@ $(function() {
             document.getElementById("ifYes_price1").style.display = "none";
             document.getElementById("ifYes_price2").style.display = "block";
             document.getElementById("ifYes_price3").style.display = "block";
+            document.getElementById("ifYes_qty").style.display = "block";
+            document.getElementById("ifYes_qty2").style.display = "none";
             productxObject.html('<option value="">เลือกสินค้าสั่งขื้อ</option>');
             ProIdObject.html('<option value="">เลือก</option>');
             $("input_tf").hide();

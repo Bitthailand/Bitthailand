@@ -33,8 +33,10 @@ $plant_ptype = $plant_id[0];
 $concrete_cal = $_REQUEST['concrete_cal'];
 $productx = $_REQUEST['productx'];
 $sqm = $_REQUEST['sqm'];
+$sqm1 = $_REQUEST['sqm1'];
+$concrete_cal1 = $_REQUEST['concrete_cal1'];
 // echo "$productx";
-echo "$plant";
+// echo "$plant";
 // =============================
 
 // =============================
@@ -294,8 +296,8 @@ if ($action == 'del') {
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
-                                            <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
-                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal"; ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm1 ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal1"; ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
 
                                         </div>
 
@@ -429,6 +431,8 @@ if ($action == 'del') {
     <input type="text" id="FSqty" name="qty" value="<?php echo $qty; ?>" placeholder="">
     <input type="text" id="FSconcrete_cal" name="concrete_cal" value="<?php echo $concrete_cal; ?>" placeholder="">
     <input type="text" id="FSsqm" name="sqm" value="<?php echo $sqm; ?>" placeholder="">
+    <input type="text" id="FSconcrete_cal1" name="concrete_cal1" value="<?php echo $concrete_cal1; ?>" placeholder="">
+    <input type="text" id="FSsqm1" name="sqm1" value="<?php echo $sqm1; ?>" placeholder="">
     <input type="text" id="FSpo_date" name="po_date" value="<?php echo $po_date; ?>" placeholder="">
     <input type="text" id="FSpo_enddate" name="po_enddate" value="<?php echo $po_enddate; ?>" placeholder="">
     <input type="text" id="FSplant" name="plant" value="<?php echo $po_enddate; ?>" placeholder="">
@@ -540,7 +544,10 @@ if ($action == 'del') {
         let productx = $("#productx").val();
         let po_id = $("#po_id").val();
         let sqm = $("#sqm").val();
+        let sqm1 = $("#sqm1").val();
+        
         let concrete_cal = $("#concrete_cal").val();
+        let concrete_cal1 = $("#concrete_cal1").val();
         let po_date = $("#po_date").val();
         let po_enddate = $("#po_enddate").val();
         let plant = $("#plant").val();
@@ -549,7 +556,9 @@ if ($action == 'del') {
         $("#FSproductx").val(productx);
         $("#FSpo_id").val(po_id);
         $("#FSsqm").val(sqm);
+        $("#FSsqm1").val(sqm1);
         $("#FSconcrete_cal").val(concrete_cal);
+        $("#FSconcrete_cal1").val(concrete_cal1);
         $("#FSpo_date").val(po_date);
         $("#FSpo_enddate").val(po_enddate);
         $("#FSplant").val(plant);

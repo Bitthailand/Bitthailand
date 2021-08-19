@@ -60,9 +60,10 @@ $(function() {
                 var df = 1;
                 console.log('calitem', cal_item.toFixed(2));
 
-                $('#sqm1').val(cal_item.toFixed(2))
+
                 $('#qty').val(df)
                 $('#sqm').val(cal_item.toFixed(2))
+                $('#sqm1').val(cal_item.toFixed(2))
                 $('#concrete_cal').val(cal_cons.toFixed(2))
                 $('#concrete_cal1').val(cal_cons.toFixed(2))
 
