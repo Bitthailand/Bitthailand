@@ -45,8 +45,8 @@ if ($action == 'add_po') {
     $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
     $po_idx = $_REQUEST['po_idd1'];
-    echo"$po_idx";
-    echo"$productx";
+    // echo"$po_idx";
+    // echo"$productx";
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
     $plant = $_REQUEST['plant'];
@@ -59,7 +59,7 @@ if ($action == 'add_po') {
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-echo"xxx";
+// echo"xxx";
             $qtyx = $row['qty'] + $qty;
             $sqmx=$row['sqm']+$sqm;
             $concrete_calx=$row['concrete_cal']+$concrete_cal;
