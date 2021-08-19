@@ -58,7 +58,7 @@
                             <li>
                                 <div>
                                     <div>
-                                        <label class="toggle" for="drop-2">ตั้งค่า</label><a href="productionlist.php"><i class="nav-icon i-Data-Settings mr-2"></i> ตั้งค่า</a>
+                                        <label class="toggle" for="drop-2">ตั้งค่า</label><a href="#"><i class="nav-icon i-Data-Settings mr-2"></i> ตั้งค่า</a>
                                              <input id="drop-2" type="checkbox" />
                                         <ul>
                                             <li><a href="setting_plant.php"><i class="nav-icon mr-2 i-Factory1"></i><span class="item-name">แพ</span></a></li>
