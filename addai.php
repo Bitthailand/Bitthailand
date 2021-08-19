@@ -6,7 +6,37 @@ if (isset($_SESSION["username"])) {
 }
 include './include/connect.php';
 include './include/config.php';
+include './include/config_text.php';
+
+$order_id = $_REQUEST['order_id'];
+
+$sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+// ====
+$sql2 = "SELECT * FROM customer_type  WHERE id= '$row[cus_type]'";
+$rs2 = $conn->query($sql2);
+$row2 = $rs2->fetch_assoc();
+// ====
+$sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
+$rs3 = $conn->query($sql3);
+$row3 = $rs3->fetch_assoc();
+// ===
+$strStartDate = $row['qt_date'];
+$strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
+// ============ปิดเงื่อนไขการอับเดตรหัสสินค้า
+$sql5 = "SELECT MAX(id) AS id_run FROM ai_number  ";
+$rs5 = $conn->query($sql5);
+$row_run = $rs5->fetch_assoc();
+
+$datetodat = date('Y-m-d');
+$date = explode(" ", $datetodat);
+$dat = datethai_ai($date[0]);
+$code_new = $row_run['id_run'] + 1;
+$code = sprintf('%05d', $code_new);
+$ai_id = $dat . $code;
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="">
 
@@ -20,10 +50,10 @@ include './include/config.php';
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
 
     <style>
-    p {
-        margin-top: 0;
-        margin-bottom: 0.1rem;
-    }
+        p {
+            margin-top: 0;
+            margin-bottom: 0.1rem;
+        }
     </style>
 </head>
 
@@ -65,19 +95,19 @@ include './include/config.php';
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
-                                                    <p><strong>ชื่อลูกค้า : </strong>ปอณรัตน์พา</p>
-                                                    <p><strong>บริษัท : </strong>หจก. ปอณรัตน์พานิชย์</p>
-                                                    <p><strong>ที่อยู่ : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
-                                                    <p>เลขที่ประจำตัวผู้เสียภาษี 0343560001118 สำนักงานใหญ่</p>
-                                                    <p><strong>โทร : </strong> 093-6954224</p>
-                                                    <p><strong>อ้างอิง : </strong></p>
+                                                    <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
+                                                    <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
+                                                    <p><strong>ที่อยู่ : </strong><?= $row3['bill_address'] ?> </p>
+                                                    <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
+                                                    <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
+                                                    <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
                                                         <div class="form-group col-md-12">
                                                             <label for="ai_id"><strong>เลขที่ใบมัดจำ <span class="text-danger"></span></strong></label>
-                                                            <input type="text" name="ai_id" class="classcus form-control" id="ai_id" placeholder="เลขที่ใบรับมัดจำ">
+                                                            <input type="text" name="ai_id" value="<?=$ai_id?>"  class="classcus form-control" id="ai_id" placeholder="เลขที่ใบรับมัดจำ">
                                                         </div>
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
@@ -88,7 +118,7 @@ include './include/config.php';
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                <input id="delivery_date" class="form-control" type="date" min="2021-06-01" name="start" value="2021-08-04">
+                                                                <input id="delivery_date" class="form-control" type="date" min="2021-06-01" name="end" value="2021-08-04">
                                                             </div>
                                                         </div>
 
@@ -109,7 +139,7 @@ include './include/config.php';
                                                             <tr>
                                                                 <th scope="row" class="text-center">1</th>
                                                                 <td><input class="form-control" value="" type="text" placeholder="รับรายได้มัดจำ"></td>
-                                                                <td class="text-right"><input class="form-control" value="" type="number" placeholder="ค่ามัดจำ"></td>
+                                                                <td class="text-right"><input class="form-control" id="input_price" value="<?=$input_price?>" type="number" placeholder="ค่ามัดจำ"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="text-center"></th>
@@ -131,7 +161,7 @@ include './include/config.php';
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p>หนึ่งหมื่นหกร้อยสิบเจ็ดบาทถ้วน</p>
+                                                            <p><?php echo Convert($input_price);?></p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
@@ -166,7 +196,13 @@ include './include/config.php';
             <!-- =============== Header End ================-->
         </div>
     </div>
-
+    <form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -176,6 +212,18 @@ include './include/config.php';
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+  <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
+<script>
+    $("#input_price").on("change", function() {
+    // modalLoad();
 
+    let price = $("#input_price").val();
+    $("#price").val(price);
+   console.log(price)
+    // $("#FSColumnId").val(column);
+    // $("#FSButtonID").click();
+
+});
+</script>
 </html>

@@ -12,18 +12,37 @@ $(function() {
         // }
         console.log("product_typeId", product_typeId)
             // console.log("yy", t[1])
-        productxObject.html('<option value="">เลือกสินค้าผลิต</option>');
-        ProIdObject.html('<option value="">เลือก</option>');
+        if (product_typeId == 'TF') {
+            document.getElementById("ifYes").style.display = "block";
+            document.getElementById("ifYes1").style.display = "none";
+            document.getElementById("ifYes_price").style.display = "none";
+            document.getElementById("ifYes_price1").style.display = "block";
+            document.getElementById("ifYes_price2").style.display = "none";
+            document.getElementById("ifYes_price3").style.display = "none";
+            var df = 1;
+            $('#qty').val(df);
 
-        $.get('get_product_order.php?ptype_id=' + product_typeId, function(data) {
-            var result = JSON.parse(data);
-            console.log('re', result)
-            $.each(result, function(index, item) {
-                productxObject.append(
-                    $('<option></option>').val(item.product_id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
-                );
+        } else {
+            document.getElementById("ifYes").style.display = "none";
+            document.getElementById("ifYes1").style.display = "block";
+            document.getElementById("ifYes_price").style.display = "block";
+            document.getElementById("ifYes_price1").style.display = "none";
+            document.getElementById("ifYes_price2").style.display = "block";
+            document.getElementById("ifYes_price3").style.display = "block";
+            productxObject.html('<option value="">เลือกสินค้าสั่งขื้อ</option>');
+            ProIdObject.html('<option value="">เลือก</option>');
+            $("input_tf").hide();
+            $("productx").show();
+            $.get('get_product_order.php?ptype_id=' + product_typeId, function(data) {
+                var result = JSON.parse(data);
+                console.log('re', result)
+                $.each(result, function(index, item) {
+                    productxObject.append(
+                        $('<option></option>').val(item.product_id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
+                    );
+                });
             });
-        });
+        }
     });
 
     // on change amphure
@@ -37,13 +56,21 @@ $(function() {
             console.log('pro_detail', result)
             $.each(result, function(index, item) {
                 let unit_price = item.unit_price;
-
+                let stock1 = item.fac1_stock;
+                let stock2 = item.fac2_stock;
+                let sum;
                 var df = 1;
-                console.log('unit_price', unit_price);
+                console.log('stock1', stock1);
 
 
                 $('#qty').val(df);
                 $('#unit_price').val(unit_price);
+                $('#stock1').val(stock1);
+                $('#stock2').val(stock2);
+
+
+
+
 
 
             });

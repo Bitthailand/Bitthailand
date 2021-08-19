@@ -67,19 +67,24 @@ if ($action == 'add_stock') {
     $sqlxx = "SELECT *  FROM production_detail  where po_id= '$row[po_id]' ORDER BY id DESC";
     $resultxx = mysqli_query($conn, $sqlxx);
     if (mysqli_num_rows($resultxx) > 0) {
+       
         while ($rowx = mysqli_fetch_assoc($resultxx)) {
             $product_id = $rowx['product_id'];
-
-            $stock_a = $_POST['a_type'][$product_id][++$id];
-            $stock_b = $_POST['b_type'][$product_id][++$id2];
+            $pid = $rowx['id'];
+        // echo"$row_count";
+            $stock_a = $_POST['a_type'][$product_id][$pid][++$id];
+            $stock_b = $_POST['b_type'][$product_id][$pid][++$id2];
             $total_stock = $stock_a + $stock_b;
-
+           
             if ($total_stock <= $rowx['qty']) {
+                if ($total_stock ==0) {
+                    // $sqlx17 = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b' WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' ";
+                    // if ($conn->query($sqlx17) === TRUE) {}
+                }else{
+                    $sqlx1 = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b',status_stock='1' WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' AND id='$rowx[id]'  ";
+                    // 
 
-                $sqlx1 = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b' WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' ";
-                $sqlx12 = "UPDATE production_order   SET status_cf='1',employee_qc='$emp_id',stock_date='$datetoday' WHERE po_id= '$rowx[po_id]' ";
-                if ($conn->query($sqlx12) === TRUE) {
-                }
+             
                 // ตรวจสอบโรงงานผลิต   
                 $sqlx2 = "SELECT * FROM plant  WHERE plant_id= '$rowx[plant_id]'";
                 $rsx2 = $conn->query($sqlx2);
@@ -109,7 +114,9 @@ if ($action == 'add_stock') {
                         });
                     </script>
                 <?php }
-            } else { ?>
+            } 
+            
+            }else { ?>
                 <script>
                     $(document).ready(function() {
                         showAlert("ไม่สามารถบันทึกสต็อกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งผลิต", "alert-danger");
@@ -124,6 +131,19 @@ if ($action == 'add_stock') {
 
             // echo 'A' . $stock_a . 'B' . $stock_b . 'ID' . $product_id . 'จำนวนกรอกรวม' . $total_stock . 'สต็อก' . $rowx['qty'] . '<br>';
         }
+
+     
+    }
+    $sqlc1 = "SELECT COUNT(*) AS stock1  FROM production_detail  WHERE   po_id= '$row[po_id]' AND status_stock='1' ";
+    $rsc1 = $conn->query($sqlc1);
+    $rowc1 = $rsc1->fetch_assoc();
+
+    $sqlc0 = "SELECT COUNT(*) AS stock0  FROM production_detail  WHERE   po_id= '$row[po_id]' ";
+    $rsc0 = $conn->query($sqlc0);
+    $rowc0 = $rsc0->fetch_assoc();
+    if($rowc0['stock0']==$rowc1['stock1']){
+        $sqlx12 = "UPDATE production_order   SET status_cf='1',employee_qc='$emp_id',stock_date='$datetoday' WHERE po_id= '$row[po_id]' ";
+        if ($conn->query($sqlx12) === TRUE) { }
     }
 }
 if ($action == 'del') {
@@ -271,11 +291,11 @@ if ($action == 'del') {
                                             <th>รหัสสั่งผลิต</th>
                                             <th>วันที่สั่ง</th>
                                             <th>กำหนดเสร็จ</th>
-                                            <th>วันที่เท</th>
-                                            <th>กำหนดเทเสร็จ</th>
+                                           
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
                                             <th>ชื่อสินค้า</th>
+                                            <th>แพที่</th>
                                             <th>หนา</th>
                                             <th>กว้าง</th>
                                             <th>ยาว</th>
@@ -313,7 +333,7 @@ if ($action == 'del') {
                                             $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'  ");
                                             $total = mysqli_fetch_array($count);
                                             $count = 0;
-                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0'  ";
+                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0' ORDER BY id DESC  ";
                                             $resultxx = mysqli_query($conn, $sqlxx);
                                             if (mysqli_num_rows($resultxx) > 0) {
                                                 $num = @mysqli_num_rows($resultxx);
@@ -330,24 +350,14 @@ if ($action == 'del') {
                                                                     $dat = datethai2($date[0]);
                                                                     echo '<strong>' . $dat . '</strong>';
                                                                 } ?>
+                                                        </td>
                                                         <td>
                                                             <?php if ($x == 0) {
                                                                 $date = explode(" ", $row['po_enddate']);
                                                                 $dat = datethai2($date[0]);
                                                                 echo '<strong>' . $dat . '</strong>';
                                                             } ?>
-                                                        <td>
-                                                            <?php if ($x == 0) {
-                                                                $date = explode(" ", $row['po_start']);
-                                                                $dat = datethai2($date[0]);
-                                                                echo '<strong>' . $dat . '-' . $date[1] . '</strong>';
-                                                            } ?>
-                                                        <td>
-                                                            <?php if ($x == 0) {
-                                                                $date = explode(" ", $row['po_stop']);
-                                                                $dat = datethai2($date[0]);
-                                                                echo '<strong>' . $dat . '-' . $date[1] . '</strong>';
-                                                            } ?>
+                                                        </td>
 
                                                         <td><?php echo $row2['product_id']; ?></td>
                                                         <td><?php echo $row2['qty']; ?></td>
@@ -358,6 +368,7 @@ if ($action == 'del') {
 
                                                         ?>
                                                         <td><?php echo $rowx['product_name']; ?></td>
+                                                        <td><?php echo $row2['plant_id']; ?></td>
                                                         <td><?php echo $rowx['thickness']; ?></td>
                                                         <td><?php echo $rowx['width']; ?></td>
                                                         <td><?php echo $rowx['size']; ?></td>
@@ -365,8 +376,12 @@ if ($action == 'del') {
                                                         <td> <?php echo $rowx['dia_size']; ?></td>
                                                         <td> <?php echo $row2['sqm']; ?></td>
                                                         <td> <?php echo $row2['concrete_cal']; ?></td>
-                                                        <td>
+                                                        <td> <?php if($row2['status_stock']==1){ ?>
                                                         <span class="badge badge-success p-1">เข้าสต๊อก</span>
+                                                        <?php } ?>
+                                                        <?php if($row2['status_stock']==0){ ?>
+                                                            <span class="badge badge-warning p-1">รอดำเนินการ</span>
+                                                        <?php } ?>
                                                         </td>
                                                         <td>
                                                             <?php if ($x == 0) { ?>

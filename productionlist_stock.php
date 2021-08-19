@@ -43,14 +43,15 @@ echo "$row2[po_id]";
                                 $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
                                 $rsx = $conn->query($sqlx);
                                 $rowx2 = $rsx->fetch_assoc();
+                                $pid=$rowx['id'];
                                 $product_id=$rowx['product_id'];
                                 echo "$rowx[product_id]";
                                 ?></td>
                             <td><?php echo"$rowx2[product_name]";?></td>
                             <td><?php echo"$rowx2[width]";?></td>
                             <td><?php echo"$rowx[qty]";?></td>
-                            <td><input class="form-control" value="<?php echo"$rowx[a_type]";?>" type="text" name='a_type[<?=$product_id?>][<?=++$idx;?>]' placeholder="ใส่ข้อมูล" require></td>
-                            <td><input class="form-control" value="<?php echo"$rowx[b_type]";?>"type="text" name='b_type[<?=$product_id?>][<?=++$idx1;?>]' placeholder="ใส่ข้อมูล" ></td>
+                            <td><input class="form-control" value="<?php echo"$rowx[a_type]";?>" type="text" name='a_type[<?=$product_id?>][<?=$pid?>][<?=++$idx;?>]' placeholder="ใส่ข้อมูล" require></td>
+                            <td><input class="form-control" value="<?php echo"$rowx[b_type]";?>"type="text" name='b_type[<?=$product_id?>][<?=$pid?>][<?=++$idx1;?>]' placeholder="ใส่ข้อมูล" ></td>
                         </tr>
                 <?php }
                 } ?>

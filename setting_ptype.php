@@ -42,7 +42,7 @@ if ($action == 'add') {
         </script>
         <?php    } else {
         $sql = "INSERT INTO product_type(ptype_id,ptype_name)
-                   VALUES ('$ptype_id','ptype_name')";
+                   VALUES ('$ptype_id','$ptype_name')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {

@@ -45,15 +45,8 @@ if ($action == 'add_po') {
     $row5 = $rs5->fetch_assoc();
     $plant_id = explode("|", $plant);
 
-    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_idx' AND product_id='$row5[product_id]' ";
-    $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ข้อมูลรายการสินค้าผลิตซ้ำไม่สามารถบันทึกได้", "alert-danger");
-            });
-        </script>
-        <?php    } else {
+
+      
         $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
                                        VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal')";
         if ($conn->query($sql) === TRUE) {  ?>
@@ -63,7 +56,7 @@ if ($action == 'add_po') {
                 });
             </script>
         <?php   }
-    }
+    // }
 }
 
 if ($action == 'edit') {
@@ -270,6 +263,7 @@ if ($action == 'del') {
                                                         <tr>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
+                                                            <th>แพที่</th>
                                                             <th>หนา</th>
                                                             <th>กว้าง</th>
                                                             <th>ยาว</th>
@@ -298,6 +292,7 @@ if ($action == 'del') {
                                                                         echo $row3['product_name'];
 
                                                                         ?></td>
+                                                                         <td> <?php echo $row['plant_id']; ?></td>
                                                                     <td> <?php echo $row3['thickness']; ?></td>
                                                                     <td> <strong><?php echo $row3['width']; ?></strong> </td>
                                                                     <td><?php echo $row3['size']; ?></td>

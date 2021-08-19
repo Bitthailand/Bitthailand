@@ -179,7 +179,34 @@ function getNumDay($d1,$d2){
      
     return round(abs( $Day2 - $Day1 ) / 86400 )+1;
     }
-
+    function datethai_ai($date1)
+    {
+        $month_th_name = array(
+            1 => "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12",
+        );
+        $temp = explode("-", $date1);
+        if (checkdate(intval($temp[1]), intval($temp[2]), intval($temp[0]))) {
+            if ($temp[2] < 10) {
+                $date = substr($temp[2], -1, 1);
+            } else {
+                $date = $temp[2];
+            }
+            $year = substr(($temp[0] + 543), 2, 2);
+            return  "AI".$year.$month_th_name[intval($temp[1])];
+        }
+    }
+    
 ?>
 
 <script>
@@ -195,7 +222,7 @@ $('#alert_placeholder').append( $('#alert_placeholder').append(
 // close it in 3 secs
 setTimeout( function() {
     $("#alertdiv").remove();
-}, 5000 );
+}, 1000 );
 
 }
 </script>

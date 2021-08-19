@@ -199,7 +199,7 @@ if ($action == 'add') {
             $sql5 = "SELECT MAX(id) AS id_run FROM quotation ";
             $rs5 = $conn->query($sql5);
             $row_run = $rs5->fetch_assoc();
-        
+
             $datetodat = date('Y-m-d');
             $date = explode(" ", $datetodat);
             $dat = datethai_qt($date[0]);
@@ -207,30 +207,30 @@ if ($action == 'add') {
             $code = sprintf('%05d', $code_new);
             $qt_id = $dat . $code;
 
-            if(($cus_type==1)&&($cus_back==2)){
+            if (($cus_type == 1) && ($cus_back == 2)) {
                 $sql8 = "INSERT INTO  quotation(qt_number,order_id)
                 VALUES ('$qt_id','$order_idx')";
-                 $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
-                 if ($conn->query($sql8) === TRUE) {
+                $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                if ($conn->query($sql8) === TRUE) {
                 }
                 if ($conn->query($sql9) === TRUE) {
                 }
             }
-            
-            if(($cus_type==1)&&($cus_back==3)){
+
+            if (($cus_type == 1) && ($cus_back == 3)) {
                 $sql8 = "INSERT INTO  quotation(qt_number,order_id)
                 VALUES ('$qt_id','$order_idx')";
-                 $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
-                 if ($conn->query($sql8) === TRUE) {
+                $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                if ($conn->query($sql8) === TRUE) {
                 }
                 if ($conn->query($sql9) === TRUE) {
                 }
             }
-            if($cus_type==2){
+            if ($cus_type == 2) {
                 $sql8 = "INSERT INTO  quotation(qt_number,order_id)
                 VALUES ('$qt_id','$order_idx')";
-                 $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
-                 if ($conn->query($sql8) === TRUE) {
+                $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                if ($conn->query($sql8) === TRUE) {
                 }
                 if ($conn->query($sql9) === TRUE) {
                 }
@@ -358,7 +358,7 @@ if ($action == 'add') {
 
                                             <select name="product_type" id="product_type" class="classcus custom-select ">
                                                 <?php
-                                                $sql6 = "SELECT *  FROM product_type  order by id DESC ";
+                                                $sql6 = "SELECT *  FROM product_type  order by id ASC ";
                                                 $result6 = mysqli_query($conn, $sql6);
                                                 if (mysqli_num_rows($result6) > 0) {
                                                     while ($row6 = mysqli_fetch_assoc($result6)) {
@@ -379,19 +379,45 @@ if ($action == 'add') {
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label for="product"><strong>สินค้าที่สั่งชื้อ <span class="text-danger"></span></strong></label>
-                                            <select name="productx" id="productx" class="classcus custom-select" data-index="1">
-                                                <option value="">เลือกสินค้าสั่งชื้อ</option>
-                                            </select>
+                                            <div id="ifYes1" style="display: block;">
+                                                <label for="product"><strong>สินค้าที่สั่งชื้อ <span class="text-danger"></span></strong></label>
+                                                <select name="productx" id="productx" style="display:block;" class="classcus custom-select" data-index="1">
+                                                    <option value="">เลือกสินค้าสั่งชื้อ</option>
+                                                </select>
+                                            </div>
+                                            <div id="ifYes" style="display: none;">
+                                                <label for="product"><strong>สถานที่จัดส่ง<span class="text-danger"></span></strong></label>
+                                                <input type="text" name="send_to" id="send_to" class="classcus form-control" placeholder="สถานที่จัดส่ง">
+                                            </div>
+
                                         </div>
-                                        <div class="form-group col-md-2">
-                                            <label for="qty"><strong>ราคาต่อหน่วย <span class="text-danger"></span></strong></label>
+
+                                        <div class="form-group col-md-1" id="ifYes_price" style="display: block;">
+
+                                            <label for="qty"><strong>ราคา <span class="text-danger"></span></strong></label>
                                             <input type="text" name="unit_price" id="unit_price" class="classcus form-control" placeholder="ราคาต่อหน่วย" disabled>
                                         </div>
+                                        <div class="form-group col-md-2" id="ifYes_price1" style="display: none;">
+                                            <label for="qty"><strong>ราคาจัดส่ง <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="unit_price" id="unit_price" class="classcus form-control" placeholder="ราคาค่าจัดส่ง">
+                                        </div>
+
+
+                                        <div class="form-group col-md-1" id="ifYes_price2" style="display: block;">
+                                            <label for="stock1"><strong>โรงงาน1 <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="stock1" id="stock1" class="classcus form-control" placeholder="จำนวนสินค้า" disabled>
+                                        </div>
+
+                                        <div class="form-group col-md-1" id="ifYes_price3" style="display: block;">
+                                            <label for="stock1"><strong>โรงงาน2 <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="stock2" id="stock2" class="classcus form-control" placeholder="จำนวนสินค้า" disabled>
+                                        </div>
+
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนที่สั่ง <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่ง" data-index="1" onKeyUp="fncASum();">
+                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่ง" data-index="1" onkeyup="calculate()">
                                         </div>
+
                                         <?php if ($status_order == 'confirm') {
                                         } else {  ?>
                                             <input type="hidden" name="order_id" id="Forder_id" value="<?php echo "$order_id"; ?>">
@@ -460,7 +486,7 @@ if ($action == 'add') {
                                         </div>
                                         <!-- ============ Table End ============= -->
                                     </div>
-                                    <div class="viewDateClass col pr-0 ">
+                                    <div class="viewDateClass col pr-0 " id="cus_back_show" style="display: none;">
                                         <div class="form-group">
                                             <label for="delivery_date">กำหนดส่งสินค้า</label>
                                             <?php if ($status_order == 'confirm') { ?>
@@ -470,7 +496,7 @@ if ($action == 'add') {
                                             <?php } ?>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-8">
+                                    <div class="form-group col-md-8" id="cus_back_show1" style="display: none;">
                                         <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
                                         <?php if ($status_order == 'confirm') { ?>
                                             <input type="text" value="<?= $delivery_Address ?>" class="classcus form-control">
@@ -911,7 +937,49 @@ if ($action == 'add') {
                 $("#FSPageId").val(page);
                 $("#FSButtonID").click();
             }
+            $("#cus_back").on("change", function() {
+                // modalLoad();
 
+                let cus_back = $("#cus_back").val();
+                console.log('cus', cus_back)
+                if (cus_back == 1) {
+                    document.getElementById("cus_back_show").style.display = "none";
+                    document.getElementById("cus_back_show1").style.display = "none";
+                }
+                if (cus_back == 2) {
+                    document.getElementById("cus_back_show").style.display = "block";
+                    document.getElementById("cus_back_show1").style.display = "block";
+
+                }
+                if (cus_back == 3) {
+                    document.getElementById("cus_back_show").style.display = "none";
+                    document.getElementById("cus_back_show1").style.display = "none";
+
+                }
+
+
+            });
+
+            function calculate() {
+                let qty = $("#qty").val();
+                let stock1S = $("#stock1").val();
+                let stock2S = $("#stock2").val();
+                let s_cus_back = $("#cus_back").val();
+                let sum_stock1x=0;
+                console.log('stock1S',stock1S)
+                console.log('stock2S',stock2S)
+                 sum_stock1x = stock1S + stock2S;
+                // if(s_cus_back==1){
+                //     if(sum_stock1x==0||qty>0){
+                //         document.getElementById("btu").disabled = true;
+
+                //     }
+                // }
+               
+                // if()
+                console.log('qty', qty);
+                console.log('stock1xxx', sum_stock1x);
+            };
             $("#btu").click("change", function() {
                 modalLoad();
 
