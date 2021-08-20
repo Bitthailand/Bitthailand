@@ -402,7 +402,7 @@ if ($action == 'del') {
                                 <div class="text-right">
 
                                     <?php if ($action == 'add') { ?>
-                                        <a class="btn btn-primary ladda-button btn-add" href="/production_print.php" type="button">พิมพ์ใบสั่งผลิต</a>
+                                        <a class="btn btn-primary ladda-button btn-add" href="/productionprint.php?po_id=<?=$po_id?>" type="button">พิมพ์ใบสั่งผลิต</a>
 
                                     <?php } else {  ?>
                                         <input type="hidden" name="action" value="add">
