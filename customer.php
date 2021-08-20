@@ -9,6 +9,8 @@ include './include/config.php';
 $sql = "SELECT * FROM provinces";
 $query = mysqli_query($conn, $sql);
 
+$status_confirm= $_REQUEST['status_confirm'];
+if($status_confirm=='add'){
 $sql5 = "SELECT MAX(id) AS id_run FROM customer  ";
 $rs5 = $conn->query($sql5);
 $row_run = $rs5->fetch_assoc(); 
@@ -19,6 +21,7 @@ $datetodat=date('Y-m-d');
  $code_new=$row_run['id_run']+1;
  $code = sprintf('%05d', $code_new);
  $cus_id=$dat.$code;
+}
 
 $action= $_REQUEST['action'];
 if ($action == 'add') {
@@ -50,6 +53,7 @@ $(document).ready(function() {
 <script>
 $(document).ready(function() {
     showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+    window.location='customer.php?status_confirm=add'
 });
 </script>
 <?php   }   }   }
@@ -192,6 +196,7 @@ $(document).ready(function() {
                                         <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
                                         <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
                                         <input type="hidden" name="action" value="add">
+                                        <input type="hidden" name="status_confirm" value="add_new">
                                         <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการเพิ่มลูกค้า</button>
                                         <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
                                             <span class="ladda-label">ยืนยันการเพิ่มลูกค้า</span>

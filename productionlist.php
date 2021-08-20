@@ -380,8 +380,9 @@ if ($action == 'del') {
                                                         <td><?php echo $rowx['thickness']; ?></td>
                                                         <td><?php echo $rowx['width']; ?></td>
                                                         <td><?php echo $rowx['size']; ?></td>
-                                                        <td> <?php echo $rowx['dia_count']; ?> </td>
+                                                       
                                                         <td> <?php echo $rowx['dia_size']; ?></td>
+                                                        <td> <?php echo $rowx['dia_count']; ?> </td>
                                                         <td> <?php echo $row2['sqm']; ?></td>
                                                         <td> <?php echo $row2['concrete_cal']; ?></td>
                                                         <td> <?php if ($row2['status_stock'] == 1) { ?>
@@ -396,9 +397,7 @@ if ($action == 'del') {
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id']; ?>">
                                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                                 </a>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="พริ้นใบสั่งผลิต" href="productionprint.php?po_id=<?php echo $row['po_id']; ?>">
-                                                                <i class="i-Gear font-weight-bold"></i>
-                                                                </a>
+                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/productionprint.php?po_id=<?=$row['po_id']?>"  target="_blank" type="button"  title="พริ้นใบสั่งผลิต"> <i class="i-Gear font-weight-bold"></i></a>
                                                               
                                                                 <button data-toggle="modal" data-target="#medalstock" title="เช็คสินค้าเข้าสต๊อก" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
 

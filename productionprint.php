@@ -6,7 +6,7 @@ if (isset($_SESSION["username"])) {
 }
 include './include/connect.php';
 include './include/config_date.php';
-$po_id=$_REQUEST['po_id'];
+$po_id = $_REQUEST['po_id'];
 
 ?>
 <!DOCTYPE html>
@@ -22,11 +22,12 @@ $po_id=$_REQUEST['po_id'];
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
 
     <style>
-    p {
-        margin-top: 0;
-        margin-bottom: 0.1rem;
-    }
-    .table-sm th,
+        p {
+            margin-top: 0;
+            margin-bottom: 0.1rem;
+        }
+
+        .table-sm th,
         .table-sm td {
             padding: 0.3rem;
             font-size: 0.813rem !important;
@@ -57,7 +58,8 @@ $po_id=$_REQUEST['po_id'];
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบกำกับสินค้า</button>
+                                            <!-- <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบกำกับสินค้า</button> -->
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบกำกับสินค้า</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
@@ -106,63 +108,90 @@ $po_id=$_REQUEST['po_id'];
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                            echo"$po_id";
-                                                            
-                                         $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where po_id='$po_id'  ");
-                                        $total_records = mysqli_fetch_array($result_count);
-                                        $total_records = $total_records['total_records'];
-                                       
-                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where po_id='$po_id' ");
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$po_id'  ORDER BY id ASC ");
-                                            $total = mysqli_fetch_array($count);
-                                            $count = 0;
-                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$po_id' ORDER BY id ASC  ";
-                                            $resultxx = mysqli_query($conn, $sqlxx);
-                                            if (mysqli_num_rows($resultxx) > 0) {
-                                                $num = @mysqli_num_rows($resultxx);
-                                                $row_cnt = $resultxx->num_rows;
-                                                // while ($row1 = mysqli_fetch_assoc($resultxx)) {
-                                                while ($row2 = mysqli_fetch_array($resultxx)) {
-                                                   ?> 
-                                                                <td> <?php
-                                                                $x = $count++;
-                                                                echo"$x";
-                                                                echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
-                                                        </td>
-                                                        <td> <?php if ($x == 0) {
-                                                                    $date = explode(" ", $row['po_date']);
-                                                                    $dat = datethai2($date[0]);
-                                                                    echo '<strong>' . $dat . '</strong>';
-                                                                } ?>
-                                                        </td>
-                                                                <td class="text-center">2</td>
-                                                                <td class="text-center">35</td>
-                                                                <td class="text-left">แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x4.00 เมตร</td>
-                                                                <td class="text-right">66</td>
-                                                                <td class="text-right">69.30</td>
-                                                                <td class="text-center">4</td>
-                                                                <td class="text-center">5</td>
-                                                                <td class="text-right">3.47</td>
-                                                            </tr>
-                                                            <?php
-                                                        }
-                                                    }
-                                                }
-                                                mysqli_close($conn);
+                                                            // echo "$po_id";
+
+                                                            $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where po_id='$po_id'  ");
+                                                            $total_records = mysqli_fetch_array($result_count);
+                                                            $total_records = $total_records['total_records'];
+
+                                                            $result = mysqli_query($conn, "SELECT * FROM `production_order`   where po_id='$po_id' ");
+                                                            while ($row = mysqli_fetch_array($result)) {
+                                                                $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$po_id'  ORDER BY id ASC ");
+                                                                $total = mysqli_fetch_array($count);
+                                                                $count = 0;
+                                                                $sqlxx = "SELECT *  FROM production_detail  where po_id = '$po_id' ORDER BY id ASC  ";
+                                                                $resultxx = mysqli_query($conn, $sqlxx);
+                                                                if (mysqli_num_rows($resultxx) > 0) {
+                                                                    $num = @mysqli_num_rows($resultxx);
+                                                                    $row_cnt = $resultxx->num_rows;
+                                                                    // while ($row1 = mysqli_fetch_assoc($resultxx)) {
+                                                                    while ($row2 = mysqli_fetch_array($resultxx)) {
                                                             ?>
-                                                           
+                                                                        <tr>
+                                                                            <td> <?php
+                                                                                    $x = $count++;
+
+                                                                                    echo $x == 0 ? '<strong>' .  ++$id . '</strong>' : ''; ?>
+                                                                            </td>
+                                                                            <td> <?php if ($x == 0) {
+                                                                                        $date = explode(" ", $row['po_date']);
+                                                                                        $dat = datethai2($date[0]);
+                                                                                        echo '<strong>' . $dat . '</strong>';
+                                                                                    } ?>
+                                                                            </td>
+                                                                            <td class="text-center"><?php
+                                                                                                    $sql5 = "SELECT * FROM plant where  plant_id='$row2[plant_id]' ";
+                                                                                                    $rs5 = $conn->query($sql5);
+                                                                                                    $row5 = $rs5->fetch_assoc();
+                                                                                                    echo "$row5[factory_id]";
+                                                                                                    ?>
+                                                                            </td>
+                                                                            <td class="text-center"><?= $row2['plant_id'] ?></td>
+                                                                            <td class="text-left"> <?php
+                                                                                                    $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
+                                                                                                    $rsx = $conn->query($sqlx);
+                                                                                                    $rowx = $rsx->fetch_assoc();
+                                                                                                    echo $rowx['product_name'];
+                                                                                                    ?></td>
+                                                                            <td class="text-right"><?php echo $row2['qty']; ?></td>
+                                                                            <td class="text-right"><?php echo $row2['sqm']; ?></td>
+                                                                            <td class="text-center"><?php echo $rowx['dia_size']; ?></td>
+                                                                            <td class="text-center"><?php echo $rowx['dia_count']; ?></td>
+                                                                            <td class="text-right"><?php echo $row2['concrete_cal']; ?></td>
+                                                                        </tr>
+                                                            <?php
+                                                                    }
+                                                                }
+                                                            }
+                                                            // mysqli_close($conn);
+                                                            ?>
+
                                                             <tr class="bg-gray-200">
                                                                 <td scope="row" class="text-center"></td>
                                                                 <td></td>
                                                                 <td></td>
                                                                 <td class="text-right"></td>
                                                                 <td class="text-right"><strong>รวม</strong></td>
-                                                                <td class="text-right"><strong>144</strong></td>
-                                                                <td class="text-right"><strong>123.90</strong></td>
+                                                                <td class="text-right"><strong> <?php
+                                                                        $sqlx4 = "SELECT SUM(qty) AS total_qty FROM production_detail  where po_id = '$po_id'";
+                                                                        $rsx4 = $conn->query($sqlx4);
+                                                                        $rowx4 = $rsx4->fetch_assoc();
+                                                                       echo"$rowx4[total_qty]";
+                                                                        ?></strong></td>
+                                                                <td class="text-right"><strong><?php
+                                                                        $sqlx5 = "SELECT  ROUND(SUM(sqm), 3) AS total_sqm FROM production_detail  where po_id = '$po_id'";
+                                                                        $rsx5 = $conn->query($sqlx5);
+                                                                        $rowx5 = $rsx5->fetch_assoc();
+                                                                       echo"$rowx5[total_sqm]";
+                                                                        ?></strong></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-right"><strong>6.20 </strong></td>
+                                                                <td class="text-right"><strong><?php
+                                                                        $sqlx6 = "SELECT  ROUND(SUM(concrete_cal), 3) AS total_concrete FROM production_detail  where po_id = '$po_id'";
+                                                                        $rsx6 = $conn->query($sqlx6);
+                                                                        $rowx6 = $rsx6->fetch_assoc();
+                                                                       echo"$rowx6[total_concrete]";
+                                                                        ?> </strong></td>
                                                             </tr>
                                                             <tr>
                                                                 <td></td>

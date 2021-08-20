@@ -142,7 +142,7 @@ if ($rowS == '') {
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <a href="/customer.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มลูกค้าใหม่</a>
+                                                <a href="/customer.php?status_confirm=add" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มลูกค้าใหม่</a>
                                             </div>
                                         </div>
                                     </div>
