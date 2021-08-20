@@ -44,7 +44,7 @@ $concrete_cal1 = $_REQUEST['concrete_cal1'];
 // echo "$productx";
 // echo "$plant";
 $po_idx = $_REQUEST['po_idx'];
-echo "$po_idx";
+// echo "$po_idx";
 // =============================
 
 // =============================
@@ -84,7 +84,7 @@ if ($action == 'add_po') {
             <?php }
         }
     } else {
-        echo"xxx";
+        // echo"xxx";
         $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal,status_button,employee_id)
                                        VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal','0','$emp_id')";
         if ($conn->query($sql) === TRUE) {  ?>
