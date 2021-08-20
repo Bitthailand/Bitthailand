@@ -104,7 +104,7 @@ $(document).ready(function() {
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="customer_type"><strong>ประเภท <span class="text-danger"></span></strong></label>
-                                           
+
                                             <select class="classcus custom-select" name="customer_type" id="type_id" required>
                                                 <?php
                                                 $sql6 = "SELECT *  FROM  customer_type  order by id ASC ";
@@ -184,10 +184,6 @@ $(document).ready(function() {
                                                 <option value="">เลือกตำบล</option>
                                             </select>
                                         </div>
-
-
-
-
                                     </div>
 
                                     <hr>
