@@ -191,10 +191,10 @@ if ($rowS == '') {
                                         while ($row = mysqli_fetch_array($result)) {
 
 
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'  ");
+                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'  order by id ASC ");
                                             $total = mysqli_fetch_array($count);
                                             $count = 0;
-                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0'  ";
+                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0' order by id ASC ";
                                             $resultxx = mysqli_query($conn, $sqlxx);
                                             if (mysqli_num_rows($resultxx) > 0) {
                                                 $num = @mysqli_num_rows($resultxx);

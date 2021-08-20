@@ -74,7 +74,7 @@ if ($action == 'add_stock') {
     $sql = "SELECT * FROM production_order  WHERE id= '$po_id'";
     $rs = $conn->query($sql);
     $row = $rs->fetch_assoc();
-    $sqlxx = "SELECT *  FROM production_detail  where po_id= '$row[po_id]' ORDER BY id DESC";
+    $sqlxx = "SELECT *  FROM production_detail  where po_id= '$row[po_id]' ORDER BY id ASC";
     $resultxx = mysqli_query($conn, $sqlxx);
     if (mysqli_num_rows($resultxx) > 0) {
        
@@ -340,10 +340,10 @@ if ($action == 'del') {
                                         while ($row = mysqli_fetch_array($result)) {
 
 
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'  ");
+                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0' ORDER BY id ASC ");
                                             $total = mysqli_fetch_array($count);
                                             $count = 0;
-                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0' ORDER BY id DESC  ";
+                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0' ORDER BY id ASC  ";
                                             $resultxx = mysqli_query($conn, $sqlxx);
                                             if (mysqli_num_rows($resultxx) > 0) {
                                                 $num = @mysqli_num_rows($resultxx);

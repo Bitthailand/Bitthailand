@@ -44,13 +44,13 @@ $(function() {
                 let thickness;
                 let area;
                 // var cal_cons;
-                var cal_item = Math.round(item.width * item.size * 100) / 100;
+                var cal_item = item.width * item.size;
 
                 if (item.area !== 'undefined') {
                     var cal_cons = cal_item * item.thickness;
                 }
                 if (item.area >= 1) {
-                    var cal_cons = Math.round(cal_item * item.thickness * item.area * 100) / 100;
+                    var cal_cons = cal_item * item.thickness * item.area;
                 }
 
                 console.log('item.thickness', item.thickness);

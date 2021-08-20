@@ -9,7 +9,7 @@ include './include/config.php';
 $sql = "SELECT * FROM provinces";
 $query = mysqli_query($conn, $sql);
 
-$sql5 = "SELECT COUNT(id) AS id_run FROM customer  ";
+$sql5 = "SELECT MAX(id) AS id_run FROM customer  ";
 $rs5 = $conn->query($sql5);
 $row_run = $rs5->fetch_assoc(); 
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
                                            
                                             <select class="classcus custom-select" name="customer_type" id="type_id" required>
                                                 <?php
-                                                $sql6 = "SELECT *  FROM  customer_type  order by id DESC ";
+                                                $sql6 = "SELECT *  FROM  customer_type  order by id ASC ";
                                                 $result6 = mysqli_query($conn, $sql6);
                                                 if (mysqli_num_rows($result6) > 0) {
                                                     while ($row6 = mysqli_fetch_assoc($result6)) {

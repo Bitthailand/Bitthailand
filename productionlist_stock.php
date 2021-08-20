@@ -34,7 +34,7 @@ echo "$row2[po_id]";
                 </tr>
             </thead>
             <tbody>
-                <?php $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row2[po_id]' ORDER BY id DESC";
+                <?php $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row2[po_id]' ORDER BY id ASC";
                 $resultxx = mysqli_query($conn, $sqlxx);
                 if (mysqli_num_rows($resultxx) > 0) {
                     while ($rowx = mysqli_fetch_assoc($resultxx)) { ?>

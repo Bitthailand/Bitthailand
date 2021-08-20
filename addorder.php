@@ -11,7 +11,7 @@ error_reporting(0);
 $emp_id = $_SESSION["username"];
 // echo "$status_order";
 if ($status_order == 'new') {
-    $sql5 = "SELECT COUNT(id) AS id_run FROM orders  ";
+    $sql5 = "SELECT COUNT(id) AS id_run FROM orders   ";
     $rs5 = $conn->query($sql5);
     $row_run = $rs5->fetch_assoc();
 
@@ -47,14 +47,14 @@ if ($status_order == 'confirm') {
     }
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
-    $delivery_date = $_REQUEST['delivery_date'];
+    $delivery_datex = $_REQUEST['delivery_datex'];
     $date_confirm = $_REQUEST['date_confirm'];
     $tax = $_REQUEST['tax'];
     $discount = $_REQUEST['discount'];
     $delivery_Address = $_REQUEST['delivery_Address'];
-    // echo "$delivery_date_th";
+    echo "$delivery_datex";
 }
-
+$delivery_datex = $_REQUEST['delivery_datex'];
 
 $action = $_REQUEST['action'];
 $Fcus_type_name = $_REQUEST['Fcus_type_name'];
@@ -86,13 +86,13 @@ if ($action == 'add_product') {
     $send_qty = $_REQUEST['Fsend_qty'];
     $TF = $_REQUEST['FTF'];
     $disunit = $_REQUEST['Fdisunit'];
-    echo 'TF' . $TF;
-    echo 'send_qty' . $send_qty;
-    echo 'send_price' . $send_price;
-    echo 'send_to' . $send_to;
+    // echo 'TF' . $TF;
+    // echo 'send_qty' . $send_qty;
+    // echo 'send_price' . $send_price;
+    // echo 'send_to' . $send_to;
 
 
-$total_disunit=$Funit_price-$disunit;
+    $total_disunit = $Funit_price - $disunit;
     $total_price = $Fqty * $total_disunit;
     $status_order = 'update';
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
@@ -110,20 +110,39 @@ $total_disunit=$Funit_price-$disunit;
             if ($conn->query($sqlx5) === TRUE) {
             }
         }
+        // ====บันทึกเป็นสินค้าใหม่
+        $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF'  ";
+        $rs9 = $conn->query($sql9);
+        $row_run = $rs9->fetch_assoc();
 
-
-        $send_total=$send_price*$send_qty;
+        $datetodat = date('Y-m-d');
+        $date = explode(" ", $datetodat);
+        $dat = datethai_TF($date[0]);
+        $code_new = $row_run['id_run'] + 1;
+        $code = sprintf('%05d', $code_new);
+        $TF_id = $dat . $code;
+        echo "$TF_id";
+        $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id)
+            VALUES ('$TF_id','0','99','$send_to','TF0')";
+        if ($conn->query($sql99) === TRUE) {
+            $last_id = $conn->insert_id;
+            echo "$last_id";
+            // echo"xx";
+        }
+        $sql5 = "SELECT * FROM product  where  id='$last_id' ";
+        $rs5 = $conn->query($sql5);
+        $row5 = $rs5->fetch_assoc();
+        // =======================
+        $send_total = $send_price * $send_qty;
         $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id)
-        VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$send_qty','$send_price','$send_total','0','$emp_id')";
+        VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','0','$emp_id')";
         if ($conn->query($sql) === TRUE) { ?>
             <script>
                 $(document).ready(function() {
                     showAlert("บันทึกข้อมูลจัดส่งสำเร็จ", "alert-success");
                 });
             </script>
-    <?php   }
- 
-
+        <?php   }
     } else {
         $sqlx = "SELECT * FROM order_details   WHERE order_id='$Forder_id' AND product_id='$row5[product_id]' ";
         $result = mysqli_query($conn, $sqlx);
@@ -140,7 +159,7 @@ $total_disunit=$Funit_price-$disunit;
             if (mysqli_num_rows($result2) > 0) {
                 // echo "orders";
             } else {
-                // echo "ordersss";
+                // echo "o orders";
                 $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
         VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
                 if ($conn->query($sqlx5) === TRUE) {
@@ -204,10 +223,13 @@ if ($action == 'add') {
     $delivery_date = $_REQUEST['delivery_date'];
     $delivery_Address = $_REQUEST['delivery_Address'];
     $date_confirm = $_REQUEST['date_confirm'];
-    $tax = $_REQUEST['tax'];
-    $discount = $_REQUEST['discount'];
+    $taxx = $_REQUEST['taxx'];
+    $discountx = $_REQUEST['discountx'];
     $status_order = 'confirm';
-    $sqlx = "SELECT * FROM order_details  WHERE order_id='$order_idx' ";
+    $delivery_datex = $_REQUEST['delivery_datex'];
+    echo"$delivery_datex";
+    echo"$discountx";
+    $sqlx = "SELECT * FROM order_details  WHERE order_id='$order_idx' AND status_button='0' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) < 1) { ?>
         <script>
@@ -216,14 +238,18 @@ if ($action == 'add') {
             });
         </script>
         <?php    } else {
-
+        echo "$order_idx";
         //   เช็ครหัสสั่งชื้อซ้ำหรือไม่
         $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx' ";
         $result = mysqli_query($conn, $sqlx);
         if (mysqli_num_rows($result) > 0) {
-            $sql = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1', 
-            delivery_date='$delivery_date',delivery_address='$delivery_Address',date_confirm='$date_confirm',tax='$tax',discount='$discount' where order_id='$order_idx'";
-
+            echo"$delivery_date";
+            $sql = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discountx',tax='$taxx' where order_id='$order_idx'";
+            echo "$order_idx";
+            if($delivery_date='$delivery_date'){
+                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                if ($conn->query($sql11) === TRUE) {}
+            }
             $sql7 = "UPDATE order_details  SET status_button='1' where order_id='$order_idx'";
             if ($conn->query($sql7) === TRUE) {
             }
@@ -442,7 +468,7 @@ if ($action == 'add') {
 
                                         <div class="form-group col-md-1" id="ifYes_dis" style="display: block;">
                                             <label for="qty"><strong>ส่วนลด <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="disunit" id="disunit" class="classcus form-control" placeholder="ลดต่อหน่วย" >
+                                            <input type="text" name="disunit" id="disunit" class="classcus form-control" placeholder="ลดต่อหน่วย">
                                         </div>
                                         <div class="form-group col-md-1" id="ifYes_price2" style="display: block;">
                                             <label for="stock1"><strong>โรงงาน1 <span class="text-danger"></span></strong></label>
@@ -465,11 +491,11 @@ if ($action == 'add') {
                                         </div>
                                         <?php if ($status_order == 'confirm') {
                                         } else {  ?>
-                                        <div class="form-group col-md-1">
-                                            <input type="hidden" name="order_id" id="Forder_id" value="<?php echo "$order_id"; ?>">
-                                            <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มรายการ</button>
+                                            <div class="form-group col-md-1">
+                                                <input type="hidden" name="order_id" id="Forder_id" value="<?php echo "$order_id"; ?>">
+                                                <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มรายการ</button>
                                             </div>
-                                            <?php } ?>
+                                        <?php } ?>
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
                                             <div class="table-responsive">
@@ -535,31 +561,45 @@ if ($action == 'add') {
                                         </div>
                                         <!-- ============ Table End ============= -->
                                     </div>
-                                    <div class="viewDateClass col pr-0 " id="cus_back_show" style="display: none;">
+                                    <div  class="form-group col-md-2" id="cus_back_show" style="display: none;">
                                         <div class="form-group">
                                             <label for="delivery_date">กำหนดส่งสินค้า</label>
-                                            <?php if ($status_order == 'confirm') { ?>
-                                                <input value="<?= $delivery_date ?>" class="form-control" type="text">
-                                            <?php  } else { ?>
-                                                <input id="delivery_date" value="<?= $Fdelivery_date ?>" class="form-control" type="date" min="2021-06-01" name="delivery_date" required="">
-                                            <?php } ?>
+                                                <input id="delivery_date" name="delivery_datex" value="<?php echo"$delivery_datex"; ?>" class="form-control" type="date" min="2021-06-01" >
                                         </div>
                                     </div>
+                                    <?php if ($status_order == 'confirm') { 
+                                      
+                                            if (empty($delivery_datex)) { }else{
+                                        ?>
+                                        <div  class="form-group col-md-2">
+                                                 <label for="delivery_date">กำหนดส่งสินค้า<span class="text-danger"></span></strong></label>
+                                                <input value="<?php echo"$delivery_datex"; ?>" class="form-control" type="text" readonly>
+                                                </div>
+                                                <div class="form-group col-md-8">
+                                                <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
+                                                <input type="text" value="<?= $delivery_Address ?>" class="classcus form-control" readonly>  
+                                            </div>
+                                            <div class="form-group col-md-1">
+                                            <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
+                                            <input type="text" value="<?= $date_confirm ?>" class="classcus form-control" readonly>
+                                            </div>
+                                                <?php  }} ?>
+                                            
                                     <div class="form-group col-md-8" id="cus_back_show1" style="display: none;">
                                         <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
                                         <?php if ($status_order == 'confirm') { ?>
                                             <input type="text" value="<?= $delivery_Address ?>" class="classcus form-control">
                                         <?php  } else { ?>
-                                            <input type="text" name="delivery_Address" value="<?= $Fdelivery_Address ?>" class="classcus form-control" id="delivery_Address" placeholder="ที่อยู่" required="">
+                                            <input type="text" name="delivery_Address" value="<?= $Fdelivery_Address ?>" class="classcus form-control" id="delivery_Address" placeholder="ที่อยู่">
                                         <?php } ?>
                                     </div>
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-1" id="cus_back_show2" style="display: none;">
                                         <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
 
                                         <?php if ($status_order == 'confirm') { ?>
                                             <input type="text" value="<?= $date_confirm ?>" class="classcus form-control">
                                         <?php  } else { ?>
-                                            <input type="text" name="date_confirm" id="date_confirm" value="<?= $Fdate_confirm ?>" class="classcus form-control" placeholder="ยืนยันราคาใน" Value="0" required>
+                                            <input type="text" name="date_confirmx" id="date_confirm" value="<?= $Fdate_confirm ?>" class="classcus form-control" placeholder="ยืนยันราคาใน" Value="0">
                                         <?php } ?>
                                     </div>
                                     <div class="form-group col-md-1">
@@ -568,15 +608,24 @@ if ($action == 'add') {
                                         <?php if ($status_order == 'confirm') { ?>
                                             <input type="text" value="<?php echo "$tax"; ?>" class="classcus form-control">
                                         <?php  } else { ?>
-                                            <input type="text" name="tax" id="tax" value="<?php echo "$Ftax"; ?>" class="classcus form-control" placeholder="ภาษี" required>
+                                            <input type="text" name="taxx" id="tax" value="<?php echo "$Ftax"; ?>" class="classcus form-control" placeholder="ภาษี">
                                         <?php } ?>
                                     </div>
+                                    <?php 
+                                            $discountx=$_REQUEST['discountx'];
+                                                 if (empty($discountx)) {
+                                                    $Fdiscoun=$discountx;
+                                                 }else{
+                                                $Fdiscount='0';
+                                            }
+                                                ?>
                                     <div class="form-group col-md-1">
                                         <label for="discount"><strong>ส่วนลด(บาท) <span class="text-danger"></span></strong></label>
                                         <?php if ($status_order == 'confirm') { ?>
-                                            <input type="text" value="<?= $discount ?>" class="classcus form-control">
+                                            <input type="text" value="<?= $Fdiscount ?>" class="classcus form-control">
                                         <?php  } else { ?>
-                                            <input type="text" name="discount" id="discount" value="<?= $Fdiscount ?>" class="classcus form-control" placeholder="ส่วนลด" required>
+                                           
+                                            <input type="text" name="discountx" id="discount" value="<?= $Fdiscount ?>" class="classcus form-control" placeholder="ส่วนลด">
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -997,15 +1046,18 @@ if ($action == 'add') {
                 if (cus_back == 1) {
                     document.getElementById("cus_back_show").style.display = "none";
                     document.getElementById("cus_back_show1").style.display = "none";
+                    document.getElementById("cus_back_show2").style.display = "none";
                 }
                 if (cus_back == 2) {
                     document.getElementById("cus_back_show").style.display = "block";
                     document.getElementById("cus_back_show1").style.display = "block";
+                    document.getElementById("cus_back_show2").style.display = "block";
 
                 }
                 if (cus_back == 3) {
                     document.getElementById("cus_back_show").style.display = "none";
                     document.getElementById("cus_back_show1").style.display = "none";
+                    document.getElementById("cus_back_show2").style.display = "none";
 
                 }
 
@@ -1080,7 +1132,7 @@ if ($action == 'add') {
                 let Ftax = $("#tax").val();
                 let Fdiscount = $("#discount").val();
                 let Forder_id = $("#order_id").val();
-                let Fdisunit= $("#disunit").val();
+                let Fdisunit = $("#disunit").val();
 
                 // ==============สถานที่จัดส่ง
                 let send_to = $("#send_to").val();
