@@ -8,44 +8,25 @@ include './include/connect.php';
 include './include/config.php';
 
 $action = $_REQUEST['action'];
-$status_po = $_REQUEST['status_po'];
-$po_id = $_REQUEST['FMpo_id'];
+$status_po= $_REQUEST['status_po'];
+if ($status_po== 'new') {
 
-if ($status_po == 'Mnew') {
+    $sql5 = "SELECT COUNT(id) AS id_run FROM production_order ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
 
-    // $sql5 = "SELECT COUNT(id) AS id_run FROM production_order ";
-    // $rs5 = $conn->query($sql5);
-    // $row_run = $rs5->fetch_assoc();
-
-    // $datetodat = date('Y-m-d');
-    // $date = explode(" ", $datetodat);
-    // $dat = datethai_po($date[0]);
-    // $code_new = $row_run['id_run'] + 1;
-    // $code = sprintf('%05d', $code_new);
-    // $po_id = $dat . $code;
-    $po_id = $_REQUEST['FMpo_id'];
-    $sqlx = "SELECT * FROM production_order   WHERE po_id='$po_id' ";
-    $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) {
-        ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("รหัสใบสั่งชื้อซ้ำ", "alert-danger");
-                window.location = 'addproduction.php'
-            });
-        </script>
-        <?php } else {
-             
-           
-              $_SESSION["po_id"] = $po_id;
-    }
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_po($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $po_id = $dat . $code;
+    $_SESSION["po_id"] = $po_id;
 }
 $po_id = $_SESSION["po_id"];
 $emp_id = $_SESSION["username"];
-// echo "$po_id";
-// echo "$status_po";
-// echo "$po_id";
-
+// echo"$po_id";
+// echo"$status_po";
 $po_date = $_REQUEST['po_date'];
 $po_enddate = $_REQUEST['po_enddate'];
 
@@ -86,7 +67,7 @@ if ($action == 'add_po') {
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-
+          
             $qtyx = $row['qty'] + $qty;
             $sqmx = $row['sqm'] + $sqm;
             $concrete_calx = $row['concrete_cal'] + $concrete_cal;
@@ -150,8 +131,7 @@ if ($action == 'add') {
         $sql = "INSERT INTO production_order  (po_id,po_date,po_enddate,employee_id,status_button)
                    VALUES ('$production_id','$po_date','$po_enddate','$emp_id','1')";
         $sql2 = "UPDATE production_detail    SET status_button='1' where po_id='$production_id'";
-        if ($conn->query($sql2) === TRUE) {
-        }
+        if ($conn->query($sql2) === TRUE) { }
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -188,8 +168,8 @@ if ($action == 'del') {
             console.log('SQM1', sqmx);
             console.log('concrete_calxxxx', concrete_calx);
             // console.log('SQM2',qty);
-            document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx * 1000 / 1000).toFixed(3);
-            document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx * 1000 / 1000).toFixed(3);
+            document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx*1000/1000).toFixed(3);
+            document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx*1000/1000).toFixed(3);
 
         }
 
@@ -243,12 +223,12 @@ if ($action == 'del') {
                         <div class="tab-content">
                             <form name='frmAMain' id='inputform2' class="tab-pane fade active show" method="post">
                                 <div class="border-bottom text-primary">
-                                    <div class="card-title">เพิ่มรายการสั่งผลิตสินค้า(code not automatic)</div>
+                                    <div class="card-title">เพิ่มรายการสั่งผลิตสินค้า</div>
                                 </div>
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-2">
                                         <label for="production_id"><strong>รหัสสั่งผลิต <span class="text-danger"></span></strong></label>
-                                        <input type="text" id="Mpo_id" name="production_id" value="<?php echo "$po_id"; ?>" class="classcus form-control" placeholder="รหัสสั่งผลิต" required>
+                                        <input type="text" name="production_id" value="<?php echo "$po_id"; ?>" class="classcus form-control" placeholder="รหัสสั่งผลิต" required>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
@@ -289,61 +269,60 @@ if ($action == 'del') {
 
                                         </select>
                                     </div>
-                                    <?php if ($status_po == 'update') {
-                                    } else { ?>
-                                        <div class="row mt-12">
-                                            <div class="form-group col-md-4">
-                                                <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                                <?php
-                                                $plant = $_REQUEST['plant'];
-                                                if (empty($plant)) {
+                                    <?php if($status_po=='update') { }else{ ?> 
+                                    <div class="row mt-12">
+                                        <div class="form-group col-md-4">
+                                            <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
+                                            <?php
+                                            $plant = $_REQUEST['plant'];
+                                            if (empty($plant)) {
 
-                                                ?>
-                                                    <select name="productx" id="productx" class="classcus custom-select" data-index="1">
-                                                        <option value="">เลือกสินค้าผลิต</option>
-                                                    </select>
+                                            ?>
+                                                <select name="productx" id="productx" class="classcus custom-select" data-index="1">
+                                                    <option value="">เลือกสินค้าผลิต</option>
+                                                </select>
 
-                                                <?php } else { ?>
-                                                    <select name="productx" id="productx" class="classcus custom-select " required>
-                                                        <?php
-                                                        $sql6 = "SELECT *  FROM product where ptype_id='$plant_ptype'  AND width='$plant_w'  order by id ASC ";
-                                                        $result6 = mysqli_query($conn, $sql6);
-                                                        if (mysqli_num_rows($result6) > 0) {
-                                                            while ($row6 = mysqli_fetch_assoc($result6)) {
-                                                        ?>
-                                                                <option value="<?= $row6['id'] ?>" <?php if (isset($productx) && ($productx == $row6['id'])) {
-                                                                                                        echo "selected"; ?>>
-                                                                    <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
-                                                                <?php  } else {      ?>
-                                                                <option value="<?= $row6['id'] ?>"> <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
-                                                                <?php } ?>
-                                                                </option>
-                                                        <?php  }
-                                                        }  ?>
-                                                    </select>
-                                                <?php } ?>
-                                            </div>
+                                            <?php } else { ?>
+                                                <select name="productx" id="productx" class="classcus custom-select " required>
+                                                    <?php
+                                                    $sql6 = "SELECT *  FROM product where ptype_id='$plant_ptype'  AND width='$plant_w'  order by id ASC ";
+                                                    $result6 = mysqli_query($conn, $sql6);
+                                                    if (mysqli_num_rows($result6) > 0) {
+                                                        while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                    ?>
+                                                            <option value="<?= $row6['id'] ?>" <?php if (isset($productx) && ($productx == $row6['id'])) {
+                                                                                                    echo "selected"; ?>>
+                                                                <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
+                                                            <?php  } else {      ?>
+                                                            <option value="<?= $row6['id'] ?>"> <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
+                                                            <?php } ?>
+                                                            </option>
+                                                    <?php  }
+                                                    }  ?>
+                                                </select>
+                                            <?php } ?>
+                                        </div>
+                                  
+                                        <div class="form-group col-md-2">
+                                            <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
+                                            <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm1 ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal1"; ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
 
-                                            <div class="form-group col-md-2">
-                                                <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-                                                <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
-                                                <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm1 ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
-                                                <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal1"; ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                        </div>
 
-                                            </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
 
-                                            <div class="form-group col-md-2">
-                                                <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
-
-                                                <input type="text" name="sqm" id="sqm" value="<?= $sqm ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-                                                <input type="text" name="concrete_cal" id="concrete_cal" value="<?php echo "$concrete_cal"; ?>" class="classcus form-control" placeholder="คำนวณคอนกรีต">
-                                            </div>
-                                            <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
-                                            <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
-                                        <?php } ?>
+                                            <input type="text" name="sqm" id="sqm" value="<?= $sqm ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="concrete_cal" id="concrete_cal" value="<?php echo "$concrete_cal"; ?>" class="classcus form-control" placeholder="คำนวณคอนกรีต">
+                                        </div>
+                                        <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
+                                        <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
+<?php } ?>
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
                                             <div class="table-responsive">
@@ -364,8 +343,7 @@ if ($action == 'del') {
                                                             <th>พ.ท.(Sq.m)</th>
                                                             <th>คอนกรีตคำนวณ</th>
                                                             <th>จำนวนสั่งผลิต</th>
-                                                            <?php if ($status_po == 'update') {
-                                                            } else { ?> <th>Action</th> <?php } ?>
+                                                            <?php if($status_po=='update') { }else{ ?>  <th>Action</th> <?php } ?>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -396,9 +374,8 @@ if ($action == 'del') {
                                                                     <td> <?php echo $row['sqm']; ?> </td>
                                                                     <td> <?php echo $row['concrete_cal']; ?></td>
                                                                     <td><?php echo $row['qty']; ?></td>
-
-                                                                    <?php if ($status_po == 'update') {
-                                                                    } else { ?> <td>
+                                                                    
+                                                                    <?php if($status_po=='update') { }else{ ?> <td>
 
                                                                             <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
@@ -416,7 +393,7 @@ if ($action == 'del') {
                                             </div>
                                         </div>
                                         <!-- ============ Table End ============= -->
-                                        </div>
+                                    </div>
 
                                 </div>
 
@@ -425,7 +402,7 @@ if ($action == 'del') {
                                 <div class="text-right">
 
                                     <?php if ($action == 'add') { ?>
-                                        <a class="btn btn-primary ladda-button btn-add" href="/productionprint.php?po_id=<?= $po_id ?>" target="_blank"  type="button">พิมพ์ใบสั่งผลิต</a>
+                                        <a class="btn btn-primary ladda-button btn-add" href="/productionprint.php?po_id=<?=$po_id?>" type="button">พิมพ์ใบสั่งผลิต</a>
 
                                     <?php } else {  ?>
                                         <input type="hidden" name="action" value="add">
@@ -479,12 +456,6 @@ if ($action == 'del') {
     <input type="hidden" name="status_po" value="update_pro">
     <input type="hidden" id="FSpo_id" name="po_idd1" value="<?php echo "$po_id"; ?>">
     <button class="btn" id="FSButtonID" type="submit"></button>
-</form>
-
-<form class="d-none"  method="POST">
-    <input type="hidden" name="status_po" value="Mnew">
-    <input type="hidden" id="FMpo_id" name="FMpo_id" value="<?php echo "$Mpo_id"; ?>">
-    <button class="btn" id="MButtonID" type="submit"></button>
 </form>
 <!-- ============ Modal End ============= -->
 
@@ -582,13 +553,7 @@ if ($action == 'del') {
         $("#FSPageId").val(page);
         $("#FSButtonID").click();
     }
-    $("#Mpo_id").on("change", function() {
-        // modalLoad();
-        let Mpo_id = $("#Mpo_id").val();
-        $("#FMpo_id").val(Mpo_id);
-        console.log('mpo_Id',Mpo_id)
-        $("#MButtonID").click();
-    });
+
     $("#btu").click("change", function() {
         modalLoad();
 

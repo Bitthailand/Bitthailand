@@ -394,9 +394,8 @@ if ($action == 'del') {
                                                         </td>
                                                         <td>
                                                             <?php if ($x == 0) { ?>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสั่งผลิต" href="editproduction.php?po_id=<?php echo $row['po_id']; ?>">
-                                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                                </a>
+                                                                
+                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/editproduction.php?po_id=<?php echo $row['po_id']; ?>" target="_blank" type="button"  title="แก้ไขข้อมูลสั่งผลิต">  <i class="i-Pen-2 font-weight-bold"></i></a>
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" href="/productionprint.php?po_id=<?=$row['po_id']?>"  target="_blank" type="button"  title="พริ้นใบสั่งผลิต"> <i class="i-Gear font-weight-bold"></i></a>
                                                               
                                                                 <button data-toggle="modal" data-target="#medalstock" title="เช็คสินค้าเข้าสต๊อก" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
