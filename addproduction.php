@@ -53,7 +53,7 @@ if ($action == 'add_po') {
     $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
     $po_idx = $_REQUEST['po_idd1'];
-    echo"$po_idx";
+    // echo"$po_idx";
     // echo"$productx";
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];

@@ -1,6 +1,6 @@
 <?php
 include './include/connect.php';
-
+include './include/config.php';
 $id = intval($_REQUEST['id']);
 // echo "$id";
 $sql = "SELECT * FROM production_detail  WHERE id = '$id'";
@@ -27,7 +27,7 @@ $query4 = mysqli_query($conn, $sql4);
 ?>
 
 
-<form action="" id='inputform2' method="post" name="myform">
+<form action="" id='inputform2' method="post" name="frmAMain1">
     <div class="row mt-12">
         <div class="form-group col-md-4">
             <label for="plant"><strong>แพที่ผลิต <span class="text-danger"></span></strong></label>
@@ -40,19 +40,20 @@ $query4 = mysqli_query($conn, $sql4);
     </div>
     <div class="row mt-12">
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-            <input type="text" name="qty" value="<?php echo "$row[qty]"; ?>" data-index="1" onkeyup="calculate()" class="classcus form-control" placeholder="จำนวนสั่งผลิต"  required>
-            <input type="hidden" name="cal_item" value="<?php echo "$cal_item"; ?>" onkeyup="calculate()" data-index="2" />
-            <input type="hidden" name="cal_item2" value="<?php echo "$cal_item2"; ?>" onkeyup="calculate()" data-index="2" />
+            <input type="text" name="qty2" id="qty2" value="<?php echo "$row[qty]"; ?>" data-index="1" onKeyUp="fncASum1();" class="classcus form-control" placeholder="จำนวนสั่งผลิต"  required>
+            <input type="hidden"  name="sqm2" id="sqm2"  value="<?php echo round($cal_item, 2, PHP_ROUND_HALF_UP); ?>"  >
+            <input type="hidden" name="concrete_cal2" id="concrete_cal2"   value="<?php echo round($cal_item2, 2, PHP_ROUND_HALF_UP); ?>" >
         </div>
+        
         <div class="form-group col-md-4">
             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
-            <input type="text" name="textbox5" value="<?php echo "$row[sqm]"; ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
+            <input type="text" name="sqmx_2" id="sqmx_2"   value="<?php echo "$row[sqm]"; ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
         </div>
         <div class="form-group col-md-4">
             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-            <input type="text" name="textbox6" value="<?php echo "$row[concrete_cal]"; ?>"  class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
+            <input type="text" name="concrete_calx_2" id="concrete_calx_2"  value="<?php echo "$row[concrete_cal]"; ?>"  class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
         </div>
     </div>
     <div class="modal-footer">
@@ -67,24 +68,26 @@ $query4 = mysqli_query($conn, $sql4);
 </form>
 
 <script>
-    function calculate() {
-        if (isNaN(document.forms["myform"]["qty"].value) || document.forms["myform"]["qty"].value == "") {
-            var text1 = 0;
-        } else {
-            var text1 = parseInt(document.forms["myform"]["qty"].value);
+    function fncASum1() {
+        {
+            let sqm2 = $("#sqm2").val();
+            let qty2 = $("#qty2").val();
+            let concrete_cal2= $("#concrete_cal2").val();
+            console.log('concrete_cal2', concrete_cal2);
+            console.log('sqm2', sqm2);
+            console.log('qty2', qty2);
+            sqmtotal2=Math.round(qty2*sqm2*100)/100;
+            concretetotal2=qty2*concrete_cal2;
+            $("#sqmx_2").val(sqmtotal2.toFixed(3))
+            $("#concrete_calx_2").val(concretetotal2.toFixed(3))
+            // console.log('SQM2',qty);
+            // document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx);
+            // document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx);
+
         }
-        if (isNaN(document.forms["myform"]["cal_item"].value) || document.forms["myform"]["cal_item"].value == "") {
-            var text2 = 0;
-        } else {
-            var text2 = parseFloat(document.forms["myform"]["cal_item"].value);
-        }
-        if (isNaN(document.forms["myform"]["cal_item2"].value) || document.forms["myform"]["cal_item2"].value == "") {
-            var text3 = 0;
-        } else {
-            var text3 = parseFloat(document.forms["myform"]["cal_item2"].value);
-        }
-        document.forms["myform"]["textbox5"].value = (text1 * text2);
-        document.forms["myform"]["textbox6"].value = (text1 * text3);
+
+        // document.frmAMain['sqm'].value;
+        // document.frmAMain['concrete_cal'].value;
     }
 </script>
 
