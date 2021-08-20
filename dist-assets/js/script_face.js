@@ -52,20 +52,22 @@ $(function() {
                 if (item.area >= 1) {
                     var cal_cons = cal_item * item.thickness * item.area;
                 }
-
+                console.log('==============================');
+                console.log('item.width', item.width);
+                console.log('item.size', item.size);
                 console.log('item.thickness', item.thickness);
-                console.log('cal_cons', cal_cons.toFixed(3));
-
-
+                console.log('SUM_cal_cons', Math.round(cal_cons.toFixed(5) * 1000) / 1000);
+                console.log('SUM_SQM', Math.round(cal_item.toFixed(5) * 1000) / 1000);
+                console.log('==============================');
                 var df = 1;
-                console.log('calitem', cal_item.toFixed(3));
+                // console.log('calitem', cal_item.toFixed(3));
 
 
                 $('#qty').val(df)
-                $('#sqm').val(cal_item.toFixed(3))
-                $('#sqm1').val(cal_item.toFixed(3))
-                $('#concrete_cal').val(cal_cons.toFixed(3))
-                $('#concrete_cal1').val(cal_cons.toFixed(3))
+                $('#sqm').val(Math.round(cal_item.toFixed(5) * 1000) / 1000)
+                $('#sqm1').val(Math.round(cal_item.toFixed(5) * 1000) / 1000)
+                $('#concrete_cal').val(Math.round(cal_cons.toFixed(5) * 1000) / 1000)
+                $('#concrete_cal1').val(Math.round(cal_cons.toFixed(5) * 1000) / 1000)
 
             });
         });
