@@ -21,6 +21,7 @@ $(function() {
             document.getElementById("ifYes_price3").style.display = "none";
             document.getElementById("ifYes_qty").style.display = "none";
             document.getElementById("ifYes_qty2").style.display = "block";
+            document.getElementById("ifYes_dis").style.display = "block";
             document.getElementById("btu").disabled = false;
             var df = 1;
             var TF = 1;
@@ -37,6 +38,7 @@ $(function() {
             document.getElementById("ifYes_price3").style.display = "block";
             document.getElementById("ifYes_qty").style.display = "block";
             document.getElementById("ifYes_qty2").style.display = "none";
+            document.getElementById("ifYes_dis").style.display = "none";
             productxObject.html('<option value="">เลือกสินค้าสั่งขื้อ</option>');
             ProIdObject.html('<option value="">เลือก</option>');
             $("input_tf").hide();

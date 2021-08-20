@@ -440,7 +440,7 @@ if ($action == 'add') {
                                             <input type="text" name="send_price" id="send_price" class="classcus form-control" placeholder="ราคาค่าจัดส่ง">
                                         </div>
 
-                                        <div class="form-group col-md-1" id="ifYes_price" style="display: block;">
+                                        <div class="form-group col-md-1" id="ifYes_dis" style="display: block;">
                                             <label for="qty"><strong>ส่วนลด <span class="text-danger"></span></strong></label>
                                             <input type="text" name="disunit" id="disunit" class="classcus form-control" placeholder="ลดต่อหน่วย" >
                                         </div>
