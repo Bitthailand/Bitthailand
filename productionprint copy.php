@@ -1,12 +1,4 @@
 <?php
-session_start();
-if (isset($_SESSION["username"])) {
-} else {
-    header("location:signin.php");
-}
-include './include/connect.php';
-include './include/config_date.php';
-$po_id=$_REQUEST['po_id'];
 
 ?>
 <!DOCTYPE html>
@@ -26,13 +18,7 @@ $po_id=$_REQUEST['po_id'];
         margin-top: 0;
         margin-bottom: 0.1rem;
     }
-    .table-sm th,
-        .table-sm td {
-            padding: 0.3rem;
-            font-size: 0.813rem !important;
-        }
     </style>
-
 </head>
 
 <body class="text-left">
@@ -105,37 +91,9 @@ $po_id=$_REQUEST['po_id'];
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php
-                                                            echo"$po_id";
-                                                            
-                                         $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where po_id='$po_id'  ");
-                                        $total_records = mysqli_fetch_array($result_count);
-                                        $total_records = $total_records['total_records'];
-                                       
-                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where po_id='$po_id' ");
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$po_id'  ORDER BY id ASC ");
-                                            $total = mysqli_fetch_array($count);
-                                            $count = 0;
-                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$po_id' ORDER BY id ASC  ";
-                                            $resultxx = mysqli_query($conn, $sqlxx);
-                                            if (mysqli_num_rows($resultxx) > 0) {
-                                                $num = @mysqli_num_rows($resultxx);
-                                                $row_cnt = $resultxx->num_rows;
-                                                // while ($row1 = mysqli_fetch_assoc($resultxx)) {
-                                                while ($row2 = mysqli_fetch_array($resultxx)) {
-                                                   ?> 
-                                                                <td> <?php
-                                                                $x = $count++;
-                                                                echo"$x";
-                                                                echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
-                                                        </td>
-                                                        <td> <?php if ($x == 0) {
-                                                                    $date = explode(" ", $row['po_date']);
-                                                                    $dat = datethai2($date[0]);
-                                                                    echo '<strong>' . $dat . '</strong>';
-                                                                } ?>
-                                                        </td>
+                                                            <tr>
+                                                                <td scope="row" class="text-center">1</td>
+                                                                <td class="text-center">2 ส.ค. 21</td>
                                                                 <td class="text-center">2</td>
                                                                 <td class="text-center">35</td>
                                                                 <td class="text-left">แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x4.00 เมตร</td>
@@ -145,13 +103,18 @@ $po_id=$_REQUEST['po_id'];
                                                                 <td class="text-center">5</td>
                                                                 <td class="text-right">3.47</td>
                                                             </tr>
-                                                            <?php
-                                                        }
-                                                    }
-                                                }
-                                                mysqli_close($conn);
-                                                            ?>
-                                                           
+                                                            <tr>
+                                                                <td scope="row" class="text-center"></td>
+                                                                <td></td>
+                                                                <td class="text-right"></td>
+                                                                <td class="text-right">35</td>
+                                                                <td class="text-left">แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.50 เมตร</td>
+                                                                <td class="text-right">78</td>
+                                                                <td class="text-right">54.60</td>
+                                                                <td class="text-center">4</td>
+                                                                <td class="text-center">5</td>
+                                                                <td class="text-right">2.73</td>
+                                                            </tr>
                                                             <tr class="bg-gray-200">
                                                                 <td scope="row" class="text-center"></td>
                                                                 <td></td>
