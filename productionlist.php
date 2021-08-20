@@ -17,6 +17,16 @@ $rowS = $_REQUEST['row'];
 $emp_id = $_SESSION["username"];
 $datetoday = date('Y-m-d h:i:s');
 // echo"$datetoday";
+unset($_SESSION['po_id']);
+$emp_id = $_SESSION["username"];
+$sql = "DELETE FROM production_order  WHERE status_button='0' AND employee_id='$emp_id'  ";
+if ($conn->query($sql) === TRUE) {
+}
+$sql2 = "DELETE FROM production_detail  WHERE status_button='0'AND employee_id='$emp_id'  ";
+if ($conn->query($sql2) === TRUE) {
+}
+
+
 if (empty($column) && ($keyword)) {
 } else {
     $columx = "AND $column LIKE'$keyword%'";
@@ -275,7 +285,7 @@ if ($action == 'del') {
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <a href="/addproduction.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มรายการสั่งผลิต</a>
+                                                <a href="/addproduction.php?status_po=new" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มรายการสั่งผลิต</a>
 
                                             </div>
                                         </div>

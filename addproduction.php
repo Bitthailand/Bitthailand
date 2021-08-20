@@ -7,20 +7,26 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 include './include/config.php';
 
-
-$sql5 = "SELECT COUNT(id) AS id_run FROM production_order ";
-$rs5 = $conn->query($sql5);
-$row_run = $rs5->fetch_assoc();
-
-$datetodat = date('Y-m-d');
-$date = explode(" ", $datetodat);
-$dat = datethai_po($date[0]);
-$code_new = $row_run['id_run'] + 1;
-$code = sprintf('%05d', $code_new);
-$po_id = $dat . $code;
-$emp_id = $_SESSION["username"];
-
 $action = $_REQUEST['action'];
+$status_po= $_REQUEST['status_po'];
+if ($status_po== 'new') {
+
+    $sql5 = "SELECT COUNT(id) AS id_run FROM production_order ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_po($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $po_id = $dat . $code;
+    $_SESSION["po_id"] = $po_id;
+}
+$po_id = $_SESSION["po_id"];
+$emp_id = $_SESSION["username"];
+// echo"$po_id";
+// echo"$status_po";
 $po_date = $_REQUEST['po_date'];
 $po_enddate = $_REQUEST['po_enddate'];
 
@@ -37,6 +43,8 @@ $sqm1 = $_REQUEST['sqm1'];
 $concrete_cal1 = $_REQUEST['concrete_cal1'];
 // echo "$productx";
 // echo "$plant";
+$po_idx = $_REQUEST['po_idx'];
+echo "$po_idx";
 // =============================
 
 // =============================
@@ -45,7 +53,7 @@ if ($action == 'add_po') {
     $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
     $po_idx = $_REQUEST['po_idd1'];
-    // echo"$po_idx";
+    echo"$po_idx";
     // echo"$productx";
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
@@ -59,12 +67,12 @@ if ($action == 'add_po') {
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-// echo"xxx";
+          
             $qtyx = $row['qty'] + $qty;
-            $sqmx=$row['sqm']+$sqm;
-            $concrete_calx=$row['concrete_cal']+$concrete_cal;
+            $sqmx = $row['sqm'] + $sqm;
+            $concrete_calx = $row['concrete_cal'] + $concrete_cal;
 
-            $sql = "UPDATE production_detail    SET qty='$qtyx',sqm='$sqmx',concrete_cal='$concrete_calx'  where product_id='$row5[product_id]'  AND plant_id ='$plantx' AND po_id='$po_idx'";
+            $sql = "UPDATE production_detail    SET qty='$qtyx',sqm='$sqmx',concrete_cal='$concrete_calx',employee_id='$emp_id',status_button='0' where product_id='$row5[product_id]'  AND plant_id ='$plantx' AND po_id='$po_idx'";
 
 
             if ($conn->query($sql) === TRUE) {  ?>
@@ -76,9 +84,9 @@ if ($action == 'add_po') {
             <?php }
         }
     } else {
-
-        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
-                                       VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal')";
+        echo"xxx";
+        $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal,status_button,employee_id)
+                                       VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal','0','$emp_id')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -120,8 +128,10 @@ if ($action == 'add') {
             });
         </script>
         <?php    } else {
-        $sql = "INSERT INTO production_order  (po_id,po_date,po_enddate,employee_id)
-                   VALUES ('$production_id','$po_date','$po_enddate','$emp_id')";
+        $sql = "INSERT INTO production_order  (po_id,po_date,po_enddate,employee_id,status_button)
+                   VALUES ('$production_id','$po_date','$po_enddate','$emp_id','1')";
+        $sql2 = "UPDATE production_detail    SET status_button='1' where po_id='$production_id'";
+        if ($conn->query($sql2) === TRUE) { }
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -259,7 +269,7 @@ if ($action == 'del') {
 
                                         </select>
                                     </div>
-
+                                    <?php if($status_po=='update') { }else{ ?> 
                                     <div class="row mt-12">
                                         <div class="form-group col-md-4">
                                             <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
@@ -292,7 +302,7 @@ if ($action == 'del') {
                                                 </select>
                                             <?php } ?>
                                         </div>
-
+                                  
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
@@ -312,7 +322,7 @@ if ($action == 'del') {
                                         </div>
                                         <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
                                         <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">เพิ่มสินค้าสั่งผลิต</button>
-
+<?php } ?>
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
                                             <div class="table-responsive">
@@ -333,7 +343,7 @@ if ($action == 'del') {
                                                             <th>พ.ท.(Sq.m)</th>
                                                             <th>คอนกรีตคำนวณ</th>
                                                             <th>จำนวนสั่งผลิต</th>
-                                                            <th>Action</th>
+                                                            <?php if($status_po=='update') { }else{ ?>  <th>Action</th> <?php } ?>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -364,13 +374,14 @@ if ($action == 'del') {
                                                                     <td> <?php echo $row['sqm']; ?> </td>
                                                                     <td> <?php echo $row['concrete_cal']; ?></td>
                                                                     <td><?php echo $row['qty']; ?></td>
-                                                                    <td>
+                                                                    
+                                                                    <?php if($status_po=='update') { }else{ ?> <td>
 
-                                                                        <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                                                            <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
-                                                                        <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการผลิต"> <i class="i-Close-Window font-weight-bold"></i> </button>
+                                                                            <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการผลิต"> <i class="i-Close-Window font-weight-bold"></i> </button>
 
-                                                                    </td>
+                                                                        </td> <?php } ?>
                                                                 </tr>
                                                         <?php }
                                                         } ?>
@@ -389,14 +400,19 @@ if ($action == 'del') {
                                 <hr>
 
                                 <div class="text-right">
-                                    <input class="d-none" id="addAccId" type="text" name="acc_id" value="" placeholder="">
-                                    <input class="d-none" id="addActionId" type="text" name="action" value="add" placeholder="">
 
-                                    <input type="hidden" name="action" value="add">
-                                    <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการสั่งผลิต</button>
-                                    <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
-                                        <span class="ladda-label">ยืนยันการสั่งผลิต</span>
-                                    </button>
+                                    <?php if ($action == 'add') { ?>
+                                        <a class="btn btn-primary ladda-button btn-add" href="/production_print.php" type="button">พิมพ์ใบสั่งผลิต</a>
+
+                                    <?php } else {  ?>
+                                        <input type="hidden" name="action" value="add">
+                                        <input type="hidden" name="status_po" value="update">
+                                        <input type="hidden" name="po_id" value="<?= $po_id ?>">
+                                        <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการสั่งผลิต</button>
+                                        <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
+                                            <span class="ladda-label">ยืนยันการสั่งผลิต</span>
+                                        </button>
+                                    <?php } ?>
                                     <a class="btn btn-outline-danger m-1" href="/productionlist.php" type="button">กลับหน้ารายการสั่งผลิต</a>
                                 </div>
 
@@ -437,6 +453,7 @@ if ($action == 'del') {
     <input type="text" id="FSpo_enddate" name="po_enddate" value="<?php echo $po_enddate; ?>" placeholder="">
     <input type="text" id="FSplant" name="plant" value="<?php echo $po_enddate; ?>" placeholder="">
     <input type="text" name="action" value="add_po">
+    <input type="hidden" name="status_po" value="update_pro">
     <input type="hidden" id="FSpo_id" name="po_idd1" value="<?php echo "$po_id"; ?>">
     <button class="btn" id="FSButtonID" type="submit"></button>
 </form>
@@ -545,7 +562,7 @@ if ($action == 'del') {
         let po_id = $("#po_id").val();
         let sqm = $("#sqm").val();
         let sqm1 = $("#sqm1").val();
-        
+
         let concrete_cal = $("#concrete_cal").val();
         let concrete_cal1 = $("#concrete_cal1").val();
         let po_date = $("#po_date").val();

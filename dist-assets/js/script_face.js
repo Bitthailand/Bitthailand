@@ -47,14 +47,14 @@ $(function() {
                 var cal_item = Math.round(item.width * item.size * 100) / 100;
 
                 if (item.area !== 'undefined') {
-                    var cal_cons = Math.round(item.width * item.size * item.thickness * 100) / 100;
+                    var cal_cons = cal_item * item.thickness;
                 }
                 if (item.area >= 1) {
-                    var cal_cons = Math.round(item.width * item.size * item.thickness * item.area * 100) / 100;
+                    var cal_cons = Math.round(cal_item * item.thickness * item.area * 100) / 100;
                 }
 
-
-                console.log('cal_cons', cal_cons.toFixed(2));
+                console.log('item.thickness', item.thickness);
+                console.log('cal_cons', cal_cons.toFixed(3));
 
 
                 var df = 1;
