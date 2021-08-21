@@ -22,6 +22,10 @@ $productx = $_REQUEST['productx'];
 $sqm = $_REQUEST['sqm'];
 $sqm1 = $_REQUEST['sqm1'];
 $concrete_cal1 = $_REQUEST['concrete_cal1'];
+$width1 = $_REQUEST['width1'];
+$size1 = $_REQUEST['size1'];
+$thickness1 = $_REQUEST['thickness1'];
+$area1 = $_REQUEST['area1'];
 $action = $_REQUEST['action'];
 // echo "$po_id ";
 // echo "$concrete_cal1";
@@ -129,20 +133,48 @@ if ($action == 'update') {
 
 ?>
 <script language="JavaScript">
-    function fncASum() {
+      function fncASum() {
         {
             let sqmx = $("#sqm1").val();
+            let qtyx = $("#qty").val();
             let concrete_calx = $("#concrete_cal1").val();
-            console.log('SQM1', sqmx);
-            console.log('concrete_calxxxx', concrete_calx);
+
+            let width1x = $("#width1").val();
+            let size1x = $("#size1").val();
+            let thickness1x = $("#thickness1").val();
+            let area1= $("#area1").val();
+
+
+            var sum_sqm = (width1x  * size1x * qtyx* 1000 / 1000).toFixed(3);
+            if (area1 !== 'undefined') {
+            var sum_concrete= (width1x  * size1x * thickness1x * qtyx* 1000 / 1000).toFixed(3);
+            }
+            if (area1 >= 1) {
+            var sum_concrete = (width1x  * size1x * thickness1x * area1* qtyx*  1000 / 1000).toFixed(3);
+            }
+            // var sum_concrete = concrete_calx  * qtyx;
+            console.log('=========คำนวณตรงๆ=====================');
+            console.log('sqm', sqmx);
+            console.log('concrete', concrete_calx);
+            console.log('qty', qtyx);
+            console.log('==========ค่าคำนวณ=====');
+            console.log('width1x_num', width1x);
+            console.log('size1x_num', size1x);
+            console.log('thickness1x_num', thickness1x);
+            console.log('area1', area1);
+            console.log('==========จขบ=====');
+            console.log('sqm', sqmx);
+            console.log('sum_sqm', sum_sqm);
+            console.log('sum_concrete', sum_concrete);
+            console.log('=============================');
+            $("#sqm").val(sum_sqm);
+            $("#concrete_cal").val(sum_concrete);
+
             // console.log('SQM2',qty);
-            document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx * 1000 / 1000).toFixed(3);
-            document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx * 1000 / 1000).toFixed(3);
+            // document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx * 1000 / 1000).toFixed(3);
+            // document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx * 1000 / 1000).toFixed(3);
 
         }
-
-        document.frmAMain['sqm'].value;
-        document.frmAMain['concrete_cal'].value;
 
         // document.frmAMain.total.value = Asum;
     }
@@ -269,8 +301,12 @@ if ($action == 'update') {
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
                                             <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
-                                            <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm1 ?>">
-                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal1"; ?>">
+                                            <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm1 ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal1"; ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
+                                            <input type="hidden" name="width1" id="width1" value="<?php echo "$width1"; ?>">
+                                            <input type="hidden" name="size1" id="size1" value="<?php echo "$size1"; ?>">
+                                            <input type="hidden" name="thickness1" id="thickness1" value="<?php echo "$thickness1"; ?>">
+                                            <input type="hidden" name="area1" id="area1" value="<?php echo "$area1"; ?>">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
@@ -405,6 +441,12 @@ if ($action == 'update') {
     <input type="text" name="action" value="add_po">
     <input type="text" id="FSconcrete_cal1" name="concrete_cal1" value="<?php echo $concrete_cal1; ?>" placeholder="">
     <input type="text" id="FSsqm1" name="sqm1" value="<?php echo $sqm1; ?>" placeholder="">
+
+    <input type="text" id="FSwidth1" name="width1" value="<?php echo $width1; ?>" placeholder="">
+    <input type="text" id="FSsize1" name="size1" value="<?php echo $size1; ?>" placeholder="">
+    <input type="text" id="FSthickness1" name="thickness1" value="<?php echo $thickness1; ?>" placeholder="">
+    <input type="text" id="FSarea1" name="area1" value="<?php echo $area1; ?>" placeholder="">
+
     <input type="hidden" id="FSpo_id" name="po_id" value="<?php echo "$po_id"; ?>">
     <button class="btn" id="FSButtonID" type="submit"></button>
 </form>
@@ -515,6 +557,10 @@ if ($action == 'update') {
         let sqm1 = $("#sqm1").val();
         let concrete_cal = $("#concrete_cal").val();
         let concrete_cal1 = $("#concrete_cal1").val();
+        let width1 = $("#width1").val();
+        let size1 = $("#size1").val();
+        let thickness1 = $("#thickness1").val();
+        let area1 = $("#area1").val();
         let po_date = $("#po_date").val();
         let po_enddate = $("#po_enddate").val();
         let plant = $("#plant").val();
@@ -529,6 +575,10 @@ if ($action == 'update') {
         $("#FSplant").val(plant);
         $("#FSsqm1").val(sqm1);
         $("#FSconcrete_cal1").val(concrete_cal1);
+        $("#FSwidth1").val(width1);
+        $("#FSsize1").val(size1);
+        $("#FSthickness1").val(thickness1);
+        $("#FSarea1").val(area1);
         $("#FSButtonID").click();
 
     });

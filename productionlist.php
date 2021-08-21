@@ -29,18 +29,18 @@ if ($conn->query($sql2) === TRUE) {
 
 if (empty($column) && ($keyword)) {
 } else {
-    $columx = "AND $column LIKE'$keyword%'";
-    // echo"$columx";   
+    // $column = "AND $column LIKE'$keyword%'";
+    echo"$columx";
+       if($column=='po_id'){
+        $colum_po = "AND po_id LIKE'%$keyword%'";
+       }
+       if($column=='po_date'){
+        $colum_po = "AND po_date LIKE'%$keyword%'";
+       }
+      
+    //    echo"$column";
 }
-if (($column == "") && ($keyword == "$keyword")) {
-    $keywordx = "AND customer_id LIKE'$keyword%'
-               OR customer_name LIKE'$keyword%'
-               OR  company_name LIKE'$keyword%'
-               OR tel LIKE'$keyword%'
-               OR contact_name  LIKE'$keyword%' 
-               OR bill_address LIKE'$keyword%' ";
-    //    echo"$keywordx";
-}
+
 if (($column == "") && ($keyword == "")) {
     $columx = "";
     $keywordx = "";
@@ -50,6 +50,8 @@ if ($rowS == '') {
 } else {
     $total_records_per_page = $rowS;
 }
+
+
 if ($action == 'edit_prox') {
     // echo"xx";
     $edit_id = $_REQUEST['edit_id'];
@@ -254,12 +256,12 @@ if ($action == 'del') {
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
+                                                   
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="po_id">รหัสสั่งผลิต</option>
-                                                        <option value="po_date">วันที่สั่งผลิต</option>
-                                                        <option value="plane_id">แพที่ผลิต</option>
-                                                        <option value="product_id">รหัสสินค้า</option>
-                                                        <option value="product_name">ชื่อสินค้า</option>
+                                                    <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
+                                                     <option value="po_id" <?php echo $column == 'po_id' ? 'selected' : ''; ?>> รหัสสั่งผลิต </option>
+                                                     <option value="po_date" <?php echo $column == 'po_date' ? 'selected' : ''; ?>> วันที่สั่งผลิต </option>
+                                                    
                                                     </select>
                                                 </div>
                                             </div>
@@ -273,12 +275,12 @@ if ($action == 'del') {
                                                 <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
-                                                        <option value="10"> 10 </option>
-                                                        <option value="20" selected=""> 20 </option>
-                                                        <option value="30"> 30 </option>
-                                                        <option value="40"> 40 </option>
-                                                        <option value="50"> 50 </option>
-                                                        <option value="100"> 100 </option>
+                                                        <option value="10" <?php echo $rowS == 10 ? 'selected' : ''; ?>> 10 </option>
+                                                        <option value="20" <?php echo $rowS == 20 ? 'selected' : ''; ?>> 20 </option>
+                                                        <option value="30" <?php echo $rowS == 30 ? 'selected' : ''; ?>> 30 </option>
+                                                        <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
+                                                        <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
+                                                        <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -315,7 +317,7 @@ if ($action == 'del') {
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
                                         <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
@@ -328,20 +330,20 @@ if ($action == 'del') {
                                         $next_page = $page_no + 1;
                                         $adjacents = "2";
 
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where status='0' AND status_cf='0'  ");
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where status='0' AND status_cf='0' $colum_po  ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='0' ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='0' $colum_po ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) {
 
 
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0' ORDER BY id ASC ");
+                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC ");
                                             $total = mysqli_fetch_array($count);
                                             $count = 0;
-                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0' ORDER BY id ASC  ";
+                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC  ";
                                             $resultxx = mysqli_query($conn, $sqlxx);
                                             if (mysqli_num_rows($resultxx) > 0) {
                                                 $num = @mysqli_num_rows($resultxx);
@@ -729,29 +731,44 @@ $("#searchRowsId").on("change", function() {
 
 });
 $("#searchNameId").on("change", function() {
-    modalLoad();
+    // modalLoad();
 
     let name = $("#searchNameId").val();
-    $("#FSKeywordId").val(name);
     let column = $("#searchColumnId").val();
+
+    if(column==''){
+        $("#FSKeywordId").val(name);
+        $("#FSButtonID").click();
+    }else{
+
+    $("#FSKeywordId").val(name);
     $("#FSColumnId").val(column);
     $("#FSButtonID").click();
+console.log('column',column)
+console.log('name',name)
+    }
+   
 
 });
 
-$("#searchColumnId").on("change", function() {
-    modalLoad();
-
-    
-    let column = $("#searchColumnId").val();
-    $("#FSColumnId").val(column);
-    let name = $("#searchNameId").val();
-    $("#FSKeywordId").val(name);
-
-    $("#FSButtonID").click();
-
-});
 /* ===== search end ===== */
+
+//click next link
+$(".linkLoadModalNext").on('click', function() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+});
+</script>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
 
 //click next link
 $(".linkLoadModalNext").on('click', function() {
@@ -772,56 +789,32 @@ $('#myModal_del').on('show.bs.modal', function(event) {
 </script>
 
 <script>
-/* ===== search start ===== */
-function modalLoad() {
-    $("#ModalLoadId").modal({
-        backdrop: 'static',
-        'keyboard': false,
+$(function() {
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
     });
-};
 
-function clickNav(page) {
-    modalLoad();
-
-    $("#FSPageId").val(page);
-    $("#FSButtonID").click();
-}
-$("#searchRowsId").on("change", function() {
-    modalLoad();
-
-    let row = $("#searchRowsId").val();
-    $("#FSRowId").val(row);
-    let column = $("#searchColumnId").val();
-    $("#FSColumnId").val(column);
-    $("#FSButtonID").click();
-
-});
-$("#searchNameId").on("change", function() {
-    modalLoad();
-
-    let name = $("#searchNameId").val();
-    $("#FSKeywordId").val(name);
-    let column = $("#searchColumnId").val();
-    $("#FSColumnId").val(column);
-    $("#FSButtonID").click();
-
-});
-/* ===== search end ===== */
-
-//click next link
-$(".linkLoadModalNext").on('click', function() {
-    $("#ModalLoadId").modal({
-        backdrop: 'static',
-        'keyboard': false,
+    $(".table-striped").find('tr[data-target]').on('click', function() {
+        //or do your operations here instead of on show of modal to populate values to modal.
+        $('#orderModal').data('orderid', $(this).data('id'));
     });
+
 });
 </script>
 <script>
-$('#myModal_del').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var id = button.data('id')
-    var modal = $(this)
-    modal.find('#del_id').val(id)
-
-})
+$(document).ready(function() {
+    $("#searchNameId").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
 </script>
