@@ -31,49 +31,64 @@ session_start();
                     <h1 class="mr-2">ข้อมูลภาพรวม
                     </h1>
                     <ul>
-                        <li><a href="">Dashboard</a></li>
-                        <li>Version 1</li>
+                        <li><a href="">ภาพรวมการขาย</a></li>
+                        <li>ประจำเดือน</li>
                     </ul>
                 </div>
-                <div class="separator-breadcrumb border-top"></div>
                 <div class="row">
                     <!-- ICON BG-->
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
-                            <div class="card-body text-center"><i class="i-Add-User"></i>
-                                <div class="content">
-                                    <p class="text-muted mt-2 mb-0">New Leads</p>
-                                    <p class="text-primary text-24 line-height-1 mb-2">205</p>
+                    <div class="col-md-3 col-lg-3">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="ul-widget__row">
+                                    <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
+                                    <div class="ul-widget__content">
+                                        <p class="m-0">ยอดขายประจำเดือน</p>
+                                        <h4 class="heading">400,894.00</h4>
+                                        <small class="text-muted m-0">ยอดขายประจำปี : 12,265,546.00</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
-                            <div class="card-body text-center"><i class="i-Financial"></i>
-                                <div class="content">
-                                    <p class="text-muted mt-2 mb-0">Sales</p>
-                                    <p class="text-primary text-24 line-height-1 mb-2">$4021</p>
+                    <div class="col-md-3 col-lg-3">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="ul-widget__row">
+                                    <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
+                                    <div class="ul-widget__content">
+                                        <p class="m-0">จำนวนลูกค้าประจำเดือน</p>
+                                        <h4 class="heading">544</h4>
+                                        <small class="text-muted m-0">จำนวนลูกค้าประจำปี : 1,265</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
-                            <div class="card-body text-center"><i class="i-Checkout-Basket"></i>
-                                <div class="content">
-                                    <p class="text-muted mt-2 mb-0">Orders</p>
-                                    <p class="text-primary text-24 line-height-1 mb-2">80</p>
+                    <div class="col-md-3 col-lg-3">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="ul-widget__row">
+                                    <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
+                                    <div class="ul-widget__content">
+                                        <p class="m-0">จำนวน Order ประจำเดือน</p>
+                                        <h4 class="heading">652</h4>
+                                        <small class="text-muted m-0">จำนวน Order ประจำปี : 1,352</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
-                            <div class="card-body text-center"><i class="i-Money-2"></i>
-                                <div class="content">
-                                    <p class="text-muted mt-2 mb-0">Expense</p>
-                                    <p class="text-primary text-24 line-height-1 mb-2">$1200</p>
+                    <div class="col-md-3 col-lg-3">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="ul-widget__row">
+                                    <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
+                                    <div class="ul-widget__content">
+                                        <p class="m-0">ลูกค้า Online : Wark-in</p>
+                                        <h4 class="heading">352 : 52</h4>
+                                        <small class="text-muted m-0">ในรอบปี 2,256 : 534</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +98,7 @@ session_start();
                     <div class="col-lg-8 col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="card-title">This Year Sales</div>
+                                <div class="card-title">ยอดขายประจำปี</div>
                                 <div id="echartBar" style="height: 300px;"></div>
                             </div>
                         </div>
@@ -91,7 +106,7 @@ session_start();
                     <div class="col-lg-4 col-sm-12">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="card-title">Sales by Countries</div>
+                                <div class="card-title">ยอดขายตามประเภทสินค้า</div>
                                 <div id="echartPie" style="height: 300px;"></div>
                             </div>
                         </div>
