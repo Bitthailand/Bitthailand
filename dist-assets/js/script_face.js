@@ -44,15 +44,26 @@ $(function() {
                 let thickness;
                 let area;
                 // var cal_cons;
+
+
                 var cal_item = item.width * item.size;
 
                 if (item.area !== 'undefined') {
-                    var cal_cons = cal_item * item.thickness;
+                    var cal_cons = item.width * item.size * item.thickness;
                 }
                 if (item.area >= 1) {
-                    var cal_cons = cal_item * item.thickness * item.area;
+                    var cal_cons = item.width * item.size * item.thickness * item.area;
                 }
+
+                console.log('=========คำนวณตรงๆ=====================');
+                console.log('item.width', item.width);
+                console.log('item.size', item.size);
+                console.log('item.thickness', item.thickness);
+                console.log('item.area', item.area);
+                console.log('SUM_cal_cons', cal_cons);
+                console.log('SUM_SQM', cal_item);
                 console.log('==============================');
+                console.log('=========ปัดเศษ=====================');
                 console.log('item.width', item.width);
                 console.log('item.size', item.size);
                 console.log('item.thickness', item.thickness);
@@ -64,6 +75,10 @@ $(function() {
 
 
                 $('#qty').val(df)
+                $('#width1').val(item.width)
+                $('#size1').val(item.size)
+                $('#thickness1').val(item.thickness)
+                $('#area1').val(item.area)
                 $('#sqm').val(Math.round(cal_item.toFixed(5) * 1000) / 1000)
                 $('#sqm1').val(Math.round(cal_item.toFixed(5) * 1000) / 1000)
                 $('#concrete_cal').val(Math.round(cal_cons.toFixed(5) * 1000) / 1000)
