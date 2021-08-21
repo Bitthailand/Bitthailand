@@ -42,25 +42,29 @@ $query4 = mysqli_query($conn, $sql4);
 
         <div class="form-group col-md-2">
             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-            <input type="text" name="qty2" id="qty2" value="<?php echo "$row[qty]"; ?>" data-index="1" onKeyUp="fncASum1();" class="classcus form-control" placeholder="จำนวนสั่งผลิต"  required>
-            <input type="hidden"  name="sqm2" id="sqm2"  value="<?php echo round($cal_item, 2, PHP_ROUND_HALF_UP); ?>"  >
-            <input type="hidden" name="concrete_cal2" id="concrete_cal2"   value="<?php echo round($cal_item2, 2, PHP_ROUND_HALF_UP); ?>" >
+            <input type="text" name="qty2" id="qty2" value="<?php echo "$row[qty]"; ?>" data-index="1" onKeyUp="fncASum1();" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
+            
+          
+            <input type="hidden" name="width2" id="width2" value="<?php echo $row3['width']; ?>">
+            <input type="hidden" name="size12" id="size2" value="<?php echo $row3['size']; ?>">
+            <input type="hidden" name="thickness2" id="thickness2" value="<?php echo $row3['thickness']; ?>">
+            <input type="hidden" name="area2" id="area2" value="<?php echo $row3['area']; ?>">
         </div>
-        
+
         <div class="form-group col-md-4">
             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
-            <input type="text" name="sqmx_2" id="sqmx_2"   value="<?php echo "$row[sqm]"; ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
+            <input type="text" name="sqm2" id="sqm2" value="<?php echo "$row[sqm]"; ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)" required>
         </div>
         <div class="form-group col-md-4">
             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-            <input type="text" name="concrete_calx_2" id="concrete_calx_2"  value="<?php echo "$row[concrete_cal]"; ?>"  class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
+            <input type="text" name="concrete_cal2" id="concrete_cal2" value="<?php echo "$row[concrete_cal]"; ?>" class="classcus form-control" placeholder="คำนวณคอนกรีต" required>
         </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span>
             EDIT</button>
         <input type="hidden" name="edit_id" value="<?php echo $id; ?>">
-       
+
         <input type="hidden" name="action" value="edit">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
@@ -72,14 +76,30 @@ $query4 = mysqli_query($conn, $sql4);
         {
             let sqm2 = $("#sqm2").val();
             let qty2 = $("#qty2").val();
-            let concrete_cal2= $("#concrete_cal2").val();
+            let concrete_cal2 = $("#concrete_cal2").val();
+            let width2 = $("#width2").val();
+            let size2 = $("#size2").val();
+            let thickness2 = $("#thickness2").val();
+            let area2= $("#area2").val();
+
+
+
             console.log('concrete_cal2', concrete_cal2);
             console.log('sqm2', sqm2);
             console.log('qty2', qty2);
-            sqmtotal2=Math.round(qty2*sqm2*100)/100;
-            concretetotal2=qty2*concrete_cal2;
-            $("#sqmx_2").val(sqmtotal2.toFixed(3))
-            $("#concrete_calx_2").val(concretetotal2.toFixed(3))
+
+
+
+            var sum_sqm2 = (width2  * size2* qty2* 1000 / 1000).toFixed(3);
+            if (area2 !== 'undefined') {
+            var sum_concrete2= (width2  * size2 * thickness2 * qty2* 1000 / 1000).toFixed(3);
+            }
+            if (area2 >= 1) {
+            var sum_concrete2 = (width2  * size2 * thickness2 * area2 * qty2 *  1000 / 1000).toFixed(3);
+            }
+
+            $("#sqm2").val(sum_sqm2);
+            $("#concrete_cal2").val(sum_concrete2);
             // console.log('SQM2',qty);
             // document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx);
             // document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx);
