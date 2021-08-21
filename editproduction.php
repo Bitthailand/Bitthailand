@@ -6,7 +6,7 @@ if (isset($_SESSION["username"])) {
 }
 include './include/connect.php';
 include './include/config.php';
-$po_id=$_REQUEST['po_id'];
+$po_id = $_REQUEST['po_id'];
 $sql5 = "SELECT * FROM production_order where po_id='$po_id' ";
 $rs5 = $conn->query($sql5);
 $row = $rs5->fetch_assoc();
@@ -14,12 +14,24 @@ $emp_id = $_SESSION["username"];
 // ตัดคำแพ
 $plant = $_REQUEST['plant'];
 $plant_id = explode("|", $plant);
-$action = $_REQUEST['action'];
 $plantx = $plant_id[2];
+$plant_w = $plant_id[1];
+$plant_ptype = $plant_id[0];
+$concrete_cal = $_REQUEST['concrete_cal'];
+$productx = $_REQUEST['productx'];
+$sqm = $_REQUEST['sqm'];
+$sqm1 = $_REQUEST['sqm1'];
+$concrete_cal1 = $_REQUEST['concrete_cal1'];
+$action = $_REQUEST['action'];
+// echo "$po_id ";
+// echo "$concrete_cal1";
+// echo "$productx";
+// echo "$action";
+$po_idx = $_REQUEST['po_idx'];
 if ($action == 'add_po') {
     $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
-    $po_idx = $_REQUEST['po_idd1'];
+    $po_idx = $_REQUEST['po_id'];
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
     $plant = $_REQUEST['plant'];
@@ -27,16 +39,28 @@ if ($action == 'add_po') {
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
     $plant_id = explode("|", $plant);
-echo"xxx";
-    $sqlx = "SELECT * FROM production_detail   WHERE po_id='$po_idx' AND product_id='$row[product_id]' ";
+    $plantx = $plant_id[2];
+    // echo "xxx";
+    $sqlx = "SELECT * FROM production_detail   WHERE product_id='$row5[product_id]' AND plant_id ='$plantx' AND po_id='$po_idx'";
     $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ข้อมูลรายการสินค้าผลิตซ้ำไม่สามารถบันทึกได้", "alert-danger");
-            });
-        </script>
-        <?php    } else {
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $qtyx = $row['qty'] + $qty;
+            $sqmx = $row['sqm'] + $sqm;
+            $concrete_calx = $row['concrete_cal'] + $concrete_cal;
+
+            $sql = "UPDATE production_detail    SET qty='$qtyx',sqm='$sqmx',concrete_cal='$concrete_calx',employee_id='$emp_id',status_button='0' where product_id='$row5[product_id]'  AND plant_id ='$plantx' AND po_id='$po_idx'";
+
+
+            if ($conn->query($sql) === TRUE) {  ?>
+                <script>
+                    $(document).ready(function() {
+                        showAlert("บันทึกข้อมูลสำเร็จxx", "alert-success");
+                    });
+                </script>
+            <?php }
+        }
+    } else {
         $sql = "INSERT INTO production_detail (po_id,product_id,qty,sqm,plant_id,concrete_cal)
                                        VALUES ('$po_idx','$row5[product_id]','$qty','$sqm','$plant_id[2]','$concrete_cal')";
         if ($conn->query($sql) === TRUE) {  ?>
@@ -51,9 +75,9 @@ echo"xxx";
 
 if ($action == 'edit') {
     $edit_id = $_REQUEST['edit_id'];
-    $qty = $_REQUEST['qty'];
-    $sqm = $_REQUEST['textbox5'];
-    $concrete_cal = $_REQUEST['textbox6'];
+    $qty = $_REQUEST['qty2'];
+    $sqm = $_REQUEST['sqmx_2'];
+    $concrete_cal = $_REQUEST['concrete_calx_2'];
     $sql = "UPDATE production_detail    SET qty='$qty',sqm='$sqm',concrete_cal='$concrete_cal'  where id='$edit_id'";
     if ($conn->query($sql) === TRUE) {  ?>
         <script>
@@ -80,12 +104,12 @@ if ($action == 'del') {
                 showAlert("ไม่สามารถลบรายการได้", "alert-danger");
             });
         </script>
-<?php }
+    <?php }
 }
 
 if ($action == 'update') {
     // echo"xx";
-    $edit_id= $_REQUEST['edit_id'];
+    $edit_id = $_REQUEST['edit_id'];
     $po_date = $_REQUEST['start'];
     $po_enddate = $_REQUEST['end'];
     // $plant_id= $_REQUEST['plantx']; 
@@ -93,16 +117,36 @@ if ($action == 'update') {
     // $delivery_address=$_REQUEST['delivery_address'];
 
     $sql = "UPDATE production_order    SET po_date='$po_date',po_enddate='$po_enddate'  where po_id='$edit_id'";
+    $sql = "UPDATE production_detail   SET status_button='1'  where po_id='$edit_id'";
     if ($conn->query($sql) === TRUE) {  ?>
         <script>
             $(document).ready(function() {
                 showAlert("แก้ไขข้อมูลผลิตสินค้าสำเร็จ", "alert-success");
             });
         </script>
-    <?php   }
+<?php   }
 }
 
 ?>
+<script language="JavaScript">
+    function fncASum() {
+        {
+            let sqmx = $("#sqm1").val();
+            let concrete_calx = $("#concrete_cal1").val();
+            console.log('SQM1', sqmx);
+            console.log('concrete_calxxxx', concrete_calx);
+            // console.log('SQM2',qty);
+            document.frmAMain['sqm'].value = (document.frmAMain['qty'].value * sqmx * 1000 / 1000).toFixed(3);
+            document.frmAMain['concrete_cal'].value = (document.frmAMain['qty'].value * concrete_calx * 1000 / 1000).toFixed(3);
+
+        }
+
+        document.frmAMain['sqm'].value;
+        document.frmAMain['concrete_cal'].value;
+
+        // document.frmAMain.total.value = Asum;
+    }
+</script>
 <!DOCTYPE html>
 <html lang="en" dir="">
 
@@ -135,34 +179,38 @@ if ($action == 'update') {
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
-              <!-- แจ้งเตือน -->
-              <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- แจ้งเตือน -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
             <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
                 <div class="row">
                     <div class="col-md-12">
                         <!-- <div class="card"> -->
                         <div class="tab-content">
-                            <form class="tab-pane fade active show" method="post">
+                            <?php
+                            $sql5 = "SELECT * FROM production_order where po_id='$po_id' ";
+                            $rs5 = $conn->query($sql5);
+                            $row = $rs5->fetch_assoc();
+                            ?>
+                            <form name='frmAMain' id='inputform2' class="tab-pane fade active show" method="post">
                                 <div class="border-bottom text-primary">
                                     <div class="card-title">เพิ่มรายการสั่งผลิตสินค้า</div>
                                 </div>
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-2">
                                         <label for="production_id"><strong>รหัสสั่งผลิต <span class="text-danger"></span></strong></label>
-                                        <input type="text" name="production_id" id="production_id" class="classcus form-control" placeholder="รหัสสั่งผลิต" value="<?=$row['po_id'];?>"
-                                            required disabled>
+                                        <input type="text" name="po_idx" id="po_idx" value="<?= $po_id ?>" class="classcus form-control" placeholder="รหัสสั่งผลิต" required disabled>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
                                             <label for="searchSDateId">วันที่สั่งผลิต</label>
-                                            <input id="po_date" class="form-control" type="date" min="2021-06-01" name="start" value="<?=$row['po_date']?>" required="">
+                                            <input id="po_date" class="form-control" type="date" min="2021-06-01" name="start" value="<?= $row['po_date'] ?>" required="">
                                         </div>
                                     </div>
                                     <div class="viewDateClass col pr-0 ">
                                         <div class="form-group">
                                             <label for="searchEDateId">เช็คเข้าสต๊อกภายในวันที่</label>
-                                            <input id="po_enddate" class="form-control" type="date" name="end" value="<?=$row['po_enddate']?>" required="">
+                                            <input id="po_enddate" class="form-control" type="date" name="end" value="<?= $row['po_enddate'] ?>" required="">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-2">
@@ -187,42 +235,60 @@ if ($action == 'update') {
                                         </select>
                                     </div>
                                     <div class="row mt-12">
-                                    <div class="form-group col-md-4">
+                                        <div class="form-group col-md-4">
                                             <label for="product"><strong>สินค้าที่จะผลิต <span class="text-danger">*</span></strong></label>
-                                            <select name="productx" id="productx" class="classcus custom-select" data-index="1">
-                                                <option value="">เลือกสินค้าผลิต</option>
-                                            </select>
+                                            <?php
+                                            $plant = $_REQUEST['plant'];
+                                            if (empty($plant)) {
+
+                                            ?>
+                                                <select name="productx" id="productx" class="classcus custom-select" data-index="1">
+                                                    <option value="">เลือกสินค้าผลิต</option>
+                                                </select>
+
+                                            <?php } else { ?>
+                                                <select name="productx" id="productx" class="classcus custom-select " required>
+                                                    <?php
+                                                    $sql6 = "SELECT *  FROM product where ptype_id='$plant_ptype'  AND width='$plant_w'  order by id ASC ";
+                                                    $result6 = mysqli_query($conn, $sql6);
+                                                    if (mysqli_num_rows($result6) > 0) {
+                                                        while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                    ?>
+                                                            <option value="<?= $row6['id'] ?>" <?php if (isset($productx) && ($productx == $row6['id'])) {
+                                                                                                    echo "selected"; ?>>
+                                                                <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
+                                                            <?php  } else {      ?>
+                                                            <option value="<?= $row6['id'] ?>"> <?php echo $row6['product_id'] .  $row6['product_name'] . '  หนา' . $row6['thickness'] . '  ขนาดลวด' . $row6['dia_size'] . '  จำนวน' . $row6['dia_count'];    ?>
+                                                            <?php } ?>
+                                                            </option>
+                                                    <?php  }
+                                                    }  ?>
+                                                </select>
+                                            <?php } ?>
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="qty"><strong>จำนวนสั่งผลิต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="qty" id="qty" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
-                                            <input type="hidden" name="sqm1" id="sqm1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
-                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
-
+                                            <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
+                                            <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm1 ?>">
+                                            <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal1"; ?>">
                                         </div>
-
                                         <div class="form-group col-md-2">
                                             <label for="sqm"><strong>พ.ท.(Sq.m) <span class="text-danger"></span></strong></label>
-
-                                            <input type="text" name="sqm" id="sqm" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
-
-
+                                            <input type="text" name="sqm" id="sqm" value="<?= $sqm ?>" class="classcus form-control" placeholder="พ.ท.(Sq.m)">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="concrete_cal"><strong>คำนวณคอนกรีต <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="concrete_cal" id="concrete_cal" <?php echo "$po_id"; ?> class="classcus form-control" placeholder="คำนวณคอนกรีต">
+                                            <input type="text" name="concrete_cal" id="concrete_cal" value="<?php echo "$concrete_cal"; ?>" class="classcus form-control" placeholder="คำนวณคอนกรีต">
                                         </div>
-                                        <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
-
-                                       
-                                            <input type="hidden" name="po_idd1" id="po_id" value="<?php echo "$po_id"; ?>">
+                                        <input type="hidden" name="po_id" id="po_id" value="<?php echo "$po_id"; ?>">
                                         <button class="btn btn-outline-primary ripple m-1" type="button" id="btu" style=" height: 33px; margin-top: 24px!important;">แก้ไขข้อมูลสั่งผลิต</button>
                                         <!-- ============ Table Start ============= -->
                                         <div class="col-md-12">
                                             <div class="table-responsive">
                                                 <table class="table table-hover text-nowrap table-sm">
                                                     <thead>
-                                                    <tr>
+                                                        <tr>
+                                                            <th>แพที่</th>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
                                                             <th>หนา</th>
@@ -231,19 +297,21 @@ if ($action == 'update') {
                                                             <th>พื้นที่หน้าตัด</th>
                                                             <th>ขนาดลวด</th>
                                                             <th>จำนวนลวด</th>
-                                                            <th>คอนกรีตคำนวณ</th>
+
                                                             <th>พ.ท.(Sq.m)</th>
+                                                            <th>คอนกรีตคำนวณ</th>
                                                             <th>จำนวนสั่งผลิต</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <?php
+                                                        <?php
                                                         $sql = "SELECT * FROM production_detail  where po_id='$po_id' order by date_create  ASC ";
                                                         $result = mysqli_query($conn, $sql);
                                                         if (mysqli_num_rows($result) > 0) {
                                                             while ($row = mysqli_fetch_assoc($result)) { ?>
                                                                 <tr>
+                                                                    <td> <?php echo $row['plant_id']; ?></td>
                                                                     <td> <strong><?php echo $row['product_id']; ?></strong> </td>
                                                                     <td>
                                                                         <?php
@@ -259,8 +327,9 @@ if ($action == 'update') {
                                                                     <td><?php echo $row3['area']; ?></td>
                                                                     <td> <?php echo $row3['dia_size']; ?></td>
                                                                     <td> <?php echo $row3['dia_count']; ?> </td>
-                                                                    <td> <?php echo $row['concrete_cal']; ?></td>
+
                                                                     <td> <?php echo $row['sqm']; ?> </td>
+                                                                    <td> <?php echo $row['concrete_cal']; ?></td>
                                                                     <td><?php echo $row['qty']; ?></td>
                                                                     <td>
 
@@ -272,7 +341,7 @@ if ($action == 'update') {
                                                                 </tr>
                                                         <?php }
                                                         } ?>
-                                                       
+
                                                         <tr>
                                                             <td colspan="14"> &nbsp;</td>
                                                         </tr>
@@ -282,7 +351,7 @@ if ($action == 'update') {
                                         </div>
                                         <!-- ============ Table End ============= -->
                                     </div>
-                                   
+
                                 </div>
 
                                 <hr>
@@ -334,7 +403,9 @@ if ($action == 'update') {
     <input type="text" id="FSpo_enddate" name="po_enddate" value="<?php echo $po_enddate; ?>" placeholder="">
     <input type="text" id="FSplant" name="plant" value="<?php echo $po_enddate; ?>" placeholder="">
     <input type="text" name="action" value="add_po">
-    <input type="hidden" id="FSpo_id" name="po_idd1" value="<?php echo "$po_id"; ?>">
+    <input type="text" id="FSconcrete_cal1" name="concrete_cal1" value="<?php echo $concrete_cal1; ?>" placeholder="">
+    <input type="text" id="FSsqm1" name="sqm1" value="<?php echo $sqm1; ?>" placeholder="">
+    <input type="hidden" id="FSpo_id" name="po_id" value="<?php echo "$po_id"; ?>">
     <button class="btn" id="FSButtonID" type="submit"></button>
 </form>
 <!-- ============ Modal End ============= -->
@@ -384,7 +455,7 @@ if ($action == 'update') {
 
 <!-- Modal DEL  -->
 <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
@@ -396,7 +467,7 @@ if ($action == 'update') {
                 <form method="post">
 
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-8">
                             <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
                                     <span>*</span></strong></label>
 
@@ -441,7 +512,9 @@ if ($action == 'update') {
         let productx = $("#productx").val();
         let po_id = $("#po_id").val();
         let sqm = $("#sqm").val();
+        let sqm1 = $("#sqm1").val();
         let concrete_cal = $("#concrete_cal").val();
+        let concrete_cal1 = $("#concrete_cal1").val();
         let po_date = $("#po_date").val();
         let po_enddate = $("#po_enddate").val();
         let plant = $("#plant").val();
@@ -454,6 +527,8 @@ if ($action == 'update') {
         $("#FSpo_date").val(po_date);
         $("#FSpo_enddate").val(po_enddate);
         $("#FSplant").val(plant);
+        $("#FSsqm1").val(sqm1);
+        $("#FSconcrete_cal1").val(concrete_cal1);
         $("#FSButtonID").click();
 
     });
@@ -523,24 +598,5 @@ if ($action == 'update') {
 
     })
 </script>
-<script language="JavaScript">
-    function fncASum() {
-        {
-            let sqmx = $("#sqm1").val();
-            let concrete_calx = $("#concrete_cal1").val();
-            console.log('SQM1', sqmx);
-            console.log('concrete_calxxxx', concrete_calx);
-            // console.log('SQM2',qty);
-            document.frmAMain['sqm'].value = parseFloat(document.frmAMain['qty'].value) * sqmx;
-            document.frmAMain['concrete_cal'].value = parseFloat(document.frmAMain['qty'].value) * concrete_calx;
 
-        }
-        let Asum = 0;
-
-        parseFloat(document.frmAMain['sqm'].value);
-        parseFloat(document.frmAMain['concrete_cal'].value);
-
-        // document.frmAMain.total.value = Asum;
-    }
-</script>
 </html>

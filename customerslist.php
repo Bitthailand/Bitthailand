@@ -188,7 +188,7 @@ if ($rowS == '') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `customer` where status='0' $columx $keywordx LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `customer` where status='0' $columx $keywordx  ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                         <tr>
                                             <td><?php echo $row['customer_id']; ?></td>

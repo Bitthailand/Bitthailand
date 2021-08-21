@@ -72,8 +72,6 @@ if ($action == 'add_po') {
     $productx = $_REQUEST['productx'];
     $qty = $_REQUEST['qty'];
     $po_idx = $_REQUEST['po_idd1'];
-    // echo"$po_idx";
-    // echo"$productx";
     $sqm = $_REQUEST['sqm'];
     $concrete_cal = $_REQUEST['concrete_cal'];
     $plant = $_REQUEST['plant'];
@@ -118,9 +116,14 @@ if ($action == 'add_po') {
 
 if ($action == 'edit') {
     $edit_id = $_REQUEST['edit_id'];
-    $qty = $_REQUEST['qty'];
-    $sqm = $_REQUEST['textbox5'];
-    $concrete_cal = $_REQUEST['textbox6'];
+    $qty = $_REQUEST['qty2'];
+    $sqm = $_REQUEST['sqmx_2'];
+    $concrete_cal = $_REQUEST['concrete_calx_2'];
+
+    // echo"$edit_id ";
+    // echo"$qty ";
+    // echo"$sqm";
+    // echo"$concrete_cal";
     $sql = "UPDATE production_detail    SET qty='$qty',sqm='$sqm',concrete_cal='$concrete_cal'  where id='$edit_id'";
     if ($conn->query($sql) === TRUE) {  ?>
         <script>
@@ -432,7 +435,7 @@ if ($action == 'del') {
                                         <input type="hidden" name="status_po" value="update">
                                         <input type="hidden" name="po_id" value="<?= $po_id ?>">
                                         <button id="btnAddId" class="btn btn-outline-primary d-none" type="submit">ยืนยันการสั่งผลิต</button>
-                                        <button class="btn btn-primary ladda-button btn-add" data-style="expand-left">
+                                        <button id="btu1" class="btn btn-primary ladda-button btn-add" data-style="expand-left">
                                             <span class="ladda-label">ยืนยันการสั่งผลิต</span>
                                         </button>
                                     <?php } ?>
@@ -575,10 +578,8 @@ if ($action == 'del') {
             'keyboard': false,
         });
     };
-
     function clickNav(page) {
         modalLoad();
-
         $("#FSPageId").val(page);
         $("#FSButtonID").click();
     }
@@ -586,18 +587,16 @@ if ($action == 'del') {
         // modalLoad();
         let Mpo_id = $("#Mpo_id").val();
         $("#FMpo_id").val(Mpo_id);
-        console.log('mpo_Id',Mpo_id)
+        console.log('mpo_Id',Mpo_id)       
         $("#MButtonID").click();
     });
     $("#btu").click("change", function() {
         modalLoad();
-
         let name = $("#qty").val();
         let productx = $("#productx").val();
         let po_id = $("#po_id").val();
         let sqm = $("#sqm").val();
         let sqm1 = $("#sqm1").val();
-
         let concrete_cal = $("#concrete_cal").val();
         let concrete_cal1 = $("#concrete_cal1").val();
         let po_date = $("#po_date").val();
@@ -617,6 +616,14 @@ if ($action == 'del') {
         $("#FSButtonID").click();
 
     });
+    let Mpo_id = $("#Mpo_id").val();
+    if(Mpo_id==''){
+    document.getElementById("btu").disabled = true;
+    document.getElementById("btu1").disabled = true;
+}else{
+    document.getElementById("btu").disabled = false;
+    document.getElementById("btu1").disabled = false;
+}
     /* ===== search end ===== */
     function selection5() {
         let plant1 = $("#plant1").val();

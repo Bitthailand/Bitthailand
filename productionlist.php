@@ -334,7 +334,7 @@ if ($action == 'del') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='0'  LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='0' ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) {
 
 
@@ -348,7 +348,7 @@ if ($action == 'del') {
                                                 $row_cnt = $resultxx->num_rows;
                                                 // while ($row1 = mysqli_fetch_assoc($resultxx)) {
                                                 while ($row2 = mysqli_fetch_array($resultxx)) { ?>
-                                                 <tr>
+                                                    <tr>
                                                         <td> <?php
                                                                 $x = $count++;
                                                                 echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
@@ -380,7 +380,7 @@ if ($action == 'del') {
                                                         <td><?php echo $rowx['thickness']; ?></td>
                                                         <td><?php echo $rowx['width']; ?></td>
                                                         <td><?php echo $rowx['size']; ?></td>
-                                                       
+
                                                         <td> <?php echo $rowx['dia_size']; ?></td>
                                                         <td> <?php echo $rowx['dia_count']; ?> </td>
                                                         <td> <?php echo $row2['sqm']; ?></td>
@@ -394,10 +394,10 @@ if ($action == 'del') {
                                                         </td>
                                                         <td>
                                                             <?php if ($x == 0) { ?>
-                                                                
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/editproduction.php?po_id=<?php echo $row['po_id']; ?>" target="_blank" type="button"  title="แก้ไขข้อมูลสั่งผลิต">  <i class="i-Pen-2 font-weight-bold"></i></a>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/productionprint.php?po_id=<?=$row['po_id']?>"  target="_blank" type="button"  title="พริ้นใบสั่งผลิต"> <i class="i-Gear font-weight-bold"></i></a>
-                                                              
+
+                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/editproduction.php?po_id=<?php echo $row['po_id']; ?>"  type="button" title="แก้ไขข้อมูลสั่งผลิต"> <i class="i-Pen-2 font-weight-bold"></i></a>
+                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/productionprint.php?po_id=<?= $row['po_id'] ?>" target="_blank" type="button" title="พริ้นใบสั่งผลิต"> <i class="i-Gear font-weight-bold"></i></a>
+
                                                                 <button data-toggle="modal" data-target="#medalstock" title="เช็คสินค้าเข้าสต๊อก" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
 
                                                                 <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row['po_id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการผลิต"> <i class="i-Close-Window font-weight-bold"></i> </button>
@@ -414,7 +414,6 @@ if ($action == 'del') {
                                 </table>
                             </div>
                             <!-- ============ Table End ============= -->
-
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
@@ -427,7 +426,6 @@ if ($action == 'del') {
                                                                         echo "href='?page_no=$previous_page' ";
                                                                     } ?>>Previous</a>
                                         </li>
-
                                         <?php
                                         if ($total_no_of_pages <= 10) {
                                             for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
@@ -479,7 +477,6 @@ if ($action == 'del') {
                                             }
                                         }
                                         ?>
-
                                         <li <?php if ($page_no >= $total_no_of_pages) {
                                                 echo "class='disabled'";
                                             } ?>>
@@ -487,7 +484,6 @@ if ($action == 'del') {
                                                                         echo "href='?page_no=$next_page'";
                                                                     } ?>>Next</a>
                                         </li>
-
                                         <?php if ($page_no < $total_no_of_pages) { ?>
                                             <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
                                         <?php   } ?>
@@ -497,7 +493,6 @@ if ($action == 'del') {
                         </div>
                     </div>
                 </div>
-
             </div><!-- Footer Start -->
             <div class="flex-grow-1"></div>
             <div class="app-footer">
@@ -516,7 +511,6 @@ if ($action == 'del') {
             <!-- fotter end -->
         </div>
     </div>
-
     <!-- Modal บันทึกวันเวลา เท -->
     <div class="modal fade" id="medalconcreteuse" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
@@ -526,9 +520,7 @@ if ($action == 'del') {
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-
                     <div id="dynamic-content"></div>
-
                 </div>
 
             </div>
@@ -563,15 +555,12 @@ if ($action == 'del') {
                 </div>
                 <div class="modal-body">
                     <form method="post">
-
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
                                         <span>*</span></strong></label>
-
                             </div>
                         </div>
-
                         <div class="modal-footer">
                             <input type="hidden" name="action" value="del">
                             <input type="hidden" name="del_id" id="del_id" value="">
@@ -585,8 +574,34 @@ if ($action == 'del') {
             </div>
         </div>
     </div>
+    <!-- ============ Form Search Start ============= -->
+<form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
+<!-- ============ Form Search End ============= -->
 
+<!-- ============ Modal Start ============= -->
+<!-- modal load -->
+<div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
 
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="mt-1">
+                        Load ...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
     <!-- ============ Search UI End ============= -->
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
@@ -599,10 +614,7 @@ if ($action == 'del') {
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
-
 </html>
-
-
 <script>
     $(document).ready(function() {
 
@@ -690,4 +702,126 @@ if ($action == 'del') {
         modal.find('#del_id').val(id)
 
     })
+</script>
+<script>
+/* ===== search start ===== */
+function modalLoad() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+};
+
+function clickNav(page) {
+    modalLoad();
+
+    $("#FSPageId").val(page);
+    $("#FSButtonID").click();
+}
+$("#searchRowsId").on("change", function() {
+    modalLoad();
+
+    let row = $("#searchRowsId").val();
+    $("#FSRowId").val(row);
+    let column = $("#searchColumnId").val();
+    $("#FSColumnId").val(column);
+    $("#FSButtonID").click();
+
+});
+$("#searchNameId").on("change", function() {
+    modalLoad();
+
+    let name = $("#searchNameId").val();
+    $("#FSKeywordId").val(name);
+    let column = $("#searchColumnId").val();
+    $("#FSColumnId").val(column);
+    $("#FSButtonID").click();
+
+});
+
+$("#searchColumnId").on("change", function() {
+    modalLoad();
+
+    
+    let column = $("#searchColumnId").val();
+    $("#FSColumnId").val(column);
+    let name = $("#searchNameId").val();
+    $("#FSKeywordId").val(name);
+
+    $("#FSButtonID").click();
+
+});
+/* ===== search end ===== */
+
+//click next link
+$(".linkLoadModalNext").on('click', function() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+});
+</script>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
+</script>
+
+<script>
+/* ===== search start ===== */
+function modalLoad() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+};
+
+function clickNav(page) {
+    modalLoad();
+
+    $("#FSPageId").val(page);
+    $("#FSButtonID").click();
+}
+$("#searchRowsId").on("change", function() {
+    modalLoad();
+
+    let row = $("#searchRowsId").val();
+    $("#FSRowId").val(row);
+    let column = $("#searchColumnId").val();
+    $("#FSColumnId").val(column);
+    $("#FSButtonID").click();
+
+});
+$("#searchNameId").on("change", function() {
+    modalLoad();
+
+    let name = $("#searchNameId").val();
+    $("#FSKeywordId").val(name);
+    let column = $("#searchColumnId").val();
+    $("#FSColumnId").val(column);
+    $("#FSButtonID").click();
+
+});
+/* ===== search end ===== */
+
+//click next link
+$(".linkLoadModalNext").on('click', function() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+});
+</script>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
 </script>
