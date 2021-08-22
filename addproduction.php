@@ -121,8 +121,8 @@ if ($action == 'add_po') {
 if ($action == 'edit') {
     $edit_id = $_REQUEST['edit_id'];
     $qty = $_REQUEST['qty2'];
-    $sqm = $_REQUEST['sqmx_2'];
-    $concrete_cal = $_REQUEST['concrete_calx_2'];
+    $sqm = $_REQUEST['sqm2'];
+    $concrete_cal = $_REQUEST['concrete_cal2'];
 
     // echo"$edit_id ";
     // echo"$qty ";
