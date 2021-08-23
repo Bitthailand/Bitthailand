@@ -108,7 +108,7 @@ $discount = $_REQUEST['Fdiscount'];
             }
         }
         // ====บันทึกเป็นสินค้าใหม่
-        $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF'  ";
+        $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF0'  ";
         $rs9 = $conn->query($sql9);
         $row_run = $rs9->fetch_assoc();
 
@@ -118,7 +118,7 @@ $discount = $_REQUEST['Fdiscount'];
         $code_new = $row_run['id_run'] + 1;
         $code = sprintf('%05d', $code_new);
         $TF_id = $dat . $code;
-        // echo "$TF_id";
+        echo "$TF_id";
         $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id)
             VALUES ('$TF_id','0','99','$send_to','TF0')";
         if ($conn->query($sql99) === TRUE) {
@@ -171,7 +171,7 @@ $discount = $_REQUEST['Fdiscount'];
                         showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
                     });
                 </script>
-        <?php   }
+        <?php   } else{ echo"errr";}
         }
     }
 }
