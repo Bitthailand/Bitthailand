@@ -7,7 +7,7 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 include './include/config_so.php';
 include './include/config_date.php';
-$order_id = $_REQUEST['order_id'];
+$order_id=$_REQUEST['order_id'];
 $emp_id = $_SESSION["username"];
 $datetoday = date('Y-m-d');
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
@@ -35,8 +35,7 @@ $so_id = $dat . $code;
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
-<input id="order_id" value="<?php echo "$order_id"; ?>" type="text" name="order_id">
-
+<input id="order_id" value="<?php echo"$order_id";?>" type="text" name="order_id"  >
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -47,12 +46,12 @@ $so_id = $dat . $code;
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <style>
-        p {
-            margin-top: 0;
-            margin-bottom: 0.1rem;
-        }
+    p {
+        margin-top: 0;
+        margin-bottom: 0.1rem;
+    }
     </style>
-    <style>
+        <style>
         .table-sm th,
         .table-sm td {
             padding: 0.3rem;
@@ -109,16 +108,16 @@ $so_id = $dat . $code;
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
                                                         <div class="form-group col-md-12">
-                                                            <p>ลำดับการสั่งซื้อ <span><?= $order_id ?></span></p>
+                                                            <p>ลำดับการสั่งซื้อ <span><?=$order_id?></span></p>
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <label for="ai_id"><strong>เลขที่ใบส่งของ <span class="text-danger"></span></strong></label>
-                                                            <input type="text" name="so_id" value="<?= $so_id ?>" class="classcus form-control" id="so_id" placeholder="เลขที่ใบส่งของ">
+                                                            <input type="text" name="so_id" value="<?=$so_id?>" class="classcus form-control" id="so_id" placeholder="เลขที่ใบส่งของ">
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่</label>
-                                                                <input id="dev_date" class="form-control" type="date" min="<?= $datetodat ?>" name="dev_date" value="<?= $dev_date ?>">
+                                                                <input id="dev_date" class="form-control" type="date" min="<?=$datetodat?>" name="dev_date" value="<?=$dev_date?>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -136,41 +135,35 @@ $so_id = $dat . $code;
                                                                 <th scope="col" class="text-center" width="10%">จำนวนที่ต้องส่ง</th>
                                                                 <th scope="col" class="text-center" width="10%">โรงงาน 1</th>
                                                                 <th scope="col" class="text-center" width="10%">โรงงาน 2</th>
-
                                                                 <th scope="col" class="text-center" width="10%">จำนวนส่ง</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php
-                                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by date_create  ASC ";
-                                                            $result_pro = mysqli_query($conn, $sql_pro);
-                                                            if (mysqli_num_rows($result_pro) > 0) {
-                                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) {
-
-                                                                    $no = $row_pro['id'];
-                                                                    $product_id = $row_pro['product_id'];
-                                                            ?>
-                                                                    <tr class="line">
-                                                                        <th scope="row" class="text-center"><?= ++$idx; ?></th>
-                                                                        <td> <?php
-                                                                                $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
-                                                                                $rsx3 = $conn->query($sqlx3);
-                                                                                $rowx3 = $rsx3->fetch_assoc();
-                                                                                echo $rowx3['product_id'] . $rowx3['product_name'] . '  หนา' . $rowx3['thickness'] . '  ขนาดลวด' . $rowx3['dia_size'] . '  จำนวน' . $rowx3['dia_count'];
-                                                                                ?></td>
-
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo"id='face1_stock".$no."'";?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo"id='face2_stock".$no."'";?>  value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo"id='qty".$no."'";?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
-                                                                    <?php 
-                                                                        echo "<td class=\"text-center\"><span id='err".$no."' ></span><input type='number' class=\"form-control\" id='face1".$no."' value='.$row_pro[face1_stock_out].' onkeyup='keyup(".$no.")'></td>";
-                                                                        echo "<td class=\"text-center\"><span id='err2".$no."' ></span><input type='number' class=\"form-control\"id='face2".$no."' value='.$row_pro[face1_stock_out].' onkeyup='keyup(".$no.")'></td>";
-                                                                        echo "<td class=\"text-center\"><span id='err3".$no."' ></span><input type='number' class=\"form-control\" id='total_price".$no."'></td>";
-                                                                        ?>
-
-                                                                    </tr>
-                                                            <?php }
-                                                            } ?>
+                                                        <?php
+                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by date_create  ASC ";
+                                                        $result_pro = mysqli_query($conn, $sql_pro);
+                                                        if (mysqli_num_rows($result_pro) > 0) {
+                                                            while ($row_pro = mysqli_fetch_assoc($result_pro)) { 
+                                                                
+                                                                $detail_id=$row_pro['id'];
+                                                                $product_id=$row_pro['product_id'];
+                                                                ?>
+                                                               <tr  class="line">
+                                                                <th scope="row" class="text-center"><?=++$idx;?></th>
+                                                                <td>  <?php
+                                                                        $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                                        $rsx3 = $conn->query($sqlx3);
+                                                                        $rowx3 = $rsx3->fetch_assoc();
+                                                                        echo $rowx3['product_id'].$rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
+                                                                        ?></td>
+                                                                <td class="text-center"><?php echo $rowx3['fac1_stock'];?></td>
+                                                                <td class="text-center"><?php echo $rowx3['fac2_stock'];?></td>
+                                                                <td class="text-center"><?php echo $row_pro['qty'];?></td>
+                                                                <td class="text-center"><input class="form-control"id="face1[<?=$detail_id?>][<?=++$idx;?>]" value="<?php echo"$face1";?>" type="text" name='face1[<?=$product_id?>][<?=$detail_id?>][<?=++$idx;?>]' placeholder="จำนวนที่ส่ง" ></td>
+                                                                <td class="text-center"><input class="form-control"id="face2"  value="<?php echo"$face2";?>" type="text" name='face2[<?=$product_id?>][<?=$detail_id?>][<?=++$idx;?>]' placeholder="จำนวนที่ส่ง" ></td>
+                                                                <td class="text-center">60</td>
+                                                            </tr>
+                                                           <?php }} ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -212,44 +205,17 @@ $so_id = $dat . $code;
 
 </body>
 <script>
-function keyup(id)
-{
-  var face1 = $('#face1'+id).val();
-  var face2= $('#face2'+id).val();
-  var face1_stock= $('#face1_stock'+id).val();
-  var face2_stock= $('#face2_stock'+id).val();
-  var qty= $('#qty'+id).val();
-  var face1x=Number(face1);
-  var face2x=Number(face2);
-  var face1x_stock= Number(face1_stock);
-  var face2x_stock= Number(face2_stock);
-  var qtyx=Number(qty);
-  var errid='err'+id;
-  var errid2='err2'+id;
-  var errid3='err3'+id;
- console.log('errid',errid)
-  if(face1x_stock < face1x){
-
-    document.getElementById(errid).innerHTML = "*"
-  }else{
-    document.getElementById(errid).innerHTML = ""
-  }
-
-  if(face2x_stock < face2x){
-    document.getElementById(errid2).innerHTML = "*"
-  }else{
-    document.getElementById(errid2).innerHTML = ""
-  }
-console.log('face1',face1+face2)
-  total_price = parseFloat(face1) + parseFloat(face2);
-  $('#total_price'+id).val(total_price);
-  if(total_price > qtyx) {
-    document.getElementById(errid3).innerHTML = "*"
-  } else{
-    document.getElementById(errid3).innerHTML = ""
-  }
- 
-}
+    $( document ).ready(function() {
+  $("body").on("keyup", "input", function(event){
+	  $(this).closest(".line").find(".tot_price").val( $(this).closest(".line").find(".qty").val()*$(this).closest(".line").find(".value").val() );
+    $(this).closest(".line").find(".total_price").val( $(this).closest(".line").find(".tot_price").val()*1-$(this).closest(".line").find(".discount").val() );
+    var sum = 0;
+    $('.total_price').each(function() {
+        sum += Number($(this).val());
+        console.log('sum',sum)
+    });
+    $(".grand_total").val(sum);
+  });
+});
 </script>
-
 </html>

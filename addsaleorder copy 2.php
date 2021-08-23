@@ -147,7 +147,7 @@ $so_id = $dat . $code;
                                                             if (mysqli_num_rows($result_pro) > 0) {
                                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
 
-                                                                    $no = $row_pro['id'];
+                                                                    $detail_id = $row_pro['id'];
                                                                     $product_id = $row_pro['product_id'];
                                                             ?>
                                                                     <tr class="line">
@@ -159,14 +159,12 @@ $so_id = $dat . $code;
                                                                                 echo $rowx3['product_id'] . $rowx3['product_name'] . '  หนา' . $rowx3['thickness'] . '  ขนาดลวด' . $rowx3['dia_size'] . '  จำนวน' . $rowx3['dia_count'];
                                                                                 ?></td>
 
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo"id='face1_stock".$no."'";?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo"id='face2_stock".$no."'";?>  value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo"id='qty".$no."'";?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
-                                                                    <?php 
-                                                                        echo "<td class=\"text-center\"><span id='err".$no."' ></span><input type='number' class=\"form-control\" id='face1".$no."' value='.$row_pro[face1_stock_out].' onkeyup='keyup(".$no.")'></td>";
-                                                                        echo "<td class=\"text-center\"><span id='err2".$no."' ></span><input type='number' class=\"form-control\"id='face2".$no."' value='.$row_pro[face1_stock_out].' onkeyup='keyup(".$no.")'></td>";
-                                                                        echo "<td class=\"text-center\"><span id='err3".$no."' ></span><input type='number' class=\"form-control\" id='total_price".$no."'></td>";
-                                                                        ?>
+                                                                        <td class="text-center"><input type='number' class="face1_stock form-control" value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="face2_stock form-control" value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="face1_stock form-control" value='<?php echo $row_pro['qty']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="face1 form-control" value='0'></td>
+                                                                        <td class="text-center"><input type='number' class="face2 form-control" value='0'></td>
+                                                                        <td class="text-center"><input type='number' class="total form-control" value='0' readonly></td>
 
                                                                     </tr>
                                                             <?php }
@@ -212,44 +210,21 @@ $so_id = $dat . $code;
 
 </body>
 <script>
-function keyup(id)
-{
-  var face1 = $('#face1'+id).val();
-  var face2= $('#face2'+id).val();
-  var face1_stock= $('#face1_stock'+id).val();
-  var face2_stock= $('#face2_stock'+id).val();
-  var qty= $('#qty'+id).val();
-  var face1x=Number(face1);
-  var face2x=Number(face2);
-  var face1x_stock= Number(face1_stock);
-  var face2x_stock= Number(face2_stock);
-  var qtyx=Number(qty);
-  var errid='err'+id;
-  var errid2='err2'+id;
-  var errid3='err3'+id;
- console.log('errid',errid)
-  if(face1x_stock < face1x){
-
-    document.getElementById(errid).innerHTML = "*"
-  }else{
-    document.getElementById(errid).innerHTML = ""
-  }
-
-  if(face2x_stock < face2x){
-    document.getElementById(errid2).innerHTML = "*"
-  }else{
-    document.getElementById(errid2).innerHTML = ""
-  }
-console.log('face1',face1+face2)
-  total_price = parseFloat(face1) + parseFloat(face2);
-  $('#total_price'+id).val(total_price);
-  if(total_price > qtyx) {
-    document.getElementById(errid3).innerHTML = "*"
-  } else{
-    document.getElementById(errid3).innerHTML = ""
-  }
- 
-}
+    $(document).ready(function() {
+        $("body").on("keyup", "input", function(event) {
+            $(this).closest(".line").find(".total").val(Number($(this).closest(".line").find(".face1").val()) + Number($(this).closest(".line").find(".face2").val()));
+            // var face1_stock = $(this).closest(".line").find(".face1_stock").val();
+            // var face1 = $(this).closest(".line").find(".face1").val();
+            // console.log('xx',face1_stock+face1);
+            // $(".face1").on("change", function() {
+            // if (face1_stock > face1) {
+            //     console.log('tt');
+           
+            // }
+            // var face2x = $(this).closest(".line").find(".face2").val();
+            // $(this).closest(".line").find(".total").val( Number($(this).closest(".line").find(".face1").val()) + Number($(this).closest(".line").find(".face2").val()));
+        });
+    });
 </script>
 
 </html>

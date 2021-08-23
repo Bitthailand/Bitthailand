@@ -47,9 +47,15 @@ $(function() {
                 var result = JSON.parse(data);
                 console.log('re', result)
                 $.each(result, function(index, item) {
-                    productxObject.append(
-                        $('<option></option>').val(item.product_id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
-                    );
+                    if (item.ptype_id == 'TF0') {
+                        productxObject.append(
+                            $('<option></option>').val(item.product_id).html(item.product_id + item.product_name)
+                        );
+                    } else {
+                        productxObject.append(
+                            $('<option></option>').val(item.product_id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
+                        );
+                    }
                 });
             });
         }

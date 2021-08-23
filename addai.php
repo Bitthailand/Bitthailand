@@ -9,7 +9,7 @@ include './include/config.php';
 include './include/config_text.php';
 
 $order_id = $_REQUEST['order_id'];
-
+$datetoday = date('Y-m-d');
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -22,6 +22,7 @@ $sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
 $rs3 = $conn->query($sql3);
 $row3 = $rs3->fetch_assoc();
 // ===
+
 $strStartDate = $row['qt_date'];
 $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
 // ============ปิดเงื่อนไขการอับเดตรหัสสินค้า
@@ -35,8 +36,39 @@ $dat = datethai_ai($date[0]);
 $code_new = $row_run['id_run'] + 1;
 $code = sprintf('%05d', $code_new);
 $ai_id = $dat . $code;
-?>
+$input_price = $_REQUEST['input_price'];
+$Finput_text = $_REQUEST['FFinput_text'];
+$ai_date_start = $_REQUEST['ai_date_start'];
+$ai_date_end = $_REQUEST['ai_date_end'];
+$Fai_id = $_REQUEST['ai_id'];
+$status_ai = $_REQUEST['status_ai'];
 
+if ($status_ai == 1) {
+    $sqlx = "SELECT * FROM ai_number   WHERE order_id='$order_id'  ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ใบมัดจำรหัสนี้ซ้ำ", "alert-danger");
+            });
+        </script>
+        <?php } else {
+        $sqlx5 = "INSERT INTO ai_number (order_id,ai_num,messages,price)
+ VALUES ('$order_id','$Fai_id','$Finput_text','$input_price')";
+
+        $sql7 = "UPDATE orders SET is_ai='Y',ai_id='$Fai_id',ai_count='$input_price',ai_date_start='$ai_date_start',ai_date_end='$ai_date_end',order_status='2' where order_id='$order_id'";
+        if ($conn->query($sql7) === TRUE) { }
+        if ($conn->query($sqlx5) === TRUE) { ?>
+            <script>
+                $(document).ready(function() {
+                    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                });
+            </script>
+<?php
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="">
 
@@ -48,7 +80,6 @@ $ai_id = $dat . $code;
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-
     <style>
         p {
             margin-top: 0;
@@ -56,7 +87,6 @@ $ai_id = $dat . $code;
         }
     </style>
 </head>
-
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -69,6 +99,9 @@ $ai_id = $dat . $code;
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+              <!-- แจ้งเตือน -->
+              <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
 
                 <div class="row">
@@ -107,18 +140,18 @@ $ai_id = $dat . $code;
                                                     <div class="invoice-summary">
                                                         <div class="form-group col-md-12">
                                                             <label for="ai_id"><strong>เลขที่ใบมัดจำ <span class="text-danger"></span></strong></label>
-                                                            <input type="text" name="ai_id" value="<?=$ai_id?>"  class="classcus form-control" id="ai_id" placeholder="เลขที่ใบรับมัดจำ">
+                                                            <input type="text" name="ai_id" value="<?= $ai_id ?>" class="classcus form-control" id="ai_id" placeholder="เลขที่ใบรับมัดจำ">
                                                         </div>
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่</label>
-                                                                <input id="delivery_date" class="form-control" type="date" min="2021-06-01" name="start" value="2021-08-04">
+                                                                <input id="Fai_date_start" class="form-control" type="date" min="<?= $datetoday ?>" name="ai_date_start" value="<?= $ai_date_start ?>">
                                                             </div>
                                                         </div>
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                <input id="delivery_date" class="form-control" type="date" min="2021-06-01" name="end" value="2021-08-04">
+                                                                <input id="Fai_date_end" class="form-control" type="date" min="<?= $datetoday ?>" name="ai_date_end" value="<?= $ai_date_end ?>">
                                                             </div>
                                                         </div>
 
@@ -138,8 +171,8 @@ $ai_id = $dat . $code;
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row" class="text-center">1</th>
-                                                                <td><input class="form-control" value="" type="text" placeholder="รับรายได้มัดจำ"></td>
-                                                                <td class="text-right"><input class="form-control" id="input_price" value="<?=$input_price?>" type="number" placeholder="ค่ามัดจำ"></td>
+                                                                <td><input class="form-control" type="text" id="Finput_text" name="Finput_text" value="<?= $Finput_text ?>" placeholder="รับรายได้มัดจำ"></td>
+                                                                <td class="text-right"><input class="form-control" id="input_price" name="input_price" value="<?= $input_price ?>" type="number" placeholder="ค่ามัดจำ"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="text-center"></th>
@@ -151,8 +184,10 @@ $ai_id = $dat . $code;
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>49,135.75</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>228.97</span></p>
+                                                        <p>จำนวนเงินรวมทั้งสิ้น <span><?php echo number_format($input_price, '2', '.', ',') ?></span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <?php $tax = ($input_price * 0.07);
+                                                                                        $grand_total = ($input_price + $tax);
+                                                                                        ?><span><?php echo number_format($tax, '2', '.', ',') ?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -161,12 +196,13 @@ $ai_id = $dat . $code;
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p><?php echo Convert($input_price);?></p>
+
+                                                            <p> <?php echo Convert2($input_price); ?></p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>ราคาสินค้า</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>3,271.03</span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></h5>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -179,8 +215,14 @@ $ai_id = $dat . $code;
                                         <br>
                                         <div class="d-sm-flex mb-5" data-view="print">
                                             <span class="m-auto"></span>
-                                            <a class="btn btn-outline-primary m-1" href="/ai.php" type="button" target="_blank">พิมพ์ใบมัดจำ</a>
-                                            <a class="btn btn-outline-primary m-1" href="#" type="button">บันทึกใบมัดจำ</a>
+                                            <?php if ($status_ai == 1) { ?>
+                                                <button id="btu" class="btn btn-outline-primary m-1" onclick="window.location.href='ai.php?order_id=<?=$order_id?>', '_blank'">พิมพ์ใบมัดจำ</button>
+                                            <?php } else { ?>
+                                                <button id="btu1" class="btn btn-outline-primary m-1" data-style="expand-left">
+                                                    <span class="ladda-label">บันทึกใบมัดจำ</span>
+                                                </button>
+                                            <?php } ?>
+                                            <!-- <a class="btn btn-outline-primary m-1" id="btu1"  href="#" type="button">บันทึกใบมัดจำ</a> -->
                                         </div>
                                     </div>
 
@@ -196,13 +238,27 @@ $ai_id = $dat . $code;
             <!-- =============== Header End ================-->
         </div>
     </div>
+    <!-- modal load -->
+
     <form class="d-none" method="POST">
-    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
-    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
-    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
-    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
-    <button class="btn" id="FSButtonID" type="submit"></button>
-</form>
+        <input type="text" id="FSinput_text" name="FFinput_text" value="<?php echo $input_text; ?>" placeholder="">
+        <input type="text" id="FSinput_price" name="input_price" value="<?php echo $input_price; ?>" placeholder="">
+        <input type="text" id="FSai_date_end" name="ai_date_end" value="<?php echo $ai_date_end; ?>" placeholder="">
+        <input type="text" id="FSai_date_start" name="ai_date_start" value="<?php echo $ai_date_start; ?>" placeholder="">
+        <input type="text" id="FSai_id" name="ai_id" value="<?php echo $ai_id; ?>" placeholder="">
+        <button class="btn" id="FSButtonID" type="submit"></button>
+    </form>
+
+    <form class="d-none" method="POST">
+        <input type="text" id="SFSinput_text" name="FFinput_text" value="<?php echo $input_text; ?>" placeholder="">
+        <input type="text" id="SFSinput_price" name="input_price" value="<?php echo $input_price; ?>" placeholder="">
+        <input type="text" id="SFSai_date_end" name="ai_date_end" value="<?php echo $ai_date_end; ?>" placeholder="">
+        <input type="text" id="SFSai_date_start" name="ai_date_start" value="<?php echo $ai_date_start; ?>" placeholder="">
+        <input type="text" id="SFSai_id" name="ai_id" value="<?php echo $ai_id; ?>" placeholder="">
+        <input type="text" id="SFSstatus_ai" name="status_ai" value="1">
+
+        <button class="btn" id="FSBtusave" type="submit"></button>
+    </form>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -212,18 +268,74 @@ $ai_id = $dat . $code;
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-  <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
+<div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="mt-1">
+                        Load ...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 <script>
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
     $("#input_price").on("change", function() {
-    // modalLoad();
+        // modalLoad();
 
-    let price = $("#input_price").val();
-    $("#price").val(price);
-   console.log(price)
-    // $("#FSColumnId").val(column);
-    // $("#FSButtonID").click();
+        let price = $("#input_price").val();
+        let FFtext = $("#Finput_text").val();
+        let FFai_date_start = $("#Fai_date_start").val();
+        let FFai_date_end = $("#Fai_date_end").val();
+        $("#FSinput_price").val(price);
+        $("#FSinput_text").val(FFtext);
+        $("#FSai_date_start").val(FFai_date_start);
+        $("#FSai_date_end").val(FFai_date_end);
+        $("#FSButtonID").click();
+        console.log('ai_date_start', FFai_date_start)
+        console.log('ai_date_start', FFai_date_end)
+        // $("#FSColumnId").val(column);
+        // $("#FSButtonID").click();
 
-});
+    });
+    $("#btu1").click("change", function() {
+        modalLoad();
+        let price = $("#input_price").val();
+        let FFtext = $("#Finput_text").val();
+        let FFai_date_start = $("#Fai_date_start").val();
+        let FFai_date_end = $("#Fai_date_end").val();
+        let FFai_id = $("#ai_id").val();
+        $("#SFSinput_price").val(price);
+        $("#SFSinput_text").val(FFtext);
+        $("#SFSai_date_start").val(FFai_date_start);
+        $("#SFSai_date_end").val(FFai_date_end);
+        $("#SFSai_id").val(FFai_id);
+        $("#FSBtusave").click();
+
+    });
+    let input_price = $("#input_price").val();
+    let btu = $("#btu").val();
+    if (input_price == '') {
+        document.getElementById("btu").disabled = true;
+        document.getElementById("btu1").disabled = true;
+    } else {
+        document.getElementById("btu").disabled = false;
+        document.getElementById("btu1").disabled = false;
+    }
+    console.log('btu', btu)
 </script>
+
 </html>

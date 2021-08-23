@@ -69,7 +69,8 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบเสนอราคา</button>
+                                           
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">

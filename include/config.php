@@ -139,6 +139,8 @@ function datethai_qt($date1)
     }
 }
 
+
+
 function datethai_TF($date1)
 {
     $month_th_name = array(
@@ -190,13 +192,7 @@ function datethai3($date1)
         return $month_th_name[intval($temp[1])] . $year;
  
 }
-function clean($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+
 function getNumDay($d1,$d2){
     $dArr1    = preg_split("/-/", $d1);
     list($year1, $month1, $day1) = $dArr1;

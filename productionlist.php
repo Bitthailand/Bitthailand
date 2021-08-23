@@ -696,15 +696,7 @@ if ($action == 'del') {
         }
     });
 </script>
-<script>
-    $('#myModal_del').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var modal = $(this)
-        modal.find('#del_id').val(id)
 
-    })
-</script>
 <script>
 /* ===== search start ===== */
 function modalLoad() {
@@ -778,15 +770,7 @@ $(".linkLoadModalNext").on('click', function() {
     });
 });
 </script>
-<script>
-$('#myModal_del').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var id = button.data('id')
-    var modal = $(this)
-    modal.find('#del_id').val(id)
 
-})
-</script>
 
 <script>
 $(function() {

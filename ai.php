@@ -1,4 +1,29 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config_date2.php';
+include './include/config_text.php';
+
+$order_id = $_REQUEST['order_id'];
+$datetoday = date('Y-m-d');
+$sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+// ====
+$sql2 = "SELECT * FROM customer_type  WHERE id= '$row[cus_type]'";
+$rs2 = $conn->query($sql2);
+$row2 = $rs2->fetch_assoc();
+// ====
+$sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
+$rs3 = $conn->query($sql3);
+$row3 = $rs3->fetch_assoc();
+$sql4 = "SELECT * FROM employee  WHERE username= '$row[emp_id]'";
+$rs4 = $conn->query($sql4);
+$row4 = $rs4->fetch_assoc();
 
 ?>
 <!DOCTYPE html>
@@ -18,6 +43,11 @@
         margin-top: 0;
         margin-bottom: 0.1rem;
     }
+    .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
     </style>
 </head>
 
@@ -42,7 +72,8 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบเสนอราคา</button>
+                                            
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
@@ -61,20 +92,22 @@
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
-                                                    <p><strong>ชื่อลูกค้า : </strong>ปอณรัตน์พา</p>
-                                                    <p><strong>บริษัท : </strong>หจก. ปอณรัตน์พานิชย์</p>
-                                                    <p><strong>ที่อยู่ : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
-                                                    <p>เลขที่ประจำตัวผู้เสียภาษี 0343560001118 สำนักงานใหญ่</p>
-                                                    <p><strong>โทร : </strong> 093-6954224</p>
-                                                    <p><strong>อ้างอิง : </strong></p>
+                                                    <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
+                                                    <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
+                                                    <p><strong>ที่อยู่ : </strong><?= $row3['bill_address'] ?> </p>
+                                                    <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
+                                                    <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
+                                                    <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ <span> AI6408006</span></p>
-                                                        <p>วันที่ <span> 02/08/64</span></p>
-                                                        <p>วันที่ครบกำหนด <span> 02/08/64</span></p>
-                                                        <p>พนักงานขาย : <span> -</span></p>
+                                                        <p>เลขที่ <span> <?=$row['ai_id']?></span></p>
+                                                        <p>วันที่ <span> <?php $date=explode(" ",$row['ai_date_start'] ); $dat=datethai4($date[0]);
+                                                        echo"$dat";?></span></p>
+                                                        <p>วันที่ครบกำหนด <span> <?php $date=explode(" ",$row['ai_date_end'] ); $dat=datethai4($date[0]);
+                                                        echo"$dat";?></span></p>
+                                                        <p>พนักงานขาย : <span> <?=$row4['emp_name']?></span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -89,11 +122,17 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <th scope="row" class="text-center">1</th>
-                                                                <td>รับรายได้มัดจำแผ่นพื้น</td>
-                                                                <td class="text-right">3,500.00</td>
+                                                        <?php
+                                                        $sql_pro = "SELECT * FROM ai_number   where order_id='$row[order_id]' AND ai_num='$row[ai_id]' order by date_create  ASC ";
+                                                        $result_pro = mysqli_query($conn, $sql_pro);
+                                                        if (mysqli_num_rows($result_pro) > 0) {
+                                                            while ($rowx = mysqli_fetch_assoc($result_pro)) { ?>
+                                                             <tr>
+                                                                <th scope="row" class="text-center"><?=++$id;?></th>
+                                                                <td><?=$rowx['messages']?></td>
+                                                                <td class="text-right"><?php echo number_format($rowx['price'], '2', '.', ',') ?></td>
                                                             </tr>
+                                                            <?php }}  ?>
                                                             <tr>
                                                                 <th scope="row" class="text-center"></th>
                                                                 <td></td>
@@ -104,8 +143,11 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>49,135.75</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>228.97</span></p>
+                                                        <?php  ?>
+                                                        <p>จำนวนเงินรวมทั้งสิ้น <span><?php echo number_format($row['ai_count'], '2', '.', ',') ?></span></p>
+                                                        <?php $tax = ($row['ai_count'] * 0.07);
+                                                            $grand_total = ($row['ai_count']+ $tax);
+                                                          ?>  <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax, '2', '.', ',') ?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -114,12 +156,12 @@
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p>หนึ่งหมื่นหกร้อยสิบเจ็ดบาทถ้วน</p>
+                                                        <p> <?php echo Convert2($row['ai_count']); ?></p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>ราคาสินค้า</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>3,271.03</span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></h5>
                                                             </div>
                                                         </div>
                                                     </div>

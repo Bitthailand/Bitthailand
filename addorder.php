@@ -9,7 +9,7 @@ include './include/config.php';
 $status_order = $_REQUEST['status_order'];
 error_reporting(0);
 $emp_id = $_SESSION["username"];
-// echo "$status_order";
+echo "$status_order";
 if ($status_order == 'new') {
     $sql5 = "SELECT COUNT(id) AS id_run FROM orders   ";
     $rs5 = $conn->query($sql5);
@@ -25,6 +25,7 @@ if ($status_order == 'new') {
 }
 $order_idx = $_SESSION["order_id"];
 if ($status_order == 'confirm') {
+    $cus_back = $_REQUEST['cus_back'];
     $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
     $rs = $conn->query($sql);
     $rs = $rs->fetch_assoc();
@@ -36,15 +37,17 @@ if ($status_order == 'confirm') {
     $sql3 = "SELECT * FROM customer_type  where id='$rs[cus_type]'  ";
     $rs3 = $conn->query($sql3);
     $rs3 = $rs3->fetch_assoc();
-    if ($rs['cus_back'] == 1) {
+    if ($cus_back == 1) {
         $cus_back1 = "รับสินค้ากลับเอง";
     }
-    if ($rs['cus_back'] == 2) {
+    if ($cus_back== 2) {
         $cus_back1 = "บริษัทจัดส่งให้";
     }
-    if ($rs['cus_back'] == 3) {
+    if ($cus_back == 3) {
         $cus_back1 = "รับกลับเองวันหลัง";
     }
+    echo"วิธีรับสินค้า";
+    echo"$discount ";
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $delivery_datex = $_REQUEST['delivery_datex'];
@@ -53,6 +56,7 @@ if ($status_order == 'confirm') {
     $discount = $_REQUEST['discount'];
     $delivery_Address = $_REQUEST['delivery_Address'];
     echo "$delivery_datex";
+    echo"$discount";
 }
 $delivery_datex = $_REQUEST['delivery_datex'];
 
@@ -67,15 +71,12 @@ $Fcus_back = $_REQUEST['Fcus_back'];
 $Fdelivery_date = $_REQUEST['Fdelivery_date'];
 $Fdelivery_Address = $_REQUEST['Fdelivery_Address'];
 $Fdate_confirm = $_REQUEST['Fdate_confirm'];
-$Ftax = $_REQUEST['Ftax'];
-$Fdiscount = $_REQUEST['Fdiscount'];
+$tax = $_REQUEST['Ftax'];
+$discount = $_REQUEST['Fdiscount'];
 $Forder_id = $_REQUEST['Forder_id'];
-
-// echo "$Fcus_tel";
-// echo"$Fcus_name";
-
+echo"$Fcus_back";
 if ($action == 'add_product') {
-    // echo "xx";
+
     $Fproduct_type = $_REQUEST['Fproduct_type'];
     $Fproductx = $_REQUEST['Fproductx'];
     $Funit_price = $_REQUEST['Funit_price'];
@@ -86,14 +87,10 @@ if ($action == 'add_product') {
     $send_qty = $_REQUEST['Fsend_qty'];
     $TF = $_REQUEST['FTF'];
     $disunit = $_REQUEST['Fdisunit'];
-    // echo 'TF' . $TF;
-    // echo 'send_qty' . $send_qty;
-    // echo 'send_price' . $send_price;
-    // echo 'send_to' . $send_to;
-
-
     $total_disunit = $Funit_price - $disunit;
     $total_price = $Fqty * $total_disunit;
+    $tax = $_REQUEST['Ftax'];
+$discount = $_REQUEST['Fdiscount'];
     $status_order = 'update';
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
@@ -223,12 +220,12 @@ if ($action == 'add') {
     $delivery_date = $_REQUEST['delivery_date'];
     $delivery_Address = $_REQUEST['delivery_Address'];
     $date_confirm = $_REQUEST['date_confirm'];
-    $taxx = $_REQUEST['taxx'];
-    $discountx = $_REQUEST['discountx'];
+    $tax = $_REQUEST['tax'];
+    $discount = $_REQUEST['discount'];
     $status_order = 'confirm';
     $delivery_datex = $_REQUEST['delivery_datex'];
     echo"$delivery_datex";
-    echo"$discountx";
+    echo"$discount";
     $sqlx = "SELECT * FROM order_details  WHERE order_id='$order_idx' AND status_button='0' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) < 1) { ?>
@@ -244,7 +241,7 @@ if ($action == 'add') {
         $result = mysqli_query($conn, $sqlx);
         if (mysqli_num_rows($result) > 0) {
             echo"$delivery_date";
-            $sql = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discountx',tax='$taxx' where order_id='$order_idx'";
+            $sql = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
             echo "$order_idx";
             if($delivery_date='$delivery_date'){
                 $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
@@ -271,11 +268,24 @@ if ($action == 'add') {
             $code_new = $row_run['id_run'] + 1;
             $code = sprintf('%05d', $code_new);
             $qt_id = $dat . $code;
+            // =====เช็คสถานะของลูกค้า
+            // $cus_type == 1 ลูกค้าเงินสด
+            // $cus_type == 2 ลูกค้าเครดิส
+            // $cus_back == 1 รับกลับเอง
+            // $cus_back == 2 บริษัทจัดส่ง
+            // $cus_back == 3 รับกลับเองวันหลัง
+            if (($cus_type == 1) && ($cus_back == 1)) {
+              
+                $sql9 = "UPDATE orders  SET order_status='2'  where  order_id='$order_idx'";
+            
+                if ($conn->query($sql9) === TRUE) {
+                }
+            }
 
             if (($cus_type == 1) && ($cus_back == 2)) {
                 $sql8 = "INSERT INTO  quotation(qt_number,order_id)
                 VALUES ('$qt_id','$order_idx')";
-                $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                $sql9 = "UPDATE orders  SET order_status='1', qt_id='$qt_id',qt_date='$datetodat'  where  order_id='$order_idx'";
                 if ($conn->query($sql8) === TRUE) {
                 }
                 if ($conn->query($sql9) === TRUE) {
@@ -285,7 +295,7 @@ if ($action == 'add') {
             if (($cus_type == 1) && ($cus_back == 3)) {
                 $sql8 = "INSERT INTO  quotation(qt_number,order_id)
                 VALUES ('$qt_id','$order_idx')";
-                $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                $sql9 = "UPDATE orders  SET order_status='1', qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
                 if ($conn->query($sql8) === TRUE) {
                 }
                 if ($conn->query($sql9) === TRUE) {
@@ -294,7 +304,7 @@ if ($action == 'add') {
             if ($cus_type == 2) {
                 $sql8 = "INSERT INTO  quotation(qt_number,order_id)
                 VALUES ('$qt_id','$order_idx')";
-                $sql9 = "UPDATE orders  SET  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                $sql9 = "UPDATE orders  SET order_status='1',  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
                 if ($conn->query($sql8) === TRUE) {
                 }
                 if ($conn->query($sql9) === TRUE) {
@@ -604,28 +614,38 @@ if ($action == 'add') {
                                     </div>
                                     <div class="form-group col-md-1">
                                         <?php $Ftax = 7; ?>
+                                        <?php 
+                                            $tax=$_REQUEST['tax'];
+                                                 if (empty($tax)) {
+                                                    $tax='7';
+                                                 }else{
+                                             
+                                                $tax=$tax;
+                                            }
+                                                ?>
                                         <label for="tax"><strong>ภาษี(%) <span class="text-danger"></span></strong></label>
                                         <?php if ($status_order == 'confirm') { ?>
                                             <input type="text" value="<?php echo "$tax"; ?>" class="classcus form-control">
                                         <?php  } else { ?>
-                                            <input type="text" name="taxx" id="tax" value="<?php echo "$Ftax"; ?>" class="classcus form-control" placeholder="ภาษี">
+                                            <input type="text" name="tax" id="tax" value="<?php echo "$tax"; ?>" class="classcus form-control" placeholder="ภาษี">
                                         <?php } ?>
                                     </div>
                                     <?php 
-                                            $discountx=$_REQUEST['discountx'];
-                                                 if (empty($discountx)) {
-                                                    $Fdiscoun=$discountx;
+                                            $discount=$_REQUEST['discount'];
+                                                 if (empty($discount)) {
+                                                    $discount='0';
                                                  }else{
-                                                $Fdiscount='0';
+                                             
+                                                $discount=$discount;
                                             }
                                                 ?>
                                     <div class="form-group col-md-1">
                                         <label for="discount"><strong>ส่วนลด(บาท) <span class="text-danger"></span></strong></label>
                                         <?php if ($status_order == 'confirm') { ?>
-                                            <input type="text" value="<?= $Fdiscount ?>" class="classcus form-control">
+                                            <input type="text" value="<?= $discount ?>" class="classcus form-control">
                                         <?php  } else { ?>
                                            
-                                            <input type="text" name="discountx" id="discount" value="<?= $Fdiscount ?>" class="classcus form-control" placeholder="ส่วนลด">
+                                            <input type="text" name="discount" id="discount" value="<?=$discount?>" class="classcus form-control" placeholder="ส่วนลด">
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -637,7 +657,8 @@ if ($action == 'add') {
                                         $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
                                         $rs = $conn->query($sql);
                                         $rs = $rs->fetch_assoc();
-                                        // echo "$rs[order_id]";
+                                        echo "ประเภทลูกค้า".$rs['cus_type'];
+                                        echo "รับกลับ".$rs['cus_back'];
                                     ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 1)) { ?>
                                             <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสร็จรับเงิน(HS)</a>
@@ -1047,6 +1068,7 @@ if ($action == 'add') {
                     document.getElementById("cus_back_show").style.display = "none";
                     document.getElementById("cus_back_show1").style.display = "none";
                     document.getElementById("cus_back_show2").style.display = "none";
+                   
                 }
                 if (cus_back == 2) {
                     document.getElementById("cus_back_show").style.display = "block";
@@ -1093,13 +1115,9 @@ if ($action == 'add') {
                 console.log('qty', qty);
 
             };
-
             function calculate1() {
                 let send_qty = $("#send_qty").val();
                 let send_price = $("#send_price").val();
-
-
-
                 console.log('send_qty ', send_qty);
                 console.log('send_price', send_price);
 
