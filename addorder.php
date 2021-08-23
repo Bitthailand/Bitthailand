@@ -46,8 +46,8 @@ if ($status_order == 'confirm') {
     if ($cus_back == 3) {
         $cus_back1 = "รับกลับเองวันหลัง";
     }
-    echo"วิธีรับสินค้า";
-    echo"$discount ";
+    // echo"วิธีรับสินค้า";
+    // echo"$discount ";
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $delivery_datex = $_REQUEST['delivery_datex'];
@@ -55,8 +55,8 @@ if ($status_order == 'confirm') {
     $tax = $_REQUEST['tax'];
     $discount = $_REQUEST['discount'];
     $delivery_Address = $_REQUEST['delivery_Address'];
-    echo "$delivery_datex";
-    echo"$discount";
+    // echo "$delivery_datex";
+    // echo"$discount";
 }
 $delivery_datex = $_REQUEST['delivery_datex'];
 
@@ -74,7 +74,7 @@ $Fdate_confirm = $_REQUEST['Fdate_confirm'];
 $tax = $_REQUEST['Ftax'];
 $discount = $_REQUEST['Fdiscount'];
 $Forder_id = $_REQUEST['Forder_id'];
-echo"$Fcus_back";
+// echo"$Fcus_back";
 if ($action == 'add_product') {
 
     $Fproduct_type = $_REQUEST['Fproduct_type'];
@@ -118,12 +118,12 @@ $discount = $_REQUEST['Fdiscount'];
         $code_new = $row_run['id_run'] + 1;
         $code = sprintf('%05d', $code_new);
         $TF_id = $dat . $code;
-        echo "$TF_id";
+        // echo "$TF_id";
         $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id)
             VALUES ('$TF_id','0','99','$send_to','TF0')";
         if ($conn->query($sql99) === TRUE) {
             $last_id = $conn->insert_id;
-            echo "$last_id";
+            // echo "$last_id";
             // echo"xx";
         }
         $sql5 = "SELECT * FROM product  where  id='$last_id' ";
