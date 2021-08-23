@@ -19,17 +19,17 @@ $row = $rs->fetch_assoc();
 
         <div class="form-group col-md-3">
             <label for="accNameId"><strong>รหัสแพ <span class="text-danger">*</span></strong></label>
-            <input type="text" name="plant_id"   value="<?=$row['plant_id']?>"  id="plant_id" class="classcus form-control" placeholder="รหัสแพ" required disabled>
+            <input type="text" name="plant_id" value="<?= $row['plant_id'] ?>" id="plant_id" class="classcus form-control" placeholder="รหัสแพ" required disabled>
         </div>
         <div class="form-group col-md-3">
             <label for="accNameId"><strong>โรงงาน<span class="text-danger">*</span></strong></label>
-          
-            <select class="classcus custom-select" name="factory"  required>
+
+            <select class="classcus custom-select" name="factory" required>
                 <?php
                 $sql7 = "SELECT *  FROM  factory order by id DESC ";
                 $result7 = mysqli_query($conn, $sql7);
                 if (mysqli_num_rows($result7) > 0) {
-                    while ($row7= mysqli_fetch_assoc($result7)) {
+                    while ($row7 = mysqli_fetch_assoc($result7)) {
                 ?>
                         <option value="<?php echo $row7['id'] ?>" <?php
                                                                     if (isset($row['factory_id']) && ($row['factory_id'] == $row7['id'])) {
@@ -69,13 +69,15 @@ $row = $rs->fetch_assoc();
         </div>
         <div class="form-group col-md-3">
             <label for="accNameId"><strong>ความกว้างของแพ <span class="text-danger"></span></strong></label>
-            <input type="number" name="width"  value="<?=$row['width']?>"   step="0.01" class="classcus form-control" placeholder="ความกว้างแพ">
+            <input type="number" name="width" value="<?= $row['width'] ?>" step="0.01" class="classcus form-control" placeholder="ความกว้างแพ">
         </div>
 
-       
-      
-
-
+    </div>
+    <div class="form-row mt-3">
+    <div class="form-group col-md-8">
+        <label for="accNameId"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
+        <input type="text" name="remark" id="remark" value="<?= $row['remark'] ?>" class="classcus form-control" placeholder="หมายเหตุ">
+    </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span>
@@ -85,5 +87,3 @@ $row = $rs->fetch_assoc();
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
 </form>
-
-

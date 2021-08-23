@@ -1,6 +1,6 @@
 <?php
 include './include/connect.php';
-$sql = "SELECT * FROM product  WHERE ptype_id='{$_GET['ptype_id']}' AND  width={$_GET['width']} order by id ASC";
+$sql = "SELECT * FROM product  WHERE ptype_id='{$_GET['ptype_id']}' AND  width={$_GET['width']} order by product_id ASC";
 $query = mysqli_query($conn, $sql);
 $json = array();
 while($result = mysqli_fetch_assoc($query)) {    

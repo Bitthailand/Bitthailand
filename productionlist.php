@@ -95,8 +95,6 @@ if ($action == 'add_stock') {
                 } else {
                     $sqlx1 = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b',status_stock='1' WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' AND id='$rowx[id]'  ";
                     // 
-
-
                     // ตรวจสอบโรงงานผลิต   
                     $sqlx2 = "SELECT * FROM plant  WHERE plant_id= '$rowx[plant_id]'";
                     $rsx2 = $conn->query($sqlx2);

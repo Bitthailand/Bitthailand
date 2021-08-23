@@ -33,7 +33,7 @@ if ($action == 'add') {
     $factory = $_REQUEST['factory'];
     $ptype_id = $_REQUEST['ptype_id'];
     $width = $_REQUEST['width'];
-
+    $remark = $_REQUEST['remark'];
     $sqlx = "SELECT * FROM plant  WHERE plant_id='$plant_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
@@ -47,8 +47,8 @@ if ($action == 'add') {
             $rs2 = $conn->query($sql2);
             $row2 = $rs2->fetch_assoc();
 
-        $sql = "INSERT INTO plant (plant_id,factory,factory_id,ptype_id,width)
-                   VALUES ('$plant_id','$row2[name]','$factory','$ptype_id','$width')";
+        $sql = "INSERT INTO plant (plant_id,factory,factory_id,ptype_id,width,remark)
+                   VALUES ('$plant_id','$row2[name]','$factory','$ptype_id','$width','$remark')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -64,11 +64,12 @@ if ($action =='edit') {
     $factory = $_REQUEST['factory'];
     $ptype_id = $_REQUEST['ptype_id'];
     $width = $_REQUEST['width'];
+    $remark = $_REQUEST['remark'];
 
     $sql2 = "SELECT * FROM factory  WHERE id= '$factory'";
     $rs2 = $conn->query($sql2);
     $row2 = $rs2->fetch_assoc();
-    $sqlxxx = "UPDATE plant  SET factory_id='$factory',factory='$row2[name]',ptype_id='$ptype_id',width='$width' where id='$edit_id'";
+    $sqlxxx = "UPDATE plant  SET factory_id='$factory',factory='$row2[name]',ptype_id='$ptype_id',width='$width',remark='$remark' where id='$edit_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
 <script>
 $(document).ready(function() {
@@ -100,7 +101,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 10;
+    $total_records_per_page = 40;
 } else {
     $total_records_per_page = $rowS;
 }
@@ -199,6 +200,7 @@ if ($rowS == '') {
                                             <th>โรงงาน</th> 
                                             <th>ประเภทสินค้า</th>
                                             <th>ความกว้าง</th>
+                                            <th>หมายเหตุ</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -239,7 +241,7 @@ if ($rowS == '') {
                                                 </td>
                                                 <td><?php echo $row['width']; ?></td>
                                                
-
+                                                <td><?php echo $row['remark']; ?></td>
                                                 <td>
 
                                                     <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
@@ -434,6 +436,12 @@ if ($rowS == '') {
                                        
 
                                     </div>
+                                    <div class="form-row mt-3">
+                                    <div class="form-group col-md-8">
+                                            <label for="accNameId"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="remark" id="remark" class="classcus form-control" placeholder="หมายเหตุ">
+                                        </div>
+                                    </div>
                                     <div class="modal-footer">
                                         <input type="hidden" name="action" value="add">
                                         <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
@@ -482,7 +490,7 @@ if ($rowS == '') {
 
 <!-- Modal DEL  -->
 <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
