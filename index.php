@@ -115,26 +115,6 @@ session_start();
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <div class="row">
-                            <div class="col-lg-6 col-md-12">
-                                <div class="card card-chart-bottom o-hidden mb-4">
-                                    <div class="card-body">
-                                        <div class="text-muted">Last Month Sales</div>
-                                        <p class="mb-4 text-primary text-24">$40250</p>
-                                    </div>
-                                    <div id="echart1" style="height: 260px;"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="card card-chart-bottom o-hidden mb-4">
-                                    <div class="card-body">
-                                        <div class="text-muted">Last Week Sales</div>
-                                        <p class="mb-4 text-warning text-24">$10250</p>
-                                    </div>
-                                    <div id="echart2" style="height: 260px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-lg-12 col-md-12">
                                 <div class="card mb-4">
                                     <div class="card-body">
@@ -270,6 +250,19 @@ session_start();
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card mb-4">
+                                    <div class="card-body p-0">
+                                        <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด</h5>
+                                        <div id="eORchartBar" style="height: 360px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                     </div>
@@ -477,11 +470,11 @@ session_start();
                         </div>
 
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-lg-12 col-md-12">
                         <div class="card mb-4">
-                            <div class="card-body p-0">
-                                <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด</h5>
-                                <div id="echart3" style="height: 360px;"></div>
+                            <div class="card-body">
+                                <div class="card-title">ยอดขายตามประเภทสินค้า</div>
+                                <div id="ProtypechartBar" style="height: 300px;"></div>
                             </div>
                         </div>
                     </div>
