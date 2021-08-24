@@ -67,13 +67,13 @@ if ($row['dev_status'] == 1) {
 </head>
 <?php
 include './include/alert.php';
-echo"$dev_date";
+echo "$dev_date";
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
     $order_id = $_REQUEST['order_id'];
     $dev_id = $_REQUEST['dev_id'];
     $dev_date = $_REQUEST['dev_date'];
- 
+
     if ($dev_date == '') { ?>
         <script>
             $(document).ready(function() {
@@ -141,33 +141,35 @@ if ($action == 'add_dev') {
                 if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
-                //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
+                    //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
                     $sql99 = "SELECT *  FROM deliver_detail  where order_id= '$order_id' AND dev_id='$dev_id'AND product_id='$product_id' ";
                     $result99 = mysqli_query($conn, $sql99);
                     if (mysqli_num_rows($result99) > 0) {
                     } else {
 
-                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty)
-                            VALUES ('$dev_id','$product_id','$order_id','$total_instock')";
-                       
-               
+                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit)
+                            VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]')";
 
-                    $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$total_instock',status_delivery='1' where product_id='$product_id'";
-                    $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
 
-                    if ($conn->query($sql1) === TRUE) { }
-                    if ($conn->query($sql2) === TRUE) { } 
-                   
+
+                        $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$total_instock',status_delivery='1' where product_id='$product_id'";
+                        $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
+
+                        if ($conn->query($sql1) === TRUE) {
+                        }
+                        if ($conn->query($sql2) === TRUE) {
+                        }
+
                         if ($conn->query($sqlx) === TRUE) {
-                        ?>
-                        <script>
-                            $(document).ready(function() {
-                                showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
-                            });
-                        </script>
+                    ?>
+                            <script>
+                                $(document).ready(function() {
+                                    showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
+                                });
+                            </script>
 <?php
+                        }
                     }
-                }
                 }
             }
         }
@@ -203,20 +205,18 @@ if ($action == 'add_dev') {
             }
             $sql_TF = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'  ";
             $result_TF = mysqli_query($conn, $sql_TF);
-                while ($row_TF = mysqli_fetch_assoc($result_TF)) {
-                
-                    $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty)
-        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1')";
-                    if ($conn->query($sql_TF) === TRUE) {
-                    }
+            while ($row_TF = mysqli_fetch_assoc($result_TF)) {
+
+                $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price)
+        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]')";
+                if ($conn->query($sql_TF) === TRUE) {
                 }
-            
+            }
         }
-        $cf= 'ok';
+        $cf = 'ok';
     }
-    $action='';
-    $dev_date='';
-   
+    $action = '';
+    $dev_date = '';
 }
 ?>
 
@@ -260,9 +260,21 @@ if ($action == 'add_dev') {
                                                 <div class="row mb-5">
                                                     <div class="col-md-6 mb-3 mb-sm-0">
                                                         <h5 class="font-weight-bold">ลูกค้า</h5>
+                                                        <?php
+                                                       $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                                                       $rs6 = $conn->query($sql6);
+                                                       $row6 = $rs6->fetch_assoc();
+                                                       $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                                                       $rs7 = $conn->query($sql7);
+                                                       $row7 = $rs7->fetch_assoc();
+                                                       $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                                                       $rs8 = $conn->query($sql8);
+                                                       $row8 = $rs8->fetch_assoc();
+                                                       
+                                                        ?>
                                                         <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                                                         <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
-                                                        <p><strong>ที่อยู่ : </strong><?= $row3['bill_address'] ?> </p>
+                                                        <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                         <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                         <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                                                         <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
@@ -351,10 +363,10 @@ if ($action == 'add_dev') {
                                                 <div class="d-sm-flex mb-5" data-view="print">
                                                     <span class="m-auto"></span>
                                                     <!-- เงินสด SO  HS   เครดิส  SO  IV   -->
-                                                    <?php 
-                                                    
-                                                    echo"$dev_status+$action";
-                                                    if (($dev_status == 1)||($cf == 'ok')) {
+                                                    <?php
+
+                                                    echo "$dev_status+$action";
+                                                    if (($dev_status == 1) || ($cf == 'ok')) {
                                                         // echo"$row[cus_type]";
                                                     ?>
                                                         <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>

@@ -144,10 +144,13 @@ $row4 = $rs4->fetch_assoc();
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
                                                         <?php  ?>
+
+                                                        
                                                         <p>จำนวนเงินรวมทั้งสิ้น <span><?php echo number_format($row['ai_count'], '2', '.', ',') ?></span></p>
-                                                        <?php $tax = ($row['ai_count'] * 0.07);
-                                                            $grand_total = ($row['ai_count']+ $tax);
-                                                          ?>  <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax, '2', '.', ',') ?></span></p>
+                                                        <?php $tax = ($row['ai_count']* 100)/107;
+                                                                $tax2 = ($row['ai_count'] - $tax);
+                                                            $grand_total = ($row['ai_count']- $tax2);
+                                                          ?>  <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">

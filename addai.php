@@ -128,9 +128,21 @@ if ($status_ai == 1) {
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
+                                                    <?php
+                                                       $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                                                       $rs6 = $conn->query($sql6);
+                                                       $row6 = $rs6->fetch_assoc();
+                                                       $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                                                       $rs7 = $conn->query($sql7);
+                                                       $row7 = $rs7->fetch_assoc();
+                                                       $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                                                       $rs8 = $conn->query($sql8);
+                                                       $row8 = $rs8->fetch_assoc();
+                                                       
+                                                        ?>
                                                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                                                     <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
-                                                    <p><strong>ที่อยู่ : </strong><?= $row3['bill_address'] ?> </p>
+                                                    <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                     <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                                                     <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
@@ -185,9 +197,10 @@ if ($status_ai == 1) {
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
                                                         <p>จำนวนเงินรวมทั้งสิ้น <span><?php echo number_format($input_price, '2', '.', ',') ?></span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <?php $tax = ($input_price * 0.07);
-                                                                                        $grand_total = ($input_price + $tax);
-                                                                                        ?><span><?php echo number_format($tax, '2', '.', ',') ?></span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <?php $tax = ($input_price * 100)/107;
+                                                                                        $tax2 = ($input_price - $tax);
+                                                                                        $grand_total = ($input_price- $tax2);
+                                                                                        ?><span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -328,6 +341,7 @@ if ($status_ai == 1) {
     });
     let input_price = $("#input_price").val();
     let btu = $("#btu").val();
+    console.log('input_price',input_price)
     if (input_price == '') {
         document.getElementById("btu").disabled = true;
         document.getElementById("btu1").disabled = true;
