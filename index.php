@@ -494,7 +494,7 @@ session_start();
     <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
     <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js?id=1"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
 
