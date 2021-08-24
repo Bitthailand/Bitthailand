@@ -88,8 +88,20 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
+                                                    <?php
+                                                       $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                                                       $rs6 = $conn->query($sql6);
+                                                       $row6 = $rs6->fetch_assoc();
+                                                       $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                                                       $rs7 = $conn->query($sql7);
+                                                       $row7 = $rs7->fetch_assoc();
+                                                       $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                                                       $rs8 = $conn->query($sql8);
+                                                       $row8 = $rs8->fetch_assoc();
+                                                       
+                                                        ?>
                                                     <p><strong>ชื่อลูกค้า : </strong>คุณ <?=$row3['customer_name']?></p>
-                                                    <p><strong>ที่อยู่ : </strong><?=$row3['bill_address']?></p>
+                                                    <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                     <p><strong>โทร : </strong> <?=$row3['tel']?></p>
                                                     <p><strong>อ้างอิง : </strong><?=$row3['contact_name']?></p>
                                                     <p>บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
@@ -122,7 +134,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                         </thead>
                                                         <tbody>
                                                         <?php
-                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by date_create  ASC ";
+                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
                                                         $result_pro = mysqli_query($conn, $sql_pro);
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
@@ -133,7 +145,11 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                                         $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                                                                         $rsx3 = $conn->query($sqlx3);
                                                                         $rowx3 = $rsx3->fetch_assoc();
+                                                                        if($rowx3['ptype_id']=='TF0'){
+                                                                            echo $rowx3['product_id'].$rowx3['product_name'];
+                                                                        }else{ 
                                                                         echo $rowx3['product_id'].$rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
+                                                                    }
                                                                         ?>
 
                                                                 </td>
@@ -156,11 +172,12 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                         <p>รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($rowx4['total'],'2','.',',')?></span></p>
                                                         <p>หัก ส่วนลด <span><?php echo number_format($row['discount'],'2','.',',')?></span></p>
                                                         <?php $sub_total=$rowx4['total']-$row['discount']; 
-                                                        $tax = ($sub_total*0.07);
-                                                        $grand_total = ($sub_total + $tax);
+                                                        $tax = ($sub_total* 100)/107;
+                                                        $tax2 = ($sub_total - $tax);
+                                                        $grand_total = ($sub_total - $tax2);
                                                         ?>
                                                         <p>จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($sub_total,'2','.',',')?></span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม <?=$row['tax']?>% <span><?php echo number_format($tax,'2','.',',')?></span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม <?=$row['tax']?>% <span><?php echo number_format($tax2,'2','.',',')?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">

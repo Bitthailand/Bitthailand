@@ -119,8 +119,8 @@ $discount = $_REQUEST['Fdiscount'];
         $code = sprintf('%05d', $code_new);
         $TF_id = $dat . $code;
         echo "$TF_id";
-        $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id)
-            VALUES ('$TF_id','0','99','$send_to','TF0')";
+        $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id,unit_price)
+            VALUES ('$TF_id','0','99','$send_to','TF0','$send_price')";
         if ($conn->query($sql99) === TRUE) {
             $last_id = $conn->insert_id;
             // echo "$last_id";
@@ -662,7 +662,7 @@ if ($action == 'add') {
                                     ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 1)) { ?>
                                             <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสร็จรับเงิน(HS)</a>
-                                            <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
+                                            <a class="btn btn-outline-primary m-1" href="/addsaleorder.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
                                         <?php } ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 2)) { ?>
                                             <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>

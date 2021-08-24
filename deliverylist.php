@@ -55,12 +55,13 @@ if ($action == 'add_cfx') {
 
     //    echo"$po_stop";
     //    echo"$dev_id";
-       $sql = "SELECT * FROM delivery WHERE id= '$dev_id'";
-       $rs = $conn->query($sql);
-       $row = $rs->fetch_assoc();
+    $sql = "SELECT * FROM delivery WHERE id= '$dev_id'";
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
     $sqlxxx = "UPDATE delivery  SET status_chk='1' where id='$dev_id'";
     $sql5 = "UPDATE deliver_detail  SET status_cf='1' where dev_id='$row[dev_id]'";
-    if ($conn->query($sql5) === TRUE) {}
+    if ($conn->query($sql5) === TRUE) {
+    }
 
     $sql1 = "SELECT * FROM orders WHERE id= '$row[order_id]'";
     $rs1 = $conn->query($sql1);
@@ -74,20 +75,60 @@ if ($action == 'add_cfx') {
     $rsc0 = $conn->query($sqlc0);
     $rowc0 = $rsc0->fetch_assoc();
     if ($rowc0['ts2'] == $rowc1['ts']) {
-    $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]'";
-    if ($conn->query($sqlx12) === TRUE) {}
+        $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]'";
+        if ($conn->query($sqlx12) === TRUE) {
+        }
     }
-  
+
     if ($conn->query($sqlxxx) === TRUE) { ?>
         <script>
             $(document).ready(function() {
                 showAlert("ยืนยันการจัดส่งเรียบร้อย", "alert-primary");
             });
         </script>
-<?php }
-
-
+    <?php }
 }
+
+
+if ($action == 'add_hs') {
+    $e_id = $_REQUEST['e_id'];
+    $so_id = $_REQUEST['so_id'];
+    $order_id = $_REQUEST['order_id'];
+
+    //    echo"$po_stop";
+    //    echo"$po_start";
+    $sql5 = "SELECT count(id) AS id_run FROM hs_number  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    $dev_status = $row['dev_status'];
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_HS($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $hs_id = $dat . $code;
+
+    $sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND so_id='$so_id' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) {
+    } else {
+        $sqlx5 = "INSERT INTO hs_number (order_id,so_id,hs_id)
+    VALUES ('$order_id','$so_id','$hs_id')";
+        if ($conn->query($sqlx5) === TRUE) {
+        }
+    }
+    $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id' where id='$e_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                // showAlert("บันทึกข้อมูลพนักงานจัดส่งเรียบร้อย", "alert-primary");
+
+                window.open('hs.php?order_id=<?= $order_id ?>&so_id=<?= $so_id ?>', '_blank');
+            });
+        </script>
+<?php }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -132,13 +173,13 @@ if ($action == 'add_cfx') {
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link active" href="/deliverylist.php">
-                                <?php
+                                    <?php
                                     $count0 = "SELECT COUNT(*) As total_records FROM delivery where  status='0' AND status_chk='0' ";
                                     $rs_count0 = $conn->query($count0);
                                     $rcount0 = $rs_count0->fetch_assoc();
                                     ?>
                                     <h3 class="h5 font-weight-bold"> รายการส่งสินค้า
-                                        <span class="badge badge-pill badge-danger"><?=$rcount0['total_records']?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount0['total_records'] ?></span>
                                     </h3>
                                     <span>รายการส่งสินค้าที่ออกใบ SO แล้วอยู่ระหว่างการส่ง
                                         <span class="badge badge-warning"> Wait </span>
@@ -300,7 +341,18 @@ if ($action == 'add_cfx') {
                                                     ?>
                                                 </td>
                                                 <td>
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/saleorder.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
+                                                        <i class="i-Car-Items font-weight-bold"></i>
+                                                    </a>
 
+
+                                                    <?php if ($row['hs_id'] == '0') { ?>
+                                                        <button data-toggle="modal" data-target="#medalhs" title="ออกใบเสร็จรับเงิน(HS)" data-id="<?php echo $row['id']; ?>" id="add_hs" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Car-Items font-weight-bold"></i> </button>
+                                                    <?php } else {  ?>
+                                                        <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS)" href="/hs.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
+                                                            <i class="i-Car-Items font-weight-bold"></i>
+                                                        </a>
+                                                    <?php } ?>
                                                     <button data-toggle="modal" data-target="#medalemp" title="กำหนดพนักงานส่ง" data-id="<?php echo $row['id']; ?>" id="add_emp" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Add-User font-weight-bold"></i> </button>
 
                                                     <button data-toggle="modal" data-target="#medalcf" title="ยืนยันส่งสินค้า" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
@@ -343,18 +395,18 @@ if ($action == 'add_cfx') {
                                                                     echo "class='disabled'";
                                                                 } ?>>
                                             <a class="page-link" <?php if ($page_no > 1) {
-                                                    echo "href='?page_no=$previous_page' ";
-                                                } ?>>Previous</a>
+                                                                        echo "href='?page_no=$previous_page' ";
+                                                                    } ?>>Previous</a>
                                         </li>
 
                                         <?php
                                         if ($total_no_of_pages <= 10) {
                                             for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
                                                 if ($counter == $page_no) { ?>
-                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
-                                               <?php  } else { ?>
-                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
-                                              <?php   }
+                                                    <li class='page-item active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                <?php  } else { ?>
+                                                    <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php   }
                                             }
                                         } elseif ($total_no_of_pages > 10) {
                                             if ($page_no <= 4) {
@@ -362,14 +414,14 @@ if ($action == 'add_cfx') {
                                                     if ($counter == $page_no) {
                                                         echo "<li class='page-item  active'><a>$counter</a></li>";
                                                     } else { ?>
-                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
-                                                   <?php  }
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                <?php  }
                                                 }
-                                        ?>
+                                                ?>
                                                 <li class="page-item"><a>...</a></li>
-                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                            <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
                                                 <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
                                                 <li class="page-item"><a>...</a></li>
@@ -378,20 +430,20 @@ if ($action == 'add_cfx') {
                                                         <li class='active'><a><?php echo "$counter"; ?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                    <?php    }
+                                                <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
+                                                <li><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><? echo "$second_last"; ?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><? echo "$total_no_of_pages"; ?></a></li>";
                                             <?php  } else { ?>
-                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
-                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
-                                               <li><a class="page-link">...</a></li>
+                                                <li><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li><a class="page-link">...</a></li>
 
-                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
-                                                  <?php  } else {
+                                                        <li class='active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else {
                                                     ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
@@ -403,158 +455,211 @@ if ($action == 'add_cfx') {
                                                 echo "class='disabled'";
                                             } ?>>
                                             <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
-                                                    echo "href='?page_no=$next_page'";
-                                                } ?>>Next</a>
+                                                                        echo "href='?page_no=$next_page'";
+                                                                    } ?>>Next</a>
                                         </li>
 
                                         <?php if ($page_no < $total_no_of_pages) { ?>
-                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
-                                      <?php   } ?>
+                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                        <?php   } ?>
                                     </ul>
                                 </nav>
                             </div>
 
-                        
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Header -->
+                <?php include './include/footer.php'; ?>
+                <!-- =============== Header End ================-->
+            </div>
+        </div>
+
+
+        <!-- Modal บันทึกสต็อก-->
+        <div class="modal fade" id="medalemp" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="medalconcreteuseTitle-2">กำหนดพนักงานส่งและตรวจสอบ</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="dynamic-content"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Modal CF-->
+        <div class="modal fade" id="medalcf" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันส่งสินค้า</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="dynamic-content1"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal HS-->
+        <div class="modal fade" id="medalhs" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันการออกใบเสร็จรับเงิน</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="dynamic-content2"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Modal ยืนยันส่งสินค้า -->
+        <div class="modal fade" id="medaltransuccess" tabindex="-1" role="dialog" aria-labelledby="medaltransuccess-2" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="medaltransuccess-2">ยืนยันส่งสินค้า</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-Success text-16 line-height-1 mb-2">ยืนยันส่งสินค้า Sale Order ID : <span id="message"></span> เรียบร้อยใช่หรือไม่ ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
+                        <button class="btn btn-primary ml-2" type="button">ใช่</button>
                     </div>
                 </div>
             </div>
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
         </div>
-    </div>
+        <script>
+            $(document).ready(function() {
 
+                $(document).on('click', '#add_emp', function(e) {
 
-    <!-- Modal บันทึกสต็อก-->
-    <div class="modal fade" id="medalemp" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="medalconcreteuseTitle-2">กำหนดพนักงานส่งและตรวจสอบ</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
+                    e.preventDefault();
 
-                    <div id="dynamic-content"></div>
+                    var uid = $(this).data('id'); // get id of clicked row
 
-                </div>
+                    $('#dynamic-content').html(''); // leave this div blank
+                    $('#modal-loader').show(); // load ajax loader on button click
 
-            </div>
-        </div>
-    </div>
-    <!-- Modal cfบัcf-->
-    <div class="modal fade" id="medalcf" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันส่งสินค้า</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
+                    $.ajax({
+                            url: 'delivery_emp.php',
+                            type: 'POST',
+                            data: 'id=' + uid,
+                            dataType: 'html'
+                        })
+                        .done(function(data) {
+                            console.log(data);
+                            $('#dynamic-content').html(''); // blank before load.
+                            $('#dynamic-content').html(data); // load here
+                            $('#modal-loader').hide(); // hide loader  
+                        })
+                        .fail(function() {
+                            $('#dynamic-content').html(
+                                '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                            );
+                            $('#modal-loader').hide();
+                        });
 
-                    <div id="dynamic-content1"></div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Modal ยืนยันส่งสินค้า -->
-    <div class="modal fade" id="medaltransuccess" tabindex="-1" role="dialog" aria-labelledby="medaltransuccess-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="medaltransuccess-2">ยืนยันส่งสินค้า</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-Success text-16 line-height-1 mb-2">ยืนยันส่งสินค้า Sale Order ID : <span id="message"></span> เรียบร้อยใช่หรือไม่ ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
-                    <button class="btn btn-primary ml-2" type="button">ใช่</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function() {
-
-            $(document).on('click', '#add_emp', function(e) {
-
-                e.preventDefault();
-
-                var uid = $(this).data('id'); // get id of clicked row
-
-                $('#dynamic-content').html(''); // leave this div blank
-                $('#modal-loader').show(); // load ajax loader on button click
-
-                $.ajax({
-                        url: 'delivery_emp.php',
-                        type: 'POST',
-                        data: 'id=' + uid,
-                        dataType: 'html'
-                    })
-                    .done(function(data) {
-                        console.log(data);
-                        $('#dynamic-content').html(''); // blank before load.
-                        $('#dynamic-content').html(data); // load here
-                        $('#modal-loader').hide(); // hide loader  
-                    })
-                    .fail(function() {
-                        $('#dynamic-content').html(
-                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
-                        );
-                        $('#modal-loader').hide();
-                    });
-
+                });
             });
-        });
-    </script>
+        </script>
 
-    <script>
-        $(document).ready(function() {
+        <script>
+            $(document).ready(function() {
 
-            $(document).on('click', '#add_cf', function(e) {
+                $(document).on('click', '#add_cf', function(e) {
 
-                e.preventDefault();
+                    e.preventDefault();
 
-                var uid = $(this).data('id'); // get id of clicked row
+                    var uid = $(this).data('id'); // get id of clicked row
 
-                $('#dynamic-content1').html(''); // leave this div blank
-                $('#modal-loader').show(); // load ajax loader on button click
+                    $('#dynamic-content1').html(''); // leave this div blank
+                    $('#modal-loader').show(); // load ajax loader on button click
 
-                $.ajax({
-                        url: 'delivery_confirm.php',
-                        type: 'POST',
-                        data: 'id=' + uid,
-                        dataType: 'html'
-                    })
-                    .done(function(data) {
-                        console.log(data);
-                        $('#dynamic-content1').html(''); // blank before load.
-                        $('#dynamic-content1').html(data); // load here
-                        $('#modal-loader').hide(); // hide loader  
-                    })
-                    .fail(function() {
-                        $('#dynamic-content').html(
-                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
-                        );
-                        $('#modal-loader').hide();
-                    });
+                    $.ajax({
+                            url: 'delivery_confirm.php',
+                            type: 'POST',
+                            data: 'id=' + uid,
+                            dataType: 'html'
+                        })
+                        .done(function(data) {
+                            console.log(data);
+                            $('#dynamic-content1').html(''); // blank before load.
+                            $('#dynamic-content1').html(data); // load here
+                            $('#modal-loader').hide(); // hide loader  
+                        })
+                        .fail(function() {
+                            $('#dynamic-content').html(
+                                '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                            );
+                            $('#modal-loader').hide();
+                        });
 
+                });
             });
-        });
-    </script>
-    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+        </script>
+
+        <script>
+            $(document).ready(function() {
+
+                $(document).on('click', '#add_hs', function(e) {
+
+                    e.preventDefault();
+
+                    var uid = $(this).data('id'); // get id of clicked row
+
+                    $('#dynamic-content2').html(''); // leave this div blank
+                    $('#modal-loader').show(); // load ajax loader on button click
+
+                    $.ajax({
+                            url: 'hs_confirm.php',
+                            type: 'POST',
+                            data: 'id=' + uid,
+                            dataType: 'html'
+                        })
+                        .done(function(data) {
+                            console.log(data);
+                            $('#dynamic-content2').html(''); // blank before load.
+                            $('#dynamic-content2').html(data); // load here
+                            $('#modal-loader').hide(); // hide loader  
+                        })
+                        .fail(function() {
+                            $('#dynamic-content2').html(
+                                '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                            );
+                            $('#modal-loader').hide();
+                        });
+
+                });
+            });
+        </script>
+        <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+        <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+        <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="../../dist-assets/js/scripts/script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+        <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+        <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+        <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
 
 </html>
