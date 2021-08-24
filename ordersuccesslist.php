@@ -1,5 +1,40 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+unset($_SESSION['order_id']);
+$emp_id = $_SESSION["username"];
 
+$keyword = $_POST['keyword'];
+$column = $_REQUEST['column'];
+$rowS = $_REQUEST['row'];
+if (empty($column) && ($keyword)) {
+} else {
+    $columx = "AND $column LIKE'$keyword%'";
+    // echo"$columx";   
+}
+if (($column == "") && ($keyword == "$keyword")) {
+    $keywordx = "AND customer_id LIKE'$keyword%'
+               OR customer_name LIKE'$keyword%'
+               OR  company_name LIKE'$keyword%'
+               OR tel LIKE'$keyword%'
+               OR contact_name  LIKE'$keyword%' 
+               OR bill_address LIKE'$keyword%' ";
+    //    echo"$keywordx";
+}
+if (($column == "") && ($keyword == "")) {
+    $columx = "";
+    $keywordx = "";
+}
+if ($rowS == '') {
+    $total_records_per_page = 40;
+} else {
+    $total_records_per_page = $rowS;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -12,6 +47,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
+    </style>
 </head>
 
 <body class="text-left">
@@ -149,57 +191,92 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td> 29 ก.ค. 2021 17:53 </td>
-                                            <td> OR6400001</td>
-                                            <td> เงินสด</td>
-                                            <td> คุณพูนศักดิ์ </td>
-                                            <td> 0999999999 </td>
+                                    <tbody>       <?php
+                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+                                            $page_no = $_GET['page_no'];
+                                        } else {
+                                            $page_no = 1;
+                                        }
+                                        // $total_records_per_page = 10;
+                                        $offset = ($page_no - 1) * $total_records_per_page;
+                                        $previous_page = $page_no - 1;
+                                        $next_page = $page_no + 1;
+                                        $adjacents = "2";
+
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `orders` where  status='0'  AND order_status='5' $columx $keywordx  ");
+                                        $total_records = mysqli_fetch_array($result_count);
+                                        $total_records = $total_records['total_records'];
+                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
+                                        $second_last = $total_no_of_pages - 1; // total page minus 1
+
+                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='5'  $columx $keywordx LIMIT $offset, $total_records_per_page");
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <tr>
+                                        
                                             <td>
-                                                เมือง
-                                            </td>
-                                            <td> อุบลราชธานี </td>
-                                            <td>
-                                                <span class="font-weight-bold"> 0.00 </span>
-                                            </td>
-                                            <td> <span class="font-weight-bold"> 76,191.59 </span> </td>
-                                            <td> <span class="font-weight-bold"> 5,333.41 </span> </td>
-                                            <td>
-                                                <span class="font-weight-bold"> 81,525.00 </span>
-                                            </td>
+                                                    <?php $date = explode(" ", $row['date_create']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo $dat . '-' . $date[1]; ?>
+                                                </td>
+                                                <td> <?= $row['order_id'] ?></td>
+                                                <td><?php
+                                                    $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
+                                                    $rs2 = $conn->query($sql2);
+                                                    $row2 = $rs2->fetch_assoc();
+                                                    // ====
+                                                    $sql3 = "SELECT * FROM customer WHERE customer_id= '$row[cus_id]'";
+                                                    $rs3 = $conn->query($sql3);
+                                                    $row3 = $rs3->fetch_assoc();
+                                                    ?>
+                                                    <?= $row2['name'] ?>
+                                                </td>
+                                                <td> <?= $row3['customer_name'] ?></td>
+                                                <td> <?= $row3['tel'] ?> </td>
+                                                <td>
+                                                    <?php
+                                                    $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
+                                                    $rs2 = $conn->query($sql2);
+                                                    $row2 = $rs2->fetch_assoc();
+                                                    echo $row2['name_th'];
+                                                    ?>
+                                                </td>
+                                                <td> <?php
+                                                        $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
+                                                        $rs2 = $conn->query($sql2);
+                                                        $row2 = $rs2->fetch_assoc();
+                                                        echo $row2['name_th'];
+                                                        ?> 
+                                                </td>
+                                                <td><span class="font-weight-bold"> <?php echo number_format($row['discount'], '2', '.', ',') ?></span>
+                                                </td>
+                                                <td>
+                                                <?php
+                                                    $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
+                                                    $rsx4 = $conn->query($sqlx4);
+                                                    $rowx4 = $rsx4->fetch_assoc();
+
+                                                    ?>
+                                                    <?php $sub_total = $rowx4['total'] - $row['discount'];
+                                                    $tax = ($sub_total * 0.07);
+                                                    $grand_total = ($sub_total + $tax);
+                                                    ?>  <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                </td>
+                                                <td> <span class="font-weight-bold"> <?php echo number_format($tax, '2', '.', ',') ?></span> </td>
+                                                <td>
+                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
+                                                </td>
                                             <td>
                                             <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order"
-                                                    href="/orderview.php?saleorder_id=268" target="_blank">
+                                                    href="/orderview.php?saleorder_id=<?=$row['order_id']?>" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>
                                                 </a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td> 29 ก.ค. 2021 17:53 </td>
-                                            <td> OR6400002</td>
-                                            <td> เครดิต</td>
-                                            <td> คุณธนนวัต </td>
-                                            <td> 0888888888 </td>
-                                            <td>
-                                                เมือง
-                                            </td>
-                                            <td> ยโสธร </td>
-                                            <td>
-                                                <span class="font-weight-bold"> 0.00 </span>
-                                            </td>
-                                            <td> <span class="font-weight-bold"> 6,651.59 </span> </td>
-                                            <td> <span class="font-weight-bold"> 953.41 </span> </td>
-                                            <td>
-                                                <span class="font-weight-bold"> 7,545.00 </span>
-                                            </td>
-                                            <td>
-                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order"
-                                                    href="/orderview.php?saleorder_id=268" target="_blank">
-                                                    <i class="i-Eye font-weight-bold"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                       
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
@@ -222,18 +299,83 @@
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Previous"><span aria-hidden="true">«</span><span
-                                                    class="sr-only">Previous</span></a></li>
-                                        <!-- <| 123 |> -->
-                                        <li class="page-item active"><a class="page-link" href="#" onclick="clickNav(1)">1</a></li>
-                                        <!-- <| 123 ...|>  -->
+                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                        ?>
+                                        <li class="page-item" <?php if ($page_no <= 1) {
+                                                                    echo "class='disabled'";
+                                                                } ?>>
+                                            <a class="page-link" <?php if ($page_no > 1) {
+                                                                        echo "href='?page_no=$previous_page' ";
+                                                                    } ?>>Previous</a>
+                                        </li>
 
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Next"><span aria-hidden="true">»</span><span
-                                                    class="sr-only">Next</span></a></li>
+                                        <?php
+                                        if ($total_no_of_pages <= 10) {
+                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                    <li class='page-item active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                <?php  } else { ?>
+                                                    <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php   }
+                                            }
+                                        } elseif ($total_no_of_pages > 10) {
+                                            if ($page_no <= 4) {
+                                                for ($counter = 1; $counter < 8; $counter++) {
+                                                    if ($counter == $page_no) {
+                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                    } else { ?>
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                <?php  }
+                                                }
+                                                ?>
+                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                            <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li class="page-item"><a>...</a></li>
+                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else { ?>
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                <?php    }
+                                                } ?>
+                                                <li><a class="page-link">...</a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><? echo "$second_last"; ?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><? echo "$total_no_of_pages"; ?></a></li>";
+                                            <?php  } else { ?>
+                                                <li><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li><a class="page-link">...</a></li>
+
+                                                <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else {
+                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                        <?php   }
+                                                }
+                                            }
+                                        }
+                                        ?>
+
+                                        <li <?php if ($page_no >= $total_no_of_pages) {
+                                                echo "class='disabled'";
+                                            } ?>>
+                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
+                                                                        echo "href='?page_no=$next_page'";
+                                                                    } ?>>Next</a>
+                                        </li>
+
+                                        <?php if ($page_no < $total_no_of_pages) { ?>
+                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                        <?php   } ?>
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

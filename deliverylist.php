@@ -1,5 +1,93 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+$emp_id = $_SESSION["username"];
+$keyword = $_POST['keyword'];
+$column = $_REQUEST['column'];
+$rowS = $_REQUEST['row'];
+if (empty($column) && ($keyword)) {
+} else {
+    $columx = "AND $column LIKE'$keyword%'";
+    // echo"$columx";   
+}
+if (($column == "") && ($keyword == "$keyword")) {
+    $keywordx = "AND customer_id LIKE'$keyword%'
+               OR customer_name LIKE'$keyword%'
+               OR  company_name LIKE'$keyword%'
+               OR tel LIKE'$keyword%'
+               OR contact_name  LIKE'$keyword%' 
+               OR bill_address LIKE'$keyword%' ";
+    //    echo"$keywordx";
+}
+if (($column == "") && ($keyword == "")) {
+    $columx = "";
+    $keywordx = "";
+}
+if ($rowS == '') {
+    $total_records_per_page = 40;
+} else {
+    $total_records_per_page = $rowS;
+}
+$action = $_REQUEST['action'];
+if ($action == 'add_emp') {
+    $dev_id = $_REQUEST['dev_id'];
+    $dev_employee = $_REQUEST['dev_employee'];
+    $dev_check = $_REQUEST['dev_check'];
+    //    echo"$po_stop";
+    //    echo"$po_start";
+    $sqlxxx = "UPDATE delivery  SET dev_employee='$dev_employee',dev_check='$dev_check' where id='$dev_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("บันทึกข้อมูลพนักงานจัดส่งเรียบร้อย", "alert-primary");
+            });
+        </script>
+    <?php }
+}
 
+if ($action == 'add_cfx') {
+    $dev_id = $_REQUEST['dev_id'];
+
+    //    echo"$po_stop";
+    //    echo"$dev_id";
+       $sql = "SELECT * FROM delivery WHERE id= '$dev_id'";
+       $rs = $conn->query($sql);
+       $row = $rs->fetch_assoc();
+    $sqlxxx = "UPDATE delivery  SET status_chk='1' where id='$dev_id'";
+    $sql5 = "UPDATE deliver_detail  SET status_cf='1' where dev_id='$row[dev_id]'";
+    if ($conn->query($sql5) === TRUE) {}
+
+    $sql1 = "SELECT * FROM orders WHERE id= '$row[order_id]'";
+    $rs1 = $conn->query($sql1);
+    $row1 = $rs1->fetch_assoc();
+
+    $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$row[order_id]' AND status_delivery='1' ";
+    $rsc1 = $conn->query($sqlc1);
+    $rowc1 = $rsc1->fetch_assoc();
+
+    $sqlc0 = "SELECT COUNT(*) AS ts2  FROM deliver_detail  WHERE   order_id= '$row[order_id]' AND status_cf='1'";
+    $rsc0 = $conn->query($sqlc0);
+    $rowc0 = $rsc0->fetch_assoc();
+    if ($rowc0['ts2'] == $rowc1['ts']) {
+    $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]'";
+    if ($conn->query($sqlx12) === TRUE) {}
+    }
+  
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ยืนยันการจัดส่งเรียบร้อย", "alert-primary");
+            });
+        </script>
+<?php }
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -12,6 +100,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
+    </style>
 </head>
 
 <body class="text-left">
@@ -26,6 +121,9 @@
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+            <!-- แจ้งเตือน -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
 
                 <div class="row">
@@ -34,8 +132,13 @@
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link active" href="/deliverylist.php">
+                                <?php
+                                    $count0 = "SELECT COUNT(*) As total_records FROM delivery where  status='0' AND status_chk='0' ";
+                                    $rs_count0 = $conn->query($count0);
+                                    $rcount0 = $rs_count0->fetch_assoc();
+                                    ?>
                                     <h3 class="h5 font-weight-bold"> รายการส่งสินค้า
-                                        <span class="badge badge-pill badge-danger">3</span>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount0['total_records']?></span>
                                     </h3>
                                     <span>รายการส่งสินค้าที่ออกใบ SO แล้วอยู่ระหว่างการส่ง
                                         <span class="badge badge-warning"> Wait </span>
@@ -120,60 +223,98 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td> SO6401052 </td>
-                                            <td> OR6400001</td>
-                                            <td> 29 ก.ค. 2021</td>
-                                            <td> นายธนนวัต</td>
-                                            <td> นายประสิทธิ์ </td>
-                                            <td> คุณพูนศักดิ์ </td>
-                                            <td> 0999999999 </td>
-                                            <td>
-                                                89/171 หมู่บ้านเจริญทรัพย์ 10 ต.คลองหาด อ.คลองหาด จ.สระแก้ว
-                                            </td>
-                                            <td>
-                                                <div class="btn btn-outline-success btn-sm line-height-1" data-toggle="modal" title="กำหนดพนักงานส่ง"
-                                                    data-target="#medaltransorder">
-                                                    <i class="i-Add-User font-weight-bold"></i>
-                                                </div>
-                                                <div class="btn btn-outline-success btn-sm line-height-1" data-toggle="modal" title="ยืนยันส่งสินค้าเรียบร้อย"
-                                                    data-target="#medaltransuccess">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </div>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
-                                                    <i class="i-Eye font-weight-bold"></i>
-                                                </a>
+                                        <?php
+                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+                                            $page_no = $_GET['page_no'];
+                                        } else {
+                                            $page_no = 1;
+                                        }
+                                        // $total_records_per_page = 10;
+                                        $offset = ($page_no - 1) * $total_records_per_page;
+                                        $previous_page = $page_no - 1;
+                                        $next_page = $page_no + 1;
+                                        $adjacents = "2";
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td> SO6401052 </td>
-                                            <td> OR6400001</td>
-                                            <td> 29 ก.ค. 2021</td>
-                                            <td> นายธนนวัต</td>
-                                            <td> นายประสิทธิ์ </td>
-                                            <td> คุณพูนศักดิ์ </td>
-                                            <td> 0999999999 </td>
-                                            <td>
-                                                89/171 หมู่บ้านเจริญทรัพย์ 10 ต.คลองหาด อ.คลองหาด จ.สระแก้ว
-                                            </td>
-                                            <td>
-                                                <div class="btn btn-outline-success btn-sm line-height-1" data-toggle="modal" title="กำหนดพนักงานส่ง"
-                                                    data-target="#medaltransorder">
-                                                    <i class="i-Add-User font-weight-bold"></i>
-                                                </div>
-                                                <div class="btn btn-outline-success btn-sm line-height-1" data-toggle="modal" title="ยืนยันส่งสินค้าเรียบร้อย"
-                                                    data-target="#medaltransuccess">
-                                                    <i class="i-Check font-weight-bold"></i>
-                                                </div>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
-                                                    <i class="i-Eye font-weight-bold"></i>
-                                                </a>
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `delivery` where  status='0' AND status_chk='0'   $columx $keywordx  ");
+                                        $total_records = mysqli_fetch_array($result_count);
+                                        $total_records = $total_records['total_records'];
+                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
+                                        $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                            </td>
-                                        </tr>
+                                        $result = mysqli_query($conn, "SELECT * FROM `delivery` where status='0'  AND status_chk='0'   $columx $keywordx LIMIT $offset, $total_records_per_page");
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <tr>
+                                                <td> <?= $row['dev_id'] ?> </td>
+                                                <td> <?= $row['order_id'] ?></td>
+                                                <td><?php
+                                                    $sql1 = "SELECT * FROM orders WHERE order_id= '$row[order_id]'";
+                                                    $rs1 = $conn->query($sql1);
+                                                    $row1 = $rs1->fetch_assoc();
+
+                                                    $sql2 = "SELECT * FROM customer_type WHERE id= '$row1[cus_type]'";
+                                                    $rs2 = $conn->query($sql2);
+                                                    $row2 = $rs2->fetch_assoc();
+                                                    // ====
+
+                                                    $date = explode(" ", $row['dev_date']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo '<strong>' . $dat . '</strong>'; ?> </td>
+                                                <td> <?php
+                                                        $sql3 = "SELECT * FROM employee  WHERE emp_id= '$row[dev_employee]'";
+                                                        $rs3 = $conn->query($sql3);
+                                                        $row3 = $rs3->fetch_assoc();
+                                                        echo "$row3[emp_name]";
+                                                        ?>
+                                                </td>
+                                                <td> <?php
+                                                        $sql4 = "SELECT * FROM employee  WHERE emp_id= '$row[dev_check]'";
+                                                        $rs4 = $conn->query($sql4);
+                                                        $row4 = $rs4->fetch_assoc();
+                                                        echo "$row4[emp_name]";
+
+                                                        ?></td>
+                                                <td> <?php
+                                                        $sql5 = "SELECT * FROM customer WHERE customer_id= '$row1[cus_id]'";
+                                                        $rs5 = $conn->query($sql5);
+                                                        $row5 = $rs5->fetch_assoc();
+
+                                                        echo $row5['customer_name']; ?> </td>
+                                                <td> <?php echo $row5['tel']; ?> </td>
+                                                <td>
+                                                    <?php echo $row5['bill_address'];
+                                                    $sql6 = "SELECT * FROM districts  WHERE id= '$row5[subdistrict]'";
+                                                    $rs6 = $conn->query($sql6);
+                                                    $row6 = $rs6->fetch_assoc();
+                                                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row5[district]'";
+                                                    $rs7 = $conn->query($sql7);
+                                                    $row7 = $rs7->fetch_assoc();
+                                                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row5[province]'";
+                                                    $rs8 = $conn->query($sql8);
+                                                    $row8 = $rs8->fetch_assoc();
+
+                                                    echo " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th'];
+
+
+
+
+                                                    ?>
+                                                </td>
+                                                <td>
+
+                                                    <button data-toggle="modal" data-target="#medalemp" title="กำหนดพนักงานส่ง" data-id="<?php echo $row['id']; ?>" id="add_emp" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Add-User font-weight-bold"></i> </button>
+
+                                                    <button data-toggle="modal" data-target="#medalcf" title="ยืนยันส่งสินค้า" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
+
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order" href="/orderview.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
+                                                        <i class="i-Eye font-weight-bold"></i>
+                                                    </a>
+
+                                                </td>
+                                            </tr><?php
+                                                }
+                                                mysqli_close($conn);
+                                                    ?>
+
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
@@ -196,18 +337,84 @@
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Previous"><span aria-hidden="true">«</span><span
-                                                    class="sr-only">Previous</span></a></li>
-                                        <!-- <| 123 |> -->
-                                        <li class="page-item active"><a class="page-link" href="#" onclick="clickNav(1)">1</a></li>
-                                        <!-- <| 123 ...|>  -->
+                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                        ?>
+                                        <li class="page-item" <?php if ($page_no <= 1) {
+                                                                    echo "class='disabled'";
+                                                                } ?>>
+                                            <a class="page-link" <?php if ($page_no > 1) {
+                                                    echo "href='?page_no=$previous_page' ";
+                                                } ?>>Previous</a>
+                                        </li>
 
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Next"><span aria-hidden="true">»</span><span
-                                                    class="sr-only">Next</span></a></li>
+                                        <?php
+                                        if ($total_no_of_pages <= 10) {
+                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
+                                               <?php  } else { ?>
+                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
+                                              <?php   }
+                                            }
+                                        } elseif ($total_no_of_pages > 10) {
+                                            if ($page_no <= 4) {
+                                                for ($counter = 1; $counter < 8; $counter++) {
+                                                    if ($counter == $page_no) {
+                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                    } else { ?>
+                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
+                                                   <?php  }
+                                                }
+                                        ?>
+                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li class="page-item"><a>...</a></li>
+                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else { ?>
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php    }
+                                                } ?>
+                                                <li><a class="page-link">...</a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
+                                            <?php  } else { ?>
+                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
+                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                               <li><a class="page-link">...</a></li>
+
+                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
+                                                  <?php  } else {
+                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                        <?php   }
+                                                }
+                                            }
+                                        }
+                                        ?>
+
+                                        <li <?php if ($page_no >= $total_no_of_pages) {
+                                                echo "class='disabled'";
+                                            } ?>>
+                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
+                                                    echo "href='?page_no=$next_page'";
+                                                } ?>>Next</a>
+                                        </li>
+
+                                        <?php if ($page_no < $total_no_of_pages) { ?>
+                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                      <?php   } ?>
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
+
+                        
                     </div>
                 </div>
             </div>
@@ -217,41 +424,41 @@
         </div>
     </div>
 
-    <!-- Modal กำหนดพนักงานส่งและตรวจสอบ -->
-    <div class="modal fade" id="medaltransorder" tabindex="-1" role="dialog" aria-labelledby="medaltransorderTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered " role="document">
+
+    <!-- Modal บันทึกสต็อก-->
+    <div class="modal fade" id="medalemp" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="medaltransorderTitle-2">กำหนดพนักงานส่งและตรวจสอบ</h5>
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">กำหนดพนักงานส่งและตรวจสอบ</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="searchColumnId"> ชื่อพนักงานส่ง </label>
-                        <select id="searchColumnId" class="custom-select" name="column">
-                            <option value="นาย A ">นาย A </option>
-                            <option value="นาย B">นาย B</option>
-                            <option value="นาย C">นาย C</option>
-                            <option value="นาย D">นาย D</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="searchColumnId"> ชื่อพนักงานตรวจสอบ </label>
-                        <select id="searchColumnId" class="custom-select" name="column">
-                            <option value="นาย A ">นาย A </option>
-                            <option value="นาย B">นาย B</option>
-                            <option value="นาย C">นาย C</option>
-                            <option value="นาย D">นาย D</option>
-                        </select>
-                    </div>
+
+                    <div id="dynamic-content"></div>
+
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary ml-2" type="button">ตกลง</button>
-                </div>
+
             </div>
         </div>
     </div>
+    <!-- Modal cfบัcf-->
+    <div class="modal fade" id="medalcf" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันส่งสินค้า</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
 
+                    <div id="dynamic-content1"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!-- Modal ยืนยันส่งสินค้า -->
     <div class="modal fade" id="medaltransuccess" tabindex="-1" role="dialog" aria-labelledby="medaltransuccess-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered " role="document">
@@ -261,7 +468,7 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-Success text-16 line-height-1 mb-2">ยืนยันส่งสินค้า Sale Order ID : SO6400001 เรียบร้อยใช่หรือไม่ ?</p>
+                    <p class="text-Success text-16 line-height-1 mb-2">ยืนยันส่งสินค้า Sale Order ID : <span id="message"></span> เรียบร้อยใช่หรือไม่ ?</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
@@ -270,7 +477,75 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
 
+            $(document).on('click', '#add_emp', function(e) {
+
+                e.preventDefault();
+
+                var uid = $(this).data('id'); // get id of clicked row
+
+                $('#dynamic-content').html(''); // leave this div blank
+                $('#modal-loader').show(); // load ajax loader on button click
+
+                $.ajax({
+                        url: 'delivery_emp.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content').html(''); // blank before load.
+                        $('#dynamic-content').html(data); // load here
+                        $('#modal-loader').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader').hide();
+                    });
+
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', '#add_cf', function(e) {
+
+                e.preventDefault();
+
+                var uid = $(this).data('id'); // get id of clicked row
+
+                $('#dynamic-content1').html(''); // leave this div blank
+                $('#modal-loader').show(); // load ajax loader on button click
+
+                $.ajax({
+                        url: 'delivery_confirm.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content1').html(''); // blank before load.
+                        $('#dynamic-content1').html(data); // load here
+                        $('#modal-loader').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader').hide();
+                    });
+
+            });
+        });
+    </script>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>

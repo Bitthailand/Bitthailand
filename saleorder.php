@@ -1,5 +1,13 @@
 <?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
 
+$order_id=$_REQUEST['order_id'];
+$so_id=$_REQUEST['so_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -18,9 +26,35 @@
         margin-top: 0;
         margin-bottom: 0.1rem;
     }
+ 
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
     </style>
 </head>
+<?php
+include './include/config.php';
 
+$datetoday = date('Y-m-d');
+$sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+// ====
+$sql2 = "SELECT * FROM customer_type  WHERE id= '$row[cus_type]'";
+$rs2 = $conn->query($sql2);
+$row2 = $rs2->fetch_assoc();
+// ====
+$sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
+$rs3 = $conn->query($sql3);
+$row3 = $rs3->fetch_assoc();
+
+$sql5 = "SELECT * FROM delivery  WHERE dev_id= '$so_id' AND order_id='$order_id'";
+$rs5 = $conn->query($sql5);
+$row5 = $rs5->fetch_assoc();
+// ===
+?>
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -60,17 +94,20 @@
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
-                                                    <p><strong>ชื่อลูกค้า : </strong>คุณ มนต์ชัย สุขเกษม</p>
-                                                    <p><strong>ที่อยู่จัดส่ง : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
-                                                    <p><strong>โทร : </strong> 093-6954224</p>
-                                                    <p><strong>อ้างอิง : </strong></p>
+                                                    <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
+                                                    <p><strong>ที่อยู่ : </strong><?= $row3['bill_address'] ?> </p>
+                                                    <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
+                                                    <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
+
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ใบส่งของ <span>SO6401561</span></p>
-                                                        <p>ลำดับการสั่งซื้อ <span>OR6400024</span></p>
-                                                        <p>วันที่ <span>05-ส.ค.-64</span></p>
+                                                        <p>เลขที่ใบส่งของ <span><?=$order_id?></span></p>
+                                                        <p>ลำดับการสั่งซื้อ <span><?=$so_id?></span></p>
+                                                        <p>วันที่ <span><?php $date = explode(" ", $row5['dev_date']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo $dat; ?> </span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -87,13 +124,22 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
+                                                        <?php
+                                                                $sql_pro = "SELECT * FROM order_details  where order_id='$order_id'  order by id  ASC ";
+                                                                $result_pro = mysqli_query($conn, $sql_pro);
+                                                                if (mysqli_num_rows($result_pro) > 0) {
+                                                                    while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+
+                                                                        $no = $row_pro['id'];
+                                                                        $product_id = $row_pro['product_id'];
+                                                                ?> <tr>
                                                                 <th scope="row" class="text-center">1</th>
                                                                 <td>FP03100020 เสารั้ว 3x3" 1.00 1.00 1.00</td>
                                                                 <td class="text-right">120</td>
                                                                 <td class="text-right">-</td>
                                                                 <td class="text-right">-</td>
                                                             </tr>
+                                                            <?php } } ?>
                                                             <tr>
                                                                 <th scope="row" class="text-center">2</th>
                                                                 <td>FP03100025 เสารั้ว 3x3" 1.00 1.00 1.00</td>

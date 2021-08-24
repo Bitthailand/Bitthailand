@@ -46,7 +46,7 @@ if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
 
     // $sql = "DELETE FROM customer  WHERE customer_id='$del_id' ";
-    $sql = "UPDATE orders    SET status='1'  where id='$del_id' ";
+    $sql = "UPDATE orders    SET status='1',order_status='6'  where id='$del_id' ";
 
     if ($conn->query($sql) === TRUE) { ?>
 <script>
@@ -105,7 +105,12 @@ $(document).ready(function() {
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link active" href="/quotationlist.php">
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                    <?php
+                                    $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
+                                    $rs_count0 = $conn->query($count0);
+                                    $rcount0 = $rs_count0->fetch_assoc();
+                                    ?>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount0['total_records']?></span>
                                     </h3>
                                     <span>รายการ Order ที่อยู่ระหว่างการเสนอราคา
                                         <span class="badge badge-warning"> Wait </span>
@@ -114,8 +119,13 @@ $(document).ready(function() {
                             </li>
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/ailist.php">
+                                <?php
+                                    $count = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='2'";
+                                    $rs_count = $conn->query($count);
+                                    $rcount = $rs_count->fetch_assoc();
+                                    ?>
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
                                     </h3>
                                     <span>Order รอส่งสินค้า
                                         <span class="badge badge-warning"> Wait </span>
@@ -303,7 +313,7 @@ $(document).ready(function() {
                                                 </td>
                                                 <td>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/quotation.php?order_id=<?= $row['order_id'] ?>">
+                                                    href="/quotation.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>">

@@ -14,6 +14,7 @@ $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 // ====
+
 $sql2 = "SELECT * FROM customer_type  WHERE id= '$row[cus_type]'";
 $rs2 = $conn->query($sql2);
 $row2 = $rs2->fetch_assoc();
@@ -22,16 +23,20 @@ $sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
 $rs3 = $conn->query($sql3);
 $row3 = $rs3->fetch_assoc();
 // ===
-$sql5 = "SELECT MAX(id) AS id_run FROM delivery  ";
-$rs5 = $conn->query($sql5);
-$row_run = $rs5->fetch_assoc();
-
-$datetodat = date('Y-m-d');
-$date = explode(" ", $datetodat);
-$dat = datethai_so($date[0]);
-$code_new = $row_run['id_run'] + 1;
-$code = sprintf('%05d', $code_new);
-$dev_id = $dat . $code;
+if ($row['dev_status'] == 1) {
+    $dev_status = $row['dev_status'];
+} else {
+    $sql5 = "SELECT MAX(id) AS id_run FROM delivery  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    $dev_status = $row['dev_status'];
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_so($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $dev_id = $dat . $code;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -62,133 +67,156 @@ $dev_id = $dat . $code;
 </head>
 <?php
 include './include/alert.php';
+echo"$dev_date";
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
     $order_id = $_REQUEST['order_id'];
     $dev_id = $_REQUEST['dev_id'];
     $dev_date = $_REQUEST['dev_date'];
-    // echo "$order_id";
-    // 
+ 
+    if ($dev_date == '') { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ไม่ได้กรอกวันที่", "alert-danger");
+            });
+        </script>
+        <?php } else {
+        $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF' ORDER BY id ASC";
+        $resultxx = mysqli_query($conn, $sqlxx);
+        if (mysqli_num_rows($resultxx) > 0) {
+            while ($rowx = mysqli_fetch_assoc($resultxx)) {
+                // echo"$product_id";
 
-    $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$order_id' AND status_delivery='1' ";
-    $rsc1 = $conn->query($sqlc1);
-    $rowc1 = $rsc1->fetch_assoc();
+                $product_id = $rowx['product_id'];
+                $pid = $rowx['id'];
+                // echo"++$id5x";
+                $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
+                $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
+                $total_instock = $stock1 + $stock2;
+                // echo "vvvvv";
+                // echo "$stock1";
+                // echo "$stock2";
+                // echo "$stock2";
+                // echo "total_instoc";
+                // echo "$total_instock";
+                $sqlx3 = "SELECT * FROM product  WHERE product_id= '$product_id'";
+                $rsx3 = $conn->query($sqlx3);
+                $rowx3 = $rsx3->fetch_assoc();
+                // echo "===";
+                // echo "$rowx3[fac2_stock]";
+                // echo "===<br>";
+                if ($rowx3['fac1_stock'] < $stock1) { ?>
+                    <script>
+                        $(document).ready(function() {
+                            showAlert("ไม่สามารถบันทึกสต็อกโรงงาน1 รหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินสต็อก", "alert-danger");
+                        });
+                    </script>
+                <?php
+                }
+                if ($rowx3['fac2_stock'] < $stock2) { ?>
+                    <script>
+                        $(document).ready(function() {
+                            showAlert("ไม่สามารถบันทึกสต็อกโรงงาน2 รหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินสต็อก", "alert-danger");
+                        });
+                    </script>
+                <?php
+                }
+                if ($rowx['qty'] < $total_instock) { ?>
+                    <script>
+                        $(document).ready(function() {
+                            showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
+                        });
+                    </script>
+                <?php
+                }
+                if ($total_instock == 0) { ?>
+                    <script>
+                        $(document).ready(function() {
+                            showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
+                        });
+                    </script>
+                    <?php
+                }
+                //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
+                if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
+                    $sum_face1 = $rowx3['fac1_stock'] - $stock1;
+                    $sum_face2 = $rowx3['fac2_stock'] - $stock2;
+                //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
+                    $sql99 = "SELECT *  FROM deliver_detail  where order_id= '$order_id' AND dev_id='$dev_id'AND product_id='$product_id' ";
+                    $result99 = mysqli_query($conn, $sql99);
+                    if (mysqli_num_rows($result99) > 0) {
+                    } else {
 
-    $sqlc0 = "SELECT COUNT(*) AS ts2  FROM order_details  WHERE   order_id= '$order_id' ";
-    $rsc0 = $conn->query($sqlc0);
-    $rowc0 = $rsc0->fetch_assoc();
-    $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$dev_date' WHERE order_id= '$order_id'";
-    echo "$rowc1[ts]=$rowc0[ts2]=$dev_date";
+                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty)
+                            VALUES ('$dev_id','$product_id','$order_id','$total_instock')";
+                       
+               
 
+                    $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$total_instock',status_delivery='1' where product_id='$product_id'";
+                    $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
 
-    // echo"$rowc1[ts]<br>";
-    echo "xxx<br>";
-    if ($rowc0['ts2'] == $rowc1['ts']) {
-        echo "$order_id";
-        $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$dev_date' WHERE order_id= '$order_id'";
-        if ($conn->query($sqlx12) === TRUE) {
+                    if ($conn->query($sql1) === TRUE) { }
+                    if ($conn->query($sql2) === TRUE) { } 
+                   
+                        if ($conn->query($sqlx) === TRUE) {
+                        ?>
+                        <script>
+                            $(document).ready(function() {
+                                showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
+                            });
+                        </script>
+<?php
+                    }
+                }
+                }
+            }
         }
+
+        $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$order_id' AND status_delivery='1' ";
+        $rsc1 = $conn->query($sqlc1);
+        $rowc1 = $rsc1->fetch_assoc();
+
+        $sqlc0 = "SELECT COUNT(*) AS ts2  FROM order_details  WHERE   order_id= '$order_id' AND ptype_id<>'TF' ";
+        $rsc0 = $conn->query($sqlc0);
+        $rowc0 = $rsc0->fetch_assoc();
+        $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$dev_date' WHERE order_id= '$order_id'";
+        // echo "$rowc1[ts]=$rowc0[ts2]=$dev_date";
+
+
+        // echo"$rowc1[ts]<br>";
+        // echo "xxx<br>";
+        if ($rowc0['ts2'] == $rowc1['ts']) {
+            // echo "$order_id";
+            $dev_status = '1';
+            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id' WHERE order_id= '$order_id'";
+            if ($conn->query($sqlx12) === TRUE) {
+            }
+        }
+
         $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_id' AND dev_id='$dev_id' ";
         $resultxx = mysqli_query($conn, $sqlxx);
         if (mysqli_num_rows($resultxx) > 0) {
         } else {
-            $sqlx = "INSERT INTO delivery(dev_id,order_id)
-            VALUES ('$dev_id','$order_id')";
+            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date)
+             VALUES ('$dev_id','$order_id','$dev_date')";
             if ($conn->query($sqlx) === TRUE) {
             }
-        }
-    }
-    // 
-
-
-    $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF' ORDER BY id ASC";
-    $resultxx = mysqli_query($conn, $sqlxx);
-    if (mysqli_num_rows($resultxx) > 0) {
-        while ($rowx = mysqli_fetch_assoc($resultxx)) {
-            // echo"$product_id";
-
-            $product_id = $rowx['product_id'];
-            $pid = $rowx['id'];
-            // echo"++$id5x";
-            $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
-            $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
-            $total_instock = $stock1 + $stock2;
-            // echo "vvvvv";
-            // echo "$stock1";
-            // echo "$stock2";
-            // echo "$stock2";
-            // echo "total_instoc";
-            // echo "$total_instock";
-            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$product_id'";
-            $rsx3 = $conn->query($sqlx3);
-            $rowx3 = $rsx3->fetch_assoc();
-            // echo "===";
-            // echo "$rowx3[fac2_stock]";
-            // echo "===<br>";
-            if ($rowx3['fac1_stock'] < $stock1) { ?>
-                <script>
-                    $(document).ready(function() {
-                        showAlert("ไม่สามารถบันทึกสต็อกโรงงาน1 รหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินสต็อก", "alert-danger");
-                    });
-                </script>
-            <?php
-            }
-            if ($rowx3['fac2_stock'] < $stock2) { ?>
-                <script>
-                    $(document).ready(function() {
-                        showAlert("ไม่สามารถบันทึกสต็อกโรงงาน2 รหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินสต็อก", "alert-danger");
-                    });
-                </script>
-            <?php
-            }
-            if ($rowx['qty'] < $total_instock) { ?>
-                <script>
-                    $(document).ready(function() {
-                        showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
-                    });
-                </script>
-            <?php
-            }
-            if ($total_instock == 0) { ?>
-                <script>
-                    $(document).ready(function() {
-                        showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
-                    });
-                </script>
-                <?php
-            }
-            //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
-            if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
-                $sum_face1 = $rowx3['fac1_stock'] - $stock1;
-                $sum_face2 = $rowx3['fac2_stock'] - $stock2;
-
-                // เช็คข้อมูลในตาราง delevery detail
-            //     $sqlxx = "SELECT *  FROM deliver_detail  where dev_id '$dev_id' AND product_id='$product_id' AND order_id='$order_id' ";
-            //     $resultxx = mysqli_query($conn, $sqlxx);
-            //     if (mysqli_num_rows($resultxx) > 0) {
-            //     } else {
-            //         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty)
-            //  VALUES ('$dev_id','$product_id','$order_id','$total_instock')";
-            //         if ($conn->query($sqlx) === TRUE) {
-            //         }
-            //     }
-
-                $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$total_instock',status_delivery='1' where product_id='$product_id'";
-                $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
-
-                if ($conn->query($sql1) === TRUE) {
+            $sql_TF = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'  ";
+            $result_TF = mysqli_query($conn, $sql_TF);
+                while ($row_TF = mysqli_fetch_assoc($result_TF)) {
+                
+                    $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty)
+        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1')";
+                    if ($conn->query($sql_TF) === TRUE) {
+                    }
                 }
-                if ($conn->query($sql2) === TRUE) {  ?>
-                    <script>
-                        $(document).ready(function() {
-                            showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
-                        });
-                    </script>
-<?php
-                }
-            }
+            
         }
+        $cf= 'ok';
     }
+    $action='';
+    $dev_date='';
+   
 }
 ?>
 
@@ -238,6 +266,7 @@ if ($action == 'add_dev') {
                                                         <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                         <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                                                         <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
+                                                        <p><strong>ประเภทลูกค้า : </strong><?= $row2['name'] ?></p>
                                                     </div>
                                                     <div class="col-md-6 text-sm-right">
                                                         <h5 class="font-weight-bold"></h5>
@@ -252,7 +281,7 @@ if ($action == 'add_dev') {
                                                             <div class="form-group col-md-12">
                                                                 <div class="form-group">
                                                                     <label for="delivery_date">วันที่</label>
-                                                                    <input id="dev_date" class="form-control" type="date" min="<?= $datetodat ?>" name="dev_date" value="<?= $dev_date ?>" require>
+                                                                    <input id="dev_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="dev_date" value="<?= $row['delivery_date'] ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -298,11 +327,11 @@ if ($action == 'add_dev') {
                                                                             <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
                                                                             <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
                                                                             <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
-                                                                                                                                                                                                                                                                                                                                                                                echo "disabled";
-                                                                                                                                                                                                                                                                                                                                                                            } ?>></td>
+                                                                                                                                                                                                                                                                                                                                                                                        echo "disabled";
+                                                                                                                                                                                                                                                                                                                                                                                    } ?>></td>
                                                                             <td class="text-center"> <?php echo "<span id='err2" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face2" . $no . "'"; ?> value='<?php echo $row_pro['face2_stock_out']; ?>' <?php echo "name='stock2[$product_id][$no][$idx8]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
-                                                                                                                                                                                                                                                                                                                                                                                    echo "disabled";
-                                                                                                                                                                                                                                                                                                                                                                                } ?>></td>
+                                                                                                                                                                                                                                                                                                                                                                                        echo "disabled";
+                                                                                                                                                                                                                                                                                                                                                                                    } ?>></td>
                                                                             <td class="text-center"> <?php echo "<span id='err3" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='total_price" . $no . "'"; ?> value='<?php echo $row_pro['qty_dev']; ?>' readonly></td>
                                                                             <?php
                                                                             // echo "<td class=\"text-center\"><span id='err" . $no . "' ></span><input type='number' class=\"form-control\" id='face1" . $no . "' value='.$row_pro[face1_stock_out].' name='stock1[$product_id][$no][$idx7]' onkeyup='keyup(" . $no . ")'></td>";
@@ -321,12 +350,23 @@ if ($action == 'add_dev') {
                                                 <div class="mt-3 mb-4 border-top"></div>
                                                 <div class="d-sm-flex mb-5" data-view="print">
                                                     <span class="m-auto"></span>
-                                                    <a class="btn btn-outline-primary m-1" href="/saleorder.php" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>
-                                                    <a class="btn btn-outline-primary m-1" href="/hs.php" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
-                                                    <a class="btn btn-outline-primary m-1" href="/invoice.php" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a>
-                                                    <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
-                                                    <input type="hidden" name="action" value="add_dev">
-                                                    <button type="submit" class="btn btn-outline-primary m-1" name="add-data">บันทึกการส่งของ</span>
+                                                    <!-- เงินสด SO  HS   เครดิส  SO  IV   -->
+                                                    <?php 
+                                                    
+                                                    echo"$dev_status+$action";
+                                                    if (($dev_status == 1)||($cf == 'ok')) {
+                                                        // echo"$row[cus_type]";
+                                                    ?>
+                                                        <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>
+                                                        <?php if ($row['cus_type'] == 1) { ?> <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&dev_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a> <?php } ?>
+                                                        <?php if ($row['cus_type'] == 2) { ?> <a class="btn btn-outline-primary m-1" href="/invoice.php" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a><?php } ?>
+                                                    <?php } else {  ?>
+                                                        <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
+                                                        <input type="hidden" name="action" value="add_dev">
+                                                        <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการส่งของ</span></button>
+
+                                                    <?php } ?>
+                                                    <a class="btn btn-outline-danger m-1" href="/ailist.php" type="button">กลับหน้ารายการ Order</a>
                                                 </div>
 
                                             </div>
@@ -401,6 +441,18 @@ if ($action == 'add_dev') {
         }
 
     }
+    $("#dev_date").on("change", function() {
+
+        let dev_date = $("#dev_date").val();
+        console.log('btu', dev_date)
+        if (dev_date === undefined || dev_date === '') {
+            document.getElementById("btu").disabled = true;
+        } else {
+            document.getElementById("btu").disabled = false;
+
+        }
+
+    });
 </script>
 
 </html>

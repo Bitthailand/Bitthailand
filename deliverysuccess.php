@@ -1,5 +1,39 @@
 <?php
-
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+$emp_id = $_SESSION["username"];
+$keyword = $_POST['keyword'];
+$column = $_REQUEST['column'];
+$rowS = $_REQUEST['row'];
+if (empty($column) && ($keyword)) {
+} else {
+    $columx = "AND $column LIKE'$keyword%'";
+    // echo"$columx";   
+}
+if (($column == "") && ($keyword == "$keyword")) {
+    $keywordx = "AND customer_id LIKE'$keyword%'
+               OR customer_name LIKE'$keyword%'
+               OR  company_name LIKE'$keyword%'
+               OR tel LIKE'$keyword%'
+               OR contact_name  LIKE'$keyword%' 
+               OR bill_address LIKE'$keyword%' ";
+    //    echo"$keywordx";
+}
+if (($column == "") && ($keyword == "")) {
+    $columx = "";
+    $keywordx = "";
+}
+if ($rowS == '') {
+    $total_records_per_page = 40;
+} else {
+    $total_records_per_page = $rowS;
+}
+$action = $_REQUEST['action'];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -12,6 +46,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <style>
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
+    </style>
 </head>
 
 <body class="text-left">
@@ -26,6 +67,9 @@
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+             <!-- แจ้งเตือน -->
+             <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
 
                 <div class="row">
@@ -120,43 +164,91 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <?php
+                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+                                            $page_no = $_GET['page_no'];
+                                        } else {
+                                            $page_no = 1;
+                                        }
+                                        // $total_records_per_page = 10;
+                                        $offset = ($page_no - 1) * $total_records_per_page;
+                                        $previous_page = $page_no - 1;
+                                        $next_page = $page_no + 1;
+                                        $adjacents = "2";
+
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `delivery` where  status='0' AND status_chk='1'   $columx $keywordx  ");
+                                        $total_records = mysqli_fetch_array($result_count);
+                                        $total_records = $total_records['total_records'];
+                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
+                                        $second_last = $total_no_of_pages - 1; // total page minus 1
+
+                                        $result = mysqli_query($conn, "SELECT * FROM `delivery` where status='0'  AND status_chk='1'   $columx $keywordx LIMIT $offset, $total_records_per_page");
+                                        while ($row = mysqli_fetch_array($result)) { ?>
                                         <tr>
-                                            <td> SO6401052 </td>
-                                            <td> OR6400001</td>
-                                            <td> 29 ก.ค. 2021</td>
-                                            <td> นายธนนวัต</td>
-                                            <td> นายประสิทธิ์ </td>
-                                            <td> คุณพูนศักดิ์ </td>
-                                            <td> 0999999999 </td>
-                                            <td>
-                                                89/171 หมู่บ้านเจริญทรัพย์ 10 ต.คลองหาด อ.คลองหาด จ.สระแก้ว
-                                            </td>
+                                        <td> <?= $row['dev_id'] ?> </td>
+                                                <td> <?= $row['order_id'] ?></td>
+                                                <td><?php
+                                                    $sql1 = "SELECT * FROM orders WHERE order_id= '$row[order_id]'";
+                                                    $rs1 = $conn->query($sql1);
+                                                    $row1 = $rs1->fetch_assoc();
+
+                                                    $sql2 = "SELECT * FROM customer_type WHERE id= '$row1[cus_type]'";
+                                                    $rs2 = $conn->query($sql2);
+                                                    $row2 = $rs2->fetch_assoc();
+                                                    // ====
+
+                                                    $date = explode(" ", $row['dev_date']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo '<strong>' . $dat . '</strong>'; ?> </td>
+                                                <td> <?php
+                                                        $sql3 = "SELECT * FROM employee  WHERE emp_id= '$row[dev_employee]'";
+                                                        $rs3 = $conn->query($sql3);
+                                                        $row3 = $rs3->fetch_assoc();
+                                                        echo "$row3[emp_name]";
+                                                        ?>
+                                                </td>
+                                                <td> <?php
+                                                        $sql4 = "SELECT * FROM employee  WHERE emp_id= '$row[dev_check]'";
+                                                        $rs4 = $conn->query($sql4);
+                                                        $row4 = $rs4->fetch_assoc();
+                                                        echo "$row4[emp_name]";
+
+                                                        ?></td>
+                                                <td> <?php
+                                                        $sql5 = "SELECT * FROM customer WHERE customer_id= '$row1[cus_id]'";
+                                                        $rs5 = $conn->query($sql5);
+                                                        $row5 = $rs5->fetch_assoc();
+
+                                                        echo $row5['customer_name']; ?> </td>
+                                                <td> <?php echo $row5['tel']; ?> </td>
+                                                <td>
+                                                    <?php echo $row5['bill_address'];
+                                                    $sql6 = "SELECT * FROM districts  WHERE id= '$row5[subdistrict]'";
+                                                    $rs6 = $conn->query($sql6);
+                                                    $row6 = $rs6->fetch_assoc();
+                                                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row5[district]'";
+                                                    $rs7 = $conn->query($sql7);
+                                                    $row7 = $rs7->fetch_assoc();
+                                                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row5[province]'";
+                                                    $rs8 = $conn->query($sql8);
+                                                    $row8 = $rs8->fetch_assoc();
+
+                                                    echo " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th'];
+
+                                                    ?>
+                                                </td>
                                             <td>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
+                                                    href="/orderview.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>
                                                 </a>
 
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td> SO6401052 </td>
-                                            <td> OR6400001</td>
-                                            <td> 29 ก.ค. 2021</td>
-                                            <td> นายธนนวัต</td>
-                                            <td> นายประสิทธิ์ </td>
-                                            <td> คุณพูนศักดิ์ </td>
-                                            <td> 0999999999 </td>
-                                            <td>
-                                                89/171 หมู่บ้านเจริญทรัพย์ 10 ต.คลองหาด อ.คลองหาด จ.สระแก้ว
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=OR6400001" target="_blank">
-                                                    <i class="i-Eye font-weight-bold"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                                }
+                                                mysqli_close($conn);
+                                                    ?>
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
@@ -179,18 +271,84 @@
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Previous"><span aria-hidden="true">«</span><span
-                                                    class="sr-only">Previous</span></a></li>
-                                        <!-- <| 123 |> -->
-                                        <li class="page-item active"><a class="page-link" href="#" onclick="clickNav(1)">1</a></li>
-                                        <!-- <| 123 ...|>  -->
+                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                        ?>
+                                        <li class="page-item" <?php if ($page_no <= 1) {
+                                                                    echo "class='disabled'";
+                                                                } ?>>
+                                            <a class="page-link" <?php if ($page_no > 1) {
+                                                    echo "href='?page_no=$previous_page' ";
+                                                } ?>>Previous</a>
+                                        </li>
 
-                                        <li class="page-item"><a class="page-link" href="#" onclick="clickNav(1)" aria-label="Next"><span aria-hidden="true">»</span><span
-                                                    class="sr-only">Next</span></a></li>
+                                        <?php
+                                        if ($total_no_of_pages <= 10) {
+                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
+                                               <?php  } else { ?>
+                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
+                                              <?php   }
+                                            }
+                                        } elseif ($total_no_of_pages > 10) {
+                                            if ($page_no <= 4) {
+                                                for ($counter = 1; $counter < 8; $counter++) {
+                                                    if ($counter == $page_no) {
+                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
+                                                    } else { ?>
+                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
+                                                   <?php  }
+                                                }
+                                        ?>
+                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li class="page-item"><a>...</a></li>
+                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else { ?>
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php    }
+                                                } ?>
+                                                <li><a class="page-link">...</a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
+                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
+                                            <?php  } else { ?>
+                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
+                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                               <li><a class="page-link">...</a></li>
+
+                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
+                                                  <?php  } else {
+                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                        <?php   }
+                                                }
+                                            }
+                                        }
+                                        ?>
+
+                                        <li <?php if ($page_no >= $total_no_of_pages) {
+                                                echo "class='disabled'";
+                                            } ?>>
+                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
+                                                    echo "href='?page_no=$next_page'";
+                                                } ?>>Next</a>
+                                        </li>
+
+                                        <?php if ($page_no < $total_no_of_pages) { ?>
+                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                      <?php   } ?>
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
+
+                        
                     </div>
                 </div>
             </div>

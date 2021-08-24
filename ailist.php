@@ -31,7 +31,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 10;
+    $total_records_per_page = 40;
 } else {
     $total_records_per_page = $rowS;
 }
@@ -76,8 +76,13 @@ if ($rowS == '') {
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/quotationlist.php">
+                                <?php
+                                    $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
+                                    $rs_count0 = $conn->query($count0);
+                                    $rcount0 = $rs_count0->fetch_assoc();
+                                    ?>
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount0['total_records']?></span>
                                     </h3>
                                     <span>รายการ Order ที่อยู่ระหว่างการเสนอราคา
                                         <span class="badge badge-warning"> Wait </span>
@@ -86,8 +91,13 @@ if ($rowS == '') {
                             </li>
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link active" href="/ailist.php">
+                                    <?php
+                                    $count = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='2'";
+                                    $rs_count = $conn->query($count);
+                                    $rcount = $rs_count->fetch_assoc();
+                                    ?>
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
                                     </h3>
                                     <span>Order รอส่งสินค้า
                                         <span class="badge badge-warning"> Wait </span>
@@ -246,12 +256,12 @@ if ($rowS == '') {
                                                         $rs2 = $conn->query($sql2);
                                                         $row2 = $rs2->fetch_assoc();
                                                         echo $row2['name_th'];
-                                                        ?> 
+                                                        ?>
                                                 </td>
                                                 <td><span class="font-weight-bold"> <?php echo number_format($row['discount'], '2', '.', ',') ?></span>
                                                 </td>
                                                 <td>
-                                                <?php
+                                                    <?php
                                                     $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
                                                     $rsx4 = $conn->query($sqlx4);
                                                     $rowx4 = $rsx4->fetch_assoc();
@@ -260,18 +270,18 @@ if ($rowS == '') {
                                                     <?php $sub_total = $rowx4['total'] - $row['discount'];
                                                     $tax = ($sub_total * 0.07);
                                                     $grand_total = ($sub_total + $tax);
-                                                    ?>  <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                    ?> <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td> <span class="font-weight-bold"> <?php echo number_format($tax, '2', '.', ',') ?></span> </td>
                                                 <td>
                                                     <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
                                                 </td>
-                                               
+
                                                 <td>
                                                     <span class="badge badge-warning p-1">มัดจำ</span>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/addsaleorder.php?order_id=<?=$row['order_id']?>">
+                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/addsaleorder.php?order_id=<?= $row['order_id'] ?>">
                                                         <i class="i-Car-Items font-weight-bold"></i>
                                                     </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="สั่งสินค้าเพิ่ม" href="/editorder.php?order_id=OR6400001">
