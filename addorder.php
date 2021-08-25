@@ -582,7 +582,7 @@ if ($action == 'add_hs') {
         <script>
             $(document).ready(function() {
                 // showAlert("บันทึกข้อมูลพนักงานจัดส่งเรียบร้อย", "alert-primary");
-                window.location='hs.php?order_id=<?= $order_id ?>&so_id=<?= $so_id ?>', '_blank'
+                window.location = 'hs.php?order_id=<?= $order_id ?>&so_id=<?= $so_id ?>', '_blank'
                 // window.open('hs.php?order_id=<?= $order_id ?>&so_id=<?= $so_id ?>', '_blank');
             });
         </script>
@@ -784,6 +784,7 @@ if ($action == 'add_hs') {
                                                 <table class="table table-hover text-nowrap table-sm">
                                                     <thead>
                                                         <tr>
+                                                            <th>ลำดับ</th>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ประเภทสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
@@ -804,6 +805,7 @@ if ($action == 'add_hs') {
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
                                                                 <tr>
+                                                                <td> <strong><?=++$id;?></strong> </td>
                                                                     <td> <strong><?= $row_pro['product_id'] ?></strong> </td>
                                                                     <td>
                                                                         <?php
@@ -832,7 +834,7 @@ if ($action == 'add_hs') {
                                                                             <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
                                                                         </td>
                                                                     <?php } ?>
-                                                                 
+
                                                                 </tr>
                                                         <?php }
                                                         } ?>
@@ -928,7 +930,7 @@ if ($action == 'add_hs') {
                                 </div>
                                 <hr>
                                 <div class="text-right">
-   
+
                                     <?php if ($status_order == 'confirm') {
                                         $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
                                         $rs = $conn->query($sql);
@@ -940,11 +942,11 @@ if ($action == 'add_hs') {
                                             <?php $sql = "SELECT * FROM delivery  where order_id='$order_idx'  ";
                                             $rsx = $conn->query($sql);
                                             $rsx = $rsx->fetch_assoc();
-                       ?>
-                                                        <a class="btn btn-outline-primary m-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS) " href="/hs.php?order_id=<?= $rsx['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" target="_blank">
-                                                        ออกใบเสร็จรับเงิน(HS) 
-                                                        </a>
-                                                  
+                                            ?>
+                                            <a class="btn btn-outline-primary m-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS) " href="/hs.php?order_id=<?= $rsx['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" target="_blank">
+                                                ออกใบเสร็จรับเงิน(HS)
+                                            </a>
+
                                             <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $rs['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
                                         <?php } ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 2)) { ?>
