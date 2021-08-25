@@ -148,7 +148,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                                         if($rowx3['ptype_id']=='TF0'){
                                                                             echo $rowx3['product_id'].$rowx3['product_name'];
                                                                         }else{ 
-                                                                        echo $rowx3['product_id'].$rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
+                                                                        echo $rowx3['product_id'].$rowx3['product_name'];
                                                                     }
                                                                         ?>
 
@@ -176,7 +176,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                         $tax2 = ($sub_total - $tax);
                                                         $grand_total = ($sub_total - $tax2);
                                                         ?>
-                                                        <p>จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($sub_total,'2','.',',')?></span></p>
+                                                        <p>จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($grand_total,'2','.',',')?></span></p>
                                                         <p>จำนวนภาษีมูลค่าเพิ่ม <?=$row['tax']?>% <span><?php echo number_format($tax2,'2','.',',')?></span></p>
                                                     </div>
                                                 </div>
@@ -186,12 +186,12 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p><?php echo Convert($grand_total);?></p>
+                                                            <p><?php echo Convert($sub_total);?></p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>รวมเป็นเงิน</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total,'2','.',',')?></span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($sub_total,'2','.',',')?></span></h5>
                                                             </div>
                                                         </div>
                                                     </div>

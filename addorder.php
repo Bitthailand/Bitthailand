@@ -393,7 +393,7 @@ if ($action == 'add') {
             $code = sprintf('%05d', $code_new);
             $dev_id = $dat . $code;
             // ตรวจสอบเลขจัดส่ง
-            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='2',status_button='1'  WHERE order_id= '$order_idx'";
+            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
             if ($conn->query($sqlx12) === TRUE) {
             }
 
@@ -402,8 +402,8 @@ if ($action == 'add') {
             if (mysqli_num_rows($resultxx) > 0) {
             } else {
                 // echo "tt";
-                $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date)
-                     VALUES ('$dev_id','$order_idx','$datetodat')";
+                $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk)
+                     VALUES ('$dev_id','$order_idx','$datetodat','1')";
                 if ($conn->query($sqlx) === TRUE) {
                 }
                 $sql_pro2 = "SELECT * FROM order_details  WHERE  order_id='$order_idx' ";

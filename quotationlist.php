@@ -304,11 +304,11 @@ $(document).ready(function() {
                                                     $grand_total = ($sub_total- $tax2);
                                                     
                                                     ?>
-                                                    <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td>
                                                 <td>
-                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td>
                                                 <span class="badge badge-warning p-1">เสนอราคา</span>

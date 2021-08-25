@@ -271,11 +271,11 @@ if ($rowS == '') {
                                                     $tax = ($sub_total * 100)/107;
                                                     $tax2 = ($sub_total - $tax);
                                                     $grand_total = ($sub_total - $tax2);
-                                                    ?> <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                    ?> <span class="font-weight-bold"> <?php echo number_format($grand_total , '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td>
                                                 <td>
-                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
 
                                                 <td>
