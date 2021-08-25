@@ -5,7 +5,6 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-
 error_reporting(0);
 $action = $_REQUEST['action'];
 if ($action == 'del') {
@@ -62,7 +61,7 @@ if (($column=="")&&($keyword == "$keyword")) {
     //    echo"$keywordx";
 }
 if ($rowS == '') {
-    $total_records_per_page = 10;
+    $total_records_per_page = 40;
 } else {
     $total_records_per_page = $rowS;
 }

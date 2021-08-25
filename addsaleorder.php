@@ -67,6 +67,7 @@ if ($row['dev_status'] == 1) {
 </head>
 <?php
 include './include/alert.php';
+
 echo "$dev_date";
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
@@ -167,7 +168,7 @@ if ($action == 'add_dev') {
                                     showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
                                 });
                             </script>
-<?php
+        <?php
                         }
                     }
                 }
@@ -218,6 +219,45 @@ if ($action == 'add_dev') {
     $action = '';
     $dev_date = '';
 }
+if ($action == 'add_hs') {
+    $e_id = $_REQUEST['e_id'];
+    $so_id = $_REQUEST['so_id'];
+    $order_id = $_REQUEST['order_id'];
+
+    //    echo"$po_stop";
+    //    echo"$po_start";
+    $sql5 = "SELECT count(id) AS id_run FROM hs_number  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    $dev_status = $row['dev_status'];
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_HS1($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $hs_id = $dat . $code;
+
+    $sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND so_id='$so_id' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) {
+    } else {
+        $sqlx5 = "INSERT INTO hs_number (order_id,so_id,hs_id)
+    VALUES ('$order_id','$so_id','$hs_id')";
+        if ($conn->query($sqlx5) === TRUE) {
+        }
+    }
+    $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id' where id='$e_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                // showAlert("บันทึกข้อมูลพนักงานจัดส่งเรียบร้อย", "alert-primary");
+
+                window.open('hs.php?order_id=<?= $order_id ?>&so_id=<?= $so_id ?>', '_blank');
+            });
+        </script>
+<?php }
+}
+
 ?>
 
 <body class="text-left">
@@ -261,20 +301,20 @@ if ($action == 'add_dev') {
                                                     <div class="col-md-6 mb-3 mb-sm-0">
                                                         <h5 class="font-weight-bold">ลูกค้า</h5>
                                                         <?php
-                                                       $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
-                                                       $rs6 = $conn->query($sql6);
-                                                       $row6 = $rs6->fetch_assoc();
-                                                       $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
-                                                       $rs7 = $conn->query($sql7);
-                                                       $row7 = $rs7->fetch_assoc();
-                                                       $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
-                                                       $rs8 = $conn->query($sql8);
-                                                       $row8 = $rs8->fetch_assoc();
-                                                       
+                                                        $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                                                        $rs6 = $conn->query($sql6);
+                                                        $row6 = $rs6->fetch_assoc();
+                                                        $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                                                        $rs7 = $conn->query($sql7);
+                                                        $row7 = $rs7->fetch_assoc();
+                                                        $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                                                        $rs8 = $conn->query($sql8);
+                                                        $row8 = $rs8->fetch_assoc();
+
                                                         ?>
                                                         <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                                                         <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
-                                                        <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
+                                                        <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                         <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                         <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                                                         <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
@@ -370,7 +410,18 @@ if ($action == 'add_dev') {
                                                         // echo"$row[cus_type]";
                                                     ?>
                                                         <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>
-                                                        <?php if ($row['cus_type'] == 1) { ?> <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&dev_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a> <?php } ?>
+                                                        <?php if ($row['cus_type'] == 1) { ?>
+                                                            <?php
+                                                            $sql = "SELECT * FROM delivery  where order_id='$order_id'  ";
+                                                            $rsx = $conn->query($sql);
+                                                            $rsx = $rsx->fetch_assoc();
+                                                            // echo"$rsx[dev_id]";
+                                                            if ($rsx['hs_id'] == '0') { ?>
+                                                                <button data-toggle="modal" data-target="#medalhs" title="ออกใบเสร็จรับเงิน(HS)" data-id="<?php echo $rsx['id']; ?>" id="add_hs" class="btn btn-outline-primary m-1"> ออกใบเสร็จรับเงิน(HS) </button>
+                                                            <?php } else {  ?>
+                                                                <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&dev_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
+                                                        <?php }
+                                                        } ?>
                                                         <?php if ($row['cus_type'] == 2) { ?> <a class="btn btn-outline-primary m-1" href="/invoice.php" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a><?php } ?>
                                                     <?php } else {  ?>
                                                         <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
@@ -395,6 +446,23 @@ if ($action == 'add_dev') {
             <!-- Header -->
             <?php include './include/footer.php'; ?>
             <!-- =============== Header End ================-->
+        </div>
+    </div>
+   <!-- Modal HS-->
+   <div class="modal fade" id="medalhs" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันการออกใบเสร็จรับเงิน</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="dynamic-content2"></div>
+
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -466,5 +534,38 @@ if ($action == 'add_dev') {
 
     });
 </script>
+<script>
+        $(document).ready(function() {
 
+            $(document).on('click', '#add_hs', function(e) {
+
+                e.preventDefault();
+
+                var uid = $(this).data('id'); // get id of clicked row
+
+                $('#dynamic-content2').html(''); // leave this div blank
+                $('#modal-loader').show(); // load ajax loader on button click
+
+                $.ajax({
+                        url: 'hs_confirm.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content2').html(''); // blank before load.
+                        $('#dynamic-content2').html(data); // load here
+                        $('#modal-loader').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content2').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader').hide();
+                    });
+
+            });
+        });
+    </script>
 </html>
