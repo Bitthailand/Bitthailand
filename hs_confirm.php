@@ -24,7 +24,9 @@ $row = $rs->fetch_assoc();
             <input type="hidden" name="e_id" value="<?php echo $id; ?>">
             <input type="hidden" name="so_id" value="<?php echo $row['dev_id'];?>">
             <input type="hidden" name="order_id" value="<?php echo $row['order_id']; ?>">
+            <input type="hidden" name="order_idx" value="<?php echo $row['order_id']; ?>">
             <input type="hidden" name="action" value="add_hs">
+            <input type="hidden" name="status_order" value="confirm">
             <button type="button" class="btn btn-default" data-dismiss="modal">ไม่ใช่</button>
     </div>
 </form>

@@ -405,7 +405,7 @@ if ($action == 'add_hs') {
                                                     <!-- เงินสด SO  HS   เครดิส  SO  IV   -->
                                                     <?php
 
-                                                    echo "$dev_status+$action";
+                                                    // echo "$dev_status+$action";
                                                     if (($dev_status == 1) || ($cf == 'ok')) {
                                                         // echo"$row[cus_type]";
                                                     ?>
@@ -416,12 +416,10 @@ if ($action == 'add_hs') {
                                                             $rsx = $conn->query($sql);
                                                             $rsx = $rsx->fetch_assoc();
                                                             // echo"$rsx[dev_id]";
-                                                            if ($rsx['hs_id'] == '0') { ?>
-                                                                <button data-toggle="modal" data-target="#medalhs" title="ออกใบเสร็จรับเงิน(HS)" data-id="<?php echo $rsx['id']; ?>" id="add_hs" class="btn btn-outline-primary m-1"> ออกใบเสร็จรับเงิน(HS) </button>
-                                                            <?php } else {  ?>
-                                                                <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&dev_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
-                                                        <?php }
-                                                        } ?>
+                                                            ?>
+                                                                <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
+                                                      
+                                                      <?php   } ?>
                                                         <?php if ($row['cus_type'] == 2) { ?> <a class="btn btn-outline-primary m-1" href="/invoice.php" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a><?php } ?>
                                                     <?php } else {  ?>
                                                         <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">

@@ -5,16 +5,6 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-
-$order_id = $_REQUEST['order_id'];
-$so_id = $_REQUEST['so_id'];
-$sql_hs = "SELECT * FROM delivery  WHERE dev_id= '$so_id' AND order_id='$order_id'";
-$rs_hs = $conn->query($sql_hs);
-$row_hs = $rs_hs->fetch_assoc();
-
-$sql_h = "SELECT * FROM hs_number  WHERE hs_id= '$row_hs[hs_id]' ";
-$rs_h = $conn->query($sql_h);
-$row_h = $rs_h->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -41,6 +31,48 @@ $row_h = $rs_h->fetch_assoc();
         }
     </style>
 </head>
+<?php
+include './include/config_so.php';
+$order_id = $_REQUEST['order_id'];
+$so_id = $_REQUEST['so_id'];
+$sql5 = "SELECT count(id) AS id_run FROM hs_number  ";
+$rs5 = $conn->query($sql5);
+$row_run = $rs5->fetch_assoc();
+$datetodat = date('Y-m-d');
+$date = explode(" ", $datetodat);
+$dat = datethai_HS1($date[0]);
+$code_new = $row_run['id_run'] + 1;
+$code = sprintf('%05d', $code_new);
+$hs_id = $dat . $code;
+$sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND so_id='$so_id' ";
+$result = mysqli_query($conn, $sqlx);
+if (mysqli_num_rows($result) > 0) {
+
+}
+else{
+    
+    $sqlx5 = "INSERT INTO hs_number (order_id,so_id,hs_id)
+    VALUES ('$order_id','$so_id','$hs_id')";
+        if ($conn->query($sqlx5) === TRUE) {
+        }
+    
+    $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id' where dev_id='$so_id'";
+    if ($conn->query($sqlxxx) === TRUE) { } 
+
+
+}
+
+
+
+
+$sql_hs = "SELECT * FROM delivery  WHERE dev_id= '$so_id' AND order_id='$order_id'";
+$rs_hs = $conn->query($sql_hs);
+$row_hs = $rs_hs->fetch_assoc();
+// echo"$row_hs[id]";
+$sql_h = "SELECT * FROM hs_number  WHERE hs_id= '$row_hs[hs_id]' ";
+$rs_h = $conn->query($sql_h);
+$row_h = $rs_h->fetch_assoc();
+?>
 <?php
 include './include/config.php';
 include './include/config_text.php';
@@ -135,7 +167,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ใบเสนอราคา <span><?= $row_hs['hs_id'] ?></span></p>
+                                                        <p>เลขที่ใบเสร็จรับเงิน <span><?= $row_hs['hs_id'] ?></span></p>
                                                         <p>วันที่ <span><?php $date = explode(" ", $row_h['date_create']);
                                                                         $dat = datethai2($date[0]);
                                                                         echo "$dat"; ?></span></p>
