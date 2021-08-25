@@ -215,7 +215,7 @@ if ($action == 'add_product') {
                     <?php   } //
 
                 } else {
-                    echo "errALL";
+                    // echo "errALL";
                 }
             } else {
                 $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock)
@@ -306,8 +306,8 @@ if ($action == 'add') {
     $discount = $_REQUEST['discount'];
     $status_order = 'confirm';
     $delivery_datex = $_REQUEST['delivery_datex'];
-    echo "$delivery_datex";
-    echo "$cus_back";
+    // echo "$delivery_datex";
+    // echo "$cus_back";
     $sqlx = "SELECT * FROM order_details  WHERE order_id='$order_idx' AND status_button='0' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) < 1) { ?>
@@ -323,7 +323,7 @@ if ($action == 'add') {
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
                 $sql = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
-                echo "$order_idx", "vv";
+                // echo "$order_idx", "vv";
                 if ($delivery_date = '$delivery_date') {
                     $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
@@ -331,7 +331,7 @@ if ($action == 'add') {
                 } //if ($delivery_date = '$delivery_date') 
             } else {
                 // ถ้ายังไม่มี ORDER ให้เพิ่ม
-                echo "xx2";
+                // echo "xx2";
                 $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
                                       VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','1')";
                 if ($conn->query($sqlx5) === TRUE) {
@@ -349,7 +349,7 @@ if ($action == 'add') {
                     $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                     $rsx3 = $conn->query($sqlx3);
                     $row2 = $rsx3->fetch_assoc();
-                    echo "$row2[product_id]";
+                    // echo "$row2[product_id]";
                     $fac1_stock = $row2['fac1_stock'];
                     $fac2_stock = $row2['fac2_stock'];
                     $sum_dev = $row_pro['face1_stock_out'] + $row_pro['face2_stock_out'];
@@ -440,7 +440,7 @@ if ($action == 'add') {
             if (mysqli_num_rows($result) > 0) {
                 // echo "$delivery_date";
                 $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
-                echo "$order_idx";
+                // echo "$order_idx";
                 if ($delivery_date = '$delivery_date') {
                     $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
@@ -939,8 +939,8 @@ if ($action == 'add_hs') {
                                         $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
                                         $rs = $conn->query($sql);
                                         $rs = $rs->fetch_assoc();
-                                        echo "ประเภทลูกค้า" . $rs['cus_type'];
-                                        echo "รับกลับ" . $rs['cus_back'];
+                                        // echo "ประเภทลูกค้า" . $rs['cus_type'];
+                                        // echo "รับกลับ" . $rs['cus_back'];
                                     ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 1)) { ?>
                                             <?php $sql = "SELECT * FROM delivery  where order_id='$order_idx'  ";
@@ -960,7 +960,7 @@ if ($action == 'add_hs') {
                                             <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
                                         <?php } ?>
                                         <?php } else {
-                                        echo "$order_idx";
+                                        // echo "$order_idx";
                                         $sql2 = "SELECT COUNT(*) AS total FROM order_details   WHERE order_id= '$order_idx'";
                                         $rs2 = $conn->query($sql2);
                                         $row2 = $rs2->fetch_assoc();
