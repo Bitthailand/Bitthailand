@@ -10,35 +10,18 @@ include './include/config_so.php';
 $status_order = $_REQUEST['status_order'];
 error_reporting(0);
 $emp_id = $_SESSION["username"];
-// echo "$status_order";
-$order_id = $_REQUEST['order_id'];
-if ($status_order == 'Mnew') {
-    $order_id = $_REQUEST['order_id'];
-    $sqlx = "SELECT * FROM orders   WHERE order_id='$order_id' ";
-    $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) {
-?>
-        <script>
-            $(document).ready(function() {
-                showAlert("รหัสใบสั่งชื้อซ้ำ", "alert-danger");
-                window.location = 'addorder.php'
-            });
-        </script>
-        <?php } else {
-        $_SESSION["order_id"] = $order_id;
-    }
-}
+echo "$status_order";
 if ($status_order == 'new') {
-    // $sql5 = "SELECT COUNT(id) AS id_run FROM orders   ";
-    // $rs5 = $conn->query($sql5);
-    // $row_run = $rs5->fetch_assoc();
-    // $datetodat = date('Y-m-d');
-    // $date = explode(" ", $datetodat);
-    // $dat = datethai_order($date[0]);
-    // $code_new = $row_run['id_run'] + 1;
-    // $code = sprintf('%05d', $code_new);
-    // $order_id = $dat . $code;
-    // $_SESSION["order_id"] = $order_id;
+    $sql5 = "SELECT COUNT(id) AS id_run FROM orders   ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_order($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $order_id = $dat . $code;
+    $_SESSION["order_id"] = $order_id;
 }
 $order_idx = $_SESSION["order_id"];
 if ($status_order == 'confirm') {
@@ -90,6 +73,10 @@ $Fdate_confirm = $_REQUEST['Fdate_confirm'];
 $tax = $_REQUEST['Ftax'];
 $discount = $_REQUEST['Fdiscount'];
 $Forder_id = $_REQUEST['Forder_id'];
+
+echo "$Fcus_back";
+
+
 if ($action == 'add_product') {
     $Fproduct_type = $_REQUEST['Fproduct_type'];
     $Fproductx = $_REQUEST['Fproductx'];
@@ -109,7 +96,10 @@ if ($action == 'add_product') {
     $discount = $_REQUEST['Fdiscount'];
     $status_order = 'update';
     $Fcus_back = $_REQUEST['Fcus_back'];
-    // echo "$Fqty";
+
+
+    echo "$Fqty";
+
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
@@ -136,7 +126,7 @@ if ($action == 'add_product') {
         $code_new = $row_run['id_run'] + 1;
         $code = sprintf('%05d', $code_new);
         $TF_id = $dat . $code;
-        // echo "$TF_id";
+        echo "$TF_id";
         $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id,unit_price)
             VALUES ('$TF_id','0','99','$send_to','TF0','$send_price')";
         if ($conn->query($sql99) === TRUE) {
@@ -192,18 +182,18 @@ if ($action == 'add_product') {
                 if ($row['fac1_stock'] < $Fqty) {
                     $chk1 = 'true';
                 } else {
-                    // echo "errQTY1";
+                    echo "errQTY1";
                     $chk1 = 'false';
                 }
                 if ($row['fac2_stock'] < $Fqty2) {
                     $chk2 = 'true';
                 } else {
-                    // echo "errQTY2";
+                    echo "errQTY2";
                     $chk2 = 'false';
                 }
                 if ($chk1 == 'true' && $chk2 = 'true') {
-                    // echo "ลงฐานQ1" . $Fqty . "Q2" . $Fqty2;
-                    // echo "sum_qty" . $sum_qty . "xx";
+                    echo "ลงฐานQ1" . $Fqty . "Q2" . $Fqty2;
+                    echo"sum_qty".$sum_qty."xx";
                     $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out)
                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','0','$emp_id','CB2','$Fqty','$Fqty2')";
                     if ($conn->query($sqlx4) === TRUE) { ?>
@@ -254,6 +244,8 @@ if ($action1 == 'chk_cusback') {
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
             while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+
+
                 $sql = "DELETE FROM order_details  WHERE  product_id='$row_pro[product_id]' ";
                 if ($conn->query($sql) === TRUE) {
                 }
@@ -318,7 +310,9 @@ if ($action == 'add') {
         </script>
         <?php } else {
         if (($cus_type == 1) && ($cus_back == 1)) {
-            // echo "xx";
+
+
+            echo "xx";
             $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx' ";
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
@@ -433,7 +427,7 @@ if ($action == 'add') {
 
         } else {
             //  if (($cus_type == 1) && ($cus_back == 1))
-            // echo "$order_idx";
+            echo "$order_idx";
             //   เช็ครหัสสั่งชื้อซ้ำหรือไม่
             $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx' ";
             $result = mysqli_query($conn, $sqlx);
@@ -522,7 +516,7 @@ if ($action == 'add') {
 $action = $_REQUEST['action'];
 if ($action == 'add_cus') {
 
-    // echo "xx";
+    echo "xx";
     $customer_id = $_REQUEST['customer_id'];
     $customer_name = $_REQUEST['customer_name'];
     $customer_type = $_REQUEST['customer_type'];
@@ -551,7 +545,7 @@ if ($action == 'add_cus') {
                     showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
                 });
             </script>
-        <?php   }
+<?php   }
     }
 }
 
@@ -643,8 +637,7 @@ if ($action == 'add_hs') {
                                 <div class="form-row mt-3">
                                     <div class="form-group col-md-2">
                                         <label for="order_id"><strong>รหัส Order <span class="text-danger"></span></strong></label>
-                                        <!-- <input type="text" name="order_id" id="order_id" value="<?= $order_idx ?>" class="classcus form-control" placeholder="รหัส Order" required> -->
-                                        <input type="text" id="order_id" name="order_id" value="<?php echo "$order_idx"; ?>" class="classcus form-control" placeholder="รหัส Order" required>
+                                        <input type="text" name="order_id" id="order_id" value="<?= $order_idx ?>" class="classcus form-control" placeholder="รหัส Order" required>
                                     </div>
                                     <?php if ($status_order == 'confirm') {
                                     } else { ?>
@@ -799,7 +792,7 @@ if ($action == 'add_hs') {
 
                                                             <?php if ($status_order == 'confirm') {
                                                             } else { ?><th>Action</th> <?php } ?>
-                                                            <!-- <th>chk</th> -->
+                                                            <th>chk</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -837,7 +830,7 @@ if ($action == 'add_hs') {
                                                                             <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
                                                                         </td>
                                                                     <?php } ?>
-                                                                 
+                                                                    <td><?= $row_pro['status_chk_stock'] ?></td>
                                                                 </tr>
                                                         <?php }
                                                         } ?>
@@ -943,10 +936,10 @@ if ($action == 'add_hs') {
                                         echo "รับกลับ" . $rs['cus_back'];
                                     ?>
                                         <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 1)) { ?>
-                                            <?php $sql = "SELECT * FROM delivery  where order_id='$order_idx'  ";
-                                            $rsx = $conn->query($sql);
-                                            $rsx = $rsx->fetch_assoc();
-                                            ?>
+                                      <?php  $sql = "SELECT * FROM delivery  where order_id='$order_idx'  ";
+                                        $rsx = $conn->query($sql);
+                                        $rsx = $rsx->fetch_assoc();
+                                        ?>
                                             <button data-toggle="modal" data-target="#medalhs" title="ออกใบเสร็จรับเงิน(HS)" data-id="<?php echo $rsx['id']; ?>" id="add_hs" class="btn btn-outline-primary m-1"> ออกใบเสร็จรับเงิน(HS) </button>
                                             <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $rs['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
                                         <?php } ?>
@@ -1135,29 +1128,23 @@ if ($action == 'add_hs') {
         </div>
     </div>
     </div>
-    <!-- Modal HS-->
-    <div class="modal fade" id="medalhs" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันการออกใบเสร็จรับเงิน</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <!-- Modal HS-->
+            <div class="modal fade" id="medalhs" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันการออกใบเสร็จรับเงิน</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="dynamic-content2"></div>
+
+                    </div>
+
                 </div>
-                <div class="modal-body">
-
-                    <div id="dynamic-content2"></div>
-
-                </div>
-
             </div>
         </div>
-    </div>
-
-    <form class="d-none" method="POST">
-        <input type="hidden" name="status_order" value="Mnew">
-        <input type="hidden" id="FMorder_id" name="order_id" value="<?php echo "$Morder_id"; ?>">
-        <button class="btn" id="MButtonID" type="submit"></button>
-    </form>
     <form class="d-none" method="POST">
         <input type="text" id="FFcus_type_name" name="Fcus_type_name" value="<?php echo $Fcus_type_name; ?>" placeholder="">
         <input type="text" id="FFcus_type_id" name="Fcus_type_id" value="<?php echo $Fcus_type_id; ?>" placeholder="">
@@ -1365,36 +1352,36 @@ if ($action == 'add_hs') {
     </div>
 
     <script>
-        $(document).ready(function() {
+            $(document).ready(function() {
 
-            $(document).on('click', '#add_hs', function(e) {
+                $(document).on('click', '#add_hs', function(e) {
 
-                e.preventDefault();
+                    e.preventDefault();
 
-                var uid = $(this).data('id'); // get id of clicked row
+                    var uid = $(this).data('id'); // get id of clicked row
 
-                $('#dynamic-content2').html(''); // leave this div blank
-                $('#modal-loader').show(); // load ajax loader on button click
+                    $('#dynamic-content2').html(''); // leave this div blank
+                    $('#modal-loader').show(); // load ajax loader on button click
 
-                $.ajax({
-                        url: 'hs_confirm.php',
-                        type: 'POST',
-                        data: 'id=' + uid,
-                        dataType: 'html'
-                    })
-                    .done(function(data) {
-                        console.log(data);
-                        $('#dynamic-content2').html(''); // blank before load.
-                        $('#dynamic-content2').html(data); // load here
-                        $('#modal-loader').hide(); // hide loader  
-                    })
-                    .fail(function() {
-                        $('#dynamic-content2').html(
-                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
-                        );
-                        $('#modal-loader').hide();
-                    });
+                    $.ajax({
+                            url: 'hs_confirm.php',
+                            type: 'POST',
+                            data: 'id=' + uid,
+                            dataType: 'html'
+                        })
+                        .done(function(data) {
+                            console.log(data);
+                            $('#dynamic-content2').html(''); // blank before load.
+                            $('#dynamic-content2').html(data); // load here
+                            $('#modal-loader').hide(); // hide loader  
+                        })
+                        .fail(function() {
+                            $('#dynamic-content2').html(
+                                '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                            );
+                            $('#modal-loader').hide();
+                        });
 
+                });
             });
-        });
-    </script>
+        </script>

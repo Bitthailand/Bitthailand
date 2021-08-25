@@ -2,6 +2,9 @@ $(function() {
     var product_typeObject = $('#product_type');
     var productxObject = $('#productx');
     var ProIdObject = $('#ProId');
+    let cus_back = $("#cusx").val();
+
+    // var cus_back = $('#cus_back');
     // on change province
     product_typeObject.on('change', function() {
         var product_typeId = $(this).val();
@@ -10,8 +13,8 @@ $(function() {
         // for (var i = 0; i < t.length; i++) {
         //     // document.write(t[i] + "<br/>");
         // }
-        console.log("product_typeId", product_typeId)
-            // console.log("yy", t[1])
+
+        // console.log("yy", t[1])
         if (product_typeId == 'TF') {
             document.getElementById("ifYes").style.display = "block";
             document.getElementById("ifYes1").style.display = "none";
@@ -21,24 +24,68 @@ $(function() {
             document.getElementById("ifYes_price3").style.display = "none";
             document.getElementById("ifYes_qty").style.display = "none";
             document.getElementById("ifYes_qty2").style.display = "block";
+            document.getElementById("ifYes_qty_face2").style.display = "none";
             document.getElementById("ifYes_dis").style.display = "none";
             document.getElementById("btu").disabled = false;
-            var df = 1;
+            var df = 0;
             var TF = 1;
             // $('#qty').val(df);
             $('#send_qty').val(df);
             $('#TF').val(TF);
 
         } else {
-            document.getElementById("ifYes").style.display = "none";
-            document.getElementById("ifYes1").style.display = "block";
-            document.getElementById("ifYes_price").style.display = "block";
-            document.getElementById("ifYes_price1").style.display = "none";
-            document.getElementById("ifYes_price2").style.display = "block";
-            document.getElementById("ifYes_price3").style.display = "block";
-            document.getElementById("ifYes_qty").style.display = "block";
-            document.getElementById("ifYes_qty2").style.display = "none";
-            document.getElementById("ifYes_dis").style.display = "block";
+            console.log('cus_back', cus_back);
+
+
+            if (cus_back == 1) {
+                document.getElementById("ifYes").style.display = "none";
+                document.getElementById("ifYes1").style.display = "block";
+                document.getElementById("ifYes_price").style.display = "block";
+                document.getElementById("ifYes_price1").style.display = "none";
+                document.getElementById("ifYes_price2").style.display = "block";
+                document.getElementById("ifYes_price3").style.display = "block";
+                document.getElementById("ifYes_qty").style.display = "block";
+                document.getElementById("ifYes_qty2").style.display = "none";
+                document.getElementById("cus_back_show").style.display = "none";
+                document.getElementById("cus_back_show1").style.display = "none";
+                document.getElementById("cus_back_show2").style.display = "none";
+                document.getElementById("ifYes_dis").style.display = "none";
+                document.getElementById("ifYes_qty_face2").style.display = "block";
+            }
+            if (cus_back == 2) {
+                document.getElementById("ifYes").style.display = "none";
+                document.getElementById("ifYes1").style.display = "block";
+                document.getElementById("ifYes_price").style.display = "block";
+                document.getElementById("ifYes_price1").style.display = "none";
+                document.getElementById("ifYes_price2").style.display = "block";
+                document.getElementById("ifYes_price3").style.display = "block";
+                document.getElementById("ifYes_qty").style.display = "block";
+                document.getElementById("ifYes_qty2").style.display = "none";
+                document.getElementById("cus_back_show").style.display = "block";
+                document.getElementById("cus_back_show1").style.display = "block";
+                document.getElementById("cus_back_show2").style.display = "block";
+                document.getElementById("ifYes_qty_face2").style.display = "block";
+                document.getElementById("ifYes_dis").style.display = "block";
+                document.getElementById("ifYes_qty_face2").style.display = "none";
+            }
+            if (cus_back == 3) {
+                document.getElementById("ifYes").style.display = "none";
+                document.getElementById("ifYes1").style.display = "block";
+                document.getElementById("ifYes_price").style.display = "block";
+                document.getElementById("ifYes_price1").style.display = "none";
+                document.getElementById("ifYes_price2").style.display = "block";
+                document.getElementById("ifYes_price3").style.display = "block";
+                document.getElementById("ifYes_qty").style.display = "block";
+                document.getElementById("ifYes_qty2").style.display = "none";
+                document.getElementById("cus_back_show").style.display = "block";
+                document.getElementById("cus_back_show1").style.display = "block";
+                document.getElementById("cus_back_show2").style.display = "block";
+                document.getElementById("ifYes_qty_face2").style.display = "block";
+                document.getElementById("ifYes_dis").style.display = "block";
+                document.getElementById("ifYes_qty_face2").style.display = "none";
+
+            }
+            // document.getElementById("ifYes_dis").style.display = "block";
             productxObject.html('<option value="">เลือกสินค้าสั่งขื้อ</option>');
             ProIdObject.html('<option value="">เลือก</option>');
             $("input_tf").hide();
@@ -75,12 +122,14 @@ $(function() {
                 let stock1 = item.fac1_stock;
                 let stock2 = item.fac2_stock;
                 let sum;
-                var df = 1;
+                var df = 0;
+                var df2 = 0;
                 var disunit = 0;
                 console.log('stock1', stock1);
 
 
                 $('#qty').val(df);
+                $('#qty2').val(df2);
                 $('#disunit').val(disunit);
                 $('#unit_price').val(unit_price);
                 $('#stock1').val(stock1);
