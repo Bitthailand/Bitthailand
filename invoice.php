@@ -1,5 +1,10 @@
 <?php
-
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -18,9 +23,41 @@
         margin-top: 0;
         margin-bottom: 0.1rem;
     }
+    .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
     </style>
 </head>
+<?php 
+include './include/config.php';
+include './include/config_text.php';
+$order_id = $_REQUEST['order_id'];
+$so_id = $_REQUEST['so_id'];
+$datetoday = date('Y-m-d');
+$sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+// ====
+$sql2 = "SELECT * FROM customer_type  WHERE id= '$row[cus_type]'";
+$rs2 = $conn->query($sql2);
+$row2 = $rs2->fetch_assoc();
+// ====
+$sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
+$rs3 = $conn->query($sql3);
+$row3 = $rs3->fetch_assoc();
 
+$sql_emp = "SELECT * FROM employee  WHERE username= '$row[emp_id]'";
+$rs_emp = $conn->query($sql_emp);
+$row_emp = $rs_emp->fetch_assoc();
+
+
+$sql_dev = "SELECT * FROM delivery WHERE dev_id= '$so_id'";
+$rs_dev = $conn->query($sql_dev);
+$row_dev = $rs_dev->fetch_assoc();
+
+?>
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -43,7 +80,7 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">พิมพ์ใบกำกับสินค้า</button>
+                                        <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบกำกับสินค้า</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
@@ -61,22 +98,39 @@
                                             <div class="mt-3 mb-4 border-top"></div>
                                             <div class="row mb-5">
                                                 <div class="col-md-6 mb-3 mb-sm-0">
-                                                    <h5 class="font-weight-bold">ลูกค้า</h5>
-                                                    <p><strong>ชื่อลูกค้า : </strong>คุณ มนต์ชัย สุขเกษม</p>
-                                                    <p><strong>บริษัท : </strong>หจก. ปอณรัตน์พานิชย์</p>
-                                                    <p><strong>ที่อยู่ : </strong>213 ม.6 ต.โพธิ์ใหญ่ อ.วารินชำราบ จ.อุบลราชธานี 34190 </p>
-                                                    <p>เลขที่ประจำตัวผู้เสียภาษี 0345498300908 สำนักงานใหญ่</p>
-                                                    <p><strong>โทร : </strong> 093-6954224</p>
-                                                    <p><strong>อ้างอิง : </strong></p>
+                                                <?php
+                                                    $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                                                    $rs6 = $conn->query($sql6);
+                                                    $row6 = $rs6->fetch_assoc();
+                                                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                                                    $rs7 = $conn->query($sql7);
+                                                    $row7 = $rs7->fetch_assoc();
+                                                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                                                    $rs8 = $conn->query($sql8);
+                                                    $row8 = $rs8->fetch_assoc();
+
+                                                  
+                                                    ?>
+                                                <h5 class="font-weight-bold">ลูกค้า</h5>
+                                                <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
+                                                    <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
+                                                    <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
+                                                    <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
+                                                    <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
+                                                    <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
                                                     <p>ขนส่งโดย : </p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ใบกำกับ <span>IV6401477</span></p>
-                                                        <p>วันที่ <span>05/07/64</span></p>
-                                                        <p>เครดิต  วัน ครบกำหนด<span>05/07/64</span></p>
-                                                        <p>เลขที่ใบสั่งขาย <span>OR6401007</span></p>
+                                                        <p>เลขที่ใบกำกับ <span><?=$row_dev['iv_id']?></span></p>
+                                                        <p>วันที่ <span><?php $date = explode(" ", $row_dev['dev_date']);
+                                                                        $dat = datethai2($date[0]);
+                                                                        echo "$dat"; ?></span></p>
+                                                        <p>เครดิต  วัน ครบกำหนด<span><?php $date = explode(" ", $row_dev['date_end']);
+                                                                        $dat = datethai2($date[0]);
+                                                                        echo "$dat"; ?></span></p>
+                                                        <p>เลขที่ใบสั่งขาย <span><?=$order_id?></span></p>
                                                         <p>พนักงานขาย <span>-</span></p>
                                                         <p>เขตการขาย <span>-</span></p>
                                                     </div>
@@ -91,35 +145,77 @@
                                                                 <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
                                                                 <th scope="col" class="text-center">จำนวน</th>
                                                                 <th scope="col" class="text-center">หน่วยละ</th>
+                                                                <th scope="col" class="text-center">ส่วนลดต่อหน่วย</th>
                                                                 <th scope="col" class="text-center">ราคารวมภาษี</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <th scope="row" class="text-center">1</th>
-                                                                <td>FP03100020 เสารั้ว 3x3" 1.00 1.00 1.00</td>
-                                                                <td class="text-right">120</td>
-                                                                <td class="text-right">45.00</td>
-                                                                <td class="text-right">5400.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row" class="text-center">2</th>
-                                                                <td>FP03100025 เสารั้ว 3x3" 1.00 1.00 1.00</td>
-                                                                <td class="text-right">60</td>
-                                                                <td class="text-right">45.00</td>
-                                                                <td class="text-right">2700.00</td>
-                                                            </tr>
+                                                            <?php 
+                                                        $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
+                                                            $result_pro = mysqli_query($conn, $sql_pro);
+                                                            if (mysqli_num_rows($result_pro) > 0) {
+                                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+
+                                                                    $no = $row_pro['id'];
+                                                                    $product_id = $row_pro['product_id'];
+                                                            ?>
+                                                                    <tr>
+                                                                        <td scope="row" class="text-center"><?= ++$id; ?></td>
+                                                                        <td><?php
+                                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                                            $rsx3 = $conn->query($sqlx3);
+                                                                            $rowx3 = $rsx3->fetch_assoc();
+                                                                            if ($rowx3['ptype_id'] == 'TF0') {
+                                                                                echo $rowx3['product_id'] . $rowx3['product_name'];
+                                                                            } else {
+                                                                                echo $rowx3['product_name'];
+                                                                            }
+                                                                            ?></td>
+                                                                        <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
+                                                                        <td class="text-right"><?= $rowx3['unit_price'] ?></td>
+                                                                        <td class="text-right"><?= $row_pro['disunit'] ?>
+                                                                            <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
+                                                                        </td>
+                                                                        </td>
+                                                                        <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
+                                                                            <?php echo number_format($sum_total, '2', '.', ',') ?>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php }
+                                                            } ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div class="col-md-12">
+                                                <?php
+                                                        $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
+                                                        $rsx4 = $conn->query($sqlx4);
+                                                        $rowx4 = $rsx4->fetch_assoc();
+                                                        $sql_ai = "SELECT *  FROM ai_number  where order_id='$order_id'  ";
+                                                        $rs_ai  = $conn->query($sql_ai);
+                                                        $row_ai  = $rs_ai->fetch_assoc();
+                                                        $sql_dev = "SELECT *  FROM delivery  where order_id='$order_id' AND dev_id='$so_id' ";
+                                                        $rs_dev  = $conn->query($sql_dev);
+                                                        $row_dev  = $rs_dev->fetch_assoc();
+                                                        ?>
                                                     <div class="invoice-summary">
-                                                        <p>รวมเป็นเงิน <span>10,617.00</span></p>
+                                                        <p>รวมเป็นเงิน <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
                                                         <p>หัก ส่วนลด <span>00.00</span></p>
-                                                        <p>ยอดหลังหักส่วนลด <span>10,617.00</span></p>
-                                                        <p>หักเงินมัดจำ #AI6408006 <span>3,500.00</span></p>
-                                                        <p>จำนวนเงินรวมทั้งสิ้น <span>7,117.00</span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>465.60</span></p>
+                                                        <p>ยอดหลังหักส่วนลด <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
+                                                        <?php if ($row_ai['ai_num'] == '') {
+                                                            $total = $rowx4['total'];
+                                                        } else { ?>
+                                                            <p>หักเงินมัดจำ #<?= $row_ai['ai_num'] ?> <span>
+                                                                    <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></span></p>
+                                                        <?php }
+                                                        $total = $rowx4['total'] - $row_dev['ai_count'];
+                                                        $tax = ($total* 100) / 107;
+                                                        $tax2 = ($total - $tax);
+                                                        $grand_total = ($total+ $tax2);
+                                                        ?>
+                                                       
+                                                       <p>จำนวนเงินรวมทั้งสิ้น <span> <?php echo number_format($total, '2', '.', ',') ?></span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -128,12 +224,12 @@
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p>หนึ่งหมื่นหกร้อยสิบเจ็ดบาทถ้วน</p>
+                                                        <p> <?php echo Convert2($total); ?></p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>ราคาสินค้า</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span>6,651.40</span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></h5>
                                                             </div>
                                                         </div>
                                                     </div>

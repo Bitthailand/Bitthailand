@@ -42,7 +42,10 @@ if ($status_order == 'new') {
     // $_SESSION["order_id"] = $order_id;
 }
 $order_idx = $_SESSION["order_id"];
+// echo"$status_order";
 if ($status_order == 'confirm') {
+    // echo"$order_idx";
+    // $order_id = $_REQUEST['Forder_id'];
     $cus_back = $_REQUEST['cus_back'];
     $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
     $rs = $conn->query($sql);
@@ -55,6 +58,7 @@ if ($status_order == 'confirm') {
     $sql3 = "SELECT * FROM customer_type  where id='$rs[cus_type]'  ";
     $rs3 = $conn->query($sql3);
     $rs3 = $rs3->fetch_assoc();
+    // echo"$rs3[name]";
     if ($cus_back == 1) {
         $cus_back1 = "รับสินค้ากลับเอง";
     }
@@ -66,15 +70,24 @@ if ($status_order == 'confirm') {
     }
     // echo"วิธีรับสินค้า";
     // echo"$discount ";
+ 
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
+    $Fcus_type_name = $_REQUEST['Fcus_type_name'];
+    $Fcus_type_id = $_REQUEST['Fcus_type_id'];
+    $Fcus_name = $_REQUEST['Fcus_name'];
+    $Fcus_id = $_REQUEST['Fcus_id'];
     $delivery_datex = $_REQUEST['delivery_datex'];
     $date_confirm = $_REQUEST['date_confirm'];
     $tax = $_REQUEST['tax'];
     $discount = $_REQUEST['discount'];
     $delivery_Address = $_REQUEST['delivery_Address'];
+    $Fdate_confirm = $_REQUEST['date_confirmx'];
+    $tax = $_REQUEST['Ftax'];
+    $discount = $_REQUEST['Fdiscount'];
     // echo "$delivery_datex";
-    // echo"$discount";
+    // echo"$Fdate_confirm";
+    $datecf=$Fdate_confirm;
 }
 $delivery_datex = $_REQUEST['delivery_datex'];
 $action = $_REQUEST['action'];
@@ -91,6 +104,8 @@ $Fdate_confirm = $_REQUEST['Fdate_confirm'];
 $tax = $_REQUEST['Ftax'];
 $discount = $_REQUEST['Fdiscount'];
 $Forder_id = $_REQUEST['Forder_id'];
+
+
 if ($action == 'add_product') {
     $Fproduct_type = $_REQUEST['Fproduct_type'];
     $Fproductx = $_REQUEST['Fproductx'];
@@ -99,6 +114,14 @@ if ($action == 'add_product') {
     $Fqty2 = $_REQUEST['Fqty2'];
     $qty = $_REQUEST['qty'];
     $Forder_id = $_REQUEST['Forder_id'];
+    $Fcus_id = $_REQUEST['Fcus_id'];
+    $Fcus_type_name = $_REQUEST['Fcus_type_name'];
+    $Fcus_type_id = $_REQUEST['Fcus_type_id'];
+    $Fcus_name = $_REQUEST['Fcus_name'];
+    $Fcus_id = $_REQUEST['Fcus_id'];
+    $Fcus_tel = $_REQUEST['Fcus_tel'];
+    $Fcus_bill_address = $_REQUEST['Fcus_bill_address'];
+    $Fcus_back = $_REQUEST['Fcus_back'];
     $send_to = $_REQUEST['Fsend_to'];
     $send_price = $_REQUEST['Fsend_price'];
     $send_qty = $_REQUEST['Fsend_qty'];
@@ -228,7 +251,7 @@ if ($action == 'add_product') {
                         });
                     </script>
         <?php   } else {
-                    echo "errr";
+                    // echo "errr";
                 }
             } //ปิด เช็คสถานะรับกลับ
             // 
@@ -237,8 +260,8 @@ if ($action == 'add_product') {
     }
 }
 $action1 = $_REQUEST['action1'];
-echo "$action1";
-echo "$Fcus_back";
+// echo "$action1";
+// echo "$Fcus_back";
 if ($action1 == 'chk_cusback') {
 
     $Fproduct_type = $_REQUEST['Fproduct_type'];
@@ -250,7 +273,7 @@ if ($action1 == 'chk_cusback') {
     $Forder_id = $_REQUEST['Forder_id'];
 
     if ($Fcus_back == 1) {
-        echo "$Forder_id", "$Fproductx";
+        // echo "$Forder_id", "$Fproductx";
         $sql_pro = "SELECT * FROM order_details  WHERE  order_id='$Forder_id' AND (status_chk_stock='CB' OR status_chk_stock='TF')  AND status_button='0' ";
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
@@ -296,13 +319,14 @@ if ($action == 'del') {
 if ($action == 'add') {
     $order_idx = $_REQUEST['order_idx'];
     $cus_id = $_REQUEST['Fcus_id'];
+
     $cus_back = $_REQUEST['cus_back'];
     $cus_type = $_REQUEST['customer_type_id'];
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $delivery_date = $_REQUEST['delivery_date'];
     $delivery_Address = $_REQUEST['delivery_Address'];
-    $date_confirm = $_REQUEST['date_confirm'];
+    $date_confirm = $_REQUEST['date_confirmx'];
     $tax = $_REQUEST['tax'];
     $discount = $_REQUEST['discount'];
     $status_order = 'confirm';
@@ -323,8 +347,11 @@ if ($action == 'add') {
             $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx' ";
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
-                $sql = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
+           
+                $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
                 // echo "$order_idx", "vv";
+                if ($conn->query($sql88) === TRUE) {
+                }
                 if ($delivery_date = '$delivery_date') {
                     $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
@@ -577,7 +604,7 @@ if ($action == 'add_hs') {
         if ($conn->query($sqlx5) === TRUE) {
         }
     }
-    $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id' where id='$e_id'";
+    $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id',status_payment='2' where id='$e_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
         <script>
             $(document).ready(function() {
@@ -805,7 +832,7 @@ if ($action == 'add_hs') {
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
                                                                 <tr>
-                                                                <td> <strong><?=++$id;?></strong> </td>
+                                                                    <td> <strong><?= ++$id; ?></strong> </td>
                                                                     <td> <strong><?= $row_pro['product_id'] ?></strong> </td>
                                                                     <td>
                                                                         <?php
@@ -869,7 +896,7 @@ if ($action == 'add_hs') {
                                             </div>
                                             <div class="form-group col-md-1">
                                                 <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
-                                                <input type="text" value="<?= $date_confirm ?>" class="classcus form-control" readonly>
+                                                <input type="text" value="<?= $datecf?>" class="classcus form-control" readonly>
                                             </div>
                                     <?php  }
                                     } ?>
@@ -886,9 +913,9 @@ if ($action == 'add_hs') {
                                         <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
 
                                         <?php if ($status_order == 'confirm') { ?>
-                                            <input type="text" value="<?= $date_confirm ?>" class="classcus form-control">
+                                            <input type="text" value="<?= $Fdate_confirm ?>" class="classcus form-control">
                                         <?php  } else { ?>
-                                            <input type="text" name="date_confirmx" id="date_confirm" value="<?= $Fdate_confirm ?>" class="classcus form-control" placeholder="ยืนยันราคาใน" Value="0">
+                                            <input type="text" name="date_confirmx" id="date_confirm" value="<?= $datecf ?>" class="classcus form-control" placeholder="ยืนยันราคาใน" Value="0">
                                         <?php } ?>
                                     </div>
                                     <div class="form-group col-md-1">

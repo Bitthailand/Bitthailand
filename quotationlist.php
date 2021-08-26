@@ -318,7 +318,7 @@ $(document).ready(function() {
                                                     href="/quotation.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                     <i class="i-File font-weight-bold"></i>
                                                 </a>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>">
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-Money-Bag font-weight-bold"></i>
                                                     </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">

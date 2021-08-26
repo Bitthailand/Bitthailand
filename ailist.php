@@ -194,7 +194,7 @@ if ($rowS == '') {
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
-                                            <th>ส่วนลด</th>
+                                            <th>เงินมัดจำ</th>
                                             <th>ก่อนรวมภาษี</th>
                                             <th>ภาษี</th>
                                             <th>ยอดรวม</th>
@@ -258,7 +258,7 @@ if ($rowS == '') {
                                                         echo $row2['name_th'];
                                                         ?>
                                                 </td>
-                                                <td><span class="font-weight-bold"> <?php echo number_format($row['discount'], '2', '.', ',') ?></span>
+                                                <td><span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
                                                 </td>
                                                 <td>
                                                     <?php
@@ -282,9 +282,12 @@ if ($rowS == '') {
                                                     <span class="badge badge-warning p-1">มัดจำ</span>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/addsaleorder.php?order_id=<?= $row['order_id'] ?>">
+                                                  
+                                                    <?php if($row['dev_status']==1){  }else{ ?>
+                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/addsaleorder.php?order_id=<?= $row['order_id'] ?>"target="_blank" >
                                                         <i class="i-Car-Items font-weight-bold"></i>
                                                     </a>
+                                                    <?php } ?>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="สั่งสินค้าเพิ่ม" href="/editorder.php?order_id=OR6400001">
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>

@@ -5,39 +5,8 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-
-$order_id=$_REQUEST['order_id'];
-$so_id=$_REQUEST['so_id'];
-?>
-<!DOCTYPE html>
-<html lang="en" dir="">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Sale Order | ใบส่งของ</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
-    <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
-    <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-
-    <style>
-    p {
-        margin-top: 0;
-        margin-bottom: 0.1rem;
-    }
- 
-        .table-sm th,
-        .table-sm td {
-            padding: 0.3rem;
-            font-size: 0.813rem !important;
-        }
-    </style>
-</head>
-<?php
-include './include/config.php';
-include './include/config_text.php';
-$datetoday = date('Y-m-d');
+include './include/config_date.php';
+$order_id= $_REQUEST['order_id'];
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -48,13 +17,38 @@ $row2 = $rs2->fetch_assoc();
 // ====
 $sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
 $rs3 = $conn->query($sql3);
-$row3 = $rs3->fetch_assoc();
-
-$sql5 = "SELECT * FROM delivery  WHERE dev_id= '$so_id' AND order_id='$order_id'";
-$rs5 = $conn->query($sql5);
-$row5 = $rs5->fetch_assoc();
+$row3= $rs3->fetch_assoc();
 // ===
+$strStartDate =$row['qt_date'];
+$strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
+
 ?>
+<!DOCTYPE html>
+<html lang="en" dir="">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quotation | ใบเสนอราคา</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
+    <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <link href="../../dist-assets/css/print_css.css" rel="stylesheet" />
+
+    <style>
+    p {
+        margin-top: 0;
+        margin-bottom: 0.1rem;
+    }
+    .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
+    </style>
+</head>
+
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -76,7 +70,8 @@ $row5 = $rs5->fetch_assoc();
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
-                                        <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบส่งของ</button>
+                                           
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
@@ -87,7 +82,7 @@ $row5 = $rs5->fetch_assoc();
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
-                                                    <h4 class="font-weight-bold">ใบส่งของ</h4>
+                                                    <h4 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h4>
                                                 </div>
                                             </div>
                                             <div class="mt-3 mb-4 border-top"></div>
@@ -105,26 +100,24 @@ $row5 = $rs5->fetch_assoc();
                                                        $rs8 = $conn->query($sql8);
                                                        $row8 = $rs8->fetch_assoc();
                                                        
-                                                       $sql_dev = "SELECT * FROM delivery  WHERE order_id= '$order_id' AND dev_id='$so_id'";
-                                                       $rs_dev  = $conn->query($sql_dev);
-                                                       $row_dev  = $rs_dev ->fetch_assoc();
-
-
                                                         ?>
-                                                    <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
+                                                    <p><strong>ชื่อลูกค้า : </strong>คุณ <?=$row3['customer_name']?></p>
                                                     <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
-                                                    <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
-                                                    <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
-
+                                                    <p><strong>โทร : </strong> <?=$row3['tel']?></p>
+                                                    <p><strong>อ้างอิง : </strong><?=$row3['contact_name']?></p>
+                                                    <p>บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ใบส่งของ <span><?=$order_id?></span></p>
-                                                        <p>ลำดับการสั่งซื้อ <span><?=$so_id?></span></p>
-                                                        <p>วันที่ <span><?php $date = explode(" ", $row5['dev_date']);
-                                                    $dat = datethai2($date[0]);
-                                                    echo $dat; ?> </span></p>
+                                                        <p>เลขที่ใบเสนอราคา <span><?php echo"$row[qt_id]";?></span></p>
+                                                        <p>ลำดับการสั่งซื้อ <span><?php echo"$row[order_id]";?></span></p>
+                                                        <p>วันที่ <span><?php $date=explode(" ",$row['qt_date'] ); $dat=datethai2($date[0]);
+                                                        echo"$dat";?> </span></p>
+                                                        <p>ยืนราคา :<?php echo"$row[date_confirm]";?>วัน <span>ถึงวันที่ 
+                                                        <?php $date=explode(" ",$strNewDate ); $dat=datethai2($date[0]);
+                                                        echo"$dat";?></span></p>
+                                                        <p>เงื่อนไขการชำระเงิน : <span><?=$row2['name']?></span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,61 +130,56 @@ $row5 = $rs5->fetch_assoc();
                                                                 <th scope="col"class="text-center">รหัสสินค้า/รายละเอียด</th>
                                                                 <th scope="col"class="text-center">จำนวน</th>
                                                                 <th scope="col"class="text-center">หน่วยละ</th>
-                                                                  <th scope="col"class="text-center">ส่วนลดต่อหน่วย</th>
                                                                 <th scope="col"class="text-center">ราคารวมภาษี</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                         <?php
-                                                                $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
-                                                                $result_pro = mysqli_query($conn, $sql_pro);
-                                                                if (mysqli_num_rows($result_pro) > 0) {
-                                                                    while ($row_pro = mysqli_fetch_assoc($result_pro)) {
-
-                                                                        $no = $row_pro['id'];
-                                                                        $product_id = $row_pro['product_id'];
-                                                                ?> <tr>
-                                                                <td scope="row" class="text-center"><?=++$id;?></td>
-                                                                <td>  <?php
+                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
+                                                        $result_pro = mysqli_query($conn, $sql_pro);
+                                                        if (mysqli_num_rows($result_pro) > 0) {
+                                                            while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
+                                                            <tr>
+                                                                <th scope="row" class="text-center"><?=++$id;?></th>
+                                                                <td>
+                                                                <?php
                                                                         $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                                                                         $rsx3 = $conn->query($sqlx3);
                                                                         $rowx3 = $rsx3->fetch_assoc();
                                                                         if($rowx3['ptype_id']=='TF0'){
                                                                             echo $rowx3['product_id'].$rowx3['product_name'];
                                                                         }else{ 
-                                                                        echo $rowx3['product_id'].$rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
+                                                                        echo $rowx3['product_name'];
+                                                                        if($rowx3['spacial']==''){}else{ echo"  (".$rowx3['spacial'].")";}
                                                                     }
-                                                                        ?></td>
-                                                                <td class="text-right"><?=$row_pro['dev_qty']?></td>
-                                                                <td class="text-right"><?=$rowx3['unit_price']?></td>
-                                                                <td class="text-right"><?=$row_pro['disunit']?>
-                                                            <?php  $total=$rowx3['unit_price']-$row_pro['disunit']; ?>
-                                                            </td>
-                                                                <td class="text-right"><?php  $sum_total=$row_pro['dev_qty']*$total; ?>
-                                                                <?php echo number_format($sum_total,'2','.',',')?></td>
+                                                                        ?>
+
+                                                                </td>
+                                                                <td class="text-right"><?=$row_pro['qty']?></td>
+                                                                <td class="text-right"><?=$row_pro['unit_price']?></td>
+                                                                <td class="text-right"><?=$row_pro['total_price']?></td>
                                                             </tr>
-                                                            <?php } } ?>
-                                                            
+                                                         <?php } } ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
                                                     <?php
-                                                                        $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
+                                                                        $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$order_id'";
                                                                         $rsx4 = $conn->query($sqlx4);
                                                                         $rowx4 = $rsx4->fetch_assoc();
                                                                        
                                                                         ?>
                                                         <p>รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($rowx4['total'],'2','.',',')?></span></p>
-                                                        <p>หัก ส่วนลด <span><?php  echo"$row_dev[discount]"; ?></span></p>
-                                                        <p>จำนวนเงินก่อนรวมภาษี  <span>
-                                                        <?php $tax = ($rowx4['total']* 100)/107; 
-                                                         $tax2 = ($rowx4['total'] - $tax);
-                                                         $grand_total = ($rowx4['total']+ $tax2);
-                                                         echo number_format($rowx4['total'],'2','.',',');
-                                                        ?></span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
+                                                        <p>หัก ส่วนลด <span><?php echo number_format($row['discount'],'2','.',',')?></span></p>
+                                                        <?php $sub_total=$rowx4['total']-$row['discount']; 
+                                                        $tax = ($sub_total* 100)/107;
+                                                        $tax2 = ($sub_total - $tax);
+                                                        $grand_total = ($sub_total - $tax2);
+                                                        ?>
+                                                        <p>จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($grand_total,'2','.',',')?></span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม <?=$row['tax']?>% <span><?php echo number_format($tax2,'2','.',',')?></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -200,12 +188,12 @@ $row5 = $rs5->fetch_assoc();
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p> <?php echo Convert2($grand_total); ?></p>
+                                                            <p><?php echo Convert($sub_total);?></p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>รวมเป็นเงิน</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($sub_total,'2','.',',')?></span></h5>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -215,41 +203,35 @@ $row5 = $rs5->fetch_assoc();
                                             <div class="col-md-12">
                                                 <div class="col-md-12 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
-                                                    <p>- ได้รับสินค้าตามรายการข้างบนนี้ในสภาพสมบูรณ์ถูกต้องครบถ้วนแล้ว </p>
-                                                    <p>- สินค้ายังเป็นกรรมสิทธิ์ของทางร้านจนกว่าผู้ซื้อจะชำระสินค้าเรียบร้อยแล้ว </p>
-                                                    <p>- ทางร้านขอสงวนสิทธิ์ไม่รับคืนสินค้าในกรณีที่ไม่ได้เกิดจากความผิดพลาดของทางร้าน </p>
+                                                    <p>1.มัดจำไม่น้อยกว่า 30% ขอมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง ก่อนลงสินค้า </p>
+                                                    <p>2.ผู้ซื้อเป็นผู้จัดเตรียมถนนชั่วคราว/สถานที่ ให้รถส่งสินค้าเข้าถึงจุดส่งสินค้า หรือ จะลงสินค้าเท่าที่รถสามารถเข้าได้ </p>
+                                                    <p>3.ขอสงวนสิทธิ์ในการลงสอนค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
+                                                    <p>4.สอนค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทขอเก็บค่าดูแลสินค้า 5%
+                                                        ต่อเดือนของมูลค่าสินค้า </p>
+                                                    <p>5.การสั่งสินค้า/ซื้อสินค้าแล้ว ทางบริษัทไม่รับคืนสินค้า </p>
+                                                    <p>6.กรณีผู้ซื้อตรวจรับสอนค้าจำนวนถูกต้องและสภาพเรียบร้อย บริษัทไม่รับผิดชอบหลังการตรวจรับแล้ว </p>
+                                                    <br>
+                                                    <h5 class="font-weight-bold">วิธีการชำระเงิน</h5>
+                                                    <p>ชื่อบัญชี : บจก.วันเอ็ม ชื่อธนาคาร/เลขที่บัญชี : ธนาคารกสิกรไทย ออกทรัพย์ สาขาสินีย์ทาวเวอร์ เลขที่บัญชี 685-2-29088-7 </p>
                                                 </div>
                                                 <div class="mt-3 mb-4 border-top"></div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row">
-                                                    <div class="col-md-3 text-center">
+                                                    <div class="col-md-4 text-center">
                                                         <p> ____________________</p>
                                                         <br>
-                                                        <p>ผู้รับสินค้า<span></span></p>
+                                                        <p>ผู้อนุมัติ<span></span></p>
                                                         <br>
-                                                        <p>วันที่ _______/_________/_________ <span></span></p>
+                                                        <p>วันที่ ________/__________/__________ <span></span></p>
                                                     </div>
-                                                    <div class="col-md-3 text-center">
-                                                        <p> ____________________</p>
-                                                        <br>
-                                                        <p>พนักงานส่งของ<span></span></p>
-                                                        <br>
-                                                        <p>วันที่ _______/_________/_________ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3 text-center">
-                                                        <p> ____________________</p>
-                                                        <br>
-                                                        <p>ผู้ตรวจสอบ<span></span></p>
-                                                        <br>
-                                                        <p>วันที่ _______/_________/__________ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3 text-center">
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-5 text-center">
                                                         <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
                                                         <br>
                                                         <p>ผู้รับมอบอำนวจ ____________________ <span></span></p>
                                                         <br>
-                                                        <p>วันที่ _______/_________/_________ <span></span></p>
+                                                        <p>วันที่ ________/__________/__________ <span></span></p>
                                                     </div>
                                                 </div>
                                             </div>

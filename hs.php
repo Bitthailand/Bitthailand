@@ -152,8 +152,6 @@ $row_emp = $rs_emp->fetch_assoc();
                                                     $sql_dev = "SELECT * FROM delivery  WHERE order_id= '$order_id' AND dev_id='$so_id'";
                                                     $rs_dev  = $conn->query($sql_dev);
                                                     $row_dev  = $rs_dev->fetch_assoc();
-
-
                                                     ?>
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
                                                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
@@ -209,7 +207,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                                                             if ($rowx3['ptype_id'] == 'TF0') {
                                                                                 echo $rowx3['product_id'] . $rowx3['product_name'];
                                                                             } else {
-                                                                                echo $rowx3['product_id'] . $rowx3['product_name'] . '  หนา' . $rowx3['thickness'] . '  ขนาดลวด' . $rowx3['dia_size'] . '  จำนวน' . $rowx3['dia_count'];
+                                                                                echo $rowx3['product_name'];
                                                                             }
                                                                             ?></td>
                                                                         <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
@@ -236,7 +234,9 @@ $row_emp = $rs_emp->fetch_assoc();
                                                         $sql_ai = "SELECT *  FROM ai_number  where order_id='$order_id'  ";
                                                         $rs_ai  = $conn->query($sql_ai);
                                                         $row_ai  = $rs_ai->fetch_assoc();
-
+                                                        $sql_dev = "SELECT *  FROM delivery  where order_id='$order_id' AND dev_id='$so_id' ";
+                                                        $rs_dev  = $conn->query($sql_dev);
+                                                        $row_dev  = $rs_dev->fetch_assoc();
                                                         ?>
                                                         <p>รวมเป็นเงิน <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
                                                         <p>หัก ส่วนลด <span>00.00</span></p>
@@ -245,12 +245,12 @@ $row_emp = $rs_emp->fetch_assoc();
                                                             $total = $rowx4['total'];
                                                         } else { ?>
                                                             <p>หักเงินมัดจำ #<?= $row_ai['ai_num'] ?> <span>
-                                                                    <?php echo number_format($row_ai['price'], '2', '.', ',') ?></span></p>
+                                                                    <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></span></p>
                                                         <?php }
-                                                        $total = $rowx4['total'] - $row_ai['price'];
+                                                        $total = $rowx4['total'] - $row_dev['ai_count'];
                                                         $tax = ($total* 100) / 107;
                                                         $tax2 = ($total - $tax);
-                                                        $grand_total = ($total- $tax2);
+                                                        $grand_total = ($total+ $tax2);
                                                         ?>
                                                         <p>จำนวนเงินรวมทั้งสิ้น <span> <?php echo number_format($total, '2', '.', ',') ?></span></p>
                                                         <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>

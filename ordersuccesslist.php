@@ -184,7 +184,7 @@ if ($rowS == '') {
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
-                                            <th>ส่วนลด</th>
+                                            <th>ค่ามัดจำ</th>
                                             <th>ก่อนรวมภาษี</th>
                                             <th>ภาษี</th>
                                             <th>ยอดรวม</th>
@@ -247,7 +247,7 @@ if ($rowS == '') {
                                                         echo $row2['name_th'];
                                                         ?> 
                                                 </td>
-                                                <td><span class="font-weight-bold"> <?php echo number_format($row['discount'], '2', '.', ',') ?></span>
+                                                <td><span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
                                                 </td>
                                                 <td>
                                                 <?php

@@ -310,7 +310,7 @@ if ($action == 'del') {
                                         ?>
                                         <select name="plant" id="plant" class="classcus custom-select " required>
                                             <?php
-                                            $sql6 = "SELECT *  FROM plant   order by id ASC ";
+                                            $sql6 = "SELECT *  FROM plant   order by plant_id  ASC ";
                                             $result6 = mysqli_query($conn, $sql6);
                                             if (mysqli_num_rows($result6) > 0) {
                                                 while ($row6 = mysqli_fetch_assoc($result6)) {

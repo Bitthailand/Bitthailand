@@ -34,6 +34,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    
 
     <style>
     p {
@@ -148,7 +149,10 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                                         if($rowx3['ptype_id']=='TF0'){
                                                                             echo $rowx3['product_id'].$rowx3['product_name'];
                                                                         }else{ 
-                                                                        echo $rowx3['product_id'].$rowx3['product_name'];
+                                                                        echo $rowx3['product_name'];
+                                                                       if($rowx3['spacial']==''){}else{ echo"  (".$rowx3['spacial'].")";}
+                                                                        
+
                                                                     }
                                                                         ?>
 

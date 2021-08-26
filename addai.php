@@ -138,6 +138,9 @@ if ($status_ai == 1) {
                                                        $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
                                                        $rs8 = $conn->query($sql8);
                                                        $row8 = $rs8->fetch_assoc();
+                                                       $sql_pro = "SELECT SUM(total_price) AS total FROM order_details   WHERE order_id= '$order_id'";
+                                                       $rs_pro = $conn->query($sql_pro);
+                                                       $row_pro = $rs_pro->fetch_assoc();
                                                        
                                                         ?>
                                                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
@@ -196,7 +199,8 @@ if ($status_ai == 1) {
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <p>จำนวนเงินรวมทั้งสิ้น <span><?php echo number_format($input_price, '2', '.', ',') ?></span></p>
+                                                        <p>จำนวนเงินค่าสินค้ารวมทั้งสิ้น <span><?php echo number_format($row_pro['total'], '2', '.', ',') ?></span></p>
+                                                        <p>จำนวนเงินมัดจำรวมทั้งสิ้น <span><?php echo number_format($input_price, '2', '.', ',') ?></span></p>
                                                         <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <?php $tax = ($input_price * 100)/107;
                                                                                         $tax2 = ($input_price - $tax);
                                                                                         $grand_total = ($input_price- $tax2);

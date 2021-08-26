@@ -36,6 +36,56 @@ if ($row['dev_status'] == 1) {
     $code_new = $row_run['id_run'] + 1;
     $code = sprintf('%05d', $code_new);
     $dev_id = $dat . $code;
+
+    $sql5 = "SELECT MAX(id) AS id_run FROM iv_number  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_IV($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $iv_id = $dat . $code;
+
+    $sql5 = "SELECT MAX(id) AS id_run FROM bi_number  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    
+    $strStartDate =$row['qt_date'];
+    $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
+    
+    // $date_run = date('d');
+    // if($date_run<=15){  
+    //     $BI='001'; 
+    //     $date_start_true="$datemont-1";
+    //     $date_end_true="$datemont-15"; 
+    // }
+    // if($date_run>=16){  
+    //     $BI='002';  
+    //     $date_start='16';
+    //     $datetoday = date('Y-m-d');
+    //     $enddate=date("t",strtotime($datetoday));       
+    //     $datemont= date('Y-m');
+    //     $date_start_true="$datemont-$date_start";
+    //     $date_end_true="$datemont-$enddate";
+    // }
+
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_BI($date[0]);
+    $bi_id = $dat . $BI;
+    $sqlxx = "SELECT *  FROM bi_number  where bi_number= '$bi_id'";
+    $resultxx = mysqli_query($conn, $sqlxx);
+    if (mysqli_num_rows($resultxx) > 0) {
+    }else{
+        $sqlx = "INSERT INTO bi_number(bi_number)
+        VALUES ('$bi_id')";
+       if ($conn->query($sqlx) === TRUE) {
+       }
+
+    }
+   
+echo"$date_true";
 }
 ?>
 <!DOCTYPE html>
@@ -74,7 +124,12 @@ if ($action == 'add_dev') {
     $order_id = $_REQUEST['order_id'];
     $dev_id = $_REQUEST['dev_id'];
     $dev_date = $_REQUEST['dev_date'];
-
+    $cus_id = $_REQUEST['cus_id'];
+    $cus_type = $_REQUEST['cus_type'];
+    $iv_id = $_REQUEST['iv_id'];
+    $ai_count = $_REQUEST['ai_count'];
+    $date_credit = $_REQUEST['date_credit'];
+    $date_end = $_REQUEST['date_end'];
     if ($dev_date == '') { ?>
         <script>
             $(document).ready(function() {
@@ -150,9 +205,6 @@ if ($action == 'add_dev') {
 
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]')";
-
-
-
                         $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$total_instock',status_delivery='1' where product_id='$product_id'";
                         $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
 
@@ -168,7 +220,7 @@ if ($action == 'add_dev') {
                                     showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
                                 });
                             </script>
-        <?php
+<?php
                         }
                     }
                 }
@@ -195,14 +247,34 @@ if ($action == 'add_dev') {
             if ($conn->query($sqlx12) === TRUE) {
             }
         }
+        // ตัดยอดมัดจำ
+        $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+        $rs = $conn->query($sql);
+        $row = $rs->fetch_assoc();
+        $sum_ai = $row['ai_count'] - $ai_count;
+        $sqlx12 = "UPDATE orders  SET ai_count='$sum_ai' WHERE order_id= '$order_id'";
+        if ($conn->query($sqlx12) === TRUE) {
+        }
+        // ปิดตัดยอดมัดจำ
+
 
         $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_id' AND dev_id='$dev_id' ";
         $resultxx = mysqli_query($conn, $sqlxx);
         if (mysqli_num_rows($resultxx) > 0) {
         } else {
-            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date)
-             VALUES ('$dev_id','$order_id','$dev_date')";
+            if ($cus_type == 2) {
+                $status_inv = '1';
+            } else {
+                $status_inv = '2';
+            }
+
+            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv)
+             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv')";
             if ($conn->query($sqlx) === TRUE) {
+            }
+            $sqlx2 = "INSERT INTO iv_number(iv_number,order_id,so_id,cus_id,cus_type)
+            VALUES ('$iv_id','$order_id','$dev_id','$cus_id','$cus_type')";
+            if ($conn->query($sqlx2) === TRUE) {
             }
             $sql_TF = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'  ";
             $result_TF = mysqli_query($conn, $sql_TF);
@@ -218,44 +290,6 @@ if ($action == 'add_dev') {
     }
     $action = '';
     $dev_date = '';
-}
-if ($action == 'add_hs') {
-    $e_id = $_REQUEST['e_id'];
-    $so_id = $_REQUEST['so_id'];
-    $order_id = $_REQUEST['order_id'];
-
-    //    echo"$po_stop";
-    //    echo"$po_start";
-    $sql5 = "SELECT count(id) AS id_run FROM hs_number  ";
-    $rs5 = $conn->query($sql5);
-    $row_run = $rs5->fetch_assoc();
-    $dev_status = $row['dev_status'];
-    $datetodat = date('Y-m-d');
-    $date = explode(" ", $datetodat);
-    $dat = datethai_HS1($date[0]);
-    $code_new = $row_run['id_run'] + 1;
-    $code = sprintf('%05d', $code_new);
-    $hs_id = $dat . $code;
-
-    $sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND so_id='$so_id' ";
-    $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) {
-    } else {
-        $sqlx5 = "INSERT INTO hs_number (order_id,so_id,hs_id)
-    VALUES ('$order_id','$so_id','$hs_id')";
-        if ($conn->query($sqlx5) === TRUE) {
-        }
-    }
-    $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id' where id='$e_id'";
-    if ($conn->query($sqlxxx) === TRUE) { ?>
-        <script>
-            $(document).ready(function() {
-                // showAlert("บันทึกข้อมูลพนักงานจัดส่งเรียบร้อย", "alert-primary");
-
-                window.open('hs.php?order_id=<?= $order_id ?>&so_id=<?= $so_id ?>', '_blank');
-            });
-        </script>
-<?php }
 }
 
 ?>
@@ -326,128 +360,168 @@ if ($action == 'add_hs') {
                                                             <div class="form-group col-md-12">
                                                                 <p>ลำดับการสั่งซื้อ <span><?= $order_id ?></span></p>
                                                             </div>
-                                                            <div class="form-group col-md-12">
-                                                                <label for="ai_id"><strong>เลขที่ใบส่งของ <span class="text-danger"></span></strong></label>
-                                                                <input type="text" name="dev_id" value="<?= $dev_id ?>" class="classcus form-control" id="so_id" placeholder="เลขที่ใบส่งของ">
+                                                            <?php if ($row['cus_type'] == 2) {
+                                                                $col = '6';
+                                                            } else {
+                                                                $col = '12';
+                                                            } ?>
+                                                            <div class="form-row mt-3">
+                                                                <div class="form-group col-md-<?= $col ?>">
+                                                                    <label for="ai_id"><strong>เลขที่ใบส่งของ <span class="text-danger"></span></strong></label>
+                                                                    <input type="text" name="dev_id" value="<?= $dev_id ?>" class="classcus form-control" id="so_id" placeholder="เลขที่ใบส่งของ">
+                                                                </div>
+                                                                <?php if ($row['cus_type'] == 2) { ?>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label for="ai_id"><strong>เลขที่ใบเอกสาร IV <span class="text-danger"></span></strong></label>
+                                                                        <input type="text" name="iv_id" value="<?= $iv_id ?>" class="classcus form-control" id="iv_id" placeholder="เลขที่ใบส่งของ">
+                                                                    </div>
+                                                                <?php } ?>
                                                             </div>
-                                                            <div class="form-group col-md-12">
-                                                                <div class="form-group">
+                                                            <div class="form-row mt-3">
+
+                                                                <div class="form-group col-md-6">
                                                                     <label for="delivery_date">วันที่</label>
                                                                     <input id="dev_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="dev_date" value="<?= $row['delivery_date'] ?>">
                                                                 </div>
+                                                                <div class="form-group col-md-6">
+
+                                                                    <label for="ai_id"><strong>หักเงินมัดจำจากราคา<?= $row['ai_count'] ?><span class="text-danger"></span></strong></label>
+                                                                    <input type="text" name="ai_count" value="<?= $ai_count ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
+                                                                </div>
                                                             </div>
+                                                            <input type="hidden" name="cus_id" value="<?= $row['cus_id'] ?>">
+                                                            <input type="hidden" name="cus_type" value="<?= $row['cus_type'] ?>">
+                                                            <?php if ($row['cus_type'] == 2) { ?>
+                                                                <div class="form-row mt-3">
+                                                                    <div class="form-group col-md-6">
+                                                                        <label for="ai_id"><strong>เครดิต <span class="text-danger"></span></strong></label>
+                                                                        <input type="text" name="date_credit" value="<?= $date_credit ?>" class="classcus form-control" id="date_credit" placeholder="เครดิตจำนวนวัน">
+                                                                    </div>
+
+                                                                    <div class="form-group col-md-6">
+                                                                        <label for="delivery_date">วันที่ครบกำหนด</label>
+                                                                        <input id="dete_end" class="form-control" type="date" require min="<?= $datetodat ?>" name="date_end" value="<?= $date_end ?>">
+                                                                    </div>
+
+                                                                </div>
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-12 table-responsive">
-                                                        <table class="table table-hover mb-4">
-                                                            <thead class="bg-gray-300">
-                                                                <tr>
-                                                                    <th scope="col" class="text-center" width="5%">No.</th>
-                                                                    <th scope="col" class="text-center" width="35%">รหัสสินค้า/รายละเอียด</th>
-                                                                    <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
-                                                                    <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
-                                                                    <th scope="col" class="text-center" width="10%">จำนวนที่ต้องส่ง</th>
-                                                                    <th scope="col" class="text-center" width="10%">โรงงาน 1</th>
-                                                                    <th scope="col" class="text-center" width="10%">โรงงาน 2</th>
-
-                                                                    <th scope="col" class="text-center" width="10%">จำนวนส่ง</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php
-                                                                $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' AND ptype_id<>'TF' order by id  ASC ";
-                                                                $result_pro = mysqli_query($conn, $sql_pro);
-                                                                if (mysqli_num_rows($result_pro) > 0) {
-                                                                    while ($row_pro = mysqli_fetch_assoc($result_pro)) {
-
-                                                                        $no = $row_pro['id'];
-                                                                        $product_id = $row_pro['product_id'];
-                                                                ?>
-                                                                        <tr class="line">
-                                                                            <th scope="row" class="text-center"><?= ++$idx; ?></th>
-                                                                            <td> <?php $idx7 = ++$id7;
-                                                                                    $idx8 = ++$id8;
-                                                                                    $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]' ";
-                                                                                    $rsx3 = $conn->query($sqlx3);
-                                                                                    $rowx3 = $rsx3->fetch_assoc();
-                                                                                    echo $rowx3['product_id'] . $rowx3['product_name'] . '  หนา' . $rowx3['thickness'] . '  ขนาดลวด' . $rowx3['dia_size'] . '  จำนวน' . $rowx3['dia_count'];
-                                                                                    ?></td>
-
-                                                                            <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
-                                                                            <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                            <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
-                                                                            <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
-                                                                                                                                                                                                                                                                                                                                                                                        echo "disabled";
-                                                                                                                                                                                                                                                                                                                                                                                    } ?>></td>
-                                                                            <td class="text-center"> <?php echo "<span id='err2" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face2" . $no . "'"; ?> value='<?php echo $row_pro['face2_stock_out']; ?>' <?php echo "name='stock2[$product_id][$no][$idx8]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
-                                                                                                                                                                                                                                                                                                                                                                                        echo "disabled";
-                                                                                                                                                                                                                                                                                                                                                                                    } ?>></td>
-                                                                            <td class="text-center"> <?php echo "<span id='err3" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='total_price" . $no . "'"; ?> value='<?php echo $row_pro['qty_dev']; ?>' readonly></td>
-                                                                            <?php
-                                                                            // echo "<td class=\"text-center\"><span id='err" . $no . "' ></span><input type='number' class=\"form-control\" id='face1" . $no . "' value='.$row_pro[face1_stock_out].' name='stock1[$product_id][$no][$idx7]' onkeyup='keyup(" . $no . ")'></td>";
-                                                                            // echo "<td class=\"text-center\"><span id='err2" . $no . "' ></span><input type='number' class=\"form-control\"id='face2" . $no . "' value='.$row_pro[face2_stock_out].' name='stock2[$product_id][$no][$idx7]'  onkeyup='keyup(" . $no . ")'></td>";
-                                                                            // echo "<td class=\"text-center\"><span id='err3" . $no . "' ></span><input type='number' class=\"form-control\" id='total_price" . $no . "' readonly></td>";
-
-                                                                            ?>
-
-                                                                        </tr>
-                                                                <?php }
-                                                                } ?>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-3 mb-4 border-top"></div>
-                                                <div class="d-sm-flex mb-5" data-view="print">
-                                                    <span class="m-auto"></span>
-                                                    <!-- เงินสด SO  HS   เครดิส  SO  IV   -->
-                                                    <?php
-
-                                                    // echo "$dev_status+$action";
-                                                    if (($dev_status == 1) || ($cf == 'ok')) {
-                                                        // echo"$row[cus_type]";
-                                                    ?>
-                                                        <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>
-                                                        <?php if ($row['cus_type'] == 1) { ?>
-                                                            <?php
-                                                            $sql = "SELECT * FROM delivery  where order_id='$order_id'  ";
-                                                            $rsx = $conn->query($sql);
-                                                            $rsx = $rsx->fetch_assoc();
-                                                            // echo"$rsx[dev_id]";
-                                                            ?>
-                                                                <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
-                                                      
-                                                      <?php   } ?>
-                                                        <?php if ($row['cus_type'] == 2) { ?> <a class="btn btn-outline-primary m-1" href="/invoice.php" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a><?php } ?>
-                                                    <?php } else {  ?>
-                                                        <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
-                                                        <input type="hidden" name="action" value="add_dev">
-                                                        <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการส่งของ</span></button>
-
-                                                    <?php } ?>
-                                                    <a class="btn btn-outline-danger m-1" href="/ailist.php" type="button">กลับหน้ารายการ Order</a>
-                                                </div>
-
                                             </div>
-                                            <!-- ==== / Print Area =====-->
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive">
+                                                    <table class="table table-hover mb-4">
+                                                        <thead class="bg-gray-300">
+                                                            <tr>
+                                                                <th scope="col" class="text-center" width="5%">No.</th>
+                                                                <th scope="col" class="text-center" width="35%">รหัสสินค้า/รายละเอียด</th>
 
+                                                                <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
+                                                                <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
+                                                                <th scope="col" class="text-center" width="10%">จำนวนที่ต้องส่ง</th>
+                                                                <th scope="col" class="text-center" width="10%">โรงงาน 1</th>
+                                                                <th scope="col" class="text-center" width="10%">โรงงาน 2</th>
+
+                                                                <th scope="col" class="text-center" width="10%">จำนวนส่ง</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' AND ptype_id<>'TF' order by id  ASC ";
+                                                            $result_pro = mysqli_query($conn, $sql_pro);
+                                                            if (mysqli_num_rows($result_pro) > 0) {
+                                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+
+                                                                    $no = $row_pro['id'];
+                                                                    $product_id = $row_pro['product_id'];
+                                                            ?>
+                                                                    <tr class="line">
+                                                                        <th scope="row" class="text-center"><?= ++$idx; ?></th>
+                                                                        <td> <?php $idx7 = ++$id7;
+                                                                                $idx8 = ++$id8;
+                                                                                $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]' ";
+                                                                                $rsx3 = $conn->query($sqlx3);
+                                                                                $rowx3 = $rsx3->fetch_assoc();
+                                                                                echo $rowx3['product_id'] . $rowx3['product_name'];
+                                                                                ?></td>
+
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
+                                                                        <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
+                                                                                                                                                                                                                                                                                                                                                                                    echo "disabled";
+                                                                                                                                                                                                                                                                                                                                                                                } ?>></td>
+                                                                        <td class="text-center"> <?php echo "<span id='err2" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face2" . $no . "'"; ?> value='<?php echo $row_pro['face2_stock_out']; ?>' <?php echo "name='stock2[$product_id][$no][$idx8]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
+                                                                                                                                                                                                                                                                                                                                                                                    echo "disabled";
+                                                                                                                                                                                                                                                                                                                                                                                } ?>></td>
+                                                                        <td class="text-center"> <?php echo "<span id='err3" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='total_price" . $no . "'"; ?> value='<?php echo $row_pro['qty_dev']; ?>' readonly></td>
+                                                                        <?php
+                                                                        // echo "<td class=\"text-center\"><span id='err" . $no . "' ></span><input type='number' class=\"form-control\" id='face1" . $no . "' value='.$row_pro[face1_stock_out].' name='stock1[$product_id][$no][$idx7]' onkeyup='keyup(" . $no . ")'></td>";
+                                                                        // echo "<td class=\"text-center\"><span id='err2" . $no . "' ></span><input type='number' class=\"form-control\"id='face2" . $no . "' value='.$row_pro[face2_stock_out].' name='stock2[$product_id][$no][$idx7]'  onkeyup='keyup(" . $no . ")'></td>";
+                                                                        // echo "<td class=\"text-center\"><span id='err3" . $no . "' ></span><input type='number' class=\"form-control\" id='total_price" . $no . "' readonly></td>";
+
+                                                                        ?>
+
+                                                                    </tr>
+                                                            <?php }
+                                                            } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                    </div>
+                                    <div class="mt-3 mb-4 border-top"></div>
+                                    <div class="d-sm-flex mb-5" data-view="print">
+                                        <span class="m-auto"></span>
+                                        <!-- เงินสด SO  HS   เครดิส  SO  IV   -->
+                                        <?php
+
+                                        // echo "$dev_status+$action";
+                                        if (($dev_status == 1) || ($cf == 'ok')) {
+                                            // echo"$row[cus_type]";
+                                        ?>
+                                            <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>
+                                            <?php if ($row['cus_type'] == 1) { ?>
+                                                <?php
+                                                $sql = "SELECT * FROM delivery  where order_id='$order_id'  ";
+                                                $rsx = $conn->query($sql);
+                                                $rsx = $rsx->fetch_assoc();
+                                                // echo"$rsx[dev_id]";
+                                                ?>
+                                                <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
+
+                                            <?php   } ?>
+                                            <?php if ($row['cus_type'] == 2) { ?> <a class="btn btn-outline-primary m-1" href="/invoice.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a><?php } ?>
+                                        <?php } else {  ?>
+                                            <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
+                                            <input type="hidden" name="action" value="add_dev">
+                                            <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการส่งของ</span></button>
+
+                                        <?php } ?>
+                                        <a class="btn btn-outline-danger m-1" href="/ailist.php" type="button">กลับหน้ารายการ Order</a>
+                                    </div>
+
+                                </div>
+                                <!-- ==== / Print Area =====-->
+                                </form>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
         </div>
     </div>
-   <!-- Modal HS-->
-   <div class="modal fade" id="medalhs" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+    <!-- Header -->
+    <?php include './include/footer.php'; ?>
+    <!-- =============== Header End ================-->
+    </div>
+    </div>
+    <!-- Modal HS-->
+    <div class="modal fade" id="medalhs" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -533,37 +607,38 @@ if ($action == 'add_hs') {
     });
 </script>
 <script>
-        $(document).ready(function() {
+    $(document).ready(function() {
 
-            $(document).on('click', '#add_hs', function(e) {
+        $(document).on('click', '#add_hs', function(e) {
 
-                e.preventDefault();
+            e.preventDefault();
 
-                var uid = $(this).data('id'); // get id of clicked row
+            var uid = $(this).data('id'); // get id of clicked row
 
-                $('#dynamic-content2').html(''); // leave this div blank
-                $('#modal-loader').show(); // load ajax loader on button click
+            $('#dynamic-content2').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
 
-                $.ajax({
-                        url: 'hs_confirm.php',
-                        type: 'POST',
-                        data: 'id=' + uid,
-                        dataType: 'html'
-                    })
-                    .done(function(data) {
-                        console.log(data);
-                        $('#dynamic-content2').html(''); // blank before load.
-                        $('#dynamic-content2').html(data); // load here
-                        $('#modal-loader').hide(); // hide loader  
-                    })
-                    .fail(function() {
-                        $('#dynamic-content2').html(
-                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
-                        );
-                        $('#modal-loader').hide();
-                    });
+            $.ajax({
+                    url: 'hs_confirm.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content2').html(''); // blank before load.
+                    $('#dynamic-content2').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content2').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
 
-            });
         });
-    </script>
+    });
+</script>
+
 </html>
