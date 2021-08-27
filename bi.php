@@ -149,7 +149,7 @@ if ($action == 'add') {
             <script>
                 $(document).ready(function() {
                     showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
-                    // window.location='customer.php?status_confirm=add'
+                    window.location='bi.php?bi_id=<?=$bi_id?>'
                 });
             </script>
 <?php   }
