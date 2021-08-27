@@ -46,7 +46,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 10;
+    $total_records_per_page = 40;
 } else {
     $total_records_per_page = $rowS;
 }

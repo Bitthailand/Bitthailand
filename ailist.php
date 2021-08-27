@@ -107,7 +107,12 @@ if ($rowS == '') {
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/creditlist.php">
                                     <h3 class="h5 font-weight-bold"> รอเคลียเครดิต
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                    <?php
+                                    $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
+                                    $rs_count = $conn->query($count);
+                                    $rcount = $rs_count->fetch_assoc();
+                                    ?>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
                                     </h3>
                                     <span>ลูกค้าเครดิตรอเคลียยอด
                                         <span class="badge badge-warning"> Wait </span>
@@ -221,7 +226,7 @@ if ($rowS == '') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='2'  $columx $keywordx LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='2'  $columx $keywordx   order by date_create DESC LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
                                                 <td>

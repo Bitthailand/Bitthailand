@@ -221,6 +221,34 @@ function datethai3($date1)
  
 }
 
+function datethai_RE1($date1)
+{
+    $month_th_name = array(
+        1 => "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+    );
+    $temp = explode("-", $date1);
+    if (checkdate(intval($temp[1]), intval($temp[2]), intval($temp[0]))) {
+        if ($temp[2] < 10) {
+            $date = substr($temp[2], -1, 1);
+        } else {
+            $date = $temp[2];
+        }
+        $year = substr(($temp[0] + 543), 2, 2);
+        return  "RE".$year.$month_th_name[intval($temp[1])];
+    }
+}
+
 function getNumDay($d1,$d2){
     $dArr1    = preg_split("/-/", $d1);
     list($year1, $month1, $day1) = $dArr1;

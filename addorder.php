@@ -127,8 +127,9 @@ if ($action == 'add_product') {
     $send_qty = $_REQUEST['Fsend_qty'];
     $TF = $_REQUEST['FTF'];
     $disunit = $_REQUEST['Fdisunit'];
+    $sumQTY=$Fqty+$Fqty2;
     $total_disunit = $Funit_price - $disunit;
-    $total_price = $Fqty * $total_disunit;
+    $total_price = $sumQTY * $total_disunit;
     $tax = $_REQUEST['Ftax'];
     $discount = $_REQUEST['Fdiscount'];
     $status_order = 'update';
@@ -228,6 +229,7 @@ if ($action == 'add_product') {
                 if ($chk1 == 'true' && $chk2 = 'true') {
                     // echo "ลงฐานQ1" . $Fqty . "Q2" . $Fqty2;
                     // echo "sum_qty" . $sum_qty . "xx";
+
                     $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out)
                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','0','$emp_id','CB2','$Fqty','$Fqty2')";
                     if ($conn->query($sqlx4) === TRUE) { ?>
