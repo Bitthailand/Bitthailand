@@ -250,17 +250,17 @@ if ($action == 'add_dev') {
             }
 //    echo"xxxxxxxxxxxxx"."$cus_id";
         
-        $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND iv_id='$iv_id' AND status_bi='2' ";
+        $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND iv_id='$iv_id' AND status_bi='1' ";
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
             // echo"OUT";
         }else {
 // echo"IN";
           $datetodat = date('Y-m-d');
-         $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end'   ";
+         $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end' AND status_bi='1'  ";
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
-            $sql2 = "SELECT * FROM bi_number  WHERE cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end'";
+            $sql2 = "SELECT * FROM bi_number  WHERE cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end' AND status_bi='1' ";
             $rs2 = $conn->query($sql2);
             $row2 = $rs2->fetch_assoc();
             $bi_id=$row2['bi_number'];
