@@ -250,7 +250,7 @@ if ($action == 'add_dev') {
             }
 //    echo"xxxxxxxxxxxxx"."$cus_id";
         
-        $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND iv_id='$iv_id' ";
+        $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND iv_id='$iv_id' AND status_bi='2' ";
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
             // echo"OUT";

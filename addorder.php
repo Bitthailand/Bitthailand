@@ -528,7 +528,7 @@ if ($action == 'add') {
                 if ($cus_type == 2) {
                     $sql8 = "INSERT INTO  quotation(qt_number,order_id)
                 VALUES ('$qt_id','$order_idx')";
-                    $sql9 = "UPDATE orders  SET order_status='1',  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                    $sql9 = "UPDATE orders  SET order_status='2',  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
                     if ($conn->query($sql8) === TRUE) {
                     }
                     if ($conn->query($sql9) === TRUE) {
