@@ -19,17 +19,17 @@ $row = $rs->fetch_assoc();
         <label for="searchColumnId"> ชื่อพนักงานส่ง </label>
         <select class="classcus custom-select" name="dev_employee" id="dev_employee" required>
             <?php
-            $sql6 = "SELECT *  FROM employee where position='1' order by emp_name DESC ";
+            $sql6 = "SELECT *  FROM employee_check  where position='1' order by name DESC ";
             $result6 = mysqli_query($conn, $sql6);
             if (mysqli_num_rows($result6) > 0) {
                 while ($row6 = mysqli_fetch_assoc($result6)) {
             ?>
-                    <option value="<?php echo $row6['emp_id'] ?>" <?php
-                                                                    if (isset($row['dev_employee']) && ($row['dev_employee'] == $row6['emp_id'])) {
+                    <option value="<?php echo $row6['id'] ?>" <?php
+                                                                    if (isset($row['dev_employee']) && ($row['dev_employee'] == $row6['id'])) {
                                                                         echo "selected"; ?>>
-                    <?php echo "$row6[emp_name]";
+                    <?php echo "$row6[name]";
                                                                     } else {      ?>
-                    <option value="<?php echo $row6['emp_id']; ?>"> <?php echo $row6['emp_name'];  ?>
+                    <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
                     <?php } ?>
                     </option>
             <?php  }
@@ -41,17 +41,17 @@ $row = $rs->fetch_assoc();
         <label for="searchColumnId"> ชื่อพนักงานตรวจสอบ </label>
         <select class="classcus custom-select" name="dev_check" id="dev_check" required>
             <?php
-            $sql6 = "SELECT *  FROM employee where position='2' order by emp_name DESC ";
+            $sql6 = "SELECT *  FROM  employee_check   where position='2' order by name DESC ";
             $result6 = mysqli_query($conn, $sql6);
             if (mysqli_num_rows($result6) > 0) {
                 while ($row6 = mysqli_fetch_assoc($result6)) {
             ?>
-                    <option value="<?php echo $row6['emp_id'] ?>" <?php
-                                                                    if (isset($row['dev_check']) && ($row['dev_check'] == $row6['emp_id'])) {
+                    <option value="<?php echo $row6['id'] ?>" <?php
+                                                                    if (isset($row['dev_check']) && ($row['dev_check'] == $row6['id'])) {
                                                                         echo "selected"; ?>>
-                    <?php echo "$row6[emp_name]";
+                    <?php echo "$row6[name]";
                                                                     } else {      ?>
-                    <option value="<?php echo $row6['emp_id']; ?>"> <?php echo $row6['emp_name'];  ?>
+                    <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
                     <?php } ?>
                     </option>
             <?php  }

@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -13,7 +18,10 @@ session_start();
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
 </head>
-
+<?php 
+include './include/connect.php';
+include './include/config.php';
+?>
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->

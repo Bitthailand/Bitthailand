@@ -64,6 +64,7 @@
                                             <li><a href="setting_plant.php"><i class="nav-icon mr-2 i-Factory1"></i><span class="item-name">แพ</span></a></li>
                                             <li><a href="setting_ptype.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">ประเภทสินค้า</span></a></li> 
                                             <li><a href="setting_unit.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">หน่วยนับ</span></a></li> 
+                                            <li><a href="setting_emp.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">เพิ่มพนักงาน</span></a></li> 
                                         </ul>
                                     </div>
                                 </div>

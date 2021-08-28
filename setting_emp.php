@@ -11,7 +11,7 @@ $action = $_REQUEST['action'];
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
 
-    $sql = "DELETE FROM plant   WHERE id='$del_id' ";
+    $sql = "DELETE FROM employee_check  WHERE id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
         <script>
             $(document).ready(function() {
@@ -29,12 +29,12 @@ if ($action == 'del') {
 
 
 if ($action == 'add') {
-    $plant_id = $_REQUEST['plant_id'];
-    $factory = $_REQUEST['factory'];
-    $ptype_id = $_REQUEST['ptype_id'];
-    $width = $_REQUEST['width'];
-    $remark = $_REQUEST['remark'];
-    $sqlx = "SELECT * FROM plant  WHERE plant_id='$plant_id' ";
+
+    $name = $_REQUEST['name'];
+    $tel= $_REQUEST['tel'];
+    $position = $_REQUEST['position'];
+
+    $sqlx = "SELECT * FROM employee_check   WHERE name='$name' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
         <script>
@@ -43,12 +43,8 @@ if ($action == 'add') {
             });
         </script>
         <?php    } else {
-            $sql2 = "SELECT * FROM factory  WHERE id= '$factory'";
-            $rs2 = $conn->query($sql2);
-            $row2 = $rs2->fetch_assoc();
-
-        $sql = "INSERT INTO plant (plant_id,factory,factory_id,ptype_id,width,remark)
-                   VALUES ('$plant_id','$row2[name]','$factory','$ptype_id','$width','$remark')";
+        $sql = "INSERT INTO employee_check(name,tel,position)
+                   VALUES ('$name','$tel','$position')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -60,16 +56,12 @@ if ($action == 'add') {
 }
 if ($action =='edit') {
     $edit_id= $_REQUEST['edit_id'];   
-    $plant_id = $_REQUEST['plant_id'];
-    $factory = $_REQUEST['factory'];
-    $ptype_id = $_REQUEST['ptype_id'];
-    $width = $_REQUEST['width'];
-    $remark = $_REQUEST['remark'];
+    $name = $_REQUEST['name'];
+    $tel= $_REQUEST['tel'];
+    $position = $_REQUEST['position'];
 
-    $sql2 = "SELECT * FROM factory  WHERE id= '$factory'";
-    $rs2 = $conn->query($sql2);
-    $row2 = $rs2->fetch_assoc();
-    $sqlxxx = "UPDATE plant  SET factory_id='$factory',factory='$row2[name]',ptype_id='$ptype_id',width='$width',remark='$remark' where id='$edit_id'";
+
+    $sqlxxx = "UPDATE employee_check   SET name='$name',tel='$tel',position='$position' where id='$edit_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
 <script>
 $(document).ready(function() {
@@ -101,7 +93,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 40;
+    $total_records_per_page = 10;
 } else {
     $total_records_per_page = $rowS;
 }
@@ -158,7 +150,7 @@ if ($rowS == '') {
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
                                         <h3 class="ul-widget1__title "> ตั้งค่า </h3>
-                                        <span class="ul-widget__desc "> รายการแพ </span>
+                                        <span class="ul-widget__desc "> รายการพนักงงาน</span>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
@@ -173,6 +165,9 @@ if ($rowS == '') {
                                                 <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
+                                                        <option value="10" <?php echo $rowS == 10 ? 'selected' : ''; ?>> 10 </option>
+                                                        <option value="20" <?php echo $rowS == 20 ? 'selected' : ''; ?>> 20 </option>
+                                                        <option value="30" <?php echo $rowS == 30 ? 'selected' : ''; ?>> 30 </option>
                                                         <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
                                                         <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
                                                         <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
@@ -181,7 +176,7 @@ if ($rowS == '') {
                                             </div>
                                             <div class="col-auto">
 
-                                                <button type="button" class="btn btn-outline-primary mt-4" data-toggle="modal" data-target="#Modal-add"><i class="fa fa-plus"></i> เพิ่มแพใหม่
+                                                <button type="button" class="btn btn-outline-primary mt-4" data-toggle="modal" data-target="#Modal-add"><i class="fa fa-plus"></i> เพิ่มพนักงาน
                                                 </button>
                                             </div>
                                         </div>
@@ -193,11 +188,10 @@ if ($rowS == '') {
                                 <table class="table table-hover text-nowrap table-sm">
                                     <thead>
                                         <tr>
-                                            <th>รหัสแพ</th>
-                                            <th>โรงงาน</th> 
-                                            <th>ประเภทสินค้า</th>
-                                            <th>ความกว้าง</th>
-                                            <th>หมายเหตุ</th>
+                                            <th>ลำดับที่</th>
+                                            <th>ชื่อ</th>
+                                            <th>เบอร์โทร</th>
+                                            <th>ตำแหน่ง</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -216,31 +210,23 @@ if ($rowS == '') {
                                         $next_page = $page_no + 1;
                                         $adjacents = "2";
 
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `plant` where  status='0' $columx $keywordx  ");
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `employee_check` where  status='0' $columx $keywordx  ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `plant` where status='0' $columx $keywordx LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `employee_check` where status='0' $columx $keywordx LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
-                                            <tr data-target="#orderModal">
-                                                <td><?php echo $row['plant_id']; ?></td>
-                                               
-                                                <td><?php echo $row['factory']; ?></td>
-                                                <td><?php
-                                                    $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
+                                            <tr>
+                                                <td><?=++$id?></td>
+                                                <td><?php echo $row['name']; ?></td>
+                                                <td><?php echo $row['tel']; ?></td>
+                                                <td><?php  $sql3 = "SELECT * FROM department WHERE id= '$row[position]'";
                                                     $rs3 = $conn->query($sql3);
                                                     $row3 = $rs3->fetch_assoc();
-                                                    echo $row3['ptype_name'];
-
-                                                    ?>
-                                                </td>
-                                                <td><?php echo $row['width']; ?></td>
-                                               
-                                                <td><?php echo $row['remark']; ?></td>
+                                                    echo $row3['name'];?></td>
                                                 <td>
-
                                                     <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
                                                     <button type="button" class="btn btn-outline-info btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
                                                 </td>
@@ -336,7 +322,7 @@ if ($rowS == '') {
                                             <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
                                         <?php   } ?>
                                     </ul>
-                                </nav>
+
                             </div>
 
                         </div>
@@ -364,7 +350,7 @@ if ($rowS == '') {
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                                    บันทึกแพ
+                                    เพิ่มพนักงงาน
                                 </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
@@ -373,72 +359,37 @@ if ($rowS == '') {
                                 <form method="post">
                                     <?php include './include/connect.php'; ?>
                                     <div class="form-row mt-3">
-
-                                        <div class="form-group col-md-3">
-                                            <label for="accNameId"><strong>รหัสแพ <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="plant_id" id="plant_id" class="classcus form-control" placeholder="รหัสแพ" required>
+                                        <div class="form-group col-md-6">
+                                            <label for="accNameId"><strong>ชื่อ นามสกุล<span class="text-danger"></span></strong></label>
+                                            <input type="text" name="name" id="name" class="classcus form-control" placeholder="ชื่อ นามสกุล">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="accNameId"><strong>โรงงาน<span class="text-danger">*</span></strong></label>
-                                            <select class="classcus custom-select" name="factory" required>
-                                                <?php
-                                                $sql6 = "SELECT *  FROM  factory order by id DESC ";
-                                                $result6 = mysqli_query($conn, $sql6);
-                                                if (mysqli_num_rows($result6) > 0) {
-                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
-                                                ?>
-                                                        <option value="<?php echo $row6['id'] ?>" <?php
-                                                                                                    if (isset($row['factory_id']) && ($row['factory_id'] == $row6['id'])) {
-                                                                                                        echo "selected"; ?>>
-                                                        <?php echo "$row6[name]";
-                                                                                                    } else {      ?>
-                                                        <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
-                                                        <?php } ?>
-                                                        </option>
-                                                <?php  }
-                                                }  ?>
-
-                                            </select>
+                                            <label for="accNameId"><strong>เบอร์โทร<span class="text-danger"></span></strong></label>
+                                            <input type="text" name="tel" id="tel" class="classcus form-control" placeholder="เบอร์โทร">
                                         </div>
                                         <div class="form-group col-md-3">
-                                           
-
-                                           <label for="customer_type"><strong>ประเภทสินค้า <span class="text-danger"></span></strong></label>
-
-                                           <select class="classcus custom-select" name="ptype_id" required>
+                                            <label for="accNameId"><strong>ตำแหน่ง<span class="text-danger"></span></strong></label>
+                                            <select class="classcus custom-select" name="position" required>
                                                <?php
-                                               $sql6 = "SELECT *  FROM product_type order by id DESC ";
+                                               $sql6 = "SELECT *  FROM department order by id DESC ";
                                                $result6 = mysqli_query($conn, $sql6);
                                                if (mysqli_num_rows($result6) > 0) {
                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
                                                ?>
-                                                       <option value="<?php echo $row6['ptype_id'] ?>" <?php
-                                                                                                       if (isset($row['ptype_id']) && ($row['ptype_id'] == $row6['ptype_id'])) {
+                                                       <option value="<?php echo $row6['id'] ?>" <?php
+                                                                                                       if (isset($row['id']) && ($row['id'] == $row6['id'])) {
                                                                                                            echo "selected"; ?>>
-                                                       <?php echo "$row6[ptype_name]";
+                                                       <?php echo "$row6[name]";
                                                                                                        } else {      ?>
-                                                       <option value="<?php echo $row6['ptype_id']; ?>"> <?php echo $row6['ptype_name'];  ?>
+                                                       <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
                                                        <?php } ?>
                                                        </option>
                                                <?php  }
                                                }  ?>
                                            </select>
-                                       </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="accNameId"><strong>ความกว้างของแพ <span class="text-danger"></span></strong></label>
-                                            <input type="number" name="width" id="company_name" step="0.01" class="classcus form-control" placeholder="ความกว้างแพ">
-                                        </div>
-
-                                      
-                                       
-
-                                    </div>
-                                    <div class="form-row mt-3">
-                                    <div class="form-group col-md-8">
-                                            <label for="accNameId"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
-                                            <input type="text" name="remark" id="remark" class="classcus form-control" placeholder="หมายเหตุ">
                                         </div>
                                     </div>
+                                    
                                     <div class="modal-footer">
                                         <input type="hidden" name="action" value="add">
                                         <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span> Add</button>
@@ -457,7 +408,7 @@ if ($rowS == '') {
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                                    แก้ไขข้อมูลแพ</h5>
+                                    แก้ไขข้อมูลหน่วยนับ</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -487,7 +438,7 @@ if ($rowS == '') {
 
 <!-- Modal DEL  -->
 <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered " role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
@@ -502,7 +453,6 @@ if ($rowS == '') {
                         <div class="form-group col-md-4">
                             <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
                                     <span>*</span></strong></label>
-
                         </div>
                     </div>
 
@@ -569,6 +519,8 @@ if ($rowS == '') {
 
         let row = $("#searchRowsId").val();
         $("#FSRowId").val(row);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
         $("#FSButtonID").click();
 
     });
@@ -609,7 +561,7 @@ if ($rowS == '') {
             $('#dynamic-content').html(''); // leave this div blank
             $('#modal-loader').show(); // load ajax loader on button click
             $.ajax({
-                    url: 'setting_plant_edit.php',
+                    url: 'setting_emp_edit.php',
                     type: 'POST',
                     data: 'id=' + uid,
                     dataType: 'html'

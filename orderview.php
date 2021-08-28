@@ -6,7 +6,7 @@ if (isset($_SESSION["username"])) {
 }
 include './include/connect.php';
 include './include/config_date.php';
-$order_id= $_REQUEST['order_id'];
+$order_id= $_REQUEST['saleorder_id'];
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -71,7 +71,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                                         <div class="d-sm-flex mb-5" data-view="print"><span class="m-auto"></span>
                                            
-                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
+                                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">พิมพ์ใบสั่งชื้อ</button>
                                         </div>
                                         <!-- -===== Print Area =======-->
                                         <div id="print-area">
@@ -82,7 +82,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
                                                 </div>
                                                 <div class="col-md-6 text-sm-right">
-                                                    <h4 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h4>
+                                                    <h4 class="font-weight-bold">ใบสั่งซื้อ</h4>
                                                 </div>
                                             </div>
                                             <div class="mt-3 mb-4 border-top"></div>
@@ -110,7 +110,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                 <div class="col-md-6 text-sm-right">
                                                     <h5 class="font-weight-bold"></h5>
                                                     <div class="invoice-summary">
-                                                        <p>เลขที่ใบเสนอราคา <span><?php echo"$row[qt_id]";?></span></p>
+                                                     
                                                         <p>ลำดับการสั่งซื้อ <span><?php echo"$row[order_id]";?></span></p>
                                                         <p>วันที่ <span><?php $date=explode(" ",$row['qt_date'] ); $dat=datethai2($date[0]);
                                                         echo"$dat";?> </span></p>
@@ -202,22 +202,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                 </div>
                                             </div>
                                             <div class="mt-3 mb-4 border-top"></div>
-                                            <div class="col-md-12">
-                                                <div class="col-md-12 mb-3 mb-sm-0">
-                                                    <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
-                                                    <p>1.มัดจำไม่น้อยกว่า 30% ขอมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง ก่อนลงสินค้า </p>
-                                                    <p>2.ผู้ซื้อเป็นผู้จัดเตรียมถนนชั่วคราว/สถานที่ ให้รถส่งสินค้าเข้าถึงจุดส่งสินค้า หรือ จะลงสินค้าเท่าที่รถสามารถเข้าได้ </p>
-                                                    <p>3.ขอสงวนสิทธิ์ในการลงสอนค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
-                                                    <p>4.สอนค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทขอเก็บค่าดูแลสินค้า 5%
-                                                        ต่อเดือนของมูลค่าสินค้า </p>
-                                                    <p>5.การสั่งสินค้า/ซื้อสินค้าแล้ว ทางบริษัทไม่รับคืนสินค้า </p>
-                                                    <p>6.กรณีผู้ซื้อตรวจรับสอนค้าจำนวนถูกต้องและสภาพเรียบร้อย บริษัทไม่รับผิดชอบหลังการตรวจรับแล้ว </p>
-                                                    <br>
-                                                    <h5 class="font-weight-bold">วิธีการชำระเงิน</h5>
-                                                    <p>ชื่อบัญชี : บจก.วันเอ็ม ชื่อธนาคาร/เลขที่บัญชี : ธนาคารกสิกรไทย ออกทรัพย์ สาขาสินีย์ทาวเวอร์ เลขที่บัญชี 685-2-29088-7 </p>
-                                                </div>
-                                                <div class="mt-3 mb-4 border-top"></div>
-                                            </div>
+                                            
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="col-md-4 text-center">

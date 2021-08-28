@@ -37,7 +37,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 10;
+    $total_records_per_page = 40;
 } else {
     $total_records_per_page = $rowS;
 }
@@ -180,33 +180,20 @@ $(document).ready(function() {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="bank_number">Bank No</option>
-                                                        <option value="bank_amount">Amount</option>
-                                                        <option value="order_id">OrderId</option>
-                                                        <option value="bank_time">Bank D/T</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                           
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> Keyword</label>
-                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
+                                                    <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="form-group">
+                                            <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
-                                                        <option value="10"> 10 </option>
-                                                        <option value="20" selected=""> 20 </option>
-                                                        <option value="30"> 30 </option>
-                                                        <option value="40"> 40 </option>
-                                                        <option value="50"> 50 </option>
-                                                        <option value="100"> 100 </option>
+                                                        <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
+                                                        <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
+                                                        <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -239,7 +226,7 @@ $(document).ready(function() {
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
                                         <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
@@ -520,7 +507,13 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-
+<form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -534,6 +527,49 @@ $(document).ready(function() {
 
 </html>
 <script>
+    /* ===== search start ===== */
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
+
+    function clickNav(page) {
+        modalLoad();
+
+        $("#FSPageId").val(page);
+        $("#FSButtonID").click();
+    }
+    $("#searchRowsId").on("change", function() {
+        modalLoad();
+
+        let row = $("#searchRowsId").val();
+        $("#FSRowId").val(row);
+        $("#FSButtonID").click();
+
+    });
+    $("#searchNameId").on("change", function() {
+        modalLoad();
+
+        let name = $("#searchNameId").val();
+        $("#FSKeywordId").val(name);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
+    });
+    /* ===== search end ===== */
+
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    });
+</script>
+<script>
 $('#myModal_del').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget)
     var id = button.data('id')
@@ -541,4 +577,34 @@ $('#myModal_del').on('show.bs.modal', function(event) {
     modal.find('#del_id').val(id)
 
 })
+</script>
+<script>
+$(function() {
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+    });
+
+    $(".table-striped").find('tr[data-target]').on('click', function() {
+        //or do your operations here instead of on show of modal to populate values to modal.
+        $('#orderModal').data('orderid', $(this).data('id'));
+    });
+
+});
+</script>
+<script>
+$(document).ready(function() {
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
 </script>

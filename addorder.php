@@ -430,9 +430,9 @@ if ($action == 'add') {
             $resultxx = mysqli_query($conn, $sqlxx);
             if (mysqli_num_rows($resultxx) > 0) {
             } else {
-                // echo "tt";
-                $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk)
-                     VALUES ('$dev_id','$order_idx','$datetodat','1')";
+                // echo "tt"; cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type'
+                $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk,cus_id,cus_back,cus_type)
+                     VALUES ('$dev_id','$order_idx','$datetodat','1','$cus_id','$cus_back','$cus_type')";
                 if ($conn->query($sqlx) === TRUE) {
                 }
                 $sql_pro2 = "SELECT * FROM order_details  WHERE  order_id='$order_idx' ";

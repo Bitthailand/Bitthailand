@@ -77,7 +77,12 @@ if ($rowS == '') {
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/quotationlist.php">
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                    <?php
+                                    $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
+                                    $rs_count0 = $conn->query($count0);
+                                    $rcount0 = $rs_count0->fetch_assoc();
+                                    ?>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount0['total_records']?></span>
                                     </h3>
                                     <span>รายการ Order ที่อยู่ระหว่างการเสนอราคา
                                         <span class="badge badge-warning"> Wait </span>
@@ -85,9 +90,14 @@ if ($rowS == '') {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link " href="/ailist.php">
+                                <a class="linkLoadModalNext nav-link" href="/ailist.php">
+                                <?php
+                                    $count = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='2'";
+                                    $rs_count = $conn->query($count);
+                                    $rcount = $rs_count->fetch_assoc();
+                                    ?>
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
                                     </h3>
                                     <span>Order รอส่งสินค้า
                                         <span class="badge badge-warning"> Wait </span>
@@ -97,7 +107,13 @@ if ($rowS == '') {
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/creditlist.php">
                                     <h3 class="h5 font-weight-bold"> รอเคลียเครดิต
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <?php
+                                         $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
+                                         $rs_count = $conn->query($count);
+                                         $rcount = $rs_count->fetch_assoc();
+                                         ?>
+
+                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
                                     </h3>
                                     <span>ลูกค้าเครดิตรอเคลียยอด
                                         <span class="badge badge-warning"> Wait </span>
@@ -136,33 +152,20 @@ if ($rowS == '') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="bank_number">Bank No</option>
-                                                        <option value="bank_amount">Amount</option>
-                                                        <option value="order_id">OrderId</option>
-                                                        <option value="bank_time">Bank D/T</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> Keyword</label>
-                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
+                                                    <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
-                                                        <option value="10"> 10 </option>
-                                                        <option value="20" selected=""> 20 </option>
-                                                        <option value="30"> 30 </option>
-                                                        <option value="40"> 40 </option>
-                                                        <option value="50"> 50 </option>
-                                                        <option value="100"> 100 </option>
+                                                        <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
+                                                        <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
+                                                        <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -180,6 +183,7 @@ if ($rowS == '') {
                                             <th>วันที่</th>
                                             <th>Order ID</th>
                                             <th>ประเภทลูกค้า</th>
+                                            <th>รับสินค้าโดย</th>
                                             <th>ชื่อลูกค้า</th>
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
@@ -191,7 +195,7 @@ if ($rowS == '') {
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>       <?php
+                                    <tbody id="myTable">    <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
                                         } else {
@@ -227,9 +231,15 @@ if ($rowS == '') {
                                                     $sql3 = "SELECT * FROM customer WHERE customer_id= '$row[cus_id]'";
                                                     $rs3 = $conn->query($sql3);
                                                     $row3 = $rs3->fetch_assoc();
+
+                                                    $sqlcb = "SELECT * FROM customer_back WHERE id= '$row[cus_back]'";
+                                                    $rscb = $conn->query($sqlcb);
+                                                    $rowcb = $rscb->fetch_assoc();
+
                                                     ?>
                                                     <?= $row2['name'] ?>
                                                 </td>
+                                                <td> <?= $rowcb['name'] ?></td>
                                                 <td> <?= $row3['customer_name'] ?></td>
                                                 <td> <?= $row3['tel'] ?> </td>
                                                 <td>
@@ -384,7 +394,13 @@ if ($rowS == '') {
             <!-- =============== Header End ================-->
         </div>
     </div>
-
+    <form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -397,3 +413,85 @@ if ($rowS == '') {
 </body>
 
 </html>
+<script>
+    /* ===== search start ===== */
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
+
+    function clickNav(page) {
+        modalLoad();
+
+        $("#FSPageId").val(page);
+        $("#FSButtonID").click();
+    }
+    $("#searchRowsId").on("change", function() {
+        modalLoad();
+
+        let row = $("#searchRowsId").val();
+        $("#FSRowId").val(row);
+        $("#FSButtonID").click();
+
+    });
+    $("#searchNameId").on("change", function() {
+        modalLoad();
+
+        let name = $("#searchNameId").val();
+        $("#FSKeywordId").val(name);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
+    });
+    /* ===== search end ===== */
+
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    });
+</script>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
+</script>
+<script>
+$(function() {
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+    });
+
+    $(".table-striped").find('tr[data-target]').on('click', function() {
+        //or do your operations here instead of on show of modal to populate values to modal.
+        $('#orderModal').data('orderid', $(this).data('id'));
+    });
+
+});
+</script>
+<script>
+$(document).ready(function() {
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+</script>

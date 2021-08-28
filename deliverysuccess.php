@@ -77,9 +77,14 @@ $action = $_REQUEST['action'];
                         <!-- ============ Tab Menu ============= -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link " href="/deliverylist.php">
+                                <a class="linkLoadModalNext nav-link" href="/deliverylist.php">
+                                    <?php
+                                    $count0 = "SELECT COUNT(*) As total_records FROM delivery where  status='0' AND status_chk='0' ";
+                                    $rs_count0 = $conn->query($count0);
+                                    $rcount0 = $rs_count0->fetch_assoc();
+                                    ?>
                                     <h3 class="h5 font-weight-bold"> รายการส่งสินค้า
-                                        <span class="badge badge-pill badge-danger">3</span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount0['total_records'] ?></span>
                                     </h3>
                                     <span>รายการส่งสินค้าที่ออกใบ SO แล้วอยู่ระหว่างการส่ง
                                         <span class="badge badge-warning"> Wait </span>
@@ -87,7 +92,7 @@ $action = $_REQUEST['action'];
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/deliverysuccess.php">
+                                <a class="linkLoadModalNext nav-link  active" href="/deliverysuccess.php">
                                     <h3 class="h5 font-weight-bold">รายการส่งสินค้าเรียบร้อย
                                         <span class="badge badge-pill badge-danger"></span>
                                     </h3>
@@ -112,35 +117,23 @@ $action = $_REQUEST['action'];
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="bank_number">Sale Order ID</option>
-                                                        <option value="bank_amount">Order ID</option>
-                                                        <option value="order_id">พนักงานส่ง</option>
-                                                        <option value="bank_time">พสักงานตรวจสอบ</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                           
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> Keyword</label>
-                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
+                                                    <input id="myInput"  class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="form-group">
+                                            <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
-                                                        <option value="10"> 10 </option>
-                                                        <option value="20" selected=""> 20 </option>
-                                                        <option value="30"> 30 </option>
-                                                        <option value="40"> 40 </option>
-                                                        <option value="50"> 50 </option>
-                                                        <option value="100"> 100 </option>
+                                                        <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
+                                                        <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
+                                                        <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
                                                     </select>
                                                 </div>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +156,7 @@ $action = $_REQUEST['action'];
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
                                     <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
@@ -239,7 +232,7 @@ $action = $_REQUEST['action'];
                                                 </td>
                                             <td>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
-                                                    href="/orderview.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
+                                                    href="/order_devview.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>
                                                 </a>
 
@@ -411,7 +404,13 @@ $action = $_REQUEST['action'];
             </div>
         </div>
     </div>
-
+    <form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -424,3 +423,86 @@ $action = $_REQUEST['action'];
 </body>
 
 </html>
+
+<script>
+    /* ===== search start ===== */
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
+
+    function clickNav(page) {
+        modalLoad();
+
+        $("#FSPageId").val(page);
+        $("#FSButtonID").click();
+    }
+    $("#searchRowsId").on("change", function() {
+        modalLoad();
+
+        let row = $("#searchRowsId").val();
+        $("#FSRowId").val(row);
+        $("#FSButtonID").click();
+
+    });
+    $("#searchNameId").on("change", function() {
+        modalLoad();
+
+        let name = $("#searchNameId").val();
+        $("#FSKeywordId").val(name);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
+    });
+    /* ===== search end ===== */
+
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    });
+</script>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
+</script>
+<script>
+$(function() {
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+    });
+
+    $(".table-striped").find('tr[data-target]').on('click', function() {
+        //or do your operations here instead of on show of modal to populate values to modal.
+        $('#orderModal').data('orderid', $(this).data('id'));
+    });
+
+});
+</script>
+<script>
+$(document).ready(function() {
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+</script>
