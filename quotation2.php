@@ -33,7 +33,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
     <title>Quotation | ใบเสนอราคา</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="style.css" /> -->
-        <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
+    <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
 
 
@@ -99,7 +99,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                         <p><span>ลำดับการสั่งซื้อ</span> <span><?php echo"$row[order_id]";?></span></p>
                         <p><span>วันที่</span> <span><?php $date=explode(" ",$row['qt_date'] ); $dat=datethai2($date[0]);
                                                         echo"$dat";?> </span></p>
-                        <p><span>ยืนราคา : <?php echo"$row[date_confirm]";?> วัน </span> <span>ถึงวันที่ 
+                        <p><span>ยืนราคา : <?php echo"$row[date_confirm]";?> วัน </span> <span>ถึงวันที่
                                 <?php $date=explode(" ",$strNewDate ); $dat=datethai2($date[0]);
                                                         echo"$dat";?></span></p>
                         <p><span>เงื่อนไขการชำระเงิน : </span><span><?=$row2['name']?></span></p>
@@ -211,7 +211,19 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-2">
+                                    <p>รวมเป็นเงินทั้งสิ้น</p>
+                                    <p>หัก ส่วนลด</p>
+                                    <p>จำนวนเงินก่อนรวมภาษี</p>
+                                    <p>จำนวนภาษีมูลค่าเพิ่ม</p>
+                                </div>
+                                <div class="col-1">
                                     <div class="invoice-summary-qt2">
                                         <?php
                                                                         $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$order_id'";
@@ -219,15 +231,15 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                                         $rowx4 = $rsx4->fetch_assoc();
                                                                        
                                                                         ?>
-                                        <p>รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($rowx4['total'],'2','.',',')?></span></p>
-                                        <p>หัก ส่วนลด <span><?php echo number_format($row['discount'],'2','.',',')?></span></p>
+                                        <p> <span><?php echo number_format($rowx4['total'],'2','.',',')?></span></p>
+                                        <p> <span><?php echo number_format($row['discount'],'2','.',',')?></span></p>
                                         <?php $sub_total=$rowx4['total']-$row['discount']; 
                                                         $tax = ($sub_total* 100)/107;
                                                         $tax2 = ($sub_total - $tax);
                                                         $grand_total = ($sub_total - $tax2);
                                                         ?>
-                                        <p>จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($grand_total,'2','.',',')?></span></p>
-                                        <p>จำนวนภาษีมูลค่าเพิ่ม <?=$row['tax']?>% <span><?php echo number_format($tax2,'2','.',',')?></span></p>
+                                        <p> <span><?php echo number_format($grand_total,'2','.',',')?></span></p>
+                                        <p> <?=$row['tax']?>% <span><?php echo number_format($tax2,'2','.',',')?></span></p>
                                     </div>
                                 </div>
                                 <div class="col-12">
