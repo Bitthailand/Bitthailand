@@ -95,14 +95,14 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                 <div class="col-6 text-sm-right">
                     <h5 class="font-weight-bold"></h5>
                     <div class="invoice-summary">
-                        <p>เลขที่ใบเสนอราคา <span><?php echo"$row[qt_id]";?></span></p>
-                        <p>ลำดับการสั่งซื้อ <span><?php echo"$row[order_id]";?></span></p>
-                        <p>วันที่ <span><?php $date=explode(" ",$row['qt_date'] ); $dat=datethai2($date[0]);
+                        <p><span>เลขที่ใบเสนอราคา </span><span><?php echo"$row[qt_id]";?></span></p>
+                        <p><span>ลำดับการสั่งซื้อ</span> <span><?php echo"$row[order_id]";?></span></p>
+                        <p><span>วันที่</span> <span><?php $date=explode(" ",$row['qt_date'] ); $dat=datethai2($date[0]);
                                                         echo"$dat";?> </span></p>
-                        <p>ยืนราคา :<?php echo"$row[date_confirm]";?>วัน <span>ถึงวันที่
+                        <p><span>ยืนราคา : <?php echo"$row[date_confirm]";?> วัน </span> <span>ถึงวันที่ 
                                 <?php $date=explode(" ",$strNewDate ); $dat=datethai2($date[0]);
                                                         echo"$dat";?></span></p>
-                        <p>เงื่อนไขการชำระเงิน : <span><?=$row2['name']?></span></p>
+                        <p><span>เงื่อนไขการชำระเงิน : </span><span><?=$row2['name']?></span></p>
                     </div>
                 </div>
             </div>
@@ -173,10 +173,10 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                         <thead class="bg-gray-300">
                                             <tr>
                                                 <th scope="col" class="text-center">No.</th>
-                                                <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
+                                                <th scope="col" class="text-center">รายการ</th>
                                                 <th scope="col" class="text-center">จำนวน</th>
                                                 <th scope="col" class="text-center">หน่วยละ</th>
-                                                <th scope="col" class="text-center">ราคารวมภาษี</th>
+                                                <th scope="col" class="text-center">จำนวนเงิน</th>
                                             </tr>
                                         </thead>
                                         <tbody>
