@@ -625,8 +625,8 @@ th {
 }
 
 .invoice-summary {
-    width: 420px;
-    text-align: right;
+    width: 228px;
+    text-align: left;
     float: right;
     margin-top: 1.9em;
 }
