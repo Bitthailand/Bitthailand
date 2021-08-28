@@ -18,10 +18,38 @@ if (isset($_SESSION["username"])) {
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
 </head>
-<?php 
+<?php
 include './include/connect.php';
 include './include/config.php';
+$datex=date('Y-m');
+$d=explode("-",$datex);
+$sql_month = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+$rs_month = $conn->query($sql_month);
+$row_month = $rs_month->fetch_assoc();
+
+$sql_year= "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]' ";
+$rs_year = $conn->query($sql_year);
+$row_year = $rs_year->fetch_assoc();
+
+
+$sql_cus_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' GROUP BY cus_id ";
+$rs_cus_month = $conn->query($sql_cus_month);
+$row_cus_month = $rs_cus_month->fetch_assoc();
+
+$sql_cus_year = "SELECT COUNT(*) AS year FROM orders  WHERE  YEAR(date_create) = '$d[0]' GROUP BY cus_id ";
+$rs_cus_year = $conn->query($sql_cus_year);
+$row_cus_year = $rs_cus_year->fetch_assoc();
+
+$sql_order_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+$rs_order_month = $conn->query($sql_order_month);
+$row_order_month = $rs_order_month->fetch_assoc();
+
+$sql_order_year = "SELECT COUNT(*) AS year  FROM orders  WHERE  YEAR(date_create) = '$d[0]' ";
+$rs_order_year = $conn->query($sql_order_year);
+$row_order_year = $rs_order_year->fetch_assoc();
+
 ?>
+
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -52,8 +80,8 @@ include './include/config.php';
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">ยอดขายประจำเดือน</p>
-                                        <h4 class="heading">400,894.00</h4>
-                                        <small class="text-muted m-0">ยอดขายประจำปี : 12,265,546.00</small>
+                                        <h4 class="heading"><?php echo number_format($row_month['month'],'2','.',',')?></h4>
+                                        <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($row_year['month'],'2','.',',')?></small>
                                     </div>
                                 </div>
                             </div>
@@ -66,8 +94,8 @@ include './include/config.php';
                                     <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">จำนวนลูกค้าประจำเดือน</p>
-                                        <h4 class="heading">544</h4>
-                                        <small class="text-muted m-0">จำนวนลูกค้าประจำปี : 1,265</small>
+                                        <h4 class="heading"><?=$row_cus_month['month']?></h4>
+                                        <small class="text-muted m-0">จำนวนลูกค้าประจำปี : <?=$row_cus_year['year']?></small>
                                     </div>
                                 </div>
                             </div>
@@ -80,8 +108,8 @@ include './include/config.php';
                                     <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">จำนวน Order ประจำเดือน</p>
-                                        <h4 class="heading">652</h4>
-                                        <small class="text-muted m-0">จำนวน Order ประจำปี : 1,352</small>
+                                        <h4 class="heading"><?=$row_order_month['month']?></h4>
+                                        <small class="text-muted m-0">จำนวน Order ประจำปี : <?=$row_order_year['year']?></small>
                                     </div>
                                 </div>
                             </div>
@@ -133,10 +161,8 @@ include './include/config.php';
                                             </div>
                                             <div class="ul-widget__head-toolbar">
                                                 <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
-                                                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__d-widget4-tab1-content" role="tab"
-                                                            aria-selected="true">Month</a></li>
-                                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__d-widget4-tab2-content" role="tab"
-                                                            aria-selected="false">Year</a>
+                                                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__d-widget4-tab1-content" role="tab" aria-selected="true">Month</a></li>
+                                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__d-widget4-tab2-content" role="tab" aria-selected="false">Year</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -284,8 +310,7 @@ include './include/config.php';
                                     </div>
                                     <div class="ul-widget__head-toolbar">
                                         <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
-                                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__g-widget4-tab1-content" role="tab"
-                                                    aria-selected="true">Month</a></li>
+                                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__g-widget4-tab1-content" role="tab" aria-selected="true">Month</a></li>
                                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__g-widget4-tab2-content" role="tab" aria-selected="false">Year</a>
                                             </li>
                                         </ul>

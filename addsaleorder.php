@@ -26,6 +26,7 @@ $row3 = $rs3->fetch_assoc();
 // ===
 if ($row['dev_status'] == 1) {
     $dev_status = $row['dev_status'];
+    $datetoday= $row['dev_date'];
 } else {
     $sql5 = "SELECT MAX(id) AS id_run FROM delivery  ";
     $rs5 = $conn->query($sql5);
@@ -305,7 +306,10 @@ if ($action == 'add_dev') {
 
                 $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price)
         VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]')";
-                if ($conn->query($sql_TF) === TRUE) {
+              
+              $sql1xx = "UPDATE order_details SET  status_delivery='1'  where product_id='$row_TF[product_id]'";
+              if ($conn->query($sql1xx) === TRUE) {}
+              if ($conn->query($sql_TF) === TRUE) {
                 }
             }
         }
@@ -404,7 +408,7 @@ if ($action == 'add_dev') {
 
                                                                 <div class="form-group col-md-6">
                                                                     <label for="delivery_date">วันที่</label>
-                                                                    <input id="dev_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="dev_date" value="<?= $row['delivery_date'] ?>">
+                                                                    <input id="dev_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="dev_date" value="<?= $datetoday ?>">
                                                                 </div>
                                                                 <div class="form-group col-md-6">
 

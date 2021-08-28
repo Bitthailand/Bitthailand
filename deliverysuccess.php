@@ -194,17 +194,17 @@ $action = $_REQUEST['action'];
                                                     $dat = datethai2($date[0]);
                                                     echo '<strong>' . $dat . '</strong>'; ?> </td>
                                                 <td> <?php
-                                                        $sql3 = "SELECT * FROM employee  WHERE emp_id= '$row[dev_employee]'";
+                                                        $sql3 = "SELECT * FROM employee_check  WHERE id= '$row[dev_employee]'";
                                                         $rs3 = $conn->query($sql3);
                                                         $row3 = $rs3->fetch_assoc();
-                                                        echo "$row3[emp_name]";
+                                                        echo "$row3[name]";
                                                         ?>
                                                 </td>
                                                 <td> <?php
-                                                        $sql4 = "SELECT * FROM employee  WHERE emp_id= '$row[dev_check]'";
+                                                        $sql4 = "SELECT * FROM employee_check  WHERE id= '$row[dev_check]'";
                                                         $rs4 = $conn->query($sql4);
                                                         $row4 = $rs4->fetch_assoc();
-                                                        echo "$row4[emp_name]";
+                                                        echo "$row4[name]";
 
                                                         ?></td>
                                                 <td> <?php

@@ -157,9 +157,9 @@ $row5 = $rs5->fetch_assoc();
                                                                         $rsx3 = $conn->query($sqlx3);
                                                                         $rowx3 = $rsx3->fetch_assoc();
                                                                         if($rowx3['ptype_id']=='TF0'){
-                                                                            echo $rowx3['product_id'].$rowx3['product_name'];
+                                                                            echo 'ค่าขนส่ง:'.$rowx3['product_name'];
                                                                         }else{ 
-                                                                        echo $rowx3['product_id'].$rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
+                                                                        echo $rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
                                                                     }
                                                                         ?></td>
                                                                 <td class="text-right"><?=$row_pro['dev_qty']?></td>
