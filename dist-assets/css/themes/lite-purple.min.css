@@ -10231,7 +10231,7 @@ a.text-gray-900:focus {
         page-break-after: avoid;
     }
     @page {
-        size: a3;
+        size: A4;
     }
     body {
         min-width: 992px !important;
@@ -31604,6 +31604,9 @@ div.tab-border {
 }
 
 @media print {
+    @page {
+        margin: 0mm;
+    }
     body * {
         visibility: hidden;
     }
@@ -31619,6 +31622,15 @@ div.tab-border {
         left: 0;
         top: 0;
         width: 100%;
+    }
+    thead {
+        display: table-header-group;
+    }
+    tfoot {
+        display: table-footer-group;
+    }
+    body {
+        margin: 0;
     }
 }
 
