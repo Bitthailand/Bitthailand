@@ -214,14 +214,14 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                 <div class="col-6">
 
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
 
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <p>รวมเป็นเงินทั้งสิ้น</p>
                                     <p>หัก ส่วนลด</p>
                                     <p>จำนวนเงินก่อนรวมภาษี</p>
-                                    <p>จำนวนภาษีมูลค่าเพิ่ม</p>
+                                    <p>จำนวนภาษีมูลค่าเพิ่ม 7%</p>
                                 </div>
                                 <div class="col-1">
                                     <div class="invoice-summary-qt2">
@@ -239,7 +239,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                         $grand_total = ($sub_total - $tax2);
                                                         ?>
                                         <p> <span><?php echo number_format($grand_total,'2','.',',')?></span></p>
-                                        <p> <?=$row['tax']?>% <span><?php echo number_format($tax2,'2','.',',')?></span></p>
+                                        <p>  <span><?php echo number_format($tax2,'2','.',',')?></span></p>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -247,10 +247,10 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                         <div class="col-3">
                                             <p>ตัวอักษร :</p>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-5">
                                             <p><?php echo Convert($sub_total);?></p>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-3">
                                         <p>รวมเป็นเงิน</p>
                                         </div>
                                         <div class="col-1 text-right">
