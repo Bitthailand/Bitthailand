@@ -247,12 +247,15 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                         <div class="col-3">
                                             <p>ตัวอักษร :</p>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-6">
                                             <p><?php echo Convert($sub_total);?></p>
                                         </div>
-                                        <div class="col-4 text-right">
+                                        <div class="col-2">
+                                        <p>รวมเป็นเงิน</p>
+                                        </div>
+                                        <div class="col-1 text-right">
                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
-                                                <p>รวมเป็นเงิน</p>
+                                                
                                                 <h3 class="font-weight-bold" style="width: 120px; display: inline-block;">
                                                     <span><?php echo number_format($sub_total,'2','.',',')?></span>
                                                 </h3>
