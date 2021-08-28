@@ -1,3 +1,14 @@
+<?php
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config_date.php';
+$po_id = $_REQUEST['po_id'];
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -31,12 +42,21 @@
                 </div>
                 <div class="col-12">
                     <div class="row">
+                        <?php
+                        $sql = "SELECT * FROM production_order  where po_id='$po_id'  ";
+                        $rs = $conn->query($sql);
+                        $row = $rs->fetch_assoc();
+
+                        ?>
                         <div class="col-6 text-left">
                             <strong>วันที่สั่งผลิต :</strong>
-                            1 ก.ค. 64
+                            <?php $date = explode(" ", $row['po_date']);
+                            $dat = datethai2($date[0]);
+                            echo '<strong>' . $dat . '</strong>'; ?>
                         </div>
                         <div class="col-6 text-right"><strong>ผู้สั่งผลิต :</strong>
-                            นาย มนชัย เกษมสุข
+                            <?php echo $_SESSION["username"] ?>
+
                         </div>
                     </div>
                 </div>
@@ -115,205 +135,57 @@
 
                                         </tbody>
                                         <tbody>
-                                            <tr>
-                                                <td> <strong>1</strong> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x4.00 เมตร</td>
-                                                <td class="text-right">12</td>
-                                                <td class="text-right">16.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.840</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.50 เมตร</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">5.250</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.263</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x1.00 เมตร</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">2.100</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.105</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x4.00 เมตร</td>
-                                                <td class="text-right">12</td>
-                                                <td class="text-right">16.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.840</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.50 เมตร</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">5.250</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.263</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x1.00 เมตร</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">2.100</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.105</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">3</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x4.00 เมตร</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">1.400</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.070</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">3</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.50 เมตร</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">5.250</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.263</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">3</td>
-                                                <td class="text-left"> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x1.00 เมตร</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">2.100</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-right">0.105</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">7</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 1.45 เมตร</td>
-                                                <td class="text-right">160</td>
-                                                <td class="text-right">16.240</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">1.137</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">9</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                                <td class="text-right">120</td>
-                                                <td class="text-right">16.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">1.176</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">10</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                                <td class="text-right">120</td>
-                                                <td class="text-right">16.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">1.176</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">11</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                                <td class="text-right">120</td>
-                                                <td class="text-right">16.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">1.176</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">12</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                                <td class="text-right">120</td>
-                                                <td class="text-right">16.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">1.176</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">13</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                                <td class="text-right">120</td>
-                                                <td class="text-right">16.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">1.176</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">15</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร</td>
-                                                <td class="text-right">20</td>
-                                                <td class="text-right">2.800</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">0.196</td>
-                                            </tr>
-                                            <tr>
-                                                <td> </td>
-                                                <td class="text-center">1 </td>
-                                                <td class="text-center">15</td>
-                                                <td class="text-left"> เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.50 เมตร</td>
-                                                <td class="text-right">80</td>
-                                                <td class="text-right">14.000</td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-center">2</td>
-                                                <td class="text-right">0.980</td>
-                                            </tr>
+                                            <?php
+                                            // echo "$po_id";
 
-                                            <tr class="bg-gray-200">
-                                                <td scope="row" class="text-center"></td>
-                                                <td></td>
-                                                <td class="text-right"></td>
-                                                <td class="text-right"><strong>รวม</strong></td>
-                                                <td class="text-right"><strong> 921</strong></td>
-                                                <td class="text-right"><strong>174.090</strong></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-right"><strong>11.047 </strong></td>
-                                            </tr>
+                                            $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where po_id='$po_id'  ");
+                                            $total_records = mysqli_fetch_array($result_count);
+                                            $total_records = $total_records['total_records'];
+
+                                            $result = mysqli_query($conn, "SELECT * FROM `production_order`   where po_id='$po_id' ");
+                                            while ($row = mysqli_fetch_array($result)) {
+                                                $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$po_id'  ORDER BY id ASC ");
+                                                $total = mysqli_fetch_array($count);
+                                                $count = 0;
+                                                $sqlxx = "SELECT *  FROM production_detail  where po_id = '$po_id' ORDER BY id ASC  ";
+                                                $resultxx = mysqli_query($conn, $sqlxx);
+                                                if (mysqli_num_rows($resultxx) > 0) {
+                                                    $num = @mysqli_num_rows($resultxx);
+                                                    $row_cnt = $resultxx->num_rows;
+                                                    // while ($row1 = mysqli_fetch_assoc($resultxx)) {
+                                                    while ($row2 = mysqli_fetch_array($resultxx)) {
+                                            ?> <tr>
+                                                            <td> <strong><?php
+                                                                            $x = $count++;
+                                                                            echo $x == 0 ? '<strong>' .  ++$id . '</strong>' : ''; ?></strong>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <?php
+                                                                $sql5 = "SELECT * FROM plant where  plant_id='$row2[plant_id]' ";
+                                                                $rs5 = $conn->query($sql5);
+                                                                $row5 = $rs5->fetch_assoc();
+                                                                echo "$row5[factory_id]";
+                                                                ?>
+                                                            </td>
+                                                            <td class="text-center"><?= $row2['plant_id'] ?></td>
+                                                            <td class="text-left"> <?php
+                                                                                    $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
+                                                                                    $rsx = $conn->query($sqlx);
+                                                                                    $rowx = $rsx->fetch_assoc();
+                                                                                    echo $rowx['product_name'];
+                                                                                    ?></td>
+                                                            <td class="text-right"><?php echo $row2['qty']; ?></td>
+                                                            <td class="text-right"><?php echo $row2['sqm']; ?></td>
+                                                            <td class="text-center"><?php echo $rowx['dia_size']; ?></td>
+                                                            <td class="text-center"><?php echo $rowx['dia_count']; ?></td>
+                                                            <td class="text-right"><?php echo $row2['concrete_cal']; ?></td>
+                                                        </tr>
+                                            <?php
+                                                    }
+                                                }
+                                            }
+                                            // mysqli_close($conn);
+                                            ?>
                                             <tr>
                                                 <td></td>
                                                 <td></td>
