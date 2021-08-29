@@ -103,6 +103,9 @@ if ($action == 'add_dev') {
     $ai_count = $_REQUEST['ai_count'];
     $date_credit = $_REQUEST['date_credit'];
     $date_end = $_REQUEST['date_end'];
+
+
+
     if ($dev_date == '') { ?>
         <script>
             $(document).ready(function() {
@@ -292,8 +295,8 @@ if ($action == 'add_dev') {
                 $status_inv = '2';
             }
 
-            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv)
-             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv')";
+            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back)
+             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]')";
             if ($conn->query($sqlx) === TRUE) {
             }
             $sqlx2 = "INSERT INTO iv_number(iv_number,order_id,so_id,cus_id,cus_type)

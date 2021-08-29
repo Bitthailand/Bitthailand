@@ -27,4 +27,27 @@ function datethai4($date1)
         return $date . " " . $month_th_name[intval($temp[1])] . $year;
     }
 }
+function datethai5($date1)
+{
+    $month_th_name = array(
+        1 => "ม.ค.",
+        "ก.พ.",
+        "มี.ค.",
+        "เม.ย.",
+        "พ.ค.",
+        "มิ.ย.",
+        "ก.ค.",
+        "ส.ค.",
+        "ก.ย.",
+        "ต.ค.",
+        "พ.ย.",
+        "ธ.ค.",
+    );
+    $temp = explode("-", $date1);
+  
+     
+        $year = substr(($temp[0] + 543), 2, 2);
+        return $month_th_name[intval($temp[1])] . $year;
+ 
+}
 ?>
