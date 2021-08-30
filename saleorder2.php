@@ -152,7 +152,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
     </div>
     <!-- End Footer  -->
 
-
+<!-- Data  -->
     <div class="col-12">
         <table class="print-table" style="width: 100%;">
             <thead>
@@ -273,7 +273,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
             </tbody>
         </table>
     </div>
-
+<!-- End Data  -->
 
 
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
@@ -286,5 +286,4 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
-
 </html>
