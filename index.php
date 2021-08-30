@@ -22,30 +22,30 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 include './include/config.php';
 include './get_dashbord.php';
-$datex=date('Y-m');
-$d=explode("-",$datex);
+$datex = date('Y-m');
+$d = explode("-", $datex);
 $sql_month = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
 
-$sql_year= "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]' ";
+$sql_year = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]' ";
 $rs_year = $conn->query($sql_year);
 $row_year = $rs_year->fetch_assoc();
 
 
-$sql_cus_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' GROUP BY cus_id ";
+$sql_cus_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5'   GROUP BY cus_id ";
 $rs_cus_month = $conn->query($sql_cus_month);
 $row_cus_month = $rs_cus_month->fetch_assoc();
 
-$sql_cus_year = "SELECT COUNT(*) AS year FROM orders  WHERE  YEAR(date_create) = '$d[0]' GROUP BY cus_id ";
+$sql_cus_year = "SELECT COUNT(*) AS year FROM orders  WHERE  YEAR(date_create) = '$d[0]' AND order_status='5'   GROUP BY cus_id ";
 $rs_cus_year = $conn->query($sql_cus_year);
 $row_cus_year = $rs_cus_year->fetch_assoc();
 
-$sql_order_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+$sql_order_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5' ";
 $rs_order_month = $conn->query($sql_order_month);
 $row_order_month = $rs_order_month->fetch_assoc();
 
-$sql_order_year = "SELECT COUNT(*) AS year  FROM orders  WHERE  YEAR(date_create) = '$d[0]' ";
+$sql_order_year = "SELECT COUNT(*) AS year  FROM orders  WHERE  YEAR(date_create) = '$d[0]'  AND order_status='5'  ";
 $rs_order_year = $conn->query($sql_order_year);
 $row_order_year = $rs_order_year->fetch_assoc();
 
@@ -81,8 +81,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">ยอดขายประจำเดือน</p>
-                                        <h4 class="heading"><?php echo number_format($row_month['month'],'2','.',',')?></h4>
-                                        <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($row_year['month'],'2','.',',')?></small>
+                                        <h4 class="heading"><?php echo number_format($row_month['month'], '2', '.', ',') ?></h4>
+                                        <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($row_year['month'], '2', '.', ',') ?></small>
                                     </div>
                                 </div>
                             </div>
@@ -95,8 +95,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">จำนวนลูกค้าประจำเดือน</p>
-                                        <h4 class="heading"><?=$row_cus_month['month']?></h4>
-                                        <small class="text-muted m-0">จำนวนลูกค้าประจำปี : <?=$row_cus_year['year']?></small>
+                                        <h4 class="heading"><?= $row_cus_month['month'] ?></h4>
+                                        <small class="text-muted m-0">จำนวนลูกค้าประจำปี : <?= $row_cus_year['year'] ?></small>
                                     </div>
                                 </div>
                             </div>
@@ -109,8 +109,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">จำนวน Order ประจำเดือน</p>
-                                        <h4 class="heading"><?=$row_order_month['month']?></h4>
-                                        <small class="text-muted m-0">จำนวน Order ประจำปี : <?=$row_order_year['year']?></small>
+                                        <h4 class="heading"><?= $row_order_month['month'] ?></h4>
+                                        <small class="text-muted m-0">จำนวน Order ประจำปี : <?= $row_order_year['year'] ?></small>
                                     </div>
                                 </div>
                             </div>
@@ -185,40 +185,38 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <th scope="row">1</th>
-                                                                        <td>คุณภู จารุจิตร</td>
-                                                                        <td>หัวตะพาน</td>
-                                                                        <td>อำนาจเจริญ</td>
-                                                                        <td>1,345,526.44</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">2</th>
-                                                                        <td>คุณพิสิษฐ ทองทวี</td>
-                                                                        <td>สิรินธร</td>
-                                                                        <td>อุบลราชธานี</td>
-                                                                        <td>456,526.44</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">3</th>
-                                                                        <td>ร้านศักดิ์ไทย</td>
-                                                                        <td>ศรีรัตนะ</td>
-                                                                        <td>ศรีสะเกษ</td>
-                                                                        <td>456,526.44</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">4</th>
-                                                                        <td>คุณวิชัย ปัญญาวงค์</td>
-                                                                        <td>พิบูลมังสาหาร</td>
-                                                                        <td>อุบลราชธานี</td>
-                                                                        <td>143,526.44</td>
-                                                                    </tr>
-                                                                    <th scope="row">5</th>
-                                                                    <td>คุณคณาธร ธาตุระหัน</td>
-                                                                    <td>รัตนบุรี</td>
-                                                                    <td>สุรินทร์</td>
-                                                                    <td>86,526.44</td>
-                                                                    </tr>
+                                                                    <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
+                                                                            ON customer.customer_id =delivery.cus_id 
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
+                                                                    $result4 = mysqli_query($conn, $sql4);
+                                                                    if (mysqli_num_rows($result4) > 0) {
+                                                                        while ($row4 = mysqli_fetch_assoc($result4)) {
+                                                                    ?>
+
+                                                                            <tr>
+                                                                                <th scope="row"><?= ++$idx; ?></th>
+                                                                                <td><?= $row4['c_name'] ?></td>
+                                                                                <td><?php
+                                                                                    $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
+                                                                                    $rs_cus = $conn->query($sql_cus);
+                                                                                    $row_cus = $rs_cus->fetch_assoc();
+
+                                                                                    $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
+                                                                                    $rs4x = $conn->query($sql4x);
+                                                                                    $row4x = $rs4x->fetch_assoc();
+                                                                                    echo $row4x['name_th'];  ?></td>
+                                                                                <td><?php
+                                                                                    $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
+                                                                                    $rs5 = $conn->query($sql5);
+                                                                                    $row5 = $rs5->fetch_assoc();
+                                                                                    echo $row5['name_th'];
+
+                                                                                    ?></td>
+                                                                                <td><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                            </tr>
+                                                                    <?php }
+                                                                    } ?>
+
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -239,40 +237,34 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <th scope="row">1</th>
-                                                                        <td>คุณพิสิษฐ ทองทวี</td>
-                                                                        <td>สิรินธร</td>
-                                                                        <td>อุบลราชธานี</td>
-                                                                        <td>12,453,526.44</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">2</th>
-                                                                        <td>คุณภู จารุจิตร</td>
-                                                                        <td>หัวตะพาน</td>
-                                                                        <td>อำนาจเจริญ</td>
-                                                                        <td>5,345,526.44</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">3</th>
-                                                                        <td>คุณวิชัย ปัญญาวงค์</td>
-                                                                        <td>พิบูลมังสาหาร</td>
-                                                                        <td>อุบลราชธานี</td>
-                                                                        <td>1,453,526.44</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">4</th>
-                                                                        <td>คุณคณาธร ธาตุระหัน</td>
-                                                                        <td>รัตนบุรี</td>
-                                                                        <td>สุรินทร์</td>
-                                                                        <td>854,526.44</td>
-                                                                    </tr>
-                                                                    <th scope="row">5</th>
-                                                                    <td>ร้านศักดิ์ไทย</td>
-                                                                    <td>ศรีรัตนะ</td>
-                                                                    <td>ศรีสะเกษ</td>
-                                                                    <td>356,526.44</td>
-                                                                    </tr>
+                                                                <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
+                                                                            ON customer.customer_id =delivery.cus_id 
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
+                                                                    $result4 = mysqli_query($conn, $sql4);
+                                                                    if (mysqli_num_rows($result4) > 0) {
+                                                                        while ($row4 = mysqli_fetch_assoc($result4)) {
+                                                                    ?> <tr>
+                                                                    <th scope="row"><?= ++$idx1; ?></th>
+                                                                    <td><?= $row4['c_name'] ?></td>
+                                                                    <td><?php
+                                                                        $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
+                                                                        $rs_cus = $conn->query($sql_cus);
+                                                                        $row_cus = $rs_cus->fetch_assoc();
+
+                                                                        $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
+                                                                        $rs4x = $conn->query($sql4x);
+                                                                        $row4x = $rs4x->fetch_assoc();
+                                                                        echo $row4x['name_th'];  ?></td>
+                                                                    <td><?php
+                                                                        $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
+                                                                        $rs5 = $conn->query($sql5);
+                                                                        $row5 = $rs5->fetch_assoc();
+                                                                        echo $row5['name_th'];
+
+                                                                        ?></td>
+                                                                    <td><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                </tr>
+                                                                    <?php }} ?>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -291,7 +283,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             <div class="col-md-12">
                                 <div class="card mb-4">
                                     <div class="card-body p-0">
-                                        <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด</h5>
+                                        <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d",strtotime("-30 days")); ?></h5>
                                         <div id="eORchartBar" style="height: 360px;"></div>
                                     </div>
                                 </div>

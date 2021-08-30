@@ -137,8 +137,8 @@ $row5 = $rs5->fetch_assoc();
                                                                 <th scope="col"class="text-center">รหัสสินค้า/รายละเอียด</th>
                                                                 <th scope="col"class="text-center">จำนวน</th>
                                                                 <th scope="col"class="text-center">หน่วยละ</th>
-                                                                  <th scope="col"class="text-center">ส่วนลดต่อหน่วย</th>
-                                                                <th scope="col"class="text-center">ราคารวมภาษี</th>
+                                                              
+                                                                <th scope="col"class="text-center">จำนวนเงิน</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -163,12 +163,9 @@ $row5 = $rs5->fetch_assoc();
                                                                     }
                                                                         ?></td>
                                                                 <td class="text-right"><?=$row_pro['dev_qty']?></td>
-                                                                <td class="text-right"><?=$rowx3['unit_price']?></td>
-                                                                <td class="text-right"><?=$row_pro['disunit']?>
-                                                            <?php  $total=$rowx3['unit_price']-$row_pro['disunit']; ?>
-                                                            </td>
-                                                                <td class="text-right"><?php  $sum_total=$row_pro['dev_qty']*$total; ?>
-                                                                <?php echo number_format($sum_total,'2','.',',')?></td>
+                                                                <td class="text-right">-</td>
+                                                              
+                                                                <td class="text-right">-</td>
                                                             </tr>
                                                             <?php } } ?>
                                                             
@@ -183,15 +180,10 @@ $row5 = $rs5->fetch_assoc();
                                                                         $rowx4 = $rsx4->fetch_assoc();
                                                                        
                                                                         ?>
-                                                        <p>รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($rowx4['total'],'2','.',',')?></span></p>
-                                                        <p>หัก ส่วนลด <span><?php  echo"$row_dev[discount]"; ?></span></p>
-                                                        <p>จำนวนเงินก่อนรวมภาษี  <span>
-                                                        <?php $tax = ($rowx4['total']* 100)/107; 
-                                                         $tax2 = ($rowx4['total'] - $tax);
-                                                         $grand_total = ($rowx4['total']+ $tax2);
-                                                         echo number_format($rowx4['total'],'2','.',',');
-                                                        ?></span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
+                                                        <p>รวมเป็นเงินทั้งสิ้น <span>-</span></p>
+                                                        <p>หัก ส่วนลด <span>-</span></p>
+                                                        <p>จำนวนเงินก่อนรวมภาษี  <span>- </span></p>
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>-</span></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -200,12 +192,12 @@ $row5 = $rs5->fetch_assoc();
                                                             <p>ตัวอักษร :</p>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <p> <?php echo Convert2($grand_total); ?></p>
+                                                            <p> -</p>
                                                         </div>
                                                         <div class="col-md-4 text-right">
                                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                                 <p>รวมเป็นเงิน</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></h5>
+                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> -</span></h5>
                                                             </div>
                                                         </div>
                                                     </div>
