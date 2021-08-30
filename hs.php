@@ -115,7 +115,7 @@ $row_emp = $rs_emp->fetch_assoc();
                     <p>โทร 061-4362825</p>
                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
                 </div>
-                <div class="col-6 text-sm-right">
+                <div class="col-6 text-right">
                     <h4 class="font-weight-bold">ใบเสร็จรับเงิน/ใบกำกับภาษี</h4>
                 </div>
             </div>
