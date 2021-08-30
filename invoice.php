@@ -179,6 +179,8 @@ $row_dev = $rs_dev->fetch_assoc();
                                                                         </td>
                                                                         <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
                                                                             <?php echo number_format($sum_total, '2', '.', ',') ?>
+
+                                                                            <?php $g=$g+$sum_total; ?>
                                                                         </td>
                                                                     </tr>
                                                                     <?php }
@@ -188,7 +190,7 @@ $row_dev = $rs_dev->fetch_assoc();
                                                 </div>
                                                 <div class="col-md-12">
                                                 <?php
-                                                        $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
+                                                        $sqlx4 = "SELECT ROUND(SUM(unit_price*dev_qty)) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
                                                         $rsx4 = $conn->query($sqlx4);
                                                         $rowx4 = $rsx4->fetch_assoc();
                                                         $sql_ai = "SELECT *  FROM ai_number  where order_id='$order_id'  ";
@@ -199,19 +201,19 @@ $row_dev = $rs_dev->fetch_assoc();
                                                         $row_dev  = $rs_dev->fetch_assoc();
                                                         ?>
                                                     <div class="invoice-summary">
-                                                        <p>รวมเป็นเงิน <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
+                                                        <p>รวมเป็นเงิน <span><?php echo number_format($g, '2', '.', ',') ?></span></p>
                                                         <p>หัก ส่วนลด <span>00.00</span></p>
-                                                        <p>ยอดหลังหักส่วนลด <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
+                                                        <p>ยอดหลังหักส่วนลด <span><?php echo number_format($g, '2', '.', ',') ?></span></p>
                                                         <?php if ($row_ai['ai_num'] == '') {
-                                                            $total = $rowx4['total'];
+                                                            $total = $g;
                                                         } else { ?>
                                                             <p>หักเงินมัดจำ #<?= $row_ai['ai_num'] ?> <span>
                                                                     <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></span></p>
                                                         <?php }
-                                                        $total = $rowx4['total'] - $row_dev['ai_count'];
+                                                        $total = $g - $row_dev['ai_count'];
                                                         $tax = ($total* 100) / 107;
                                                         $tax2 = ($total - $tax);
-                                                        $grand_total = ($total+ $tax2);
+                                                        $grand_total = ($total- $tax2);
                                                         ?>
                                                        
                                                        <p>จำนวนเงินรวมทั้งสิ้น <span> <?php echo number_format($total, '2', '.', ',') ?></span></p>

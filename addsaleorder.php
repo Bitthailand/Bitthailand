@@ -307,8 +307,8 @@ if ($action == 'add_dev') {
             $result_TF = mysqli_query($conn, $sql_TF);
             while ($row_TF = mysqli_fetch_assoc($result_TF)) {
 
-                $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price)
-        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]')";
+                $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price,ptype_id)
+        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]','$row_TF[ptype_id]')";
               
               $sql1xx = "UPDATE order_details SET  status_delivery='1'  where product_id='$row_TF[product_id]'";
               if ($conn->query($sql1xx) === TRUE) {}
