@@ -669,20 +669,6 @@ th {
     /* for demo */
 }
 
-.qt2 .page-footer,
-.qt2 .page-footer-space {
-    height: auto;
-}
-
-.qt2 .page-footer p {
-    font-size: 11px;
-    ;
-}
-
-.qt2 table tr td {
-    font-size: 11px;
-}
-
 .invoice-summary-qt2 p,
 .invoice-summary-qt2 h5 {
     display: flex;
@@ -730,7 +716,44 @@ th {
 
 .qt2 .page-header,
 .qt2 .page-header-space {
-    height: 250px;
+    height: 270px;
+}
+
+.qt2 .page-footer,
+.qt2 .page-footer-space {
+    height: auto;
+}
+
+.qt2 .page-footer p {
+    font-size: 11px;
+    ;
+}
+
+.qt2 table tr td {
+    font-size: 11px;
+}
+
+.qt-so .page-header {
+    z-index: 1;
+}
+
+.qt-so .page-header,
+.qt-so .page-header-space {
+    height: 220px;
+}
+
+.qt-so .page-footer,
+.qt-so .page-footer-space {
+    height: auto;
+}
+
+.qt-so .page-footer p {
+    font-size: 11px;
+    ;
+}
+
+.qt-so table tr td {
+    font-size: 11px;
 }
 
 b,

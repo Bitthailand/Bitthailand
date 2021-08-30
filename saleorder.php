@@ -57,7 +57,7 @@ $row5 = $rs5->fetch_assoc();
 // ===
 ?>
 
-<body class="qt2 text-left">
+<body class="qt-so text-left">
 
     <!--  header  -->
 
@@ -100,7 +100,10 @@ $row5 = $rs5->fetch_assoc();
                 <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                 <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                 <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
+<<<<<<< HEAD
                 <p><strong>ที่อยู๋จัดส่ง : </strong></p>
+=======
+>>>>>>> 30a327deb16d0f9319a791e6ad3f83552116b5a9
             </div>
             <div class="col-6 text-sm-right">
                 <h5 class="font-weight-bold"></h5>
@@ -236,6 +239,7 @@ $row5 = $rs5->fetch_assoc();
     </div>
     </div>
     <div class="col-12">
+<<<<<<< HEAD
         <div class="row">
             <div class="col-3">
                 <p>ตัวอักษร :</p>
@@ -248,6 +252,102 @@ $row5 = $rs5->fetch_assoc();
             </div>
             <div class="col-1 text-right">
                 <div class="row" style="justify-content: flex-end; margin-right: 0;">
+=======
+        <table class="print-table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <td>
+                        <!--place holder for the fixed-position header-->
+                        <div class="page-header-space"></div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-hover mb-4">
+                                        <thead class="bg-gray-300">
+                                            <tr>
+                                                <th scope="col" class="text-center">No.</th>
+                                                <th scope="col" class="text-center">รายการ</th>
+                                                <th scope="col" class="text-center">จำนวน</th>
+                                                <th scope="col" class="text-center">หน่วยละ</th>
+                                                <th scope="col" class="text-center">จำนวนเงิน</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                                                $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
+                                                                $result_pro = mysqli_query($conn, $sql_pro);
+                                                                if (mysqli_num_rows($result_pro) > 0) {
+                                                                    while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+
+                                                                        $no = $row_pro['id'];
+                                                                        $product_id = $row_pro['product_id'];
+                                                                ?> <tr>
+                                                <td scope="row" class="text-center"><?=++$id;?></td>
+                                                <td> <?php
+                                                                        $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                                        $rsx3 = $conn->query($sqlx3);
+                                                                        $rowx3 = $rsx3->fetch_assoc();
+                                                                        if($rowx3['ptype_id']=='TF0'){
+                                                                            echo 'ค่าขนส่ง:'.$rowx3['product_name'];
+                                                                        }else{ 
+                                                                        echo $rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
+                                                                    }
+                                                                        ?></td>
+                                                <td class="text-right"><?=$row_pro['dev_qty']?></td>
+                                                <td class="text-center">-</td>
+                                                <td class="text-center">-</td>
+                                            </tr>
+                                            <?php } } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-3">
+                                    <p>รวมเป็นเงินทั้งสิ้น</p>
+                                    <p>หัก ส่วนลด</p>
+                                    <p>จำนวนเงินก่อนรวมภาษี</p>
+                                    <p>จำนวนภาษีมูลค่าเพิ่ม 7%</p>
+                                </div>
+                                <div class="col-1">
+                                    <div class="invoice-summary-qt2">
+                                        <?php
+                                                                        $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
+                                                                        $rsx4 = $conn->query($sqlx4);
+                                                                        $rowx4 = $rsx4->fetch_assoc();
+                                                                       
+                                                                        ?>
+                                        <p><span>-</span></p>
+                                        <p> <span>-</span></p>
+                                        <p> <span>-</span></p>
+                                        <p> <span>-</span></p>
+
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <p>ตัวอักษร :</p>
+                                        </div>
+                                        <div class="col-5">
+                                            <p> ศูนย์บาทถ้วน</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <p>รวมเป็นเงิน</p>
+                                        </div>
+                                        <div class="col-1 text-right">
+                                            <div class="row" style="justify-content: flex-end; margin-right: 0;">
+>>>>>>> 30a327deb16d0f9319a791e6ad3f83552116b5a9
 
                     <h3 class="font-weight-bold" style="width: 120px; display: inline-block;">
                         <span>-</span>
