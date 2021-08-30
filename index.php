@@ -21,6 +21,7 @@ if (isset($_SESSION["username"])) {
 <?php
 include './include/connect.php';
 include './include/config.php';
+include './get_dashbord.php';
 $datex=date('Y-m');
 $d=explode("-",$datex);
 $sql_month = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
