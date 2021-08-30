@@ -267,7 +267,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                     <p>รวมเป็นเงิน</p>
                                     <p>หัก ส่วนลด</p>
                                     <p>ยอดหลังหักส่วนลด</p>
-                                    <p>หักเงินมัดจำ #</p>
+                                    <p>หักเงินมัดจำ </p>
                                     <p>จำนวนเงินรวมทั้งสิ้น</p>
                                     <p>จำนวนภาษีมูลค่าเพิ่ม 7%</p>
                                 </div>
@@ -290,15 +290,14 @@ $row_emp = $rs_emp->fetch_assoc();
                                         <?php if ($row_ai['ai_num'] == '') {
                                                             $total = $rowx4['total'];
                                                         } else { ?>
-                                        <p><?= $row_ai['ai_num'] ?> <span>
-                                                <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></span></p>
+                                        <p>(#<?= $row_ai['ai_num'] ?>) 
+                                                <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></p>
                                         <?php }
                                                         $total = $rowx4['total'] - $row_dev['ai_count'];
                                                         $tax = ($total* 100) / 107;
                                                         $tax2 = ($total - $tax);
                                                         $grand_total = ($total+ $tax2);
                                                         ?>
-                                        <p> <span>00.00</span></p>
                                         <p> <span> <?php echo number_format($total, '2', '.', ',') ?></span></p>
                                         <p> <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
 
