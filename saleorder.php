@@ -57,7 +57,7 @@ $row5 = $rs5->fetch_assoc();
 // ===
 ?>
 
-<body class="qt2 text-left">
+<body class="qt-so text-left">
 
     <!--  header  -->
 
@@ -110,26 +110,6 @@ $row5 = $rs5->fetch_assoc();
                     <p><span>วันที่ </span> <span><?php $date = explode(" ", $row5['dev_date']);
                                                     $dat = datethai2($date[0]);
                                                     echo $dat; ?> </span></p>
-<<<<<<< HEAD
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12 table-responsive">
-                                                    <table class="table table-hover mb-4">
-                                                        <thead class="bg-gray-300">
-                                                            <tr>
-                                                                <th scope="col" class="text-center">No.</th>
-                                                                <th scope="col"class="text-center">รหัสสินค้า/รายละเอียด</th>
-                                                                <th scope="col"class="text-center">จำนวน</th>
-                                                                <th scope="col"class="text-center">หน่วยละ</th>
-                                                              
-                                                                <th scope="col"class="text-center">จำนวนเงิน</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <?php
-=======
                 </div>
             </div>
         </div>
@@ -214,7 +194,6 @@ $row5 = $rs5->fetch_assoc();
                                         </thead>
                                         <tbody>
                                             <?php
->>>>>>> d357de8677789ff3668ec9fb5694158f89c13ead
                                                                 $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
                                                                 $result_pro = mysqli_query($conn, $sql_pro);
                                                                 if (mysqli_num_rows($result_pro) > 0) {
@@ -234,21 +213,6 @@ $row5 = $rs5->fetch_assoc();
                                                                         echo $rowx3['product_name'].'  หนา'.$rowx3['thickness'].'  ขนาดลวด'.$rowx3['dia_size']. '  จำนวน'.$rowx3['dia_count'];
                                                                     }
                                                                         ?></td>
-<<<<<<< HEAD
-                                                                <td class="text-right"><?=$row_pro['dev_qty']?></td>
-                                                                <td class="text-right">-</td>
-                                                              
-                                                                <td class="text-right">-</td>
-                                                            </tr>
-                                                            <?php } } ?>
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="invoice-summary">
-                                                    <?php
-=======
                                                 <td class="text-right"><?=$row_pro['dev_qty']?></td>
                                                 <td class="text-center">-</td>
                                                 <td class="text-center">-</td>
@@ -272,87 +236,16 @@ $row5 = $rs5->fetch_assoc();
                                 <div class="col-1">
                                     <div class="invoice-summary-qt2">
                                         <?php
->>>>>>> d357de8677789ff3668ec9fb5694158f89c13ead
                                                                         $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
                                                                         $rsx4 = $conn->query($sqlx4);
                                                                         $rowx4 = $rsx4->fetch_assoc();
                                                                        
                                                                         ?>
-<<<<<<< HEAD
-                                                        <p>รวมเป็นเงินทั้งสิ้น <span>-</span></p>
-                                                        <p>หัก ส่วนลด <span>-</span></p>
-                                                        <p>จำนวนเงินก่อนรวมภาษี  <span>- </span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span>-</span></p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <p>ตัวอักษร :</p>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <p> -</p>
-                                                        </div>
-                                                        <div class="col-md-4 text-right">
-                                                            <div class="row" style="justify-content: flex-end; margin-right: 0;">
-                                                                <p>รวมเป็นเงิน</p>
-                                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> -</span></h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 mb-4 border-top"></div>
-                                            <div class="col-md-12">
-                                                <div class="col-md-12 mb-3 mb-sm-0">
-                                                    <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
-                                                    <p>- ได้รับสินค้าตามรายการข้างบนนี้ในสภาพสมบูรณ์ถูกต้องครบถ้วนแล้ว </p>
-                                                    <p>- สินค้ายังเป็นกรรมสิทธิ์ของทางร้านจนกว่าผู้ซื้อจะชำระสินค้าเรียบร้อยแล้ว </p>
-                                                    <p>- ทางร้านขอสงวนสิทธิ์ไม่รับคืนสินค้าในกรณีที่ไม่ได้เกิดจากความผิดพลาดของทางร้าน </p>
-                                                </div>
-                                                <div class="mt-3 mb-4 border-top"></div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-3 text-center">
-                                                        <p> ____________________</p>
-                                                        <br>
-                                                        <p>ผู้รับสินค้า<span></span></p>
-                                                        <br>
-                                                        <p>วันที่ _______/_________/_________ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3 text-center">
-                                                        <p> ____________________</p>
-                                                        <br>
-                                                        <p>พนักงานส่งของ<span></span></p>
-                                                        <br>
-                                                        <p>วันที่ _______/_________/_________ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3 text-center">
-                                                        <p> ____________________</p>
-                                                        <br>
-                                                        <p>ผู้ตรวจสอบ<span></span></p>
-                                                        <br>
-                                                        <p>วันที่ _______/_________/__________ <span></span></p>
-                                                    </div>
-                                                    <div class="col-md-3 text-center">
-                                                        <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
-                                                        <br>
-                                                        <p>ผู้รับมอบอำนวจ ____________________ <span></span></p>
-                                                        <br>
-                                                        <p>วันที่ _______/_________/_________ <span></span></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- ==== / Print Area =====-->
-=======
                                         <p><span>-</span></p>
                                         <p> <span>-</span></p>
                                         <p> <span>-</span></p>
                                         <p> <span>-</span></p>
 
->>>>>>> d357de8677789ff3668ec9fb5694158f89c13ead
                                     </div>
                                 </div>
                                 <div class="col-12">
