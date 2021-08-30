@@ -495,7 +495,7 @@ $("#order_id").on("change", function() {
     $("#MButtonID").click();
 });
 let Morid = $("#order_id").val();
-if (Mor_id == '') {
+if (Morid == '') {
     document.getElementById("btu").disabled = true;
     // document.getElementById("btu1").disabled = true;
 } else {

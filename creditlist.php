@@ -411,9 +411,10 @@ if ($rowS == '') {
                                 </ul>
                             </nav>
                         </div>
-
-
-                    </div>
+                     
+                        </div>
+                </div>
+            </div>
                     <!-- Header -->
                     <?php include './include/footer.php'; ?>
                     <!-- =============== Header End ================-->

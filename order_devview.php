@@ -217,7 +217,9 @@ $row_emp = $rs_emp->fetch_assoc();
                                                                         </td>
                                                                         </td>
                                                                         <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
-                                                                            <?php echo number_format($sum_total, '2', '.', ',') ?>
+                                                                            <?php echo number_format($sum_total, '2', '.', ',');
+                                                                             $total_all = $total_all + $sum_total;
+                                                                            ?>
                                                                         </td>
                                                                     </tr>
                                                             <?php }
@@ -227,30 +229,20 @@ $row_emp = $rs_emp->fetch_assoc();
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="invoice-summary">
-                                                        <?php
-                                                        $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
-                                                        $rsx4 = $conn->query($sqlx4);
-                                                        $rowx4 = $rsx4->fetch_assoc();
-                                                        $sql_ai = "SELECT *  FROM ai_number  where order_id='$order_id'  ";
-                                                        $rs_ai  = $conn->query($sql_ai);
-                                                        $row_ai  = $rs_ai->fetch_assoc();
-                                                        $sql_dev = "SELECT *  FROM delivery  where order_id='$order_id' AND dev_id='$so_id' ";
-                                                        $rs_dev  = $conn->query($sql_dev);
-                                                        $row_dev  = $rs_dev->fetch_assoc();
-                                                        ?>
-                                                        <p>รวมเป็นเงิน <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
+                                                        
+                                                        <p>รวมเป็นเงิน <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                                         <p>หัก ส่วนลด <span>00.00</span></p>
-                                                        <p>ยอดหลังหักส่วนลด <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
+                                                        <p>ยอดหลังหักส่วนลด <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                                         <?php if ($row_ai['ai_num'] == '') {
-                                                            $total = $rowx4['total'];
+                                                            $total = $total_all;
                                                         } else { ?>
                                                             <p>หักเงินมัดจำ #<?= $row_ai['ai_num'] ?> <span>
                                                                     <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></span></p>
                                                         <?php }
-                                                        $total = $rowx4['total'] - $row_dev['ai_count'];
+                                                        $total = $total_all - $row_dev['ai_count'];
                                                         $tax = ($total* 100) / 107;
                                                         $tax2 = ($total - $tax);
-                                                        $grand_total = ($total+ $tax2);
+                                                        $grand_total = ($total - $tax2);
                                                         ?>
                                                         <p>จำนวนเงินรวมทั้งสิ้น <span> <?php echo number_format($total, '2', '.', ',') ?></span></p>
                                                         <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>

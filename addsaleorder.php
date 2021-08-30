@@ -172,9 +172,11 @@ if ($action == 'add_dev') {
                     $result99 = mysqli_query($conn, $sql99);
                     if (mysqli_num_rows($result99) > 0) {
                     } else {
-
-                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit)
-                            VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]')";
+                        $sql_or = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+                        $rs_or = $conn->query($sql_or);
+                        $row_or = $rs_or->fetch_assoc();
+                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
+                            VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$total_instock',status_delivery='1' where product_id='$product_id'";
                         $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
 
@@ -307,8 +309,8 @@ if ($action == 'add_dev') {
             $result_TF = mysqli_query($conn, $sql_TF);
             while ($row_TF = mysqli_fetch_assoc($result_TF)) {
 
-                $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price,ptype_id)
-        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]','$row_TF[ptype_id]')";
+                $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price,ptype_id,cus_back,cus_type)
+        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]','$row_TF[ptype_id]','$row[cus_back]','$cus_type')";
               
               $sql1xx = "UPDATE order_details SET  status_delivery='1'  where product_id='$row_TF[product_id]'";
               if ($conn->query($sql1xx) === TRUE) {}

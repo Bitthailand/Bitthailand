@@ -13,23 +13,23 @@ include './include/connect.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>HS | ใบเสร็จรับเงินเลขที่ <?= $row_hs['hs_id'] ?></title>
+    <title>HS | ใบเสร็จรับเงินเลขที่ </title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <!-- <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" /> -->
     <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
 
     <style>
-    p {
-        margin-top: 0;
-        margin-bottom: 0.1rem;
-    }
+        p {
+            margin-top: 0;
+            margin-bottom: 0.1rem;
+        }
 
-    .table-sm th,
-    .table-sm td {
-        padding: 0.3rem;
-        font-size: 0.813rem !important;
-    }
+        .table-sm th,
+        .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.813rem !important;
+        }
     </style>
 </head>
 <?php
@@ -48,19 +48,16 @@ $hs_id = $dat . $code;
 $sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND so_id='$so_id' ";
 $result = mysqli_query($conn, $sqlx);
 if (mysqli_num_rows($result) > 0) {
+} else {
 
-}
-else{
-    
     $sqlx5 = "INSERT INTO hs_number (order_id,so_id,hs_id)
     VALUES ('$order_id','$so_id','$hs_id')";
-        if ($conn->query($sqlx5) === TRUE) {
-        }
-    
+    if ($conn->query($sqlx5) === TRUE) {
+    }
+
     $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id' where dev_id='$so_id'";
-    if ($conn->query($sqlxxx) === TRUE) { } 
-
-
+    if ($conn->query($sqlxxx) === TRUE) {
+    }
 }
 
 
@@ -123,20 +120,20 @@ $row_emp = $rs_emp->fetch_assoc();
             <div class="row mb-5">
                 <div class="col-6 mb-3 mb-sm-0">
                     <?php
-                                                    $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
-                                                    $rs6 = $conn->query($sql6);
-                                                    $row6 = $rs6->fetch_assoc();
-                                                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
-                                                    $rs7 = $conn->query($sql7);
-                                                    $row7 = $rs7->fetch_assoc();
-                                                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
-                                                    $rs8 = $conn->query($sql8);
-                                                    $row8 = $rs8->fetch_assoc();
+                    $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                    $rs6 = $conn->query($sql6);
+                    $row6 = $rs6->fetch_assoc();
+                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                    $rs7 = $conn->query($sql7);
+                    $row7 = $rs7->fetch_assoc();
+                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                    $rs8 = $conn->query($sql8);
+                    $row8 = $rs8->fetch_assoc();
 
-                                                    $sql_dev = "SELECT * FROM delivery  WHERE order_id= '$order_id' AND dev_id='$so_id'";
-                                                    $rs_dev  = $conn->query($sql_dev);
-                                                    $row_dev  = $rs_dev->fetch_assoc();
-                                                    ?>
+                    $sql_dev = "SELECT * FROM delivery  WHERE order_id= '$order_id' AND dev_id='$so_id'";
+                    $rs_dev  = $conn->query($sql_dev);
+                    $row_dev  = $rs_dev->fetch_assoc();
+                    ?>
                     <h5 class="font-weight-bold">ลูกค้า</h5>
                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                     <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
@@ -153,8 +150,8 @@ $row_emp = $rs_emp->fetch_assoc();
                     <div class="invoice-summary">
                         <p><span>เลขที่ใบเสร็จรับเงิน</span> <span><?= $row_hs['hs_id'] ?></span></p>
                         <p><span>วันที่</span> <span><?php $date = explode(" ", $row_h['date_create']);
-                                                                        $dat = datethai2($date[0]);
-                                                                        echo "$dat"; ?></span></p>
+                                                        $dat = datethai2($date[0]);
+                                                        echo "$dat"; ?></span></p>
                         <p><span>ลำดับการสั่งซื้อ</span> <span><?= $order_id ?></span></p>
                         <p><span>พนักงานขาย</span> <span><?= $row_emp['emp_name'] ?></span></p>
                         <p><span>เขตการขาย</span> <span>-</span></p>
@@ -224,36 +221,38 @@ $row_emp = $rs_emp->fetch_assoc();
                                         </thead>
                                         <tbody>
                                             <?php
-                                                            $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
-                                                            $result_pro = mysqli_query($conn, $sql_pro);
-                                                            if (mysqli_num_rows($result_pro) > 0) {
-                                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) {
-                                                                    $no = $row_pro['id'];
-                                                                    $product_id = $row_pro['product_id'];
+                                            $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
+                                            $result_pro = mysqli_query($conn, $sql_pro);
+                                            if (mysqli_num_rows($result_pro) > 0) {
+                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+                                                    $no = $row_pro['id'];
+                                                    $product_id = $row_pro['product_id'];
+                                            ?>
+                                                    <tr>
+                                                        <td scope="row" class="text-center"><?= ++$id; ?></td>
+                                                        <td><?php
+                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                            $rsx3 = $conn->query($sqlx3);
+                                                            $rowx3 = $rsx3->fetch_assoc();
+                                                            if ($rowx3['ptype_id'] == 'TF0') {
+                                                                echo 'ค่าขนส่ง:' . $rowx3['product_name'];
+                                                            } else {
+                                                                echo $rowx3['product_name'];
+                                                            }
+                                                            ?></td>
+                                                        <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
+                                                        <td class="text-right"><?= $rowx3['unit_price'] ?></td>
+                                                        <td class="text-right"><?= $row_pro['disunit'] ?>
+                                                            <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
+                                                        </td>
+                                                        <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
+                                                            <?php echo number_format($sum_total, '2', '.', ',');
+                                                            $total_all = $total_all + $sum_total;
                                                             ?>
-                                            <tr>
-                                                <td scope="row" class="text-center"><?= ++$id; ?></td>
-                                                <td><?php
-                                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
-                                                                            $rsx3 = $conn->query($sqlx3);
-                                                                            $rowx3 = $rsx3->fetch_assoc();
-                                                                            if ($rowx3['ptype_id'] == 'TF0') {
-                                                                                echo 'ค่าขนส่ง:' . $rowx3['product_name'];
-                                                                            } else {
-                                                                                echo $rowx3['product_name'];
-                                                                            }
-                                                                            ?></td>
-                                                <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
-                                                <td class="text-right"><?= $rowx3['unit_price'] ?></td>
-                                                <td class="text-right"><?= $row_pro['disunit'] ?>
-                                                    <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
-                                                </td>
-                                                <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
-                                                    <?php echo number_format($sum_total, '2', '.', ',') ?>
-                                                </td>
-                                            </tr>
+                                                        </td>
+                                                    </tr>
                                             <?php }
-                                                            } ?>
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -273,31 +272,21 @@ $row_emp = $rs_emp->fetch_assoc();
                                 </div>
                                 <div class="col-1">
                                     <div class="invoice-summary-qt2">
-                                        <?php
-                                                        $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
-                                                        $rsx4 = $conn->query($sqlx4);
-                                                        $rowx4 = $rsx4->fetch_assoc();
-                                                        $sql_ai = "SELECT *  FROM ai_number  where order_id='$order_id'  ";
-                                                        $rs_ai  = $conn->query($sql_ai);
-                                                        $row_ai  = $rs_ai->fetch_assoc();
-                                                        $sql_dev = "SELECT *  FROM delivery  where order_id='$order_id' AND dev_id='$so_id' ";
-                                                        $rs_dev  = $conn->query($sql_dev);
-                                                        $row_dev  = $rs_dev->fetch_assoc();
-                                                        ?>
-                                        <p> <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
+                                     
+                                        <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                         <p> <span>00.00</span></p>
-                                        <p> <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
+                                        <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                         <?php if ($row_ai['ai_num'] == '') {
-                                                            $total = $rowx4['total'];
-                                                        } else { ?>
-                                        <p>(#<?= $row_ai['ai_num'] ?>) 
+                                            $total = $total_all;
+                                        } else { ?>
+                                            <p>(#<?= $row_ai['ai_num'] ?>)
                                                 <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></p>
                                         <?php }
-                                                        $total = $rowx4['total'] - $row_dev['ai_count'];
-                                                        $tax = ($total* 100) / 107;
-                                                        $tax2 = ($total - $tax);
-                                                        $grand_total = ($total+ $tax2);
-                                                        ?>
+                                        $total = $total_all - $row_dev['ai_count'];
+                                        $tax = ($total * 100) / 107;
+                                        $tax2 = ($total - $tax);
+                                        $grand_total = ($total - $tax2);
+                                        ?>
                                         <p> <span> <?php echo number_format($total, '2', '.', ',') ?></span></p>
                                         <p> <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
 

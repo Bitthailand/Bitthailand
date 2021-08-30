@@ -35,21 +35,16 @@ if (mysqli_num_rows($result2) > 0) {
   }
 }
 
-$sql3 = "SELECT ROUND(SUM(deliver_detail.total_price), 2) AS  sum  FROM  delivery  LEFT JOIN deliver_detail
-ON delivery.dev_id = deliver_detail.dev_id AND delivery.cus_back='1'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' "; 
+$sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
 $result3 = mysqli_query($conn, $sql3);
-
-// $value = [];
 if (mysqli_num_rows($result3) > 0) {
-
   while ($row3 = mysqli_fetch_assoc($result3)) {
     $cus_back[] = $row3['sum'];
     // $value[] = $row['value'];
   //  echo json_encode($row3['sum']);
   }
 }
-$sql4 = "SELECT ROUND(SUM(deliver_detail.total_price), 2) AS  sum  FROM  delivery  LEFT JOIN deliver_detail
-ON delivery.dev_id = deliver_detail.dev_id AND delivery.cus_back='2'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' "; 
+$sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
 $result4 = mysqli_query($conn, $sql4);
 if (mysqli_num_rows($result4) > 0) {
   while ($row4 = mysqli_fetch_assoc($result4)) {

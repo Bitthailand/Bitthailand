@@ -24,11 +24,11 @@ include './include/config.php';
 include './get_dashbord.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
-$sql_month = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+$sql_month = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND  status_cf='1'  ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
 
-$sql_year = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]' ";
+$sql_year = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]'  AND status_cf='1'  ";
 $rs_year = $conn->query($sql_year);
 $row_year = $rs_year->fetch_assoc();
 
