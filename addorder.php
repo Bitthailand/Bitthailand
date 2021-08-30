@@ -411,25 +411,25 @@ if ($action == 'add') {
 
                 }
             }
-            $sql5 = "SELECT MAX(id) AS id_run FROM delivery ";
-            $rs5 = $conn->query($sql5);
-            $row_run = $rs5->fetch_assoc();
-            $dev_status = $row['dev_status'];
-            $datetodat = date('Y-m-d');
-            $date = explode(" ", $datetodat);
-            $dat = datethai_so($date[0]);
-            $code_new = $row_run['id_run'] + 1;
-            $code = sprintf('%05d', $code_new);
-            $dev_id = $dat . $code;
+                $sql5 = "SELECT MAX(id) AS id_run FROM delivery ";
+                $rs5 = $conn->query($sql5);
+                $row_run = $rs5->fetch_assoc();
+                $dev_status = $row['dev_status'];
+                $datetodat = date('Y-m-d');
+                $date = explode(" ", $datetodat);
+                $dat = datethai_so($date[0]);
+                $code_new = $row_run['id_run'] + 1;
+                $code = sprintf('%05d', $code_new);
+                $dev_id = $dat . $code;
             // ตรวจสอบเลขจัดส่ง
-            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
-            if ($conn->query($sqlx12) === TRUE) {
-            }
+                $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
+                if ($conn->query($sqlx12) === TRUE) {
+                }
 
-            $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_idx' AND dev_id='$dev_id' ";
-            $resultxx = mysqli_query($conn, $sqlxx);
-            if (mysqli_num_rows($resultxx) > 0) {
-            } else {
+                $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_idx' AND dev_id='$dev_id' ";
+                $resultxx = mysqli_query($conn, $sqlxx);
+                if (mysqli_num_rows($resultxx) > 0) {
+                } else {
                 // echo "tt"; cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type'
                 $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk,cus_id,cus_back,cus_type)
                      VALUES ('$dev_id','$order_idx','$datetodat','1','$cus_id','$cus_back','$cus_type')";
@@ -440,8 +440,8 @@ if ($action == 'add') {
                 if (mysqli_num_rows($result_pro2) > 0) {
                     while ($row_pro2 = mysqli_fetch_assoc($result_pro2)) {
 
-                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit)
-                    VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$sum_dev','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]')";
+                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,status_cf)
+                    VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$sum_dev','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]','1')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
                     }

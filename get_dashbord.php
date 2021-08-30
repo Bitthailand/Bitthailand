@@ -51,40 +51,30 @@ if (mysqli_num_rows($result3) > 0) {
 $sql4 = "SELECT ROUND(SUM(deliver_detail.total_price), 2) AS  sum  FROM  delivery  LEFT JOIN deliver_detail
 ON delivery.dev_id = deliver_detail.dev_id AND delivery.cus_back='2'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' "; 
 $result4 = mysqli_query($conn, $sql4);
-
-// $value = [];
 if (mysqli_num_rows($result4) > 0) {
-
   while ($row4 = mysqli_fetch_assoc($result4)) {
     $cus_back2[] = $row4['sum'];
-    // $value[] = $row['value'];
-  //  echo json_encode($row3['sum']);
   }
 }
 
 }
 }
-
 // แบ่งตามประเภทสินค้า
-$sql = "SELECT *  FROM product_type  where status='0' AND ptype_id<>'TF'  AND  ptype_id<>'TF0'     LIMIT 15 "; 
+$sql = "SELECT *  FROM product_type  where status='0'  ORDER BY  id  ASC  LIMIT 20 "; 
 $result = mysqli_query($conn, $sql);
 $ptype = [];
-
-// $value = [];
 if (mysqli_num_rows($result) > 0) {
-
   while ($row = mysqli_fetch_assoc($result)) {
     // echo"$row[ptype_name]<br>";
     $ptype[] = $row['ptype_name'];
   }}
+
 
   // แบ่งตามประเภทสินค้า PIE
 $sql = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
 ON product.product_id = deliver_detail.product_id 
 INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id  GROUP BY product.ptype_id"; 
 $result = mysqli_query($conn, $sql);
-
-
 $content = [];
 if (mysqli_num_rows($result) > 0) {
 
@@ -95,8 +85,116 @@ if (mysqli_num_rows($result) > 0) {
       'value' => $row['total']
      ];
   }}
-//  echo json_encode($content);
-?>
+
+
+  // วันที่ย้อนหลัง 30 วัน
+
+$sql = "SELECT  DATE_FORMAT(date_create, '%Y-%m-%d') AS DATE ,ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail WHERE  status_cf='1' AND date_create BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
+$result = mysqli_query($conn, $sql);
+$datelast = [];
+$sumdate=[];
+if (mysqli_num_rows($result) > 0) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    $d = explode("-", $row['DATE']);
+    $yd = "$d[0]-$d[1]-$d[2]";
+    $date1 = explode(" ", $yd);
+    $dat1 =datethai4($date1[0]);
+    $datelast[] = $dat1;
+    $sumdate[] = $row['sum'];
+  }}
+
+
+
+
+$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$result = mysqli_query($conn, $sql);
+$month_pro = [];
+$pro_PS = [];
+$pro_FP = [];
+$pro_CF = [];
+$pro_CO = [];
+$pro_IP = [];
+$pro_BB = [];
+$pro_BC = [];
+if (mysqli_num_rows($result) > 0) {
+while ($row = mysqli_fetch_assoc($result)) {
+  $d = explode("-", $row['MyDate']);
+  $yd = "$d[0]-$d[1]";
+  $date1 = explode(" ", $yd);
+  $dat1 =datethai5($date1[0]);
+  $month_pro[] = $dat1;
+
+  $sql2 = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $result2 = mysqli_query($conn, $sql2);
+  if (mysqli_num_rows($result2) > 0) {
+    while ($row2 = mysqli_fetch_assoc($result2)) {
+      $pro_PS[] = $row2['total'];
+    }
+  }
+  
+  $sql_FP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='FP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $result_FP = mysqli_query($conn, $sql_FP);
+  if (mysqli_num_rows($result_FP) > 0) {
+    while ($row_FP = mysqli_fetch_assoc($result_FP)) {
+      $pro_FP[] = $row_FP['total'];
+    }
+  }
+  $sql_CF = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CF'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $result_CF = mysqli_query($conn, $sql_CF);
+  if (mysqli_num_rows($result_CF) > 0) {
+    while ($row_CF = mysqli_fetch_assoc($result_CF)) {
+      $pro_CF[] = $row_CF['total'];
+    }
+  }
+
+  $sql_CO = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CO'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $result_CO = mysqli_query($conn, $sql_CO);
+  if (mysqli_num_rows($result_CO) > 0) {
+    while ($row_CO = mysqli_fetch_assoc($result_CO)) {
+      $pro_CO[] = $row_CO['total'];
+    }
+  }
+
+  $sql_IP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='IP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $result_IP = mysqli_query($conn, $sql_IP);
+  if (mysqli_num_rows($result_IP) > 0) {
+    while ($row_IP = mysqli_fetch_assoc($result_IP)) {
+      $pro_IP[] = $row_IP['total'];
+    }
+  }
+
+  $sql_BB = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BB'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $result_BB = mysqli_query($conn, $sql_BB);
+  if (mysqli_num_rows($result_BB) > 0) {
+    while ($row_BB = mysqli_fetch_assoc($result_BB)) {
+      $pro_BB[] = $row_BB['total'];
+    }
+  }
+
+  $sql_BC = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BC'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $result_BC = mysqli_query($conn, $sql_BC);
+  if (mysqli_num_rows($result_BC) > 0) {
+    while ($row_BC = mysqli_fetch_assoc($result_BC)) {
+      $pro_BC[] = $row_BC['total'];
+    }
+  }
+
+}}
+  ?>
 <script>
   "use strict";
 
@@ -127,38 +225,7 @@ if (mysqli_num_rows($result) > 0) {
         },
         xAxis: [{
           type: "category",
-          data: [
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30",
-          ],
+          data: <?= json_encode($datelast); ?>  ,
           axisTick: {
             alignWithLabel: true,
           },
@@ -187,38 +254,7 @@ if (mysqli_num_rows($result) > 0) {
         }, ],
         series: [{
           name: "ยอดขาย",
-          data: [
-            125345,
-            256341,
-            95461,
-            268555,
-            65842,
-            156842,
-            52641,
-            86521,
-            256584,
-            365264,
-            85647,
-            125684,
-            95624,
-            25364,
-            245682,
-            325461,
-            85421,
-            63542,
-            125684,
-            235641,
-            65824,
-            128567,
-            195348,
-            26531,
-            128467,
-            154682,
-            95871,
-            86534,
-            245628,
-            326854,
-          ],
+          data: <?= json_encode($sumdate); ?>  ,
           label: {
             show: false,
             color: "#0168c1",
@@ -393,20 +429,7 @@ if (mysqli_num_rows($result) > 0) {
         },
         xAxis: [{
           type: "category",
-          data: [
-            "ม.ค.",
-            "ก.พ.",
-            "มี.ค.",
-            "ม.ย.",
-            "พ.ค.",
-            "มิ.ย.",
-            "ก.ค.",
-            "ส.ค.",
-            "ก.ย.",
-            "ต.ค.",
-            "พ.ย.",
-            "ธ.ค.",
-          ],
+          data: <?= json_encode($month_pro); ?>  ,
           axisTick: {
             alignWithLabel: true,
           },
@@ -435,20 +458,7 @@ if (mysqli_num_rows($result) > 0) {
         }, ],
         series: [{
             name: "แผ่นพื้นสำเร็จรูป",
-            data: [
-              134862,
-              542316,
-              338524,
-              115234,
-              752341,
-              264851,
-              145962,
-              856425,
-              0,
-              0,
-              0,
-              0,
-            ],
+            data: <?= json_encode($pro_PS); ?>  ,
             label: {
               show: false,
               color: "#360167",
@@ -468,20 +478,7 @@ if (mysqli_num_rows($result) > 0) {
           },
           {
             name: "เสารั้วลวดหนาม",
-            data: [
-              682412,
-              152346,
-              956241,
-              542135,
-              625541,
-              365492,
-              258974,
-              512642,
-              0,
-              0,
-              0,
-              0,
-            ],
+            data: <?= json_encode($pro_FP); ?>  ,
             label: {
               show: false,
               color: "#639",
@@ -500,20 +497,7 @@ if (mysqli_num_rows($result) > 0) {
           },
           {
             name: "รั้วคาวบอย",
-            data: [
-              25643,
-              152436,
-              99854,
-              72354,
-              63254,
-              123854,
-              65210,
-              54235,
-              0,
-              0,
-              0,
-              0,
-            ],
+            data: <?= json_encode($pro_CF); ?>  ,
             label: {
               show: false,
               color: "#639",
@@ -532,20 +516,7 @@ if (mysqli_num_rows($result) > 0) {
           },
           {
             name: "เสาตีนช้าง",
-            data: [
-              15643,
-              56827,
-              35246,
-              56234,
-              52461,
-              95246,
-              25375,
-              25678,
-              0,
-              0,
-              0,
-              0,
-            ],
+            data: <?= json_encode($pro_CO); ?>  ,
             label: {
               show: false,
               color: "#639",
@@ -564,20 +535,7 @@ if (mysqli_num_rows($result) > 0) {
           },
           {
             name: "ขอบคันหิน",
-            data: [
-              1540,
-              9537,
-              6524,
-              500,
-              5684,
-              10251,
-              5264,
-              9534,
-              0,
-              0,
-              0,
-              0,
-            ],
+            data: <?= json_encode($pro_BC); ?>  ,
             label: {
               show: false,
               color: "#639",
@@ -596,20 +554,7 @@ if (mysqli_num_rows($result) > 0) {
           },
           {
             name: "แผ่นปูทางเท้า",
-            data: [
-              23546,
-              45216,
-              23846,
-              9012,
-              26485,
-              9546,
-              53264,
-              52642,
-              0,
-              0,
-              0,
-              0,
-            ],
+            data: <?= json_encode($pro_BB); ?>  ,
             label: {
               show: false,
               color: "#639",
@@ -628,20 +573,7 @@ if (mysqli_num_rows($result) > 0) {
           },
           {
             name: "เสาเข็มไอ",
-            data: [
-              26485,
-              152643,
-              54681,
-              95346,
-              56854,
-              35426,
-              85461,
-              52641,
-              0,
-              0,
-              0,
-              0,
-            ],
+            data: <?= json_encode($pro_IP); ?>  ,
             label: {
               show: false,
               color: "#639",
@@ -658,6 +590,7 @@ if (mysqli_num_rows($result) > 0) {
               },
             },
           },
+         
         ],
       });
       $(window).on("resize", function() {
@@ -679,7 +612,7 @@ if (mysqli_num_rows($result) > 0) {
           backgroundColor: "rgba(0, 0, 0, .8)",
         },
         series: [{
-          name: "Sales by Country",
+          name: "ยอดขายตามประเภทสินค้า",
           type: "pie",
           radius: "60%",
           center: ["50%", "50%"],

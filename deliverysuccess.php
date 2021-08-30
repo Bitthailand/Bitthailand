@@ -231,6 +231,11 @@ $action = $_REQUEST['action'];
                                                     ?>
                                                 </td>
                                             <td>
+                                            <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="คืนสินค้า"
+                                                    href="/refun.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
+                                                    <i class="i-Restore-Window font-weight-bold"></i>
+                                                </a>
+
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูรายละเอียด Order"
                                                     href="/order_devview.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
                                                     <i class="i-Eye font-weight-bold"></i>

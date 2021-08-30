@@ -350,7 +350,7 @@ if ($rowS == '') {
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                                    เพิ่มพนักงงาน
+                                    เพิ่มพนักงาน
                                 </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
