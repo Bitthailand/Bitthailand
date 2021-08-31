@@ -77,12 +77,12 @@ if ($rowS == '') {
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/quotationlist.php">
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
-                                    <?php
-                                    $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
-                                    $rs_count0 = $conn->query($count0);
-                                    $rcount0 = $rs_count0->fetch_assoc();
-                                    ?>
-                                        <span class="badge badge-pill badge-danger"><?=$rcount0['total_records']?></span>
+                                        <?php
+                                        $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
+                                        $rs_count0 = $conn->query($count0);
+                                        $rcount0 = $rs_count0->fetch_assoc();
+                                        ?>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount0['total_records'] ?></span>
                                     </h3>
                                     <span>รายการ Order ที่อยู่ระหว่างการเสนอราคา
                                         <span class="badge badge-warning"> Wait </span>
@@ -91,13 +91,13 @@ if ($rowS == '') {
                             </li>
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/ailist.php">
-                                <?php
+                                    <?php
                                     $count = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='2'";
                                     $rs_count = $conn->query($count);
                                     $rcount = $rs_count->fetch_assoc();
                                     ?>
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount['total_records'] ?></span>
                                     </h3>
                                     <span>Order รอส่งสินค้า
                                         <span class="badge badge-warning"> Wait </span>
@@ -108,12 +108,12 @@ if ($rowS == '') {
                                 <a class="linkLoadModalNext nav-link" href="/creditlist.php">
                                     <h3 class="h5 font-weight-bold"> รอเคลียเครดิต
                                         <?php
-                                         $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
-                                         $rs_count = $conn->query($count);
-                                         $rcount = $rs_count->fetch_assoc();
-                                         ?>
+                                        $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
+                                        $rs_count = $conn->query($count);
+                                        $rcount = $rs_count->fetch_assoc();
+                                        ?>
 
-                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount['total_records'] ?></span>
                                     </h3>
                                     <span>ลูกค้าเครดิตรอเคลียยอด
                                         <span class="badge badge-warning"> Wait </span>
@@ -152,7 +152,7 @@ if ($rowS == '') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            
+
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> Keyword</label>
@@ -195,46 +195,46 @@ if ($rowS == '') {
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="myTable">    <?php
-                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
-                                            $page_no = $_GET['page_no'];
-                                        } else {
-                                            $page_no = 1;
-                                        }
-                                        // $total_records_per_page = 10;
-                                        $offset = ($page_no - 1) * $total_records_per_page;
-                                        $previous_page = $page_no - 1;
-                                        $next_page = $page_no + 1;
-                                        $adjacents = "2";
+                                    <tbody id="myTable"> <?php
+                                                            if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+                                                                $page_no = $_GET['page_no'];
+                                                            } else {
+                                                                $page_no = 1;
+                                                            }
+                                                            // $total_records_per_page = 10;
+                                                            $offset = ($page_no - 1) * $total_records_per_page;
+                                                            $previous_page = $page_no - 1;
+                                                            $next_page = $page_no + 1;
+                                                            $adjacents = "2";
 
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `orders` where  status='0'  AND order_status='5' $columx $keywordx  ");
-                                        $total_records = mysqli_fetch_array($result_count);
-                                        $total_records = $total_records['total_records'];
-                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
-                                        $second_last = $total_no_of_pages - 1; // total page minus 1
+                                                            $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `orders` where  status='0'  AND order_status='5' $columx $keywordx  ");
+                                                            $total_records = mysqli_fetch_array($result_count);
+                                                            $total_records = $total_records['total_records'];
+                                                            $total_no_of_pages = ceil($total_records / $total_records_per_page);
+                                                            $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='5'  $columx $keywordx LIMIT $offset, $total_records_per_page");
-                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                                            $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='5'  $columx $keywordx LIMIT $offset, $total_records_per_page");
+                                                            while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
-                                        
-                                            <td>
+
+                                                <td>
                                                     <?php $date = explode(" ", $row['date_create']);
-                                                    $dat = datethai2($date[0]);
-                                                    echo $dat . '-' . $date[1]; ?>
+                                                                $dat = datethai2($date[0]);
+                                                                echo $dat . '-' . $date[1]; ?>
                                                 </td>
                                                 <td> <?= $row['order_id'] ?></td>
                                                 <td><?php
-                                                    $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
-                                                    $rs2 = $conn->query($sql2);
-                                                    $row2 = $rs2->fetch_assoc();
-                                                    // ====
-                                                    $sql3 = "SELECT * FROM customer WHERE customer_id= '$row[cus_id]'";
-                                                    $rs3 = $conn->query($sql3);
-                                                    $row3 = $rs3->fetch_assoc();
+                                                                $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
+                                                                $rs2 = $conn->query($sql2);
+                                                                $row2 = $rs2->fetch_assoc();
+                                                                // ====
+                                                                $sql3 = "SELECT * FROM customer WHERE customer_id= '$row[cus_id]'";
+                                                                $rs3 = $conn->query($sql3);
+                                                                $row3 = $rs3->fetch_assoc();
 
-                                                    $sqlcb = "SELECT * FROM customer_back WHERE id= '$row[cus_back]'";
-                                                    $rscb = $conn->query($sqlcb);
-                                                    $rowcb = $rscb->fetch_assoc();
+                                                                $sqlcb = "SELECT * FROM customer_back WHERE id= '$row[cus_back]'";
+                                                                $rscb = $conn->query($sqlcb);
+                                                                $rowcb = $rscb->fetch_assoc();
 
                                                     ?>
                                                     <?= $row2['name'] ?>
@@ -244,49 +244,62 @@ if ($rowS == '') {
                                                 <td> <?= $row3['tel'] ?> </td>
                                                 <td>
                                                     <?php
-                                                    $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
-                                                    $rs2 = $conn->query($sql2);
-                                                    $row2 = $rs2->fetch_assoc();
-                                                    echo $row2['name_th'];
+                                                                $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
+                                                                $rs2 = $conn->query($sql2);
+                                                                $row2 = $rs2->fetch_assoc();
+                                                                echo $row2['name_th'];
                                                     ?>
                                                 </td>
                                                 <td> <?php
-                                                        $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
-                                                        $rs2 = $conn->query($sql2);
-                                                        $row2 = $rs2->fetch_assoc();
-                                                        echo $row2['name_th'];
-                                                        ?> 
+                                                                $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
+                                                                $rs2 = $conn->query($sql2);
+                                                                $row2 = $rs2->fetch_assoc();
+                                                                echo $row2['name_th'];
+                                                        ?>
                                                 </td>
                                                 <td><span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
                                                 </td>
                                                 <td>
-                                                <?php
-                                                    $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
-                                                    $rsx4 = $conn->query($sqlx4);
-                                                    $rowx4 = $rsx4->fetch_assoc();
+                                                    <?php
+                                                                $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
+                                                                $rsx4 = $conn->query($sqlx4);
+                                                                $rowx4 = $rsx4->fetch_assoc();
 
                                                     ?>
                                                     <?php $sub_total = $rowx4['total'] - $row['discount'];
-                                                    $tax = ($sub_total * 0.07);
-                                                    $grand_total = ($sub_total + $tax);
-                                                    ?>  <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                                $tax = ($sub_total * 0.07);
+                                                                $grand_total = ($sub_total + $tax);
+                                                    ?> <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td> <span class="font-weight-bold"> <?php echo number_format($tax, '2', '.', ',') ?></span> </td>
                                                 <td>
                                                     <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
                                                 </td>
-                                            <td>
-                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order"
-                                                    href="/orderview.php?saleorder_id=<?=$row['order_id']?>" target="_blank">
-                                                    <i class="i-Eye font-weight-bold"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                                <td>
+                                                    <?php
+                                                                $sqlx5 = "SELECT COUNT(*)  AS sum  FROM delivery  WHERE order_id= '$row[order_id]'";
+                                                                $rsx5 = $conn->query($sqlx5);
+                                                                $rowx5 = $rsx5->fetch_assoc();
+                                                                if($rowx5['sum']==1){ 
+                                                    ?>
+                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
+                                                        <i class="i-Full-View-Window font-weight-bold"></i>
+                                                    </a>
+                                                    <?php } else { ?>
+                                                        <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                        <i class="i-Full-View-Window font-weight-bold">1</i>
+                                                    </a>
+                                                        <?php } ?>
+                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order" href="/orderview.php?saleorder_id=<?= $row['order_id'] ?>" target="_blank">
+                                                        <i class="i-Eye font-weight-bold"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         <?php
-                                        }
-                                        mysqli_close($conn);
+                                                            }
+                                                            mysqli_close($conn);
                                         ?>
-                                       
+
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>
@@ -385,31 +398,31 @@ if ($rowS == '') {
                                     </ul>
                                 </nav>
                             </div>
-                       
+
+                        </div>
                     </div>
                 </div>
+                <!-- Header -->
+                <?php include './include/footer.php'; ?>
+                <!-- =============== Header End ================-->
             </div>
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
         </div>
-    </div>
-    <form class="d-none" method="POST">
-    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
-    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
-    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
-    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
-    <button class="btn" id="FSButtonID" type="submit"></button>
-</form>
-    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+        <form class="d-none" method="POST">
+            <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+            <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+            <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+            <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+            <button class="btn" id="FSButtonID" type="submit"></button>
+        </form>
+        <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+        <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+        <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="../../dist-assets/js/scripts/script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+        <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+        <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+        <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
 
 </html>
@@ -457,41 +470,41 @@ if ($rowS == '') {
     });
 </script>
 <script>
-$('#myModal_del').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var id = button.data('id')
-    var modal = $(this)
-    modal.find('#del_id').val(id)
+    $('#myModal_del').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('#del_id').val(id)
 
-})
+    })
 </script>
 <script>
-$(function() {
-    $('#orderModal').modal({
-        keyboard: true,
-        backdrop: "static",
-        show: false,
+    $(function() {
+        $('#orderModal').modal({
+            keyboard: true,
+            backdrop: "static",
+            show: false,
 
-    }).on('show', function() {
-        var getIdFromRow = $(this).data('orderid');
-        //make your ajax call populate items or what even you need
-        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+        }).on('show', function() {
+            var getIdFromRow = $(this).data('orderid');
+            //make your ajax call populate items or what even you need
+            $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+        });
+
+        $(".table-striped").find('tr[data-target]').on('click', function() {
+            //or do your operations here instead of on show of modal to populate values to modal.
+            $('#orderModal').data('orderid', $(this).data('id'));
+        });
+
     });
-
-    $(".table-striped").find('tr[data-target]').on('click', function() {
-        //or do your operations here instead of on show of modal to populate values to modal.
-        $('#orderModal').data('orderid', $(this).data('id'));
-    });
-
-});
 </script>
 <script>
-$(document).ready(function() {
-    $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(document).ready(function() {
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
         });
     });
-});
 </script>
