@@ -45,17 +45,17 @@ $dat = datethai_HS1($date[0]);
 $code_new = $row_run['id_run'] + 1;
 $code = sprintf('%05d', $code_new);
 $hs_id = $dat . $code;
-$sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND so_id='$so_id' ";
+$sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND status_hs='1'  ";
 $result = mysqli_query($conn, $sqlx);
 if (mysqli_num_rows($result) > 0) {
 } else {
 
-    $sqlx5 = "INSERT INTO hs_number (order_id,so_id,hs_id)
-    VALUES ('$order_id','$so_id','$hs_id')";
+    $sqlx5 = "INSERT INTO hs_number (order_id,hs_id,status_hs)
+    VALUES ('$order_id','$hs_id','1')";
     if ($conn->query($sqlx5) === TRUE) {
     }
 
-    $sqlxxx = "UPDATE delivery  SET hs_id='$hs_id' where dev_id='$so_id'";
+    $sqlxxx = "UPDATE delivery  SET hs_id_all='$hs_id' where order_id='$order_id'";
     if ($conn->query($sqlxxx) === TRUE) {
     }
 }
@@ -63,11 +63,11 @@ if (mysqli_num_rows($result) > 0) {
 
 
 
-$sql_hs = "SELECT * FROM delivery  WHERE dev_id= '$so_id' AND order_id='$order_id'";
+$sql_hs = "SELECT * FROM delivery  WHERE  order_id='$order_id' GROUP BY  hs_id_all  ";
 $rs_hs = $conn->query($sql_hs);
 $row_hs = $rs_hs->fetch_assoc();
 // echo"$row_hs[id]";
-$sql_h = "SELECT * FROM hs_number  WHERE hs_id= '$row_hs[hs_id]' ";
+$sql_h = "SELECT * FROM hs_number  WHERE hs_id= '$row_hs[hs_id_all]'  ";
 $rs_h = $conn->query($sql_h);
 $row_h = $rs_h->fetch_assoc();
 ?>
@@ -148,7 +148,7 @@ $row_emp = $rs_emp->fetch_assoc();
                 <div class="col-6 text-sm-right">
                     <h5 class="font-weight-bold"></h5>
                     <div class="invoice-summary">
-                        <p><span>เลขที่ใบเสร็จรับเงิน</span> <span><?= $row_hs['hs_id'] ?></span></p>
+                        <p><span>เลขที่ใบเสร็จรับเงิน</span> <span><?= $row_hs['hs_id_all'] ?></span></p>
                         <p><span>วันที่</span> <span><?php $date = explode(" ", $row_h['date_create']);
                                                         $dat = datethai2($date[0]);
                                                         echo "$dat"; ?></span></p>
@@ -221,20 +221,20 @@ $row_emp = $rs_emp->fetch_assoc();
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
+                                            $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND status_cf='1'  AND  ptype_id <>'TF'    order by product_id ASC ";
                                             $result_pro = mysqli_query($conn, $sql_pro);
                                             if (mysqli_num_rows($result_pro) > 0) {
                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
                                                     $no = $row_pro['id'];
                                                     $product_id = $row_pro['product_id'];
-                                            ?>
+                                            ?>  
                                                     <tr>
                                                         <td scope="row" class="text-center"><?= ++$id; ?></td>
                                                         <td><?php
                                                             $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                                                             $rsx3 = $conn->query($sqlx3);
                                                             $rowx3 = $rsx3->fetch_assoc();
-                                                            if ($rowx3['ptype_id'] == 'TF0') {
+                                                            if (($rowx3['ptype_id'] == 'TF')||($rowx3['ptype_id'] == 'TF0')) {
                                                                 echo 'ค่าจัดส่ง'.'(' . $rowx3['product_name'].')';
                                                             } else {
                                                                 echo $rowx3['product_name'];
@@ -252,7 +252,38 @@ $row_emp = $rs_emp->fetch_assoc();
                                                         </td>
                                                     </tr>
                                             <?php }
-                                            } ?>
+                                            }?>
+                                            <?php
+                                            $sql_pro = "SELECT SUM(dev_qty) AS qty,  SUM(unit_price) AS price,product_id FROM deliver_detail  where order_id='$order_id'  AND status_cf='1'  AND  ptype_id ='TF'   GROUP BY  ptype_id order by product_id ASC ";
+                                            $result_pro = mysqli_query($conn, $sql_pro);
+                                            if (mysqli_num_rows($result_pro) > 0) {
+                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+                                                    $no = $row_pro['id'];
+                                                    $product_id = $row_pro['product_id'];
+                                            ?>  
+                                                    <tr>
+                                                        <td scope="row" class="text-center"><?= ++$id; ?></td>
+                                                        <td><?php
+                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                            $rsx3 = $conn->query($sqlx3);
+                                                            $rowx3 = $rsx3->fetch_assoc();
+                                                            if (($rowx3['ptype_id'] == 'TF')||($rowx3['ptype_id'] == 'TF0')) {
+                                                                echo 'ค่าจัดส่ง'.'(' . $rowx3['product_name'].')';
+                                                            } else {
+                                                                echo $rowx3['product_name'];
+                                                            }
+                                                            ?></td>
+                                                        <td class="text-right"><?= $row_pro['qty'] ?></td>
+                                                        <td class="text-right"><?= $rowx3['unit_price'] ?></td>
+                                                        <td class="text-right"><?= $row_pro['disunit'] ?>  </td>
+                                                        <td class="text-right"><?php $sum_total = $row_pro['price']; ?>
+                                                            <?php echo number_format($sum_total, '2', '.', ',');
+                                                            $total_all = $total_all + $sum_total;
+                                                            ?>
+                                                        </td>
+                                                    </tr>
+                                            <?php }
+                                            }?>
                                         </tbody>
                                     </table>
                                 </div>
