@@ -221,7 +221,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND status_cf='1'  AND  ptype_id <>'TF'    order by product_id ASC ";
+                                            $sql_pro = "SELECT  SUM(dev_qty) AS qty, unit_price AS unit_price, SUM(total_price) AS total,disunit AS disunit,product_id AS product_id ,ptype_id  FROM deliver_detail  where order_id='$order_id'  AND status_cf='1'  GROUP BY ptype_id    order by product_id ASC ";
                                             $result_pro = mysqli_query($conn, $sql_pro);
                                             if (mysqli_num_rows($result_pro) > 0) {
                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -234,55 +234,26 @@ $row_emp = $rs_emp->fetch_assoc();
                                                             $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                                                             $rsx3 = $conn->query($sqlx3);
                                                             $rowx3 = $rsx3->fetch_assoc();
-                                                            if (($rowx3['ptype_id'] == 'TF')||($rowx3['ptype_id'] == 'TF0')) {
+                                                          
+                                                            if (($row_pro['ptype_id'] == 'TF')||($row_pro['ptype_id'] == 'TF0')) {
                                                                 echo 'ค่าจัดส่ง'.'(' . $rowx3['product_name'].')';
                                                             } else {
-                                                                echo $rowx3['product_name'];
-                                                            }
-                                                            ?></td>
-                                                        <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
-                                                        <td class="text-right"><?= $rowx3['unit_price'] ?></td>
-                                                        <td class="text-right"><?= $row_pro['disunit'] ?>
-                                                            <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
-                                                        </td>
-                                                        <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
-                                                            <?php echo number_format($sum_total, '2', '.', ',');
-                                                            $total_all = $total_all + $sum_total;
-                                                            ?>
-                                                        </td>
-                                                    </tr>
-                                            <?php }
-                                            }?>
-                                            <?php
-                                            $sql_pro = "SELECT SUM(dev_qty) AS qty,  SUM(unit_price) AS price,product_id FROM deliver_detail  where order_id='$order_id'  AND status_cf='1'  AND  ptype_id ='TF'   GROUP BY  ptype_id order by product_id ASC ";
-                                            $result_pro = mysqli_query($conn, $sql_pro);
-                                            if (mysqli_num_rows($result_pro) > 0) {
-                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) {
-                                                    $no = $row_pro['id'];
-                                                    $product_id = $row_pro['product_id'];
-                                            ?>  
-                                                    <tr>
-                                                        <td scope="row" class="text-center"><?= ++$id; ?></td>
-                                                        <td><?php
-                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
-                                                            $rsx3 = $conn->query($sqlx3);
-                                                            $rowx3 = $rsx3->fetch_assoc();
-                                                            if (($rowx3['ptype_id'] == 'TF')||($rowx3['ptype_id'] == 'TF0')) {
-                                                                echo 'ค่าจัดส่ง'.'(' . $rowx3['product_name'].')';
-                                                            } else {
-                                                                echo $rowx3['product_name'];
+                                                                echo $row_pro['product_id'].$rowx3['product_name'];
                                                             }
                                                             ?></td>
                                                         <td class="text-right"><?= $row_pro['qty'] ?></td>
                                                         <td class="text-right"><?= $rowx3['unit_price'] ?></td>
-                                                        <td class="text-right"><?= $row_pro['disunit'] ?>  </td>
-                                                        <td class="text-right"><?php $sum_total = $row_pro['price']; ?>
+                                                        <td class="text-right"><?= $row_pro['disunit'] ?>
+                                                            <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
+                                                        </td>
+                                                        <td class="text-right"><?php $sum_total = $row_pro['qty'] * $total; ?>
                                                             <?php echo number_format($sum_total, '2', '.', ',');
                                                             $total_all = $total_all + $sum_total;
                                                             ?>
                                                         </td>
                                                     </tr>
                                             <?php }
+                                             
                                             }?>
                                         </tbody>
                                     </table>
