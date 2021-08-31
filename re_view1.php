@@ -112,7 +112,7 @@ $datetoday = date('Y-m-d');
                                                     ?>
                                                     <p><strong>ชื่อลูกค้า : </strong>คุณ <?= $row3['customer_name'] ?></p>
                                                     <p><strong>บริษัท : </strong>คุณ <?= $row3['company_name'] ?></p>
-                                                    <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
+                                                    <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                     <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                                                     <p><strong>เลขที่ประจำตัวผู้เสียภาษี : </strong><?= $row3['tax_number'] ?></p>
                                                     <p> </p>

@@ -87,7 +87,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                        
                                                         ?>
                     <p><strong>ชื่อลูกค้า : </strong>คุณ <?=$row3['customer_name']?></p>
-                    <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
+                    <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                     <p><strong>โทร : </strong> <?=$row3['tel']?></p>
                     <p style="margin-bottom: 10px;"><strong>อ้างอิง : </strong><?=$row3['contact_name']?></p>
                     <p>บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>

@@ -226,7 +226,7 @@ $action = $_REQUEST['action'];
                                                     $rs8 = $conn->query($sql8);
                                                     $row8 = $rs8->fetch_assoc();
 
-                                                    echo " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th'];
+                                                    echo " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th'];
 
                                                     ?>
                                                 </td>

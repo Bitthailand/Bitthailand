@@ -103,7 +103,7 @@ $row_dev = $rs_dev->fetch_assoc();
                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                     <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
                     <p><strong>ที่อยู่ :
-                        </strong><?php echo $row3['bill_address'] . " ต" . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>
+                        </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>
                     </p>
                     <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                     <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>

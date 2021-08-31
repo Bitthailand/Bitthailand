@@ -286,7 +286,7 @@ if ($rowS == '') {
                                                         <i class="i-Full-View-Window font-weight-bold"></i>
                                                     </a>
                                                     <?php } else { ?>
-                                                        <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                        <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs_all.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-Full-View-Window font-weight-bold">1</i>
                                                     </a>
                                                         <?php } ?>
