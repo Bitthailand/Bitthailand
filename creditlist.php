@@ -287,7 +287,7 @@ if ($rowS == '') {
                                                     </td>
                                                     <td>
                                                         <?php if ($x == 0) { ?>
-                                                            <a class="btn btn-outline-success btn-sm line-height-1" href="bi_view.php?bi_id=<?= $row['bi_number'] ?>" data-toggle="tooltip" title="ออกใบวางบิล">
+                                                            <a class="btn btn-outline-success btn-sm line-height-1" href="bi_view.php?bi_id=<?= $row['bi_number'] ?>" data-toggle="tooltip" title="ออกใบวางบิล" target="_blank">
                                                                 <i class="fa fa-print font-weight-bold"></i>
                                                             </a>
                                                             <?php

@@ -68,12 +68,20 @@ $po_id = $_REQUEST['po_id'];
     <!-- End header  -->
     <!-- Footer  -->
     <div class="page-footer">
-        <div class="col-md-12">
-            <div class="invoice-summary">
+        <div class="row">
+            <div class="col-1">
+
+            </div>
+            <div class="col-5">
                 <p> ผู้สั่งผลิต <span>_____________________</span></p>
                 <br>
                 <p> ผู้ควบคุมการผลิต <span>_____________________</span></p>
                 <br>
+            </div>
+            <div class="col-1">
+
+            </div>
+            <div class="col-5 ">
                 <p> ผู้รับเหมา <span>_____________________</span></p>
                 <br>
                 <p> ผู้ควบคุมคุณภาพ <span>_____________________</span></p>
@@ -84,7 +92,7 @@ $po_id = $_REQUEST['po_id'];
 
     <!-- Print List data  -->
     <div class="col-12">
-        <table class="print-table">
+        <table class="print-table" style="width: 100%;">
 
             <thead>
                 <tr>
@@ -155,31 +163,31 @@ $po_id = $_REQUEST['po_id'];
                                                     // while ($row1 = mysqli_fetch_assoc($resultxx)) {
                                                     while ($row2 = mysqli_fetch_array($resultxx)) {
                                             ?> <tr>
-                                                            <td> <strong><?php
+                                                <td> <strong><?php
                                                                             $x = $count++;
                                                                             echo $x == 0 ? '<strong>' .  ++$id . '</strong>' : ''; ?></strong>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <?php
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php
                                                                 $sql5 = "SELECT * FROM plant where  plant_id='$row2[plant_id]' ";
                                                                 $rs5 = $conn->query($sql5);
                                                                 $row5 = $rs5->fetch_assoc();
                                                                 echo "$row5[factory_id]";
                                                                 ?>
-                                                            </td>
-                                                            <td class="text-center"><?= $row2['plant_id'] ?></td>
-                                                            <td class="text-left"> <?php
+                                                </td>
+                                                <td class="text-center"><?= $row2['plant_id'] ?></td>
+                                                <td class="text-left"> <?php
                                                                                     $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
                                                                                     $rsx = $conn->query($sqlx);
                                                                                     $rowx = $rsx->fetch_assoc();
                                                                                     echo $rowx['product_name'];
                                                                                     ?></td>
-                                                            <td class="text-right"><?php echo $row2['qty']; ?></td>
-                                                            <td class="text-right"><?php echo $row2['sqm']; ?></td>
-                                                            <td class="text-center"><?php echo $rowx['dia_size']; ?></td>
-                                                            <td class="text-center"><?php echo $rowx['dia_count']; ?></td>
-                                                            <td class="text-right"><?php echo $row2['concrete_cal']; ?></td>
-                                                        </tr>
+                                                <td class="text-right"><?php echo $row2['qty']; ?></td>
+                                                <td class="text-right"><?php echo $row2['sqm']; ?></td>
+                                                <td class="text-center"><?php echo $rowx['dia_size']; ?></td>
+                                                <td class="text-center"><?php echo $rowx['dia_count']; ?></td>
+                                                <td class="text-right"><?php echo $row2['concrete_cal']; ?></td>
+                                            </tr>
                                             <?php
                                                     }
                                                 }
