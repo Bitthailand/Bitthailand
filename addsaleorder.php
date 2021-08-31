@@ -166,7 +166,7 @@ if ($action == 'add_dev') {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
                    $call_qty=$rowx['qty_out']- $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
-                   $add_devqty=$rowx['qty_dev']+$total_instock; 
+                   $add_devqty=$rowx['qty_dev']+$total_instock; //เพิ่มจำนวนจัดส่ง
                     //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
                     $sql99 = "SELECT *  FROM deliver_detail  where order_id= '$order_id' AND dev_id='$dev_id'AND product_id='$product_id' ";
                     $result99 = mysqli_query($conn, $sql99);
@@ -177,7 +177,13 @@ if ($action == 'add_dev') {
                         $row_or = $rs_or->fetch_assoc();
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
+                       
+                       if($call_qty==0){
                         $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
+                       }else{
+                        $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty' where product_id='$product_id'";
+                       }
+                     
                         $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
 
                         if ($conn->query($sql1) === TRUE) {
@@ -199,18 +205,20 @@ if ($action == 'add_dev') {
             }
         }
 
-        $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$order_id' AND status_delivery='1' ";
+        $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$order_id' AND status_delivery='1' AND ptype_id<>'TF' ";
         $rsc1 = $conn->query($sqlc1);
         $rowc1 = $rsc1->fetch_assoc();
 
         $sqlc0 = "SELECT COUNT(*) AS ts2  FROM order_details  WHERE   order_id= '$order_id' AND ptype_id<>'TF' ";
         $rsc0 = $conn->query($sqlc0);
         $rowc0 = $rsc0->fetch_assoc();
-        $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$dev_date' WHERE order_id= '$order_id'";
+
+        // $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$dev_date' WHERE order_id= '$order_id'";
         // echo "$rowc1[ts]=$rowc0[ts2]=$dev_date";
 
 
         // echo"$rowc1[ts]<br>";
+        // echo"$rowc0[ts2]<br>";
         // echo "xxx<br>";
         if ($rowc0['ts2'] == $rowc1['ts']) {
             // echo "$order_id";
@@ -301,10 +309,12 @@ if ($action == 'add_dev') {
              VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]')";
             if ($conn->query($sqlx) === TRUE) {
             }
+            if($cus_type==2){ 
             $sqlx2 = "INSERT INTO iv_number(iv_number,order_id,so_id,cus_id,cus_type)
             VALUES ('$iv_id','$order_id','$dev_id','$cus_id','$cus_type')";
             if ($conn->query($sqlx2) === TRUE) {
             }
+        }
             $sql_TF = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'  ";
             $result_TF = mysqli_query($conn, $sql_TF);
             while ($row_TF = mysqli_fetch_assoc($result_TF)) {
@@ -448,12 +458,12 @@ if ($action == 'add_dev') {
                                                             <tr>
                                                                 <th scope="col" class="text-center" width="5%">No.</th>
                                                                 <th scope="col" class="text-center" width="35%">รหัสสินค้า/รายละเอียด</th>
-                                                                <th scope="col" class="text-center" width="10%">จำนวนที่สั่งทั้งหมด</th>
-                                                                <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
-                                                                <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
-                                                                <th scope="col" class="text-center" width="10%">จำนวนที่ต้องส่ง</th>
-                                                                <th scope="col" class="text-center" width="10%">โรงงาน 1</th>
-                                                                <th scope="col" class="text-center" width="10%">โรงงาน 2</th>
+                                                                <th scope="col" class="text-center" width="8%">จำนวนที่สั่งทั้งหมด</th>
+                                                                <th scope="col" class="text-center" width="8%">สต๊อกโรงงาน 1</th>
+                                                                <th scope="col" class="text-center" width="8%">สต๊อกโรงงาน 2</th>
+                                                                <th scope="col" class="text-center" width="8%">จำนวนที่ต้องส่ง</th>
+                                                                <th scope="col" class="text-center" width="8%">โรงงาน 1</th>
+                                                                <th scope="col" class="text-center" width="8%">โรงงาน 2</th>
 
                                                                 <th scope="col" class="text-center" width="10%">จำนวนส่ง</th>
                                                             </tr>
@@ -488,12 +498,7 @@ if ($action == 'add_dev') {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
                                                                         <td class="text-center"> <?php echo "<span id='err3" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='total_price" . $no . "'"; ?> value='<?php echo $row_pro['qty_dev']; ?>' readonly></td>
-                                                                        <?php
-                                                                        // echo "<td class=\"text-center\"><span id='err" . $no . "' ></span><input type='number' class=\"form-control\" id='face1" . $no . "' value='.$row_pro[face1_stock_out].' name='stock1[$product_id][$no][$idx7]' onkeyup='keyup(" . $no . ")'></td>";
-                                                                        // echo "<td class=\"text-center\"><span id='err2" . $no . "' ></span><input type='number' class=\"form-control\"id='face2" . $no . "' value='.$row_pro[face2_stock_out].' name='stock2[$product_id][$no][$idx7]'  onkeyup='keyup(" . $no . ")'></td>";
-                                                                        // echo "<td class=\"text-center\"><span id='err3" . $no . "' ></span><input type='number' class=\"form-control\" id='total_price" . $no . "' readonly></td>";
-
-                                                                        ?>
+                                                                      
 
                                                                     </tr>
                                                             <?php }
@@ -616,6 +621,7 @@ if ($action == 'add_dev') {
         console.log('face1', face1x + face2x)
         console.log('status', status)
         total_price = parseFloat(face1x) + parseFloat(face2x);
+        console.log('total_price', total_price + id)
         $('#total_price' + id).val(total_price);
         if (total_price > qtyx) {
             document.getElementById(errid3).innerHTML = "*"
