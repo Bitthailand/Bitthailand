@@ -134,7 +134,7 @@ $row5 = $rs5->fetch_assoc();
                     </thead>
                     <tbody>
                         <?php
-                        $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' AND ptype_id <>'TF' order by product_id ASC ";
+                        $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
                         $result_pro = mysqli_query($conn, $sql_pro);
                         if (mysqli_num_rows($result_pro) > 0) {
                             while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -148,7 +148,7 @@ $row5 = $rs5->fetch_assoc();
                                             $rsx3 = $conn->query($sqlx3);
                                             $rowx3 = $rsx3->fetch_assoc();
                                             if ($rowx3['ptype_id'] == 'TF0') {
-                                                // echo 'ค่าขนส่ง:'.$rowx3['product_name'];
+                                                echo 'ค่าจัดส่ง';
                                             } else {
                                                 echo $rowx3['product_name'] . '  หนา' . $rowx3['thickness'] . '  ขนาดลวด' . $rowx3['dia_size'] . '  จำนวน' . $rowx3['dia_count'];
                                             }

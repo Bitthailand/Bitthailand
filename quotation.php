@@ -193,7 +193,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                                         $rsx3 = $conn->query($sqlx3);
                                                                         $rowx3 = $rsx3->fetch_assoc();
                                                                         if($rowx3['ptype_id']=='TF0'){
-                                                                            echo '(ค่าจัดส่ง)'.$rowx3['product_name'];
+                                                                            echo 'ค่าจัดส่ง'.'('.$rowx3['product_name'].')';
                                                                         }else{ 
                                                                         echo $rowx3['product_name'];
                                                                        if($rowx3['spacial']==''){}else{ echo"  (".$rowx3['spacial'].")";}

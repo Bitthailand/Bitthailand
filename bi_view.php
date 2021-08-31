@@ -87,8 +87,8 @@ $datetoday = date('Y-m-d');
                                                     $rs8 = $conn->query($sql8);
                                                     $row8 = $rs8->fetch_assoc();
                                                     ?>
-                    <p><strong>ชื่อลูกค้า : </strong>คุณ <?= $row3['customer_name'] ?></p>
-                    <p><strong>บริษัท : </strong>คุณ <?= $row3['company_name'] ?></p>
+                    <p><strong>ชื่อลูกค้า : </strong> <?= $row3['customer_name'] ?></p>
+                    <p><strong>บริษัท : </strong> <?= $row3['company_name'] ?></p>
                     <p><strong>ที่อยู่ :
                         </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>
                     </p>
