@@ -287,6 +287,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                         $tax2 = ($total - $tax);
                                         $grand_total = ($total - $tax2);
                                         ?>
+                                        <p> <span>0.00</span></p>
                                         <p> <span> <?php echo number_format($total, '2', '.', ',') ?></span></p>
                                         <p> <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
 
