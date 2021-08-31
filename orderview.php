@@ -178,7 +178,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                         <?php $sub_total=$rowx4['total']-$row['discount']; 
                                                         $tax = ($sub_total* 100)/107;
                                                         $tax2 = ($sub_total - $tax);
-                                                        $grand_total = ($sub_total - $tax2);
+                                                        $grand_total = ($sub_total + $tax2);
                                                         ?>
                                                         <p>จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($grand_total,'2','.',',')?></span></p>
                                                         <p>จำนวนภาษีมูลค่าเพิ่ม <?=$row['tax']?>% <span><?php echo number_format($tax2,'2','.',',')?></span></p>

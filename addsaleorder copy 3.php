@@ -165,8 +165,7 @@ if ($action == 'add_dev') {
                 if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
-                   $call_qty=$rowx['qty_out']- $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
-                   $add_devqty=$rowx['qty_dev']+$total_instock; 
+                   $call_qty=$rowx['qty_dev']-$rowx['qty']; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
                     //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
                     $sql99 = "SELECT *  FROM deliver_detail  where order_id= '$order_id' AND dev_id='$dev_id'AND product_id='$product_id' ";
                     $result99 = mysqli_query($conn, $sql99);
@@ -177,7 +176,7 @@ if ($action == 'add_dev') {
                         $row_or = $rs_or->fetch_assoc();
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
-                        $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
+                        $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$total_instock',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
                         $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
 
                         if ($conn->query($sql1) === TRUE) {
@@ -448,7 +447,7 @@ if ($action == 'add_dev') {
                                                             <tr>
                                                                 <th scope="col" class="text-center" width="5%">No.</th>
                                                                 <th scope="col" class="text-center" width="35%">รหัสสินค้า/รายละเอียด</th>
-                                                                <th scope="col" class="text-center" width="10%">จำนวนที่สั่งทั้งหมด</th>
+
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
                                                                 <th scope="col" class="text-center" width="10%">จำนวนที่ต้องส่ง</th>
@@ -477,10 +476,10 @@ if ($action == 'add_dev') {
                                                                                 $rowx3 = $rsx3->fetch_assoc();
                                                                                 echo $rowx3['product_id'] . $rowx3['product_name'];
                                                                                 ?></td>
-                                                                       <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
+
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty_out" . $no . "'"; ?> value='<?php echo $row_pro['qty_out']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
                                                                         <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
@@ -587,7 +586,7 @@ if ($action == 'add_dev') {
         var face2 = $('#face2' + id).val();
         var face1_stock = $('#face1_stock' + id).val();
         var face2_stock = $('#face2_stock' + id).val();
-        var qty = $('#qty_out' + id).val();
+        var qty = $('#qty' + id).val();
         var face1x = Number(face1);
         var face2x = Number(face2);
         var face1x_stock = Number(face1_stock);
@@ -613,9 +612,9 @@ if ($action == 'add_dev') {
         } else {
             document.getElementById(errid2).innerHTML = ""
         }
-        console.log('face1', face1x + face2x)
+        console.log('face1', face1 + face2)
         console.log('status', status)
-        total_price = parseFloat(face1x) + parseFloat(face2x);
+        total_price = parseFloat(face1) + parseFloat(face2);
         $('#total_price' + id).val(total_price);
         if (total_price > qtyx) {
             document.getElementById(errid3).innerHTML = "*"

@@ -175,7 +175,7 @@ $(document).ready(function() {
                                     <div class="form-row mt-3">
                                         <div class="form-group col-md-1">
                                             <label for="thickness"><strong>ความหนา <span class="text-danger"></span></strong></label>
-                                            <input type="number" step="0.01" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
+                                            <input type="number" step="0.001" name="thickness" class="classcus form-control" placeholder="ขนาดความหนา" required>
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label for="product_name"><strong>หน้ากว้าง <span class="text-danger"></span></strong></label>
