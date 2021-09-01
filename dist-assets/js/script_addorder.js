@@ -327,11 +327,9 @@ $("#btu").click("change", function() {
     let send_price = $("#send_price").val();
     let send_qty = $("#send_qty").val();
     let TF = $("#TF").val();
-
     console.log('send_to', send_to)
     console.log('send_price', send_price)
     console.log('send_qty', send_qty)
-
     $("#FFsend_to").val(send_to);
     $("#FFsend_price").val(send_price);
     $("#FFsend_qty").val(send_qty);
@@ -372,7 +370,38 @@ $(document).ready(function() {
     $(document).on('click', '#edit_po', function(e) {
         e.preventDefault();
         var uid = $(this).data('id'); // get id of clicked row
+        $('#dynamic-content').html(''); // leave this div blank
+        $('#modal-loader').show(); // load ajax loader on button click
+        $.ajax({
+                url: 'addorder_edit.php',
+                type: 'POST',
+                data: 'id=' + uid,
+                dataType: 'html'
+            })
+            .done(function(data) {
+                console.log('data', data);
+                $('#dynamic-content').html(''); // blank before load.
+                $('#dynamic-content').html(data); // load here
+                $('#modal-loader').hide(); // hide loader  
+            })
+            .fail(function() {
+                $('#dynamic-content').html(
+                    '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                );
+                $('#modal-loader').hide();
+            });
+    });
+});
 
+
+
+
+// 
+
+$(document).ready(function() {
+    $(document).on('click', '#edit_main', function(e) {
+        e.preventDefault();
+        var uid = $(this).data('id'); // get id of clicked row
         let Fcus_type_name = $("#Fcus_type_name").val();
         let Fcus_type_id = $("#Fcus_type_id").val();
         let Fcus_id = $("#Fcus_id").val();
@@ -400,30 +429,22 @@ $(document).ready(function() {
         $("#Ecus_back").val(Fcus_back);
         $("#Eorder_id").val(Forder_id);
         console.log('Fdelivery_Address', Fdelivery_Address)
-
-
-
-
-        $('#dynamic-content').html(''); // leave this div blank
+        $('#dynamic-content4').html(''); // leave this div blank
         $('#modal-loader').show(); // load ajax loader on button click
         $.ajax({
-                url: 'addorder_edit.php',
+                url: 'addorder_editmian.php',
                 type: 'POST',
                 data: 'id=' + uid,
                 dataType: 'html'
             })
             .done(function(data) {
                 console.log('data', data);
-                $('#dynamic-content').html(''); // blank before load.
-                $('#dynamic-content').html(data); // load here
+                $('#dynamic-content4').html(''); // blank before load.
+                $('#dynamic-content4').html(data); // load here
                 $('#modal-loader').hide(); // hide loader  
-
-
-
-
             })
             .fail(function() {
-                $('#dynamic-content').html(
+                $('#dynamic-content4').html(
                     '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                 );
                 $('#modal-loader').hide();

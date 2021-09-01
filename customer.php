@@ -37,6 +37,7 @@ if ($action == 'add') {
     $tel = $_REQUEST['tel'];
     $tax_number = $_REQUEST['tax_number'];
     $contact_name = $_REQUEST['contact_name'];
+    $referent = $_REQUEST['referent'];
     // $delivery_address=$_REQUEST['delivery_address'];
     $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
     $result = mysqli_query($conn, $sqlx);
@@ -47,8 +48,8 @@ $(document).ready(function() {
 });
 </script>
 <?php    } else { 
-                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type)
-                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type')";                 
+                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type,referent)
+                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type','$referent')";                 
                     if ($conn->query($sql) === TRUE) {  ?>
 <script>
 $(document).ready(function() {
@@ -186,6 +187,31 @@ $(document).ready(function() {
 
                                             <select name="subdistrict" id="district" class="classcus custom-select">
                                                 <option value="">เลือกตำบล</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group col-md-2">
+                                            <label for="customer_type"><strong>รู้จักบริษัทผ่านช่องทาง <span class="text-danger"></span></strong></label>
+
+                                            <select class="classcus custom-select" name="referent" id="referent" required>
+                                                <?php
+                                                $sql6 = "SELECT *  FROM  referent  order by id ASC ";
+                                                $result6 = mysqli_query($conn, $sql6);
+                                                if (mysqli_num_rows($result6) > 0) {
+                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                ?>
+                                                <option value="<?php echo $row6['id'] ?>" <?php
+                                                                                                        if (isset($row['referent']) && ($row['referent'] == $row6['id'])) {
+                                                                                                            echo "selected"; ?>>
+                                                    <?php echo "$row6[name]";
+                                                                                                        } else {      ?>
+                                                <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
+                                                    <?php } ?>
+                                                </option>
+                                                <?php  }
+                                                }  ?>
+
                                             </select>
                                         </div>
                                     </div>

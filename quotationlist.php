@@ -11,7 +11,7 @@ $emp_id = $_SESSION["username"];
 $sql = "DELETE FROM orders  WHERE status_button='0' AND emp_id='$emp_id'  ";
 if ($conn->query($sql) === TRUE) {
 }
-$sql2 = "DELETE FROM order_details  WHERE status_button='0'AND emp_id='$emp_id'  ";
+$sql2 = "DELETE FROM order_details  WHERE status_button='0' AND emp_id='$emp_id'  ";
 if ($conn->query($sql2) === TRUE) {
 }
 ?>

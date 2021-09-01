@@ -180,7 +180,7 @@ if ($rowS == '') {
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
                                         <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
@@ -479,4 +479,36 @@ $('#myModal_del').on('show.bs.modal', function(event) {
     modal.find('#del_id').val(id)
 
 })
+</script>
+
+
+<script>
+$(function() {
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+    });
+
+    $(".table-striped").find('tr[data-target]').on('click', function() {
+        //or do your operations here instead of on show of modal to populate values to modal.
+        $('#orderModal').data('orderid', $(this).data('id'));
+    });
+
+});
+</script>
+<script>
+$(document).ready(function() {
+    $("#searchNameId").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
 </script>

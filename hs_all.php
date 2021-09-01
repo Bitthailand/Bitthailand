@@ -35,7 +35,7 @@ include './include/connect.php';
 <?php
 include './include/config_so.php';
 $order_id = $_REQUEST['order_id'];
-$so_id = $_REQUEST['so_id'];
+// $so_id = $_REQUEST['so_id'];
 $sql5 = "SELECT count(id) AS id_run FROM hs_number  ";
 $rs5 = $conn->query($sql5);
 $row_run = $rs5->fetch_assoc();

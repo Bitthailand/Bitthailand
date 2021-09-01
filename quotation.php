@@ -196,7 +196,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                                             echo 'ค่าจัดส่ง'.'('.$rowx3['product_name'].')';
                                                                         }else{ 
                                                                         echo $rowx3['product_name'];
-                                                                       if($rowx3['spacial']==''){}else{ echo"  (".$rowx3['spacial'].")";}
+                                                                       if($rowx3['spacial']==''){ }else{ echo"  (".$rowx3['spacial'].")";}
                                                                         
 
                                                                     }

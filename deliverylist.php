@@ -58,7 +58,9 @@ if ($action == 'add_cfx') {
     $sql = "SELECT * FROM delivery WHERE id= '$dev_id'";
     $rs = $conn->query($sql);
     $row = $rs->fetch_assoc();
-    $sqlxxx = "UPDATE delivery  SET status_chk='1' where id='$dev_id'";
+    $sqlxxx1 = "UPDATE delivery  SET status_chk='1' where id='$dev_id'";
+    if ($conn->query($sqlxxx1) === TRUE) {
+    }
     $sql5 = "UPDATE deliver_detail  SET status_cf='1' where dev_id='$row[dev_id]'";
     if ($conn->query($sql5) === TRUE) {
     }
@@ -67,26 +69,27 @@ if ($action == 'add_cfx') {
     $rs1 = $conn->query($sql1);
     $row1 = $rs1->fetch_assoc();
 
-    $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$row[order_id]' AND status_delivery='1' ";
+    $sqlc1 = "SELECT COUNT(*) AS ts  FROM delivery  WHERE   order_id= '$row[order_id]'  ";
     $rsc1 = $conn->query($sqlc1);
     $rowc1 = $rsc1->fetch_assoc();
 
-    $sqlc0 = "SELECT COUNT(*) AS ts2  FROM deliver_detail  WHERE   order_id= '$row[order_id]' AND status_cf='1'";
+    $sqlc0 = "SELECT COUNT(*) AS ts2  FROM delivery   WHERE   order_id= '$row[order_id]' AND status_chk='1' ";
     $rsc0 = $conn->query($sqlc0);
     $rowc0 = $rsc0->fetch_assoc();
+    // echo $rowc0['ts2'].'<br>'.$rowc1['ts'] ;
     if ($rowc0['ts2'] == $rowc1['ts']) {
         $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]'";
         if ($conn->query($sqlx12) === TRUE) {
         }
     }
 
-    if ($conn->query($sqlxxx) === TRUE) { ?>
+    ?>
         <script>
             $(document).ready(function() {
                 showAlert("ยืนยันการจัดส่งเรียบร้อย", "alert-primary");
             });
         </script>
-    <?php }
+   <?php
 }
 
 

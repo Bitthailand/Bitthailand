@@ -164,10 +164,11 @@ if ($rowS == '') {
                                             <th>เบอร์โทร</th>
                                             <th>เลขที่เสียภาษี</th>
                                             <th>อ้างอิง</th>
+                                            <th>รู้จักบริษัท</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
 
 
                                         <?php
@@ -229,6 +230,15 @@ if ($rowS == '') {
                                             <td><?php echo $row['tel']; ?></td>
                                             <td><?php echo $row['tax_number']; ?></td>
                                             <td><?php echo $row['contact_name']; ?></td>
+
+                                            <td><?php
+                                                    $sql6 = "SELECT * FROM referent  WHERE id= '$row[referent]'";
+                                                    $rs6 = $conn->query($sql6);
+                                                    $row6 = $rs6->fetch_assoc();
+                                                    echo $row6['name'];
+
+                                                    ?></td>
+
                                             <td>
 
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า"
@@ -614,3 +624,34 @@ $('#myModal_del').on('show.bs.modal', function(event) {
 </script>
 
 </html>
+
+<script>
+$(function() {
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+    });
+
+    $(".table-striped").find('tr[data-target]').on('click', function() {
+        //or do your operations here instead of on show of modal to populate values to modal.
+        $('#orderModal').data('orderid', $(this).data('id'));
+    });
+
+});
+</script>
+<script>
+$(document).ready(function() {
+    $("#searchNameId").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+</script>

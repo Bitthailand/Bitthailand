@@ -29,7 +29,8 @@ if ($action == 'edit') {
     $tel = $_REQUEST['tel'];
     $tax_number = $_REQUEST['tax_number'];
     $contact_name = $_REQUEST['contact_name'];
-    $sql = "UPDATE customer  SET customer_name='$customer_name',company_name='$company_name',bill_address='$bill_address',tel='$tel',tax_number='$tax_number',contact_name='$contact_name',customer_type='$customer_type'  where customer_id='$edit_id'";
+    $referent = $_REQUEST['referent'];
+    $sql = "UPDATE customer  SET customer_name='$customer_name',company_name='$company_name',bill_address='$bill_address',tel='$tel',tax_number='$tax_number',contact_name='$contact_name',customer_type='$customer_type',referent='$referent'  where customer_id='$edit_id'";
     if($chk=='1'){
         $sql = "UPDATE customer  SET subdistrict='$subdistrict',district='$district',province='$province' where customer_id='$edit_id'";   
     }
@@ -175,6 +176,30 @@ if ($action == 'edit') {
 
                                             <input type="text" class="classcus form-control" value="<?php echo $row3['name_th']; ?>" placeholder="ตำบล" disabled>
                                         </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="customer_type"><strong>รู้จักบริษัทผ่านช่องทาง <span class="text-danger"></span></strong></label>
+
+                                            <select class="classcus custom-select" name="referent" id="referent" required>
+                                                <?php
+                                                $sql6 = "SELECT *  FROM  referent  order by id ASC ";
+                                                $result6 = mysqli_query($conn, $sql6);
+                                                if (mysqli_num_rows($result6) > 0) {
+                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                ?>
+                                                <option value="<?php echo $row6['id'] ?>" <?php
+                                                                                                        if (isset($row['referent']) && ($row['referent'] == $row6['id'])) {
+                                                                                                            echo "selected"; ?>>
+                                                    <?php echo "$row6[name]";
+                                                                                                        } else {      ?>
+                                                <option value="<?php echo $row6['id']; ?>"> <?php echo $row6['name'];  ?>
+                                                    <?php } ?>
+                                                </option>
+                                                <?php  }
+                                                }  ?>
+
+                                            </select>
+                                        </div>
+
                                         <div class="form-group col-md-12">
                                             <label for="chkPassport">
                                                 <input type="checkbox" id="chkPassport" name="chk" value="1" />

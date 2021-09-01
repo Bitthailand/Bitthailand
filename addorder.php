@@ -289,10 +289,14 @@ if ($action1 == 'chk_cusback') {
 }
 if ($action == 'edit') {
     $edit_id = $_REQUEST['edit_id'];
+    $edit_id = $_REQUEST['edit_id'];
     $qty = $_REQUEST['qty'];
     $total_price = $_REQUEST['total_price'];
-    $status_order = 'confirm';
-    $sql = "UPDATE order_details    SET qty='$qty',total_price='$total_price'  where id='$edit_id'";
+    $face1_out = $_REQUEST['face1_out'];
+    $face2_out = $_REQUEST['face2_out'];
+    $total_price = $_REQUEST['total_price'];
+
+    $sql = "UPDATE order_details    SET qty='$qty',qty_out='$qty',total_price='$total_price',face1_stock_out='$face1_out',face2_stock_out='$face2_out' where id='$edit_id'";
     if ($conn->query($sql) === TRUE) {  ?>
         <script>
             $(document).ready(function() {
@@ -858,7 +862,7 @@ if ($action == 'add_hs') {
                                                                     <td><?= $row_pro['total_price'] ?> </td>
                                                                     <?php if ($status_order == 'confirm') {
                                                                     } else { ?> <td>
-                                                                            <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                                                            <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaleditmain" id="edit_main"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
                                                                             <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
                                                                         </td>
@@ -1017,7 +1021,7 @@ if ($action == 'add_hs') {
         </div>
     </div>
     <!--  -->
-    <div id="Modaledit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div id="Modaleditmain" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1030,7 +1034,7 @@ if ($action == 'add_hs') {
                 <div class="modal-body">
                     <form action="" id='inputform2' method="post" name="myform">
                         <!-- mysql data will be load here -->
-                        <div id="dynamic-content"></div>
+                        <div id="dynamic-content4"></div>
                         <input type="hidden" id="Ecus_name" name="Fcus_name" value="<?php echo $Fcus_name; ?>" placeholder="">
                         <input type="hidden" id="Ecus_id" name="Fcus_id" value="<?php echo $Fcus_id; ?>" placeholder="">
                         <input type="hidden" id="Ecus_type_id" name="Fcus_type_id" value="<?php echo $Fcus_type_id; ?>" placeholder="">

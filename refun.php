@@ -24,6 +24,17 @@ $row2 = $rs2->fetch_assoc();
 $sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
 $rs3 = $conn->query($sql3);
 $row3 = $rs3->fetch_assoc();
+$datemonth = date('Y-m');
+
+$sql5 = "SELECT COUNT(id) AS id_run  FROM sr_number  where datemonth='$datemonth'  ";
+$rs5 = $conn->query($sql5);
+$row_run = $rs5->fetch_assoc();        
+$datetodat = date('Y-m-d');
+$date = explode(" ", $datetodat);
+$dat = datethai_SR($date[0]);
+$code_new = $row_run['id_run'] + 1;
+$code = sprintf('%03d', $code_new);
+$sr_id = $dat . $code;
 
 ?>
 <!DOCTYPE html>
@@ -55,7 +66,12 @@ $row3 = $rs3->fetch_assoc();
 </head>
 <?php
 include './include/alert.php';
+$action = $_REQUEST['action'];
+if ($action == 'add_dev') {
 
+
+
+}
 
 ?>
 
@@ -125,51 +141,25 @@ include './include/alert.php';
                                                             <div class="form-group col-md-12">
                                                                 <p>ลำดับการสั่งซื้อ <span><?= $order_id ?></span></p>
                                                             </div>
-                                                            <?php if ($row['cus_type'] == 2) {
-                                                                $col = '6';
-                                                            } else {
-                                                                $col = '12';
-                                                            } ?>
+                                                          
                                                             <div class="form-row mt-3">
-                                                                <div class="form-group col-md-<?= $col ?>">
-                                                                    <label for="ai_id"><strong>เลขที่ใบส่งของ <span class="text-danger"></span></strong></label>
-                                                                    <input type="text" name="dev_id" value="<?= $dev_id ?>" class="classcus form-control" id="so_id" placeholder="เลขที่ใบส่งของ">
+                                                                <div class="form-group col-md-12">
+                                                                    <label for="ai_id"><strong>เลขที่ใบคืนสินค้า <span class="text-danger"></span></strong></label>
+                                                                    <input type="text" name="sr_id" value="<?= $sr_id ?>" class="classcus form-control" id="sr_id" placeholder="เลขที่ใบส่งของ">
                                                                 </div>
-                                                                <?php if ($row['cus_type'] == 2) { ?>
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="ai_id"><strong>เลขที่ใบเอกสาร IV <span class="text-danger"></span></strong></label>
-                                                                        <input type="text" name="iv_id" value="<?= $iv_id ?>" class="classcus form-control" id="iv_id" placeholder="เลขที่ใบส่งของ">
-                                                                    </div>
-                                                                <?php } ?>
+                                                               
                                                             </div>
                                                             <div class="form-row mt-3">
 
-                                                                <div class="form-group col-md-6">
-                                                                    <label for="delivery_date">วันที่</label>
+                                                                <div class="form-group col-md-12">
+                                                                    <label for="delivery_date">วันที่คืนสินค้า</label>
                                                                     <input id="dev_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="dev_date" value="<?= $datetoday ?>">
                                                                 </div>
-                                                                <div class="form-group col-md-6">
-
-                                                                    <label for="ai_id"><strong>หักเงินมัดจำจากราคา<?= $row['ai_count'] ?><span class="text-danger"></span></strong></label>
-                                                                    <input type="text" name="ai_count" value="<?= $ai_count ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
-                                                                </div>
+                                                              
                                                             </div>
                                                             <input type="hidden" name="cus_id" value="<?= $row['cus_id'] ?>">
                                                             <input type="hidden" name="cus_type" value="<?= $row['cus_type'] ?>">
-                                                            <?php if ($row['cus_type'] == 2) { ?>
-                                                                <div class="form-row mt-3">
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="ai_id"><strong>เครดิต <span class="text-danger"></span></strong></label>
-                                                                        <input type="text" name="date_credit" value="<?= $date_credit ?>" class="classcus form-control" id="date_credit" placeholder="เครดิตจำนวนวัน">
-                                                                    </div>
-
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                        <input id="dete_end" class="form-control" type="date" require min="<?= $datetodat ?>" name="date_end" value="<?= $date_end ?>">
-                                                                    </div>
-
-                                                                </div>
-                                                            <?php } ?>
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -184,11 +174,9 @@ include './include/alert.php';
 
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
-                                                                <th scope="col" class="text-center" width="10%">จำนวนที่ต้องส่ง</th>
-                                                                <th scope="col" class="text-center" width="10%">โรงงาน 1</th>
-                                                                <th scope="col" class="text-center" width="10%">โรงงาน 2</th>
-
-                                                                <th scope="col" class="text-center" width="10%">จำนวนส่ง</th>
+                                                                <th scope="col" class="text-center" width="10%">จำนวนที่สั่ง</th>
+                                                                <th scope="col" class="text-center" width="10%">คืนโรงงาน 1</th>
+                                                                <th scope="col" class="text-center" width="10%">คืนโรงงาน 2</th>              
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -214,14 +202,14 @@ include './include/alert.php';
 
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $row_pro['dev_qty']; ?>' readonly></td>
                                                                         <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
                                                                         <td class="text-center"> <?php echo "<span id='err2" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face2" . $no . "'"; ?> value='<?php echo $row_pro['face2_stock_out']; ?>' <?php echo "name='stock2[$product_id][$no][$idx8]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
-                                                                        <td class="text-center"> <?php echo "<span id='err3" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='total_price" . $no . "'"; ?> value='<?php echo $row_pro['qty_dev']; ?>' readonly></td>
+                                                                   
                                                                         <?php
                                                                         // echo "<td class=\"text-center\"><span id='err" . $no . "' ></span><input type='number' class=\"form-control\" id='face1" . $no . "' value='.$row_pro[face1_stock_out].' name='stock1[$product_id][$no][$idx7]' onkeyup='keyup(" . $no . ")'></td>";
                                                                         // echo "<td class=\"text-center\"><span id='err2" . $no . "' ></span><input type='number' class=\"form-control\"id='face2" . $no . "' value='.$row_pro[face2_stock_out].' name='stock2[$product_id][$no][$idx7]'  onkeyup='keyup(" . $no . ")'></td>";
@@ -264,7 +252,7 @@ include './include/alert.php';
                                         <?php } else {  ?>
                                             <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
                                             <input type="hidden" name="action" value="add_dev">
-                                            <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการส่งของ</span></button>
+                                            <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการคืนสินค้า</span></button>
 
                                         <?php } ?>
                                         <a class="btn btn-outline-danger m-1" href="/ailist.php" type="button">กลับหน้ารายการ Order</a>
@@ -321,7 +309,7 @@ include './include/alert.php';
         var face2 = $('#face2' + id).val();
         var face1_stock = $('#face1_stock' + id).val();
         var face2_stock = $('#face2_stock' + id).val();
-        var qty = $('#qty' + id).val();
+        var qty = $('#dev_qty' + id).val();
         var face1x = Number(face1);
         var face2x = Number(face2);
         var face1x_stock = Number(face1_stock);
@@ -330,34 +318,31 @@ include './include/alert.php';
         var errid = 'err' + id;
         var status = 'status' + id;
         var errid2 = 'err2' + id;
-        var errid3 = 'err3' + id;
+      
         var numx = 1;
         console.log('errid', errid)
-        if (face1x_stock < face1x) {
 
-            document.getElementById(errid).innerHTML = "*"
+        total_price = parseFloat(face1x) + parseFloat(face2x);
+        console.log('total',total_price)
+        if (total_price > qty ) {
+
+            // document.getElementById(errid).innerHTML = "*"
+         
+            alert('กรอกเลขเกินจำนวนที่สั่งชื้อไว้')
+            var dff = 0;
+            $('#face1'+ id).val(dff);
+            $('#face2'+ id).val(dff);
 
         } else {
             document.getElementById(errid).innerHTML = ""
         }
 
-        if (face2x_stock < face2x) {
-            document.getElementById(errid2).innerHTML = "*"
-
-        } else {
-            document.getElementById(errid2).innerHTML = ""
-        }
-        console.log('face1', face1 + face2)
+        
+        console.log('face1', face1x + face2x)
         console.log('status', status)
-        total_price = parseFloat(face1) + parseFloat(face2);
-        $('#total_price' + id).val(total_price);
-        if (total_price > qtyx) {
-            document.getElementById(errid3).innerHTML = "*"
-
-        } else {
-            document.getElementById(errid3).innerHTML = ""
-        }
-
+      
+     
+      
     }
     $("#dev_date").on("change", function() {
 
