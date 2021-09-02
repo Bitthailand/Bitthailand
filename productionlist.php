@@ -46,7 +46,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 40;
+    $total_records_per_page = 20;
 } else {
     $total_records_per_page = $rowS;
 }
@@ -309,8 +309,8 @@ if ($action == 'del') {
                                             <th>ยาว</th>
                                             <th>ขนาดลวด</th>
                                             <th>จำนวนลวด</th>
-                                            <th>พ.ท.(Sq.m)</th>
-                                            <th>คอนกรีตคำนวณ</th>
+                                            <!-- <th>พ.ท.(Sq.m)</th>
+                                            <th>คอนกรีตคำนวณ</th> -->
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -383,8 +383,8 @@ if ($action == 'del') {
 
                                                         <td> <?php echo $rowx['dia_size']; ?></td>
                                                         <td> <?php echo $rowx['dia_count']; ?> </td>
-                                                        <td> <?php echo $row2['sqm']; ?></td>
-                                                        <td> <?php echo $row2['concrete_cal']; ?></td>
+                                                        <!-- <td> <?php echo $row2['sqm']; ?></td>
+                                                        <td> <?php echo $row2['concrete_cal']; ?></td> -->
                                                         <td> <?php if ($row2['status_stock'] == 1) { ?>
                                                                 <span class="badge badge-success p-1">เข้าสต๊อก</span>
                                                             <?php } ?>

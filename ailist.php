@@ -128,6 +128,19 @@ if ($rowS == '') {
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <?php
+                                $countx = "SELECT COUNT(*) As total_records FROM sr_number  where  status_sr='1'   ";
+                                $rs_countx = $conn->query($countx);
+                                $rcountx = $rs_countx->fetch_assoc();
+                                ?>
+                                <a class="linkLoadModalNext nav-link" href="/orderrefun.php">
+                                    <h3 class="h5 font-weight-bold"> Order คืนสินค้า </h3>
+                                    <span> รายการคืนสินค้า
+                                    <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/orderloglist.php">
                                     <h3 class="h5 font-weight-bold"> Order Log </h3>
                                     <span> รายการ Order ทั้งหมด
