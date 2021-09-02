@@ -137,7 +137,7 @@ if ($rowS == '') {
                                 <a class="linkLoadModalNext nav-link active" href="/orderrefun.php">
                                     <h3 class="h5 font-weight-bold"> Order คืนสินค้า </h3>
                                     <span> รายการคืนสินค้า
-                                    <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
                                     </span>
                                 </a>
                             </li>
@@ -237,6 +237,9 @@ if ($rowS == '') {
                                                 </td>
                                                 <td> <?= $row['order_id'] ?></td>
                                                 <td><?php
+                                                                $sql_order= "SELECT * FROM order  WHERE order_id= '$row[order]'";
+                                                                $rs_order = $conn->query($sql_order);
+                                                                $row_order = $rs_order->fetch_assoc();
                                                                 $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
                                                                 $rs2 = $conn->query($sql2);
                                                                 $row2 = $rs2->fetch_assoc();

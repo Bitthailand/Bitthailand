@@ -40,7 +40,7 @@ echo "$row2[po_id]";
                     while ($rowx = mysqli_fetch_assoc($resultxx)) { ?>
                         <tr>
                             <td><?php
-                                $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
+                                $sqlx = "SELECT * FROM product   WHERE product_id= '$rowx[product_id]'";
                                 $rsx = $conn->query($sqlx);
                                 $rowx2 = $rsx->fetch_assoc();
                                 $pid=$rowx['id'];
