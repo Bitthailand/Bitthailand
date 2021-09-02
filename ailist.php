@@ -76,12 +76,12 @@ if ($rowS == '') {
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/quotationlist.php">
-                                    <?php
-                                    $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
-                                    $rs_count0 = $conn->query($count0);
-                                    $rcount0 = $rs_count0->fetch_assoc();
-                                    ?>
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
+                                        <?php
+                                        $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
+                                        $rs_count0 = $conn->query($count0);
+                                        $rcount0 = $rs_count0->fetch_assoc();
+                                        ?>
                                         <span class="badge badge-pill badge-danger"><?= $rcount0['total_records'] ?></span>
                                     </h3>
                                     <span>รายการ Order เสนอราคา
@@ -105,13 +105,14 @@ if ($rowS == '') {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link" href="/creditlist.php">
+                                <a class="linkLoadModalNext nav-link " href="/creditlist.php">
                                     <h3 class="h5 font-weight-bold"> รอเคลียเครดิต
                                         <?php
                                         $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
                                         $rs_count = $conn->query($count);
                                         $rcount = $rs_count->fetch_assoc();
                                         ?>
+
                                         <span class="badge badge-pill badge-danger"><?= $rcount['total_records'] ?></span>
                                     </h3>
                                     <span>ลูกค้าเครดิตรอเคลียยอด

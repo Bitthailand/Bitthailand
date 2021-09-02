@@ -160,13 +160,13 @@ if ($status_ai == 1) {
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่</label>
-                                                                <input id="Fai_date_start" class="form-control" type="date" min="<?= $datetoday ?>" name="ai_date_start" value="<?= $datetoday?>">
+                                                                <input id="Fai_date_start" class="form-control" type="date" min="2021-06-01" name="ai_date_start" value="<?= $datetoday?>">
                                                             </div>
                                                         </div>
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                <input id="Fai_date_end" class="form-control" type="date" min="<?= $datetoday ?>" name="ai_date_end" value="<?= $datetoday ?>">
+                                                                <input id="Fai_date_end" class="form-control" type="date" min="2021-06-01" name="ai_date_end" value="<?= $datetoday ?>">
                                                             </div>
                                                         </div>
 
