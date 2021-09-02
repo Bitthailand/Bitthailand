@@ -389,7 +389,7 @@ if ($action == 'add_dev') {
 
                                                         ?>
                                                         <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
-                                                        <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
+                                                        <!-- <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p> -->
                                                         <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                         <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                         <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
@@ -423,7 +423,7 @@ if ($action == 'add_dev') {
 
                                                                 <div class="form-group col-md-6">
                                                                     <label for="delivery_date">วันที่</label>
-                                                                    <input id="dev_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="dev_date" value="<?= $datetoday ?>">
+                                                                    <input id="dev_date" class="form-control" type="date" require min="2021-06-01" name="dev_date" value="<?= $datetoday ?>">
                                                                 </div>
                                                                 <div class="form-group col-md-6">
 
@@ -442,7 +442,7 @@ if ($action == 'add_dev') {
 
                                                                     <div class="form-group col-md-6">
                                                                         <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                        <input id="dete_end" class="form-control" type="date" require min="<?= $datetodat ?>" name="date_end" value="<?= $date_end ?>">
+                                                                        <input id="dete_end" class="form-control" type="date" require min="2021-06-01" name="date_end" value="<?= $date_end ?>">
                                                                     </div>
 
                                                                 </div>
