@@ -734,12 +734,13 @@ if ($action == 'add_hs') {
 
 
                                             <select name="product_type" id="product_type" class="classcus custom-select ">
+                                            <option value="">--เลือกประเภทสินค้า--</option>
                                                 <?php
                                                 $sql6 = "SELECT *  FROM product_type  order by id ASC ";
                                                 $result6 = mysqli_query($conn, $sql6);
                                                 if (mysqli_num_rows($result6) > 0) {
                                                     while ($row6 = mysqli_fetch_assoc($result6)) {
-                                                ?>
+                                                ?>      
                                                         <option value="<?= $row6['ptype_id'] ?>" <?php if (isset($row['ptype_id']) && ($row['ptype_id'] == $row6['ptype_id'])) {
                                                                                                         echo "selected"; ?>>
                                                             <?= $row6['ptype_name'] ?>
