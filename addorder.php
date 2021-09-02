@@ -70,7 +70,7 @@ if ($status_order == 'confirm') {
     }
     // echo"วิธีรับสินค้า";
     // echo"$discount ";
- 
+
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $Fcus_type_name = $_REQUEST['Fcus_type_name'];
@@ -87,7 +87,7 @@ if ($status_order == 'confirm') {
     $discount = $_REQUEST['Fdiscount'];
     // echo "$delivery_datex";
     // echo"$Fdate_confirm";
-    $datecf=$Fdate_confirm;
+    $datecf = $Fdate_confirm;
 }
 $delivery_datex = $_REQUEST['delivery_datex'];
 $action = $_REQUEST['action'];
@@ -127,7 +127,7 @@ if ($action == 'add_product') {
     $send_qty = $_REQUEST['Fsend_qty'];
     $TF = $_REQUEST['FTF'];
     $disunit = $_REQUEST['Fdisunit'];
-    $sumQTY=$Fqty+$Fqty2;
+    $sumQTY = $Fqty + $Fqty2;
     $total_disunit = $Funit_price - $disunit;
     $total_price = $sumQTY * $total_disunit;
     $tax = $_REQUEST['Ftax'];
@@ -353,7 +353,7 @@ if ($action == 'add') {
             $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx' ";
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
-           
+
                 $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
                 // echo "$order_idx", "vv";
                 if ($conn->query($sql88) === TRUE) {
@@ -415,25 +415,25 @@ if ($action == 'add') {
 
                 }
             }
-                $sql5 = "SELECT MAX(id) AS id_run FROM delivery ";
-                $rs5 = $conn->query($sql5);
-                $row_run = $rs5->fetch_assoc();
-                $dev_status = $row['dev_status'];
-                $datetodat = date('Y-m-d');
-                $date = explode(" ", $datetodat);
-                $dat = datethai_so($date[0]);
-                $code_new = $row_run['id_run'] + 1;
-                $code = sprintf('%05d', $code_new);
-                $dev_id = $dat . $code;
+            $sql5 = "SELECT MAX(id) AS id_run FROM delivery ";
+            $rs5 = $conn->query($sql5);
+            $row_run = $rs5->fetch_assoc();
+            $dev_status = $row['dev_status'];
+            $datetodat = date('Y-m-d');
+            $date = explode(" ", $datetodat);
+            $dat = datethai_so($date[0]);
+            $code_new = $row_run['id_run'] + 1;
+            $code = sprintf('%05d', $code_new);
+            $dev_id = $dat . $code;
             // ตรวจสอบเลขจัดส่ง
-                $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
-                if ($conn->query($sqlx12) === TRUE) {
-                }
+            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
+            if ($conn->query($sqlx12) === TRUE) {
+            }
 
-                $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_idx' AND dev_id='$dev_id' ";
-                $resultxx = mysqli_query($conn, $sqlxx);
-                if (mysqli_num_rows($resultxx) > 0) {
-                } else {
+            $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_idx' AND dev_id='$dev_id' ";
+            $resultxx = mysqli_query($conn, $sqlxx);
+            if (mysqli_num_rows($resultxx) > 0) {
+            } else {
                 // echo "tt"; cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type'
                 $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk,cus_id,cus_back,cus_type)
                      VALUES ('$dev_id','$order_idx','$datetodat','1','$cus_id','$cus_back','$cus_type')";
@@ -856,10 +856,10 @@ if ($action == 'add_hs') {
                                                                         echo $row3['product_name'];
                                                                         ?>
                                                                     </td>
-                                                                    <td> <?= $row_pro['unit_price'] ?> </td>
+                                                                    <td> <?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?> </td>
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
-                                                                    <td> <?= $row_pro['qty'] ?></td>
-                                                                    <td><?= $row_pro['total_price'] ?> </td>
+                                                                    <td> <?= $row_pro['qty'] ?><?php $sumqty=$sumqty+$row_pro['qty'] ;  ?></td>
+                                                                    <td> <?php echo number_format($row_pro['total_price'], '2', '.', ',') ?><?php $sumtotal=$sumtotal+$row_pro['total_price']; ?></td>
                                                                     <?php if ($status_order == 'confirm') {
                                                                     } else { ?> <td>
                                                                             <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaleditmain" id="edit_main"> <i class="i-Pen-2 font-weight-bold"></i> </button>
@@ -871,7 +871,17 @@ if ($action == 'add_hs') {
                                                                 </tr>
                                                         <?php }
                                                         } ?>
-
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>รวม</td>
+                                                            <td><?=$sumqty?></td>
+                                                            <td><?php echo number_format($sumtotal, '2', '.', ',') ?></td>
+                                                            <td></td>
+                                                        </tr>
                                                         <tr>
                                                             <td colspan="14"> &nbsp;</td>
                                                         </tr>
