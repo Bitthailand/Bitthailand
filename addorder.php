@@ -208,7 +208,7 @@ if ($action == 'add_product') {
                 }
             }
             // echo "in";
-
+// ลูกค้ารับกลับเอง
             if ($Fcus_back == 1) {
                 $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
                 $rs5 = $conn->query($sql5);
@@ -445,7 +445,7 @@ if ($action == 'add') {
                     while ($row_pro2 = mysqli_fetch_assoc($result_pro2)) {
 
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,status_cf,ptype_id,cus_back,cus_type)
-                    VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$sum_dev','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]','1','$row_pro2[ptype_id]','$cus_back','$cus_type')";
+                    VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$row_pro2[qty]','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]','1','$row_pro2[ptype_id]','$cus_back','$cus_type')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
                     }
