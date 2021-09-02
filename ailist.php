@@ -84,7 +84,7 @@ if ($rowS == '') {
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
                                         <span class="badge badge-pill badge-danger"><?= $rcount0['total_records'] ?></span>
                                     </h3>
-                                    <span>รายการ Order ที่อยู่ระหว่างการเสนอราคา
+                                    <span>รายการ Order เสนอราคา
                                         <span class="badge badge-warning"> Wait </span>
                                     </span>
                                 </a>

@@ -1,5 +1,13 @@
 <?php
-
+session_start();
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+include './include/connect.php';
+include './include/config.php';
+unset($_SESSION['order_id']);
+$emp_id = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -35,17 +43,27 @@
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/quotationlist.php">
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <?php
+                                        $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
+                                        $rs_count0 = $conn->query($count0);
+                                        $rcount0 = $rs_count0->fetch_assoc();
+                                        ?>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount0['total_records'] ?></span>
                                     </h3>
-                                    <span>รายการ Order ที่อยู่ระหว่างการเสนอราคา
+                                    <span>รายการ Order เสนอราคา
                                         <span class="badge badge-warning"> Wait </span>
                                     </span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link " href="/ailist.php">
+                                <a class="linkLoadModalNext nav-link" href="/ailist.php">
+                                    <?php
+                                    $count = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='2'";
+                                    $rs_count = $conn->query($count);
+                                    $rcount = $rs_count->fetch_assoc();
+                                    ?>
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount['total_records'] ?></span>
                                     </h3>
                                     <span>Order รอส่งสินค้า
                                         <span class="badge badge-warning"> Wait </span>
@@ -55,7 +73,13 @@
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/creditlist.php">
                                     <h3 class="h5 font-weight-bold"> รอเคลียเครดิต
-                                        <span class="badge badge-pill badge-danger">1</span>
+                                        <?php
+                                        $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
+                                        $rs_count = $conn->query($count);
+                                        $rcount = $rs_count->fetch_assoc();
+                                        ?>
+
+                                        <span class="badge badge-pill badge-danger"><?= $rcount['total_records'] ?></span>
                                     </h3>
                                     <span>ลูกค้าเครดิตรอเคลียยอด
                                         <span class="badge badge-warning"> Wait </span>
@@ -67,6 +91,19 @@
                                     <h3 class="h5 font-weight-bold"> Order สำเร็จ</h3>
                                     <span>Order ที่ส่งสินค้าเรียบร้อย
                                         <span class="badge badge-success"> Pass </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <?php
+                                $countx = "SELECT COUNT(*) As total_records FROM sr_number  where  status_sr='1'   ";
+                                $rs_countx = $conn->query($countx);
+                                $rcountx = $rs_countx->fetch_assoc();
+                                ?>
+                                <a class="linkLoadModalNext nav-link " href="/orderrefun.php">
+                                    <h3 class="h5 font-weight-bold"> Order คืนสินค้า </h3>
+                                    <span> รายการคืนสินค้า
+                                        <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
                                     </span>
                                 </a>
                             </li>
