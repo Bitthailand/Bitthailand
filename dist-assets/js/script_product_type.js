@@ -100,7 +100,7 @@ $(function() {
                         );
                     } else {
                         productxObject.append(
-                            $('<option></option>').val(item.product_id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
+                            $('<option></option>').val(item.product_id).html(item.product_id + item.product_name + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count + item.spacial)
                         );
                     }
                 });

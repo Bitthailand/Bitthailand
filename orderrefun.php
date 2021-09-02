@@ -195,15 +195,15 @@ if ($rowS == '') {
                                         <tr>
                                             <th>วันที่</th>
                                             <th>Order ID</th>
+                                            <th>SR ID</th>
                                             <th>ประเภทลูกค้า</th>
                                             <th>ชื่อลูกค้า</th>
-                                            <th>เบอร์โทร</th>
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
-                                            <th>ค่ามัดจำ</th>
-                                            <th>ก่อนรวมภาษี</th>
-                                            <th>ภาษี</th>
-                                            <th>ยอดรวม</th>
+                                            <th>รายการสินค้า</th>
+                                            <th>จำนวน</th>
+                                            <th>ราคาต่อหน่วย</th>
+                                            <th>รวม</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -219,104 +219,113 @@ if ($rowS == '') {
                                                             $next_page = $page_no + 1;
                                                             $adjacents = "2";
 
-                                                            $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `sr_number` where  status='0'  $columx $keywordx  ");
+                                                            $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `sr_number`  where status='0' AND status_sr='1'  ");
                                                             $total_records = mysqli_fetch_array($result_count);
                                                             $total_records = $total_records['total_records'];
                                                             $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                                             $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                                            $result = mysqli_query($conn, "SELECT * FROM `sr_number` where status='0'   $columx $keywordx LIMIT $offset, $total_records_per_page");
-                                                            while ($row = mysqli_fetch_array($result)) { ?>
-                                            <tr>
+                                                            $result = mysqli_query($conn, "SELECT * FROM `sr_number`   where status='0'  AND status_sr='1'  ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
+                                                            while ($row = mysqli_fetch_array($result)) {
+                                                                echo "$row[sr_id]";
 
-                                                <td>
-                                                    <?php $date = explode(" ", $row['date_create']);
+                                                                $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM sr_detail  where sr_id = '$row[sr_id]'    ORDER BY id ASC ");
+                                                                $total = mysqli_fetch_array($count);
+                                                                $count = 0;
+                                                                $sqlxx = "SELECT *  FROM sr_detail  where sr_id = '$row[sr_id]'    ORDER BY id ASC  ";
+                                                                $resultxx = mysqli_query($conn, $sqlxx);
+                                                                if (mysqli_num_rows($resultxx) > 0) {
+                                                                    $num = @mysqli_num_rows($resultxx);
+                                                                    $row_cnt = $resultxx->num_rows;
+                                                                    // while ($row1 = mysqli_fetch_assoc($resultxx)) {
+                                                                    while ($row2 = mysqli_fetch_array($resultxx)) { ?>
+                                                    <tr>
+
+                                                        <td>
+                                                        
+                                                        <?php
+                                                         $x = $count++;
+                                                        if ($x == 0) {
+                                                                $date = explode(" ", $row['date_create']);
                                                                 $dat = datethai2($date[0]);
-                                                                echo $dat . '-' . $date[1]; ?>
-                                                </td>
-                                                <td> <?= $row['order_id'] ?></td>
-                                                <td><?php
-                                                                $sql_order= "SELECT * FROM order  WHERE order_id= '$row[order_id]'";
-                                                                $rs_order = $conn->query($sql_order);
-                                                                $row_order = $rs_order->fetch_assoc();
-                                                                $sql2 = "SELECT * FROM customer_type WHERE id= '$row_order[cus_type]'";
-                                                                $rs2 = $conn->query($sql2);
-                                                                $row2 = $rs2->fetch_assoc();
-                                                                // ====
-                                                                $sql3 = "SELECT * FROM customer WHERE customer_id= '$row_order[cus_id]'";
-                                                                $rs3 = $conn->query($sql3);
-                                                                $row3 = $rs3->fetch_assoc();
+                                                                echo '<strong>' . $dat . '</strong>';
+                                                            } ?>
+                                                        </td>
+                                                        <td> <?php if ($x == 0) {  echo $row['order_id']; } ?></td>
+                                                        <td><?php
+                                                                        $sql_order = "SELECT * FROM orders  WHERE order_id= '$row[order_id]'";
+                                                                        $rs_order = $conn->query($sql_order);
+                                                                        $row_order = $rs_order->fetch_assoc();
+                                                                        $sql2 = "SELECT * FROM customer_type WHERE id= '$row_order[cus_type]'";
+                                                                        $rs2 = $conn->query($sql2);
+                                                                        $row2 = $rs2->fetch_assoc();
+                                                                        // ====
+                                                                        $sql3 = "SELECT * FROM customer WHERE customer_id= '$row_order[cus_id]'";
+                                                                        $rs3 = $conn->query($sql3);
+                                                                        $row3 = $rs3->fetch_assoc();
 
-                                                                $sqlcb = "SELECT * FROM customer_back WHERE id= '$row_order[cus_back]'";
-                                                                $rscb = $conn->query($sqlcb);
-                                                                $rowcb = $rscb->fetch_assoc();
+                                                                        $sqlcb = "SELECT * FROM customer_back WHERE id= '$row_order[cus_back]'";
+                                                                        $rscb = $conn->query($sqlcb);
+                                                                        $rowcb = $rscb->fetch_assoc();
 
-                                                    ?>
-                                                    <?= $row2['name'] ?>
-                                                </td>
-                                                <td> <?= $rowcb['name'] ?></td>
-                                                <td> <?= $row3['customer_name'] ?></td>
-                                                <td> <?= $row3['tel'] ?> </td>
-                                                <td>
-                                                    <?php
-                                                                $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
-                                                                $rs2 = $conn->query($sql2);
-                                                                $row2 = $rs2->fetch_assoc();
-                                                                echo $row2['name_th'];
-                                                    ?>
-                                                </td>
-                                                <td> <?php
-                                                                $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
-                                                                $rs2 = $conn->query($sql2);
-                                                                $row2 = $rs2->fetch_assoc();
-                                                                echo $row2['name_th'];
-                                                        ?>
-                                                </td>
-                                                <td><span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                                $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
-                                                                $rsx4 = $conn->query($sqlx4);
-                                                                $rowx4 = $rsx4->fetch_assoc();
-
-                                                    ?>
-                                                    <?php $sub_total = $rowx4['total'] - $row['discount'];
-                                                                $tax = ($sub_total * 0.07);
-                                                                $grand_total = ($sub_total + $tax);
-                                                    ?> <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
-                                                </td>
-                                                <td> <span class="font-weight-bold"> <?php echo number_format($tax, '2', '.', ',') ?></span> </td>
-                                                <td>
-                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                                $sqlx5 = "SELECT COUNT(*)  AS sum  FROM delivery  WHERE order_id= '$row[order_id]'";
-                                                                $rsx5 = $conn->query($sqlx5);
-                                                                $rowx5 = $rsx5->fetch_assoc();
-                                                                if ($rowx5['sum'] == 1) {
-                                                    ?>
-                                                        <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
-                                                            <i class="i-Full-View-Window font-weight-bold"></i>
-                                                        </a>
-                                                    <?php } else { ?>
-                                                        <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs_all.php?order_id=<?= $row['order_id'] ?>" target="_blank">
-                                                            <i class="i-Full-View-Window font-weight-bold"></i>
-                                                        </a>
-                                                    <?php } ?>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="คืนสินค้า" href="/refun.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
-                                                        <i class="i-Restore-Window font-weight-bold"></i>
-                                                    </a>
-                                                    <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order" href="/orderview.php?saleorder_id=<?= $row['order_id'] ?>" target="_blank">
-                                                        <i class="i-Eye font-weight-bold"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        <?php
+                                                            ?>
+                                                             <?php if ($x == 0) {  echo $row['sr_id']; }  ?>
+                                                        </td>
+                                                        <td> <?php if ($x == 0) {  echo $rowcb['name']; } ?></td>
+                                                        <td>  <?php if ($x == 0) {  echo $row3['customer_name']; } ?></td>
+                                                        
+                                                        <td>
+                                                            <?php
+                                                                        $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
+                                                                        $rs2 = $conn->query($sql2);
+                                                                        $row2 = $rs2->fetch_assoc();
+                                                                        if ($x == 0) {   echo $row2['name_th']; }
+                                                            ?>
+                                                        </td>
+                                                        <td> <?php
+                                                                        $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
+                                                                        $rs2 = $conn->query($sql2);
+                                                                        $row2 = $rs2->fetch_assoc();
+                                                                        if ($x == 0) {   echo $row2['name_th']; }
+                                                                ?>
+                                                        </td> <?php 
+                                                         $sql2 = "SELECT * FROM  product   WHERE product_id= '$row2[product_id]'";
+                                                         $rs2 = $conn->query($sql2);
+                                                         $row2 = $rs2->fetch_assoc();
+                                                        ?><td>
+                                                        </td>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <?php
+                                                                        $sqlx5 = "SELECT COUNT(*)  AS sum  FROM delivery  WHERE order_id= '$row[order_id]'";
+                                                                        $rsx5 = $conn->query($sqlx5);
+                                                                        $rowx5 = $rsx5->fetch_assoc();
+                                                                        if ($rowx5['sum'] == 1) {
+                                                            ?>
+                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
+                                                                    <i class="i-Full-View-Window font-weight-bold"></i>
+                                                                </a>
+                                                            <?php } else { ?>
+                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs_all.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                                    <i class="i-Full-View-Window font-weight-bold"></i>
+                                                                </a>
+                                                            <?php } ?>
+                                                            <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="คืนสินค้า" href="/refun.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
+                                                                <i class="i-Restore-Window font-weight-bold"></i>
+                                                            </a>
+                                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order" href="/orderview.php?saleorder_id=<?= $row['order_id'] ?>" target="_blank">
+                                                                <i class="i-Eye font-weight-bold"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    </tr> <?php
+                                                                    }
+                                                                }
                                                             }
                                                             mysqli_close($conn);
-                                        ?>
+                                                            ?>
 
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
