@@ -291,7 +291,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                         <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                       
                                             <p>(#<?= $row_ai['ai_num'] ?>)
-                                                <?php echo number_format($row_dev['price'], '2', '.', ',') ?></p>
+                                                <?php echo number_format($row_ai['price'], '2', '.', ',') ?></p>
                                         <?php
                                         $total = $total_all - $row_dev['price'];
                                         $tax = ($total * 100) / 107;
