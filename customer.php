@@ -26,6 +26,7 @@ $datetodat=date('Y-m-d');
 
 $action= $_REQUEST['action'];
 if ($action == 'add') {
+    $datemonth = date('Y-m'); 
     $customer_id = $_REQUEST['customer_id'];  
     $customer_name= $_REQUEST['customer_name']; 
     $customer_type= $_REQUEST['customer_type']; 
@@ -49,8 +50,8 @@ $(document).ready(function() {
 });
 </script>
 <?php    } else { 
-                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type,referent)
-                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type','$referent')";                 
+                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type,referent,datemonth)
+                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type','$referent','$datemonth')";                 
                     if ($conn->query($sql) === TRUE) {  ?>
 <script>
 $(document).ready(function() {
