@@ -208,7 +208,7 @@ if ($action == 'add_product') {
                 }
             }
             // echo "in";
-// ลูกค้ารับกลับเอง
+            // ลูกค้ารับกลับเอง
             if ($Fcus_back == 1) {
                 $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
                 $rs5 = $conn->query($sql5);
@@ -562,6 +562,7 @@ if ($action == 'add_cus') {
     $tel = $_REQUEST['tel'];
     $tax_number = $_REQUEST['tax_number'];
     $contact_name = $_REQUEST['contact_name'];
+    $datemonth = date('Y-m'); 
     $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
@@ -571,8 +572,8 @@ if ($action == 'add_cus') {
             });
         </script>
         <?php    } else {
-        $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type)
-                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type')";
+        $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type,datemonth)
+                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type','$datemonth')";
         if ($conn->query($sql) === TRUE) {  ?>
             <script>
                 $(document).ready(function() {
@@ -858,8 +859,8 @@ if ($action == 'add_hs') {
                                                                     </td>
                                                                     <td> <?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?> </td>
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
-                                                                    <td> <?= $row_pro['qty'] ?><?php $sumqty=$sumqty+$row_pro['qty'] ;  ?></td>
-                                                                    <td> <?php echo number_format($row_pro['total_price'], '2', '.', ',') ?><?php $sumtotal=$sumtotal+$row_pro['total_price']; ?></td>
+                                                                    <td> <?= $row_pro['qty'] ?><?php $sumqty = $sumqty + $row_pro['qty'];  ?></td>
+                                                                    <td> <?php echo number_format($row_pro['total_price'], '2', '.', ',') ?><?php $sumtotal = $sumtotal + $row_pro['total_price']; ?></td>
                                                                     <?php if ($status_order == 'confirm') {
                                                                     } else { ?> <td>
                                                                             <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaleditmain" id="edit_main"> <i class="i-Pen-2 font-weight-bold"></i> </button>
@@ -878,7 +879,7 @@ if ($action == 'add_hs') {
                                                             <td></td>
                                                             <td></td>
                                                             <td>รวม</td>
-                                                            <td><?=$sumqty?></td>
+                                                            <td><?= $sumqty ?></td>
                                                             <td><?php echo number_format($sumtotal, '2', '.', ',') ?></td>
                                                             <td></td>
                                                         </tr>
@@ -1302,9 +1303,11 @@ if ($action == 'add_hs') {
                         <div class="col-md-12">
                             <div class="tab-content" id="myTabContent">
                                 <form class="tab-pane fade active show" method="post">
-                                    <?php $sql = "SELECT * FROM provinces";
+                                    <?php
+                                      $datemonth = date('Y-m'); 
+                                    $sql = "SELECT * FROM provinces";
                                     $query = mysqli_query($conn, $sql);
-                                    $sql5 = "SELECT MAX(id) AS id_run FROM customer  ";
+                                    $sql5 = "SELECT MAX(id) AS id_run FROM customer where datemonth='$datemonth'     ";
                                     $rs5 = $conn->query($sql5);
                                     $row_run = $rs5->fetch_assoc();
                                     $datetodat = date('Y-m-d');
