@@ -43,7 +43,7 @@ if ($rowS == '') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
+    <title>คืนสินค้า</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -160,8 +160,8 @@ if ($rowS == '') {
                             <div class="mb-1">
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
-                                        <h3 class="ul-widget1__title "> ขายสินค้า </h3>
-                                        <span class="ul-widget__desc "> รายการใบเสนอราคา </span>
+                                        <h3 class="ul-widget1__title "> คืนสินค้า </h3>
+                                        <span class="ul-widget__desc "> รายการใบคืนสินค้า (SR) </span>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
@@ -196,9 +196,8 @@ if ($rowS == '') {
                                             <th>วันที่</th>
                                             <th>Order ID</th>
                                             <th>ประเภทลูกค้า</th>
-                                            <th>รับสินค้าโดย</th>
                                             <th>ชื่อลูกค้า</th>
-                                            <th>เบอร์โทร์</th>
+                                            <th>เบอร์โทร</th>
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
                                             <th>ค่ามัดจำ</th>
@@ -237,18 +236,18 @@ if ($rowS == '') {
                                                 </td>
                                                 <td> <?= $row['order_id'] ?></td>
                                                 <td><?php
-                                                                $sql_order= "SELECT * FROM order  WHERE order_id= '$row[order]'";
+                                                                $sql_order= "SELECT * FROM order  WHERE order_id= '$row[order_id]'";
                                                                 $rs_order = $conn->query($sql_order);
                                                                 $row_order = $rs_order->fetch_assoc();
-                                                                $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
+                                                                $sql2 = "SELECT * FROM customer_type WHERE id= '$row_order[cus_type]'";
                                                                 $rs2 = $conn->query($sql2);
                                                                 $row2 = $rs2->fetch_assoc();
                                                                 // ====
-                                                                $sql3 = "SELECT * FROM customer WHERE customer_id= '$row[cus_id]'";
+                                                                $sql3 = "SELECT * FROM customer WHERE customer_id= '$row_order[cus_id]'";
                                                                 $rs3 = $conn->query($sql3);
                                                                 $row3 = $rs3->fetch_assoc();
 
-                                                                $sqlcb = "SELECT * FROM customer_back WHERE id= '$row[cus_back]'";
+                                                                $sqlcb = "SELECT * FROM customer_back WHERE id= '$row_order[cus_back]'";
                                                                 $rscb = $conn->query($sqlcb);
                                                                 $rowcb = $rscb->fetch_assoc();
 

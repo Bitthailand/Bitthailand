@@ -108,20 +108,7 @@ if ($rowS == '') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
-                                                        <option value="customer_id" <?php echo $column == 'customer_id' ? 'selected' : ''; ?>> รหัสลูกค้า </option>
-                                                        <option value="customer_name" <?php echo $column == 'customer_name' ? 'selected' : ''; ?>>ชื่อลูกค้า </option>
-                                                        <option value="company" <?php echo $column == 'company' ? 'selected' : ''; ?>>บริษัท </option>
-                                                        <option value="address" <?php echo $column == 'address' ? 'selected' : ''; ?>>ที่อยู่ </option>
-                                                        <option value="phone" <?php echo $column == 'phone' ? 'selected' : ''; ?>>เบอร์โทร </option>
-                                                        <option value="tax_number" <?php echo $column == 'tax_number' ? 'selected' : ''; ?>>เลขที่ผู้เสียภาษี</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
@@ -241,7 +228,7 @@ if ($rowS == '') {
 
                                             <td>
 
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลลูกค้า"
+                                                <a class="btn btn-outline-success btn-sm line-height-1" 
                                                     href="/customer_update.php?customer_id=<?php echo $row['customer_id']; ?>">
                                                     <i class="i-Pen-2 font-weight-bold"></i>
                                                 </a>
@@ -593,16 +580,16 @@ $("#searchRowsId").on("change", function() {
     $("#FSButtonID").click();
 
 });
-$("#searchNameId").on("change", function() {
-    modalLoad();
+// $("#searchNameId").on("change", function() {
+//     modalLoad();
 
-    let name = $("#searchNameId").val();
-    $("#FSKeywordId").val(name);
-    let column = $("#searchColumnId").val();
-    $("#FSColumnId").val(column);
-    $("#FSButtonID").click();
+//     let name = $("#searchNameId").val();
+//     $("#FSKeywordId").val(name);
+//     let column = $("#searchColumnId").val();
+//     $("#FSColumnId").val(column);
+//     $("#FSButtonID").click();
 
-});
+// });
 /* ===== search end ===== */
 
 //click next link

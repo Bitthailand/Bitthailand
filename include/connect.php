@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 // $host = "localhost"; /* Host name */
 // $user = "root"; /* User */
 // $password = ""; /* Password */
-// $dbname = "1mpro_local"; /* Database name */
+// $dbname = "1mpro_main"; /* Database name */
 // $conn= mysqli_connect($host, $user, $password,$dbname);
 // mysqli_query($conn,"SET CHARACTER SET 'utf8'");
 // mysqli_query($conn,"SET SESSION collation_connection ='utf8_unicode_ci'");
