@@ -11,7 +11,8 @@ $query = mysqli_query($conn, $sql);
 
 $status_confirm= $_REQUEST['status_confirm'];
 if($status_confirm=='add'){
-$sql5 = "SELECT MAX(id) AS id_run FROM customer  ";
+    $datemonth = date('Y-m');   
+$sql5 = "SELECT COUNT(id) AS id_run FROM customer  where datemonth='$datemonth'  ";
 $rs5 = $conn->query($sql5);
 $row_run = $rs5->fetch_assoc(); 
 

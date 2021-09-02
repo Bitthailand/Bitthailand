@@ -227,7 +227,7 @@ if ($rowS == '') {
 
                                                             $result = mysqli_query($conn, "SELECT * FROM `sr_number`   where status='0'  AND status_sr='1'  ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
                                                             while ($row = mysqli_fetch_array($result)) {
-                                                                echo "$row[sr_id]";
+
 
                                                                 $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM sr_detail  where sr_id = '$row[sr_id]'    ORDER BY id ASC ");
                                                                 $total = mysqli_fetch_array($count);
@@ -242,23 +242,25 @@ if ($rowS == '') {
                                                     <tr>
 
                                                         <td>
-                                                        
-                                                        <?php
-                                                         $x = $count++;
-                                                        if ($x == 0) {
-                                                                $date = explode(" ", $row['date_create']);
-                                                                $dat = datethai2($date[0]);
-                                                                echo '<strong>' . $dat . '</strong>';
-                                                            } ?>
+
+                                                            <?php
+                                                                        $x = $count++;
+                                                                        if ($x == 0) {
+                                                                            $date = explode(" ", $row['date_create']);
+                                                                            $dat = datethai2($date[0]);
+                                                                            echo '<strong>' . $dat . '</strong>';
+                                                                        } ?>
                                                         </td>
-                                                        <td> <?php if ($x == 0) {  echo $row['order_id']; } ?></td>
+                                                        <td> <?php if ($x == 0) {
+                                                                            echo $row['order_id'];
+                                                                        } ?></td>
                                                         <td><?php
                                                                         $sql_order = "SELECT * FROM orders  WHERE order_id= '$row[order_id]'";
                                                                         $rs_order = $conn->query($sql_order);
                                                                         $row_order = $rs_order->fetch_assoc();
-                                                                        $sql2 = "SELECT * FROM customer_type WHERE id= '$row_order[cus_type]'";
-                                                                        $rs2 = $conn->query($sql2);
-                                                                        $row2 = $rs2->fetch_assoc();
+                                                                        $sql2_cus_type = "SELECT * FROM customer_type WHERE id= '$row_order[cus_type]'";
+                                                                        $rs2_cus_type = $conn->query($sql2_cus_type);
+                                                                        $row2_cus_type = $rs2_cus_type->fetch_assoc();
                                                                         // ====
                                                                         $sql3 = "SELECT * FROM customer WHERE customer_id= '$row_order[cus_id]'";
                                                                         $rs3 = $conn->query($sql3);
@@ -269,33 +271,51 @@ if ($rowS == '') {
                                                                         $rowcb = $rscb->fetch_assoc();
 
                                                             ?>
-                                                             <?php if ($x == 0) {  echo $row['sr_id']; }  ?>
+                                                            <?php if ($x == 0) {
+                                                                            echo $row['sr_id'];
+                                                                        }  ?>
                                                         </td>
-                                                        <td> <?php if ($x == 0) {  echo $rowcb['name']; } ?></td>
-                                                        <td>  <?php if ($x == 0) {  echo $row3['customer_name']; } ?></td>
-                                                        
+                                                        <td> <?php if ($x == 0) {
+                                                                            echo $rowcb['name'];
+                                                                        } ?></td>
+                                                        <td> <?php if ($x == 0) {
+                                                                            echo $row3['customer_name'];
+                                                                        } ?></td>
+
                                                         <td>
                                                             <?php
-                                                                        $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
-                                                                        $rs2 = $conn->query($sql2);
-                                                                        $row2 = $rs2->fetch_assoc();
-                                                                        if ($x == 0) {   echo $row2['name_th']; }
+                                                                        $sql_am = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
+                                                                        $rs_am = $conn->query($sql_am);
+                                                                        $row_am = $rs_am->fetch_assoc();
+                                                                        if ($x == 0) {
+                                                                            echo $row_am['name_th'];
+                                                                        }
                                                             ?>
                                                         </td>
                                                         <td> <?php
-                                                                        $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
-                                                                        $rs2 = $conn->query($sql2);
-                                                                        $row2 = $rs2->fetch_assoc();
-                                                                        if ($x == 0) {   echo $row2['name_th']; }
+                                                                        $sql_provin = "SELECT * FROM provinces WHERE id= '$row3[province]'";
+                                                                        $rs_provin = $conn->query($sql_provin);
+                                                                        $row_provin = $rs_provin->fetch_assoc();
+                                                                        if ($x == 0) {
+                                                                            echo $row_provin['name_th'];
+                                                                        }
                                                                 ?>
-                                                        </td> <?php 
-                                                         $sql2 = "SELECT * FROM  product   WHERE product_id= '$row2[product_id]'";
-                                                         $rs2 = $conn->query($sql2);
-                                                         $row2 = $rs2->fetch_assoc();
-                                                        ?><td>
                                                         </td>
-                                                        <td> </td>
-                                                        <td> </td>
+                                                        <td> <?php 
+                                                         $sql_pro = "SELECT * FROM  product   WHERE product_id= '$row2[product_id]'";
+                                                         $rs_pro = $conn->query($sql_pro);
+                                                         $row_pro = $rs_pro->fetch_assoc();
+                                                         $sql_unit = "SELECT * FROM unit  WHERE id= '$row_pro[units]' ";
+                                                         $rs_unit = $conn->query($sql_unit);
+                                                         $row_unit = $rs_unit->fetch_assoc();
+                                                       
+                                                         echo"$row_pro[product_name]";
+                                                        ?></td>
+                                                        <td> <?=$row2['qty']?>  <?=$row_unit['unit_name']?></td>
+                                                        <td> <?php 
+                                                         
+                                                        
+                                                        ?> </td>
                                                         <td></td>
                                                         <td>
                                                             <?php
