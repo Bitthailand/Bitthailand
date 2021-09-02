@@ -112,8 +112,8 @@ $row5 = $rs5->fetch_assoc();
                 <div class="col-6 text-sm-right">
                     <h5 class="font-weight-bold"></h5>
                     <div class="invoice-summary">
-                        <p><span>เลขที่ใบส่งของ</span> <span><?= $order_id ?></span></p>
-                        <p><span>ลำดับการสั่งซื้อ</span> <span><?= $so_id ?></span></p>
+                        <p><span>เลขที่ใบส่งของ</span> <span><?= $so_id ?></span></p>
+                        <p><span>ลำดับการสั่งซื้อ</span> <span><?= $order_id ?></span></p>
                         <p><span>วันที่ </span> <span><?php $date = explode(" ", $row5['dev_date']);
                                                     $dat = datethai2($date[0]);
                                                     echo $dat; ?> </span></p>
@@ -216,7 +216,7 @@ $row5 = $rs5->fetch_assoc();
                                             if ($rowx3['ptype_id'] == 'TF0') {
                                                 echo 'ค่าจัดส่ง';
                                             } else {
-                                                echo $rowx3['product_name'] . '  หนา' . $rowx3['thickness'] . '  ขนาดลวด' . $rowx3['dia_size'] . '  จำนวน' . $rowx3['dia_count'];
+                                                echo $rowx3['product_name'] ;
                                             }
                                             ?></td>
                                                 <td class="text-right"><?= $row_pro['dev_qty'] ?></td>

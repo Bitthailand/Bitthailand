@@ -136,7 +136,7 @@ $row_emp = $rs_emp->fetch_assoc();
                     ?>
                     <h5 class="font-weight-bold">ลูกค้า</h5>
                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
-                    <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
+                    <!-- <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p> -->
                     <p><strong>ที่อยู่ :
                         </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>
                     </p>
@@ -239,8 +239,11 @@ $row_emp = $rs_emp->fetch_assoc();
                                                             } else {
                                                                 echo $rowx3['product_name'];
                                                             }
+                                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                                            $rs_unit = $conn->query($sql_unit);
+                                                            $row_unit = $rs_unit->fetch_assoc();
                                                             ?></td>
-                                                        <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
+                                                        <td class="text-right"><?= $row_pro['dev_qty'] ?> <?= $row_unit['unit_name'] ?></td>
                                                         <td class="text-right"><?= $rowx3['unit_price'] ?></td>
                                                         <td class="text-right"><?= $row_pro['disunit'] ?>
                                                             <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
@@ -272,17 +275,19 @@ $row_emp = $rs_emp->fetch_assoc();
                                 </div>
                                 <div class="col-1">
                                     <div class="invoice-summary-qt2">
-                                     
+                                        <?php
+                                        $sql_ai = "SELECT * FROM delivery  WHERE id= '$so_id' AND order_id='$order_id' ";
+                                        $rs_ai = $conn->query($sql_unit);
+                                        $row_ai = $rs_unit->fetch_assoc();
+
+                                        ?>
                                         <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                         <p> <span>00.00</span></p>
                                         <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
-                                        <?php if ($row_ai['ai_num'] == '') {
-                                            $total = $total_all;
-                                        } else { ?>
-                                            <p>(#<?= $row_ai['ai_num'] ?>)
-                                                <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></p>
-                                        <?php }
-                                        $total = $total_all - $row_dev['ai_count'];
+                                       
+                                                <?php echo number_format($row_ai['ai_count'], '2', '.', ',') ?></p>
+                                      <?php 
+                                        $total = $total_all - $row_ai['ai_count'];
                                         $tax = ($total * 100) / 107;
                                         $tax2 = ($total - $tax);
                                         $grand_total = ($total - $tax2);

@@ -234,18 +234,27 @@ $row_emp = $rs_emp->fetch_assoc();
                                                             $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                                                             $rsx3 = $conn->query($sqlx3);
                                                             $rowx3 = $rsx3->fetch_assoc();
+
+                                                            $sqlx_sr = "SELECT SUM(qty) AS qty_sr FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' ";
+                                                            $rsx_sr = $conn->query($sqlx_sr);
+                                                            $rowx_sr= $rsx_sr->fetch_assoc();
+                                                            $sum_qty=$row_pro['dev_qty']- $rowx_sr['qty_sr'];
+                                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                                            $rs_unit = $conn->query($sql_unit);
+                                                            $row_unit = $rs_unit->fetch_assoc();
+                                                            
                                                             if ($rowx3['ptype_id'] == 'TF0') {
                                                                 echo 'ค่าจัดส่ง'.'(' . $rowx3['product_name'].')';
                                                             } else {
                                                                 echo $rowx3['product_name'];
-                                                            }
+                                                            } 
                                                             ?></td>
-                                                        <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
-                                                        <td class="text-right"><?= $rowx3['unit_price'] ?></td>
+                                                        <td class="text-right"><?php echo $sum_qty ?>  <?=$row_unit['unit_name']?></td>
+                                                        <td class="text-right"><?php echo number_format($rowx3['unit_price'], '2', '.', ',') ?></td>
                                                         <td class="text-right"><?= $row_pro['disunit'] ?>
                                                             <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
                                                         </td>
-                                                        <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
+                                                        <td class="text-right"><?php $sum_total = $sum_qty * $total; ?>
                                                             <?php echo number_format($sum_total, '2', '.', ',');
                                                             $total_all = $total_all + $sum_total;
                                                             ?>
@@ -272,17 +281,19 @@ $row_emp = $rs_emp->fetch_assoc();
                                 </div>
                                 <div class="col-1">
                                     <div class="invoice-summary-qt2">
-                                     
+                                    <?php
+                                        $sql_ai = "SELECT * FROM ai_number  WHERE order_id= '$order_id'";
+                                        $rs_ai = $conn->query($sql_ai);
+                                        $row_ai = $rs_ai->fetch_assoc();
+                                        ?>
                                         <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                         <p> <span>00.00</span></p>
                                         <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
-                                        <?php if ($row_ai['ai_num'] == '') {
-                                            $total = $total_all;
-                                        } else { ?>
+                                      
                                             <p>(#<?= $row_ai['ai_num'] ?>)
-                                                <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></p>
-                                        <?php }
-                                        $total = $total_all - $row_dev['ai_count'];
+                                                <?php echo number_format($row_dev['price'], '2', '.', ',') ?></p>
+                                        <?php
+                                        $total = $total_all - $row_dev['price'];
                                         $tax = ($total * 100) / 107;
                                         $tax2 = ($total - $tax);
                                         $grand_total = ($total - $tax2);
@@ -307,7 +318,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                         <div class="col-1 text-right">
                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
 
-                                                <h3 class="font-weight-bold" style="width: 120px; display: inline-block;">
+                                                <h3>
                                                     <span><?php echo number_format($grand_total, '2', '.', ',') ?></span>
                                                 </h3>
                                             </div>

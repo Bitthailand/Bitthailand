@@ -902,7 +902,7 @@ if ($action == 'add_hs') {
                                             </div>
                                             <div class="form-group col-md-1">
                                                 <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
-                                                <input type="text" value="<?= $datecf?>" class="classcus form-control" readonly>
+                                                <input type="text" value="30" class="classcus form-control" readonly>
                                             </div>
                                     <?php  }
                                     } ?>
@@ -919,9 +919,9 @@ if ($action == 'add_hs') {
                                         <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
 
                                         <?php if ($status_order == 'confirm') { ?>
-                                            <input type="text" value="<?= $Fdate_confirm ?>" class="classcus form-control">
+                                            <input type="text" value="30" class="classcus form-control">
                                         <?php  } else { ?>
-                                            <input type="text" name="date_confirmx" id="date_confirm" value="<?= $datecf ?>" class="classcus form-control" placeholder="ยืนยันราคาใน" Value="0">
+                                            <input type="text" name="date_confirmx" id="date_confirm" value="30" class="classcus form-control" placeholder="ยืนยันราคาใน" Value="0">
                                         <?php } ?>
                                     </div>
                                     <div class="form-group col-md-1">

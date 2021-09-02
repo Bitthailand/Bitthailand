@@ -28,7 +28,7 @@ $datemonth = date('Y-m');
 
 $sql5 = "SELECT COUNT(id) AS id_run  FROM sr_number  where datemonth='$datemonth'  ";
 $rs5 = $conn->query($sql5);
-$row_run = $rs5->fetch_assoc();        
+$row_run = $rs5->fetch_assoc();
 $datetodat = date('Y-m-d');
 $date = explode(" ", $datetodat);
 $dat = datethai_SR($date[0]);
@@ -45,7 +45,7 @@ $sr_id = $dat . $code;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Sale Order | ใบส่งของ</title>
+    <title>คืนสินค้า</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -68,9 +68,68 @@ $sr_id = $dat . $code;
 include './include/alert.php';
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
+    $order_id = $_REQUEST['order_id'];
+    $sr_id = $_REQUEST['sr_id'];
+    $sr_date = $_REQUEST['sr_date'];
+    $cus_id = $_REQUEST['cus_id'];
+    $cus_type = $_REQUEST['cus_type'];
+    $datemonth = date('Y-m');
+    $sql_true= "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
+    $result_true = mysqli_query($conn, $sql_true);
+    if (mysqli_num_rows($result_true) > 0) {  }else{
 
 
+    $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr)
+    VALUES ('$sr_id','$order_id','$datemonth','1')";
+    if ($conn->query($sqlx) === TRUE) {
+    }
+    $sql_pro = "SELECT  SUM(dev_qty) AS qty ,product_id,id FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'  GROUP BY product_id  ORDER BY product_id DESC ";
+    $result_pro = mysqli_query($conn, $sql_pro);
+    if (mysqli_num_rows($result_pro) > 0) {
+        while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+            $product_id = $row_pro['product_id'];
+            $pid = $row_pro['id'];
+            $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
+            $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
 
+            $sqlx3 = "SELECT * FROM order_details  WHERE product_id= '$product_id'  AND order_id='$order_id' ";
+            $rsx3 = $conn->query($sqlx3);
+            $rowx3 = $rsx3->fetch_assoc();
+
+            $sql_p = "SELECT * FROM product  WHERE product_id= '$product_id'   ";
+            $rs_p = $conn->query($sql_p);
+            $row_p = $rs_p->fetch_assoc();
+            $add_qty = $stock1 + $stock2;
+            if($add_qty==0){}else{ 
+            $total_price = $add_qty * $row_p['unit_price'];
+
+            $sqlx1 = "INSERT INTO sr_detail (sr_id,order_id,product_id,qty,unit,total_price,face_stock1,face_stock2)
+            VALUES ('$sr_id','$order_id','$product_id','$add_qty','$row_p[unit_price]','$total_price','$stock1','$stock2')";
+            if ($conn->query($sqlx1) === TRUE) {
+            }
+
+            $add_qty = $rowx3['qty'] - $add_qty;  //ลบยอดสั่งชื้อลง
+            $add_qty_refun = $rowx3['qty'] + $add_qty;  //เพิ่มจำนวนสินค้าเข้าไปเพื่อเอาไปคืนใน ยอดจัดส่ง
+            $add_fac1_stock = $row_p['fac1_stock'] + $stock1; //เพิ่มสต็อกคืนโรงงาน1
+            $add_fac2_stock = $row_p['fac2_stock'] + $stock2; //เพิ่มสต็อกคืนโรงงาน2
+            $qtyx=$row_pro['qty']-$add_qty;
+            $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,qty='$add_qty' where product_id='$product_id' AND order_id='$order_id'";
+            $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+            //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+            if ($conn->query($sql1) === TRUE) {
+            }
+            if ($conn->query($sql2) === TRUE) {
+            }
+        }
+        }
+    } ?>
+    <script>
+    $(document).ready(function() {
+        showAlert("บันทึกคืนสินค้าสำเร็จ", "alert-primary");
+    });
+</script>
+<?php 
+    }
 }
 
 ?>
@@ -128,7 +187,7 @@ if ($action == 'add_dev') {
 
                                                         ?>
                                                         <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
-                                                        <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
+                                                        <!-- <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p> -->
                                                         <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                         <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                         <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
@@ -141,25 +200,25 @@ if ($action == 'add_dev') {
                                                             <div class="form-group col-md-12">
                                                                 <p>ลำดับการสั่งซื้อ <span><?= $order_id ?></span></p>
                                                             </div>
-                                                          
+
                                                             <div class="form-row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label for="ai_id"><strong>เลขที่ใบคืนสินค้า <span class="text-danger"></span></strong></label>
                                                                     <input type="text" name="sr_id" value="<?= $sr_id ?>" class="classcus form-control" id="sr_id" placeholder="เลขที่ใบส่งของ">
                                                                 </div>
-                                                               
+
                                                             </div>
                                                             <div class="form-row mt-3">
 
                                                                 <div class="form-group col-md-12">
                                                                     <label for="delivery_date">วันที่คืนสินค้า</label>
-                                                                    <input id="dev_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="dev_date" value="<?= $datetoday ?>">
+                                                                    <input id="re_date" class="form-control" type="date" require min="<?= $datetodat ?>" name="re_date" value="<?= $datetoday ?>">
                                                                 </div>
-                                                              
+
                                                             </div>
                                                             <input type="hidden" name="cus_id" value="<?= $row['cus_id'] ?>">
                                                             <input type="hidden" name="cus_type" value="<?= $row['cus_type'] ?>">
-                                                          
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -176,13 +235,12 @@ if ($action == 'add_dev') {
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
                                                                 <th scope="col" class="text-center" width="10%">จำนวนที่สั่ง</th>
                                                                 <th scope="col" class="text-center" width="10%">คืนโรงงาน 1</th>
-                                                                <th scope="col" class="text-center" width="10%">คืนโรงงาน 2</th>              
+                                                                <th scope="col" class="text-center" width="10%">คืนโรงงาน 2</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php  echo"$order_id";
-                                                            $sql_pro = "SELECT *  FROM   deliver_detail   INNER JOIN product  ON  deliver_detail.product_id = product.product_id
-                                                            AND deliver_detail.order_id='$order_id' AND  product.ptype_id<>'TF0'  AND  deliver_detail.status_cf='1'";
+                                                            <?php echo "$order_id";
+                                                            $sql_pro = "SELECT  SUM(dev_qty) AS qty ,product_id,id FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'  GROUP BY product_id  ORDER BY product_id DESC ";
                                                             $result_pro = mysqli_query($conn, $sql_pro);
                                                             if (mysqli_num_rows($result_pro) > 0) {
                                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -197,19 +255,27 @@ if ($action == 'add_dev') {
                                                                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]' ";
                                                                                 $rsx3 = $conn->query($sqlx3);
                                                                                 $rowx3 = $rsx3->fetch_assoc();
+                                                                                $sqlx_sr = "SELECT SUM(qty) AS qty_sr FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' ";
+                                                                                $rsx_sr = $conn->query($sqlx_sr);
+                                                                                $rowx_sr= $rsx_sr->fetch_assoc();
+
                                                                                 echo $rowx3['product_id'] . $rowx3['product_name'];
+                                                                                if($rowx_sr['qty_sr']==''){}else{
+                                                                                 echo '*'.$rowx_sr['qty_sr'];       
+                                                                                }
+                                                                                $sum_qty=$row_pro['qty']-$rowx_sr['qty_sr'];
                                                                                 ?></td>
 
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $row_pro['dev_qty']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $sum_qty; ?>' readonly></td>
                                                                         <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
                                                                         <td class="text-center"> <?php echo "<span id='err2" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face2" . $no . "'"; ?> value='<?php echo $row_pro['face2_stock_out']; ?>' <?php echo "name='stock2[$product_id][$no][$idx8]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
-                                                                   
+
                                                                         <?php
                                                                         // echo "<td class=\"text-center\"><span id='err" . $no . "' ></span><input type='number' class=\"form-control\" id='face1" . $no . "' value='.$row_pro[face1_stock_out].' name='stock1[$product_id][$no][$idx7]' onkeyup='keyup(" . $no . ")'></td>";
                                                                         // echo "<td class=\"text-center\"><span id='err2" . $no . "' ></span><input type='number' class=\"form-control\"id='face2" . $no . "' value='.$row_pro[face2_stock_out].' name='stock2[$product_id][$no][$idx7]'  onkeyup='keyup(" . $no . ")'></td>";
@@ -255,7 +321,7 @@ if ($action == 'add_dev') {
                                             <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการคืนสินค้า</span></button>
 
                                         <?php } ?>
-                                        <a class="btn btn-outline-danger m-1" href="/ailist.php" type="button">กลับหน้ารายการ Order</a>
+                                        <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
                                     </div>
 
                                 </div>
@@ -318,31 +384,31 @@ if ($action == 'add_dev') {
         var errid = 'err' + id;
         var status = 'status' + id;
         var errid2 = 'err2' + id;
-      
+
         var numx = 1;
         console.log('errid', errid)
 
         total_price = parseFloat(face1x) + parseFloat(face2x);
-        console.log('total',total_price)
-        if (total_price > qty ) {
+        console.log('total', total_price)
+        if (total_price > qty) {
 
             // document.getElementById(errid).innerHTML = "*"
-         
+
             alert('กรอกเลขเกินจำนวนที่สั่งชื้อไว้')
             var dff = 0;
-            $('#face1'+ id).val(dff);
-            $('#face2'+ id).val(dff);
+            $('#face1' + id).val(dff);
+            $('#face2' + id).val(dff);
 
         } else {
             document.getElementById(errid).innerHTML = ""
         }
 
-        
+
         console.log('face1', face1x + face2x)
         console.log('status', status)
-      
-     
-      
+
+
+
     }
     $("#dev_date").on("change", function() {
 

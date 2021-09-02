@@ -136,7 +136,7 @@ $row_emp = $rs_emp->fetch_assoc();
                     ?>
                     <h5 class="font-weight-bold">ลูกค้า</h5>
                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
-                    <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
+                    <!-- <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p> -->
                     <p><strong>ที่อยู่ :
                         </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>
                     </p>
@@ -221,40 +221,45 @@ $row_emp = $rs_emp->fetch_assoc();
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql_pro = "SELECT  SUM(dev_qty) AS qty, unit_price AS unit_price, SUM(total_price) AS total,disunit AS disunit,product_id AS product_id ,ptype_id  FROM deliver_detail  where order_id='$order_id'  AND status_cf='1'  GROUP BY ptype_id    order by product_id ASC ";
+                                            $sql_pro = "SELECT  SUM(dev_qty) AS qty, unit_price AS unit_price, SUM(total_price) AS total,disunit AS disunit,product_id AS product_id ,ptype_id  FROM deliver_detail  where order_id='$order_id'  AND status_cf='1'  GROUP BY product_id  order by product_id ASC ";
                                             $result_pro = mysqli_query($conn, $sql_pro);
                                             if (mysqli_num_rows($result_pro) > 0) {
                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
                                                     $no = $row_pro['id'];
                                                     $product_id = $row_pro['product_id'];
-                                            ?>  
+                                            ?>
                                                     <tr>
                                                         <td scope="row" class="text-center"><?= ++$id; ?></td>
                                                         <td><?php
                                                             $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                                                             $rsx3 = $conn->query($sqlx3);
                                                             $rowx3 = $rsx3->fetch_assoc();
-                                                          
-                                                            if (($row_pro['ptype_id'] == 'TF')||($row_pro['ptype_id'] == 'TF0')) {
-                                                                echo 'ค่าจัดส่ง'.'(' . $rowx3['product_name'].')';
+                                                            $sqlx_sr = "SELECT SUM(qty) AS qty_sr FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' ";
+                                                            $rsx_sr = $conn->query($sqlx_sr);
+                                                            $rowx_sr = $rsx_sr->fetch_assoc();
+                                                            $sum_qty = $row_pro['qty'] - $rowx_sr['qty_sr'];
+                                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                                            $rs_unit = $conn->query($sql_unit);
+                                                            $row_unit = $rs_unit->fetch_assoc();
+                                                            if (($row_pro['ptype_id'] == 'TF') || ($row_pro['ptype_id'] == 'TF0')) {
+                                                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
                                                             } else {
-                                                                echo $row_pro['product_id'].$rowx3['product_name'];
+                                                                echo $row_pro['product_id'] . $rowx3['product_name'];
                                                             }
                                                             ?></td>
-                                                        <td class="text-right"><?= $row_pro['qty'] ?></td>
-                                                        <td class="text-right"><?= $rowx3['unit_price'] ?></td>
+                                                        <td class="text-right"><?= $sum_qty ?> <?=$row_unit['unit_name']?></td>
+                                                        <td class="text-right"><?php echo number_format($rowx3['unit_price'], '2', '.', ',') ?></td>
                                                         <td class="text-right"><?= $row_pro['disunit'] ?>
                                                             <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
                                                         </td>
-                                                        <td class="text-right"><?php $sum_total = $row_pro['qty'] * $total; ?>
+                                                        <td class="text-right"><?php $sum_total = $sum_qty * $total; ?>
                                                             <?php echo number_format($sum_total, '2', '.', ',');
                                                             $total_all = $total_all + $sum_total;
                                                             ?>
                                                         </td>
                                                     </tr>
                                             <?php }
-                                             
-                                            }?>
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -274,7 +279,11 @@ $row_emp = $rs_emp->fetch_assoc();
                                 </div>
                                 <div class="col-1">
                                     <div class="invoice-summary-qt2">
-                                     
+                                        <?php
+                                        $sql_ai = "SELECT * FROM ai_number  WHERE order_id= '$order_id'";
+                                        $rs_ai = $conn->query($sql_ai);
+                                        $row_ai = $rs_ai->fetch_assoc();
+                                        ?>
                                         <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
                                         <p> <span>00.00</span></p>
                                         <p> <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
@@ -282,9 +291,9 @@ $row_emp = $rs_emp->fetch_assoc();
                                             $total = $total_all;
                                         } else { ?>
                                             <p>(#<?= $row_ai['ai_num'] ?>)
-                                                <?php echo number_format($row_dev['ai_count'], '2', '.', ',') ?></p>
+                                                <?php echo number_format($row_ai['price'], '2', '.', ',') ?></p>
                                         <?php }
-                                        $total = $total_all - $row_dev['ai_count'];
+                                        $total = $total_all - $row_ai['price'];
                                         $tax = ($total * 100) / 107;
                                         $tax2 = ($total - $tax);
                                         $grand_total = ($total - $tax2);
@@ -308,7 +317,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                         <div class="col-1 text-right">
                                             <div class="row" style="justify-content: flex-end; margin-right: 0;">
 
-                                                <h3 class="font-weight-bold" style="width: 120px; display: inline-block;">
+                                                <h3>
                                                     <span><?php echo number_format($grand_total, '2', '.', ',') ?></span>
                                                 </h3>
                                             </div>
