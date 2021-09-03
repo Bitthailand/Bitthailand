@@ -196,7 +196,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                             <tr>
                                                                                 <th scope="row"><?= ++$idx; ?></th>
                                                                                 <td class="text-left"><?= $row4['c_name'] ?></td>
-                                                                                <td><?php
+                                                                                <td class="text-left"><?php
                                                                                     $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
                                                                                     $rs_cus = $conn->query($sql_cus);
                                                                                     $row_cus = $rs_cus->fetch_assoc();
@@ -205,14 +205,14 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                                     $rs4x = $conn->query($sql4x);
                                                                                     $row4x = $rs4x->fetch_assoc();
                                                                                     echo $row4x['name_th'];  ?></td>
-                                                                                <td><?php
+                                                                                <td class="text-left"><?php
                                                                                     $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
                                                                                     $rs5 = $conn->query($sql5);
                                                                                     $row5 = $rs5->fetch_assoc();
                                                                                     echo $row5['name_th'];
 
                                                                                     ?></td>
-                                                                                <td><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
                                                                             </tr>
                                                                     <?php }
                                                                     } ?>
@@ -246,7 +246,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                     ?> <tr>
                                                                     <th scope="row"><?= ++$idx1; ?></th>
                                                                     <td class="text-left"><?= $row4['c_name'] ?></td>
-                                                                    <td><?php
+                                                                    <td class="text-left"><?php
                                                                         $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
                                                                         $rs_cus = $conn->query($sql_cus);
                                                                         $row_cus = $rs_cus->fetch_assoc();
@@ -255,14 +255,14 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                         $rs4x = $conn->query($sql4x);
                                                                         $row4x = $rs4x->fetch_assoc();
                                                                         echo $row4x['name_th'];  ?></td>
-                                                                    <td><?php
+                                                                    <td class="text-left"><?php
                                                                         $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
                                                                         $rs5 = $conn->query($sql5);
                                                                         $row5 = $rs5->fetch_assoc();
                                                                         echo $row5['name_th'];
 
                                                                         ?></td>
-                                                                    <td><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                    <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
                                                                 </tr>
                                                                     <?php }} ?>
                                                                 </tbody>
