@@ -316,7 +316,7 @@ if ($action == 'add_hs') {
                                                         $rsct = $conn->query($sqlct);
                                                         $rowct = $rsct->fetch_assoc();
                                                         echo $rowct['name']; ?>   </td>
-                                                <td> <?php echo $row5['tel']; ?> </td>
+                                               <td> <?php echo substr($row5['tel'], 0, 12);  ?> </td>
                                                 <td>
                                                     <?php echo $row5['bill_address'];
                                                     $sql6 = "SELECT * FROM districts  WHERE id= '$row5[subdistrict]'";

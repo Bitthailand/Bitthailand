@@ -312,30 +312,12 @@ if ($rowS == '') {
                                                          echo"$row_pro[product_name]";
                                                         ?></td>
                                                         <td> <?=$row2['qty']?>  <?=$row_unit['unit_name']?></td>
-                                                        <td> <?php 
-                                                         
-                                                        
-                                                        ?> </td>
-                                                        <td></td>
+                                                        <td> <?php echo number_format($row2['unit'], '2', '.', ',') ?> </td>
+                                                        <td> <?php echo number_format($row2['total_price'], '2', '.', ',') ?></td>
                                                         <td>
-                                                            <?php
-                                                                        $sqlx5 = "SELECT COUNT(*)  AS sum  FROM delivery  WHERE order_id= '$row[order_id]'";
-                                                                        $rsx5 = $conn->query($sqlx5);
-                                                                        $rowx5 = $rsx5->fetch_assoc();
-                                                                        if ($rowx5['sum'] == 1) {
-                                                            ?>
-                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
-                                                                    <i class="i-Full-View-Window font-weight-bold"></i>
-                                                                </a>
-                                                            <?php } else { ?>
-                                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ใบเสร็จรับเงิน" href="/hs_all.php?order_id=<?= $row['order_id'] ?>" target="_blank">
-                                                                    <i class="i-Full-View-Window font-weight-bold"></i>
-                                                                </a>
-                                                            <?php } ?>
-                                                            <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="คืนสินค้า" href="/refun.php?order_id=<?php echo $row['order_id']; ?>&so_id=<?php echo $row['dev_id']; ?>" target="_blank">
-                                                                <i class="i-Restore-Window font-weight-bold"></i>
-                                                            </a>
-                                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูล Order" href="/orderview.php?saleorder_id=<?= $row['order_id'] ?>" target="_blank">
+                                                            
+                                                            
+                                                            <a class="btn btn-outline-info btn-sm line-height-1"  title="ดูข้อมูลใบคืนสินค้า SR" href="/order_sr.php?sr_id=<?= $row['sr_id'] ?>" target="_blank">
                                                                 <i class="i-Eye font-weight-bold"></i>
                                                             </a>
                                                         </td>
