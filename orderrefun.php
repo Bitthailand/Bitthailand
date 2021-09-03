@@ -316,10 +316,11 @@ if ($rowS == '') {
                                                         <td> <?php echo number_format($row2['total_price'], '2', '.', ',') ?></td>
                                                         <td>
                                                             
-                                                            
+                                                        <?php if ($x == 0) { ?> 
                                                             <a class="btn btn-outline-info btn-sm line-height-1"  title="ดูข้อมูลใบคืนสินค้า SR" href="/order_sr.php?sr_id=<?= $row['sr_id'] ?>" target="_blank">
                                                                 <i class="i-Eye font-weight-bold"></i>
                                                             </a>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                     </tr> <?php
@@ -336,18 +337,7 @@ if ($rowS == '') {
                                 </table>
                             </div>
                             <!-- ============ Table End ============= -->
-                            <div class="mt-1">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted"> มัดจำขั้นต่ำ 30% เมื่อทำการสั่งซื้อสินค้า</span>
-                            </div>
-                            <div class="">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted">ชำระค่าสินค้าที่เหลือในวันจัดส่ง ก่อนลงสินค้า</span>
-                            </div>
-                            <div class="">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted">ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาคิดเพิ่มชั่วโมงละ 500 บาท</span>
-                            </div>
+                
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
@@ -373,9 +363,9 @@ if ($rowS == '') {
                                         } elseif ($total_no_of_pages > 10) {
                                             if ($page_no <= 4) {
                                                 for ($counter = 1; $counter < 8; $counter++) {
-                                                    if ($counter == $page_no) {
-                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                    } else { ?>
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='page-item  active'><a class="page-link"><?=$counter?></a></li>
+                                                    <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php  }
                                                 }
@@ -386,17 +376,17 @@ if ($rowS == '') {
                                             <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
                                                 <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a class="page-link">..</a></li>
                                                 <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><? echo "$second_last"; ?></a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><? echo "$total_no_of_pages"; ?></a></li>";
+                                                <li><a class="page-link" href='?page_no=<?=$second_last?>'><?=$second_last?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                             <?php  } else { ?>
                                                 <li><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li><a class="page-link" href='?page_no=2'>2</a></li>
@@ -404,9 +394,9 @@ if ($rowS == '') {
 
                                                 <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                                    ?> <li><a class="page-link" href='?page_no=<?=$counter?>'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
                                             }

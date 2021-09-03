@@ -10,6 +10,7 @@ include './include/config_date.php';
 $order_id = $_REQUEST['order_id'];
 $so_id = $_REQUEST['so_id'];
 $emp_id = $_SESSION["username"];
+$dev_status = $_REQUEST['dev_status'];
 $datetoday = date('Y-m-d');
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
@@ -74,61 +75,63 @@ if ($action == 'add_dev') {
     $cus_id = $_REQUEST['cus_id'];
     $cus_type = $_REQUEST['cus_type'];
     $datemonth = date('Y-m');
-    $sql_true= "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
+    $sql_true = "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
     $result_true = mysqli_query($conn, $sql_true);
-    if (mysqli_num_rows($result_true) > 0) {  }else{
+    if (mysqli_num_rows($result_true) > 0) {
+    } else {
 
 
-    $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr)
+        $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr)
     VALUES ('$sr_id','$order_id','$datemonth','1')";
-    if ($conn->query($sqlx) === TRUE) {
-    }
-    $sql_pro = "SELECT  SUM(dev_qty) AS qty ,product_id,id FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'  GROUP BY product_id  ORDER BY product_id DESC ";
-    $result_pro = mysqli_query($conn, $sql_pro);
-    if (mysqli_num_rows($result_pro) > 0) {
-        while ($row_pro = mysqli_fetch_assoc($result_pro)) {
-            $product_id = $row_pro['product_id'];
-            $pid = $row_pro['id'];
-            $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
-            $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
+        if ($conn->query($sqlx) === TRUE) {
+        }
+        $sql_pro = "SELECT  SUM(dev_qty) AS qty ,product_id,id FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'  GROUP BY product_id  ORDER BY product_id DESC ";
+        $result_pro = mysqli_query($conn, $sql_pro);
+        if (mysqli_num_rows($result_pro) > 0) {
+            while ($row_pro = mysqli_fetch_assoc($result_pro)) {
+                $product_id = $row_pro['product_id'];
+                $pid = $row_pro['id'];
+                $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
+                $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
 
-            $sqlx3 = "SELECT * FROM order_details  WHERE product_id= '$product_id'  AND order_id='$order_id' ";
-            $rsx3 = $conn->query($sqlx3);
-            $rowx3 = $rsx3->fetch_assoc();
+                $sqlx3 = "SELECT * FROM order_details  WHERE product_id= '$product_id'  AND order_id='$order_id' ";
+                $rsx3 = $conn->query($sqlx3);
+                $rowx3 = $rsx3->fetch_assoc();
 
-            $sql_p = "SELECT * FROM product  WHERE product_id= '$product_id'   ";
-            $rs_p = $conn->query($sql_p);
-            $row_p = $rs_p->fetch_assoc();
-            $add_qty = $stock1 + $stock2;
-            if($add_qty==0){}else{ 
-            $total_price = $add_qty * $row_p['unit_price'];
+                $sql_p = "SELECT * FROM product  WHERE product_id= '$product_id'   ";
+                $rs_p = $conn->query($sql_p);
+                $row_p = $rs_p->fetch_assoc();
+                $add_qty = $stock1 + $stock2;
+                if ($add_qty == 0) {
+                } else {
+                    $total_price = $add_qty * $row_p['unit_price'];
 
-            $sqlx1 = "INSERT INTO sr_detail (sr_id,order_id,product_id,qty,unit,total_price,face_stock1,face_stock2)
+                    $sqlx1 = "INSERT INTO sr_detail (sr_id,order_id,product_id,qty,unit,total_price,face_stock1,face_stock2)
             VALUES ('$sr_id','$order_id','$product_id','$add_qty','$row_p[unit_price]','$total_price','$stock1','$stock2')";
-            if ($conn->query($sqlx1) === TRUE) {
-            }
+                    if ($conn->query($sqlx1) === TRUE) {
+                    }
 
-            $add_qty = $rowx3['qty'] - $add_qty;  //ลบยอดสั่งชื้อลง
-            $add_qty_refun = $rowx3['qty'] + $add_qty;  //เพิ่มจำนวนสินค้าเข้าไปเพื่อเอาไปคืนใน ยอดจัดส่ง
-            $add_fac1_stock = $row_p['fac1_stock'] + $stock1; //เพิ่มสต็อกคืนโรงงาน1
-            $add_fac2_stock = $row_p['fac2_stock'] + $stock2; //เพิ่มสต็อกคืนโรงงาน2
-            $qtyx=$row_pro['qty']-$add_qty;
-            $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,qty='$add_qty' where product_id='$product_id' AND order_id='$order_id'";
-            $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
-            //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
-            if ($conn->query($sql1) === TRUE) {
+                    $add_qty = $rowx3['qty'] - $add_qty;  //ลบยอดสั่งชื้อลง
+                    $add_qty_refun = $rowx3['qty'] + $add_qty;  //เพิ่มจำนวนสินค้าเข้าไปเพื่อเอาไปคืนใน ยอดจัดส่ง
+                    $add_fac1_stock = $row_p['fac1_stock'] + $stock1; //เพิ่มสต็อกคืนโรงงาน1
+                    $add_fac2_stock = $row_p['fac2_stock'] + $stock2; //เพิ่มสต็อกคืนโรงงาน2
+                    $qtyx = $row_pro['qty'] - $add_qty;
+                    $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,qty='$add_qty' where product_id='$product_id' AND order_id='$order_id'";
+                    $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+                    //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+                    if ($conn->query($sql1) === TRUE) {
+                    }
+                    if ($conn->query($sql2) === TRUE) {
+                    }
+                }
             }
-            if ($conn->query($sql2) === TRUE) {
-            }
-        }
-        }
-    } ?>
-    <script>
-    $(document).ready(function() {
-        showAlert("บันทึกคืนสินค้าสำเร็จ", "alert-primary");
-    });
-</script>
-<?php 
+        } ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("บันทึกคืนสินค้าสำเร็จ", "alert-primary");
+            });
+        </script>
+<?php
     }
 }
 
@@ -257,13 +260,14 @@ if ($action == 'add_dev') {
                                                                                 $rowx3 = $rsx3->fetch_assoc();
                                                                                 $sqlx_sr = "SELECT SUM(qty) AS qty_sr FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' ";
                                                                                 $rsx_sr = $conn->query($sqlx_sr);
-                                                                                $rowx_sr= $rsx_sr->fetch_assoc();
+                                                                                $rowx_sr = $rsx_sr->fetch_assoc();
 
                                                                                 echo $rowx3['product_id'] . $rowx3['product_name'];
-                                                                                if($rowx_sr['qty_sr']==''){}else{
-                                                                                 echo '*'.$rowx_sr['qty_sr'];       
+                                                                                if ($rowx_sr['qty_sr'] == '') {
+                                                                                } else {
+                                                                                    echo '*' . $rowx_sr['qty_sr'];
                                                                                 }
-                                                                                $sum_qty=$row_pro['qty']-$rowx_sr['qty_sr'];
+                                                                                $sum_qty = $row_pro['qty'] - $rowx_sr['qty_sr'];
                                                                                 ?></td>
 
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
@@ -300,27 +304,21 @@ if ($action == 'add_dev') {
                                         <?php
 
                                         // echo "$dev_status+$action";
-                                        if (($dev_status == 1) || ($cf == 'ok')) {
+                                        if (($dev_status == 1)) {
                                             // echo"$row[cus_type]";
                                         ?>
-                                            <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบส่งของ(SO)</a>
-                                            <?php if ($row['cus_type'] == 1) { ?>
-                                                <?php
-                                                $sql = "SELECT * FROM delivery  where order_id='$order_id'  ";
-                                                $rsx = $conn->query($sql);
-                                                $rsx = $rsx->fetch_assoc();
-                                                // echo"$rsx[dev_id]";
-                                                ?>
-                                                <a class="btn btn-outline-primary m-1" href="/hs.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบเสร็จรับเงิน(HS)</a>
 
-                                            <?php   } ?>
-                                            <?php if ($row['cus_type'] == 2) { ?> <a class="btn btn-outline-primary m-1" href="/invoice.php?order_id=<?= $order_id ?>&so_id=<?= $dev_id ?>" type="button" target="_blank">พิมพ์ใบกำกับสินค้า(IV)</a><?php } ?>
-                                        <?php } else {  ?>
+
+                                            <a class="btn btn-outline-primary m-1" href="/order_sr.php?sr_id=<?= $sr_id ?>" type="button" target="_blank">พิมพ์ใบคืนสินค้า(SR)</a>
+
+                                        <?php  } else { ?>
+
                                             <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
                                             <input type="hidden" name="action" value="add_dev">
+                                            <input type="hidden" name="dev_status" value="1">
                                             <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการคืนสินค้า</span></button>
-
                                         <?php } ?>
+
                                         <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
                                     </div>
 
