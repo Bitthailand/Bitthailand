@@ -234,7 +234,7 @@ if ($rowS == '') {
                                             <td>
                                                 <?php $date = explode(" ", $row['date_create']);
                                                 $dat = datethai2($date[0]);
-                                                echo $dat . '-' . $date[1]; ?>
+                                                echo $dat ?>
                                             </td>
                                             <td> <?= $row['order_id'] ?></td>
                                             <td><?php
@@ -248,8 +248,8 @@ if ($rowS == '') {
                                                 ?>
                                                 <?= $row2['name'] ?>
                                             </td>
-                                            <td> <?= $row3['customer_name'] ?></td>
-                                            <td> <?= $row3['tel'] ?> </td>
+                                            <td>  <?php echo iconv_substr($row3['customer_name'],0,30,'UTF-8'); ?> </td>
+                                                <td> <?php echo substr($row3['tel'], 0, 12);  ?> </td>
                                             <td>
                                                 <?php
                                                 $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";

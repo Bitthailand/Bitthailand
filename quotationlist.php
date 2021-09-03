@@ -49,17 +49,17 @@ if ($action == 'del') {
     $sql = "UPDATE orders    SET status='1',order_status='6'  where id='$del_id' ";
 
     if ($conn->query($sql) === TRUE) { ?>
-<script>
-$(document).ready(function() {
-    showAlert("ลบรายการสำเร็จ", "alert-primary");
-});
-</script>
-<?php  } else { ?>
-<script>
-$(document).ready(function() {
-    showAlert("ไม่สามารถลบรายการได้", "alert-danger");
-});
-</script>
+        <script>
+            $(document).ready(function() {
+                showAlert("ลบรายการสำเร็จ", "alert-primary");
+            });
+        </script>
+    <?php  } else { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ไม่สามารถลบรายการได้", "alert-danger");
+            });
+        </script>
 <?php }
 }
 ?>
@@ -105,12 +105,12 @@ $(document).ready(function() {
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link active" href="/quotationlist.php">
                                     <h3 class="h5 font-weight-bold"> Order เสนอราคา
-                                    <?php
-                                    $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
-                                    $rs_count0 = $conn->query($count0);
-                                    $rcount0 = $rs_count0->fetch_assoc();
-                                    ?>
-                                        <span class="badge badge-pill badge-danger"><?=$rcount0['total_records']?></span>
+                                        <?php
+                                        $count0 = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='1'";
+                                        $rs_count0 = $conn->query($count0);
+                                        $rcount0 = $rs_count0->fetch_assoc();
+                                        ?>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount0['total_records'] ?></span>
                                     </h3>
                                     <span>รายการ Order เสนอราคา
                                         <span class="badge badge-warning"> Wait </span>
@@ -119,13 +119,13 @@ $(document).ready(function() {
                             </li>
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link" href="/ailist.php">
-                                <?php
+                                    <?php
                                     $count = "SELECT COUNT(*) As total_records FROM orders where  status='0'  AND order_status='2'";
                                     $rs_count = $conn->query($count);
                                     $rcount = $rs_count->fetch_assoc();
                                     ?>
                                     <h3 class="h5 font-weight-bold"> Order รอส่ง
-                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount['total_records'] ?></span>
                                     </h3>
                                     <span>Order รอส่งสินค้า
                                         <span class="badge badge-warning"> Wait </span>
@@ -136,12 +136,12 @@ $(document).ready(function() {
                                 <a class="linkLoadModalNext nav-link" href="/creditlist.php">
                                     <h3 class="h5 font-weight-bold"> รอเคลียเครดิต
                                         <?php
-                                         $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
-                                         $rs_count = $conn->query($count);
-                                         $rcount = $rs_count->fetch_assoc();
-                                         ?>
+                                        $count = "SELECT COUNT(*) As total_records FROM bi_number  where  status='0'  AND status_bi='1' ";
+                                        $rs_count = $conn->query($count);
+                                        $rcount = $rs_count->fetch_assoc();
+                                        ?>
 
-                                        <span class="badge badge-pill badge-danger"><?=$rcount['total_records']?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcount['total_records'] ?></span>
                                     </h3>
                                     <span>ลูกค้าเครดิตรอเคลียยอด
                                         <span class="badge badge-warning"> Wait </span>
@@ -165,7 +165,7 @@ $(document).ready(function() {
                                 <a class="linkLoadModalNext nav-link" href="/orderrefun.php">
                                     <h3 class="h5 font-weight-bold"> Order คืนสินค้า </h3>
                                     <span> รายการคืนสินค้า
-                                    <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
                                     </span>
                                 </a>
                             </li>
@@ -193,7 +193,7 @@ $(document).ready(function() {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                           
+
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> Keyword</label>
@@ -201,7 +201,7 @@ $(document).ready(function() {
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                            <div class="form-group">
+                                                <div class="form-group">
                                                     <label for="searchRowsId"> Row </label>
                                                     <select id="searchRowsId" class="custom-select">
                                                         <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
@@ -264,7 +264,7 @@ $(document).ready(function() {
                                                 <td>
                                                     <?php $date = explode(" ", $row['date_create']);
                                                     $dat = datethai2($date[0]);
-                                                    echo $dat . '-' . $date[1]; ?>
+                                                    echo $dat ?>
                                                 </td>
                                                 <td> <?= $row['order_id'] ?></td>
                                                 <td> <?= $row['qt_id'] ?></td>
@@ -278,8 +278,8 @@ $(document).ready(function() {
                                                     $row3 = $rs3->fetch_assoc();
                                                     ?>
                                                     <?= $row2['name'] ?></td>
-                                                <td> <?= $row3['customer_name'] ?></td>
-                                                <td> <?= $row3['tel'] ?> </td>
+                                                <td> <?php echo iconv_substr($row3['customer_name'], 0, 30, 'UTF-8'); ?> </td>
+                                                <td> <?php echo substr($row3['tel'], 0, 12);  ?> </td>
                                                 <td>
                                                     <?php
                                                     $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
@@ -305,10 +305,10 @@ $(document).ready(function() {
 
                                                     ?>
                                                     <?php $sub_total = $rowx4['total'] - $row['discount'];
-                                                    $tax = ($sub_total * 100)/107;
-                                                    $tax2 = ($sub_total- $tax);
-                                                    $grand_total = ($sub_total- $tax2);
-                                                    
+                                                    $tax = ($sub_total * 100) / 107;
+                                                    $tax2 = ($sub_total - $tax);
+                                                    $grand_total = ($sub_total - $tax2);
+
                                                     ?>
                                                     <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
                                                 </td>
@@ -317,136 +317,134 @@ $(document).ready(function() {
                                                     <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td>
-                                                <span class="badge badge-warning p-1">เสนอราคา</span>
+                                                    <span class="badge badge-warning p-1">เสนอราคา</span>
                                                 </td>
                                                 <td>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)"
-                                                    href="/quotation.php?order_id=<?= $row['order_id'] ?>" target="_blank">
-                                                    <i class="i-File font-weight-bold"></i>
-                                                </a>
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)" href="/quotation.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                        <i class="i-File font-weight-bold"></i>
+                                                    </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-Money-Bag font-weight-bold"></i>
                                                     </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>
-                                                   
-                                                       
-                                                        <button type="button" class="btn btn-outline-danger btn-sm line-height-1" title="ยกเลิก Order"  data-id="<?php echo $row['id']; ?>"
-                                                    data-toggle="modal" data-target="#myModal_del">  <i class="i-Close-Window font-weight-bold"></i> </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php
+
+
+                                                    <button type="button" class="btn btn-outline-danger btn-sm line-height-1" title="ยกเลิก Order" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
+                            </div>
+                            </td>
+                            </tr>
+                        <?php
                                         }
                                         mysqli_close($conn);
-                                        ?>
-                                        <tr>
-                                            <td colspan="14"> &nbsp;</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- ============ Table End ============= -->
-                            <div class="mt-1">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted"> มัดจำขั้นต่ำ 30% เมื่อทำการสั่งซื้อสินค้า</span>
-                            </div>
-                            <div class="">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted">ชำระค่าสินค้าที่เหลือในวันจัดส่ง ก่อนลงสินค้า</span>
-                            </div>
-                            <div class="">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted">ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาคิดเพิ่มชั่วโมงละ 500 บาท</span>
-                            </div>
-                            <div class="mb-5 mt-3">
-                                <nav aria-label="Page navigation ">
-                                    <ul class="pagination justify-content-center">
-                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
-                                        ?>
-                                        <li class="page-item" <?php if ($page_no <= 1) {
-                                                                    echo "class='disabled'";
-                                                                } ?>>
-                                            <a class="page-link" <?php if ($page_no > 1) {
-                                                                        echo "href='?page_no=$previous_page' ";
-                                                                    } ?>>Previous</a>
-                                        </li>
+                        ?>
+                        <tr>
+                            <td colspan="14"> &nbsp;</td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        </div>
+                        <!-- ============ Table End ============= -->
+                        <div class="mt-1">
+                            <span class="text-danger mr-1">**</span>
+                            <span class="text-muted"> มัดจำขั้นต่ำ 30% เมื่อทำการสั่งซื้อสินค้า</span>
+                        </div>
+                        <div class="">
+                            <span class="text-danger mr-1">**</span>
+                            <span class="text-muted">ชำระค่าสินค้าที่เหลือในวันจัดส่ง ก่อนลงสินค้า</span>
+                        </div>
+                        <div class="">
+                            <span class="text-danger mr-1">**</span>
+                            <span class="text-muted">ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาคิดเพิ่มชั่วโมงละ 500 บาท</span>
+                        </div>
+                        <div class="mb-5 mt-3">
+                            <nav aria-label="Page navigation ">
+                                <ul class="pagination justify-content-center">
+                                    <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                                    ?>
+                                    <li class="page-item" <?php if ($page_no <= 1) {
+                                                                echo "class='disabled'";
+                                                            } ?>>
+                                        <a class="page-link" <?php if ($page_no > 1) {
+                                                                    echo "href='?page_no=$previous_page' ";
+                                                                } ?>>Previous</a>
+                                    </li>
 
-                                        <?php
-                                        if ($total_no_of_pages <= 10) {
-                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                    <?php
+                                    if ($total_no_of_pages <= 10) {
+                                        for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                            if ($counter == $page_no) { ?>
+                                                <li class='page-item active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                            <?php  } else { ?>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                <?php   }
+                                        }
+                                    } elseif ($total_no_of_pages > 10) {
+                                        if ($page_no <= 4) {
+                                            for ($counter = 1; $counter < 8; $counter++) {
                                                 if ($counter == $page_no) { ?>
-                                                    <li class='page-item active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                    <li class='page-item  active'><a class="page-link"><?= $counter ?></a></li>
                                                 <?php  } else { ?>
                                                     <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                    <?php   }
+                                            <?php  }
                                             }
-                                        } elseif ($total_no_of_pages > 10) {
-                                            if ($page_no <= 4) {
-                                                for ($counter = 1; $counter < 8; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?=$counter?></a></li>
-                                                    <?php  } else { ?>
-                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                <?php  }
-                                                }
-                                                ?>
-                                                <li class="page-item"><a>...</a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                            <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
-                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li class="page-item"><a class="page-link">..</a></li>
-                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
-                                                    <?php  } else { ?>
-                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                <?php    }
-                                                } ?>
-                                                <li><a class="page-link">...</a></li>
-                                                <li><a class="page-link" href='?page_no=<?=$second_last?>'><?=$second_last?></a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                            <?php  } else { ?>
-                                                <li><a class="page-link" href='?page_no=1'>1</a></li>
-                                                <li><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li><a class="page-link">...</a></li>
+                                            ?>
+                                            <li class="page-item"><a>...</a></li>
+                                            <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                            <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                        <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                            <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
+                                            <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                            <li class="page-item"><a class="page-link">..</a></li>
+                                            <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                    <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                <?php  } else { ?>
+                                                    <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                            <?php    }
+                                            } ?>
+                                            <li><a class="page-link">...</a></li>
+                                            <li><a class="page-link" href='?page_no=<?= $second_last ?>'><?= $second_last ?></a></li>
+                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                        <?php  } else { ?>
+                                            <li><a class="page-link" href='?page_no=1'>1</a></li>
+                                            <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                            <li><a class="page-link">...</a></li>
 
-                                                <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
-                                                    <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=<?=$counter?>'><?php echo "$counter"; ?></a></li>
-                                        <?php   }
-                                                }
+                                            <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                if ($counter == $page_no) { ?>
+                                                    <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                <?php  } else {
+                                                ?> <li><a class="page-link" href='?page_no=<?= $counter ?>'><?php echo "$counter"; ?></a></li>
+                                    <?php   }
                                             }
                                         }
-                                        ?>
+                                    }
+                                    ?>
 
-                                        <li <?php if ($page_no >= $total_no_of_pages) {
-                                                echo "class='disabled'";
-                                            } ?>>
-                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
-                                                                        echo "href='?page_no=$next_page'";
-                                                                    } ?>>Next</a>
-                                        </li>
+                                    <li <?php if ($page_no >= $total_no_of_pages) {
+                                            echo "class='disabled'";
+                                        } ?>>
+                                        <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
+                                                                    echo "href='?page_no=$next_page'";
+                                                                } ?>>Next</a>
+                                    </li>
 
-                                        <?php if ($page_no < $total_no_of_pages) { ?>
-                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
-                                        <?php   } ?>
-                                    </ul>
-                                </nav>
-                            </div>
+                                    <?php if ($page_no < $total_no_of_pages) { ?>
+                                        <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                    <?php   } ?>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
         </div>
+        <!-- Header -->
+        <?php include './include/footer.php'; ?>
+        <!-- =============== Header End ================-->
+    </div>
     </div>
 
     <!-- Modal ยกเลิก Order -->
@@ -486,47 +484,47 @@ $(document).ready(function() {
             </div>
         </div>
     </div>
-<!-- Modal DEL  -->
-<div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post">
+    <!-- Modal DEL  -->
+    <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
 
-                    <div class="form-row">
-                        <div class="form-group col-md-10">
-                            <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
-                                    <span>*</span></strong></label>
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
+                                        <span>*</span></strong></label>
 
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="modal-footer">
-                        <input type="hidden" name="action" value="del">
-                        <input type="hidden" name="del_id" id="del_id" value="">
-                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
-                            DELETE</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="action" value="del">
+                            <input type="hidden" name="del_id" id="del_id" value="">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
+                                DELETE</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<form class="d-none" method="POST">
-    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
-    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
-    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
-    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
-    <button class="btn" id="FSButtonID" type="submit"></button>
-</form>
+    <form class="d-none" method="POST">
+        <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+        <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+        <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+        <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+        <button class="btn" id="FSButtonID" type="submit"></button>
+    </form>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -583,41 +581,41 @@ $(document).ready(function() {
     });
 </script>
 <script>
-$('#myModal_del').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var id = button.data('id')
-    var modal = $(this)
-    modal.find('#del_id').val(id)
+    $('#myModal_del').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('#del_id').val(id)
 
-})
+    })
 </script>
 <script>
-$(function() {
-    $('#orderModal').modal({
-        keyboard: true,
-        backdrop: "static",
-        show: false,
+    $(function() {
+        $('#orderModal').modal({
+            keyboard: true,
+            backdrop: "static",
+            show: false,
 
-    }).on('show', function() {
-        var getIdFromRow = $(this).data('orderid');
-        //make your ajax call populate items or what even you need
-        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+        }).on('show', function() {
+            var getIdFromRow = $(this).data('orderid');
+            //make your ajax call populate items or what even you need
+            $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+        });
+
+        $(".table-striped").find('tr[data-target]').on('click', function() {
+            //or do your operations here instead of on show of modal to populate values to modal.
+            $('#orderModal').data('orderid', $(this).data('id'));
+        });
+
     });
-
-    $(".table-striped").find('tr[data-target]').on('click', function() {
-        //or do your operations here instead of on show of modal to populate values to modal.
-        $('#orderModal').data('orderid', $(this).data('id'));
-    });
-
-});
 </script>
 <script>
-$(document).ready(function() {
-    $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(document).ready(function() {
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
         });
     });
-});
 </script>

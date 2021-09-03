@@ -143,15 +143,13 @@ if ($rowS == '') {
                                             <th>customer ID</th>
                                             <th>ประเภทลูกค้า</th>
                                             <th>ชื่อลูกค้า</th>
-                                            <th>บริษัท</th>
+                                         
                                             <th>ที่อยู่</th>
                                             <th>ตำบล</th>
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
                                             <th>เบอร์โทร</th>
-                                            <th>เลขที่เสียภาษี</th>
-                                            <th>อ้างอิง</th>
-                                            <th>รู้จักบริษัท</th>
+                                         
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -188,9 +186,10 @@ if ($rowS == '') {
 
                                                     ?>
                                             </td>
-                                            <td><?php echo $row['customer_name']; ?></td>
-                                            <td><?php echo $row['company_name']; ?></td>
-                                            <td><?php echo $row['bill_address']; ?></td>
+                                           
+                                            <td> <?php echo iconv_substr($row['customer_name'], 0, 30, 'UTF-8'); ?> </td>
+                                            <td> <?php echo iconv_substr($row['bill_address'], 0, 30, 'UTF-8'); ?> </td>
+                                           
                                             <td><?php
                                                     $sql3 = "SELECT * FROM districts  WHERE id= '$row[subdistrict]'";
                                                     $rs3 = $conn->query($sql3);
@@ -214,17 +213,8 @@ if ($rowS == '') {
 
                                                     ?>
                                             </td>
-                                            <td><?php echo $row['tel']; ?></td>
-                                            <td><?php echo $row['tax_number']; ?></td>
-                                            <td><?php echo $row['contact_name']; ?></td>
-
-                                            <td><?php
-                                                    $sql6 = "SELECT * FROM referent  WHERE id= '$row[referent]'";
-                                                    $rs6 = $conn->query($sql6);
-                                                    $row6 = $rs6->fetch_assoc();
-                                                    echo $row6['name'];
-
-                                                    ?></td>
+                                            <td> <?php echo substr($row['tel'], 0, 12);  ?> </td>
+                                           
 
                                             <td>
 
