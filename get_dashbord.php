@@ -5,7 +5,7 @@ include './include/config_date2.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
 
-$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all=[];
@@ -322,8 +322,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             formatter: "฿{value}",
           },
           min: 0,
-          max: 300000,
-          interval: 25000,
+          max: 3000000,
+          interval: 250000,
           axisLine: {
             show: false,
           },

@@ -195,7 +195,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                                                                             <tr>
                                                                                 <th scope="row"><?= ++$idx; ?></th>
-                                                                                <td><?= $row4['c_name'] ?></td>
+                                                                                <td class="text-left"><?= $row4['c_name'] ?></td>
                                                                                 <td><?php
                                                                                     $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
                                                                                     $rs_cus = $conn->query($sql_cus);
@@ -245,7 +245,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                         while ($row4 = mysqli_fetch_assoc($result4)) {
                                                                     ?> <tr>
                                                                     <th scope="row"><?= ++$idx1; ?></th>
-                                                                    <td><?= $row4['c_name'] ?></td>
+                                                                    <td class="text-left"><?= $row4['c_name'] ?></td>
                                                                     <td><?php
                                                                         $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
                                                                         $rs_cus = $conn->query($sql_cus);

@@ -134,7 +134,7 @@ if ($rowS == '') {
                                 <a class="linkLoadModalNext nav-link" href="/orderrefun.php">
                                     <h3 class="h5 font-weight-bold"> Order คืนสินค้า </h3>
                                     <span> รายการคืนสินค้า
-                                    <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
+                                        <span class="badge badge-pill badge-danger"><?= $rcountx['total_records'] ?></span>
                                     </span>
                                 </a>
                             </li>
@@ -164,9 +164,9 @@ if ($rowS == '') {
                                         <div class="row">
 
                                             <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchNameId"> Keyword</label>
-                                                    <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
+                                            <div class="form-group">
+                                                    <label for="searchNameId"> คำที่ต้องการค้น</label>
+                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
                                             <div class="col-auto">
@@ -370,9 +370,9 @@ if ($rowS == '') {
                                     } elseif ($total_no_of_pages > 10) {
                                         if ($page_no <= 4) {
                                             for ($counter = 1; $counter < 8; $counter++) {
-                                                if ($counter == $page_no) {
-                                                    echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                } else { ?>
+                                                if ($counter == $page_no) { ?>
+                                                    <li class='page-item  active'><a class="page-link"><?= $counter ?></a></li>
+                                                <?php  } else { ?>
                                                     <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                             <?php  }
                                             }
@@ -383,17 +383,17 @@ if ($rowS == '') {
                                         <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
                                             <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
                                             <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                            <li class="page-item"><a>...</a></li>
+                                            <li class="page-item"><a class="page-link">..</a></li>
                                             <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
                                                 if ($counter == $page_no) { ?>
-                                                    <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                    <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                 <?php  } else { ?>
                                                     <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                             <?php    }
                                             } ?>
                                             <li><a class="page-link">...</a></li>
-                                            <li><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><? echo "$second_last"; ?></a></li>
-                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><? echo "$total_no_of_pages"; ?></a></li>";
+                                            <li><a class="page-link" href='?page_no=<?= $second_last ?>'><?= $second_last ?></a></li>
+                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                         <?php  } else { ?>
                                             <li><a class="page-link" href='?page_no=1'>1</a></li>
                                             <li><a class="page-link" href='?page_no=2'>2</a></li>
@@ -401,9 +401,9 @@ if ($rowS == '') {
 
                                             <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                                                 if ($counter == $page_no) { ?>
-                                                    <li class='active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                    <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                 <?php  } else {
-                                                ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                                ?> <li><a class="page-link" href='?page_no=<?= $counter ?>'><?php echo "$counter"; ?></a></li>
                                     <?php   }
                                             }
                                         }
@@ -424,31 +424,31 @@ if ($rowS == '') {
                                 </ul>
                             </nav>
                         </div>
-                     
-                        </div>
+
+                    </div>
                 </div>
             </div>
-                    <!-- Header -->
-                    <?php include './include/footer.php'; ?>
-                    <!-- =============== Header End ================-->
-                </div>
-            </div>
-            <form class="d-none" method="POST">
-                <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
-                <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
-                <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
-                <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
-                <button class="btn" id="FSButtonID" type="submit"></button>
-            </form>
-            <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-            <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-            <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-            <script src="../../dist-assets/js/scripts/script.min.js"></script>
-            <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-            <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-            <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-            <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-            <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+            <!-- Header -->
+            <?php include './include/footer.php'; ?>
+            <!-- =============== Header End ================-->
+        </div>
+    </div>
+    <form class="d-none" method="POST">
+        <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+        <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+        <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+        <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+        <button class="btn" id="FSButtonID" type="submit"></button>
+    </form>
+    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../../dist-assets/js/scripts/script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
 
 </html>
@@ -525,12 +525,12 @@ if ($rowS == '') {
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $("#myInput").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+$(document).ready(function() {
+    $("#searchNameId").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+});
 </script>

@@ -41,9 +41,14 @@ if (empty($column) && ($keyword)) {
     //    echo"$column";
 }
 
-if (($column == "") && ($keyword == "")) {
-    $columx = "";
-    $keywordx = "";
+if (($column == "") && ($keyword == "$keyword")) {
+    $keywordx = "AND po_id LIKE'%$keyword%'
+               OR product_id LIKE'%$keyword%'
+               OR  qty LIKE'%$keyword%'
+               OR plant_id  LIKE'%$keyword%'
+               OR sqm LIKE'%$keyword%' 
+               OR status_stock LIKE'%$keyword%' ";
+    //    echo"$keywordx";
 }
 if ($rowS == '') {
     $total_records_per_page = 20;
@@ -426,6 +431,7 @@ if ($action == 'del') {
                                                                         echo "href='?page_no=$previous_page' ";
                                                                     } ?>>Previous</a>
                                         </li>
+
                                         <?php
                                         if ($total_no_of_pages <= 10) {
                                             for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
@@ -438,9 +444,9 @@ if ($action == 'del') {
                                         } elseif ($total_no_of_pages > 10) {
                                             if ($page_no <= 4) {
                                                 for ($counter = 1; $counter < 8; $counter++) {
-                                                    if ($counter == $page_no) {
-                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                    } else { ?>
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='page-item  active'><a class="page-link"><?=$counter?></a></li>
+                                                    <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php  }
                                                 }
@@ -451,17 +457,17 @@ if ($action == 'del') {
                                             <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
                                                 <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a class="page-link">..</a></li>
                                                 <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><? echo "$second_last"; ?></a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><? echo "$total_no_of_pages"; ?></a></li>";
+                                                <li><a class="page-link" href='?page_no=<?=$second_last?>'><?=$second_last?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                             <?php  } else { ?>
                                                 <li><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li><a class="page-link" href='?page_no=2'>2</a></li>
@@ -469,14 +475,15 @@ if ($action == 'del') {
 
                                                 <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                                    ?> <li><a class="page-link" href='?page_no=<?=$counter?>'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
                                             }
                                         }
                                         ?>
+
                                         <li <?php if ($page_no >= $total_no_of_pages) {
                                                 echo "class='disabled'";
                                             } ?>>
@@ -484,6 +491,7 @@ if ($action == 'del') {
                                                                         echo "href='?page_no=$next_page'";
                                                                     } ?>>Next</a>
                                         </li>
+
                                         <?php if ($page_no < $total_no_of_pages) { ?>
                                             <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
                                         <?php   } ?>

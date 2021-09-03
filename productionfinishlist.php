@@ -16,16 +16,25 @@ $rowS = $_REQUEST['row'];
 $emp_id = $_SESSION["username"];
 if (empty($column) && ($keyword)) {
 } else {
-    $columx = "AND $column LIKE'$keyword%'";
-    // echo"$columx";   
+    // $column = "AND $column LIKE'$keyword%'";
+    echo"$columx";
+       if($column=='po_id'){
+        $colum_po = "AND po_id LIKE'%$keyword%'";
+       }
+       if($column=='po_date'){
+        $colum_po = "AND po_date LIKE'%$keyword%'";
+       }
+      
+    //    echo"$column";
 }
+
 if (($column == "") && ($keyword == "$keyword")) {
-    $keywordx = "AND customer_id LIKE'$keyword%'
-               OR customer_name LIKE'$keyword%'
-               OR  company_name LIKE'$keyword%'
-               OR tel LIKE'$keyword%'
-               OR contact_name  LIKE'$keyword%' 
-               OR bill_address LIKE'$keyword%' ";
+    $keywordx = "AND po_id LIKE'%$keyword%'
+               OR product_id LIKE'%$keyword%'
+               OR  qty LIKE'%$keyword%'
+               OR plant_id  LIKE'%$keyword%'
+               OR sqm LIKE'%$keyword%' 
+               OR status_stock LIKE'%$keyword%' ";
     //    echo"$keywordx";
 }
 if (($column == "") && ($keyword == "")) {
@@ -107,15 +116,15 @@ if ($rowS == '') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            <div class="col-auto">
+                                        <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
+                                                   
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="po_id">รหัสสั่งผลิต</option>
-                                                        <option value="po_date">วันที่สั่งผลิต</option>
-                                                        <option value="plane_id">แพที่ผลิต</option>
-                                                        <option value="product_id">รหัสสินค้า</option>
-                                                        <option value="product_name">ชื่อสินค้า</option>
+                                                    <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
+                                                     <option value="po_id" <?php echo $column == 'po_id' ? 'selected' : ''; ?>> รหัสสั่งผลิต </option>
+                                                     <option value="po_date" <?php echo $column == 'po_date' ? 'selected' : ''; ?>> วันที่สั่งผลิต </option>
+                                                    
                                                     </select>
                                                 </div>
                                             </div>
@@ -274,56 +283,56 @@ if ($rowS == '') {
                                                                     echo "class='disabled'";
                                                                 } ?>>
                                             <a class="page-link" <?php if ($page_no > 1) {
-                                                    echo "href='?page_no=$previous_page' ";
-                                                } ?>>Previous</a>
+                                                                        echo "href='?page_no=$previous_page' ";
+                                                                    } ?>>Previous</a>
                                         </li>
 
                                         <?php
                                         if ($total_no_of_pages <= 10) {
                                             for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
                                                 if ($counter == $page_no) { ?>
-                                                   <li class='page-item active'><a class="page-link"><?php echo"$counter"; ?></a></li>
-                                               <?php  } else { ?>
-                                                   <li><a class="page-link" href='?page_no=<?php echo "$counter";?>'><?php echo"$counter"; ?></a></li>
-                                              <?php   }
+                                                    <li class='page-item active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                <?php  } else { ?>
+                                                    <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                    <?php   }
                                             }
                                         } elseif ($total_no_of_pages > 10) {
                                             if ($page_no <= 4) {
                                                 for ($counter = 1; $counter < 8; $counter++) {
-                                                    if ($counter == $page_no) {
-                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                    } else { ?>
-                                                      <li><a class="page-link" href='?page_no=<?php echo"$counter"; ?>'><?php echo"$counter";?></a></li>
-                                                   <?php  }
-                                                }
-                                        ?>
-                                                <li class="page-item"><a>...</a></li>
-                                                <li class="page-item"><a  class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                                <li class="page-item"><a  class="page-link"href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                                <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
-                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li class="page-item"><a>...</a></li>
-                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?=$counter?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                    <?php    }
+                                                <?php  }
+                                                }
+                                                ?>
+                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
+                                            <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
+                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li class="page-item"><a class="page-link">..</a></li>
+                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else { ?>
+                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
+                                                <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$second_last";?>'><? echo"$second_last";?></a></li>
-                                               <li><a class="page-link" href='?page_no=<?php echo"$total_no_of_pages";?>'><? echo"$total_no_of_pages";?></a></li>";
+                                                <li><a class="page-link" href='?page_no=<?=$second_last?>'><?=$second_last?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                             <?php  } else { ?>
-                                               <li><a class="page-link"  href='?page_no=1'>1</a></li>
-                                               <li><a class="page-link" href='?page_no=2'>2</a></li>
-                                               <li><a class="page-link">...</a></li>
+                                                <li><a class="page-link" href='?page_no=1'>1</a></li>
+                                                <li><a class="page-link" href='?page_no=2'>2</a></li>
+                                                <li><a class="page-link">...</a></li>
 
-                                         <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                                <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                       <li class='active'><a class="page-link"><?php echo"$counter";?></a></li>
-                                                  <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                    <?php  } else {
+                                                    ?> <li><a class="page-link" href='?page_no=<?=$counter?>'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
                                             }
@@ -334,13 +343,13 @@ if ($rowS == '') {
                                                 echo "class='disabled'";
                                             } ?>>
                                             <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
-                                                    echo "href='?page_no=$next_page'";
-                                                } ?>>Next</a>
+                                                                        echo "href='?page_no=$next_page'";
+                                                                    } ?>>Next</a>
                                         </li>
 
                                         <?php if ($page_no < $total_no_of_pages) { ?>
-                                           <li><a class="page-link"  href='?page_no=<?php echo"$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
-                                      <?php   } ?>
+                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
+                                        <?php   } ?>
                                     </ul>
                                 </nav>
                             </div>
@@ -498,6 +507,33 @@ if ($rowS == '') {
             </nav>
         </div>
     </div>
+    <form class="d-none" method="POST">
+    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+    <button class="btn" id="FSButtonID" type="submit"></button>
+</form>
+<!-- ============ Form Search End ============= -->
+
+<!-- ============ Modal Start ============= -->
+<!-- modal load -->
+<div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="mt-1">
+                        Load ...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
     <!-- ============ Search UI End ============= -->
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
@@ -509,5 +545,109 @@ if ($rowS == '') {
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 </body>
+<script>
+/* ===== search start ===== */
+function modalLoad() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+};
 
+function clickNav(page) {
+    modalLoad();
+
+    $("#FSPageId").val(page);
+    $("#FSButtonID").click();
+}
+$("#searchRowsId").on("change", function() {
+    modalLoad();
+
+    let row = $("#searchRowsId").val();
+    $("#FSRowId").val(row);
+    let column = $("#searchColumnId").val();
+    $("#FSColumnId").val(column);
+    $("#FSButtonID").click();
+
+});
+$("#searchNameId").on("change", function() {
+    // modalLoad();
+
+    let name = $("#searchNameId").val();
+    let column = $("#searchColumnId").val();
+
+    if(column==''){
+        $("#FSKeywordId").val(name);
+        $("#FSButtonID").click();
+    }else{
+
+    $("#FSKeywordId").val(name);
+    $("#FSColumnId").val(column);
+    $("#FSButtonID").click();
+console.log('column',column)
+console.log('name',name)
+    }
+   
+
+});
+
+/* ===== search end ===== */
+
+//click next link
+$(".linkLoadModalNext").on('click', function() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+});
+</script>
+<script>
+$('#myModal_del').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var modal = $(this)
+    modal.find('#del_id').val(id)
+
+})
+
+//click next link
+$(".linkLoadModalNext").on('click', function() {
+    $("#ModalLoadId").modal({
+        backdrop: 'static',
+        'keyboard': false,
+    });
+});
+</script>
+
+
+<script>
+$(function() {
+    $('#orderModal').modal({
+        keyboard: true,
+        backdrop: "static",
+        show: false,
+
+    }).on('show', function() {
+        var getIdFromRow = $(this).data('orderid');
+        //make your ajax call populate items or what even you need
+        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+    });
+
+    $(".table-striped").find('tr[data-target]').on('click', function() {
+        //or do your operations here instead of on show of modal to populate values to modal.
+        $('#orderModal').data('orderid', $(this).data('id'));
+    });
+
+});
+</script>
+<script>
+$(document).ready(function() {
+    $("#searchNameId").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+</script>
 </html>

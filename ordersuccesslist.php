@@ -14,16 +14,16 @@ $column = $_REQUEST['column'];
 $rowS = $_REQUEST['row'];
 if (empty($column) && ($keyword)) {
 } else {
-    $columx = "AND $column LIKE'$keyword%'";
+    $columx = "AND $column LIKE'%$keyword%'";
     // echo"$columx";   
 }
 if (($column == "") && ($keyword == "$keyword")) {
-    $keywordx = "AND customer_id LIKE'$keyword%'
-               OR customer_name LIKE'$keyword%'
-               OR  company_name LIKE'$keyword%'
-               OR tel LIKE'$keyword%'
-               OR contact_name  LIKE'$keyword%' 
-               OR bill_address LIKE'$keyword%' ";
+    $keywordx = "AND order_id LIKE'%$keyword%'
+               OR cus_id LIKE'%$keyword%'
+               OR  cus_back LIKE'%$keyword%'
+               OR delivery_address  LIKE'%$keyword%'
+               OR dev_id  LIKE'%$keyword%' 
+               OR delivery_date LIKE'%$keyword%' ";
     //    echo"$keywordx";
 }
 if (($column == "") && ($keyword == "")) {
@@ -167,9 +167,9 @@ if ($rowS == '') {
                                         <div class="row">
 
                                             <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchNameId"> Keyword</label>
-                                                    <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
+                                            <div class="form-group">
+                                                    <label for="searchNameId"> คำที่ต้องการค้น</label>
+                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
                                             <div class="col-auto">
@@ -360,9 +360,9 @@ if ($rowS == '') {
                                         } elseif ($total_no_of_pages > 10) {
                                             if ($page_no <= 4) {
                                                 for ($counter = 1; $counter < 8; $counter++) {
-                                                    if ($counter == $page_no) {
-                                                        echo "<li class='page-item  active'><a>$counter</a></li>";
-                                                    } else { ?>
+                                                    if ($counter == $page_no) { ?>
+                                                        <li class='page-item  active'><a class="page-link"><?=$counter?></a></li>
+                                                    <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php  }
                                                 }
@@ -373,17 +373,17 @@ if ($rowS == '') {
                                             <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
                                                 <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li class="page-item"><a>...</a></li>
+                                                <li class="page-item"><a class="page-link">..</a></li>
                                                 <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='active'><a><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><? echo "$second_last"; ?></a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><? echo "$total_no_of_pages"; ?></a></li>";
+                                                <li><a class="page-link" href='?page_no=<?=$second_last?>'><?=$second_last?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                             <?php  } else { ?>
                                                 <li><a class="page-link" href='?page_no=1'>1</a></li>
                                                 <li><a class="page-link" href='?page_no=2'>2</a></li>
@@ -391,9 +391,9 @@ if ($rowS == '') {
 
                                                 <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='active'><a class="page-link"><?php echo "$counter"; ?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=$counter'><?php echo "$counter"; ?></a></li>
+                                                    ?> <li><a class="page-link" href='?page_no=<?=$counter?>'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
                                             }
@@ -515,12 +515,12 @@ if ($rowS == '') {
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $("#myInput").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+$(document).ready(function() {
+    $("#searchNameId").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+});
 </script>
