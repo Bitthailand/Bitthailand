@@ -27,6 +27,7 @@ echo "$row2[po_id]";
 
                     <th>รหัสสินค้า</th>
                     <th>ชื่อสินค้า</th>
+                    <th>แพที่</th>
                     <th>ความยาว</th>
                     <th>จำนวนผลิต</th>
                     <th>สมบูรณ์</th>
@@ -47,7 +48,9 @@ echo "$row2[po_id]";
                                 $product_id=$rowx['product_id'];
                                 echo "$rowx[product_id]";
                                 ?></td>
+                           
                             <td><?php echo"$rowx2[product_name]";?></td>
+                            <td><?php echo"$rowx[plant_id]";?></td>
                             <td><?php echo"$rowx2[width]";?></td>
                             <td><?php echo"$rowx[qty]";?></td>
                             <td><input class="form-control" value="<?php echo"$rowx[a_type]";?>" type="text" name='a_type[<?=$product_id?>][<?=$pid?>][<?=++$idx;?>]' placeholder="ใส่ข้อมูล" require></td>
