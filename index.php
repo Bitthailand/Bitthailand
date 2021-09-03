@@ -504,6 +504,14 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="card-title">Dashed Line Chart(Page Statistics)</div>
+                                <div id="dashedLineChart"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div><!-- end of main-content -->
             </div>
 
@@ -522,6 +530,9 @@ $row_order_year = $rs_order_year->fetch_assoc();
     <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
     <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js?id=1"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+    <script src="../../dist-assets/js/plugins/apexcharts.min.js"></script>
+    <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
+    <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
 </body>
 
 </html>

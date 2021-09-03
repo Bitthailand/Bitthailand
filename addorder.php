@@ -244,9 +244,9 @@ if ($action == 'add_product') {
                     // echo "errALL";
                 }
             } else {
-                $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out)
+                $sqlyy = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out)
             VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','0','$emp_id','$disunit','CB','$Fqty')";
-                if ($conn->query($sql) === TRUE) { ?>
+                if ($conn->query($sqlyy) === TRUE) { ?>
                     <script>
                         $(document).ready(function() {
                             showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");

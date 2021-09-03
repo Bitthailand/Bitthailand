@@ -111,7 +111,7 @@ if ($action == 'add_dev') {
             });
         </script>
         <?php } else {
-        $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF' ORDER BY id ASC";
+        $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF' AND status_delivery='0' ORDER BY id ASC";
         $resultxx = mysqli_query($conn, $sqlxx);
         if (mysqli_num_rows($resultxx) > 0) {
             while ($rowx = mysqli_fetch_assoc($resultxx)) {
@@ -177,15 +177,16 @@ if ($action == 'add_dev') {
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                        
                        if($call_qty==0){
-                        $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
-                       }else{
-                        $sql1 = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty' where product_id='$product_id'";
-                       }
+                        $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
+                        if ($conn->query($sql1yyy) === TRUE) {
+                        }    
+                    }else{
+                        $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty' where product_id='$product_id'";
+                        if ($conn->query($sql1xxx) === TRUE) {
+                        }  
+                    }
                      
                         $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
-
-                        if ($conn->query($sql1) === TRUE) {
-                        }
                         if ($conn->query($sql2) === TRUE) {
                         }
 
