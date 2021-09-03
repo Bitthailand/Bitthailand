@@ -104,8 +104,6 @@ if ($action == 'add_dev') {
     $date_credit = $_REQUEST['date_credit'];
     $date_end = $_REQUEST['date_end'];
 
-
-
     if ($dev_date == '') { ?>
         <script>
             $(document).ready(function() {
@@ -315,17 +313,17 @@ if ($action == 'add_dev') {
             if ($conn->query($sqlx2) === TRUE) {
             }
         }
+        // ค้นหาสินค้าที่ขึ้นต้น TF มาอับเดต
             $sql_TF = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'  ";
             $result_TF = mysqli_query($conn, $sql_TF);
             while ($row_TF = mysqli_fetch_assoc($result_TF)) {
 
-                $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price,ptype_id,cus_back,cus_type)
-        VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]','$row_TF[ptype_id]','$row[cus_back]','$cus_type')";
+                    $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price,ptype_id,cus_back,cus_type)
+                   VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]','$row_TF[ptype_id]','$row[cus_back]','$cus_type')";
               
               $sql1xx = "UPDATE order_details SET  status_delivery='1'  where product_id='$row_TF[product_id]'";
               if ($conn->query($sql1xx) === TRUE) {}
-              if ($conn->query($sql_TF) === TRUE) {
-                }
+              if ($conn->query($sql_TF) === TRUE) { }
             }
         }
         $cf = 'ok';
