@@ -197,15 +197,15 @@ if ($action == 'del') {
             let width1x = $("#width1").val();
             let size1x = $("#size1").val();
             let thickness1x = $("#thickness1").val();
-            let area1= $("#area1").val();
+            let area1 = $("#area1").val();
 
 
-            var sum_sqm = (width1x  * size1x * qtyx* 1000 / 1000).toFixed(3);
+            var sum_sqm = (width1x * size1x * qtyx * 1000 / 1000).toFixed(3);
             if (area1 !== 'undefined') {
-            var sum_concrete= (width1x  * size1x * thickness1x * qtyx* 1000 / 1000).toFixed(3);
+                var sum_concrete = (width1x * size1x * thickness1x * qtyx * 1000 / 1000).toFixed(3);
             }
             if (area1 >= 1) {
-            var sum_concrete = (width1x  * size1x * thickness1x * area1* qtyx*  1000 / 1000).toFixed(3);
+                var sum_concrete = (width1x * size1x * thickness1x * area1 * qtyx * 1000 / 1000).toFixed(3);
             }
             // var sum_concrete = concrete_calx  * qtyx;
             console.log('=========คำนวณตรงๆ=====================');
@@ -367,11 +367,11 @@ if ($action == 'del') {
                                                 <input type="text" name="qty" id="qty" value="<?= $qty ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2" onKeyUp="fncASum();">
                                                 <input type="hidden" name="sqm1" id="sqm1" value="<?= $sqm1 ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
                                                 <input type="hidden" name="concrete_cal1" id="concrete_cal1" value="<?php echo "$concrete_cal1"; ?>" class="classcus form-control" placeholder="จำนวนสั่งผลิต" data-index="2">
-                                                <input type="hidden" name="width1" id="width1" value="<?php echo "$width1"; ?>" >
-                                                <input type="hidden" name="size1" id="size1" value="<?php echo "$size1"; ?>" >
-                                                <input type="hidden" name="thickness1" id="thickness1" value="<?php echo "$thickness1"; ?>" >
-                                                <input type="hidden" name="area1" id="area1" value="<?php echo "$area1"; ?>" >
-                                                
+                                                <input type="hidden" name="width1" id="width1" value="<?php echo "$width1"; ?>">
+                                                <input type="hidden" name="size1" id="size1" value="<?php echo "$size1"; ?>">
+                                                <input type="hidden" name="thickness1" id="thickness1" value="<?php echo "$thickness1"; ?>">
+                                                <input type="hidden" name="area1" id="area1" value="<?php echo "$area1"; ?>">
+
 
                                             </div>
 
@@ -429,16 +429,33 @@ if ($action == 'del') {
 
                                                                         ?></td>
 
-                                                                    <td> <?php echo $row3['thickness']; ?></td>
-                                                                    <td> <strong><?php echo $row3['width']; ?></strong> </td>
-                                                                    <td><?php echo $row3['size']; ?></td>
-                                                                    <td><?php echo $row3['area']; ?></td>
-                                                                    <td> <?php echo $row3['dia_size']; ?></td>
-                                                                    <td> <?php echo $row3['dia_count']; ?> </td>
+                                                                    <td> <?php echo $row3['thickness'];
+                                                                     $sumthickness = $sumthickness+ $row3['thickness'];
+                                                                    ?></td>
+                                                                    <td> <strong><?php echo $row3['width'];
+                                                                     $sumwidth = $sumwidth+ $row3['width'];
+                                                                    ?></strong> </td>
+                                                                    <td><?php echo $row3['size']; 
+                                                                    $sumsize = $sumsize+ $row3['size'];
+                                                                    ?></td>
+                                                                    <td><?php echo $row3['area']; 
+                                                                     $sumarea = $sumarea+ $row3['area'];
+                                                                    ?></td>
+                                                                    <td> <?php echo $row3['dia_size']; 
+                                                                    $sumdia_size = $sumdia_size+ $row3['dia_size'];
+                                                                    ?></td>
+                                                                    <td> <?php echo $row3['dia_count'];
+                                                                      $sumdia_count = $sumdia_count+ $row3['dia_count'];
+                                                                    ?> </td>
 
-                                                                    <td> <?php echo $row['sqm']; ?> </td>
-                                                                    <td> <?php echo $row['concrete_cal']; ?></td>
-                                                                    <td><?php echo $row['qty']; ?></td>
+                                                                    <td> <?php echo $row['sqm'];
+                                                                            $sumsqm = $sumsqm + $row['sqm'];
+                                                                            ?> </td>
+                                                                    <td> <?php echo $row['concrete_cal'];
+                                                                            $sumconcrete_cal = $sumconcrete_cal + $row['concrete_cal'];
+                                                                            ?></td>
+                                                                    <td><?php echo $row['qty'];
+                                                                        $sumqty = $sumqty + $row['qty']; ?></td>
 
                                                                     <?php if ($status_po == 'update') {
                                                                     } else { ?> <td>
@@ -451,6 +468,23 @@ if ($action == 'del') {
                                                                 </tr>
                                                         <?php }
                                                         } ?>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td  class="text-left">รวม</td>
+                                                            <td><?=$sumthickness?></td>
+                                                            <td><?=$sumwidth?></td>
+                                                            <td><?=$sumsize?></td>
+                                                            <td><?= $sumarea?></td>
+                                                            <td><?=$sumdia_size?></td>
+                                                            <td><?=$sumdia_count?></td>
+                                                            
+                                                            <td><?=$sumsqm?></td>
+                                                            <td><?= $sumconcrete_cal ?></td>
+                                                            <td><?= $sumqty ?></td>
+                                                            <td></td>
+                                                          
+                                                        </tr>
                                                         <tr>
                                                             <td colspan="14"> &nbsp;</td>
                                                         </tr>
