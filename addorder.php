@@ -175,7 +175,7 @@ if ($action == 'add_product') {
         // =======================
         $send_total = $send_price * $send_qty;
         $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,qty_out)
-        VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','0','$emp_id','TF','$send_price')";
+        VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','0','$emp_id','TF','$send_qty')";
         if ($conn->query($sql) === TRUE) { ?>
             <script>
                 $(document).ready(function() {
