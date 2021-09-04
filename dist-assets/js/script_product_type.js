@@ -35,7 +35,9 @@ $(function() {
 
         } else {
             console.log('cus_back', cus_back);
-
+            var TF = '';
+            $('#TF').val(TF);
+            // $('#qty')
 
             if (cus_back == 1) {
                 document.getElementById("ifYes").style.display = "none";

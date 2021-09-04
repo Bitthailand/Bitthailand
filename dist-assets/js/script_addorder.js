@@ -306,7 +306,9 @@ $("#btu").click("change", function() {
     let Fproductx = $("#productx").val();
     let Fproduct_type = $("#product_type").val();
     let Funit_price = $("#unit_price").val();
-    // ==================
+
+    console.log('Fproduct_type', Fproduct_type)
+        // ==================
     let Fcus_type_name = $("#Fcus_type_name").val();
     let Fcus_type_id = $("#Fcus_type_id").val();
     let Fcus_id = $("#Fcus_id").val();
@@ -469,6 +471,9 @@ if (cus_back == 1) {
     document.getElementById("ifYes_dis").style.display = "none";
     document.getElementById("ifYes_qty_face2").style.display = "block";
     document.getElementById("btu").disabled = true;
+    let Aproduct_type = $("#product_type").val();
+    console.log('Aproduct_type', Aproduct_type)
+
 
 }
 if (cus_back == 2) {
