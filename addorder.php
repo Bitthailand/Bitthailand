@@ -11,7 +11,6 @@ $status_order = $_REQUEST['status_order'];
 error_reporting(0);
 $emp_id = $_SESSION["username"];
 // echo "$status_order";
-
 $order_id = $_REQUEST['order_id'];
 if ($status_order == 'Mnew') {
     $order_id = $_REQUEST['order_id'];
@@ -70,7 +69,6 @@ if ($status_order == 'confirm') {
     }
     // echo"วิธีรับสินค้า";
     // echo"$discount ";
-
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $Fcus_type_name = $_REQUEST['Fcus_type_name'];
@@ -89,23 +87,21 @@ if ($status_order == 'confirm') {
     // echo"$Fdate_confirm";
     $datecf = $Fdate_confirm;
 }
-$delivery_datex = $_REQUEST['delivery_datex'];
-$action = $_REQUEST['action'];
-$Fcus_type_name = $_REQUEST['Fcus_type_name'];
-$Fcus_type_id = $_REQUEST['Fcus_type_id'];
-$Fcus_name = $_REQUEST['Fcus_name'];
-$Fcus_id = $_REQUEST['Fcus_id'];
-$Fcus_tel = $_REQUEST['Fcus_tel'];
-$Fcus_bill_address = $_REQUEST['Fcus_bill_address'];
-$Fcus_back = $_REQUEST['Fcus_back'];
-$Fdelivery_date = $_REQUEST['Fdelivery_date'];
-$Fdelivery_Address = $_REQUEST['Fdelivery_Address'];
-$Fdate_confirm = $_REQUEST['Fdate_confirm'];
-$tax = $_REQUEST['Ftax'];
-$discount = $_REQUEST['Fdiscount'];
-$Forder_id = $_REQUEST['Forder_id'];
-
-
+    $delivery_datex = $_REQUEST['delivery_datex'];
+    $action = $_REQUEST['action'];
+    $Fcus_type_name = $_REQUEST['Fcus_type_name'];
+    $Fcus_type_id = $_REQUEST['Fcus_type_id'];
+    $Fcus_name = $_REQUEST['Fcus_name'];
+    $Fcus_id = $_REQUEST['Fcus_id'];
+    $Fcus_tel = $_REQUEST['Fcus_tel'];
+    $Fcus_bill_address = $_REQUEST['Fcus_bill_address'];
+    $Fcus_back = $_REQUEST['Fcus_back'];
+    $Fdelivery_date = $_REQUEST['Fdelivery_date'];
+    $Fdelivery_Address = $_REQUEST['Fdelivery_Address'];
+    $Fdate_confirm = $_REQUEST['Fdate_confirm'];
+    $tax = $_REQUEST['Ftax'];
+    $discount = $_REQUEST['Fdiscount'];
+    $Forder_id = $_REQUEST['Forder_id'];
 if ($action == 'add_product') {
     $Fproduct_type = $_REQUEST['Fproduct_type'];
     $Fproductx = $_REQUEST['Fproductx'];
@@ -138,123 +134,110 @@ if ($action == 'add_product') {
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
-    
     if ($TF == 1) {  // ค่าจัดส่ง
         $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
         $result2 = mysqli_query($conn, $sql2);
         if (mysqli_num_rows($result2) > 0) {
             // echo "orders";
-        } else {
+                 } else {
             // echo "ordersss";
-            $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
-    VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
-            if ($conn->query($sqlx5) === TRUE) {
-            }
-        }
-        // ====บันทึกเป็นสินค้าใหม่
-        $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF0'  ";
-        $rs9 = $conn->query($sql9);
-        $row_run = $rs9->fetch_assoc();
-        $datetodat = date('Y-m-d');
-        $date = explode(" ", $datetodat);
-        $dat = datethai_TF($date[0]);
-        $code_new = $row_run['id_run'] + 1;
-        $code = sprintf('%05d', $code_new);
-        $TF_id = $dat . $code;
-        // echo "$TF_id";
-        $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id,unit_price)
-            VALUES ('$TF_id','0','99','$send_to','TF0','$send_price')";
-        if ($conn->query($sql99) === TRUE) {
-            $last_id = $conn->insert_id;
-            // echo "$last_id";
-            // echo"xx";
-        }
-        $sql5 = "SELECT * FROM product  where  id='$last_id' ";
-        $rs5 = $conn->query($sql5);
-        $row5 = $rs5->fetch_assoc();
+                        $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
+                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
+                                if ($conn->query($sqlx5) === TRUE) { }
+                  }
+                 // ====บันทึกเป็นสินค้าใหม่
+                  $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF0'  ";
+                    $rs9 = $conn->query($sql9);
+                    $row_run = $rs9->fetch_assoc();
+                    $datetodat = date('Y-m-d');
+                    $date = explode(" ", $datetodat);
+                    $dat = datethai_TF($date[0]);
+                    $code_new = $row_run['id_run'] + 1;
+                    $code = sprintf('%05d', $code_new);
+                    $TF_id = $dat . $code;
+                 $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id,unit_price)
+                            VALUES ('$TF_id','0','99','$send_to','TF0','$send_price')";
+                            if ($conn->query($sql99) === TRUE) {
+                             $last_id = $conn->insert_id;
+              }
+                    $sql5 = "SELECT * FROM product  where  id='$last_id' ";
+                    $rs5 = $conn->query($sql5);
+                    $row5 = $rs5->fetch_assoc();
         // =======================
-        $send_total = $send_price * $send_qty;
-        echo"$row5[product_id]";
-        $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,qty_out)
-        VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','0','$emp_id','TF','$send_qty')";
-        if ($conn->query($sql) === TRUE) { ?>
-            <script>
-                $(document).ready(function() {
+                     $send_total = $send_price * $send_qty;
+                $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,qty_out)
+                        VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','0','$emp_id','TF','$send_qty')";
+                          if ($conn->query($sql) === TRUE) { ?>
+                 <script>
+                     $(document).ready(function() {
                     showAlert("บันทึกข้อมูลจัดส่งสำเร็จ", "alert-success");
-                });
-            </script>
+                 });
+                </script>
         <?php   }
-    } else {
-        $sqlx = "SELECT * FROM order_details   WHERE order_id='$Forder_id' AND product_id='$row5[product_id]' ";
-        $result = mysqli_query($conn, $sqlx);
-        if (mysqli_num_rows($result) > 0) { ?>
-            <script>
-                $(document).ready(function() {
-                    showAlert("ข้อมูลรายการสั่งสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
-                });
-            </script>
-            <?php  } else {
-            // สินค้าไม่ซ้ำ ให้มาตรวจสอบ ถ้ามี ==1 ให้ เพิ่มรายการลงในตาราง orders
-            $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
-            $result2 = mysqli_query($conn, $sql2);
-            if (mysqli_num_rows($result2) > 0) {
-                // echo "orders";
-            } else {
-                // echo "o orders";
-                $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
-                        VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
-                if ($conn->query($sqlx5) === TRUE) {
-                }
-            }
-            // echo "in";
-            // ลูกค้ารับกลับเอง ต้องเช็ตสต็อค
-            if ($Fcus_back == 1) {
-                $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
-                $rs5 = $conn->query($sql5);
-                $row5 = $rs5->fetch_assoc();
-                $sum_qty = $Fqty + $Fqty2;
-                if ($row['fac1_stock'] < $Fqty) {
-                    $chk1 = 'true';
-                } else {
-                    // echo "errQTY1";
-                    $chk1 = 'false';
-                }
-                if ($row['fac2_stock'] < $Fqty2) {
-                    $chk2 = 'true';
-                } else {
-                    // echo "errQTY2";
-                    $chk2 = 'false';
-                }
-                if ($chk1 == 'true' && $chk2 = 'true') {
-                    // echo "ลงฐานQ1" . $Fqty . "Q2" . $Fqty2;
-                    // echo "sum_qty" . $sum_qty . "xx";
-
-                    $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out)
-                    VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','0','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty')";
-                    if ($conn->query($sqlx4) === TRUE) { ?>
+         } else { //ปิดบันทึกค่าจัดส่ง
+                $sqlx = "SELECT * FROM order_details   WHERE order_id='$Forder_id' AND product_id='$row5[product_id]' ";
+                $result = mysqli_query($conn, $sqlx);
+                if (mysqli_num_rows($result) > 0) { ?>
                         <script>
                             $(document).ready(function() {
-                                showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                                showAlert("ข้อมูลรายการสั่งสินค้าซ้ำไม่สามารถบันทึกได้", "alert-danger");
                             });
                         </script>
-                    <?php   } //
-
-                } else {
-                    // echo "errALL";
-                } //ถ้าไม่ใช้ รับกลับเอง ก็ให้ใช้เงื่อนไขต่อไป
-            } else {
-                $sqlyy = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out)
-            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','0','$emp_id','$disunit','CB','$Fqty')";
-                if ($conn->query($sqlyy) === TRUE) { ?>
-                    <script>
-                        $(document).ready(function() {
-                            showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
-                        });
-                    </script>
-        <?php   } else {
-                    // echo "errr";
-                }
-            } //ปิด เช็คสถานะรับกลับ
+          <?php  } else {
+            // สินค้าไม่ซ้ำ ให้มาตรวจสอบ ถ้ามี ==1 ให้ เพิ่มรายการลงในตาราง orders
+                $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
+                $result2 = mysqli_query($conn, $sql2);
+                         if (mysqli_num_rows($result2) > 0) {
+                         } else {
+                     $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
+                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
+                                if ($conn->query($sqlx5) === TRUE) {}
+                         } //ปิดบันทึก order
+            // echo "in";
+            // ลูกค้ารับกลับเอง ต้องเช็ตสต็อค
+            if ($Fcus_back == 1) {  //ลูกค้ารับกลับเอง
+                         $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
+                         $rs5 = $conn->query($sql5);
+                         $row5 = $rs5->fetch_assoc();
+                         $sum_qty = $Fqty + $Fqty2;
+                         if ($row['fac1_stock'] < $Fqty) {
+                             $chk1 = 'true';
+                         } else {
+                             $chk1 = 'false';
+                         }
+                         if ($row['fac2_stock'] < $Fqty2) {
+                             $chk2 = 'true';
+                         } else {
+                             $chk2 = 'false';
+                         }
+                         if ($chk1 == 'true' && $chk2 = 'true') {
+                                 $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out)
+                                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','0','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty')";
+                                    if ($conn->query($sqlx4) === TRUE) { ?>
+                                    <script>
+                                        $(document).ready(function() {
+                                            showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                                        });
+                                    </script>
+                              <?php   } //      
+                              } else {
+                                         // echo "errALL";
+                                 } //ถ้าไม่ใช้ รับกลับเอง ก็ให้ใช้เงื่อนไขต่อไป
+                 }
+                  else
+                 {
+                         $sqlyy = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out)
+                                   VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','0','$emp_id','$disunit','CB','$Fqty')";
+                                    if ($conn->query($sqlyy) === TRUE) { ?>
+                                    <script>
+                                        $(document).ready(function() {
+                                            showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+                                        });
+                                    </script>
+                              <?php   } else {
+                              // echo "errr";
+                                         }
+                 } //ปิด เช็คสถานะรับกลับ
             // 
 
         }
@@ -324,7 +307,6 @@ if ($action == 'del') {
 if ($action == 'add') {
     $order_idx = $_REQUEST['order_idx'];
     $cus_id = $_REQUEST['Fcus_id'];
-
     $cus_back = $_REQUEST['cus_back'];
     $cus_type = $_REQUEST['customer_type_id'];
     $cus_tel = $_REQUEST['cus_tel'];
@@ -338,13 +320,16 @@ if ($action == 'add') {
     $delivery_datex = $_REQUEST['delivery_datex'];
     $sqlx = "SELECT * FROM order_details  WHERE order_id='$order_idx' AND status_button='0' AND status_delivery='0' ";
     $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) < 1) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ไม่สามารถบันทึกได้เนื่องจากไม่มีรายการสั่งสินค้า", "alert-danger");
-            });
-        </script>
-        <?php } else {
+    if (mysqli_num_rows($result) < 1) 
+    { ?>
+                <script>
+                    $(document).ready(function() {
+                        showAlert("ไม่สามารถบันทึกได้เนื่องจากไม่มีรายการสั่งสินค้า", "alert-danger");
+                    });
+                </script>
+     <?php } 
+     else
+    {
             // ลูกค้ารับกลับเอง เงินสด
         if (($cus_type == 1) && ($cus_back == 1)) {
             // echo "ค้นหา ORDER ว่ามีหรือไม่";
@@ -381,30 +366,26 @@ if ($action == 'add') {
                     $fac1_stock = $row2['fac1_stock'];
                     $fac2_stock = $row2['fac2_stock'];
                     $sum_dev = $row_pro['face1_stock_out'] + $row_pro['face2_stock_out'];
-                    echo"$sum_dev";
+                    // echo"$sum_dev";
                     //   เทียบสต็อก
                     // echo "จำนวนสต็อกที่สั่ง" . $row_pro['face1_stock_out'];
                     if ($fac1_stock >= $row_pro['face1_stock_out']) { //จำนวนที่สั่งต้องน้อยกว่าสต็อก
                         $stock1 = $fac1_stock - $row_pro['face1_stock_out'];
                         $sql112 = "UPDATE product  SET fac1_stock='$stock1' where product_id='$row2[product_id]'";
-                        if ($conn->query($sql112) === TRUE) {
-                        }
+                        if ($conn->query($sql112) === TRUE) {   }
                     } else {
                         echo "error";
                     }
                     if ($fac2_stock >= $row_pro['face2_stock_out']) { //จำนวนที่สั่งต้องน้อยกว่าสต็อก
                         $stock2 = $fac2_stock - $row_pro['face2_stock_out'];
                         $sql222 = "UPDATE product  SET  fac1_stock2='$stock2' where product_id='$row2[product_id]'";
-                        if ($conn->query($sql222) === TRUE) {
-                        }
+                        if ($conn->query($sql222) === TRUE) { }
                     } else {
                         echo "error";
                     }
                     // echo "อับเดตสถานะรายละเอียดสินค้า" . $sum_dev;
-                    $sql71 = "UPDATE order_details  SET status_button='1',qty_dev='$sum_dev',status_delivery='1'  where order_id='$order_idx' AND product_id='$row_pro[product_id]' ";
-                    if ($conn->query($sql71) === TRUE) {
-                    }
-
+                    $sql71 = "UPDATE order_details  SET status_button='1',qty_dev='$sum_dev',status_delivery='1',error='1'  where order_id='$order_idx' AND product_id='$row_pro[product_id]' ";
+                    if ($conn->query($sql71) === TRUE) {}
                     //    บันทึกข้อมูลลงตารางจัดส่ง
                 }
             }
@@ -418,131 +399,112 @@ if ($action == 'add') {
                     $code_new = $row_run['id_run'] + 1;
                     $code = sprintf('%05d', $code_new);
                     $dev_id = $dat . $code;
-            // ตรวจสอบเลขจัดส่ง
-            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
-            if ($conn->query($sqlx12) === TRUE) {
-            }
-            $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_idx' AND dev_id='$dev_id' ";
-            $resultxx = mysqli_query($conn, $sqlxx);
-            if (mysqli_num_rows($resultxx) > 0) {
-            } else {
-                // echo "tt"; cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type'
-                $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk,cus_id,cus_back,cus_type)
-                     VALUES ('$dev_id','$order_idx','$datetodat','1','$cus_id','$cus_back','$cus_type')";
-                if ($conn->query($sqlx) === TRUE) {
-                }
-                $sql_pro2 = "SELECT * FROM order_details  WHERE  order_id='$order_idx' ";
-                $result_pro2 = mysqli_query($conn, $sql_pro2);
-                if (mysqli_num_rows($result_pro2) > 0) {
-                    while ($row_pro2 = mysqli_fetch_assoc($result_pro2)) {
-
-                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,status_cf,ptype_id,cus_back,cus_type)
-                    VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$row_pro2[qty]','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]','1','$row_pro2[ptype_id]','$cus_back','$cus_type')";
-                        if ($conn->query($sqlx) === TRUE) {
-                        }
-                    }
-                }
-            }
-            // $sql_pro
-        ?> 
-       
-            <script>
-                $(document).ready(function() {
-                    showAlert("บันทึกข้อมูลสั่งสินค้าสำเร็จกรณีลูกค้ารับเอง", "alert-success");
-                });
-            </script>
-            <?php
-        }
+                        // ตรวจสอบเลขจัดส่ง
+                   $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
+                              if ($conn->query($sqlx12) === TRUE) {   }
+                    $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_idx' AND dev_id='$dev_id' ";
+                                 $resultxx = mysqli_query($conn, $sqlxx);
+                             if (mysqli_num_rows($resultxx) > 0) 
+                             {
+                             } else {
+                                 // echo "tt"; cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type'
+                                 $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk,cus_id,cus_back,cus_type)
+                                          VALUES ('$dev_id','$order_idx','$datetodat','1','$cus_id','$cus_back','$cus_type')";
+                                          if ($conn->query($sqlx) === TRUE) {}
+                                $sql_pro2 = "SELECT * FROM order_details  WHERE  order_id='$order_idx' ";
+                                $result_pro2 = mysqli_query($conn, $sql_pro2);
+                                if (mysqli_num_rows($result_pro2) > 0) {
+                                    while ($row_pro2 = mysqli_fetch_assoc($result_pro2)) {
+                                            $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,status_cf,ptype_id,cus_back,cus_type)
+                                                     VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$row_pro2[qty]','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]','1','$row_pro2[ptype_id]','$cus_back','$cus_type')";
+                                                        if ($conn->query($sqlx) === TRUE) { }
+                                             }
+                                }
+                            }  // $sql_pro  ?> 
+                                <script>
+                                    $(document).ready(function() {
+                                        showAlert("บันทึกข้อมูลสั่งสินค้าสำเร็จกรณีลูกค้ารับเอง", "alert-success");
+                                    });
+                                </script>
+      <?php   }
         // <!-- ปิดเงื่อนไขรับกลับเอง เงินสด -->
-        else {
+      else {
             
             //  if (($cus_type == 1) && ($cus_back == 1))
             // echo "$order_idx";
             //   เช็ครหัสสั่งชื้อซ้ำหรือไม่
-            $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx'  ";
-            $result = mysqli_query($conn, $sqlx);
-            if (mysqli_num_rows($result) > 0) {
+                $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx'  ";
+                $result = mysqli_query($conn, $sqlx);
+                if (mysqli_num_rows($result) > 0) {
                 // echo "$delivery_date";
-                $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
-                // echo "$order_idx";
-                if ($delivery_date = '$delivery_date') {
-                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
-                    if ($conn->query($sql11) === TRUE) {
-                    }
-                } else {
-                    $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
-                                 VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','0')";
-                    if ($conn->query($sqlx5) === TRUE) {
-                    }
-                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
-                    if ($conn->query($sql11) === TRUE) {
-                    }
-                }
-                $sql7 = "UPDATE order_details  SET status_button='1' where order_id='$order_idx'";
-                if ($conn->query($sql7) === TRUE) {
-                }
-                if ($conn->query($sql) === TRUE) {  ?>
+                    $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
+                            if ($conn->query($sql) === TRUE) { }
+                    if ($delivery_date = '$delivery_date') 
+                        {
+                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                                        if ($conn->query($sql11) === TRUE) { }
+                        } else {
+                                $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
+                                            VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','0')";
+                                            if ($conn->query($sqlx5) === TRUE) { }
+                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                                            if ($conn->query($sql11) === TRUE) { }
+                        }
+                    $sql7 = "UPDATE order_details  SET status_button='1' where order_id='$order_idx'";
+                            if ($conn->query($sql7) === TRUE) { }
+                // ============ปิดเงื่อนไขการอับเดตรหัสสินค้า
+                            $sql5 = "SELECT MAX(id) AS id_run FROM quotation ";
+                            $rs5 = $conn->query($sql5);
+                            $row_run = $rs5->fetch_assoc();
+                            $datetodat = date('Y-m-d');
+                            $date = explode(" ", $datetodat);
+                            $dat = datethai_qt($date[0]);
+                            $code_new = $row_run['id_run'] + 1;
+                            $code = sprintf('%05d', $code_new);
+                            $qt_id = $dat . $code;
+                            // =====เช็คสถานะของลูกค้า
+                            // $cus_type == 1 ลูกค้าเงินสด
+                            // $cus_type == 2 ลูกค้าเครดิส
+                            // $cus_back == 1 รับกลับเอง
+                            // $cus_back == 2 บริษัทจัดส่ง
+                            // $cus_back == 3 รับกลับเองวันหลัง
+
+                                if (($cus_type == 1) && ($cus_back == 2)) {
+                                        $sql8 = "INSERT INTO  quotation(qt_number,order_id)
+                                                        VALUES ('$qt_id','$order_idx')";
+                                        $sql9 = "UPDATE orders  SET order_status='1', qt_id='$qt_id',qt_date='$datetodat'  where  order_id='$order_idx'";
+                                                if ($conn->query($sql8) === TRUE) { }
+                                                if ($conn->query($sql9) === TRUE) { }
+                                    }
+
+                                if (($cus_type == 1) && ($cus_back == 3)) {
+                                        $sql8 = "INSERT INTO  quotation(qt_number,order_id)
+                                                    VALUES ('$qt_id','$order_idx')";
+                                        $sql9 = "UPDATE orders  SET order_status='1', qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                                                if ($conn->query($sql8) === TRUE) { }
+                                                if ($conn->query($sql9) === TRUE) { }
+                                    }
+                                if ($cus_type == 2) {
+                                        $sql8 = "INSERT INTO  quotation(qt_number,order_id)
+                                                VALUES ('$qt_id','$order_idx')";
+                                        $sql9 = "UPDATE orders  SET order_status='2',  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
+                                        if ($conn->query($sql8) === TRUE) { }
+                                        if ($conn->query($sql9) === TRUE) {  }
+                                    }
+                                  // ============ปิดการสร้างรหัส QT
+                     ?>
                     <script>
                         $(document).ready(function() {
                             showAlert("บันทึกข้อมูลสั่งสินค้าสำเร็จ", "alert-success");
                         });
                     </script>
-                <?php   }
 
-                // ============ปิดเงื่อนไขการอับเดตรหัสสินค้า
-                $sql5 = "SELECT MAX(id) AS id_run FROM quotation ";
-                $rs5 = $conn->query($sql5);
-                $row_run = $rs5->fetch_assoc();
-                $datetodat = date('Y-m-d');
-                $date = explode(" ", $datetodat);
-                $dat = datethai_qt($date[0]);
-                $code_new = $row_run['id_run'] + 1;
-                $code = sprintf('%05d', $code_new);
-                $qt_id = $dat . $code;
-                // =====เช็คสถานะของลูกค้า
-                // $cus_type == 1 ลูกค้าเงินสด
-                // $cus_type == 2 ลูกค้าเครดิส
-                // $cus_back == 1 รับกลับเอง
-                // $cus_back == 2 บริษัทจัดส่ง
-                // $cus_back == 3 รับกลับเองวันหลัง
+      <?php  }
+            } //ปิดลูกค้าไม่รับกลับ
 
-                if (($cus_type == 1) && ($cus_back == 2)) {
-                    $sql8 = "INSERT INTO  quotation(qt_number,order_id)
-                             VALUES ('$qt_id','$order_idx')";
-                    $sql9 = "UPDATE orders  SET order_status='1', qt_id='$qt_id',qt_date='$datetodat'  where  order_id='$order_idx'";
-                    if ($conn->query($sql8) === TRUE) {
-                    }
-                    if ($conn->query($sql9) === TRUE) {
-                    }
-                }
-
-                if (($cus_type == 1) && ($cus_back == 3)) {
-                    $sql8 = "INSERT INTO  quotation(qt_number,order_id)
-                             VALUES ('$qt_id','$order_idx')";
-                    $sql9 = "UPDATE orders  SET order_status='1', qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
-                    if ($conn->query($sql8) === TRUE) {
-                    }
-                    if ($conn->query($sql9) === TRUE) {
-                    }
-                }
-                if ($cus_type == 2) {
-                    $sql8 = "INSERT INTO  quotation(qt_number,order_id)
-                             VALUES ('$qt_id','$order_idx')";
-                    $sql9 = "UPDATE orders  SET order_status='2',  qt_id='$qt_id',qt_date='$datetodat' where  order_id='$order_idx'";
-                    if ($conn->query($sql8) === TRUE) {
-                    }
-                    if ($conn->query($sql9) === TRUE) {
-                    }
-                }
-                // ============ปิดการสร้างรหัส QT
-                else {  ?>
-
-        <?php
-                }
-            }
-        }
-    }
-}
+  } //ปิดเช็คช้ำ
+}      
+        
 $action = $_REQUEST['action'];
 if ($action == 'add_cus') {
 

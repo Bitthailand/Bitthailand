@@ -26,7 +26,7 @@ $row3 = $rs3->fetch_assoc();
 // ===
 if ($row['dev_status'] == 1) {
     $dev_status = $row['dev_status'];
-    $datetoday= $row['dev_date'];
+    $datetoday = $row['dev_date'];
 } else {
     $sql5 = "SELECT MAX(id) AS id_run FROM delivery  ";
     $rs5 = $conn->query($sql5);
@@ -38,7 +38,6 @@ if ($row['dev_status'] == 1) {
     $code_new = $row_run['id_run'] + 1;
     $code = sprintf('%05d', $code_new);
     $dev_id = $dat . $code;
-
     $sql5 = "SELECT MAX(id) AS id_run FROM iv_number  ";
     $rs5 = $conn->query($sql5);
     $row_run = $rs5->fetch_assoc();
@@ -48,17 +47,11 @@ if ($row['dev_status'] == 1) {
     $code_new = $row_run['id_run'] + 1;
     $code = sprintf('%05d', $code_new);
     $iv_id = $dat . $code;
-
     $sql5 = "SELECT MAX(id) AS id_run FROM bi_number  ";
     $rs5 = $conn->query($sql5);
     $row_run = $rs5->fetch_assoc();
-
     $strStartDate = $row['qt_date'];
     $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
-
- 
-
-    
 }
 ?>
 <!DOCTYPE html>
@@ -126,7 +119,7 @@ if ($action == 'add_dev') {
                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$product_id'";
                 $rsx3 = $conn->query($sqlx3);
                 $rowx3 = $rsx3->fetch_assoc();
-            
+
                 if ($rowx3['fac1_stock'] < $stock1) { ?>
                     <script>
                         $(document).ready(function() {
@@ -143,28 +136,30 @@ if ($action == 'add_dev') {
                     </script>
                 <?php
                 }
-                // if ($rowx['qty'] < $total_instock) { ?>
-                    <script>
-                        // $(document).ready(function() {
-                            // showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
-                        // });
-                    </script>
+                // if ($rowx['qty'] < $total_instock) { 
+                ?>
+                <script>
+                    // $(document).ready(function() {
+                    // showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
+                    // });
+                </script>
                 <?php
                 // }
-                // if ($total_instock == 0) { ?>
-                    <script>
-                        // $(document).ready(function() {
-                        //     showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
-                        // });
-                    </script>
-                    <?php
+                // if ($total_instock == 0) { 
+                ?>
+                <script>
+                    // $(document).ready(function() {
+                    //     showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
+                    // });
+                </script>
+                <?php
                 // }
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
                 if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
-                   $call_qty=$rowx['qty_out']- $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
-                   $add_devqty=$rowx['qty_dev']+$total_instock; //เพิ่มจำนวนจัดส่ง
+                    $call_qty = $rowx['qty_out'] - $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
+                    $add_devqty = $rowx['qty_dev'] + $total_instock; //เพิ่มจำนวนจัดส่ง
                     //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
                     $sql99 = "SELECT *  FROM deliver_detail  where order_id= '$order_id' AND dev_id='$dev_id'AND product_id='$product_id' ";
                     $result99 = mysqli_query($conn, $sql99);
@@ -175,30 +170,28 @@ if ($action == 'add_dev') {
                         $row_or = $rs_or->fetch_assoc();
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
-                       
-                       if($call_qty==0){
-                        $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
-                        if ($conn->query($sql1yyy) === TRUE) {
-                        }    
-                    }else{
-                        $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty' where product_id='$product_id'";
-                        if ($conn->query($sql1xxx) === TRUE) {
-                        }  
-                    }
-                     
+                        if ($conn->query($sqlx) === TRUE) {
+                        }
+                        if ($call_qty == 0) {
+                            $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
+                            if ($conn->query($sql1yyy) === TRUE) {
+                            }
+                        } else {
+                            $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty' where product_id='$product_id'";
+                            if ($conn->query($sql1xxx) === TRUE) {
+                            }
+                        }
                         $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
                         if ($conn->query($sql2) === TRUE) {
                         }
+                ?>
+                        <script>
+                            $(document).ready(function() {
+                                showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
+                            });
+                        </script>
+                <?php
 
-                        if ($conn->query($sqlx) === TRUE) {
-                    ?>
-                            <script>
-                                $(document).ready(function() {
-                                    showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
-                                });
-                            </script>
-<?php
-                        }
                     }
                 }
             }
@@ -207,15 +200,11 @@ if ($action == 'add_dev') {
         $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$order_id' AND status_delivery='1' AND ptype_id<>'TF' ";
         $rsc1 = $conn->query($sqlc1);
         $rowc1 = $rsc1->fetch_assoc();
-
         $sqlc0 = "SELECT COUNT(*) AS ts2  FROM order_details  WHERE   order_id= '$order_id' AND ptype_id<>'TF' ";
         $rsc0 = $conn->query($sqlc0);
         $rowc0 = $rsc0->fetch_assoc();
-
         // $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$dev_date' WHERE order_id= '$order_id'";
         // echo "$rowc1[ts]=$rowc0[ts2]=$dev_date";
-
-
         // echo"$rowc1[ts]<br>";
         // echo"$rowc0[ts2]<br>";
         // echo "xxx<br>";
@@ -236,64 +225,61 @@ if ($action == 'add_dev') {
         }
         // ปิดตัดยอดมัดจำ
         // ลูกค้าเครดิส บักทึก BI
-        if($cus_type==2){
-                $datetodat = date('Y-m-d');
-                $datetomonth = date('Y-m');
-               
-                $date = explode("-", $date_end);
-                $date_run = $date[2];
-                if($date_run<=15){  
-                    $datemont= "$date[0]-$date[1]";
-                    $date_start_true="$datemont-1";
-                    $date_end_true="$datemont-15"; 
-                }
-            if($date_run>=16){  
-                $date_start='16';
-                $datetoday = $date_end;
-                $enddate=date("t",strtotime($datetoday));       
-                $datemont= "$date[0]-$date[1]";
-                $date_start_true="$datemont-16";
-                $date_end_true="$datemont-$enddate";
-            }
-//    echo"xxxxxxxxxxxxx"."$cus_id";
-        
-        $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND iv_id='$iv_id' AND status_bi='1' ";
-        $result_pro = mysqli_query($conn, $sql_pro);
-        if (mysqli_num_rows($result_pro) > 0) {
-            // echo"OUT";
-        }else {
-// echo"IN";
-          $datetodat = date('Y-m-d');
-         $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end' AND status_bi='1'  ";
-        $result_pro = mysqli_query($conn, $sql_pro);
-        if (mysqli_num_rows($result_pro) > 0) {
-            $sql2 = "SELECT * FROM bi_number  WHERE cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end' AND status_bi='1' ";
-            $rs2 = $conn->query($sql2);
-            $row2 = $rs2->fetch_assoc();
-            $bi_id=$row2['bi_number'];
-// echo"$row2[bi_number]";
-        }else {
-            $sql5 = "SELECT COUNT(id) AS id_run  FROM bi_number  where datetomonth='$datetomonth'  ";
-            $rs5 = $conn->query($sql5);
-            $row_run = $rs5->fetch_assoc();        
+        if ($cus_type == 2) {
             $datetodat = date('Y-m-d');
-            $date = explode(" ", $datetodat);
-            $dat = datethai_BI($date[0]);
-            $code_new = $row_run['id_run'] + 1;
-            $code = sprintf('%03d', $code_new);
-            $bi_id = $dat . $code;
-            // echo "xxxx";
+            $datetomonth = date('Y-m');
 
-        }
+            $date = explode("-", $date_end);
+            $date_run = $date[2];
+            if ($date_run <= 15) {
+                $datemont = "$date[0]-$date[1]";
+                $date_start_true = "$datemont-1";
+                $date_end_true = "$datemont-15";
+            }
+            if ($date_run >= 16) {
+                $date_start = '16';
+                $datetoday = $date_end;
+                $enddate = date("t", strtotime($datetoday));
+                $datemont = "$date[0]-$date[1]";
+                $date_start_true = "$datemont-16";
+                $date_end_true = "$datemont-$enddate";
+            }
+            //    echo"xxxxxxxxxxxxx"."$cus_id";
 
-            $sqlx = "INSERT INTO bi_number(bi_number,cus_id,iv_id,status_bi,date_start,date_end,datetomonth,dev_id)
+            $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND iv_id='$iv_id' AND status_bi='1' ";
+            $result_pro = mysqli_query($conn, $sql_pro);
+            if (mysqli_num_rows($result_pro) > 0) {
+                // echo"OUT";
+            } else {
+                // echo"IN";
+                $datetodat = date('Y-m-d');
+                $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end' AND status_bi='1'  ";
+                $result_pro = mysqli_query($conn, $sql_pro);
+                if (mysqli_num_rows($result_pro) > 0) {
+                    $sql2 = "SELECT * FROM bi_number  WHERE cus_id='$cus_id' AND date_start <='$date_end' AND date_end >='$date_end' AND status_bi='1' ";
+                    $rs2 = $conn->query($sql2);
+                    $row2 = $rs2->fetch_assoc();
+                    $bi_id = $row2['bi_number'];
+                    // echo"$row2[bi_number]";
+                } else {
+                    $sql5 = "SELECT COUNT(id) AS id_run  FROM bi_number  where datetomonth='$datetomonth'  ";
+                    $rs5 = $conn->query($sql5);
+                    $row_run = $rs5->fetch_assoc();
+                    $datetodat = date('Y-m-d');
+                    $date = explode(" ", $datetodat);
+                    $dat = datethai_BI($date[0]);
+                    $code_new = $row_run['id_run'] + 1;
+                    $code = sprintf('%03d', $code_new);
+                    $bi_id = $dat . $code;
+                    // echo "xxxx";
+                }
+
+                $sqlx = "INSERT INTO bi_number(bi_number,cus_id,iv_id,status_bi,date_start,date_end,datetomonth,dev_id)
             VALUES ('$bi_id','$cus_id','$iv_id','1','$date_start_true','$date_end_true','$datetomonth','$dev_id')";
-            if ($conn->query($sqlx) === TRUE) {
-               }
-         }
-    
-    }     //  if($cus_type==2){
-       
+                if ($conn->query($sqlx) === TRUE) {
+                }
+            }
+        }     //  if($cus_type==2){
         $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_id' AND dev_id='$dev_id' ";
         $resultxx = mysqli_query($conn, $sqlxx);
         if (mysqli_num_rows($resultxx) > 0) {
@@ -303,28 +289,27 @@ if ($action == 'add_dev') {
             } else {
                 $status_inv = '2';
             }
-
             $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back)
              VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]')";
             if ($conn->query($sqlx) === TRUE) {
             }
-            if($cus_type==2){ 
-            $sqlx2 = "INSERT INTO iv_number(iv_number,order_id,so_id,cus_id,cus_type)
+            if ($cus_type == 2) {
+                $sqlx2 = "INSERT INTO iv_number(iv_number,order_id,so_id,cus_id,cus_type)
             VALUES ('$iv_id','$order_id','$dev_id','$cus_id','$cus_type')";
-            if ($conn->query($sqlx2) === TRUE) {
+                if ($conn->query($sqlx2) === TRUE) {
+                }
             }
-        }
-        // ค้นหาสินค้าที่ขึ้นต้น TF มาอับเดต
+            // ค้นหาสินค้าที่ขึ้นต้น TF มาอับเดต
             $sql_TF = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'  ";
             $result_TF = mysqli_query($conn, $sql_TF);
             while ($row_TF = mysqli_fetch_assoc($result_TF)) {
-
-                    $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price,ptype_id,cus_back,cus_type)
+                $sql_TF = "INSERT INTO deliver_detail(dev_id,order_id,product_id,dev_qty,unit_price,total_price,ptype_id,cus_back,cus_type)
                    VALUES ('$dev_id','$order_id','$row_TF[product_id]','1','$row_TF[unit_price]','$row_TF[unit_price]','$row_TF[ptype_id]','$row[cus_back]','$cus_type')";
-              
-              $sql1xx = "UPDATE order_details SET  status_delivery='1'  where product_id='$row_TF[product_id]'";
-              if ($conn->query($sql1xx) === TRUE) {}
-              if ($conn->query($sql_TF) === TRUE) { }
+                $sql1xx = "UPDATE order_details SET  status_delivery='1'  where product_id='$row_TF[product_id]'";
+                if ($conn->query($sql1xx) === TRUE) {
+                }
+                if ($conn->query($sql_TF) === TRUE) {
+                }
             }
         }
         $cf = 'ok';
@@ -486,7 +471,7 @@ if ($action == 'add_dev') {
                                                                                 $rowx3 = $rsx3->fetch_assoc();
                                                                                 echo $rowx3['product_id'] . $rowx3['product_name'];
                                                                                 ?></td>
-                                                                       <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty" . $no . "'"; ?> value='<?php echo $row_pro['qty']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty_out" . $no . "'"; ?> value='<?php echo $row_pro['qty_out']; ?>' readonly></td>
@@ -497,7 +482,7 @@ if ($action == 'add_dev') {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
                                                                         <td class="text-center"> <?php echo "<span id='err3" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='total_price" . $no . "'"; ?> value='<?php echo $row_pro['qty_dev']; ?>' readonly></td>
-                                                                      
+
 
                                                                     </tr>
                                                             <?php }
