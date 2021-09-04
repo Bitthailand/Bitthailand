@@ -231,11 +231,7 @@ if ($action == 'del') {
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
-                                            <th>ส่วนลด</th>
-                                            <th>ก่อนรวมภาษี</th>
-                                            <th>ภาษี</th>
-                                            <th>ยอดรวม</th>
-                                            <th>Status</th>
+                                           
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -294,31 +290,9 @@ if ($action == 'del') {
                                                         $row2 = $rs2->fetch_assoc();
                                                         echo $row2['name_th'];
                                                         ?> </td>
-                                                <td>
-                                                    <span class="font-weight-bold"><?php echo number_format($row['discount'], '2', '.', ',') ?> </span>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
-                                                    $rsx4 = $conn->query($sqlx4);
-                                                    $rowx4 = $rsx4->fetch_assoc();
-
-                                                    ?>
-                                                    <?php $sub_total = $rowx4['total'] - $row['discount'];
-                                                    $tax = ($sub_total * 100) / 107;
-                                                    $tax2 = ($sub_total - $tax);
-                                                    $grand_total = ($sub_total - $tax2);
-
-                                                    ?>
-                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
-                                                </td>
-                                                <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td>
-                                                <td>
-                                                    <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-warning p-1">เสนอราคา</span>
-                                                </td>
+                                             
+                            
+                                               
                                                 <td>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)" href="/quotation.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-File font-weight-bold"></i>

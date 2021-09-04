@@ -236,8 +236,8 @@ while ($row = mysqli_fetch_assoc($result)) {
           axisLabel: {
             formatter: "฿{value}",
           },
-          min: 0,
-          max: 400000,
+          min: 350000,
+          max: 1000000,
           interval: 25000,
           axisLine: {
             show: false,
