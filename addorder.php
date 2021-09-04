@@ -384,9 +384,11 @@ if ($action == 'add') {
                         echo "error";
                     }
                     // echo "อับเดตสถานะรายละเอียดสินค้า" . $sum_dev;
+                    if (($cus_type == 1) && ($cus_back == 1)) {
                     $sql71 = "UPDATE order_details  SET status_button='1',qty_dev='$sum_dev',status_delivery='1',error='1'  where order_id='$order_idx' AND product_id='$row_pro[product_id]' ";
                     if ($conn->query($sql71) === TRUE) {}
                     //    บันทึกข้อมูลลงตารางจัดส่ง
+                    }
                 }
             }
                     $sql5 = "SELECT MAX(id) AS id_run FROM delivery ";
