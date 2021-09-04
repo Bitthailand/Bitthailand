@@ -183,7 +183,7 @@ $po_id = $_REQUEST['po_id'];
                                                                                     echo $rowx['product_name'];
                                                                                     ?></td>
                                                 <td class="text-right"><?php echo $row2['qty'];  $sum_qty=$sum_qty+$row2['qty']; ?></td>
-                                                <td class="text-right"><?php echo $row2['sqm'];  $sum_sqm=$sum_sqm+$row2['sqm']; ?></td>
+                                                <td class="text-right"><?php echo $row2['sqm']; if($rowx['ptype_id']=='PS'){ $sum_sqm=$sum_sqm+$row2['sqm'];} ?></td>
                                                 <td class="text-center"><?php echo $rowx['dia_size']; $sum_dia_size=$sum_dia_size+$rowx['dia_size'];  ?></td>
                                                 <td class="text-center"><?php echo $rowx['dia_count']; $sum_dia_count=$sum_dia_count+$rowx['dia_count'];  ?></td>
                                                 <td class="text-right"><?php echo $row2['concrete_cal']; $sum_concrete_cal=$sum_concrete_cal+$row2['concrete_cal']; ?></td>
