@@ -158,7 +158,7 @@ if ($action == 'add_dev') {
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
 
 
-                if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
+        if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
                     $call_qty = $rowx['qty_out'] - $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
@@ -178,11 +178,11 @@ if ($action == 'add_dev') {
                         echo"$call_qty";
                         if ($action == 'add_dev') {
                             if ($call_qty == 0) {
-                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where product_id='$product_id'";
+                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'  ";
                                 if ($conn->query($sql1yyy) === TRUE) {
                                 }
                             } else {
-                                $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where product_id='$product_id'";
+                                $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where product_id='$product_id' AND order_id='$order_id' AND id='$pid' ";
                                 if ($conn->query($sql1xxx) === TRUE) {
                                 }
                             }
@@ -199,7 +199,7 @@ if ($action == 'add_dev') {
                 <?php
 
                     }
-                }
+         }
             }
         }
 
