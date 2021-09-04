@@ -244,9 +244,9 @@ $row_emp = $rs_emp->fetch_assoc();
                                                             $row_unit = $rs_unit->fetch_assoc();
                                                             ?></td>
                                                         <td class="text-right"><?= $row_pro['dev_qty'] ?> <?= $row_unit['unit_name'] ?></td>
-                                                        <td class="text-right"><?= $rowx3['unit_price'] ?></td>
+                                                        <td class="text-right"><?= $row_pro['unit_price'] ?></td>
                                                         <td class="text-right"><?= $row_pro['disunit'] ?>
-                                                            <?php $total = $rowx3['unit_price'] - $row_pro['disunit']; ?>
+                                                            <?php $total = $row_pro['unit_price'] - $row_pro['disunit']; ?>
                                                         </td>
                                                         <td class="text-right"><?php $sum_total = $row_pro['dev_qty'] * $total; ?>
                                                             <?php echo number_format($sum_total, '2', '.', ',');
