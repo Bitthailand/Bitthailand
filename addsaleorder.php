@@ -86,6 +86,7 @@ include './include/alert.php';
 
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
+    echo"$action";
     $order_id = $_REQUEST['order_id'];
     $dev_id = $_REQUEST['dev_id'];
     $dev_date = $_REQUEST['dev_date'];
@@ -103,7 +104,7 @@ if ($action == 'add_dev') {
             });
         </script>
         <?php } else {
-        $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF' AND status_delivery='0' ORDER BY id ASC";
+        $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF'  ORDER BY id ASC";
         $resultxx = mysqli_query($conn, $sqlxx);
         if (mysqli_num_rows($resultxx) > 0) {
             while ($rowx = mysqli_fetch_assoc($resultxx)) {
@@ -114,6 +115,7 @@ if ($action == 'add_dev') {
                 // echo"++$id5x";
                 $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
                 $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
+                echo $stock1."<br>".$stock2;
                 $total_instock = $stock1 + $stock2;
                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$product_id'";
                 $rsx3 = $conn->query($sqlx3);
@@ -173,6 +175,7 @@ if ($action == 'add_dev') {
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
+                        echo"$call_qty";
                         if ($action == 'add_dev') {
                             if ($call_qty == 0) {
                                 $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where product_id='$product_id'";
