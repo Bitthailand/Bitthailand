@@ -173,11 +173,11 @@ if ($action == 'add_dev') {
                         if ($conn->query($sqlx) === TRUE) {
                         }
                         if ($call_qty == 0) {
-                            $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty' where product_id='$product_id'";
+                            $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where product_id='$product_id'";
                             if ($conn->query($sql1yyy) === TRUE) {
                             }
                         } else {
-                            $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty' where product_id='$product_id'";
+                            $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where product_id='$product_id'";
                             if ($conn->query($sql1xxx) === TRUE) {
                             }
                         }
