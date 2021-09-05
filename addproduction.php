@@ -10,21 +10,22 @@ include './include/config.php';
 $action = $_REQUEST['action'];
 $status_po = $_REQUEST['status_po'];
 $po_id = $_REQUEST['FMpo_id'];
-
-if ($status_po == 'Mnew') {
-
-    // $sql5 = "SELECT COUNT(id) AS id_run FROM production_order ";
-    // $rs5 = $conn->query($sql5);
-    // $row_run = $rs5->fetch_assoc();
-
-    // $datetodat = date('Y-m-d');
-    // $date = explode(" ", $datetodat);
-    // $dat = datethai_po($date[0]);
-    // $code_new = $row_run['id_run'] + 1;
-    // $code = sprintf('%05d', $code_new);
-    // $po_id = $dat . $code;
+$date_month = date('Y-m');
+if ($status_po == 'new') {
+    // echo"xxd";
+    $sql5 = "SELECT COUNT(id) AS id_run FROM production_order where date_month='$date_month' ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_po($date[0]);
+    // echo"$row_run[id_run]";
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%03d', $code_new);
+    $po_idx = $dat . $code;
     $po_id = $_REQUEST['FMpo_id'];
-    $sqlx = "SELECT * FROM production_order   WHERE po_id='$po_id' ";
+    // echo"$po_idx";
+    $sqlx = "SELECT * FROM production_order   WHERE po_id='$po_idx' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {
 ?>
@@ -37,7 +38,7 @@ if ($status_po == 'Mnew') {
         <?php } else {
 
 
-        $_SESSION["po_id"] = $po_id;
+        $_SESSION["po_id"] = $po_idx;
     }
 }
 $po_id = $_SESSION["po_id"];
@@ -154,8 +155,8 @@ if ($action == 'add') {
             });
         </script>
         <?php    } else {
-        $sql = "INSERT INTO production_order  (po_id,po_date,po_enddate,employee_id,status_button)
-                   VALUES ('$production_id','$po_date','$po_enddate','$emp_id','1')";
+        $sql = "INSERT INTO production_order  (po_id,po_date,po_enddate,employee_id,status_button,date_month)
+                   VALUES ('$production_id','$po_date','$po_enddate','$emp_id','1','$date_month')";
         $sql2 = "UPDATE production_detail    SET status_button='1' where po_id='$production_id'";
         if ($conn->query($sql2) === TRUE) {
         }

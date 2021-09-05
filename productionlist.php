@@ -401,9 +401,9 @@ if ($action == 'del') {
                                                             <?php if ($x == 0) { ?>
 
                                                                 <a class="btn btn-outline-success btn-sm line-height-1" href="/editproduction.php?po_id=<?php echo $row['po_id']; ?>"  type="button" title="แก้ไขข้อมูลสั่งผลิต"> <i class="i-Pen-2 font-weight-bold"></i></a>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/productionprint.php?po_id=<?= $row['po_id'] ?>" target="_blank" type="button" title="พริ้นใบสั่งผลิต"> <i class="i-Gear font-weight-bold"></i></a>
+                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/productionprint.php?po_id=<?= $row['po_id'] ?>" target="_blank" type="button" title="พริ้นใบสั่งผลิต"> <i class="i-Folder-With-Document font-weight-bold"></i></a>
 
-                                                                <button data-toggle="modal" data-target="#medalstock" title="เช็คสินค้าเข้าสต๊อก" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
+                                                                <button data-toggle="modal" data-target="#medalstock" title="เช็คสินค้าเข้าสต๊อก" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Add-Cart font-weight-bold"></i> </button>
 
                                                                 <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row['po_id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการผลิต"> <i class="i-Close-Window font-weight-bold"></i> </button>
                                                             <?php } ?>

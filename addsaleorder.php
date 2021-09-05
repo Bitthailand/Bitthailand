@@ -116,7 +116,7 @@ if ($action == 'add_dev') {
                 $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
                 $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
                 echo $stock1."<br>".$stock2;
-                $total_instock = $stock1 + $stock2;
+                $total_instock = $stock1 + $stock2;  //รวมจำนวนที่รรับเข้ามาเพื่อต้องการส่ง
                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$product_id'";
                 $rsx3 = $conn->query($sqlx3);
                 $rowx3 = $rsx3->fetch_assoc();

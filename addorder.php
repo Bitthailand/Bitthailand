@@ -12,6 +12,8 @@ error_reporting(0);
 $emp_id = $_SESSION["username"];
 // echo "$status_order";
 $order_id = $_REQUEST['order_id'];
+// echo"$order_id";
+// echo"$status_order";
 if ($status_order == 'Mnew') {
     $order_id = $_REQUEST['order_id'];
     $sqlx = "SELECT * FROM orders   WHERE order_id='$order_id' ";
@@ -29,18 +31,26 @@ if ($status_order == 'Mnew') {
     }
 }
 if ($status_order == 'new') {
-    // $sql5 = "SELECT COUNT(id) AS id_run FROM orders   ";
-    // $rs5 = $conn->query($sql5);
-    // $row_run = $rs5->fetch_assoc();
-    // $datetodat = date('Y-m-d');
-    // $date = explode(" ", $datetodat);
-    // $dat = datethai_order($date[0]);
-    // $code_new = $row_run['id_run'] + 1;
-    // $code = sprintf('%05d', $code_new);
-    // $order_id = $dat . $code;
-    // $_SESSION["order_id"] = $order_id;
+    $date_month = date('Y-m');
+    $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2'  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_order($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%03d', $code_new);
+    $order_id = $dat . $code;
+    $_SESSION["order_id"] = $order_id;
+
+    $sqlx5 = "INSERT INTO orders_number (order_id,emp_id,status_use,date_month)
+    VALUES ('$order_id','$emp_id','1','$date_month')";
+    if ($conn->query($sqlx5) === TRUE) { }
 }
 $order_idx = $_SESSION["order_id"];
+$Forder_idx = $_SESSION["order_id"];
+// echo"$order_idx";
 // echo"$status_order";
 if ($status_order == 'confirm') {
     // echo"$order_idx";
@@ -141,9 +151,13 @@ if ($action == 'add_product') {
             // echo "orders";
                  } else {
             // echo "ordersss";
+          
                         $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
                                 VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
                                 if ($conn->query($sqlx5) === TRUE) { }
+                                $sql112 = "UPDATE orders_number  SET status_use='2' where order_id='$Forder_id'";
+                                if ($conn->query($sql112) === TRUE) { }
+
                   }
                  // ====บันทึกเป็นสินค้าใหม่
                   $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF0'  ";
@@ -184,6 +198,7 @@ if ($action == 'add_product') {
                             });
                         </script>
           <?php  } else {
+              echo"xxxx";
             // สินค้าไม่ซ้ำ ให้มาตรวจสอบ ถ้ามี ==1 ให้ เพิ่มรายการลงในตาราง orders
                 $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
                 $result2 = mysqli_query($conn, $sql2);
@@ -192,6 +207,8 @@ if ($action == 'add_product') {
                      $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
                                 VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
                                 if ($conn->query($sqlx5) === TRUE) {}
+                                $sql112 = "UPDATE orders_number  SET status_use='2' where order_id='$Forder_id'";
+                                if ($conn->query($sql112) === TRUE) { }
                          } //ปิดบันทึก order
             // echo "in";
             // ลูกค้ารับกลับเอง ต้องเช็ตสต็อค
@@ -339,6 +356,8 @@ if ($action == 'add') {
                  {
                         $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
                                   if ($conn->query($sql88) === TRUE) {   }
+                                  $sql112 = "UPDATE orders_number   SET status_use='2',status_cf='1' where order_id='$order_idx'";
+                                  if ($conn->query($sql112) === TRUE) { }
                         if ($delivery_date = '$delivery_date')
                          {
                                 $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
@@ -352,6 +371,8 @@ if ($action == 'add') {
                                     if ($conn->query($sqlx5) === TRUE) {  }
                          $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
                                     if ($conn->query($sql11) === TRUE) { }
+                                    $sql112 = "UPDATE orders_number   SET status_use='2' where order_id='$order_idx'";
+                                    if ($conn->query($sql112) === TRUE) { }
                  } //ปิดการเพิ่ม ORDER
             //   echo "เช็คสต็อกจาก Product";
             // ลูกค้าเครดิส CB2 รับกลับเอง
