@@ -33,11 +33,11 @@ $rs_year = $conn->query($sql_year);
 $row_year = $rs_year->fetch_assoc();
 
 
-$sql_cus_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5'   GROUP BY cus_id ";
+$sql_cus_month = "SELECT COUNT(DISTINCT  cus_id )   month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5'   ";
 $rs_cus_month = $conn->query($sql_cus_month);
 $row_cus_month = $rs_cus_month->fetch_assoc();
 
-$sql_cus_year = "SELECT COUNT(*) AS year FROM orders  WHERE  YEAR(date_create) = '$d[0]' AND order_status='5'   GROUP BY cus_id ";
+$sql_cus_year = "SELECT COUNT(DISTINCT  cus_id ) AS year FROM  orders  WHERE  YEAR(date_create) = '$d[0]' AND order_status='5'  ";
 $rs_cus_year = $conn->query($sql_cus_year);
 $row_cus_year = $rs_cus_year->fetch_assoc();
 
