@@ -310,7 +310,7 @@ $row_bk = $rs_bk->fetch_assoc();
                                                             </td>
                                                             <td class="text-right"><?= $row_pro['qty'] ?> <?=$row_unit['unit_name']?></td>
                                                             <td class="text-right"><?php echo number_format($row_pro['total_price'], '2', '.', ',') ?></td>
-                                                            <td class="text-right">8000.00</td>
+                                                            <td class="text-right"><?php  ?>8000.00</td>
                                                         </tr>
                                                        
                                                         <?php } } ?>

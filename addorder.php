@@ -30,24 +30,24 @@ if ($status_order == 'Mnew') {
         $_SESSION["order_id"] = $order_id;
     }
 }
-// if ($status_order == 'new') {
-//     $date_month = date('Y-m');
-//     $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2'  ";
-//     $rs5 = $conn->query($sql5);
-//     $row_run = $rs5->fetch_assoc();
+if ($status_order == 'new') {
+    $date_month = date('Y-m');
+    $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2'  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
     
-//     $datetodat = date('Y-m-d');
-//     $date = explode(" ", $datetodat);
-//     $dat = datethai_order($date[0]);
-//     $code_new = $row_run['id_run'] + 1;
-//     $code = sprintf('%03d', $code_new);
-//     $order_id = $dat . $code;
-//     $_SESSION["order_id"] = $order_id;
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_order($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%03d', $code_new);
+    $order_id = $dat . $code;
+    $_SESSION["order_id"] = $order_id;
 
-//     $sqlx5 = "INSERT INTO orders_number (order_id,emp_id,status_use,date_month)
-//     VALUES ('$order_id','$emp_id','1','$date_month')";
-//     if ($conn->query($sqlx5) === TRUE) { }
-// }
+    $sqlx5 = "INSERT INTO orders_number (order_id,emp_id,status_use,date_month)
+    VALUES ('$order_id','$emp_id','1','$date_month')";
+    if ($conn->query($sqlx5) === TRUE) { }
+}
 $order_idx = $_SESSION["order_id"];
 $Forder_idx = $_SESSION["order_id"];
 // echo"$order_idx";

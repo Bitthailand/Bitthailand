@@ -20,7 +20,7 @@ if($_FILES["file"]["size"] > 0)
 	// $result = mysqli_query($conn, $sqlx);
 	// if (mysqli_num_rows($result) > 0) {
 	// $name = addslashes($emapData[2]);
-	$sql = "UPDATE product   SET fac1_stock='$emapData[1]',fac2_stock='$emapData[2]'  where product_id='$emapData[0]'";
+	$sql = "UPDATE product   SET fac1_stock='$emapData[1]' where product_id='$emapData[0]'";
 	if ($conn->query($sql) === TRUE) { }
 	//   }
 	//   fclose($file);
@@ -34,7 +34,7 @@ if($_FILES["file"]["size"] > 0)
         
         <script type="text/javascript">
         alert("CSV File has been successfully Imported.")
-  </script>
+       </script>
   <?php
  }
 }
