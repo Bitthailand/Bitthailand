@@ -6,7 +6,7 @@ if (isset($_SESSION["username"])) {
 }
 include './include/connect.php';
 include './include/config_date.php';
-$order_id= $_REQUEST['saleorder_id'];
+$order_id = $_REQUEST['order_id'];
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -17,11 +17,28 @@ $row2 = $rs2->fetch_assoc();
 // ====
 $sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
 $rs3 = $conn->query($sql3);
-$row3= $rs3->fetch_assoc();
+$row3 = $rs3->fetch_assoc();
 // ===
-$strStartDate =$row['qt_date'];
-$strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
+$strStartDate = $row['qt_date'];
+$strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
+$sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+$rs6 = $conn->query($sql6);
+$row6 = $rs6->fetch_assoc();
+$sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+$rs7 = $conn->query($sql7);
+$row7 = $rs7->fetch_assoc();
+$sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+$rs8 = $conn->query($sql8);
+$row8 = $rs8->fetch_assoc();
 
+$sql_ref = "SELECT * FROM referent  WHERE id= '$row3[province]'";
+$rs_ref  = $conn->query($sql_ref);
+$row_ref  = $rs_ref->fetch_assoc();
+
+
+$sql_bk = "SELECT * FROM customer_back   WHERE id= '$row[cus_back]'";
+$rs_bk = $conn->query($sql_bk);
+$row_bk = $rs_bk->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -54,7 +71,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                 <div class="border-primary mb-4" style="border-bottom: solid 2px;">
                     <h4 class="mb-3">
                         Order Timeline
-                        <span class="font-weight-bold ml-2 text-danger">( OR64080001 )</span>
+                        <span class="font-weight-bold ml-2 text-danger">( <?= $row['order_id'] ?>)</span>
                     </h4>
                 </div>
 
@@ -186,7 +203,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                 <div class="card">
                                     <div class="col-md-12">
                                         <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
-                                            <h4 class="text-muteds"><span>รายละเอียด Order: OR64080001</span></h4>
+                                            <h4 class="text-muteds"><span>รายละเอียด Order: <?= $row['order_id'] ?></span></h4>
                                         </div>
                                         <div class="separator-breadcrumb border-top mb-3"></div>
                                         <div class="row">
@@ -195,33 +212,33 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                             </div>
                                             <div class="col-md-12 col-12 mb-2">
                                                 ชื่อลูกค้า :
-                                                <strong class="font-weight-bold text-primary">คุณประสงค์ ฝักทอง</strong>
+                                                <strong class="font-weight-bold text-primary"><?= $row3['customer_name'] ?></strong>
                                             </div>
 
                                             <div class="col-md-4 col-12 mb-2">
                                                 ที่อยู่ :
-                                                <strong>49 หมู่ที่ 10 ต.ระเว อ.พิบูลมังสาหาร จ.อุบลราชธานี</strong>
+                                                <strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 โทร :
-                                                <strong>087-776-4057</strong>
+                                                <strong><?= $row3['tel'] ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 อ้างอิง :
-                                                <strong class="font-weight-bold text-primary">-</strong>
+                                                <strong class="font-weight-bold text-primary"><?= $row3['contact_name'] ?></strong>
                                             </div>
 
                                             <div class="col-md-4 col-12 mb-2">
                                                 เลขที่ประจำตัวผู้เสียภาษี :
-                                                <strong>0345555000224</strong>
+                                                <strong><?= $row3['contact_name'] ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 ประเภทลูกค้า :
-                                                <strong>เงินสด</strong>
+                                                <strong><?= $row3['tax_number'] ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 รู้จักบริษัทผ่านช่องทาง :
-                                                <strong> Facebook</strong>
+                                                <strong><?= $row_ref['name'] ?></strong>
                                             </div>
                                         </div>
                                     </div>
@@ -236,15 +253,17 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 ประเภท Order :
-                                                <span class="ml-1 text-primary font-weight-bold">บริษัทส่งให้</strong>
+                                                <span class="ml-1 text-primary font-weight-bold"><?=$row_bk['name']?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 วันที่เปิด Order :
-                                                <strong>30 ก.ค. 2021 11:19</strong>
+                                                <strong> <?php $date = explode(" ", $row['date_create']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo $dat ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 พนักงานขาย :
-                                                <strong class="font-weight-bold text-primary">นางสาวหทัยทิพย์ แสงชาติ</strong>
+                                                <strong class="font-weight-bold text-primary"><?=$row['emp_id']?></strong>
                                             </div>
                                         </div>
 
@@ -263,33 +282,38 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <th scope="row" class="text-center">1</th>
+                                                    <?php
+                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
+                                            $result_pro = mysqli_query($conn, $sql_pro);
+                                            if (mysqli_num_rows($result_pro) > 0) {
+                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
+                                                  <tr>
+                                                            <th scope="row" class="text-center"><?= ++$id; ?></th>
                                                             <td>
-                                                                เสารั้วลวดหนาม ขนาด 3 นิ้ว ยาว 2.00 เมตร
+                                                            <?php
+                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                            $rsx3 = $conn->query($sqlx3);
+                                                            $rowx3 = $rsx3->fetch_assoc();
+                                                            if ($rowx3['ptype_id'] == 'TF0') {
+                                                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
+                                                            } else {
+                                                                echo $rowx3['product_name'];
+                                                                if ($rowx3['spacial'] == '') {
+                                                                } else {
+                                                                    echo "  (" . $rowx3['spacial'] . ")";
+                                                                }
+                                                            }
+                                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                                            $rs_unit = $conn->query($sql_unit);
+                                                            $row_unit = $rs_unit->fetch_assoc();
+                                                            ?>
                                                             </td>
-                                                            <td class="text-right">100</td>
-                                                            <td class="text-right">80.00</td>
+                                                            <td class="text-right"><?= $row_pro['qty'] ?> <?=$row_unit['unit_name']?></td>
+                                                            <td class="text-right"><?php echo number_format($row_pro['total_price'], '2', '.', ',') ?></td>
                                                             <td class="text-right">8000.00</td>
                                                         </tr>
-                                                        <tr>
-                                                            <th scope="row" class="text-center">2</th>
-                                                            <td>
-                                                                ค่าขนส่ง
-                                                            </td>
-                                                            <td class="text-right">1</td>
-                                                            <td class="text-right">1000.00</td>
-                                                            <td class="text-right">1000.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row" class="text-center">3</th>
-                                                            <td>
-                                                                ลวดหนาม 8.5 กิโลกรัม
-                                                            </td>
-                                                            <td class="text-right">18</td>
-                                                            <td class="text-right">435.00</td>
-                                                            <td class="text-right">7830.00</td>
-                                                        </tr>
+                                                       
+                                                        <?php } } ?>
                                                     </tbody>
                                                 </table>
                                             </div>

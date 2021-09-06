@@ -432,7 +432,7 @@ if ($action == 'add_dev') {
 
                                                                     <div class="form-group col-md-6">
                                                                         <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                        <input id="dete_end" class="form-control" type="date" require min="2021-06-01" name="date_end" value="<?= $date_end ?>">
+                                                                        <input id="dete_end" class="form-control" type="date" require min="2021-06-01" name="date_end" value="<?= $date_end ?>" require>
                                                                     </div>
 
                                                                 </div>

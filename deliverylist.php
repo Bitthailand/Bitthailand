@@ -78,7 +78,7 @@ if ($action == 'add_cfx') {
     $rowc0 = $rsc0->fetch_assoc();
     // echo $rowc0['ts2'].'<br>'.$rowc1['ts'] ;
     if ($rowc0['ts2'] == $rowc1['ts']) {
-        $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]'";
+        $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]' ";
         if ($conn->query($sqlx12) === TRUE) {
         }
     }

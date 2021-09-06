@@ -294,17 +294,9 @@ if ($action == 'del') {
                             
                                                
                                                 <td>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)" href="/quotation.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" title="TIME LINE" href="/ordertimeline.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-File font-weight-bold"></i>
                                                     </a>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>" target="_blank">
-                                                        <i class="i-Money-Bag font-weight-bold"></i>
-                                                    </a>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
-                                                        <i class="i-Check font-weight-bold"></i>
-                                                    </a>
-
-
                                                     <button type="button" class="btn btn-outline-danger btn-sm line-height-1" title="ยกเลิก Order" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
                             </div>
                             </td>

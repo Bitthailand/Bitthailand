@@ -374,7 +374,7 @@ if ($rowS == '') {
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <form method="post">
+            
             <form class="form-horizontal well" action="import_stock.php" method="post" name="upload_excel" enctype="multipart/form-data">
                 <div class="box-content">
                     <div class="form-row">
