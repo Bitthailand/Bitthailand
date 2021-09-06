@@ -21,7 +21,7 @@ if ($status_po == 'new') {
     $dat = datethai_po($date[0]);
     // echo"$row_run[id_run]";
     $code_new = $row_run['id_run'] + 1;
-    $code = sprintf('%03d', $code_new);
+    $code = sprintf('%02d', $code_new);
     $po_idx = $dat . $code;
     $po_id = $_REQUEST['FMpo_id'];
     // echo"$po_idx";

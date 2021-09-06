@@ -111,6 +111,9 @@ if ($rowS == '') {
                                     <div class="ul-widget__info">
                                         <h3 class="ul-widget1__title "> สต๊อกสินค้า </h3>
                                         <span class="ul-widget__desc "> รายการสต๊อกสินค้า </span>
+                                        <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
+                                            import Excel
+                                        </button>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
@@ -361,7 +364,41 @@ if ($rowS == '') {
                 <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
 
+<div id="Modal-add1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>อับโหลดไฟล์ Excle สต็อกสินค้า
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+            <form class="form-horizontal well" action="import_stock.php" method="post" name="upload_excel" enctype="multipart/form-data">
+                <div class="box-content">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                        <legend>Import CSV/Excel file</legend>
+                          
+                        <div class="controls">
+								<input type="file" name="file" id="file" class="input-large" required>
+							</div>
+                        </div>
+                    </div>
+                 
+                   
+                <div class="modal-footer">
+                <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
 
+                    <input type="hidden" name="action" value="add2">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 <!-- Modal DEL  -->
 <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

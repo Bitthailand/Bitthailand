@@ -30,24 +30,24 @@ if ($status_order == 'Mnew') {
         $_SESSION["order_id"] = $order_id;
     }
 }
-if ($status_order == 'new') {
-    $date_month = date('Y-m');
-    $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2'  ";
-    $rs5 = $conn->query($sql5);
-    $row_run = $rs5->fetch_assoc();
+// if ($status_order == 'new') {
+//     $date_month = date('Y-m');
+//     $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2'  ";
+//     $rs5 = $conn->query($sql5);
+//     $row_run = $rs5->fetch_assoc();
     
-    $datetodat = date('Y-m-d');
-    $date = explode(" ", $datetodat);
-    $dat = datethai_order($date[0]);
-    $code_new = $row_run['id_run'] + 1;
-    $code = sprintf('%03d', $code_new);
-    $order_id = $dat . $code;
-    $_SESSION["order_id"] = $order_id;
+//     $datetodat = date('Y-m-d');
+//     $date = explode(" ", $datetodat);
+//     $dat = datethai_order($date[0]);
+//     $code_new = $row_run['id_run'] + 1;
+//     $code = sprintf('%03d', $code_new);
+//     $order_id = $dat . $code;
+//     $_SESSION["order_id"] = $order_id;
 
-    $sqlx5 = "INSERT INTO orders_number (order_id,emp_id,status_use,date_month)
-    VALUES ('$order_id','$emp_id','1','$date_month')";
-    if ($conn->query($sqlx5) === TRUE) { }
-}
+//     $sqlx5 = "INSERT INTO orders_number (order_id,emp_id,status_use,date_month)
+//     VALUES ('$order_id','$emp_id','1','$date_month')";
+//     if ($conn->query($sqlx5) === TRUE) { }
+// }
 $order_idx = $_SESSION["order_id"];
 $Forder_idx = $_SESSION["order_id"];
 // echo"$order_idx";
@@ -371,7 +371,7 @@ if ($action == 'add') {
                                     if ($conn->query($sqlx5) === TRUE) {  }
                          $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
                                     if ($conn->query($sql11) === TRUE) { }
-                                    $sql112 = "UPDATE orders_number   SET status_use='2' where order_id='$order_idx'";
+                                    $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
                                     if ($conn->query($sql112) === TRUE) { }
                  } //ปิดการเพิ่ม ORDER
             //   echo "เช็คสต็อกจาก Product";
@@ -425,6 +425,8 @@ if ($action == 'add') {
                         // ตรวจสอบเลขจัดส่ง
                    $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
                               if ($conn->query($sqlx12) === TRUE) {   }
+                              $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
+                              if ($conn->query($sql112) === TRUE) { }
                     $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_idx' AND dev_id='$dev_id' ";
                                  $resultxx = mysqli_query($conn, $sqlxx);
                              if (mysqli_num_rows($resultxx) > 0) 
@@ -462,6 +464,8 @@ if ($action == 'add') {
                 // echo "$delivery_date";
                     $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
                             if ($conn->query($sql) === TRUE) { }
+                            $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
+                            if ($conn->query($sql112) === TRUE) { }
                     if ($delivery_date = '$delivery_date') 
                         {
                                 $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
@@ -1289,7 +1293,7 @@ if ($action == 'add_hs') {
                                       $datemonth = date('Y-m'); 
                                     $sql = "SELECT * FROM provinces";
                                     $query = mysqli_query($conn, $sql);
-                                    $sql5 = "SELECT MAX(id) AS id_run FROM customer where datemonth='$datemonth'     ";
+                                    $sql5 = "SELECT COUNT(id) AS id_run FROM customer where datemonth='$datemonth'     ";
                                     $rs5 = $conn->query($sql5);
                                     $row_run = $rs5->fetch_assoc();
                                     $datetodat = date('Y-m-d');
