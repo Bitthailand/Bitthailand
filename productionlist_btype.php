@@ -30,14 +30,14 @@ if ($conn->query($sql2) === TRUE) {
 if (empty($column) && ($keyword)) {
 } else {
     // $column = "AND $column LIKE'$keyword%'";
-    echo"$columx";
-       if($column=='po_id'){
+    echo "$columx";
+    if ($column == 'po_id') {
         $colum_po = "AND po_id LIKE'%$keyword%'";
-       }
-       if($column=='po_date'){
+    }
+    if ($column == 'po_date') {
         $colum_po = "AND po_date LIKE'%$keyword%'";
-       }
-      
+    }
+
     //    echo"$column";
 }
 
@@ -72,92 +72,90 @@ if ($action == 'edit_prox') {
                 showAlert("บันทึกข้อมูลการเทคอนกรีตสำเร็จ", "alert-primary");
             });
         </script>
-        <?php }
+    <?php }
 }
-if ($action == 'add_stock') {
+if ($action == 'stock_b') {
     // echo "xx";
-    $po_id = $_REQUEST['po_id'];
+    $id = $_REQUEST['id'];
     // echo "$po_id";
-    $sql = "SELECT * FROM production_order  WHERE id= '$po_id'";
+    $sql = "SELECT * FROM production_detail  WHERE id= '$id'";
     $rs = $conn->query($sql);
     $row = $rs->fetch_assoc();
-    $sqlxx = "SELECT *  FROM production_detail  where po_id= '$row[po_id]' ORDER BY id ASC";
-    $resultxx = mysqli_query($conn, $sqlxx);
-    if (mysqli_num_rows($resultxx) > 0) {
+    for ($x = 1; $x <= $row['b_type']; $x++) {
+        $product_id = $row['product_id'];
+        $pid = $row['id'];
+        // echo"$row_count";
+        $stock_b = $_POST['product_id'][$product_id][$pid][$x];
+        // echo $row['product_id'] . 'move' . $stock_b . '<br>';
+ 
+        if ($stock_b == 99) {
+            //  เลือกนำสินค้าทิ้ง 
+            $xx = $x + 1;
 
-        while ($rowx = mysqli_fetch_assoc($resultxx)) {
-            $product_id = $rowx['product_id'];
-            $pid = $rowx['id'];
-            // echo"$row_count";
-            $stock_a = $_POST['a_type'][$product_id][$pid][++$id];
-            $stock_b = $_POST['b_type'][$product_id][$pid][++$id2];
-            $total_stock = $stock_a + $stock_b;
+            $sql = "INSERT INTO production_b_type  (po_id,product_id,qty,moveto,case_type)
+            VALUES ('$row[po_id]','$product_id','1','$stock_b','C1')";
+            if ($conn->query($sql) === TRUE) {
+            }
+            $sql2 = "SELECT * FROM production_detail  WHERE id= '$id'";
+            $rs2 = $conn->query($sql2);
+            $row2 = $rs2->fetch_assoc();
+            $sum_b_type = $row2['b_type'] - 1; //นำทิ้งเอาจำนวนชำรุดมาลบ 1 แล้วอับเดตชำรุดคงเหลือ
+            // อับเดตจำนวนสินค้าชำรุดในตาราง production_detail
+            $sqlx = "UPDATE production_detail   SET b_type='$sum_b_type'  where id='$id' ";
+            if ($conn->query($sqlx) === TRUE) {
+            }
+        } else { 
+            
+            if ($stock_b == '00') {
+                // echo"ไม่เลือก";
+               }else{ 
+            //กรณีย้ายไปรหัสสินค้าอื่น
+            $sql = "INSERT INTO production_b_type  (po_id,product_id,qty,moveto,case_type)
+            VALUES ('$row[po_id]','$product_id','1','$stock_b','C2')";
+            if ($conn->query($sql) === TRUE) {
+            }
+            $sql2 = "SELECT * FROM production_detail  WHERE id= '$id'";
+            $rs2 = $conn->query($sql2);
+            $row2 = $rs2->fetch_assoc();
+            $sum_b_type = $row2['b_type'] - 1; //ย้ายสินค้าไปรหัสอื่นเอาจำนวนชำรุดมาลบ 1 แล้วอับเดตชำรุดคงเหลือ
+            // อับเดตจำนวนสินค้าชำรุดในตาราง production_detail
+            $sqlx = "UPDATE production_detail   SET b_type='$sum_b_type'  where id='$id' ";
+            if ($conn->query($sqlx) === TRUE) {
+            }
+            // อับเดตเสร็จให้ไปเติมจำนวนสต็อกตามรหัสที่ระบุ
+            $sql_fac = "SELECT * FROM plant  WHERE plant_id= '$row[plant_id]'";
+            $rs_fac = $conn->query($sql_fac);
+            $row_fac = $rs_fac->fetch_assoc();
+            //เรียกตารางสินค้ารหัสที่จะย้ายไป
+            $sql_pro = "SELECT * FROM product  WHERE product_id= '$stock_b'";
+            $rs_pro = $conn->query($sql_pro);
+            $row_pro = $rs_pro->fetch_assoc();
 
-            if ($total_stock <= $rowx['qty']) {
-                if ($total_stock == 0) {
-                    // $sqlx17 = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b' WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' ";
-                    // if ($conn->query($sqlx17) === TRUE) {}
-                } else {
-                    $sqlx1 = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b',status_stock='1' WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' AND id='$rowx[id]'  ";
-                    // 
-                    // ตรวจสอบโรงงานผลิต   
-                    $sqlx2 = "SELECT * FROM plant  WHERE plant_id= '$rowx[plant_id]'";
-                    $rsx2 = $conn->query($sqlx2);
-                    $rowx2 = $rsx2->fetch_assoc();
-                    // echo $rowx2['factory_id'];
-                    // นับจำนวนที่มีอยู๋ในสต็อก
-                    $sqlx3 = "SELECT * FROM product  WHERE product_id= '$rowx[product_id]'";
-                    $rsx3 = $conn->query($sqlx3);
-                    $rowx3 = $rsx3->fetch_assoc();
-                    if ($rowx2['factory_id'] == 1) {
-                        // echo"$rowx3[fac1_stock]";
-                        $sum_stock1 = $rowx3['fac1_stock'] + $stock_a;
-                        $sqlx4 = "UPDATE product   SET fac1_stock='$sum_stock1' WHERE product_id='$rowx[product_id]' ";
-                        if ($conn->query($sqlx4) === TRUE) {
-                        }
-                    }
-                    if ($rowx2['factory_id'] == 2) {
-                        $sum_stock2 = $rowx3['fac2_stock'] + $stock_a;
-                        $sqlx4 = "UPDATE product   SET fac2_stock='$sum_stock1' WHERE product_id='$rowx[product_id]' ";
-                        if ($conn->query($sqlx4) === TRUE) {
-                        }
-                    }
-                    if ($conn->query($sqlx1) === TRUE) { ?>
-                        <script>
-                            $(document).ready(function() {
-                                showAlert("บันทึกสต็อกรหัส สำเร็จ", "alert-primary");
-                            });
-                        </script>
-                <?php }
+            if ($row_fac['factory_id'] == 1) {
+                // echo"โรง1";
+                $sum_stock = $row_pro['fac1_stock'] + 1;
+                //    echo"$sum_stock";
+                $sqlx4 = "UPDATE product   SET fac1_stock='$sum_stock' WHERE product_id='$stock_b' ";
+                if ($conn->query($sqlx4) === TRUE) {
                 }
-            } else { ?>
-                <script>
-                    $(document).ready(function() {
-                        showAlert("ไม่สามารถบันทึกสต็อกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งผลิต", "alert-danger");
-                    });
-                </script>
-        <?php       }
-
-
-
-
-            //  $sql = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b'  where  po_id= '$row[po_id]' AND product_id='$product_id' ";
-
-            // echo 'A' . $stock_a . 'B' . $stock_b . 'ID' . $product_id . 'จำนวนกรอกรวม' . $total_stock . 'สต็อก' . $rowx['qty'] . '<br>';
+            }
+            if ($row_fac['factory_id'] == 2) {
+                // echo"โรง2";
+                $sum_stock = $row_pro['fac2_stock'] + 1;
+                //    echo"$sum_stock";
+                $sqlx4 = "UPDATE product   SET fac2_stock='$sum_stock' WHERE product_id='$stock_b' ";
+                if ($conn->query($sqlx4) === TRUE) {
+                }
+            }
         }
     }
-    $sqlc1 = "SELECT COUNT(*) AS stock1  FROM production_detail  WHERE   po_id= '$row[po_id]' AND status_stock='1' ";
-    $rsc1 = $conn->query($sqlc1);
-    $rowc1 = $rsc1->fetch_assoc();
-
-    $sqlc0 = "SELECT COUNT(*) AS stock0  FROM production_detail  WHERE   po_id= '$row[po_id]' ";
-    $rsc0 = $conn->query($sqlc0);
-    $rowc0 = $rsc0->fetch_assoc();
-    if ($rowc0['stock0'] == $rowc1['stock1']) {
-        $sqlx12 = "UPDATE production_order   SET status_cf='1',employee_qc='$emp_id',stock_date='$datetoday' WHERE po_id= '$row[po_id]' ";
-        if ($conn->query($sqlx12) === TRUE) {
-        }
-    }
+    } ?>
+    <script>
+        $(document).ready(function() {
+            showAlert("ย้ายสินค้าชำรุดเรียบร้อย", "alert-primary");
+        });
+    </script>
+    <?php
 }
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
@@ -224,7 +222,7 @@ if ($action == 'del') {
                     <div class="col-md-12">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/productionlist.php">
+                                <a class="linkLoadModalNext nav-link " href="/productionlist.php">
                                     <h3 class="h5 font-weight-bold"> รายการสั่งผลิต
                                         <?php $sql_count = "SELECT COUNT(*) AS CO FROM production_order  WHERE  status='0' AND status_cf='0' ";
                                         $rs_count = $conn->query($sql_count);
@@ -237,7 +235,7 @@ if ($action == 'del') {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link " href="/productionlist_btype.php">
+                                <a class="linkLoadModalNext nav-link active " href="/productionlist_btype.php">
                                     <h3 class="h5 font-weight-bold"> รายการสินค้าชำรุด
                                         <?php $sql_count = "SELECT COUNT(*) AS CO FROM production_detail  WHERE   status_stock='1' AND b_type >'0' ";
                                         $rs_count = $conn->query($sql_count);
@@ -271,12 +269,12 @@ if ($action == 'del') {
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchColumnId"> ประเภท </label>
-                                                   
+
                                                     <select id="searchColumnId" class="custom-select" name="column">
-                                                    <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
-                                                     <option value="po_id" <?php echo $column == 'po_id' ? 'selected' : ''; ?>> รหัสสั่งผลิต </option>
-                                                     <option value="po_date" <?php echo $column == 'po_date' ? 'selected' : ''; ?>> วันที่สั่งผลิต </option>
-                                                    
+                                                        <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
+                                                        <option value="po_id" <?php echo $column == 'po_id' ? 'selected' : ''; ?>> รหัสสั่งผลิต </option>
+                                                        <option value="po_date" <?php echo $column == 'po_date' ? 'selected' : ''; ?>> วันที่สั่งผลิต </option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -328,7 +326,7 @@ if ($action == 'del') {
                                             <th>จำนวนลวด</th>
                                             <!-- <th>พ.ท.(Sq.m)</th>
                                             <th>คอนกรีตคำนวณ</th> -->
-                                            <th>Status</th>
+                                            <th>จำนวนชำรุด</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -345,87 +343,71 @@ if ($action == 'del') {
                                         $next_page = $page_no + 1;
                                         $adjacents = "2";
 
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_order`  where status='0' AND status_cf='0' $colum_po  ");
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `production_detail`  where  status_stock='1' AND b_type >'0'  $colum_po  ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
-
-                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='0' $colum_po ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
+                                        $count = 0;
+                                        $result = mysqli_query($conn, "SELECT * FROM `production_detail`   where  status_stock='1' AND b_type >'0'  $colum_po ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                            <tr>
+                                                <td> <?php
+                                                        $x = $count++;
+                                                        echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    $sql_po = "SELECT * FROM production_order  WHERE po_id= '$row[po_id]'";
+                                                    $rs_po = $conn->query($sql_po);
+                                                    $row_po = $rs_po->fetch_assoc();
 
+                                                    ?> <?php if ($x == 0) {
+                                                            $date = explode(" ", $row_po['po_date']);
+                                                            $dat = datethai2($date[0]);
+                                                            echo '<strong>' . $dat . '</strong>';
+                                                        } ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($x == 0) {
+                                                        $date = explode(" ", $row_po['po_enddate']);
+                                                        $dat = datethai2($date[0]);
+                                                        echo '<strong>' . $dat . '</strong>';
+                                                    } ?>
+                                                </td>
+                                                <td><?php echo $row['plant_id']; ?></td>
+                                                <td><?php echo $row['product_id']; ?></td>
+                                                <td><?php echo $row['qty']; ?></td>
+                                                <?php
+                                                $sqlx = "SELECT * FROM product   WHERE product_id= '$row[product_id]'";
+                                                $rsx = $conn->query($sqlx);
+                                                $rowx = $rsx->fetch_assoc();
 
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC ");
-                                            $total = mysqli_fetch_array($count);
-                                            $count = 0;
-                                            $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC  ";
-                                            $resultxx = mysqli_query($conn, $sqlxx);
-                                            if (mysqli_num_rows($resultxx) > 0) {
-                                                $num = @mysqli_num_rows($resultxx);
-                                                $row_cnt = $resultxx->num_rows;
-                                                // while ($row1 = mysqli_fetch_assoc($resultxx)) {
-                                                while ($row2 = mysqli_fetch_array($resultxx)) { ?>
-                                                    <tr>
-                                                        <td> <?php
-                                                                $x = $count++;
-                                                                echo $x == 0 ? '<strong>' .  $row['po_id'] . '</strong>' : ''; ?>
-                                                        </td>
-                                                        <td> <?php if ($x == 0) {
-                                                                    $date = explode(" ", $row['po_date']);
-                                                                    $dat = datethai2($date[0]);
-                                                                    echo '<strong>' . $dat . '</strong>';
-                                                                } ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php if ($x == 0) {
-                                                                $date = explode(" ", $row['po_enddate']);
-                                                                $dat = datethai2($date[0]);
-                                                                echo '<strong>' . $dat . '</strong>';
-                                                            } ?>
-                                                        </td>
-                                                        <td><?php echo $row2['plant_id']; ?></td>
-                                                        <td><?php echo $row2['product_id']; ?></td>
-                                                        <td><?php echo $row2['qty']; ?></td>
-                                                        <?php
-                                                        $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
-                                                        $rsx = $conn->query($sqlx);
-                                                        $rowx = $rsx->fetch_assoc();
+                                                ?>
+                                                <td><?php echo $rowx['product_name']; ?></td>
 
-                                                        ?>
-                                                        <td><?php echo $rowx['product_name']; ?></td>
+                                                <td><?php echo $rowx['thickness']; ?></td>
+                                                <td><?php echo $rowx['width']; ?></td>
+                                                <td><?php echo $rowx['size']; ?></td>
 
-                                                        <td><?php echo $rowx['thickness']; ?></td>
-                                                        <td><?php echo $rowx['width']; ?></td>
-                                                        <td><?php echo $rowx['size']; ?></td>
-
-                                                        <td> <?php echo $rowx['dia_size']; ?></td>
-                                                        <td> <?php echo $rowx['dia_count']; ?> </td>
-                                                        <!-- <td> <?php echo $row2['sqm']; ?></td>
+                                                <td> <?php echo $rowx['dia_size']; ?></td>
+                                                <td> <?php echo $rowx['dia_count']; ?> </td>
+                                                <!-- <td> <?php echo $row2['sqm']; ?></td>
                                                         <td> <?php echo $row2['concrete_cal']; ?></td> -->
-                                                        <td> <?php if ($row2['status_stock'] == 1) { ?>
-                                                                <span class="badge badge-success p-1">เข้าสต๊อก</span>
-                                                            <?php } ?>
-                                                            <?php if ($row2['status_stock'] == 0) { ?>
-                                                                <span class="badge badge-warning p-1">รอดำเนินการ</span>
-                                                            <?php } ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php if ($x == 0) { ?>
+                                                <td> <?php echo $row['b_type']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($x == 0) { ?>
+                                                        <button data-toggle="modal" data-target="#medalstock_b" title="ปรับเปลี่ยนสภาพสินค้า" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Add-Cart font-weight-bold"></i> </button>
 
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/editproduction.php?po_id=<?php echo $row['po_id']; ?>"  type="button" title="แก้ไขข้อมูลสั่งผลิต"> <i class="i-Pen-2 font-weight-bold"></i></a>
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" href="/productionprint.php?po_id=<?= $row['po_id'] ?>" target="_blank" type="button" title="พริ้นใบสั่งผลิต"> <i class="i-Folder-With-Document font-weight-bold"></i></a>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr> <?php
 
-                                                                <button data-toggle="modal" data-target="#medalstock" title="เช็คสินค้าเข้าสต๊อก" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Add-Cart font-weight-bold"></i> </button>
-
-                                                                <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row['po_id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการผลิต"> <i class="i-Close-Window font-weight-bold"></i> </button>
-                                                            <?php } ?>
-                                                        </td>
-                                                    </tr> <?php
-                                                        }
-                                                    }
                                                 }
                                                 mysqli_close($conn);
-                                                            ?>
+                                                    ?>
 
                                     </tbody>
                                 </table>
@@ -457,7 +439,7 @@ if ($action == 'del') {
                                             if ($page_no <= 4) {
                                                 for ($counter = 1; $counter < 8; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?=$counter?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?= $counter ?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php  }
@@ -478,7 +460,7 @@ if ($action == 'del') {
                                                 <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                                <li><a class="page-link" href='?page_no=<?=$second_last?>'><?=$second_last?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?= $second_last ?>'><?= $second_last ?></a></li>
                                                 <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                             <?php  } else { ?>
                                                 <li><a class="page-link" href='?page_no=1'>1</a></li>
@@ -489,7 +471,7 @@ if ($action == 'del') {
                                                     if ($counter == $page_no) { ?>
                                                         <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=<?=$counter?>'><?php echo "$counter"; ?></a></li>
+                                                    ?> <li><a class="page-link" href='?page_no=<?= $counter ?>'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
                                             }
@@ -547,11 +529,11 @@ if ($action == 'del') {
         </div>
     </div>
     <!-- Modal บันทึกสต็อก-->
-    <div class="modal fade" id="medalstock" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+    <div class="modal fade" id="medalstock_b" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="medalconcreteuseTitle-2">เช็คสินค้าเข้าสต๊อก</h5>
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">เปลี่ยนสภาพสินค้าชำรุด</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -595,33 +577,33 @@ if ($action == 'del') {
         </div>
     </div>
     <!-- ============ Form Search Start ============= -->
-<form class="d-none" method="POST">
-    <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
-    <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
-    <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
-    <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
-    <button class="btn" id="FSButtonID" type="submit"></button>
-</form>
-<!-- ============ Form Search End ============= -->
+    <form class="d-none" method="POST">
+        <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
+        <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
+        <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
+        <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
+        <button class="btn" id="FSButtonID" type="submit"></button>
+    </form>
+    <!-- ============ Form Search End ============= -->
 
-<!-- ============ Modal Start ============= -->
-<!-- modal load -->
-<div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
+    <!-- ============ Modal Start ============= -->
+    <!-- modal load -->
+    <div class="modal fade" id="ModalLoadId" tabindex="-1" role="dialog" aria-labelledby="modalLoadTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
 
-            <div class="modal-body">
-                <div class="text-center">
-                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
-                    <div class="mt-1">
-                        Load ...
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                        <div class="mt-1">
+                            Load ...
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
     <!-- ============ Search UI End ============= -->
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
@@ -634,6 +616,7 @@ if ($action == 'del') {
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
+
 </html>
 <script>
     $(document).ready(function() {
@@ -683,7 +666,7 @@ if ($action == 'del') {
             $('#modal-loader1').show(); // load ajax loader on button click
 
             $.ajax({
-                    url: 'productionlist_stock.php',
+                    url: 'production_stock_b.php',
                     type: 'POST',
                     data: 'id=' + uid,
                     dataType: 'html'
@@ -716,107 +699,107 @@ if ($action == 'del') {
 </script>
 
 <script>
-/* ===== search start ===== */
-function modalLoad() {
-    $("#ModalLoadId").modal({
-        backdrop: 'static',
-        'keyboard': false,
-    });
-};
+    /* ===== search start ===== */
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
 
-function clickNav(page) {
-    modalLoad();
+    function clickNav(page) {
+        modalLoad();
 
-    $("#FSPageId").val(page);
-    $("#FSButtonID").click();
-}
-$("#searchRowsId").on("change", function() {
-    modalLoad();
-
-    let row = $("#searchRowsId").val();
-    $("#FSRowId").val(row);
-    let column = $("#searchColumnId").val();
-    $("#FSColumnId").val(column);
-    $("#FSButtonID").click();
-
-});
-$("#searchNameId").on("change", function() {
-    // modalLoad();
-
-    let name = $("#searchNameId").val();
-    let column = $("#searchColumnId").val();
-
-    if(column==''){
-        $("#FSKeywordId").val(name);
+        $("#FSPageId").val(page);
         $("#FSButtonID").click();
-    }else{
-
-    $("#FSKeywordId").val(name);
-    $("#FSColumnId").val(column);
-    $("#FSButtonID").click();
-console.log('column',column)
-console.log('name',name)
     }
-   
+    $("#searchRowsId").on("change", function() {
+        modalLoad();
 
-});
+        let row = $("#searchRowsId").val();
+        $("#FSRowId").val(row);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
 
-/* ===== search end ===== */
-
-//click next link
-$(".linkLoadModalNext").on('click', function() {
-    $("#ModalLoadId").modal({
-        backdrop: 'static',
-        'keyboard': false,
     });
-});
-</script>
-<script>
-$('#myModal_del').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var id = button.data('id')
-    var modal = $(this)
-    modal.find('#del_id').val(id)
+    $("#searchNameId").on("change", function() {
+        // modalLoad();
 
-})
+        let name = $("#searchNameId").val();
+        let column = $("#searchColumnId").val();
 
-//click next link
-$(".linkLoadModalNext").on('click', function() {
-    $("#ModalLoadId").modal({
-        backdrop: 'static',
-        'keyboard': false,
-    });
-});
-</script>
+        if (column == '') {
+            $("#FSKeywordId").val(name);
+            $("#FSButtonID").click();
+        } else {
+
+            $("#FSKeywordId").val(name);
+            $("#FSColumnId").val(column);
+            $("#FSButtonID").click();
+            console.log('column', column)
+            console.log('name', name)
+        }
 
 
-<script>
-$(function() {
-    $('#orderModal').modal({
-        keyboard: true,
-        backdrop: "static",
-        show: false,
-
-    }).on('show', function() {
-        var getIdFromRow = $(this).data('orderid');
-        //make your ajax call populate items or what even you need
-        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
     });
 
-    $(".table-striped").find('tr[data-target]').on('click', function() {
-        //or do your operations here instead of on show of modal to populate values to modal.
-        $('#orderModal').data('orderid', $(this).data('id'));
-    });
+    /* ===== search end ===== */
 
-});
-</script>
-<script>
-$(document).ready(function() {
-    $("#searchNameId").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
         });
     });
-});
+</script>
+<script>
+    $('#myModal_del').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('#del_id').val(id)
+
+    })
+
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    });
+</script>
+
+
+<script>
+    $(function() {
+        $('#orderModal').modal({
+            keyboard: true,
+            backdrop: "static",
+            show: false,
+
+        }).on('show', function() {
+            var getIdFromRow = $(this).data('orderid');
+            //make your ajax call populate items or what even you need
+            $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+        });
+
+        $(".table-striped").find('tr[data-target]').on('click', function() {
+            //or do your operations here instead of on show of modal to populate values to modal.
+            $('#orderModal').data('orderid', $(this).data('id'));
+        });
+
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#searchNameId").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 </script>

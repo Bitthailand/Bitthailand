@@ -83,7 +83,7 @@ if ($rowS == '') {
 
                 <div class="row">
                     <div class="col-md-12">
-                        <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link " href="/productionlist.php">
                                     <h3 class="h5 font-weight-bold"> รายการสั่งผลิต
@@ -97,11 +97,24 @@ if ($rowS == '') {
                                     </span>
                                 </a>
                             </li>
-
+                            <li class="nav-item">
+                                <a class="linkLoadModalNext nav-link " href="/productionlist_btype.php">
+                                    <h3 class="h5 font-weight-bold"> รายการสินค้าชำรุด
+                                        <?php $sql_count = "SELECT COUNT(*) AS CO FROM production_detail  WHERE   status_stock='1' AND b_type >'0' ";
+                                        $rs_count = $conn->query($sql_count);
+                                        $row_count = $rs_count->fetch_assoc();
+                                        ?> <span class="badge badge-pill badge-danger"><?= $row_count['CO'] ?></span>
+                                    </h3>
+                                    <span>รายการสินค้าที่ถูกเลือกชำรุด
+                                        <span class="badge badge-warning"> Wait </span>
+                                    </span>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="linkLoadModalNext nav-link active" href="/productionfinishlist.php">
                                     <h3 class="h5 font-weight-bold"> รายการสำเร็จ</h3>
                                     <span>รายการสินค้าที่ผลิตเรียบร้อย
+
                                         <span class="badge badge-success"> Success </span>
                                     </span>
                                 </a>

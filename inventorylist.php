@@ -209,8 +209,8 @@ if ($rowS == '') {
                                                     if ($sum_stock < $row_pro['qty_out']) {  ?>
                                                         <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
                                                     <?php    } else { ?>
-                                          <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                  <?php   }
+                                                        <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                    <?php   }
                                                     ?>
                                                 </td>
                                                 <td> <?php
@@ -351,6 +351,8 @@ if ($rowS == '') {
                 <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
                 <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
                 <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+                <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
 </body>
 
 <div id="Modal-add1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
