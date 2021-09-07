@@ -50,7 +50,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
         }
 
         .print_text {
-            font-size: 14px;
+            font-size: 18px;
             font-family: "Angsana New";
         }
     </style>
