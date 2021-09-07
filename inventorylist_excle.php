@@ -147,7 +147,7 @@ header("Pragma:no-cache");
                                                 $result = mysqli_query($conn, "SELECT * FROM `product` where status='0' ");
                                                 while ($row = mysqli_fetch_array($result)) { ?>
                                                     <tr>
-                                                        <td><?php echo $row["product_id"]; ?></td>
+                                                        <td ><?php echo $row["product_id"]; ?></td>
                                                         <td><?php
                                                             $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
                                                             $rs3 = $conn->query($sql3);
