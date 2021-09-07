@@ -28,6 +28,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
 
 <head>
     <!-- <meta charset="UTF-8" /> -->
+    
     <meta http-equiv="Content-Type" content="text/html; charset=windows-874" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -37,7 +38,9 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
 
-
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+</style>
     <style>
         p {
             margin-top: 0;
