@@ -137,24 +137,24 @@ if ($action == 'add_dev') {
                     </script>
                 <?php
                 }
-                // if ($rowx['qty'] < $total_instock) { 
+                if ($rowx['qty'] < $total_instock) { 
                 ?>
                 <script>
-                    // $(document).ready(function() {
-                    // showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
-                    // });
+                    $(document).ready(function() {
+                    showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
+                    });
                 </script>
                 <?php
-                // }
-                // if ($total_instock == 0) { 
+                }
+                if ($total_instock == 0) { 
                 ?>
                 <script>
-                    // $(document).ready(function() {
-                    //     showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
-                    // });
+                    $(document).ready(function() {
+                        showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
+                    });
                 </script>
                 <?php
-                // }
+                }
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
 
 
