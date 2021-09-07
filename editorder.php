@@ -828,7 +828,7 @@ if ($action == 'add') {
                                         <?php if ($rs['cus_type'] == 2) { ?>
                                             <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
                                         <?php } ?>
-                                       
+                                        <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $order_id ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
                                     <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการ Order</a>
                                 </div>
                             </form>
