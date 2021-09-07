@@ -253,17 +253,17 @@ $row_bk = $rs_bk->fetch_assoc();
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 ประเภท Order :
-                                                <span class="ml-1 text-primary font-weight-bold"><?=$row_bk['name']?></strong>
+                                                <span class="ml-1 text-primary font-weight-bold"><?= $row_bk['name'] ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 วันที่เปิด Order :
                                                 <strong> <?php $date = explode(" ", $row['date_create']);
-                                                    $dat = datethai2($date[0]);
-                                                    echo $dat ?></strong>
+                                                            $dat = datethai2($date[0]);
+                                                            echo $dat ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 พนักงานขาย :
-                                                <strong class="font-weight-bold text-primary"><?=$row['emp_id']?></strong>
+                                                <strong class="font-weight-bold text-primary"><?= $row['emp_id'] ?></strong>
                                             </div>
                                         </div>
 
@@ -282,47 +282,54 @@ $row_bk = $rs_bk->fetch_assoc();
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <?php
-                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
-                                            $result_pro = mysqli_query($conn, $sql_pro);
-                                            if (mysqli_num_rows($result_pro) > 0) {
-                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
-                                                  <tr>
-                                                            <th scope="row" class="text-center"><?= ++$id; ?></th>
-                                                            <td>
-                                                            <?php
-                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
-                                                            $rsx3 = $conn->query($sqlx3);
-                                                            $rowx3 = $rsx3->fetch_assoc();
-                                                            if ($rowx3['ptype_id'] == 'TF0') {
-                                                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
-                                                            } else {
-                                                                echo $rowx3['product_name'];
-                                                                if ($rowx3['spacial'] == '') {
-                                                                } else {
-                                                                    echo "  (" . $rowx3['spacial'] . ")";
-                                                                }
-                                                            }
-                                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
-                                                            $rs_unit = $conn->query($sql_unit);
-                                                            $row_unit = $rs_unit->fetch_assoc();
-                                                            ?>
-                                                            </td>
-                                                            <td class="text-right"><?= $row_pro['qty'] ?> <?=$row_unit['unit_name']?></td>
-                                                            <td class="text-right"><?php echo number_format($row_pro['total_price'], '2', '.', ',') ?></td>
-                                                            <td class="text-right"><?php  ?>8000.00</td>
-                                                        </tr>
-                                                       
-                                                        <?php } } ?>
+                                                        <?php
+                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
+                                                        $result_pro = mysqli_query($conn, $sql_pro);
+                                                        if (mysqli_num_rows($result_pro) > 0) {
+                                                            while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
+                                                                <tr>
+                                                                    <th scope="row" class="text-center"><?= ++$id; ?></th>
+                                                                    <td>
+                                                                        <?php
+                                                                        $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                                        $rsx3 = $conn->query($sqlx3);
+                                                                        $rowx3 = $rsx3->fetch_assoc();
+                                                                        if ($rowx3['ptype_id'] == 'TF0') {
+                                                                            echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
+                                                                        } else {
+                                                                            echo $rowx3['product_name'];
+                                                                            if ($rowx3['spacial'] == '') {
+                                                                            } else {
+                                                                                echo "  (" . $rowx3['spacial'] . ")";
+                                                                            }
+                                                                        }
+                                                                        $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                                                        $rs_unit = $conn->query($sql_unit);
+                                                                        $row_unit = $rs_unit->fetch_assoc();
+                                                                        ?>
+                                                                    </td>
+                                                                    <td class="text-right"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?></td>
+                                                                    <td class="text-right"><?php  ?><?php echo number_format($row_pro['total_price'], '2', '.', ',');
+                                                                                                    $total = $total + $row_pro['total_price']; ?></td>
+                                                                </tr>
+
+                                                        <?php }
+                                                        } ?>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="invoice-summary">
-                                                    <p style="margin-bottom: 0;">รวมเป็นเงินทั้งสิ้น <span>16,830.00</span></p>
+                                                    <p style="margin-bottom: 0;">รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($total, '2', '.', ',') ?></span></p>
                                                     <p style="margin-bottom: 0;">หัก ส่วนลด <span>0.00</span></p>
-                                                    <p style="margin-bottom: 0;">จำนวนเงินก่อนรวมภาษี <span>17,931.03</span></p>
-                                                    <p>จำนวนภาษีมูลค่าเพิ่ม 7% <span>1,101.03</span></p>
+                                                    <?php $tax = ($total * 100) / 107;
+                                                    $tax2 = $total - $tax;
+                                                    $sub_total = $total - $tax2;
+                                                    $grand_total = $sub_total + $tax2;
+                                                    ?>
+                                                    <p style="margin-bottom: 0;">จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($sub_total, '2', '.', ',') ?></span></p>
+                                                    <p>จำนวนภาษีมูลค่าเพิ่ม 7% <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -331,12 +338,12 @@ $row_bk = $rs_bk->fetch_assoc();
                                                         <p>ตัวอักษร :</p>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <p>หนึ่งหมื่นหกพันแปดร้อยสามสิบบาทถ้วน</p>
+                                                        <p><?php echo Convert($grand_total); ?></p>
                                                     </div>
                                                     <div class="col-md-4 text-right">
                                                         <div class="row" style="justify-content: flex-end; margin-right: 0;">
                                                             <p>รวมเป็นเงิน</p>
-                                                            <h5 class="font-weight-bold text-primary" style="width: 120px; display: inline-block;"> <span>16,830.00</span></h5>
+                                                            <h5 class="font-weight-bold text-primary" style="width: 120px; display: inline-block;"> <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></h5>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -344,8 +351,17 @@ $row_bk = $rs_bk->fetch_assoc();
                                         </div>
                                     </div>
                                 </div>
-
-
+                                <?php
+                                $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM delivery  where  status='0' AND  order_id='$order_id'  ");
+                                $count = mysqli_fetch_array($result_count);
+                                $countx = $count['total'];
+                                if($countx > 0){ 
+                                ?>
+                                 <?php
+                                    $sql_dev = "SELECT * FROM delivery   where order_id='$order_id'  order by dev_id ASC ";
+                                     $result_dev = mysqli_query($conn, $sql_dev);
+                                     if (mysqli_num_rows($result_dev) > 0) {
+                                    while ($row_dev = mysqli_fetch_assoc($result_dev)) { ?>
                                 <!-- รายการส่งสินค้า -->
                                 <div class="card mt-3">
                                     <div class="col-mb-12 col-12 mb-2 pt-2">
@@ -355,19 +371,25 @@ $row_bk = $rs_bk->fetch_assoc();
                                         <div class="row">
                                             <div class="col-md-4 col-12 mb-2">
                                                 รหัสส่งสินค้า :
-                                                <span class="ml-1 text-primary font-weight-bold">SO6400001</strong>
+                                                <span class="ml-1 text-primary font-weight-bold"><?=$row_dev['dev_id']?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 วันที่ส่งสินค้า :
-                                                <strong>30 ก.ค. 2021 11:19</strong>
+                                                <strong><?php $date = explode(" ", $row_dev['dev_date']);
+                                                            $dat = datethai2($date[0]);
+                                                            echo $dat ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
-                                                พนักงานส่ง :
-                                                <strong class="font-weight-bold text-primary">นางสาวหทัยทิพย์ แสงชาติ</strong>
+                                                พนักงานส่ง : <?php  $sql_emp = "SELECT * FROM employee_check   WHERE id= '$row_dev[dev_employee]'";
+                                                                        $rs_emp = $conn->query($sql_emp);
+                                                                        $row_emp = $rs_emp->fetch_assoc(); ?>
+                                                <strong class="font-weight-bold text-primary"><?=$row_emp['name']?></strong>
                                             </div>
-                                            <div class="col-md-4 col-12 mb-2">
-                                                พนักงานตรวจสอบ :
-                                                <strong class="font-weight-bold text-primary">นางสาวหทัยทิพย์ แสงชาติ</strong>
+                                            <div class="col-md-8">
+                                                พนักงานตรวจสอบ :<?php  $sql_emp = "SELECT * FROM employee_check   WHERE id= '$row_dev[dev_check]'";
+                                                                        $rs_emp = $conn->query($sql_emp);
+                                                                        $row_emp = $rs_emp->fetch_assoc(); ?>
+                                                <strong class="font-weight-bold text-primary"><?=$row_emp['name']?></strong>
                                             </div>
                                         </div>
 
@@ -385,151 +407,32 @@ $row_bk = $rs_bk->fetch_assoc();
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            <?php
+                                    $sql_detail = "SELECT * FROM deliver_detail   where order_id='$order_id' AND dev_id='$row_dev[dev_id]'   order by dev_id ASC ";
+                                     $result_detail = mysqli_query($conn, $sql_detail);
+                                     if (mysqli_num_rows($result_detail) > 0) {
+                                    while ($row_detail = mysqli_fetch_assoc($result_detail)) { ?>
                                                 <tr>
-                                                    <td scope="row" class="text-center">1</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.30 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
+                                                    <td scope="row" class="text-center"><?=++$id7;?></td>
+                                                    <td> <?php $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                                        $rsx3 = $conn->query($sqlx3);
+                                                                        $rowx3 = $rsx3->fetch_assoc(); ?> </td>
                                                     <td class="text-right">11</td>
                                                     <td class="text-right">-</td>
 
                                                     <td class="text-right">-</td>
                                                 </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">2</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.40 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">4</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">3</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.60 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">11</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">4</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x3.20 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">8</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">5</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x3.70 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">6</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">6</td>
-                                                    <td> ค่าจัดส่ง</td>
-                                                    <td class="text-right">1</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
+                                              
+                                               <?php } } ?>
                                             </tbody>
                                         </table>
 
                                         <div class="mb-2 mt-3 pt-2 border-warning border-top">
                                             <br>
                                         </div>
-
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-4 col-12 mb-2">
-                                                    รหัสส่งสินค้า :
-                                                    <span class="ml-1 text-primary font-weight-bold">SO6400002</strong>
-                                                </div>
-                                                <div class="col-md-4 col-12 mb-2">
-                                                    วันที่ส่งสินค้า :
-                                                    <strong>30 ก.ค. 2021 11:19</strong>
-                                                </div>
-                                                <div class="col-md-4 col-12 mb-2">
-                                                    พนักงานส่ง :
-                                                    <strong class="font-weight-bold text-primary">นางสาวหทัยทิพย์ แสงชาติ</strong>
-                                                </div>
-                                                <div class="col-md-4 col-12 mb-2">
-                                                    พนักงานตรวจสอบ :
-                                                    <strong class="font-weight-bold text-primary">นางสาวหทัยทิพย์ แสงชาติ</strong>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-
-
-                                        <table class="table table-hover text-nowrap table-sm">
-                                            <thead class="bg-gray-300">
-                                                <tr>
-                                                    <th scope="col" class="text-center">No.</th>
-                                                    <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
-                                                    <th scope="col" class="text-center">จำนวน</th>
-                                                    <th scope="col" class="text-center">หน่วยละ</th>
-                                                    <th scope="col" class="text-center">จำนวนเงิน</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td scope="row" class="text-center">1</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.30 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">11</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">2</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.40 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">4</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">3</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x2.60 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">11</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">4</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x3.20 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">8</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">5</td>
-                                                    <td> แผ่นพื้นสำเร็จรูป ขนาด 0.05x0.35x3.70 เมตร หนา0.05 ขนาดลวด4 จำนวน5</td>
-                                                    <td class="text-right">6</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row" class="text-center">6</td>
-                                                    <td> ค่าจัดส่ง</td>
-                                                    <td class="text-right">1</td>
-                                                    <td class="text-right">-</td>
-
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-
                                     </div>
                                 </div>
+                                <?php }}} ?>
                             </div>
 
 

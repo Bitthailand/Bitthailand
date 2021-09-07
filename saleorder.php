@@ -191,11 +191,11 @@ $row5 = $rs5->fetch_assoc();
                                     <table class="table table-hover mb-4">
                                         <thead class="bg-gray-300">
                                             <tr>
-                                                <th scope="col" class="text-center">No.</th>
+                                                <th scope="col" class="text-center">ลำดับที่</th>
                                                 <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
                                                 <th scope="col" class="text-center">จำนวน</th>
                                                 <th scope="col" class="text-center">หน่วยละ</th>
-                                                <th scope="col" class="text-center">จำนวนเงิน</th>
+                                              
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -219,10 +219,10 @@ $row5 = $rs5->fetch_assoc();
                                                 echo $rowx3['product_name'] ;
                                             }
                                             ?></td>
-                                                <td class="text-right"><?= $row_pro['dev_qty'] ?></td>
-                                                <td class="text-right">-</td>
+                                                <td class="text-center"><?= $row_pro['dev_qty'] ?></td>
+                                                <td class="text-center">-</td>
 
-                                                <td class="text-right">-</td>
+                                                
                                             </tr>
                                             <?php }
                                             } ?>

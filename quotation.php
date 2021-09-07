@@ -27,7 +27,8 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
 <html lang="en" dir="">
 
 <head>
-    <meta charset="UTF-8" />
+    <!-- <meta charset="UTF-8" /> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-874" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Quotation | ใบเสนอราคา</title>
