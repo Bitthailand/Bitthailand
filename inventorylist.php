@@ -30,31 +30,19 @@ if ($action == 'del') {
 $column = $_REQUEST['column'];
 // echo"$column";
 $rowS = $_REQUEST['row'];
-if(empty($column)&&($keyword)) {}else{
-
-    if($column=="ptype_id"){
-        $sql = "SELECT * FROM product_type WHERE ptype_name LIKE'$keyword%'";
-        $rs = $conn->query($sql);
-        $rowx = $rs->fetch_assoc();  
-        $columx = "AND ptype_id ='$rowx[ptype_id]'";
-    }
-    if($column=="units"){
-        $sql = "SELECT * FROM unit  WHERE unit_name LIKE'$keyword%'";
-        $rs = $conn->query($sql);
-        $rowx = $rs->fetch_assoc();  
-        $columx = "AND units ='$rowx[id]'";
-    }
-    if($column=="product_id"){
-    $columx = "AND $column LIKE'$keyword%'";
-    }
-    if($column=="product_name"){
-        $columx = "AND $column LIKE'$keyword%'";
-        }
+if (empty($column) && ($keyword)) {
+    echo "cc";
+    $columx = "";
+    $keywordx = "";
+} else {
+    // echo"$column";
+    $columx = "";
+    $keywordx = "";
     // echo"$columx";   
 }
 
 
-if (($column=="")&&($keyword == "$keyword")) {
+if (($column == "") && ($keyword == "$keyword")) {
 
     $keywordx = "AND product_id LIKE'$keyword%'
                  OR product_name LIKE'$keyword%' ";
@@ -79,11 +67,13 @@ if ($rowS == '') {
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
 </head>
 <style>
-        .table-sm th, .table-sm td {
-    padding: 0.3rem;
-    font-size: 0.813rem!important;
-}
-    </style>
+    .table-sm th,
+    .table-sm td {
+        padding: 0.3rem;
+        font-size: 0.813rem !important;
+    }
+</style>
+
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <?php include './include/config.php'; ?>
@@ -117,22 +107,7 @@ if ($rowS == '') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-                                                   
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
-                                                        <option value="product_id" <?php echo $column == 'product_id' ? 'selected' : ''; ?>> รหัสสินค้า</option>
-                                                        <option value="ptype_id" <?php echo $column == 'ptype_id' ? 'selected' : ''; ?>>ประเภทสินค้า</option>
-                                                        <option value="product_name" <?php echo $column == 'product_name' ? 'selected' : ''; ?>>ชื่อสินค้า </option>
-                                                        <option value="units" <?php echo $column == 'units' ? 'selected' : ''; ?>>ราคาต่อหน่วย </option>
-                                                       
-                                                    </select>
 
-
-                                                </div>
-                                            </div>
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
@@ -177,8 +152,9 @@ if ($rowS == '') {
                                             <th>จำนวนเส้นลวด</th>
                                             <th>ราคาต่อหน่วย</th>
                                             <th>ข้อมูลเพิ่มเติม</th>
-                                            <th>สต๊อกโรงงาน 1</th>
-                                            <th>สต๊อกโรงงาน 2</th>
+                                            <th>โรงงาน 1</th>
+                                            <th>โรงงาน 2</th>
+                                            <th>ยอดสั่งจอง</th>
                                             <th>หน่วยนับ</th>
                                             <th>Action</th>
                                         </tr>
@@ -197,12 +173,12 @@ if ($rowS == '') {
                                         $next_page = $page_no + 1;
                                         $adjacents = "2";
 
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM product  where  status='0' AND  ptype_id<>'TF0' $columx $keywordx  order by product_id asc ");
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM product  where  status='0' AND  ptype_id<>'TF0'  order by product_id asc ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
-                                        $result = mysqli_query($conn, "SELECT * FROM product where  ptype_id <> 'TF0' AND  status='0' $columx $keywordx order by product_id asc  LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM product where  ptype_id <> 'TF0' AND  status='0'   order by product_id asc  LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
                                                 <td><?php echo $row["product_id"]; ?></td>
@@ -210,9 +186,7 @@ if ($rowS == '') {
                                                     $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
                                                     $rs3 = $conn->query($sql3);
                                                     $row3 = $rs3->fetch_assoc();
-                                                    echo $row3['ptype_name'];
-
-                                                    ?> </td>
+                                                    echo $row3['ptype_name'];  ?> </td>
                                                 <td> <?php echo $row["product_name"]; ?></td>
                                                 <td> <?php echo $row["thickness"]; ?> </td>
                                                 <td> <?php echo $row["width"]; ?> </td>
@@ -224,18 +198,33 @@ if ($rowS == '') {
                                                 <td><?php echo $row["spacial"]; ?> </td>
                                                 <td> <?php echo $row["fac1_stock"]; ?> </td>
                                                 <td>
-                                                <?php echo $row["fac2_stock"]; ?> </td>
-                                                <td> <?php
-                                                    $sql4 = "SELECT * FROM unit WHERE id= '$row[units]'";
-                                                    $rs4 = $conn->query($sql4);
-                                                    $row4 = $rs4->fetch_assoc();
-                                                    echo $row4['unit_name'];
 
-                                                    ?>   
-                                                     </td>
+                                                    <?php echo $row["fac2_stock"]; ?> </td>
+                                                <td>
+                                                    <?php
+                                                    $sql_pro = "SELECT sum(qty_out) AS qty_out FROM order_details WHERE product_id= '$row[product_id]'";
+                                                    $rs_pro = $conn->query($sql_pro);
+                                                    $row_pro = $rs_pro->fetch_assoc();
+                                                    $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
+                                                    if ($sum_stock < $row_pro['qty_out']) {  ?>
+                                                        <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                    <?php    } else { ?>
+                                          <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                  <?php   }
+                                                    ?>
+                                                </td>
+                                                <td> <?php
+                                                        $sql4 = "SELECT * FROM unit WHERE id= '$row[units]'";
+                                                        $rs4 = $conn->query($sql4);
+                                                        $row4 = $rs4->fetch_assoc();
+                                                        echo $row4['unit_name'];
+
+                                                        ?>
+                                                </td>
+
                                                 <td>
 
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product_update.php?product_id=<?php echo$row["product_id"];?>">
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product_update.php?product_id=<?php echo $row["product_id"]; ?>">
                                                         <i class="i-Pen-2 font-weight-bold"></i>
                                                     </a>
                                                 </td>
@@ -279,7 +268,7 @@ if ($rowS == '') {
                                             if ($page_no <= 4) {
                                                 for ($counter = 1; $counter < 8; $counter++) {
                                                     if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?=$counter?></a></li>
+                                                        <li class='page-item  active'><a class="page-link"><?= $counter ?></a></li>
                                                     <?php  } else { ?>
                                                         <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
                                                 <?php  }
@@ -300,7 +289,7 @@ if ($rowS == '') {
                                                 <?php    }
                                                 } ?>
                                                 <li><a class="page-link">...</a></li>
-                                                <li><a class="page-link" href='?page_no=<?=$second_last?>'><?=$second_last?></a></li>
+                                                <li><a class="page-link" href='?page_no=<?= $second_last ?>'><?= $second_last ?></a></li>
                                                 <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
                                             <?php  } else { ?>
                                                 <li><a class="page-link" href='?page_no=1'>1</a></li>
@@ -311,7 +300,7 @@ if ($rowS == '') {
                                                     if ($counter == $page_no) { ?>
                                                         <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
                                                     <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=<?=$counter?>'><?php echo "$counter"; ?></a></li>
+                                                    ?> <li><a class="page-link" href='?page_no=<?= $counter ?>'><?php echo "$counter"; ?></a></li>
                                         <?php   }
                                                 }
                                             }
@@ -333,7 +322,7 @@ if ($rowS == '') {
                                 </nav>
                             </div>
 
-                      
+
                         </div><!-- Footer Start -->
                         <div class="flex-grow-1"></div>
                         <div class="app-footer">
@@ -364,8 +353,7 @@ if ($rowS == '') {
                 <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
 </body>
 
-<div id="Modal-add1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
+<div id="Modal-add1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -374,30 +362,30 @@ if ($rowS == '') {
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-            
-            <form class="form-horizontal well" action="import_stock.php" method="post" name="upload_excel" enctype="multipart/form-data">
-                <div class="box-content">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                        <legend>Import CSV/Excel file</legend>
-                          
-                        <div class="controls">
-								<input type="file" name="file" id="file" class="input-large" required>
-							</div>
-                        </div>
-                    </div>
-                 
-                   
-                <div class="modal-footer">
-                <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
 
-                    <input type="hidden" name="action" value="add2">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </form>
+                <form class="form-horizontal well" action="import_stock.php" method="post" name="upload_excel" enctype="multipart/form-data">
+                    <div class="box-content">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <legend>Import CSV/Excel file</legend>
+
+                                <div class="controls">
+                                    <input type="file" name="file" id="file" class="input-large" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
+
+                            <input type="hidden" name="action" value="add2">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 <!-- Modal DEL  -->
 <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -464,88 +452,88 @@ if ($rowS == '') {
 </div>
 <!-- ============ Modal End ============= -->
 <script>
-/* ===== search start ===== */
-function modalLoad() {
-    $("#ModalLoadId").modal({
-        backdrop: 'static',
-        'keyboard': false,
+    /* ===== search start ===== */
+    function modalLoad() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
+        });
+    };
+
+    function clickNav(page) {
+        modalLoad();
+
+        $("#FSPageId").val(page);
+        $("#FSButtonID").click();
+    }
+    $("#searchRowsId").on("change", function() {
+        modalLoad();
+
+        let row = $("#searchRowsId").val();
+        $("#FSRowId").val(row);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
+
     });
-};
+    $("#searchNameId").on("change", function() {
+        modalLoad();
 
-function clickNav(page) {
-    modalLoad();
+        let name = $("#searchNameId").val();
+        $("#FSKeywordId").val(name);
+        let column = $("#searchColumnId").val();
+        $("#FSColumnId").val(column);
+        $("#FSButtonID").click();
 
-    $("#FSPageId").val(page);
-    $("#FSButtonID").click();
-}
-$("#searchRowsId").on("change", function() {
-    modalLoad();
-
-    let row = $("#searchRowsId").val();
-    $("#FSRowId").val(row);
-    let column = $("#searchColumnId").val();
-    $("#FSColumnId").val(column);
-    $("#FSButtonID").click();
-
-});
-$("#searchNameId").on("change", function() {
-    modalLoad();
-
-    let name = $("#searchNameId").val();
-    $("#FSKeywordId").val(name);
-    let column = $("#searchColumnId").val();
-    $("#FSColumnId").val(column);
-    $("#FSButtonID").click();
-
-});
-/* ===== search end ===== */
-
-//click next link
-$(".linkLoadModalNext").on('click', function() {
-    $("#ModalLoadId").modal({
-        backdrop: 'static',
-        'keyboard': false,
     });
-});
-</script>
-<script>
-$('#myModal_del').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var id = button.data('id')
-    var modal = $(this)
-    modal.find('#del_id').val(id)
+    /* ===== search end ===== */
 
-})
-</script>
-
-
-<script>
-$(function() {
-    $('#orderModal').modal({
-        keyboard: true,
-        backdrop: "static",
-        show: false,
-
-    }).on('show', function() {
-        var getIdFromRow = $(this).data('orderid');
-        //make your ajax call populate items or what even you need
-        $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
-    });
-
-    $(".table-striped").find('tr[data-target]').on('click', function() {
-        //or do your operations here instead of on show of modal to populate values to modal.
-        $('#orderModal').data('orderid', $(this).data('id'));
-    });
-
-});
-</script>
-<script>
-$(document).ready(function() {
-    $("#searchNameId").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //click next link
+    $(".linkLoadModalNext").on('click', function() {
+        $("#ModalLoadId").modal({
+            backdrop: 'static',
+            'keyboard': false,
         });
     });
-});
+</script>
+<script>
+    $('#myModal_del').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('#del_id').val(id)
+
+    })
+</script>
+
+
+<script>
+    $(function() {
+        $('#orderModal').modal({
+            keyboard: true,
+            backdrop: "static",
+            show: false,
+
+        }).on('show', function() {
+            var getIdFromRow = $(this).data('orderid');
+            //make your ajax call populate items or what even you need
+            $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+        });
+
+        $(".table-striped").find('tr[data-target]').on('click', function() {
+            //or do your operations here instead of on show of modal to populate values to modal.
+            $('#orderModal').data('orderid', $(this).data('id'));
+        });
+
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#searchNameId").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 </script>
