@@ -1,32 +1,19 @@
-<!doctype html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<style>
-.invoice-box, .invoice-box table {
-           width: 100%;
-           line-height: inherit;
-           text-align: left;
-           table-layout: fixed;
-           background-color: transparent;
-           border-collapse: collapse;
-           max-width: 800px;
-           font-size: 12px;
-           font-weight: 300;
-           font-family: 'Gill Sans', sans-serif;
-       }
- 
+<meta http-equiv="Content-Type" content="text/html; charset=windows-874" />
+<title>Untitled Document</title>
+<style type="text/css">
+@media print{
+.print_text {
+	font-size:14px;
+	font-family:"Angsana New";
+}
 </style>
 </head>
- 
+
 <body>
-<div id="invoiceItemJSON"></div>
+<p class="print_text">ทดสอบการพิมพ์<br />
 </body>
 
-<script>
-   const invoiceItems = {% if Data.InvoiceItem %}
-                           {{- Data.InvoiceItem | to_json -}};
-                       {%- endif -%}
-   var firstInvoiceQuantity = invoiceItems[0].Quantity;
-   document.getElementById("invoiceItemQuantity").innerHTML = firstInvoiceQuantity;
-</script>
-</html> 
+</html>

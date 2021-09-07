@@ -27,9 +27,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
 <html lang="en" dir="">
 
 <head>
-    <!-- <meta charset="UTF-8" /> -->
-    
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-874" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Quotation | ใบเสนอราคา</title>
@@ -38,9 +36,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
 
-    <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
-</style>
+
     <style>
         p {
             margin-top: 0;
@@ -51,6 +47,11 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
         .table-sm td {
             padding: 0.3rem;
             font-size: 0.813rem !important;
+        }
+
+        .print_text {
+            font-size: 14px;
+            font-family: "Angsana New";
         }
     </style>
 </head>
@@ -90,7 +91,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                     $row8 = $rs8->fetch_assoc();
 
                     ?>
-                    <p><strong>ชื่อลูกค้า : </strong> <?= $row3['customer_name'] ?></p>
+                    <p class="print_text"><strong>ชื่อลูกค้า : </strong> <?= $row3['customer_name'] ?></p>
                     <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                     <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                     <p style="margin-bottom: 10px;"><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
@@ -124,7 +125,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
             <div class="col-12 mb-3 mb-sm-0">
                 <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
                 <p>1.มัดจำไม่น้อยกว่า 30% ของมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง </p>
-                <p>2.ผู้ซื้อเป็นผู้จัดเตรียมสถานที่สำหรับลงสินค้า  และทางบริษัทฯขอสงวนสิทธิ์ในการลงสินค้าตามสถานที่เท่าที่รถเข้าถึง </p>
+                <p>2.ผู้ซื้อเป็นผู้จัดเตรียมสถานที่สำหรับลงสินค้า และทางบริษัทฯขอสงวนสิทธิ์ในการลงสินค้าตามสถานที่เท่าที่รถเข้าถึง </p>
                 <p>3.บริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
                 <p>4.สินค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทฯ ขอเก็บค่าดูแลสินค้า 5%
                     ต่อเดือนของมูลค่าสินค้า </p>
@@ -213,7 +214,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                             ?>
 
                                                         </td>
-                                                        <td class="text-right"><?= $row_pro['qty'] ?> <?=$row_unit['unit_name']?></td>
+                                                        <td class="text-right"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
                                                         <td class="text-right"><?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?></td>
                                                         <td class="text-right"><?php echo number_format($row_pro['total_price'], '2', '.', ',') ?></td>
                                                     </tr>
