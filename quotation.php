@@ -33,7 +33,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
     <title>Quotation | ใบเสนอราคา</title>
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css?v=5" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=6" rel="stylesheet" />
 
 
     <style>
