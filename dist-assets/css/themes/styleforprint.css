@@ -50,6 +50,26 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+body {
+    margin: 0;
+    font-family: "Nunito", sans-serif;
+    font-size: 0.813rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000000;
+    text-align: left;
+    background-color: #fff;
+}
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 p {
     margin-top: 0;
     margin-bottom: 0.1rem;
@@ -57,10 +77,10 @@ p {
 
 p {
     display: block;
-    /* margin-block-start: 1em;
+    margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;
-    margin-inline-end: 0px; */
+    margin-inline-end: 0px;
 }
 
 h4 {
@@ -629,6 +649,26 @@ th {
     margin: 0 0.75rem;
 }
 
+.page-header,
+.page-header-space {
+    height: 173px;
+}
+
+.page-footer,
+.page-footer-space {
+    height: 200px;
+}
+
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* border-top: 1px solid black; */
+    /* for demo */
+    background: white;
+    /* for demo */
+}
+
 .invoice-summary-qt2 p,
 .invoice-summary-qt2 h5 {
     display: flex;
@@ -649,6 +689,25 @@ th {
     width: 420px;
     text-align: right;
     float: right;
+}
+
+.page-header {
+    position: fixed;
+    top: 5mm;
+    width: 100%;
+    /* border-bottom: 1px solid black; */
+    /* for demo */
+    background: white;
+    /* for demo */
+}
+
+.page-header p {
+    font-size: 11px;
+    margin: 0;
+}
+
+.page {
+    page-break-after: always;
 }
 
 .qt2 .page-header {
@@ -954,7 +1013,7 @@ textarea {
 
 .mb-5,
 .my-5 {
-    margin-bottom: 0rem !important;
+    margin-bottom: 3rem !important;
 }
 
 .d-sm-flex {
@@ -991,4 +1050,22 @@ table {
 .table th,
 .table td {
     padding: 0.3rem;
+}
+
+@media print {
+    @page {
+        margin: 5mm;
+    }
+    thead {
+        display: table-header-group;
+    }
+    tfoot {
+        display: table-footer-group;
+    }
+    button {
+        display: none;
+    }
+    body {
+        margin: 0;
+    }
 }
