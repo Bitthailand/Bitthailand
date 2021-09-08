@@ -639,11 +639,10 @@ th {
 }
 
 .invoice-summary_so {
-    width: 165px;
+    width: 220px;
     text-align: right;
     float: right;
     margin-top: 0px;
-    margin-right: 0px;
 }
 
 .invoice-summary p,
