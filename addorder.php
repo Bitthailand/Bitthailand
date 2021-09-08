@@ -360,7 +360,7 @@ if ($action == 'add') {
                                   if ($conn->query($sql112) === TRUE) { }
                         if ($delivery_date = '$delivery_date')
                          {
-                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30' where order_id='$order_idx'";
                                           if ($conn->query($sql11) === TRUE) { }
                          } //if ($delivery_date = '$delivery_date') 
                   } else {
@@ -369,7 +369,7 @@ if ($action == 'add') {
                          $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
                                       VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','1')";
                                     if ($conn->query($sqlx5) === TRUE) {  }
-                         $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                         $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30' where order_id='$order_idx'";
                                     if ($conn->query($sql11) === TRUE) { }
                                     $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
                                     if ($conn->query($sql112) === TRUE) { }
@@ -468,13 +468,13 @@ if ($action == 'add') {
                             if ($conn->query($sql112) === TRUE) { }
                     if ($delivery_date = '$delivery_date') 
                         {
-                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30' where order_id='$order_idx'";
                                         if ($conn->query($sql11) === TRUE) { }
                         } else {
                                 $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
                                             VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','0')";
                                             if ($conn->query($sqlx5) === TRUE) { }
-                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30' where order_id='$order_idx'";
                                             if ($conn->query($sql11) === TRUE) { }
                         }
                     $sql7 = "UPDATE order_details  SET status_button='1' where order_id='$order_idx'";
