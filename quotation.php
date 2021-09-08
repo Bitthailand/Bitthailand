@@ -133,9 +133,9 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                 <div class="col-4 text-center">
                 <br>  
                     <p> ____________________</p>
-                    <br>  
+                    
                     <p>ผู้อนุมัติ<span></span></p>
-                   
+                    <br>  
                     <p>วันที่ ________/__________/__________ <span></span></p>
                 </div>
                 <div class="col-3"></div>
