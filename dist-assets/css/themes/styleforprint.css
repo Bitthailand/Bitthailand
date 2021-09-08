@@ -633,16 +633,17 @@ th {
 
 .invoice-summary {
     width: 220px;
-    text-align: left;
+    text-align: right;
     float: right;
     margin-top: 0px;
 }
 
 .invoice-summary_so {
     width: 165px;
-    text-align: left;
+    text-align: right;
     float: right;
     margin-top: 0px;
+    margin-right: 0px;
 }
 
 .invoice-summary p,
