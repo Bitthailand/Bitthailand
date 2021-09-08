@@ -17,7 +17,7 @@ include './include/connect.php';
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <!-- <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=2" rel="stylesheet" />
 
 
     <style>
@@ -152,7 +152,7 @@ $row_dev = $rs_dev->fetch_assoc();
                 <div class="col-6 text-center">
                     <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
                     <br>
-                    <p> ผู้รับมอบอำนวจ _____________________ <span></span></p>
+                    <p> ผู้รับมอบอำนาจ _____________________ <span></span></p>
                 </div>
             </div>
         </div>

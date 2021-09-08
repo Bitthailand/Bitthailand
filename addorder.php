@@ -167,7 +167,7 @@ if ($action == 'add_product') {
                     $date = explode(" ", $datetodat);
                     $dat = datethai_TF($date[0]);
                     $code_new = $row_run['id_run'] + 1;
-                    $code = sprintf('%05d', $code_new);
+                    $code = sprintf('%04d', $code_new);
                     $TF_id = $dat . $code;
                  $sql99 = "INSERT INTO product (product_id,thickness,units,product_name,ptype_id,unit_price)
                             VALUES ('$TF_id','0','99','$send_to','TF0','$send_price')";

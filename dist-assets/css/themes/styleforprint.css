@@ -124,7 +124,8 @@ h6,
 
 h4,
 .h4 {
-    font-size: 1.2195rem;
+    font-size: 1.8rem;
+    font-family: inherit;
 }
 
 h1,
@@ -172,7 +173,7 @@ th {
 .table td {
     padding: 0.75rem;
     vertical-align: middle;
-    border-top: 1px solid #dee2e6;
+    /* border-top: 1px solid #dee2e6; */
 }
 
 .table thead th {
@@ -653,6 +654,7 @@ th {
 .page-header,
 .page-header-space {
     height: 173px;
+    margin-top: 0;
 }
 
 .page-footer,
@@ -662,7 +664,7 @@ th {
 
 .page-footer {
     position: fixed;
-    bottom: 0;
+    bottom: 20px;
     width: 100%;
     /* border-top: 1px solid black; */
     /* for demo */
@@ -717,7 +719,7 @@ th {
 
 .qt2 .page-header,
 .qt2 .page-header-space {
-    height: 270px;
+    height: 240px;
 }
 
 .qt2 .page-footer,

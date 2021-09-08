@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=2" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
 
 </head>

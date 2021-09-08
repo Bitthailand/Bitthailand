@@ -20,7 +20,7 @@ $so_id = $_REQUEST['so_id'];
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <!-- <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=2" rel="stylesheet" />
 
     <style>
     p {
@@ -79,7 +79,6 @@ $row5 = $rs5->fetch_assoc();
             <div class="mt-3 mb-4 border-top"></div>
             <div class="row mb-5">
                 <div class="col-6 mb-3 mb-sm-0">
-                    <h5 class="font-weight-bold">ลูกค้า</h5>
                     <?php
                 $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
                 $rs6 = $conn->query($sql6);
@@ -110,7 +109,7 @@ $row5 = $rs5->fetch_assoc();
                     <p><strong>ที่อยู่จัดส่ง : </strong><?=$rowx3['product_name']?></p>
                 </div>
                 <div class="col-6 text-sm-right">
-                    <h5 class="font-weight-bold"></h5>
+                  
                     <div class="invoice-summary">
                         <p><span>เลขที่ใบส่งของ</span> <span><?= $so_id ?></span></p>
                         <p><span>ลำดับการสั่งซื้อ</span> <span><?= $order_id ?></span></p>
@@ -131,38 +130,39 @@ $row5 = $rs5->fetch_assoc();
             <div class="col-12 mb-3 mb-sm-0">
                 <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
                 <p>- ได้รับสินค้าตามรายการข้างบนนี้ในสภาพสมบูรณ์ถูกต้องครบถ้วนแล้ว </p>
-                <p>- สินค้ายังเป็นกรรมสิทธิ์ของทางร้านจนกว่าผู้ซื้อจะชำระสินค้าเรียบร้อยแล้ว </p>
-                <p>- ทางร้านขอสงวนสิทธิ์ไม่รับคืนสินค้าในกรณีที่ไม่ได้เกิดจากความผิดพลาดของทางร้าน </p>
+                <p>- สินค้ายังเป็นกรรมสิทธิ์ของทางบริษัทฯ จนกว่าผู้ซื้อจะชำระสินค้าเรียบร้อยแล้ว </p>
+                <p>- ทางบริษัทฯ ขอสงวนสิทธิ์ไม่รับคืนสินค้าในกรณีที่ไม่ได้เกิดจากความผิดพลาดของทางบริษัทฯ  </p>
             </div>
             <div class="mt-3 mb-4 border-top"></div>
         </div>
         <div class="col-12">
             <div class="row">
                 <div class="col-3 text-center">
-                    <p> ____________________</p>
+                   
+                <br><p> ____________________</p>
                     <br>
                     <p>ผู้รับสินค้า<span></span></p>
                     <br>
-                    <p>วันที่ _______/_________/_________ <span></span></p>
+                    <p>วันที่ _____/_______/______ <span></span></p>
                 </div>
                 <div class="col-3 text-center">
-                    <p> ____________________</p>
+                <br>  <p> ____________________</p>
                     <br>
                     <p>พนักงานส่งของ<span></span></p>
                     <br>
                     <p>วันที่ _____/_______/______ <span></span></p>
                 </div>
                 <div class="col-3 text-center">
-                    <p> ____________________</p>
+                <br>   <p> ____________________</p>
                     <br>
                     <p>ผู้ตรวจสอบ<span></span></p>
                     <br>
                     <p>วันที่ _____/_______/______ <span></span></p>
                 </div>
                 <div class="col-3 text-center">
-                    <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
-                    <br>
-                    <p>ผู้รับมอบอำนวจ _______________ <span></span></p>
+                <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
+                <br> <br>
+                    <p>ผู้รับมอบอำนาจ _______________ <span></span></p>
                     <br>
                     <p>วันที่ _____/_______/______ <span></span></p>
                 </div>
@@ -191,10 +191,14 @@ $row5 = $rs5->fetch_assoc();
                                     <table class="table table-hover mb-4">
                                         <thead class="bg-gray-300">
                                             <tr>
-                                                <th scope="col" class="text-center">ลำดับที่</th>
-                                                <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
-                                                <th scope="col" class="text-center">จำนวน</th>
-                                                <th scope="col" class="text-center">หน่วยละ</th>
+                                                <th scope="col"  class="text-left" width="50">ลำดับ</th>
+                                                <th scope="col" class="text-center" width="250">รหัสสินค้า</th>
+                                                <th scope="col" class="text-left" width="750">รายละเอียด</th>
+                                                <th scope="col" class="text-right"  width="50px">จำนวน</th>
+                                                <th scope="col" class="text-right"  width="20px"></th>
+                                                <th scope="col" class="text-left" width="40"></th>
+                                                <th scope="col" class="text-left" width="10"></th>
+                                             
                                               
                                             </tr>
                                         </thead>
@@ -209,29 +213,38 @@ $row5 = $rs5->fetch_assoc();
                                               $product_id = $row_pro['product_id'];
                                            ?> <tr>
                                                 <td scope="row" class="text-center"><?= ++$id; ?></td>
+                                                <td scope="row" class="text-center"><?= $row_pro['product_id']?></td>
                                                 <td> <?php
                                             $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
                                             $rsx3 = $conn->query($sqlx3);
                                             $rowx3 = $rsx3->fetch_assoc();
+                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                            $rs_unit = $conn->query($sql_unit);
+                                            $row_unit = $rs_unit->fetch_assoc();
                                             if ($rowx3['ptype_id'] == 'TF0') {
                                                 echo 'ค่าจัดส่ง';
                                             } else {
                                                 echo $rowx3['product_name'] ;
                                             }
                                             ?></td>
-                                                <td class="text-center"><?= $row_pro['dev_qty'] ?></td>
-                                                <td class="text-center">-</td>
-
-                                                
+                                                <td class="text-right"><?= $row_pro['dev_qty'] ?> </td>
+                                                <td class="text-right"></td>
+                                                <td class="text-right"><?=$row_unit['unit_name']?></td>
+                                                <td class="text-right"></td>
                                             </tr>
                                             <?php }
                                             } ?>
+                                            <tr>
                                              <td scope="row" class="text-center"><?= ++$id; ?></td>
-                                                <td> <?php
+                                            
+                                                 <?php
                                             $sqlx3 = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' AND ptype_id='TF' ";
                                             $rsx3 = $conn->query($sqlx3);
                                             $rowx3 = $rsx3->fetch_assoc();
-                                            
+                                            ?> 
+                                            <td scope="row" class="text-center"><?= $rowx3['product_id']?></td>
+                                            <td>
+                                            <?php 
                                             $sqlx31 = "SELECT * FROM product  WHERE product_id= '$rowx3[product_id]'";
                                             $rsx31 = $conn->query($sqlx31);
                                             $rowx31 = $rsx31->fetch_assoc();
@@ -240,11 +253,14 @@ $row5 = $rs5->fetch_assoc();
                                             } else {
                                                 echo $rowx31['product_name'] ;
                                             }
+                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx31[units]' ";
+                                            $rs_unit = $conn->query($sql_unit);
+                                            $row_unit = $rs_unit->fetch_assoc();
                                             ?></td>
-                                                <td class="text-center"><?= $rowx3['dev_qty'] ?></td>
-                                                <td class="text-center">-</td>
-
-                                                
+                                                <td class="text-right"><?= $rowx3['dev_qty'] ?></td>
+                                                <td class="text-right"></td>
+                                                <td class="text-right"> <?=$row_unit['unit_name']?></td>
+                                                <td class="text-right"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -255,42 +271,7 @@ $row5 = $rs5->fetch_assoc();
                                 <div class="col-2">
 
                                 </div>
-                                <div class="col-3">
-                                    <p>รวมเป็นเงินทั้งสิ้น</p>
-                                    <p>หัก ส่วนลด</p>
-                                    <p>จำนวนเงินก่อนรวมภาษี</p>
-                                    <p>จำนวนภาษีมูลค่าเพิ่ม 7%</p>
-                                </div>
-                                <div class="col-1">
-                                    <div class="invoice-summary-so">
-                                        <?php
-                                                $sqlx4 = "SELECT SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail   where order_id='$order_id'  AND dev_id='$so_id' ";
-                                                $rsx4 = $conn->query($sqlx4);
-                                                $rowx4 = $rsx4->fetch_assoc();
-
-                                        ?>
-                                        <p> <span>-</span></p>
-                                        <p> <span>-</span></p>
-                                        <p> <span>- </span></p>
-                                        <p> <span>-</span></p>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <p>ตัวอักษร :</p>
-                                        </div>
-                                        <div class="col-5">
-                                            <p> ศูนย์บาทถ้วน</p>
-                                        </div>
-                                        <div class="col-3">
-                                        <p>รวมเป็นเงิน</p>
-                                        </div>
-                                        <div class="col-1 ">
-                                                <h5 class="font-weight-bold" style="width: 120px; display: inline-block;"> -</span></h5>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <!-- <div class="page">PAGE 2</div> -->

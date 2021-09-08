@@ -34,7 +34,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=2" rel="stylesheet" />
 
 
     <style>
@@ -143,7 +143,7 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                 <div class="col-5 text-center">
                     <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
                     <br>
-                    <p>ผู้รับมอบอำนวจ ____________________ <span></span></p>
+                    <p>ผู้รับมอบอำนาจ ____________________ <span></span></p>
                     <br>
                     <p>วันที่ ________/__________/__________ <span></span></p>
                 </div>

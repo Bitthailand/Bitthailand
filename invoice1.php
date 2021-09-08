@@ -253,7 +253,7 @@ $row_dev = $rs_dev->fetch_assoc();
                                                     <div class="col-md-6 text-center">
                                                         <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
                                                         <br>
-                                                        <p> ผู้รับมอบอำนวจ _____________________ <span></span></p>
+                                                        <p> ผู้รับมอบอำนาจ _____________________ <span></span></p>
                                                     </div>
                                                 </div>
                                             </div>

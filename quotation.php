@@ -71,9 +71,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
             </div>
             <div class="mt-3 mb-4 border-top"></div>
             <div class="row mb-5">
-                <div class="col-6 mb-3 mb-sm-0">
-                    <h5 class="font-weight-bold">ลูกค้า</h5>
-                    <?php
+                <div class="col-6 mb-3 mb-sm-0">  <?php
                     $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
                     $rs6 = $conn->query($sql6);
                     $row6 = $rs6->fetch_assoc();
@@ -92,7 +90,6 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                     <p>บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
                 </div>
                 <div class="col-6 text-sm-right">
-                    <h5 class="font-weight-bold"></h5>
                     <div class="invoice-summary">
                         <p><span>เลขที่ใบเสนอราคา </span><span><?php echo "$row[qt_id]"; ?></span></p>
                         <p><span>ลำดับการสั่งซื้อ</span> <span><?php echo "$row[order_id]"; ?></span></p>
@@ -118,33 +115,34 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
         <div class="col-12">
             <div class="col-12 mb-3 mb-sm-0">
                 <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
-                <p>1.มัดจำไม่น้อยกว่า 30% ของมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง </p>
-                <p>2.ผู้ซื้อเป็นผู้จัดเตรียมสถานที่สำหรับลงสินค้า  และทางบริษัทฯขอสงวนสิทธิ์ในการลงสินค้าตามสถานที่เท่าที่รถเข้าถึง </p>
-                <p>3.บริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
-                <p>4.สินค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทฯ ขอเก็บค่าดูแลสินค้า 5%
+                <p>1. มัดจำไม่น้อยกว่า 30% ของมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง </p>
+                <p>2. ผู้ซื้อเป็นผู้จัดเตรียมสถานที่สำหรับลงสินค้า  และทางบริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าตามสถานที่เท่าที่รถเข้าถึงได้ </p>
+                <p>3. บริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
+                <p>4. สินค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทฯ ขอเก็บค่าดูแลสินค้า 5%
                     ต่อเดือนของมูลค่าสินค้า </p>
-                <p>5.บริษัทฯขอสงวนสิทธิ์ไม่คืนมัดจำ/ค่าสินค้าในทุกกรณี หากผู้ชื้อแจ้งยกเลิก/เปลี่ยนแปลงรายการสินค้า</p>
-                <p>6.บริษัทฯขอไม่รับผิดชอบต่อความเสียหายใดๆ หลังจากตรวจรับสินค้าแล้ว </p>
+                <p>5. บริษัทฯ ขอสงวนสิทธิ์ไม่คืนมัดจำ/ค่าสินค้าในทุกกรณี หากผู้ชื้อแจ้งยกเลิก/เปลี่ยนแปลงรายการสินค้า</p>
+                <p>6. บริษัทฯ ขอไม่รับผิดชอบต่อความเสียหายใดๆ หลังจากตรวจรับสินค้าแล้ว </p>
                 <br>
                 <h5 class="font-weight-bold">วิธีการชำระเงิน</h5>
-                <p>ชื่อบัญชี : บจก.วันเอ็ม ชื่อธนาคาร/เลขที่บัญชี : ธนาคารกสิกรไทย ออมทรัพย์ สาขาสุนีย์ทาวเวอร์ เลขที่บัญชี 685-2-29088-7 </p>
+                <p>ชื่อบัญชี : บจก.วันเอ็ม  ธนาคารกสิกรไทย  สาขาสุนีย์ทาวเวอร์  ประเภทออมทรัพย์  เลขที่บัญชี 685-2-29088-7 </p>
             </div>
             <div class="mt-3 mb-4 border-top"></div>
         </div>
         <div class="col-12">
             <div class="row">
                 <div class="col-4 text-center">
+                <br>  
                     <p> ____________________</p>
-                    <br>
+                    <br>  
                     <p>ผู้อนุมัติ<span></span></p>
-                    <br>
+                   
                     <p>วันที่ ________/__________/__________ <span></span></p>
                 </div>
                 <div class="col-3"></div>
                 <div class="col-5 text-center">
                     <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
                     <br>
-                    <p>ผู้รับมอบอำนวจ ____________________ <span></span></p>
+                    <p>ผู้รับมอบอำนาจ ____________________ <span></span></p>
                     <br>
                     <p>วันที่ ________/__________/__________ <span></span></p>
                 </div>
@@ -173,16 +171,16 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                     <table class="table table-hover mb-4">
                                         <thead class="bg-gray-300">
                                             <tr>
-                                                <th scope="col" class="text-center">No.</th>
+                                                <th scope="col" class="text-center">ลำดับ</th>
                                                 <th scope="col" class="text-center">รายการ</th>
-                                                <th scope="col" class="text-center">จำนวน</th>
-                                                <th scope="col" class="text-center">หน่วยละ</th>
-                                                <th scope="col" class="text-center">จำนวนเงิน</th>
+                                                <th scope="col" class="text-right">จำนวน</th>
+                                                <th scope="col" class="text-right">หน่วยละ</th>
+                                                <th scope="col" class="text-right">จำนวนเงิน</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
+                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id <> 'TF' order by product_id ASC ";
                                             $result_pro = mysqli_query($conn, $sql_pro);
                                             if (mysqli_num_rows($result_pro) > 0) {
                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
@@ -214,6 +212,46 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                     </tr>
                                             <?php }
                                             } ?>
+                                            
+                                            <?php
+                                $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM order_details where order_id='$order_id'  AND ptype_id='TF'  ");
+                                $count = mysqli_fetch_array($result_count);
+                                $countx = $count['total'];
+                                if($countx > 0){ 
+                                ?>
+                                            <tr>
+                                          <th scope="row" class="text-center"><?= ++$id; ?></th>
+                                           
+                                                <?php
+                                           $sqlx3 = "SELECT * FROM order_details where order_id='$order_id'  AND ptype_id='TF' ";
+                                           $rsx3 = $conn->query($sqlx3);
+                                           $rowx3 = $rsx3->fetch_assoc();
+                                           ?> 
+                                          
+                                           <td>
+                                           <?php  
+                                           $sqlx31 = "SELECT * FROM product  WHERE product_id= '$rowx3[product_id]'";
+                                           $rsx31 = $conn->query($sqlx31);
+                                           $rowx31 = $rsx31->fetch_assoc();
+                                        //    echo"$rowx31[product_id]";
+                                           if ($rowx31['ptype_id'] == 'TF0') {
+                                            echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
+                                        } else {
+                                            echo $rowx31['product_name'];
+                                            if ($rowx31['spacial'] == '') {
+                                            } else {
+                                                echo "  (" . $rowx31['spacial'] . ")";
+                                            }
+                                        }
+                                           $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx31[units]' ";
+                                           $rs_unit = $conn->query($sql_unit);
+                                           $row_unit = $rs_unit->fetch_assoc();
+                                           ?></td>
+                                                 <td class="text-right"><?= $rowx3['qty'] ?> <?=$row_unit['unit_name']?></td>
+                                                 <td class="text-right"><?php echo number_format($rowx3['unit_price'], '2', '.', ',') ?></td>
+                                                        <td class="text-right"><?php echo number_format($rowx3['total_price'], '2', '.', ',') ?></td>
+                                           </tr>
+                                           <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
