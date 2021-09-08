@@ -33,7 +33,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
     <title>Quotation | ใบเสนอราคา</title>
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css?v=3" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=4" rel="stylesheet" />
 
 
     <style>
@@ -66,12 +66,12 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
                 </div>
                 <div class="col-6 text-right">
-                    <h4 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h4>
+                    <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
                 </div>
             </div>
             <div class="mt-3 mb-4 border-top"></div>
             <div class="row mb-5">
-                <div class="col-6 mb-3 mb-sm-0">  <?php
+                <div class="col-8 mb-3 mb-sm-0">  <?php
                     $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
                     $rs6 = $conn->query($sql6);
                     $row6 = $rs6->fetch_assoc();
@@ -89,7 +89,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                     <p style="margin-bottom: 10px;"><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
                     <p>บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
                 </div>
-                <div class="col-6 text-sm-right">
+                <div class="col-4 text-sm-right">
                     <div class="invoice-summary">
                         <p><span>เลขที่ใบเสนอราคา </span><span><?php echo "$row[qt_id]"; ?></span></p>
                         <p><span>ลำดับการสั่งซื้อ</span> <span><?php echo "$row[order_id]"; ?></span></p>
