@@ -20,7 +20,7 @@ $so_id = $_REQUEST['so_id'];
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <!-- <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css?v=4" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=5" rel="stylesheet" />
 
     <style>
     p {
@@ -78,7 +78,7 @@ $row5 = $rs5->fetch_assoc();
             </div>
             <div class="mt-3 mb-4 border-top"></div>
             <div class="row mb-5">
-                <div class="col-8 mb-3 mb-sm-0">
+                <div class="col-10 mb-3 mb-sm-0">
                     <?php
                 $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
                 $rs6 = $conn->query($sql6);
@@ -108,9 +108,8 @@ $row5 = $rs5->fetch_assoc();
                     <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
                     <p><strong>ที่อยู่จัดส่ง : </strong><?=$rowx3['product_name']?></p>
                 </div>
-                <div class="col-4 text-sm-right">
-                  
-                    <div class="invoice-summary">
+                <div class="col-2 text-sm-right">
+                <div class="invoice-summary_so">
                         <p><span>เลขที่ใบส่งของ</span> <span><?= $so_id ?></span></p>
                         <p><span>ลำดับการสั่งซื้อ</span> <span><?= $order_id ?></span></p>
                         <p><span>วันที่ </span> <span><?php $date = explode(" ", $row5['dev_date']);
