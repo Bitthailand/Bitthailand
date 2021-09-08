@@ -115,16 +115,15 @@ h6,
 .h5,
 .h6 {
     margin-bottom: 0.5rem;
-    font-family: "Angsana New";
+    font-family: inherit;
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
-    font-size: 1.2rem;
 }
 
 h4,
 .h4 {
-    font-size: 2rem;
+    font-size: 1.2195rem;
 }
 
 h1,
@@ -139,10 +138,6 @@ h6,
 }
 
 .font-weight-bold {
-    font-weight: 700 !important;
-}
-
-.font-weight-bold2 {
     font-weight: 700 !important;
 }
 
@@ -730,8 +725,8 @@ th {
 }
 
 .qt2 .page-footer p {
-    font-size: 16px;
-    font-family: "Angsana New";
+    font-size: 11px;
+    ;
 }
 
 .qt2 table tr td {
