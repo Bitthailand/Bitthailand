@@ -52,8 +52,8 @@
 
 body {
     margin: 0;
-    font-size: 24px;
-    font-family: "Angsana New";
+    font-family: "Nunito", sans-serif;
+    font-size: 0.813rem;
     font-weight: 400;
     line-height: 1.5;
     color: #000000;
@@ -62,8 +62,7 @@ body {
 }
 
 html {
-    font-size: 24px;
-    font-family: "Angsana New";
+    font-family: sans-serif;
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -116,15 +115,16 @@ h6,
 .h5,
 .h6 {
     margin-bottom: 0.5rem;
-    font-family: inherit;
+    font-family: "Angsana New";
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
+    font-size: 1.2rem;
 }
 
 h4,
 .h4 {
-    font-size: 1.2195rem;
+    font-size: 2rem;
 }
 
 h1,
@@ -139,6 +139,10 @@ h6,
 }
 
 .font-weight-bold {
+    font-weight: 700 !important;
+}
+
+.font-weight-bold2 {
     font-weight: 700 !important;
 }
 
@@ -726,8 +730,8 @@ th {
 }
 
 .qt2 .page-footer p {
-    font-size: 11px;
-    ;
+    font-size: 16px;
+    font-family: "Angsana New";
 }
 
 .qt2 table tr td {
