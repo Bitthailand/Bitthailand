@@ -200,7 +200,7 @@ $row5 = $rs5->fetch_assoc();
                                         </thead>
                                         <tbody>
                                             <?php
-                                               $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by product_id ASC ";
+                                               $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id'  AND ptype_id <> 'TF' order by product_id ASC ";
                                                 $result_pro = mysqli_query($conn, $sql_pro);
                                               if (mysqli_num_rows($result_pro) > 0) {
                                               while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -226,6 +226,26 @@ $row5 = $rs5->fetch_assoc();
                                             </tr>
                                             <?php }
                                             } ?>
+                                             <td scope="row" class="text-center"><?= ++$id; ?></td>
+                                                <td> <?php
+                                            $sqlx3 = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' AND ptype_id='TF' ";
+                                            $rsx3 = $conn->query($sqlx3);
+                                            $rowx3 = $rsx3->fetch_assoc();
+                                            
+                                            $sqlx31 = "SELECT * FROM product  WHERE product_id= '$rowx3[product_id]'";
+                                            $rsx31 = $conn->query($sqlx31);
+                                            $rowx31 = $rsx31->fetch_assoc();
+                                            if ($rowx31['ptype_id'] == 'TF0') {
+                                                echo 'ค่าจัดส่ง';
+                                            } else {
+                                                echo $rowx31['product_name'] ;
+                                            }
+                                            ?></td>
+                                                <td class="text-center"><?= $rowx3['dev_qty'] ?></td>
+                                                <td class="text-center">-</td>
+
+                                                
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
