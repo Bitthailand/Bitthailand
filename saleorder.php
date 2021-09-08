@@ -146,9 +146,9 @@ $row5 = $rs5->fetch_assoc();
                 </div>
                 <div class="col-3 text-center">
                 <br>  <br> <p> ____________________</p>
-                    <br>
-                    <p>พนักงานส่งของ<span></span></p>
                    
+                    <p>พนักงานส่งของ<span></span></p>
+                    <br>
                     <p>วันที่ _____/_______/______ <span></span></p>
                 </div>
                 <div class="col-3 text-center">
