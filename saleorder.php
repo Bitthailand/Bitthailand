@@ -233,6 +233,12 @@ $row5 = $rs5->fetch_assoc();
                                             </tr>
                                             <?php }
                                             } ?>
+                                              <?php
+                                $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM deliver_detail where order_id='$order_id'  AND dev_id='$so_id' AND ptype_id='TF'  ");
+                                $count = mysqli_fetch_array($result_count);
+                                $countx = $count['total'];
+                                if($countx > 0){ 
+                                ?>
                                             <tr>
                                              <td scope="row" class="text-center"><?= ++$id; ?></td>
                                             
@@ -261,6 +267,7 @@ $row5 = $rs5->fetch_assoc();
                                                 <td class="text-right"> <?=$row_unit['unit_name']?></td>
                                                 <td class="text-right"></td>
                                             </tr>
+                                            <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
