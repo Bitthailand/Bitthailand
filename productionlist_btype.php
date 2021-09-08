@@ -398,10 +398,10 @@ if ($action == 'del') {
                                                 <td> <?php echo $row['b_type']; ?>
                                                 </td>
                                                 <td>
-                                                    <?php if ($x == 0) { ?>
+                                                   
                                                         <button data-toggle="modal" data-target="#medalstock_b" title="ปรับเปลี่ยนสภาพสินค้า" data-id="<?php echo $row['id']; ?>" id="edit_stock" class="btn btn-outline-info btn-sm line-height-1"> <i class="i-Add-Cart font-weight-bold"></i> </button>
 
-                                                    <?php } ?>
+                                                    
                                                 </td>
                                             </tr> <?php
 
