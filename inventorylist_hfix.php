@@ -105,180 +105,163 @@ if ($rowS == '') {
                                         <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
                                             import Excel
                                         </button>
+                                        <a href="/inventorylist.php">   รายงานแบบที่1</a>
                                     </div>
+                                    <div class="text-left">
+                                        
+                                            <div class="col-auto">
+                                                <a href="/product.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มสินค้าใหม่</a>
 
-                                    <div class="col-auto">
-                                        <a href="/product.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มสินค้าใหม่</a>
-
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- ============ Table Start ============= -->
-                    <div class="row mb-4">
+                            <!-- ============ Table Start ============= -->
+                            <div class="row mb-4">
                         <div class="col-md-12 mb-4">
                             <div class="card text-left">
                                 <div class="card-body">
 
                                     <div class="table-responsive">
                                         <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
-                                            <thead>
+                                    <thead>
+                                        <tr>
+                                            <th>รหัสสินค้า</th>
+                                            <th>ประเภทสินค้า</th>
+                                            <th>ชื่อสินค้า</th>
+                                           
+                                            <th>ราคาต่อหน่วย</th>
+                                            <th>ข้อมูลเพิ่มเติม</th>
+                                            <th>โรงงาน 1</th>
+                                            <th>โรงงาน 2</th>
+                                            <th>ยอดสั่งจอง</th>
+                                            <th>หน่วยนับ</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                        <?php
+                                       
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM product  where  status='0' AND  ptype_id<>'TF0'  order by product_id asc ");
+                                        $total_records = mysqli_fetch_array($result_count);
+                                        $total_records = $total_records['total_records'];
+                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
+                                        $second_last = $total_no_of_pages - 1; // total page minus 1
+                                        $result = mysqli_query($conn, "SELECT * FROM product where  ptype_id <> 'TF0' AND  status='0'   order by product_id asc  ");
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <tr>
+                                                <td><?php echo $row["product_id"]; ?></td>
+                                                <td><?php
+                                                    $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
+                                                    $rs3 = $conn->query($sql3);
+                                                    $row3 = $rs3->fetch_assoc();
+                                                    echo $row3['ptype_name'];  ?> </td>
+                                                <td> <?php echo $row["product_name"]; ?></td>
+                                              
+                                                <td> <?php echo $row["unit_price"]; ?> </td>
+                                                <td><?php echo $row["spacial"]; ?> </td>
+                                                <td> <?php echo $row["fac1_stock"]; ?> </td>
+                                                <td>
+
+                                                    <?php echo $row["fac2_stock"]; ?> </td>
+                                                <td>
+                                                    <?php
+                                                    $sql_pro = "SELECT sum(qty_out) AS qty_out FROM order_details WHERE product_id= '$row[product_id]'";
+                                                    $rs_pro = $conn->query($sql_pro);
+                                                    $row_pro = $rs_pro->fetch_assoc();
+                                                    $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
+                                                    if ($sum_stock < $row_pro['qty_out']) {  ?>
+                                                        <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                    <?php    } else { ?>
+                                                        <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                    <?php   }
+                                                    ?>
+                                                </td>
+                                                <td> <?php
+                                                        $sql4 = "SELECT * FROM unit WHERE id= '$row[units]'";
+                                                        $rs4 = $conn->query($sql4);
+                                                        $row4 = $rs4->fetch_assoc();
+                                                        echo $row4['unit_name'];
+
+                                                        ?>
+                                                </td>
+
+                                                <td>
+
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product_update.php?product_id=<?php echo $row["product_id"]; ?>">
+                                                        <i class="i-Pen-2 font-weight-bold"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                       
+                                        ?>
+                                       
+
+                                    </tbody>
+                                    <tfoot>
                                                 <tr>
-                                                    <th>รหัสสินค้า</th>
-                                                    <th>ประเภทสินค้า</th>
-                                                    <th>ชื่อสินค้า</th>
-
-                                                    <th>ราคา</th>
-                                                    <th>ยอดผลิต</th>
-                                                    <th>ยอดชำรุด</th>
-                                                    <th>stock1</th>
-                                                    <th>stock2</th>
-                                                    <th>สั่งจอง</th>
-                                                    <th>หน่วย</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
-                                                $sql = "SELECT * FROM product where  ptype_id <> 'TF0' AND  status='0'   ";
-                                                $result = mysqli_query($conn, $sql);
-                                                if (mysqli_num_rows($result) > 0) {
-                                                    while ($row = mysqli_fetch_assoc($result)) {
-                                                ?> <tr>
-                                                            <td><?php echo $row["product_id"]; ?></td>
-                                                            <td><?php
-                                                                $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
-                                                                $rs3 = $conn->query($sql3);
-                                                                $row3 = $rs3->fetch_assoc();
-                                                                echo $row3['ptype_name'];  ?> </td>
-                                                            <td> <?php echo $row["product_name"]; ?></td>
-
-                                                            <td> <?php echo $row["unit_price"]; ?> </td>
-                                                            <?php
-                                                            $sql_pd = "SELECT sum(a_type) AS a_type  FROM production_detail  WHERE product_id= '$row[product_id]'";
-                                                            $rs_pd = $conn->query($sql_pd);
-                                                            $row_pd = $rs_pd->fetch_assoc();
-                                                            ?>
-                                                            <td> <?= $row_pd['a_type'] ?> </td>
-                                                            <td> <?= $row_pd['b_type'] ?> </td>
-                                                            <td> <?php echo $row["fac1_stock"]; ?> </td>
-                                                            <td>
-
-                                                                <?php echo $row["fac2_stock"]; ?> </td>
-                                                            <td>
-                                                                <?php
-                                                                $sql_pro = "SELECT sum(qty_out) AS qty_out FROM order_details WHERE product_id= '$row[product_id]'";
-                                                                $rs_pro = $conn->query($sql_pro);
-                                                                $row_pro = $rs_pro->fetch_assoc();
-                                                                $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
-                                                                if ($sum_stock < $row_pro['qty_out']) {  ?>
-                                                                    <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php    } else { ?>
-                                                                    <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php   }
-                                                                ?>
-                                                            </td>
-                                                            <td> <?php
-                                                                    $sql4 = "SELECT * FROM unit WHERE id= '$row[units]'";
-                                                                    $rs4 = $conn->query($sql4);
-                                                                    $row4 = $rs4->fetch_assoc();
-                                                                    echo $row4['unit_name'];
-
-                                                                    ?>
-                                                            </td>
-
-                                                            <td>
-
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product_update.php?product_id=<?php echo $row["product_id"]; ?>">
-                                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>รหัสสินค้า</th>
-                                                    <th>ประเภทสินค้า</th>
-                                                    <th>ชื่อสินค้า</th>
-
-                                                    <th>ราคา</th>
-                                                    <th>ยอดผลิต</th>
-                                                    <th>ยอดชำรุด</th>
-                                                    <th>stock1</th>
-                                                    <th>stock2</th>
-                                                    <th>สั่งจอง</th>
-                                                    <th>หน่วย</th>
-                                                    <th>Action</th>
+                                                <th>รหัสสินค้า</th>
+                                            <th>ประเภทสินค้า</th>
+                                            <th>ชื่อสินค้า</th>
+                                           
+                                            <th>ราคาต่อหน่วย</th>
+                                            <th>ข้อมูลเพิ่มเติม</th>
+                                            <th>โรงงาน 1</th>
+                                            <th>โรงงาน 2</th>
+                                            <th>ยอดสั่งจอง</th>
+                                            <th>หน่วยนับ</th>
+                                            <th>Action</th>
                                                 </tr>
                                             </tfoot>
-                                        </table>
+                                    </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- ============ Table End ============= -->
+                            <!-- ============ Table End ============= -->
 
+                           
 
-
-                    </div><!-- Footer Start -->
-                    <div class="flex-grow-1"></div>
-                    <div class="app-footer">
-                        <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                            <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
-                            <span class="flex-grow-1"></span>
-                            <div class="d-flex align-items-center">
-                                <img class="logo" src="../../dist-assets/images/logo.png" alt="">
-                                <div>
-                                    <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
-                                    <p class="m-0">All rights reserved</p>
+                        </div><!-- Footer Start -->
+                        <div class="flex-grow-1"></div>
+                        <div class="app-footer">
+                            <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
+                                <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                                <span class="flex-grow-1"></span>
+                                <div class="d-flex align-items-center">
+                                    <img class="logo" src="../../dist-assets/images/logo.png" alt="">
+                                    <div>
+                                        <p class="m-0">&copy; 2021 1M Co,.Ltd.</p>
+                                        <p class="m-0">All rights reserved</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- fotter end -->
                     </div>
-                    <!-- fotter end -->
                 </div>
-            </div>
-            <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-            <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-            <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-            <script src="../../dist-assets/js/scripts/script.min.js"></script>
-            <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-            <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-            <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-            <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-            <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-            <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
-            <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+                <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+                <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+                <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+                <script src="../../dist-assets/js/scripts/script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+                <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+                <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+                <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+                <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
             <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
 
-</body>
-<div id="edit_product" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-    style="display: none;">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                    แก้ไขข้อมูลสินค้า</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <!-- mysql data will be load here -->
-            <div id="dynamic-content"></div>
+            </body>
 
-
-        </div>
-    </div>
-
-</div>
 <div id="Modal-add1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -472,38 +455,4 @@ if ($rowS == '') {
         scrollCollapse: true,
         paging: false
     }); // multi column ordering
-</script>
-<script>
-$(document).ready(function() {
-
-    $(document).on('click', '#getUser', function(e) {
-
-        e.preventDefault();
-
-        var uid = $(this).data('id'); // get id of clicked row
-
-        $('#dynamic-content').html(''); // leave this div blank
-        $('#modal-loader').show(); // load ajax loader on button click
-
-        $.ajax({
-                url: 'product_edit.php',
-                type: 'POST',
-                data: 'id=' + uid,
-                dataType: 'html'
-            })
-            .done(function(data) {
-                console.log(data);
-                $('#dynamic-content').html(''); // blank before load.
-                $('#dynamic-content').html(data); // load here
-                $('#modal-loader').hide(); // hide loader  
-            })
-            .fail(function() {
-                $('#dynamic-content').html(
-                    '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
-                    );
-                $('#modal-loader').hide();
-            });
-
-    });
-});
 </script>

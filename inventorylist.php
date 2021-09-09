@@ -105,29 +105,10 @@ if ($rowS == '') {
                                         <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
                                             import Excel
                                         </button>
+                                        <a href="/inventorylist_hfix.php">   รายงานแบบที่2</a>
                                     </div>
                                     <div class="text-left">
-                                        <div class="row">
-
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchNameId"> คำที่ต้องการค้น</label>
-                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchRowsId"> Row </label>
-                                                    <select id="searchRowsId" class="custom-select">
-                                                        <option value="10" <?php echo $rowS == 10 ? 'selected' : ''; ?>> 10 </option>
-                                                        <option value="20" <?php echo $rowS == 20 ? 'selected' : ''; ?>> 20 </option>
-                                                        <option value="30" <?php echo $rowS == 30 ? 'selected' : ''; ?>> 30 </option>
-                                                        <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
-                                                        <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
-                                                        <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                        
                                             <div class="col-auto">
                                                 <a href="/product.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มสินค้าใหม่</a>
 
