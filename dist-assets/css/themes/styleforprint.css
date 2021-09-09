@@ -632,8 +632,8 @@ th {
 }
 
 .invoice-summary {
-    width: 220px;
-    text-align: right;
+    width: 250px;
+    text-align: left;
     float: right;
     margin-top: 0px;
 }
@@ -676,7 +676,7 @@ th {
 
 .page-footer {
     position: fixed;
-    bottom: 20px;
+    bottom: 50px;
     width: 100%;
     /* border-top: 1px solid black; */
     /* for demo */
@@ -731,7 +731,7 @@ th {
 
 .qt2 .page-header,
 .qt2 .page-header-space {
-    height: 240px;
+    height: 220px;
 }
 
 .qt2 .page-footer,
@@ -857,6 +857,60 @@ strong {
     padding-left: 15px;
 }
 
+.col-4xx {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 16px;
+    text-align: left;
+}
+
+.col-4xx_cus {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 6px;
+    text-align: left;
+}
+
+.col-4x,
+.col-1x,
+.col-xlx-auto {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_cus,
+.col-1x_cus,
+.col-xlx-auto_cus {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_cus_so,
+.col-1x_cus_so,
+.col-xlx-auto_cus_so {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
 .col {
     flex-basis: 0;
     flex-grow: 1;
@@ -874,6 +928,12 @@ strong {
     max-width: 8.33333%;
 }
 
+.col-1x {
+    flex: 0 0 1%;
+    max-width: 1%;
+    padding-left: 0px;
+}
+
 .col-2 {
     flex: 0 0 16.66667%;
     max-width: 16.66667%;
@@ -887,6 +947,31 @@ strong {
 .col-4 {
     flex: 0 0 33.33333%;
     max-width: 33.33333%;
+}
+
+.col-4x {
+    flex: 0 0 30%;
+    max-width: 32%;
+}
+
+.col-4x_cus {
+    flex: 0 0 10%;
+    max-width: 10%;
+}
+
+.col-4x_cus_so {
+    flex: 0 0 16%;
+    max-width: 16%;
+}
+
+.col-4xx {
+    flex: 0 0 33.33333%;
+    max-width: 35.33333%;
+}
+
+.col-4xx_cus {
+    flex: 0 0 60.33333%;
+    max-width: 60.33333%;
 }
 
 .col-5 {
@@ -928,6 +1013,31 @@ strong {
     flex: 0 0 100%;
     max-width: 100%;
 }
+
+.rowx {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: right;
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: flex-end;
+}
+
+.rowx_cus {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: right;
+    padding-right: 1px;
+    padding-left: 0px;
+    justify-content: flex-start;
+}
+
+
+/* 
+
+
+
+*/
 
 .btn {
     display: inline-block;
@@ -1048,6 +1158,7 @@ div {
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
+    justify-content: space-between;
 }
 
 table tr td {
