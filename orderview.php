@@ -7,6 +7,7 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 include './include/config_date.php';
 $order_id= $_REQUEST['saleorder_id'];
+
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -135,34 +136,71 @@ $strNewDate = date ("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($str
                                                         </thead>
                                                         <tbody>
                                                         <?php
-                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
-                                                        $result_pro = mysqli_query($conn, $sql_pro);
-                                                        if (mysqli_num_rows($result_pro) > 0) {
-                                                            while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
-                                                            <tr>
-                                                                <th scope="row" class="text-center"><?=++$id;?></th>
-                                                                <td>
-                                                                <?php
-                                                                        $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
-                                                                        $rsx3 = $conn->query($sqlx3);
-                                                                        $rowx3 = $rsx3->fetch_assoc();
-                                                                        if($rowx3['ptype_id']=='TF0'){
-                                                                            echo 'ค่าขนส่ง'.$rowx3['product_name'];
-                                                                        }else{ 
-                                                                        echo $rowx3['product_name'];
-                                                                       if($rowx3['spacial']==''){}else{ echo"  (".$rowx3['spacial'].")";}
-                                                                        
-
-                                                                    }
-                                                                        ?>
-
-                                                                </td>
-                                                                <td class="text-right"><?=$row_pro['qty']?></td>
-                                                                <td class="text-right"><?=$row_pro['unit_price']?></td>
-                                                                <td class="text-right"><?=$row_pro['total_price']?></td>
-                                                            </tr>
-                                                         <?php } } ?>
-                                                        </tbody>
+                                                        
+                                                         $sql_pro = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id <> 'TF' order by product_id ASC ";
+                                                         $result_pro = mysqli_query($conn, $sql_pro);
+                                                         if (mysqli_num_rows($result_pro) > 0) {
+                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
+                                                                 <tr>
+                                                                     <th scope="row" class="text-center"><?= ++$id; ?></th>
+                                                                     <td>
+                                                                         <?php
+                                                                         $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                                         $rsx3 = $conn->query($sqlx3);
+                                                                         $rowx3 = $rsx3->fetch_assoc();
+                                                                         if ($rowx3['ptype_id'] == 'TF0') {
+                                                                             echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
+                                                                         } else {
+                                                                             echo $rowx3['product_name'];
+                                                                             if ($rowx3['spacial'] == '') {
+                                                                             } else {
+                                                                                 echo "  (" . $rowx3['spacial'] . ")";
+                                                                             }
+                                                                         }
+                                                                         $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                                                         $rs_unit = $conn->query($sql_unit);
+                                                                         $row_unit = $rs_unit->fetch_assoc();
+                                                                         ?>
+             
+                                                                     </td>
+                                                                     <td class="text-right"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
+                                                                     <td class="text-right"><?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?></td>
+                                                                     <td class="text-right"><?php echo number_format($row_pro['total_price'], '2', '.', ',') ?></td>
+                                                                 </tr>
+                                                         <?php }
+                                                         } ?>
+             
+                                                         <?php
+                                                         $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM order_details where order_id='$order_id'  AND ptype_id='TF'  ");
+                                                         $count = mysqli_fetch_array($result_count);
+                                                         $countx = $count['total'];
+                                                         if ($countx > 0) {
+                                                         ?>
+                                                             <tr>
+                                                                 <th scope="row" class="text-center"><?= ++$id; ?></th>
+             
+                                                                 <?php
+                                                                 $sqlx3x = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF' ";
+                                                                 $rsx3x = $conn->query($sqlx3x);
+                                                                 $rowx3x = $rsx3x->fetch_assoc();
+                                                                 ?>
+             
+                                                                 <td>
+                                                                     <?php
+                                                                     $sqlx31 = "SELECT * FROM product  WHERE product_id= '$rowx3x[product_id]'";
+                                                                     $rsx31 = $conn->query($sqlx31);
+                                                                     $rowx31 = $rsx31->fetch_assoc();
+                                                                        echo $rowx31['product_name'];
+                                                                     echo 'ค่าจัดส่ง' . '(' . $rowx31['product_name'] . ')';
+                                                                     $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx31[units]' ";
+                                                                     $rs_unit = $conn->query($sql_unit);
+                                                                     $row_unit = $rs_unit->fetch_assoc();
+                                                                     ?></td>
+                                                                 <td class="text-right"><?= $rowx3x['qty'] ?> <?= $row_unit['unit_name'] ?></td>
+                                                                 <td class="text-right"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
+                                                                 <td class="text-right"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
+                                                             </tr>
+                                                         <?php } ?>
                                                     </table>
                                                 </div>
                                                 <div class="col-md-12">

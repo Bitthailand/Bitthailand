@@ -65,6 +65,7 @@ if ($rowS == '') {
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../dist-assets/css/plugins/datatables.min.css" />
 </head>
 <style>
     .table-sm th,
@@ -137,19 +138,19 @@ if ($rowS == '') {
                             </div>
 
                             <!-- ============ Table Start ============= -->
-                            <div class="table-responsive">
-                                <table class="table table-hover text-nowrap table-sm">
+                            <div class="row mb-4">
+                        <div class="col-md-12 mb-4">
+                            <div class="card text-left">
+                                <div class="card-body">
+
+                                    <div class="table-responsive">
+                                        <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>รหัสสินค้า</th>
                                             <th>ประเภทสินค้า</th>
                                             <th>ชื่อสินค้า</th>
-                                            <th>หนา</th>
-                                            <th>กว้าง</th>
-                                            <th>ยาว</th>
-                                            <th>พื้นที่หน้าตัด</th>
-                                            <th>ขนาดลวด</th>
-                                            <th>จำนวนเส้นลวด</th>
+                                           
                                             <th>ราคาต่อหน่วย</th>
                                             <th>ข้อมูลเพิ่มเติม</th>
                                             <th>โรงงาน 1</th>
@@ -161,24 +162,13 @@ if ($rowS == '') {
                                     </thead>
                                     <tbody id="myTable">
                                         <?php
-                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
-                                            $page_no = $_GET['page_no'];
-                                        } else {
-                                            $page_no = 1;
-                                        }
-                                        // echo"$total_records_per_page";
-                                        // $total_records_per_page = 10;
-                                        $offset = ($page_no - 1) * $total_records_per_page;
-                                        $previous_page = $page_no - 1;
-                                        $next_page = $page_no + 1;
-                                        $adjacents = "2";
-
+                                       
                                         $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM product  where  status='0' AND  ptype_id<>'TF0'  order by product_id asc ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
-                                        $result = mysqli_query($conn, "SELECT * FROM product where  ptype_id <> 'TF0' AND  status='0'   order by product_id asc  LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM product where  ptype_id <> 'TF0' AND  status='0'   order by product_id asc  ");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
                                                 <td><?php echo $row["product_id"]; ?></td>
@@ -188,12 +178,7 @@ if ($rowS == '') {
                                                     $row3 = $rs3->fetch_assoc();
                                                     echo $row3['ptype_name'];  ?> </td>
                                                 <td> <?php echo $row["product_name"]; ?></td>
-                                                <td> <?php echo $row["thickness"]; ?> </td>
-                                                <td> <?php echo $row["width"]; ?> </td>
-                                                <td> <?php echo $row["size"]; ?> </td>
-                                                <td> <?php echo $row["area"]; ?></td>
-                                                <td><?php echo $row["dia_size"]; ?></td>
-                                                <td> <?php echo $row["dia_count"]; ?> </td>
+                                              
                                                 <td> <?php echo $row["unit_price"]; ?> </td>
                                                 <td><?php echo $row["spacial"]; ?> </td>
                                                 <td> <?php echo $row["fac1_stock"]; ?> </td>
@@ -231,97 +216,34 @@ if ($rowS == '') {
                                             </tr>
                                         <?php
                                         }
-                                        mysqli_close($conn);
+                                       
                                         ?>
-                                        <tr>
-                                            <td colspan="14"> &nbsp;</td>
-                                        </tr>
+                                       
 
                                     </tbody>
-                                </table>
+                                    <tfoot>
+                                                <tr>
+                                                <th>รหัสสินค้า</th>
+                                            <th>ประเภทสินค้า</th>
+                                            <th>ชื่อสินค้า</th>
+                                           
+                                            <th>ราคาต่อหน่วย</th>
+                                            <th>ข้อมูลเพิ่มเติม</th>
+                                            <th>โรงงาน 1</th>
+                                            <th>โรงงาน 2</th>
+                                            <th>ยอดสั่งจอง</th>
+                                            <th>หน่วยนับ</th>
+                                            <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                    </table>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                             <!-- ============ Table End ============= -->
 
-                            <div class="mb-5 mt-3">
-                                <nav aria-label="Page navigation ">
-                                    <ul class="pagination justify-content-center">
-                                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
-                                        ?>
-                                        <li class="page-item" <?php if ($page_no <= 1) {
-                                                                    echo "class='disabled'";
-                                                                } ?>>
-                                            <a class="page-link" <?php if ($page_no > 1) {
-                                                                        echo "href='?page_no=$previous_page' ";
-                                                                    } ?>>Previous</a>
-                                        </li>
-
-                                        <?php
-                                        if ($total_no_of_pages <= 10) {
-                                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
-                                                if ($counter == $page_no) { ?>
-                                                    <li class='page-item active'><a class="page-link"><?php echo "$counter"; ?></a></li>
-                                                <?php  } else { ?>
-                                                    <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                    <?php   }
-                                            }
-                                        } elseif ($total_no_of_pages > 10) {
-                                            if ($page_no <= 4) {
-                                                for ($counter = 1; $counter < 8; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?= $counter ?></a></li>
-                                                    <?php  } else { ?>
-                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                <?php  }
-                                                }
-                                                ?>
-                                                <li class="page-item"><a>...</a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$second_last"; ?>'><?php echo "$second_last"; ?></a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                            <?php  } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) { ?>
-                                                <li class="page-item"><a class="page-link" href='?page_no=1'>1</a></li>
-                                                <li class="page-item"><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li class="page-item"><a class="page-link">..</a></li>
-                                                <?php for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
-                                                    <?php  } else { ?>
-                                                        <li><a class="page-link" href='?page_no=<?php echo "$counter"; ?>'><?php echo "$counter"; ?></a></li>
-                                                <?php    }
-                                                } ?>
-                                                <li><a class="page-link">...</a></li>
-                                                <li><a class="page-link" href='?page_no=<?= $second_last ?>'><?= $second_last ?></a></li>
-                                                <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'><?php echo "$total_no_of_pages"; ?></a></li>
-                                            <?php  } else { ?>
-                                                <li><a class="page-link" href='?page_no=1'>1</a></li>
-                                                <li><a class="page-link" href='?page_no=2'>2</a></li>
-                                                <li><a class="page-link">...</a></li>
-
-                                                <?php for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-                                                    if ($counter == $page_no) { ?>
-                                                        <li class='page-item  active'><a class="page-link"><?php echo "$counter"; ?></a></li>
-                                                    <?php  } else {
-                                                    ?> <li><a class="page-link" href='?page_no=<?= $counter ?>'><?php echo "$counter"; ?></a></li>
-                                        <?php   }
-                                                }
-                                            }
-                                        }
-                                        ?>
-
-                                        <li <?php if ($page_no >= $total_no_of_pages) {
-                                                echo "class='disabled'";
-                                            } ?>>
-                                            <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
-                                                                        echo "href='?page_no=$next_page'";
-                                                                    } ?>>Next</a>
-                                        </li>
-
-                                        <?php if ($page_no < $total_no_of_pages) { ?>
-                                            <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
-                                        <?php   } ?>
-                                    </ul>
-                                </nav>
-                            </div>
-
+                           
 
                         </div><!-- Footer Start -->
                         <div class="flex-grow-1"></div>
@@ -353,7 +275,11 @@ if ($rowS == '') {
                 <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
                 <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
                 <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
-</body>
+                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+            <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+
+
+            </body>
 
 <div id="Modal-add1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -538,4 +464,12 @@ if ($rowS == '') {
             });
         });
     });
+</script>
+<script>
+    $('#orderby1').DataTable({
+        "order": [
+            [0, "asc"]
+        ],
+       
+    }); // multi column ordering
 </script>
