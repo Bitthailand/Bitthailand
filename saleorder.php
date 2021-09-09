@@ -105,10 +105,10 @@ $row5 = $rs5->fetch_assoc();
                     <div class="rowx_cus">
                         <div class="col-4x_cus_so">
                             <p><strong>ชื่อลูกค้า</strong> </p>
-                            <p><strong>ที่อยู่</strong> </p>
+                            <p><strong>ที่อยู่จัดส่ง</strong> </p>
                             <p><strong>โทร </strong> </p>
                             <p><strong>อ้างอิง</strong> </p>
-                            <p><strong>ที่อยู่จัดส่ง</strong> </p>
+                         
 
                         </div>
                         <div class="col-1x">
@@ -116,14 +116,14 @@ $row5 = $rs5->fetch_assoc();
                             <p>:</p>
                             <p>:</p>
                             <p>:</p>
-                            <p>:</p>
+                            
                         </div>
                         <div class="col-4xx_cus">
                             <p><?= $row3['customer_name'] ?></p>
-                            <p><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
+                            <p><?php if($row3_TF['product_name']==''){ echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th'];  } else{ echo $row3_TF['product_name']; } ?></p>
                             <p><?= $row3['tel'] ?></p>
                             <p><?= $row3['contact_name'] ?></p>
-                            <p><?= $row3_TF['product_name'] ?></p>
+                           
 
                         </div>
                     </div>

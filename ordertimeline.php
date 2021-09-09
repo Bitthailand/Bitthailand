@@ -89,9 +89,11 @@ $row_bk = $rs_bk->fetch_assoc();
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">เปิด Order</strong>
-                                            <a class=" btn-success text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">OR64080001</a>
+                                            <a class=" btn-success text-white " href="orderview.php?saleorder_id=<?= $order_id ?>" target="_blank"><?= $order_id ?></a>
                                         </span>
-                                        <span class="ul-widget-s6__time"> 25 ส.ค. 2021 11:07 </span>
+                                        <span class="ul-widget-s6__time"> <?php $date = explode(" ", $row['date_create']);
+                                                                            $dat = datethai2($date[0]);
+                                                                            echo $dat . '-' . $date[1] ?> </span>
                                     </div>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
@@ -99,20 +101,29 @@ $row_bk = $rs_bk->fetch_assoc();
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">ออกใบเสนอราคา</strong>
-                                            <a class=" btn-primary text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">QT64080001</a>
+                                            <a class=" btn-primary text-white " href="quotation.php?order_id=OR6408001" target="_blank">QT64080001</a>
                                         </span>
                                         <span class="ul-widget-s6__time"> 25 ส.ค. 2021 11:30 </span>
                                     </div>
+                                    <?php
+                                    $sql_ai= "SELECT  * FROM  ai_number   where  order_id='$order_id'   ";
+                                    $result_ai = mysqli_query($conn, $sql_ai);
+                                    if (mysqli_num_rows($result_ai) > 0) {
+                                        while ($row_ai = mysqli_fetch_assoc($result_ai)) {
+                                            ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">ออกใบมัดจำสินค้า</strong>
-                                            <a class=" btn-primary text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">AI64080001</a>
+                                            <a class=" btn-primary text-white " href="ai.php?order_id=<?=$order_id?>'" target="_blank"><?=$row_ai['ai_num']?></a>
                                         </span>
                                         <span class="ul-widget-s6__time"> 26 ส.ค. 2021 09:30 </span>
                                     </div>
+                                    <?php   }
+                                    }
+                                    ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
@@ -283,7 +294,7 @@ $row_bk = $rs_bk->fetch_assoc();
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' order by product_id ASC ";
+                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_id'   AND ptype_id <> 'TF' order by product_id ASC ";
                                                         $result_pro = mysqli_query($conn, $sql_pro);
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
@@ -313,9 +324,36 @@ $row_bk = $rs_bk->fetch_assoc();
                                                                     <td class="text-right"><?php  ?><?php echo number_format($row_pro['total_price'], '2', '.', ',');
                                                                                                     $total = $total + $row_pro['total_price']; ?></td>
                                                                 </tr>
-
                                                         <?php }
-                                                        } ?>
+                                                        } ?> <?php
+                                                                $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM order_details where order_id='$order_id'  AND ptype_id='TF'  ");
+                                                                $count = mysqli_fetch_array($result_count);
+                                                                $countx = $count['total'];
+                                                                if ($countx > 0) {
+                                                                ?>
+                                                            <tr>
+                                                                <td scope="row" class="text-center"><?= ++$id; ?></td>
+                                                                <?php
+                                                                    $sqlx3x = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF' ";
+                                                                    $rsx3x = $conn->query($sqlx3x);
+                                                                    $rowx3x = $rsx3x->fetch_assoc();
+                                                                ?>
+                                                                <td> <?php
+                                                                        $sqlx31 = "SELECT * FROM product  WHERE product_id= '$rowx3x[product_id]'";
+                                                                        $rsx31 = $conn->query($sqlx31);
+                                                                        $rowx31 = $rsx31->fetch_assoc();
+                                                                        // echo $rowx31['product_name'];
+                                                                        echo 'ค่าจัดส่ง' . '(' . $rowx31['product_name'] . ')';
+                                                                        $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx31[units]' ";
+                                                                        $rs_unit = $conn->query($sql_unit);
+                                                                        $row_unit = $rs_unit->fetch_assoc();
+                                                                        ?>
+                                                                </td>
+                                                                <td class="text-right"><?= $rowx3x['qty'] ?> <?= $row_unit['unit_name'] ?></td>
+                                                                <td class="text-right"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
+                                                                <td class="text-right"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
+                                                            </tr>
+                                                        <?php } ?>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -355,84 +393,123 @@ $row_bk = $rs_bk->fetch_assoc();
                                 $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM delivery  where  status='0' AND  order_id='$order_id'  ");
                                 $count = mysqli_fetch_array($result_count);
                                 $countx = $count['total'];
-                                if($countx > 0){ 
+                                if ($countx > 0) {
                                 ?>
-                                 <?php
+                                    <?php
                                     $sql_dev = "SELECT * FROM delivery   where order_id='$order_id'  order by dev_id ASC ";
-                                     $result_dev = mysqli_query($conn, $sql_dev);
-                                     if (mysqli_num_rows($result_dev) > 0) {
-                                    while ($row_dev = mysqli_fetch_assoc($result_dev)) { ?>
-                                <!-- รายการส่งสินค้า -->
-                                <div class="card mt-3">
-                                    <div class="col-mb-12 col-12 mb-2 pt-2">
-                                        <h4 class="text-muted"><span class="text-success"> รายการส่งสินค้า</span></h4>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-4 col-12 mb-2">
-                                                รหัสส่งสินค้า :
-                                                <span class="ml-1 text-primary font-weight-bold"><?=$row_dev['dev_id']?></strong>
-                                            </div>
-                                            <div class="col-md-4 col-12 mb-2">
-                                                วันที่ส่งสินค้า :
-                                                <strong><?php $date = explode(" ", $row_dev['dev_date']);
-                                                            $dat = datethai2($date[0]);
-                                                            echo $dat ?></strong>
-                                            </div>
-                                            <div class="col-md-4 col-12 mb-2">
-                                                พนักงานส่ง : <?php  $sql_emp = "SELECT * FROM employee_check   WHERE id= '$row_dev[dev_employee]'";
-                                                                        $rs_emp = $conn->query($sql_emp);
-                                                                        $row_emp = $rs_emp->fetch_assoc(); ?>
-                                                <strong class="font-weight-bold text-primary"><?=$row_emp['name']?></strong>
-                                            </div>
-                                            <div class="col-md-8">
-                                                พนักงานตรวจสอบ :<?php  $sql_emp = "SELECT * FROM employee_check   WHERE id= '$row_dev[dev_check]'";
-                                                                        $rs_emp = $conn->query($sql_emp);
-                                                                        $row_emp = $rs_emp->fetch_assoc(); ?>
-                                                <strong class="font-weight-bold text-primary"><?=$row_emp['name']?></strong>
-                                            </div>
-                                        </div>
+                                    $result_dev = mysqli_query($conn, $sql_dev);
+                                    if (mysqli_num_rows($result_dev) > 0) {
+                                        while ($row_dev = mysqli_fetch_assoc($result_dev)) { ?>
+                                            <!-- รายการส่งสินค้า -->
+                                            <div class="card mt-3">
+                                                <div class="col-mb-12 col-12 mb-2 pt-2">
+                                                    <h4 class="text-muted"><span class="text-success"> รายการส่งสินค้า</span></h4>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-4 col-12 mb-2">
+                                                            รหัสส่งสินค้า :
+                                                            <span class="ml-1 text-primary font-weight-bold"><?= $row_dev['dev_id'] ?></strong>
+                                                        </div>
+                                                        <div class="col-md-4 col-12 mb-2">
+                                                            วันที่ส่งสินค้า :
+                                                            <strong><?php $date = explode(" ", $row_dev['dev_date']);
+                                                                    $dat = datethai2($date[0]);
+                                                                    echo $dat ?></strong>
+                                                        </div>
+                                                        <div class="col-md-4 col-12 mb-2">
+                                                            พนักงานส่ง : <?php $sql_emp = "SELECT * FROM employee_check   WHERE id= '$row_dev[dev_employee]'";
+                                                                            $rs_emp = $conn->query($sql_emp);
+                                                                            $row_emp = $rs_emp->fetch_assoc(); ?>
+                                                            <strong class="font-weight-bold text-primary"><?= $row_emp['name'] ?></strong>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            พนักงานตรวจสอบ :<?php $sql_emp = "SELECT * FROM employee_check   WHERE id= '$row_dev[dev_check]'";
+                                                                            $rs_emp = $conn->query($sql_emp);
+                                                                            $row_emp = $rs_emp->fetch_assoc(); ?>
+                                                            <strong class="font-weight-bold text-primary"><?= $row_emp['name'] ?></strong>
+                                                        </div>
+                                                    </div>
 
-                                    </div>
+                                                </div>
 
-                                    <div class="col-md-12">
-                                        <table class="table table-hover text-nowrap table-sm">
-                                            <thead class="bg-gray-300">
-                                                <tr>
-                                                    <th scope="col" class="text-center">No.</th>
-                                                    <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
-                                                    <th scope="col" class="text-center">จำนวน</th>
-                                                    <th scope="col" class="text-center">หน่วยละ</th>
-                                                    <th scope="col" class="text-center">จำนวนเงิน</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                    $sql_detail = "SELECT * FROM deliver_detail   where order_id='$order_id' AND dev_id='$row_dev[dev_id]'   order by dev_id ASC ";
-                                     $result_detail = mysqli_query($conn, $sql_detail);
-                                     if (mysqli_num_rows($result_detail) > 0) {
-                                    while ($row_detail = mysqli_fetch_assoc($result_detail)) { ?>
-                                                <tr>
-                                                    <td scope="row" class="text-center"><?=++$id7;?></td>
-                                                    <td> <?php $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
+                                                <div class="col-md-12">
+                                                    <table class="table table-hover text-nowrap table-sm">
+                                                        <thead class="bg-gray-300">
+                                                            <tr>
+                                                                <th scope="col" class="text-center">No.</th>
+                                                                <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
+                                                                <th scope="col" class="text-center">จำนวน</th>
+                                                                <th scope="col" class="text-center">หน่วยละ</th>
+                                                                <th scope="col" class="text-center">จำนวนเงิน</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $sql_detail = "SELECT * FROM deliver_detail   where order_id='$order_id' AND dev_id='$row_dev[dev_id]' AND ptype_id <> 'TF'   order by dev_id ASC ";
+                                                            $result_detail = mysqli_query($conn, $sql_detail);
+                                                            if (mysqli_num_rows($result_detail) > 0) {
+                                                                while ($row_detail = mysqli_fetch_assoc($result_detail)) { ?>
+                                                                    <tr>
+                                                                        <td scope="row" class="text-center"><?= ++$id7; ?></td>
+                                                                        <td> <?php $sql_pro = "SELECT * FROM product  WHERE product_id= '$row_detail[product_id]'";
+                                                                                $rs_pro = $conn->query($sql_pro);
+                                                                                $row_pro = $rs_pro->fetch_assoc();
+                                                                                $sql_unit = "SELECT * FROM unit  WHERE id= '$row_pro[units]' ";
+                                                                                $rs_unit = $conn->query($sql_unit);
+                                                                                $row_unit = $rs_unit->fetch_assoc();
+
+                                                                                echo $row_pro['product_name'];
+                                                                                ?>
+                                                                        </td>
+                                                                        <td class="text-right"><?= $row_detail['dev_qty'] ?> <?= $row_unit['unit_name'] ?> </td>
+                                                                        <td class="text-right"><?php echo number_format($row_detail['unit_price'], '2', '.', ',') ?></td>
+
+                                                                        <td class="text-right"><?php echo number_format($row_detail['total_price'], '2', '.', ',') ?></td>
+                                                                    </tr>
+                                                            <?php }
+                                                            } ?>
+                                                            <?php
+                                                            $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM deliver_detail  where  dev_id='$row_dev[dev_id]' AND ptype_id='TF'  ");
+                                                            $count = mysqli_fetch_array($result_count);
+                                                            $countx = $count['total'];
+                                                            if ($countx > 0) {
+                                                            ?><tr>
+                                                                    <td scope="row" class="text-center"><?= ++$id7; ?></td>
+                                                                    <td>
+                                                                        <?php
+                                                                        $sqlx3 = "SELECT * FROM deliver_detail  where order_id='$order_id' AND dev_id='$row_dev[dev_id]'  AND  ptype_id='TF' ";
                                                                         $rsx3 = $conn->query($sqlx3);
-                                                                        $rowx3 = $rsx3->fetch_assoc(); ?> </td>
-                                                    <td class="text-right">11</td>
-                                                    <td class="text-right">-</td>
+                                                                        $rowx3 = $rsx3->fetch_assoc();
+                                                                        // echo $rowx3['product_id'];
+                                                                        ?>
+                                                                        <?php $sql_pro = "SELECT * FROM product  WHERE product_id= '$rowx3[product_id]'";
+                                                                        $rs_pro = $conn->query($sql_pro);
+                                                                        $row_pro = $rs_pro->fetch_assoc();
+                                                                        $sql_unit = "SELECT * FROM unit  WHERE id= '$row_pro[units]' ";
+                                                                        $rs_unit = $conn->query($sql_unit);
+                                                                        $row_unit = $rs_unit->fetch_assoc();
+                                                                        echo 'ค่าจัดส่ง' . '(' . $row_pro['product_name'] . ')';
 
-                                                    <td class="text-right">-</td>
-                                                </tr>
-                                              
-                                               <?php } } ?>
-                                            </tbody>
-                                        </table>
+                                                                        ?>
+                                                                    </td>
+                                                                    <td class="text-right"><?= $rowx3['dev_qty'] ?> <?= $row_unit['unit_name'] ?> </td>
+                                                                    <td class="text-right"><?php echo number_format($rowx3['unit_price'], '2', '.', ',') ?></td>
 
-                                        <div class="mb-2 mt-3 pt-2 border-warning border-top">
-                                            <br>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php }}} ?>
+                                                                    <td class="text-right"><?php echo number_format($rowx3['total_price'], '2', '.', ',') ?></td>
+                                                                </tr>
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div class="mb-2 mt-3 pt-2 border-warning border-top">
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                <?php }
+                                    }
+                                } ?>
                             </div>
 
 
