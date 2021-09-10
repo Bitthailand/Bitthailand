@@ -269,6 +269,10 @@ $row5 = $rs5->fetch_assoc();
                                                                     echo 'ค่าจัดส่ง';
                                                                 } else {
                                                                     echo $rowx3['product_name'];
+                                                                    if ($rowx3['spacial'] == '') {
+                                                                    } else {
+                                                                        echo "  (" . $rowx3['spacial'] . ")";
+                                                                    }
                                                                 }
                                                                 ?></td>
                                                         <td class="text-right"><?= $row_pro['dev_qty'] ?> </td>
