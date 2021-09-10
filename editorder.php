@@ -335,7 +335,7 @@ if ($action == 'add') {
                 if ($conn->query($sql88) === TRUE) {
                 }
                 if ($delivery_date = '$delivery_date') {
-                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30' where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
                     }
                 } //if ($delivery_date = '$delivery_date') 
@@ -346,7 +346,7 @@ if ($action == 'add') {
                                       VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','1')";
                 if ($conn->query($sqlx5) === TRUE) {
                 }
-                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30' where order_id='$order_idx'";
                 if ($conn->query($sql11) === TRUE) {
                 }
             } // if (mysqli_num_rows($result) > 0)
@@ -446,7 +446,7 @@ if ($action == 'add') {
                 $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
                 // echo "$order_idx";
                 if ($delivery_date = '$delivery_date') {
-                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='5'  where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
                     }
                 } else {
@@ -454,7 +454,7 @@ if ($action == 'add') {
                 VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','0')";
                     if ($conn->query($sqlx5) === TRUE) {
                     }
-                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='$date_confirm' where order_id='$order_idx'";
+                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='6'  where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
                     }
                 }
