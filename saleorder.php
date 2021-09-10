@@ -68,7 +68,7 @@ $row5 = $rs5->fetch_assoc();
         <div class="col-12">
         <div class="row">
             <div class="col-2_logo">
-                <img class="logo" src="../../dist-assets/images/logo1.png" alt="">
+                <img class="logox" src="../../dist-assets/images/logo1.png" alt="">
             </div>
             <div class="col-5">
                 <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
