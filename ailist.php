@@ -194,7 +194,8 @@ if ($rowS == '') {
                             <table class="table table-hover text-nowrap table-sm">
                                 <thead>
                                     <tr>
-                                        <th>วันที่</th>
+                                        <th>วันที่สั่งชื้อ</th>
+                                        <th>กำหนดส่ง</th>
                                         <th>Order ID</th>
                                         <th>ประเภทลูกค้า</th>
                                         <th>ชื่อลูกค้า</th>
@@ -233,6 +234,11 @@ if ($rowS == '') {
                                         <tr>
                                             <td>
                                                 <?php $date = explode(" ", $row['date_create']);
+                                                $dat = datethai2($date[0]);
+                                                echo $dat ?>
+                                            </td>
+                                            <td>
+                                                <?php $date = explode(" ", $row['delivery_date']);
                                                 $dat = datethai2($date[0]);
                                                 echo $dat ?>
                                             </td>

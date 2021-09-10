@@ -171,8 +171,10 @@ if ($action == 'add_dev') {
                         $sql_or = "SELECT * FROM orders   WHERE order_id= '$order_id'";
                         $rs_or = $conn->query($sql_or);
                         $row_or = $rs_or->fetch_assoc();
+                        $sum_dis=$rowx['unit_price']-$rowx['disunit'];
+                        $sumtotal=$sum_dis*$total_instock;
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
-                            VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$rowx[total_price]','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
+                            VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
                         echo"$call_qty";
