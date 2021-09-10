@@ -20,7 +20,7 @@ $so_id = $_REQUEST['so_id'];
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
     <!-- <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css?v=11" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=12" rel="stylesheet" />
 
     <style>
         p {
@@ -235,13 +235,13 @@ $row5 = $rs5->fetch_assoc();
                                     <table class="table table-hover mb-4">
                                         <thead class="bg-gray-300">
                                             <tr>
-                                                <th scope="col" class="text-left" width="50">ลำดับ</th>
+                                                <th scope="col" class="text-center" width="50">ลำดับ</th>
                                                 <th scope="col" class="text-center" width="250">รหัสสินค้า</th>
                                                 <th scope="col" class="text-left" width="750">รายละเอียด</th>
-                                                <th scope="col" class="text-right" width="50px">จำนวน</th>
-                                                <th scope="col" class="text-right" width="20px"></th>
-                                                <th scope="col" class="text-left" width="40"></th>
-                                                <th scope="col" class="text-left" width="10"></th>
+                                                <th scope="col" class="text-center" width="50px">จำนวน</th>
+                                                <th scope="col" class="text-center" width="20px"></th>
+                                                <th scope="col" class="text-center" width="40"></th>
+                                                <th scope="col" class="text-center" width="10"></th>
 
 
                                             </tr>
@@ -275,9 +275,9 @@ $row5 = $rs5->fetch_assoc();
                                                                     }
                                                                 }
                                                                 ?></td>
-                                                        <td class="text-right"><?= $row_pro['dev_qty'] ?> </td>
+                                                        <td class="text-center"><?= $row_pro['dev_qty'] ?> </td>
                                                         <td class="text-right"></td>
-                                                        <td class="text-right"><?= $row_unit['unit_name'] ?></td>
+                                                        <td class="text-center"><?= $row_unit['unit_name'] ?></td>
                                                         <td class="text-right"></td>
                                                     </tr>
                                             <?php }
