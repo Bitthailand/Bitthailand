@@ -866,6 +866,15 @@ strong {
     text-align: left;
 }
 
+.col-4xx_slip {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 25px;
+    text-align: left;
+}
+
 .col-4xx_cus {
     /* position: relative; */
     width: 100%;
@@ -887,9 +896,45 @@ strong {
     float: right;
 }
 
+.col-4x_slip,
+.col-1x_slip,
+.col-xlx-auto_slip {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_slip1,
+.col-1x_slip1,
+.col-xlx-auto_slip1 {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 25px;
+    text-align: left;
+    float: right;
+}
+
 .col-4x_cus,
 .col-1x_cus,
 .col-xlx-auto_cus {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_slip,
+.col-1x_slip,
+.col-xlx-auto_slip {
     /* position: relative; */
     width: 100%;
     min-height: 1px;
@@ -954,9 +999,14 @@ strong {
     max-width: 32%;
 }
 
+.col-4x_slip {
+    flex: 0 0 28%;
+    max-width: 28%;
+}
+
 .col-4x_cus {
-    flex: 0 0 10%;
-    max-width: 10%;
+    flex: 0 0 16%;
+    max-width: 16%;
 }
 
 .col-4x_cus_so {
@@ -964,7 +1014,22 @@ strong {
     max-width: 16%;
 }
 
+.col-4x_slip {
+    flex: 0 0 36%;
+    max-width: 36%;
+}
+
+.col-4x_slip1 {
+    flex: 0 0 36%;
+    max-width: 36%;
+}
+
 .col-4xx {
+    flex: 0 0 33.33333%;
+    max-width: 35.33333%;
+}
+
+.col-4xx_slip {
     flex: 0 0 33.33333%;
     max-width: 35.33333%;
 }

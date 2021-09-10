@@ -33,7 +33,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
     <title>Quotation | ใบเสนอราคา</title>
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css?v=8" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint.css?v=9" rel="stylesheet" />
 
 
     <style>
@@ -244,12 +244,14 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                             $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                                             $rs_unit = $conn->query($sql_unit);
                                                             $row_unit = $rs_unit->fetch_assoc();
+                                                            $price_dis=$row_pro['unit_price']-$row_pro['disunit'];
+                                                            $total_price=$price_dis*$row_pro['qty'];
                                                             ?>
 
                                                         </td>
                                                         <td class="text-right"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
-                                                        <td class="text-right"><?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?></td>
-                                                        <td class="text-right"><?php echo number_format($row_pro['total_price'], '2', '.', ',') ?></td>
+                                                        <td class="text-right"><?php echo number_format($price_dis, '2', '.', ',') ?></td>
+                                                        <td class="text-right"><?php echo number_format($total_price, '2', '.', ',') ?></td>
                                                     </tr>
                                             <?php }
                                             } ?>
@@ -274,7 +276,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                         $sqlx31 = "SELECT * FROM product  WHERE product_id= '$rowx3x[product_id]'";
                                                         $rsx31 = $conn->query($sqlx31);
                                                         $rowx31 = $rsx31->fetch_assoc();
-                                                           echo $rowx31['product_name'];
+                                                        //    echo $rowx31['product_name'];
                                                         echo 'ค่าจัดส่ง' . '(' . $rowx31['product_name'] . ')';
                                                         $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx31[units]' ";
                                                         $rs_unit = $conn->query($sql_unit);
