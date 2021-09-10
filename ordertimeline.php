@@ -95,17 +95,26 @@ $row_bk = $rs_bk->fetch_assoc();
                                                                             $dat = datethai2($date[0]);
                                                                             echo $dat . '-' . $date[1] ?> </span>
                                     </div>
+                                    <?php
+                                    $sql_qt= "SELECT  * FROM  quotation  where  order_id='$order_id'   ";
+                                    $result_qt = mysqli_query($conn, $sql_qt);
+                                    if (mysqli_num_rows($result_qt) > 0) {
+                                        while ($row_qt = mysqli_fetch_assoc($result_qt)) {
+                                            ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">ออกใบเสนอราคา</strong>
-                                            <a class=" btn-primary text-white " href="quotation.php?order_id=OR6408001" target="_blank">QT64080001</a>
+                                            <a class=" btn-primary text-white " href="quotation.php?order_id=<?=$order_id?>" target="_blank"><?=$row_qt['qt_number']?></a>
                                         </span>
-                                        <span class="ul-widget-s6__time"> 25 ส.ค. 2021 11:30 </span>
+                                        <span class="ul-widget-s6__time"> <?php $date = explode(" ", $row_qt['date_create']);
+                                                                            $dat = datethai2($date[0]);
+                                                                            echo $dat . '-' . $date[1] ?></span>
                                     </div>
-                                    <?php
+                                    
+                                    <?php }} 
                                     $sql_ai= "SELECT  * FROM  ai_number   where  order_id='$order_id'   ";
                                     $result_ai = mysqli_query($conn, $sql_ai);
                                     if (mysqli_num_rows($result_ai) > 0) {
@@ -117,9 +126,11 @@ $row_bk = $rs_bk->fetch_assoc();
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">ออกใบมัดจำสินค้า</strong>
-                                            <a class=" btn-primary text-white " href="ai.php?order_id=<?=$order_id?>'" target="_blank"><?=$row_ai['ai_num']?></a>
+                                            <a class=" btn-primary text-white " href="ai.php?order_id=<?=$order_id?>" target="_blank"><?=$row_ai['ai_num']?></a>
                                         </span>
-                                        <span class="ul-widget-s6__time"> 26 ส.ค. 2021 09:30 </span>
+                                        <span class="ul-widget-s6__time">  <?php $date = explode(" ", $row_ai['date_create']);
+                                                                            $dat = datethai2($date[0]);
+                                                                            echo $dat . '-' . $date[1] ?></span>
                                     </div>
                                     <?php   }
                                     }
