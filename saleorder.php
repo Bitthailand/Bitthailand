@@ -67,7 +67,7 @@ $row5 = $rs5->fetch_assoc();
         </div>
         <div class="col-12">
         <div class="row">
-            <div class="col-2">
+            <div class="col-2_logo">
                 <img class="logo" src="../../dist-assets/images/logo1.png" alt="">
             </div>
             <div class="col-5">
@@ -268,10 +268,7 @@ $row5 = $rs5->fetch_assoc();
                                                                 if ($rowx3['ptype_id'] == 'TF0') {
                                                                     echo 'ค่าจัดส่ง';
                                                                 } else {
-                                                                    if ($rowx3['spacial'] == '') {
-                                                                    } else {
-                                                                        echo "  (" . $rowx3['spacial'] . ")";
-                                                                    }
+                                                                    echo $rowx3['product_name'];
                                                                 }
                                                                 ?></td>
                                                         <td class="text-right"><?= $row_pro['dev_qty'] ?> </td>
