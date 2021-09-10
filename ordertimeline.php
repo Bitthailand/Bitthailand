@@ -134,7 +134,11 @@ $row_bk = $rs_bk->fetch_assoc();
                                     </div>
                                     <?php   }
                                     }
-                                    ?>
+                                    $sql_ai= "SELECT  * FROM  hs_number  where  order_id='$order_id'   ";
+                                    $result_ai = mysqli_query($conn, $sql_ai);
+                                    if (mysqli_num_rows($result_ai) > 0) {
+                                        while ($row_ai = mysqli_fetch_assoc($result_ai)) {
+                                            ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
@@ -145,6 +149,7 @@ $row_bk = $rs_bk->fetch_assoc();
                                         </span>
                                         <span class="ul-widget-s6__time"> 30 ส.ค. 2021 13:19 </span>
                                     </div>
+                                    <?php }} ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
