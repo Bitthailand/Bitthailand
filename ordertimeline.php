@@ -134,10 +134,10 @@ $row_bk = $rs_bk->fetch_assoc();
                                     </div>
                                     <?php   }
                                     }
-                                    $sql_ai= "SELECT  * FROM  hs_number  where  order_id='$order_id'   ";
-                                    $result_ai = mysqli_query($conn, $sql_ai);
-                                    if (mysqli_num_rows($result_ai) > 0) {
-                                        while ($row_ai = mysqli_fetch_assoc($result_ai)) {
+                                    $sql_hs= "SELECT  * FROM  hs_number  where  order_id='$order_id'   ";
+                                    $result_hs = mysqli_query($conn, $sql_hs);
+                                    if (mysqli_num_rows($result_hs) > 0) {
+                                        while ($row_hs = mysqli_fetch_assoc($result_hs)) {
                                             ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
@@ -145,22 +145,27 @@ $row_bk = $rs_bk->fetch_assoc();
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">ออกใบเสร็จรับเงิน</strong>
-                                            <a class=" btn-primary text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">HS64080001</a>
+                                            <a class=" btn-primary text-white " href="hs_all.php?order_id=<?=$order_id?>" target="_blank"><?=$row_hs['hs_id']?></a>
                                         </span>
                                         <span class="ul-widget-s6__time"> 30 ส.ค. 2021 13:19 </span>
                                     </div>
-                                    <?php }} ?>
+                                    <?php }}   $sql_dev= "SELECT  * FROM  delivery  where  order_id='$order_id'   ";
+                                    $result_dev = mysqli_query($conn, $sql_dev);
+                                    if (mysqli_num_rows($result_dev) > 0) {
+                                        while ($row_dev = mysqli_fetch_assoc($result_dev)) {
+                                            ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">ออกใบส่งสินค้า</strong>
-                                            <a class=" btn-primary text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">SO64080001</a>
+                                            <a class=" btn-primary text-white " href="saleorder.php?order_id=<?=$order_id?>&so_id=<?=$row_dev['dev_id']?>" target="_blank"><?=$row_dev['dev_id']?></a>
                                         </span>
                                         <span class="ul-widget-s6__time">
                                             30 ก.ค. 2021 11:19 </span>
                                     </div>
+                                    <?php } } ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-info ul-widget6__dot"></p>

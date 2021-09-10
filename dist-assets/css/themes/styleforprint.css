@@ -893,6 +893,15 @@ strong {
     text-align: left;
 }
 
+.col-4xx_cus_slip {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 6px;
+    text-align: left;
+}
+
 .col-4x,
 .col-1x,
 .col-xlx-auto {
@@ -1061,6 +1070,11 @@ strong {
 .col-4xx_cus {
     flex: 0 0 82.33333%;
     max-width: 82.33333%;
+}
+
+.col-4xx_cus_slip {
+    flex: 0 0 62.33333%;
+    max-width: 62.33333%;
 }
 
 .col-5 {

@@ -153,7 +153,7 @@ $row_emp = $rs_emp->fetch_assoc();
                             <p>:</p>
                             <p></p>
                         </div>
-                        <div class="col-4xx_cus">
+                        <div class="col-4xx_cus_slip">
                             <p><?= $row3['customer_name'] ?></p>
                             <p><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
                             <p><?php if ($row3['tax_number'] == '') {
