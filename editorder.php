@@ -152,8 +152,8 @@ if ($action == 'add_product') {
         $row5 = $rs5->fetch_assoc();
         // =======================
         $send_total = $send_price * $send_qty;
-        $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,qty_out)
-        VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','1','$emp_id','TF','$send_price')";
+        $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,qty_out,updates)
+        VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','1','$emp_id','TF','$send_price','1')";
         if ($conn->query($sql) === TRUE) { ?>
             <script>
                 $(document).ready(function() {
@@ -208,8 +208,8 @@ if ($action == 'add_product') {
                     // echo "ลงฐานQ1" . $Fqty . "Q2" . $Fqty2;
                     // echo "sum_qty" . $sum_qty . "xx";
 
-                    $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out)
-                    VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty')";
+                    $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out,updates)
+                    VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty','1')";
                     if ($conn->query($sqlx4) === TRUE) { ?>
                         <script>
                             $(document).ready(function() {
@@ -222,8 +222,8 @@ if ($action == 'add_product') {
                     // echo "errALL";
                 }
             } else {
-                $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out)
-            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','1','$emp_id','$disunit','CB','$Fqty')";
+                $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out,updates)
+            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','1','$emp_id','$disunit','CB','$Fqty','1')";
                 if ($conn->query($sql) === TRUE) { ?>
                     <script>
                         $(document).ready(function() {
