@@ -59,16 +59,19 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
             <button class="btn-primary mb-sm-0 mb-3" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
         </div>
         <div class="col-12">
-            <div class="row">
-                <div class="col-6">
-                    <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
-                    <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
-                    <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
-                </div>
-                <div class="col-6 text-right">
-                    <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
-                </div>
+        <div class="row">
+            <div class="col-2_logo">
+                <img class="logox" src="../../dist-assets/images/logo1.png" alt="">
             </div>
+            <div class="col-5">
+                <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
+                <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
+                <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
+            </div>
+            <div class="col-5 text-right">
+                <h2 class="font-weight-bold">ใบส่งของ</h2>
+            </div>
+        </div> </div>
             <div class="mt-3 mb-4 border-top"></div>
             <div class="row mb-5">
                 <div class="col-7 mb-3 mb-sm-0"> <?php
@@ -213,10 +216,10 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                         <thead class="bg-gray-300">
                                             <tr>
                                                 <th scope="col" class="text-center">ลำดับ</th>
-                                                <th scope="col" class="text-center">รายการ</th>
-                                                <th scope="col" class="text-right">จำนวน</th>
-                                                <th scope="col" class="text-right">หน่วยละ</th>
-                                                <th scope="col" class="text-right">จำนวนเงิน</th>
+                                                <th scope="col" class="text-left">รายการ</th>
+                                                <th scope="col" class="text-center">จำนวน</th>
+                                                <th scope="col" class="text-center">หน่วยละ</th>
+                                                <th scope="col" class="text-center">จำนวนเงิน</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -249,9 +252,9 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                             ?>
 
                                                         </td>
-                                                        <td class="text-right"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
-                                                        <td class="text-right"><?php echo number_format($price_dis, '2', '.', ',') ?></td>
-                                                        <td class="text-right"><?php echo number_format($total_price, '2', '.', ',') ?></td>
+                                                        <td class="text-center"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
+                                                        <td class="text-center"><?php echo number_format($price_dis, '2', '.', ',') ?></td>
+                                                        <td class="text-center"><?php echo number_format($total_price, '2', '.', ',') ?></td>
                                                     </tr>
                                             <?php }
                                             } ?>
@@ -282,9 +285,9 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                         $rs_unit = $conn->query($sql_unit);
                                                         $row_unit = $rs_unit->fetch_assoc();
                                                         ?></td>
-                                                    <td class="text-right"><?= $rowx3x['qty'] ?> <?= $row_unit['unit_name'] ?></td>
-                                                    <td class="text-right"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
-                                                    <td class="text-right"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
+                                                    <td class="text-center"><?= $rowx3x['qty'] ?> <?= $row_unit['unit_name'] ?></td>
+                                                    <td class="text-center"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
+                                                    <td class="text-center"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -324,7 +327,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-3">
-                                            <p>&nbsp;&nbsp;ตัวอักษร :</p>
+                                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตัวอักษร :</p>
                                         </div>
                                         <div class="col-5">
                                             <p><?php echo Convert($sub_total); ?></p>

@@ -462,7 +462,7 @@ if ($action == 'add') {
                 $result = mysqli_query($conn, $sqlx);
                 if (mysqli_num_rows($result) > 0) {
                 // echo "$delivery_date";
-                    $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax' where order_id='$order_idx'";
+                    $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',tax='$tax',date_confirm='30',error='12' where order_id='$order_idx'";
                             if ($conn->query($sql) === TRUE) { }
                             $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
                             if ($conn->query($sql112) === TRUE) { }
