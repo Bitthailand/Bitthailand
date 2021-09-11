@@ -25,7 +25,7 @@ function datethai2($date1)
             $date = $temp[2];
         }
         $year = substr(($temp[0] + 543), 2, 2);
-        return $date . " " . $month_th_name[intval($temp[1])] . $year;
+        return $date . " " . $month_th_name[intval($temp[1])] .'&nbsp;'. $year;
     }
 }
 ?>

@@ -306,12 +306,12 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                                 <div class="ul-widget__head">
                                     <div class="ul-widget__head-label">
-                                        <h3 class="ul-widget__head-title">รายชื่อสินค้าที่มียอดขายสูงสุด</h3>
+                                        <h3 class="ul-widget__head-title">แพที่ใช้ผลิตมากสุด</h3>
                                     </div>
                                     <div class="ul-widget__head-toolbar">
                                         <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
-                                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__g-widget4-tab1-content" role="tab" aria-selected="true">Month</a></li>
-                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__g-widget4-tab2-content" role="tab" aria-selected="false">Year</a>
+                                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__g-widget4-tab1-content2" role="tab" aria-selected="true">Month</a></li>
+                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__g-widget4-tab2-content2" role="tab" aria-selected="false">Year</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -319,63 +319,15 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                                 <div class="ul-widget__body">
                                     <div class="tab-content">
-                                        <div class="tab-pane active show" id="__g-widget4-tab1-content">
+                                        <div class="tab-pane active show" id="__g-widget4-tab1-content2">
                                             <div class="ul-widget1">
-                                                <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
-                                                $result4 = mysqli_query($conn, $sql4);
-                                                if (mysqli_num_rows($result4) > 0) {
-                                                    while ($row4 = mysqli_fetch_assoc($result4)) {
-                                                ?>
-                                                        <div class="ul-widget4__item ul-widget4__users">
-                                                            <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
-                                                                <!-- <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/11.jpg" alt="" /> -->
-                                                                <div class="flex-grow-1">
-                                                                    <?php
-                                                                    $sql_pro = "SELECT * FROM product  WHERE product_id= '$row4[product_id]'";
-                                                                    $rs_pro = $conn->query($sql_pro);
-                                                                    $row_pro = $rs_pro->fetch_assoc();
-
-                                                                    $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row4[ptype_id]'";
-                                                                    $rs_type = $conn->query($sql_type);
-                                                                    $row_type = $rs_type->fetch_assoc();
-                                                                    ?>
-                                                                    <h5><a href="#"> <?= $row_pro['product_name'] ?></a></h5>
-                                                                    <p class="m-0 text-small text-muted"><?= $row_type['ptype_name'] ?></p>
-                                                                    <p class="text-small text-danger m-0">฿<?php echo number_format($row4['sum'], '2', '.', ',') ?>
-                                                                        <del class="text-muted"></del>
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                <?php }
-                                                } ?>
+                                               
+                                                
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="__g-widget4-tab2-content">
+                                        <div class="tab-pane" id="__g-widget4-tab2-content2">
                                             <div class="ul-widget1">
-                                                <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE    YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
-                                                $result4 = mysqli_query($conn, $sql4);
-                                                if (mysqli_num_rows($result4) > 0) {
-                                                    while ($row4 = mysqli_fetch_assoc($result4)) {
-                                                ?>
-                                                        <div class="ul-widget4__item ul-widget4__users">
-                                                            <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
-                                                                <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/33.jpg" alt="" />
-                                                                <div class="flex-grow-1">
-                                                                    <h5><a href="#"> เสารั้วลวดหนาม ขนาด 4 นิ้ว ยาว 4.00 เมตร</a></h5>
-                                                                    <p class="m-0 text-small text-muted">เสารั้วลวดหนาม</p>
-                                                                    <p class="text-small text-danger m-0">฿159,493.00
-                                                                        <del class="text-muted"></del>
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                <?php }
-                                                } ?>
+                                              ปป
                                             </div>
                                         </div>
                                     </div>
@@ -394,14 +346,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="card-title">Dashed Line Chart(Page Statistics)</div>
-                                <div id="dashedLineChart"></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div><!-- end of main-content -->
             </div>
 

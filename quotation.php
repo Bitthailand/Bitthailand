@@ -59,98 +59,100 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
             <button class="btn-primary mb-sm-0 mb-3" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
         </div>
         <div class="col-12">
-        <div class="row">
-            <div class="col-2_logo">
-                <img class="logox" src="../../dist-assets/images/logo1.png" alt="">
-            </div>
-            <div class="col-5">
-                <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
-                <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
-                <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
-            </div>
-            <div class="col-5 text-right">
-                <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
-            </div>
-        </div> </div>
-            <div class="mt-3 mb-4 border-top"></div>
-            <div class="row mb-5">
-                <div class="col-7 mb-3 mb-sm-0"> <?php
-                                                    $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
-                                                    $rs6 = $conn->query($sql6);
-                                                    $row6 = $rs6->fetch_assoc();
-                                                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
-                                                    $rs7 = $conn->query($sql7);
-                                                    $row7 = $rs7->fetch_assoc();
-                                                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
-                                                    $rs8 = $conn->query($sql8);
-                                                    $row8 = $rs8->fetch_assoc();
-
-                                                    ?>
-                    <div class="rowx_cus">
-                        <div class="col-4x_cus">
-                            <p><strong>ชื่อลูกค้า</strong> </p>
-                            <p><strong>ที่อยู่</strong> </p>
-                            <p><strong>โทร </strong> </p>
-                            <p><strong>อ้างอิง</strong> </p>
-                             
-                        </div>
-                        <div class="col-1x">
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                        </div>
-                        <div class="col-4xx_cus">
-                            <p><?= $row3['customer_name'] ?></p>
-                            <p><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
-                       <p><?= $row3['tel'] ?></p>
-                       <p><?= $row3['contact_name'] ?></p>
-                       
-                        </div>
-                    </div>
-
+            <div class="row">
+                <div class="col-2_logo">
+                    <img class="logox" src="../../dist-assets/images/logo1.png" alt="">
                 </div>
-                <div class="col-5 text-sm-right">
-                    <div class="rowx">
-                        <div class="col-4x">
-                            <p>เลขที่ใบเสนอราคา </p>
-                            <p>ลำดับการสั่งซื้อ </p>
-                            <p>วันที่ </p>
-                            <p>ยืนราคา <?php echo "$row[date_confirm]"; ?> วัน </p>
-                            <p>เงื่อนไขการชำระเงิน </p>
-                        </div>
-                        <div class="col-1x">
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                        </div>
-                        <div class="col-4xx">
-                            <p><?php echo "$row[qt_id]"; ?></p>
-                            <p><?php echo "$row[order_id]"; ?> </p>
-                            <p><?php $date = explode(" ", $row['qt_date']);
-                                $dat = datethai2($date[0]);
-                                echo "$dat"; ?> </p>
-                            <p>ถึงวันที่
-                                <?php $date = explode(" ", $strNewDate);
-                                $dat = datethai2($date[0]);
-                                echo "$dat"; ?></p>
-                            <p><?= $row2['name'] ?> </p>
-                        </div>
-                    </div>
-
+                <div class="col-5">
+                    <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
+                    <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
+                    <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
+                    <p>โทร. 061-436-2825</p>
                 </div>
-               
-                <div class="col-12">
+                <div class="col-5 text-right">
+                    <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 mb-4 border-top"></div>
+        <div class="row mb-5">
+            <div class="col-7 mb-3 mb-sm-0"> <?php
+                                                $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                                                $rs6 = $conn->query($sql6);
+                                                $row6 = $rs6->fetch_assoc();
+                                                $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                                                $rs7 = $conn->query($sql7);
+                                                $row7 = $rs7->fetch_assoc();
+                                                $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                                                $rs8 = $conn->query($sql8);
+                                                $row8 = $rs8->fetch_assoc();
+
+                                                ?>
+                <div class="rowx_cus">
+                    <div class="col-4x_cus">
+                        <p><strong>ชื่อลูกค้า</strong> </p>
+                        <p><strong>ที่อยู่</strong> </p>
+                        <p><strong>โทร </strong> </p>
+                        <p><strong>อ้างอิง</strong> </p>
+
+                    </div>
+                    <div class="col-1x">
+                        <p>:</p>
+                        <p>:</p>
+                        <p>:</p>
+                        <p>:</p>
+                    </div>
+                    <div class="col-4xx_cus">
+                        <p><?= $row3['customer_name'] ?></p>
+                        <p><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
+                        <p><?= $row3['tel'] ?></p>
+                        <p><?= $row3['contact_name'] ?></p>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-5 text-sm-right">
+                <div class="rowx">
+                    <div class="col-4x">
+                        <p>เลขที่ใบเสนอราคา </p>
+                        <p>ลำดับการสั่งซื้อ </p>
+                        <p>วันที่ </p>
+                        <p>ยืนราคา <?php echo "$row[date_confirm]"; ?> วัน </p>
+                        <p>เงื่อนไขการชำระเงิน </p>
+                    </div>
+                    <div class="col-1x">
+                        <p>:</p>
+                        <p>:</p>
+                        <p>:</p>
+                        <p>:</p>
+                        <p>:</p>
+                    </div>
+                    <div class="col-4xx">
+                        <p><?php echo "$row[qt_id]"; ?></p>
+                        <p><?php echo "$row[order_id]"; ?> </p>
+                        <p><?php $date = explode(" ", $row['qt_date']);
+                            $dat = datethai2($date[0]);
+                            echo "$dat"; ?> </p>
+                        <p>ถึงวันที่
+                            <?php $date = explode(" ", $strNewDate);
+                            $dat = datethai2($date[0]);
+                            echo "$dat"; ?></p>
+                        <p><?= $row2['name'] ?> </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12">
                 <p>&nbsp;บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
-                </div>
-            
             </div>
-           
+
         </div>
 
-       
+    </div>
+
+
     </div>
     <!-- End header  -->
     <!-- Footer  -->
@@ -217,8 +219,9 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                             <tr>
                                                 <th scope="col" class="text-center">ลำดับ</th>
                                                 <th scope="col" class="text-left">รายการ</th>
-                                                <th scope="col" class="text-center">จำนวน</th>
-                                                <th scope="col" class="text-center">หน่วยละ</th>
+                                                <th scope="col" colspan="2" class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จำนวน</th>
+                                               
+                                                <th scope="col" class="text-right">ราคาต่อหน่วย</th>
                                                 <th scope="col" class="text-right">จำนวนเงิน</th>
                                             </tr>
                                         </thead>
@@ -229,7 +232,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                             if (mysqli_num_rows($result_pro) > 0) {
                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
                                                     <tr>
-                                                        <th scope="row" class="text-center"><?= ++$id; ?></th>
+                                                        <td scope="row" class="text-center"><?= ++$id; ?></td>
                                                         <td>
                                                             <?php
                                                             $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
@@ -247,13 +250,14 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                             $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                                             $rs_unit = $conn->query($sql_unit);
                                                             $row_unit = $rs_unit->fetch_assoc();
-                                                            $price_dis=$row_pro['unit_price']-$row_pro['disunit'];
-                                                            $total_price=$price_dis*$row_pro['qty'];
+                                                            $price_dis = $row_pro['unit_price'] - $row_pro['disunit'];
+                                                            $total_price = $price_dis * $row_pro['qty'];
                                                             ?>
 
                                                         </td>
-                                                        <td class="text-center"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
-                                                        <td class="text-center"><?php echo number_format($price_dis, '2', '.', ',') ?></td>
+                                                        <td class="text-center"><?= $row_pro['qty'] ?></td>
+                                                        <td class="text-left"> <?= $row_unit['unit_name'] ?></td>
+                                                        <td class="text-right"><?php echo number_format($price_dis, '2', '.', ',') ?></td>
                                                         <td class="text-right"><?php echo number_format($total_price, '2', '.', ',') ?></td>
                                                     </tr>
                                             <?php }
@@ -266,7 +270,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                             if ($countx > 0) {
                                             ?>
                                                 <tr>
-                                                    <th scope="row" class="text-center"><?= ++$id; ?></th>
+                                                    <td scope="row" class="text-center"><?= ++$id; ?></td>
 
                                                     <?php
                                                     $sqlx3x = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF' ";
@@ -285,20 +289,26 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                         $rs_unit = $conn->query($sql_unit);
                                                         $row_unit = $rs_unit->fetch_assoc();
                                                         ?></td>
-                                                    <td class="text-center"><?= $rowx3x['qty'] ?> <?= $row_unit['unit_name'] ?></td>
-                                                    <td class="text-center"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
+                                                    <td class="text-center"><?= $rowx3x['qty'] ?></td>
+                                                    <td class="text-left"> <?php  if($row_unit['unit_name']==''){echo"เที่ยว";} else { echo $row_unit['unit_name']; } ?></td>
+                                                    <td class="text-right"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
                                                     <td class="text-right"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="col-12">
+                <p></p>
+                <p><br></p>
+            </div>
                                 <div class="col-6">
-
+<br><br><br><br>
                                 </div>
                                 <div class="col-2">
 
                                 </div>
+                                
                                 <div class="col-3">
                                     <p>รวมเป็นเงินทั้งสิ้น</p>
                                     <p>หัก ส่วนลด</p>

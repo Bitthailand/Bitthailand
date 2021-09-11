@@ -74,6 +74,7 @@ $row5 = $rs5->fetch_assoc();
                 <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
                 <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
                 <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
+                <p>โทร. 061-436-2825</p>
             </div>
             <div class="col-5 text-right">
                 <h2 class="font-weight-bold">ใบส่งของ</h2>
@@ -136,7 +137,7 @@ $row5 = $rs5->fetch_assoc();
                 </div>
             </div>
             <div class="col-5 text-sm-right">
-                <div class="rowx">
+                <div class="row_so">
                     <div class="col-4x">
                         <p>เลขที่ใบส่งของ </p>
                         <p>ลำดับการสั่งซื้อ </p>
@@ -313,7 +314,7 @@ $row5 = $rs5->fetch_assoc();
                                                         ?></td>
                                                     <td class="text-center"><?= $rowx3['dev_qty'] ?></td>
                                                     <td class="text-right"></td>
-                                                    <td class="text-center"> <?= $row_unit['unit_name'] ?></td>
+                                                    <td class="text-center"> <?php  if($row_unit['unit_name']==''){echo"เที่ยว";} else { echo $row_unit['unit_name']; } ?></td>
                                                     <td class="text-right"></td>
                                                 </tr>
                                             <?php } ?>

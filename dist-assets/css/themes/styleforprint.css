@@ -754,7 +754,7 @@ th {
 
 .qt-so .page-header,
 .qt-so .page-header-space {
-    height: 220px;
+    height: 200px;
 }
 
 .qt-so .page-footer,
@@ -871,7 +871,7 @@ strong {
     width: 100%;
     min-height: 1px;
     padding-right: 1px;
-    padding-left: 5px;
+    padding-left: 15px;
     text-align: left;
 }
 
@@ -909,7 +909,7 @@ strong {
     width: 100%;
     min-height: 1px;
     padding-right: 4px;
-    padding-left: 4px;
+    padding-left: 15px;
     text-align: left;
     float: right;
 }
@@ -1018,8 +1018,8 @@ strong {
 }
 
 .col-2_logo {
-    flex: 0 0 6.66667%;
-    max-width: 6.66667%;
+    flex: 0 0 12.66667%;
+    max-width: 12.66667%;
 }
 
 .col-3 {
@@ -1033,8 +1033,8 @@ strong {
 }
 
 .col-4x {
-    flex: 0 0 30%;
-    max-width: 32%;
+    flex: 0 0 40%;
+    max-width: 40%;
 }
 
 .col-4x_slip {
@@ -1058,8 +1058,8 @@ strong {
 }
 
 .col-4xx {
-    flex: 0 0 33.33333%;
-    max-width: 35.33333%;
+    flex: 0 0 40.33333%;
+    max-width: 40.33333%;
 }
 
 .col-4xx_slip {
@@ -1119,10 +1119,23 @@ strong {
 
 .rowx {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     text-align: right;
-    margin-right: -15px;
-    margin-left: -15px;
+    margin-right: 0px;
+    margin-left: 15px;
+    justify-content: space-evenly;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.row_so {
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: right;
+    margin-right: 0px;
+    margin-left: 30px;
+    justify-content: space-evenly;
+    flex-direction: row;
     justify-content: flex-end;
 }
 
@@ -1136,7 +1149,7 @@ strong {
 }
 
 .logox {
-    width: 95px;
+    width: 118px;
 }
 
 
@@ -1260,8 +1273,23 @@ div {
     display: block;
 }
 
+.boxx {
+    display: block;
+    margin: 5px;
+    height: 120px;
+}
+
 .row {
     display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: space-between;
+}
+
+.row_foottotal {
+    display: flex;
+    padding-top: 20px;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
