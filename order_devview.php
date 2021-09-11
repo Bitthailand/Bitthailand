@@ -105,15 +105,18 @@ $row_emp = $rs_emp->fetch_assoc();
             <button class="btn-primary mb-sm-0 mb-3" onclick="window.print()">พิมพ์ใบเสร็จรับเงิน</button>
         </div>
         <div class="col-12">
-            <div class="row">
-                <div class="col-6">
+        <div class="row">
+                <div class="col-2_logo">
+                    <img class="logox" src="../../dist-assets/images/logo1.png" alt="">
+                </div>
+                <div class="col-5">
                     <h4 class="font-weight-bold">บริษัท วันเอ็ม จำกัด</h4>
                     <p>290 ม.1 ต.กระโสบ อ.เมือง จ.อุบลราชธานี 34000</p>
-                    <p>โทร 061-4362825</p>
                     <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
+                    <p>โทร. 061-436-2825</p>
                 </div>
-                <div class="col-6 text-right">
-                <h2 class="font-weight-bold">ใบเสร็จรับเงิน/ใบกำกับภาษี</h4>
+                <div class="col-5 text-right">
+                    <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
                 </div>
             </div>
             <div class="mt-3 mb-4 border-top"></div>
