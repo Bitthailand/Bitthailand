@@ -158,7 +158,7 @@ $(document).ready(function() {
                                         </div>
 
                                         <div class="form-group col-md-10">
-                                            <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
+                                            <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="bill_address" class="classcus form-control" id="address" placeholder="ที่อยู่">
                                         </div>
 

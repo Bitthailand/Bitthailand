@@ -153,7 +153,7 @@ if ($action == 'edit') {
                                             $rs3 = $conn->query($sql3);
                                             $row3 = $rs3->fetch_assoc();
                                             ?>
-                                            <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
+                                            <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="bill_address" class="classcus form-control" id="address" value="<?php echo $row['bill_address']; ?>" >
                                         </div>
 
