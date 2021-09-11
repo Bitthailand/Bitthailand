@@ -24,24 +24,24 @@ include './include/config.php';
 include './get_dashbord_production.php';
 $datex = date('Y-m-d');
 $d = explode("-", $datex);
-$sql_pday= "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+$sql_pday = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 production_order.po_enddate LIKE  '$datex%'  ";
 $rs_pday = $conn->query($sql_pday);
 $row_pday = $rs_pday->fetch_assoc();
 
-$sql_pdaycf= "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+$sql_pdaycf = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='0'  ";
 $rs_pdaycf = $conn->query($sql_pdaycf);
 $row_pdaycf = $rs_pdaycf->fetch_assoc();
 
-$sql_pdaycf1= "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+$sql_pdaycf1 = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='1'  ";
 $rs_pdaycf1 = $conn->query($sql_pdaycf1);
 $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
 
 $sql_value = "SELECT count(production_detail.product_id) AS today,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS CO  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'  ";
-$rs_value= $conn->query($sql_value);
+$rs_value = $conn->query($sql_value);
 $row_value = $rs_value->fetch_assoc();
 
 
@@ -57,7 +57,7 @@ $row_pmonth1 = $rs_pmonth1->fetch_assoc();
 
 $sql_qc = "SELECT SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type,SUM(product.unit_price)AS unit_price, SUM(a_type*unit_price) AS sum_a,SUM(b_type*unit_price)AS sum_b  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 MONTH(production_order.po_enddate) = '$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1' ";
-$rs_qc= $conn->query($sql_qc);
+$rs_qc = $conn->query($sql_qc);
 $row_qc = $rs_qc->fetch_assoc();
 
 $sql_order_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5' ";
@@ -101,8 +101,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget__content">
                                         <p class="m-0">สินค้าผลิตเสร็จประจำวันนี้</p>
                                         <h4 class="heading"><?php echo number_format($row_pday['today'], '0', '.', ',') ?> รายการ</h4>
-                                        <small class="text-muted m-0">รอดำเนินการ : <?=$row_pdaycf['today']?>|นำเข้าสต็อก:<?=$row_pdaycf1['today']?>  </small>
-                                       
+                                        <small class="text-muted m-0">รอดำเนินการ : <?= $row_pdaycf['today'] ?>|นำเข้าสต็อก:<?= $row_pdaycf1['today'] ?> </small>
+
                                     </div>
                                 </div>
                             </div>
@@ -115,9 +115,9 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">สินค้าผลิตประจำเดือน</p>
-                                        <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty']  , '0', '.', ',') ?> ชิ้น </h4>
-                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดของเดือน : <?php echo number_format($row_pmonth1['qty'] , '0', '.', ',') ?> ชิ้น</small>
-                                    
+                                        <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty'], '0', '.', ',') ?> ชิ้น </h4>
+                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดของเดือน : <?php echo number_format($row_pmonth1['qty'], '0', '.', ',') ?> ชิ้น</small>
+
                                     </div>
                                 </div>
                             </div>
@@ -151,8 +151,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                   
-                   
+
+
                 </div>
                 <div class="row">
                     <div class="col-lg-8 col-md-12">
@@ -166,7 +166,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                     <div class="col-lg-4 col-sm-12">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="card-title">ยอดผลิตตามประเภทสินค้า</div>
+                                <div class="card-title">ยอดผลิตตามประเภทสินค้า ปี <?= $d['0'] ?></div>
                                 <div id="echartPie" style="height: 300px;"></div>
                             </div>
                         </div>
@@ -181,7 +181,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                                         <div class="ul-widget__head">
                                             <div class="ul-widget__head-label">
-                                                <h3 class="ul-widget__head-title"> รายชื่อลูกค้าที่มียอดสั่งสูงสุด</h3>
+                                                <h3 class="ul-widget__head-title">รายการสินค้าสั่งผลิตสูงสุด</h3>
                                             </div>
                                             <div class="ul-widget__head-toolbar">
                                                 <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
@@ -201,16 +201,16 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">#</th>
-                                                                        <th scope="col">ชื่อลูกค้า</th>
-                                                                        <th scope="col">อำเภอ</th>
-                                                                        <th scope="col">จังหวัด</th>
-                                                                        <th scope="col">ยอดสั่งรวม</th>
+                                                                        <th scope="col" class="text-left">ชื่อสินค้า</th>
+                                                                        <th scope="col" class="text-left">ผลิต</th>
+                                                                        <th scope="col" class="text-left">สำเร็จ</th>
+                                                                        <th scope="col" class="text-left">ชำรุด</th>
+                                                                        <th scope="col" class="text-left">มูลค่า</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
-                                                                            ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
+                                                                    <?php $sql4 = "SELECT SUM(production_detail.qty) AS qty ,production_detail.product_id AS product_id,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_detail  INNER JOIN  product  ON product.product_id=production_detail.product_id  
+                                                                                    INNER JOIN  production_order on  MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' AND production_order.po_id=production_detail.po_id  GROUP BY product_id  ORDER BY qty DESC LIMIT 5";
                                                                     $result4 = mysqli_query($conn, $sql4);
                                                                     if (mysqli_num_rows($result4) > 0) {
                                                                         while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -218,24 +218,15 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                                                                             <tr>
                                                                                 <th scope="row"><?= ++$idx; ?></th>
-                                                                                <td class="text-left"><?= $row4['c_name'] ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
-                                                                                                        $rs_cus = $conn->query($sql_cus);
-                                                                                                        $row_cus = $rs_cus->fetch_assoc();
-
-                                                                                                        $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
-                                                                                                        $rs4x = $conn->query($sql4x);
-                                                                                                        $row4x = $rs4x->fetch_assoc();
-                                                                                                        echo $row4x['name_th'];  ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
-                                                                                                        $rs5 = $conn->query($sql5);
-                                                                                                        $row5 = $rs5->fetch_assoc();
-                                                                                                        echo $row5['name_th'];
-
-                                                                                                        ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                                <td class="text-left">
+                                                                                    <?php $sql_pro = "SELECT * FROM product   WHERE product_id= '$row4[product_id]'";
+                                                                                    $rs_pro = $conn->query($sql_pro);
+                                                                                    $row_pro = $rs_pro->fetch_assoc();  ?>
+                                                                                    <?= $row_pro['product_name'] ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',') ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['a_type'], '0', '.', ',') ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
                                                                             </tr>
                                                                     <?php }
                                                                     } ?>
@@ -253,39 +244,30 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">#</th>
-                                                                        <th scope="col">ชื่อลูกค้า</th>
-                                                                        <th scope="col">อำเภอ</th>
-                                                                        <th scope="col">จังหวัด</th>
-                                                                        <th scope="col">ยอดสั่งรวม</th>
+                                                                        <th scope="col" class="text-left">ชื่อสินค้า</th>
+                                                                        <th scope="col" class="text-left">ผลิต</th>
+                                                                        <th scope="col" class="text-left">สำเร็จ</th>
+                                                                        <th scope="col" class="text-left">ชำรุด</th>
+                                                                        <th scope="col" class="text-left">มูลค่า</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
-                                                                            ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
+                                                                    <?php $sql4 = "SELECT SUM(production_detail.qty) AS qty ,production_detail.product_id AS product_id,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_detail  INNER JOIN  product  ON product.product_id=production_detail.product_id  
+                                                                                    INNER JOIN  production_order ON YEAR(production_order.po_enddate) = '$d[0]' AND production_order.po_id=production_detail.po_id  GROUP BY product_id  ORDER BY qty DESC LIMIT 5 ";
                                                                     $result4 = mysqli_query($conn, $sql4);
                                                                     if (mysqli_num_rows($result4) > 0) {
                                                                         while ($row4 = mysqli_fetch_assoc($result4)) {
                                                                     ?> <tr>
-                                                                                <th scope="row"><?= ++$idx1; ?></th>
-                                                                                <td class="text-left"><?= $row4['c_name'] ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
-                                                                                                        $rs_cus = $conn->query($sql_cus);
-                                                                                                        $row_cus = $rs_cus->fetch_assoc();
-
-                                                                                                        $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
-                                                                                                        $rs4x = $conn->query($sql4x);
-                                                                                                        $row4x = $rs4x->fetch_assoc();
-                                                                                                        echo $row4x['name_th'];  ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
-                                                                                                        $rs5 = $conn->query($sql5);
-                                                                                                        $row5 = $rs5->fetch_assoc();
-                                                                                                        echo $row5['name_th'];
-
-                                                                                                        ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                                <th scope="row"><?= ++$idx; ?></th>
+                                                                                <td class="text-left">
+                                                                                    <?php $sql_pro = "SELECT * FROM product   WHERE product_id= '$row4[product_id]'";
+                                                                                    $rs_pro = $conn->query($sql_pro);
+                                                                                    $row_pro = $rs_pro->fetch_assoc();  ?>
+                                                                                    <?= $row_pro['product_name'] ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',') ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['a_type'], '0', '.', ',') ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
                                                                             </tr>
                                                                     <?php }
                                                                     } ?>
@@ -301,21 +283,22 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="card mb-4">
-                                    <div class="card-body p-0">
-                                        <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
-                                        <div id="eORchartBar" style="height: 360px;"></div>
-                                    </div>
-                                </div>
+
                             </div>
 
 
                         </div>
-
+                        <div class="card mb-4">
+                            <div class="card-body p-0">
+                                <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
+                                <div id="eORchartBar" style="height: 360px;"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="card mb-4">
@@ -353,11 +336,11 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                     $row_pro = $rs_pro->fetch_assoc();
 
                                                                     $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row4[ptype_id]'";
-                                                                    $rs_type= $conn->query($sql_type);
-                                                                    $row_type= $rs_type->fetch_assoc();
+                                                                    $rs_type = $conn->query($sql_type);
+                                                                    $row_type = $rs_type->fetch_assoc();
                                                                     ?>
-                                                                    <h5><a href="#"> <?=$row_pro['product_name']?></a></h5>
-                                                                    <p class="m-0 text-small text-muted"><?=$row_type['ptype_name']?></p>
+                                                                    <h5><a href="#"> <?= $row_pro['product_name'] ?></a></h5>
+                                                                    <p class="m-0 text-small text-muted"><?= $row_type['ptype_name'] ?></p>
                                                                     <p class="text-small text-danger m-0">฿<?php echo number_format($row4['sum'], '2', '.', ',') ?>
                                                                         <del class="text-muted"></del>
                                                                     </p>
@@ -372,26 +355,27 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                         </div>
                                         <div class="tab-pane" id="__g-widget4-tab2-content">
                                             <div class="ul-widget1">
-                                            <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE    YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
+                                                <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE    YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
                                                 $result4 = mysqli_query($conn, $sql4);
                                                 if (mysqli_num_rows($result4) > 0) {
                                                     while ($row4 = mysqli_fetch_assoc($result4)) {
                                                 ?>
-                                                <div class="ul-widget4__item ul-widget4__users">
-                                                    <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
-                                                        <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/33.jpg" alt="" />
-                                                        <div class="flex-grow-1">
-                                                            <h5><a href="#"> เสารั้วลวดหนาม ขนาด 4 นิ้ว ยาว 4.00 เมตร</a></h5>
-                                                            <p class="m-0 text-small text-muted">เสารั้วลวดหนาม</p>
-                                                            <p class="text-small text-danger m-0">฿159,493.00
-                                                                <del class="text-muted"></del>
-                                                            </p>
+                                                        <div class="ul-widget4__item ul-widget4__users">
+                                                            <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
+                                                                <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/33.jpg" alt="" />
+                                                                <div class="flex-grow-1">
+                                                                    <h5><a href="#"> เสารั้วลวดหนาม ขนาด 4 นิ้ว ยาว 4.00 เมตร</a></h5>
+                                                                    <p class="m-0 text-small text-muted">เสารั้วลวดหนาม</p>
+                                                                    <p class="text-small text-danger m-0">฿159,493.00
+                                                                        <del class="text-muted"></del>
+                                                                    </p>
+                                                                </div>
+                                                                <div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php } } ?>
+                                                <?php }
+                                                } ?>
                                             </div>
                                         </div>
                                     </div>

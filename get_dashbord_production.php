@@ -5,12 +5,12 @@ include './include/config_date2.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
 
-$sql = "SELECT  DATE_FORMAT(po_stop,'%Y-%m') As MyDate   FROM production_order where status_cf='1' GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y-%m') As MyDate   FROM production_order  GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all=[];
-$cus_back=[];
-$cus_back2=[];
+$qc_ok=[];
+$qc_no=[];
 // $value = [];
 if (mysqli_num_rows($result) > 0) {
 
@@ -22,35 +22,21 @@ if (mysqli_num_rows($result) > 0) {
     $month[] = $dat1;
     // $value[] = $row['value'];
 
-$sql2 = "SELECT  ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail where status_cf='1' AND  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  "; 
+$sql2 = "SELECT SUM(production_detail.qty) AS qty, SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS CO, SUM(a_type*unit_price) AS sum_a,SUM(b_type*unit_price)AS sum_b  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'   "; 
 $result2 = mysqli_query($conn, $sql2);
 
 // $value = [];
 if (mysqli_num_rows($result2) > 0) {
 
   while ($row2 = mysqli_fetch_assoc($result2)) {
-    $sum_all[] = $row2['sum'];
-    // $value[] = $row['value'];
- 
+    $sum_all[] = $row2['CO'];
+    $qc_ok[] =   $row2['sum_a'];
+    $qc_no[] =   $row2['sum_b'];
   }
 }
 
-$sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
-$result3 = mysqli_query($conn, $sql3);
-if (mysqli_num_rows($result3) > 0) {
-  while ($row3 = mysqli_fetch_assoc($result3)) {
-    $cus_back[] = $row3['sum'];
-    // $value[] = $row['value'];
-  //  echo json_encode($row3['sum']);
-  }
-}
-$sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
-$result4 = mysqli_query($conn, $sql4);
-if (mysqli_num_rows($result4) > 0) {
-  while ($row4 = mysqli_fetch_assoc($result4)) {
-    $cus_back2[] = $row4['sum'];
-  }
-}
+
 
 }
 }
@@ -66,9 +52,10 @@ if (mysqli_num_rows($result) > 0) {
 
 
   // แบ่งตามประเภทสินค้า PIE
-$sql = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-ON product.product_id = deliver_detail.product_id 
-INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id  GROUP BY product.ptype_id"; 
+$sql = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price, SUM(qty*unit_price) AS CO FROM  product INNER JOIN production_detail
+ON product.product_id = production_detail.product_id 
+INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND production_detail.status_stock='1' 
+INNER JOIN production_order ON  YEAR(production_order.po_enddate) = '$d[0]'  GROUP BY product.ptype_id"; 
 $result = mysqli_query($conn, $sql);
 $content = [];
 if (mysqli_num_rows($result) > 0) {
@@ -77,7 +64,7 @@ if (mysqli_num_rows($result) > 0) {
     // echo"$row[ptype_name]<br>";
     $content[] = [
       'name' => $row['pname'],
-      'value' => $row['total']
+      'value' => $row['CO']
      ];
   }}
 
@@ -333,7 +320,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
         }, ],
         series: [{
-            name: "[ยอดขาย]",
+            name: "[มูลค่าการผลิต]",
             data: <?= json_encode($sum_all); ?>,
             label: {
               show: false,
@@ -341,7 +328,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             },
             type: "bar",
             barGap: 0,
-            color: "#8b5cf6",
+            color: "#8b5cf4",
             smooth: true,
             itemStyle: {
               emphasis: {
@@ -353,8 +340,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             },
           },
           {
-            name: "รับกลับบ้าน",
-            data:<?= json_encode($cus_back); ?>,
+            name: "สินค้าดี",
+            data:<?= json_encode($qc_ok); ?>,
             label: {
               show: false,
               color: "#639",
@@ -372,8 +359,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             },
           },
           {
-            name: "บริษัทจัดส่ง",
-            data:<?= json_encode($cus_back2); ?>,
+            name: "สินค้าชำรุด",
+            data:<?= json_encode($qc_no); ?>,
             label: {
               show: false,
               color: "#639",
@@ -607,7 +594,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           backgroundColor: "rgba(0, 0, 0, .8)",
         },
         series: [{
-          name: "ยอดขายตามประเภทสินค้า",
+          name: "ยอดผลิตตามประเภทสินค้า",
           type: "pie",
           radius: "60%",
           center: ["50%", "50%"],

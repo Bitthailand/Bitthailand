@@ -219,7 +219,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                 <th scope="col" class="text-left">รายการ</th>
                                                 <th scope="col" class="text-center">จำนวน</th>
                                                 <th scope="col" class="text-center">หน่วยละ</th>
-                                                <th scope="col" class="text-center">จำนวนเงิน</th>
+                                                <th scope="col" class="text-right">จำนวนเงิน</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -254,7 +254,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                         </td>
                                                         <td class="text-center"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
                                                         <td class="text-center"><?php echo number_format($price_dis, '2', '.', ',') ?></td>
-                                                        <td class="text-center"><?php echo number_format($total_price, '2', '.', ',') ?></td>
+                                                        <td class="text-right"><?php echo number_format($total_price, '2', '.', ',') ?></td>
                                                     </tr>
                                             <?php }
                                             } ?>
@@ -287,7 +287,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                         ?></td>
                                                     <td class="text-center"><?= $rowx3x['qty'] ?> <?= $row_unit['unit_name'] ?></td>
                                                     <td class="text-center"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
-                                                    <td class="text-center"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
+                                                    <td class="text-right"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
