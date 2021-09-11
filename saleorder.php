@@ -311,9 +311,9 @@ $row5 = $rs5->fetch_assoc();
                                                         $rs_unit = $conn->query($sql_unit);
                                                         $row_unit = $rs_unit->fetch_assoc();
                                                         ?></td>
-                                                    <td class="text-right"><?= $rowx3['dev_qty'] ?></td>
+                                                    <td class="text-center"><?= $rowx3['dev_qty'] ?></td>
                                                     <td class="text-right"></td>
-                                                    <td class="text-right"> <?= $row_unit['unit_name'] ?></td>
+                                                    <td class="text-center"> <?= $row_unit['unit_name'] ?></td>
                                                     <td class="text-right"></td>
                                                 </tr>
                                             <?php } ?>

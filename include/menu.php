@@ -75,10 +75,10 @@
                                     <div>
                                         <label class="toggle" for="drop-2">รายงาน</label><a href="#"><i class="nav-icon i-Data-Settings mr-2"></i> รายงาน</a>
                                         <ul>
-                                            <li><a href="setting_plant.php"><i class="nav-icon mr-2 i-Factory1"></i><span class="item-name">สินค้าสั่งผลิตประจำเดือน</span></a></li>
-                                            <li><a href="setting_ptype.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">สินค้าสั่งผลิตประจำปี</span></a></li> 
-                                            <li><a href="setting_unit.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">สต็อกสินค้าประจำเดือน</span></a></li> 
-                                            <li><a href="setting_emp.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">สต็อกสินค้าประจำปี</span></a></li> 
+                                            <li><a href="report_production.php"><i class="nav-icon mr-2 i-Factory1"></i><span class="item-name">รายงานสั่งผลิต</span></a></li>
+                                            <li><a href="report_stock.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">รายงานสต็อก</span></a></li> 
+                                            <li><a href="report_sale.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">รายงานยอดขาย</span></a></li> 
+                                            <li><a href="report_emp.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">รายงานพนักงาน</span></a></li> 
                                         </ul>
                                     </div>
                                 </div>

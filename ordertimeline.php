@@ -147,7 +147,9 @@ $row_bk = $rs_bk->fetch_assoc();
                                             <strong class="mr-1">ออกใบเสร็จรับเงิน</strong>
                                             <a class=" btn-primary text-white " href="hs_all.php?order_id=<?=$order_id?>" target="_blank"><?=$row_hs['hs_id']?></a>
                                         </span>
-                                        <span class="ul-widget-s6__time"> 30 ส.ค. 2021 13:19 </span>
+                                        <span class="ul-widget-s6__time">  <?php $date = explode(" ", $row_hs['date_create']);
+                                                                            $dat = datethai2($date[0]);
+                                                                            echo $dat . '-' . $date[1] ?> </span>
                                     </div>
                                     <?php }}   $sql_dev= "SELECT  * FROM  delivery  where  order_id='$order_id'   ";
                                     $result_dev = mysqli_query($conn, $sql_dev);
@@ -163,7 +165,9 @@ $row_bk = $rs_bk->fetch_assoc();
                                             <a class=" btn-primary text-white " href="saleorder.php?order_id=<?=$order_id?>&so_id=<?=$row_dev['dev_id']?>" target="_blank"><?=$row_dev['dev_id']?></a>
                                         </span>
                                         <span class="ul-widget-s6__time">
-                                            30 ก.ค. 2021 11:19 </span>
+                                        <?php $date = explode(" ", $row_dev['date_create']);
+                                                                            $dat = datethai2($date[0]);
+                                                                            echo $dat . '-' . $date[1] ?> </span>
                                     </div>
                                     <?php } } ?>
                                     <div class="ul-widget-s6__item">
@@ -177,17 +181,25 @@ $row_bk = $rs_bk->fetch_assoc();
                                         <span class="ul-widget-s6__time">
                                             30 ก.ค. 2021 11:24 </span>
                                     </div>
+                                    <?php
+                                    $sql_iv= "SELECT  * FROM  iv_number  where  order_id='$order_id'   ";
+                                    $result_iv = mysqli_query($conn, $sql_iv);
+                                    if (mysqli_num_rows($result_iv) > 0) {
+                                        while ($row_iv = mysqli_fetch_assoc($result_iv)) {
+                                            ?>
+
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
                                         </span>
                                         <span class="ul-widget-s6__text">
                                             <strong class="mr-1">ออกใบกำกับสินค้า</strong>
-                                            <a class=" btn-primary text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">IV64080001</a>
+                                            <a class=" btn-primary text-white " href="invoice.php?order_id=<?=$order_id?>" target="_blank"><?=$row_iv['iv_number']?></a>
                                         </span>
                                         <span class="ul-widget-s6__time">
                                             30 ก.ค. 2021 11:19 </span>
                                     </div>
+                                    <?php }} ?>
                                     <div class="ul-widget-s6__item">
                                         <span class="ul-widget-s6__badge">
                                             <p class="badge-dot-primary ul-widget6__dot"></p>
