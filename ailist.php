@@ -258,12 +258,12 @@ $(document).ready(function() {
                                                 echo $dat ?>
                                             </td>
                                             <td> 
-                                                <?php if($row['delivery_date']==""){  ?>
+                                               
                                                     <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
                                                     
-                                                 <?php } else{  $date = explode(" ", $row['delivery_date']);
+                                                 <?php  $date = explode(" ", $row['delivery_date']);
                                                 $dat = datethai2($date[0]);
-                                                echo $dat;  }  ?>
+                                                echo $dat;    ?>
                                             </td>
                                             <td> <?= $row['order_id'] ?></td>
                                             <td><?php
