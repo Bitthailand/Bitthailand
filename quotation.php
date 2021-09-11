@@ -224,7 +224,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id <> 'TF' order by product_id ASC ";
+                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id <> 'TF' order by date_create DESC ";
                                             $result_pro = mysqli_query($conn, $sql_pro);
                                             if (mysqli_num_rows($result_pro) > 0) {
                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
