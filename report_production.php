@@ -55,9 +55,10 @@ MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddat
 $rs_pmonth1 = $conn->query($sql_pmonth1);
 $row_pmonth1 = $rs_pmonth1->fetch_assoc();
 
-$sql_cus_year = "SELECT COUNT(DISTINCT  cus_id ) AS year FROM  orders  WHERE  YEAR(date_create) = '$d[0]' AND order_status='5'  ";
-$rs_cus_year = $conn->query($sql_cus_year);
-$row_cus_year = $rs_cus_year->fetch_assoc();
+$sql_qc = "SELECT SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+MONTH(production_order.po_enddate) = '09' AND YEAR(production_order.po_enddate) = '2021' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1' ";
+$rs_qc= $conn->query($sql_qc);
+$row_qc = $rs_qc->fetch_assoc();
 
 $sql_order_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5' ";
 $rs_order_month = $conn->query($sql_order_month);
@@ -101,6 +102,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                         <p class="m-0">สินค้าผลิตเสร็จประจำวันนี้</p>
                                         <h4 class="heading"><?php echo number_format($row_pday['today'], '0', '.', ',') ?> รายการ</h4>
                                         <small class="text-muted m-0">รอดำเนินการ : <?=$row_pdaycf['today']?>|นำเข้าสต็อก:<?=$row_pdaycf1['today']?>  </small>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +116,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget__content">
                                         <p class="m-0">สินค้าผลิตประจำเดือน</p>
                                         <h4 class="heading">ผลิตเสร็จ<?= $row_pmonth['qty'] ?> ชิ้น </h4>
-                                        <small class="text-muted m-0">สั่งผลิตทั้งหมด : <?= $row_pmonth1['qty'] ?> ชิ้น</small>
+                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดของเดือน : <?= $row_pmonth1['qty'] ?> ชิ้น</small>
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -126,8 +129,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div class="ul-widget__row">
                                     <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
                                     <div class="ul-widget__content">
-                                        <p class="m-0">สินค้าชำรุดประจำเดือน</p>
-                                        <h4 class="heading">352 : 52</h4>
+                                        <p class="m-0">สินค้าดี:ชำรุดประจำเดือน</p>
+                                        <h4 class="heading"><?=$row_qc['a_type']?> : <?=$row_qc['b_type']?> </h4>
                                         <small class="text-muted m-0">ในรอบปี 2,256 : 534</small>
                                     </div>
                                 </div>

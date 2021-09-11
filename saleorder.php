@@ -248,7 +248,7 @@ $row5 = $rs5->fetch_assoc();
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id'  AND ptype_id <> 'TF' order by product_id ASC ";
+                                            $sql_pro = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id'  AND ptype_id <> 'TF' order by date_create DESC ";
                                             $result_pro = mysqli_query($conn, $sql_pro);
                                             if (mysqli_num_rows($result_pro) > 0) {
                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
