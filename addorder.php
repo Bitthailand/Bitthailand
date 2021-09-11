@@ -1352,7 +1352,7 @@ if ($action == 'add_hs') {
                                         </div>
                                         <div class="form-group col-md-10">
                                             <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger">*</span></strong></label>
-                                            <input type="text" name="bill_address" class="classcus form-control" id="address" placeholder="ที่อยู่" required="">
+                                            <input type="text" name="bill_address" class="classcus form-control" id="address" placeholder="ที่อยู่" >
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="province"><strong>จังหวัด <span class="text-danger">*</span></strong></label>
