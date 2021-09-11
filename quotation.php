@@ -69,7 +69,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                 <p>เลขที่ประจำตัวผู้เสียภาษี 0345555000224 สำนักงานใหญ่</p>
             </div>
             <div class="col-5 text-right">
-                <h2 class="font-weight-bold">ใบส่งของ</h2>
+                <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
             </div>
         </div> </div>
             <div class="mt-3 mb-4 border-top"></div>

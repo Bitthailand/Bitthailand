@@ -39,7 +39,7 @@ production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='
 $rs_pdaycf1 = $conn->query($sql_pdaycf1);
 $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
 
-$sql_value = "SELECT count(production_detail.product_id) AS today,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+$sql_value = "SELECT count(production_detail.product_id) AS today,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS CO  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'  ";
 $rs_value= $conn->query($sql_value);
 $row_value = $rs_value->fetch_assoc();
@@ -55,8 +55,8 @@ MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddat
 $rs_pmonth1 = $conn->query($sql_pmonth1);
 $row_pmonth1 = $rs_pmonth1->fetch_assoc();
 
-$sql_qc = "SELECT SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-MONTH(production_order.po_enddate) = '09' AND YEAR(production_order.po_enddate) = '2021' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1' ";
+$sql_qc = "SELECT SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type,SUM(product.unit_price)AS unit_price, SUM(a_type*unit_price) AS sum_a,SUM(b_type*unit_price)AS sum_b  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+MONTH(production_order.po_enddate) = '$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1' ";
 $rs_qc= $conn->query($sql_qc);
 $row_qc = $rs_qc->fetch_assoc();
 
@@ -115,8 +115,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">สินค้าผลิตประจำเดือน</p>
-                                        <h4 class="heading">ผลิตเสร็จ<?= $row_pmonth['qty'] ?> ชิ้น </h4>
-                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดของเดือน : <?= $row_pmonth1['qty'] ?> ชิ้น</small>
+                                        <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty']  , '0', '.', ',') ?> ชิ้น </h4>
+                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดของเดือน : <?php echo number_format($row_pmonth1['qty'] , '0', '.', ',') ?> ชิ้น</small>
                                     
                                     </div>
                                 </div>
@@ -130,8 +130,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">สินค้าดี:ชำรุดประจำเดือน</p>
-                                        <h4 class="heading"><?=$row_qc['a_type']?> : <?=$row_qc['b_type']?> </h4>
-                                        <small class="text-muted m-0">ในรอบปี 2,256 : 534</small>
+                                        <h4 class="heading"><?php echo number_format($row_qc['a_type'], '0', '.', ',') ?> : <?php echo number_format($row_qc['b_type'], '0', '.', ',') ?> </h4>
+                                        <small class="text-muted m-0">มูลค่าสินค้าดี <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?>: <?php echo number_format($row_qc['sum_b'], '0', '.', ',') ?></small>
                                     </div>
                                 </div>
                             </div>
@@ -144,8 +144,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">มูลค่าการผลิตประจำเดือน</p>
-                                        <h4 class="heading"><?= $row_value['unit_price'] ?></h4>
-                                        <small class="text-muted m-0">จำนวนสินค้า : <?= $row_value['qty'] ?>ชิ้น </small>
+                                        <h4 class="heading"><?php echo number_format($row_value['CO'], '2', '.', ',') ?></h4>
+                                        <small class="text-muted m-0">จำนวนสินค้า : <?php echo number_format($row_value['qty'], '2', '.', ',') ?> ชิ้น </small>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                     <div class="col-lg-8 col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="card-title">ยอดขายประจำปี</div>
+                                <div class="card-title">ยอดผลิตประจำปี</div>
                                 <div id="echartBar" style="height: 300px;"></div>
                             </div>
                         </div>
