@@ -933,7 +933,7 @@ strong {
     width: 100%;
     min-height: 1px;
     padding-right: 4px;
-    padding-left: 4px;
+    padding-left: 1px;
     text-align: left;
     float: right;
 }
@@ -1053,8 +1053,8 @@ strong {
 }
 
 .col-4x_slip1 {
-    flex: 0 0 36%;
-    max-width: 36%;
+    flex: 0 0 44%;
+    max-width: 44%;
 }
 
 .col-4xx {
