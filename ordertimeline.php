@@ -30,7 +30,7 @@ $row7 = $rs7->fetch_assoc();
 $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
 $rs8 = $conn->query($sql8);
 $row8 = $rs8->fetch_assoc();
-
+if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
 $sql_ref = "SELECT * FROM referent  WHERE id= '$row3[province]'";
 $rs_ref  = $conn->query($sql_ref);
 $row_ref  = $rs_ref->fetch_assoc();
@@ -261,7 +261,7 @@ $row_bk = $rs_bk->fetch_assoc();
 
                                             <div class="col-md-4 col-12 mb-2">
                                                 ที่อยู่ :
-                                                <strong><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?></strong>
+                                                <strong><?php echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th']; ?></strong>
                                             </div>
                                             <div class="col-md-4 col-12 mb-2">
                                                 โทร :

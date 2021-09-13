@@ -138,6 +138,8 @@ if ($status_ai == 1) {
                                                        $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
                                                        $rs8 = $conn->query($sql8);
                                                        $row8 = $rs8->fetch_assoc();
+                                                       if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
+
                                                        $sql_pro = "SELECT SUM(total_price) AS total FROM order_details   WHERE order_id= '$order_id'";
                                                        $rs_pro = $conn->query($sql_pro);
                                                        $row_pro = $rs_pro->fetch_assoc();
@@ -145,7 +147,7 @@ if ($status_ai == 1) {
                                                         ?>
                                                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                                                     <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
-                                                    <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
+                                                    <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                     <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                                                     <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>

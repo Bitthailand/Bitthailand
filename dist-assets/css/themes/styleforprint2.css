@@ -51,26 +51,17 @@
 }
 
 p {
-    margin-bottom: 0.1rem;
+    margin-bottom: 0px;
 }
 
 p {
     display: block;
     font-family: "Angsana New";
-    font-size: 18px;
+    font-size: 16px;
     /* margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;
     margin-inline-end: 0px; */
-}
-
-h4 {
-    display: block;
-    margin-block-start: 1.33em;
-    margin-block-end: 1.33em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
 }
 
 h1,
@@ -86,17 +77,14 @@ h6 {
 h1,
 h2,
 h3,
-h4,
 h5,
 h6,
 .h1,
 .h2,
 .h3,
-.h4,
 .h5,
 .h6 {
-    margin-bottom: 0.5rem;
-    font-family: inherit;
+    margin-bottom: 0rem;
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
@@ -104,13 +92,16 @@ h6,
 
 h4,
 .h4 {
-    font-size: 1.8rem;
+    font-family: "Angsana New";
+    font-size: 26px;
+    margin: 0;
+    display: block;
+    font-weight: bold;
 }
 
 h1,
 h2,
 h3,
-h4,
 h5,
 .h5 {
     font-size: 2.1rem;
@@ -589,7 +580,7 @@ th {
 
 .mb-4,
 .my-4 {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1rem !important;
 }
 
 .mt-3,
@@ -705,22 +696,81 @@ th {
 
 b,
 strong {
-    font-weight: bolder;
+    font-weight: 800;
 }
 
 .text-left {
     text-align: left !important;
 }
 
+.col-12x {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.col-12_con {
+    /* position: relative; */
+    font-size: 18px;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12_footx {
+    /* position: relative; */
+    margin-top: 0px;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-3_text {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 5px;
+    padding-left: 15px;
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.col-9_text {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    font-size: 18px;
+}
+
+.col-9_text {
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+
+.col-3_text {
+    flex: 0 0 18%;
+    max-width: 18%;
+}
+
+.row_text {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
 .col-1,
 .col-2,
-.col-3,
 .col-4,
 .col-5,
 .col-6,
 .col-7,
 .col-8,
-.col-9,
 .col-10,
 .col-11,
 .col-12,
@@ -789,6 +839,182 @@ strong {
     padding-left: 15px;
 }
 
+.col-2_logo {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 1px;
+    text-align: left;
+}
+
+.col-4xx {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 15px;
+    text-align: left;
+    padding-top: 1px;
+}
+
+.col-4_so {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.col-4_text_so {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 50px;
+    text-align: left;
+    float: right;
+}
+
+.row_so {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    text-align: right;
+    margin-right: 0px;
+    margin-left: 25px;
+    padding-left: 50px;
+    justify-content: space-evenly;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.col-4xx_slip {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 5px;
+    text-align: left;
+}
+
+.col-4xx_cus {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 6px;
+    text-align: left;
+}
+
+.col-4xx_cus_slip {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 1px;
+    padding-left: 6px;
+    text-align: left;
+}
+
+.col-4x,
+.col-1x,
+.col-xlx-auto {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_product {
+    display: flex;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 20px;
+    padding-left: 1px;
+    text-align: left;
+    float: right;
+    font-family: "Angsana New";
+    font-size: 18px;
+    justify-content: flex-end;
+}
+
+.col-4x_unit {
+    /* position: relative; */
+    display: flex;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 1px;
+    text-align: left;
+    float: right;
+    font-family: "Angsana New";
+    font-size: 18px;
+    justify-content: flex-end;
+}
+
+.col-4x_slip,
+.col-1x_slip,
+.col-xlx-auto_slip {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_slip1,
+.col-1x_slip1,
+.col-xlx-auto_slip1 {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 1px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_cus,
+.col-1x_cus,
+.col-xlx-auto_cus {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_slip,
+.col-1x_slip,
+.col-xlx-auto_slip {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
+.col-4x_cus_so,
+.col-1x_cus_so,
+.col-xlx-auto_cus_so {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
 .col {
     flex-basis: 0;
     flex-grow: 1;
@@ -806,9 +1032,41 @@ strong {
     max-width: 8.33333%;
 }
 
+.col-1x {
+    flex: 0 0 1%;
+    max-width: 1%;
+    padding-left: 10px;
+}
+
+.col-1x_cus {
+    flex: 0 0 1%;
+    max-width: 1%;
+    padding-left: 0px;
+}
+
+.col-1_head {
+    flex: 0 0 5.33333%;
+    max-width: 5.33333%;
+}
+
+.col-1_head {
+    /* position: relative; */
+    width: 100%;
+    min-height: 1px;
+    padding-right: 4px;
+    padding-left: 4px;
+    text-align: left;
+    float: right;
+}
+
 .col-2 {
     flex: 0 0 16.66667%;
     max-width: 16.66667%;
+}
+
+.col-2_logo {
+    flex: 0 0 12.66667%;
+    max-width: 12.66667%;
 }
 
 .col-3 {
@@ -819,6 +1077,65 @@ strong {
 .col-4 {
     flex: 0 0 33.33333%;
     max-width: 33.33333%;
+}
+
+.col-4x {
+    flex: 0 0 40%;
+    max-width: 40%;
+    padding-left: 10px;
+}
+
+.col-4x_product {
+    flex: 0 0 40%;
+    max-width: 40%;
+    padding-left: 20px;
+}
+
+.col-4x_unit {
+    flex: 0 0 40%;
+    max-width: 40%;
+    padding-left: 0px;
+}
+
+.col-4x_slip {
+    flex: 0 0 28%;
+    max-width: 28%;
+}
+
+.col-4x_cus {
+    flex: 0 0 16%;
+    max-width: 16%;
+}
+
+.col-4x_cus_so {
+    flex: 0 0 16%;
+    max-width: 16%;
+}
+
+.col-4x_slip1 {
+    flex: 0 0 44%;
+    max-width: 44%;
+}
+
+.col-4xx {
+    flex: 0 0 40.33333%;
+    max-width: 40.33333%;
+    padding-left: 20px;
+}
+
+.col-4xx_slip {
+    flex: 0 0 33.33333%;
+    max-width: 35.33333%;
+}
+
+.col-4xx_cus {
+    flex: 0 0 82.33333%;
+    max-width: 82.33333%;
+}
+
+.col-4xx_cus_slip {
+    flex: 0 0 62.33333%;
+    max-width: 62.33333%;
 }
 
 .col-5 {
@@ -859,6 +1176,31 @@ strong {
 .col-12 {
     flex: 0 0 100%;
     max-width: 100%;
+}
+
+.rowx {
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: right;
+    margin-right: 0px;
+    margin-left: 15px;
+    justify-content: space-evenly;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.rowx_cus {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: right;
+    padding-right: 1px;
+    padding-left: 0px;
+    justify-content: flex-start;
+}
+
+.logox {
+    width: 125px;
+    padding-top: 12px;
 }
 
 .btn {
@@ -980,6 +1322,26 @@ div {
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
+    justify-content: space-between;
+}
+
+.row_con {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 0px;
+    justify-content: space-between;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.row_pro {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+    justify-content: flex-end;
 }
 
 table tr td {
@@ -997,4 +1359,22 @@ table {
 .table th,
 .table td {
     padding: 0.3rem;
+}
+
+@media print {
+    @page {
+        margin: 5mm;
+    }
+    thead {
+        display: table-header-group;
+    }
+    tfoot {
+        display: table-footer-group;
+    }
+    button {
+        display: none;
+    }
+    body {
+        margin: 0;
+    }
 }

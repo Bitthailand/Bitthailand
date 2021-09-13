@@ -321,13 +321,93 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="tab-content">
                                         <div class="tab-pane active show" id="__g-widget4-tab1-content2">
                                             <div class="ul-widget1">
-                                               
-                                                
+                                                <div class="table-responsive">
+                                                    <table class="table text-center" id="user_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col" class="text-center">แพที่</th>
+                                                                <th scope="col" class="text-left">โรงงาน</th>
+                                                                <th scope="col" class="text-left">ประเภทสินค้า</th>
+                                                                <th scope="col" class="text-left">จำนวนผลิต</th>
+                                                                <th scope="col" class="text-left">มูลค่า</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php $sql5 = "SELECT production_detail.plant_id, SUM(production_detail.qty) AS qty,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+                                                                        MONTH(production_order.po_enddate) = '$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'
+                                                                        GROUP BY production_detail.plant_id  ORDER BY  qty DESC  LIMIT 5 ";
+                                                            $result5 = mysqli_query($conn, $sql5);
+                                                            if (mysqli_num_rows($result5) > 0) {
+                                                                while ($row5 = mysqli_fetch_assoc($result5)) {
+                                                            ?> <tr>
+                                                                        <th scope="row"><?= ++$idx5; ?></th>
+                                                                        <td class="text-center">
+                                                                            <?php $sql_plant = "SELECT * FROM plant  WHERE plant_id= '$row5[plant_id]'";
+                                                                            $rs_plant = $conn->query($sql_plant);
+                                                                            $row_plant = $rs_plant->fetch_assoc();
+                                                                            $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row_plant[ptype_id]'";
+                                                                            $rs_type  = $conn->query($sql_type);
+                                                                            $row_type  = $rs_type->fetch_assoc();
+
+                                                                            ?>
+                                                                            <?= $row5['plant_id'] ?></td>
+                                                                        <td class="text-left"> <?= $row_plant['factory'] ?></td>
+                                                                        <td class="text-left"><?= $row_type['ptype_name'] ?></td>
+                                                                        <td class="text-left"><?php echo number_format($row5['qty'], '0', '.', ',') ?></td>
+                                                                        <td class="text-left"><?php echo number_format($row5['sumall'], '2', '.', ',') ?></td>
+                                                                    </tr>
+                                                            <?php }
+                                                            } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="__g-widget4-tab2-content2">
                                             <div class="ul-widget1">
-                                              ปป
+                                            <div class="table-responsive">
+                                                    <table class="table text-center" id="user_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col" class="text-center">แพที่</th>
+                                                                <th scope="col" class="text-left">โรงงาน</th>
+                                                                <th scope="col" class="text-left">ประเภทสินค้า</th>
+                                                                <th scope="col" class="text-left">จำนวนผลิต</th>
+                                                                <th scope="col" class="text-left">มูลค่า</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php $sql5 = "SELECT production_detail.plant_id, SUM(production_detail.qty) AS qty,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+                                                                         YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'
+                                                                        GROUP BY production_detail.plant_id  ORDER BY  qty DESC  LIMIT 5 ";
+                                                            $result5 = mysqli_query($conn, $sql5);
+                                                            if (mysqli_num_rows($result5) > 0) {
+                                                                while ($row5 = mysqli_fetch_assoc($result5)) {
+                                                            ?> <tr>
+                                                                        <th scope="row"><?= ++$idx6; ?></th>
+                                                                        <td class="text-center">
+                                                                            <?php $sql_plant = "SELECT * FROM plant  WHERE plant_id= '$row5[plant_id]'";
+                                                                            $rs_plant = $conn->query($sql_plant);
+                                                                            $row_plant = $rs_plant->fetch_assoc();
+                                                                            $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row_plant[ptype_id]'";
+                                                                            $rs_type  = $conn->query($sql_type);
+                                                                            $row_type  = $rs_type->fetch_assoc();
+
+                                                                            ?>
+                                                                            <?= $row5['plant_id'] ?></td>
+                                                                        <td class="text-left"> <?= $row_plant['factory'] ?></td>
+                                                                        <td class="text-left"><?= $row_type['ptype_name'] ?></td>
+                                                                        <td class="text-left"><?php echo number_format($row5['qty'], '0', '.', ',') ?></td>
+                                                                        <td class="text-left"><?php echo number_format($row5['sumall'], '2', '.', ',') ?></td>
+                                                                    </tr>
+                                                            <?php }
+                                                            } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -346,7 +426,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                    
+
                 </div><!-- end of main-content -->
             </div>
 

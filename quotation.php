@@ -7,54 +7,211 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 include './include/config_date.php';
 $order_id = $_REQUEST['order_id'];
-$sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
-$rs = $conn->query($sql);
-$row = $rs->fetch_assoc();
+$sqlx = "SELECT * FROM orders   WHERE order_id= '$order_id'";
+$rsx = $conn->query($sqlx);
+$rowx = $rsx->fetch_assoc();
 // ====
-$sql2 = "SELECT * FROM customer_type  WHERE id= '$row[cus_type]'";
+$sql2 = "SELECT * FROM customer_type  WHERE id= '$rowx[cus_type]'";
 $rs2 = $conn->query($sql2);
 $row2 = $rs2->fetch_assoc();
 // ====
-$sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
+$sql3 = "SELECT * FROM customer  WHERE customer_id= '$rowx[cus_id]'";
 $rs3 = $conn->query($sql3);
 $row3 = $rs3->fetch_assoc();
 // ===
-$strStartDate = $row['qt_date'];
-$strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
+$strStartDate = $rowx['qt_date'];
+$strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($strStartDate)));
 // echo"$strNewDate";
 ?>
-<!DOCTYPE html>
-<html lang="en" dir="">
+<!doctype html>
+<html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Quotation | ใบเสนอราคา</title>
-    <!-- <link rel="stylesheet" href="style.css" /> -->
-    <!-- <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" /> -->
-    <link href="../../dist-assets/css/themes/styleforprint.css?v=11" rel="stylesheet" />
-
-
-    <style>
-        p {
-            margin-top: 0;
-            margin-bottom: 0.1rem;
+    <meta charset="utf-8">
+    <title>ใบเสนอราคา</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Angsana New";
+            font-size: 16px;
         }
 
-        .table-sm th,
-        .table-sm td {
-            padding: 0.3rem;
-            font-size: 0.813rem !important;
+        html {
+            font-family: "Angsana New";
+            font-size: 16px;
+            color: #000000;
+        }
+
+        body {
+            font-family: "Angsana New";
+            font-size: 16px;
+            padding: 0;
+            margin: 0;
+            color: #000000;
+        }
+
+        .headTitle {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: "Angsana New";
+        }
+
+        .headerTitle01 {
+            border: 1px solid #333333;
+            border-left: 1px solid #000;
+            border-bottom-width: 1px;
+            border-top-width: 1px;
+            font-size: 18px;
+            font-family: "Angsana New";
+            font-weight: 700;
+        }
+
+        .headerTitle01_r {
+            border: 1px solid #333333;
+            border-left: 2px solid #000;
+            border-right: 2px solid #000;
+            border-bottom-width: 2px;
+            border-top-width: 2px;
+            font-size: 18px;
+            font-family: "Angsana New";
+        }
+
+        /* สำหรับช่องกรอกข้อมูล  */
+        .box_data1 {
+            font-family: "Angsana New";
+            height: 18px;
+            border: 0px dotted #333333;
+            border-bottom-width: 1px;
+        }
+
+        /* กำหนดเส้นบรรทัดซ้าย  และด้านล่าง */
+        .left_bottom {
+            border-left: 1px solid #000;
+            /* border-bottom: 1px solid #000; */
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        .rightx {
+            border-right: 1px solid #000;
+            /* border-bottom: 1px solid #000; */
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        .bottomx {
+            border-bottom: 1px solid #000;
+            /* border-bottom: 1px solid #000; */
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        .bottomx2 {
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        .bottomx2_firt {
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            border-left: 1px solid #000;
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        .bottomx_rl {
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        /* กำหนดเส้นบรรทัดซ้าย ขวา และด้านล่าง */
+        .left_right_bottom {
+            border-left: 1px solid #000;
+            /* border-bottom: 1px solid #000; */
+            border-right: 1px solid #000;
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        .left_bottom1 {
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+            /* border-right: 1px solid #000; */
+            font-family: "Angsana New";
+            font-size: 18px;
+        }
+
+        /* สร้างช่องสี่เหลี่ยมสำหรับเช็คเลือก */
+        .chk_box {
+            display: block;
+            width: 10px;
+            height: 10px;
+            overflow: hidden;
+            border: 1px solid #000;
+        }
+
+        /* css ส่วนสำหรับการแบ่งหน้าข้อมูลสำหรับการพิมพ์ */
+        @media all {
+            .page-break {
+                display: none;
+            }
+
+            .page-break-no {
+                display: none;
+            }
+        }
+
+        @media print {
+            .page-break {
+                display: block;
+                height: 1px;
+                page-break-before: always;
+            }
+
+            .page-break-no {
+                display: block;
+                height: 1px;
+                page-break-after: avoid;
+            }
         }
     </style>
+    <link href="../../dist-assets/css/themes/styleforprint2.css?v=5" rel="stylesheet" />
 </head>
 
-<body class="qt2 text-left">
+<body>
+    <?php
+    $total_page_data = 0;  // เก็บจำนวนหน้า รายการทั้งหมด
+    $total_page_item = 10; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
+    $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
+    $arr_data_set = array(array()); // [][];
+    $sql = "SELECT * FROM order_details  where order_id='$order_id'  order by date_create ASC";
+    $i = 1;
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {  // คิวรี่ข้อมูลสำเร็จหรือไม่ และมีรายการข้อมูลหรือไม่
+        $total_page_item_all = $result->num_rows; // จำนวนรายการทั้งหมด
+        $total_page_data = ceil($total_page_item_all / $total_page_item); // หาจำนวนหน้าจากรายการทั้งหมด
+        while ($row = $result->fetch_assoc()) { // วนลูปแสดงรายการ     
+            $arr_data_set['id'][$i] = $row['id'];
+            $arr_data_set['idx'][$i] = ++$id;
+            $arr_data_set['product_id'][$i] = $row['product_id'];
+            $arr_data_set['qty'][$i] = $row['qty'];
+            $arr_data_set['disunit'][$i] = $row['disunit'];
+            $arr_data_set['unit_price'][$i] = $row['unit_price'];
+            $arr_data_set['ptype'][$i] = $row['ptype_id'];
+            $i++;
+        }
+    }
 
-    <!--  header  -->
+    ?>
+    <?php for ($i = 1; $i <= $total_page_data; $i++) { ?>
+        <div class="page-break<?= ($i == 1) ? "-no" : "" ?>"></div>
 
-    <div class="page-header">
         <div class="col-12 text-right">
             <button class="btn-primary mb-sm-0 mb-3" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
         </div>
@@ -75,7 +232,7 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
             </div>
         </div>
         <div class="mt-3 mb-4 border-top"></div>
-        <div class="row mb-5">
+        <div class="row">
             <div class="col-7 mb-3 mb-sm-0"> <?php
                                                 $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
                                                 $rs6 = $conn->query($sql6);
@@ -86,27 +243,27 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
                                                 $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
                                                 $rs8 = $conn->query($sql8);
                                                 $row8 = $rs8->fetch_assoc();
-
+                                                if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
                                                 ?>
                 <div class="rowx_cus">
                     <div class="col-4x_cus">
-                        <p><strong>ชื่อลูกค้า</strong> </p>
-                        <p><strong>ที่อยู่</strong> </p>
-                        <p><strong>โทร </strong> </p>
-                        <p><strong>อ้างอิง</strong> </p>
+                        <p style="font-size: 18px;"><strong>ชื่อลูกค้า</strong> </p>
+                        <p style="font-size: 18px;"><strong>ที่อยู่</strong> </p>
+                        <p style="font-size: 18px;"><strong>โทร </strong> </p>
+                        <p style="font-size: 18px;"><strong>อ้างอิง</strong> </p>
 
                     </div>
-                    <div class="col-1x">
-                        <p>:</p>
-                        <p>:</p>
-                        <p>:</p>
-                        <p>:</p>
+                    <div class="col-1x_cus">
+                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
                     </div>
                     <div class="col-4xx_cus">
-                        <p><?= $row3['customer_name'] ?></p>
-                        <p><?php echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
-                        <p><?= $row3['tel'] ?></p>
-                        <p><?= $row3['contact_name'] ?></p>
+                        <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
+                        <p style="font-size: 18px;"><?php echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
+                        <p style="font-size: 18px;"><?= $row3['tel'] ?></p>
+                        <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
 
                     </div>
                 </div>
@@ -115,26 +272,26 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
             <div class="col-5 text-sm-right">
                 <div class="rowx">
                     <div class="col-4x">
-                        <p>เลขที่ใบเสนอราคา </p>
-                        <p>ลำดับการสั่งซื้อ </p>
-                        <p>วันที่ </p>
-                        <p>ยืนราคา <?php echo "$row[date_confirm]"; ?> วัน </p>
-                        <p>เงื่อนไขการชำระเงิน </p>
+                        <p style="font-size: 18px;">เลขที่ใบเสนอราคา </p>
+                        <p style="font-size: 18px;">ลำดับการสั่งซื้อ </p>
+                        <p style="font-size: 18px;">วันที่ </p>
+                        <p style="font-size: 18px;">ยืนราคา <?php echo "$rowx[date_confirm]"; ?> วัน </p>
+                        <p style="font-size: 18px;">เงื่อนไขการชำระเงิน </p>
                     </div>
                     <div class="col-1x">
-                        <p>:</p>
-                        <p>:</p>
-                        <p>:</p>
-                        <p>:</p>
-                        <p>:</p>
+                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
                     </div>
                     <div class="col-4xx">
-                        <p><?php echo "$row[qt_id]"; ?></p>
-                        <p><?php echo "$row[order_id]"; ?> </p>
-                        <p><?php $date = explode(" ", $row['qt_date']);
-                            $dat = datethai2($date[0]);
-                            echo "$dat"; ?> </p>
-                        <p>ถึงวันที่
+                        <p style="font-size: 18px;"><?php echo "$rowx[qt_id]"; ?></p>
+                        <p style="font-size: 18px;"><?php echo "$rowx[order_id]"; ?> </p>
+                        <p style="font-size: 18px;"><?php $date = explode(" ", $rowx['qt_date']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo "$dat"; ?> </p>
+                        <p style="font-size: 18px;">ถึงวันที่
                             <?php $date = explode(" ", $strNewDate);
                             $dat = datethai2($date[0]);
                             echo "$dat"; ?></p>
@@ -150,233 +307,226 @@ $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strS
 
         </div>
 
-    </div>
-
-
-    </div>
-    <!-- End header  -->
-    <!-- Footer  -->
-    <div class="page-footer">
-        <div class="mt-3 mb-4 border-top"></div>
-        <div class="col-12">
-            <div class="col-12 mb-3 mb-sm-0">
-                <h5 class="font-weight-bold">เงื่อนไขการขาย</h5>
-                <p>1. มัดจำไม่น้อยกว่า 30% ของมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง </p>
-                <p>2. ผู้ซื้อเป็นผู้จัดเตรียมสถานที่สำหรับลงสินค้า และทางบริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าตามสถานที่เท่าที่รถเข้าถึงได้ </p>
-                <p>3. บริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
-                <p>4. สินค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทฯ ขอเก็บค่าดูแลสินค้า 5%
-                    ต่อเดือนของมูลค่าสินค้า </p>
-                <p>5. บริษัทฯ ขอสงวนสิทธิ์ไม่คืนมัดจำ/ค่าสินค้าในทุกกรณี หากผู้ชื้อแจ้งยกเลิก/เปลี่ยนแปลงรายการสินค้า</p>
-                <p>6. บริษัทฯ ขอไม่รับผิดชอบต่อความเสียหายใดๆ หลังจากตรวจรับสินค้าแล้ว </p>
-                <br>
-                <h5 class="font-weight-bold">วิธีการชำระเงิน</h5>
-                <p>ชื่อบัญชี : บจก.วันเอ็ม ธนาคารกสิกรไทย สาขาสุนีย์ทาวเวอร์ ประเภทออมทรัพย์ เลขที่บัญชี 685-2-29088-7 </p>
-            </div>
-            <div class="mt-3 mb-4 border-top"></div>
         </div>
-        <div class="col-12">
-            <div class="row">
-                <div class="col-4 text-center">
-                    <br> <br>
-                    <p> ____________________</p>
-
-                    <p>ผู้อนุมัติ<span></span></p>
-                    <br>
-                    <p>วันที่ ________/__________/__________ <span></span></p>
-                </div>
-                <div class="col-3"></div>
-                <div class="col-5 text-center">
-                    <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
-                    <br><br>
-                    <p>ผู้รับมอบอำนาจ ____________________ <span></span></p>
-                    <br>
-                    <p>วันที่ ________/__________/__________ <span></span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Footer  -->
-
-
-    <div class="col-12">
-        <table class="print-table" style="width: 100%;">
-            <thead>
+        <div class="row">
+            <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0" style="margin-top: 15px; margin-right: 15px; margin-left: 15px; margin-bottom: 0px;  ">
                 <tr>
-                    <td>
-                        <!--place holder for the fixed-position header-->
-                        <div class="page-header-space"></div>
-                    </td>
+                    <td width="30" rowspan="2" class="headerTitle01" align="center" valign="middle">ลำดับ</td>
+                    <td width="280" rowspan="2" class="headerTitle01" align="center" valign="middle">รายการ</td>
+                    <td width="80" rowspan="2" class="headerTitle01" align="center" valign="middle">จำนวน</td>
+                    <td width="50" rowspan="2" class="headerTitle01" align="center" valign="middle">ราคาต่อหน่วย</td>
+                    <td width="50" rowspan="2" class="headerTitle01" align="center" valign="middle">จำนวนเงิน</td>
+
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
-                    <td>
-                        <div class="page">
-                            <div class="row">
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-hover mb-4">
-                                        <thead class="bg-gray-300">
-                                            <tr>
-                                                <th scope="col" class="text-center">ลำดับ</th>
-                                                <th scope="col" class="text-left">รายการ</th>
-                                                <th scope="col" colspan="2" class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จำนวน</th>
-                                               
-                                                <th scope="col" class="text-right">ราคาต่อหน่วย</th>
-                                                <th scope="col" class="text-right">จำนวนเงิน</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id <> 'TF' order by date_create ASC ";
-                                            $result_pro = mysqli_query($conn, $sql_pro);
-                                            if (mysqli_num_rows($result_pro) > 0) {
-                                                while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
-                                                    <tr>
-                                                        <td scope="row" class="text-center"><?= ++$id; ?></td>
-                                                        <td>
-                                                            <?php
-                                                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]'";
-                                                            $rsx3 = $conn->query($sqlx3);
-                                                            $rowx3 = $rsx3->fetch_assoc();
-                                                            if ($rowx3['ptype_id'] == 'TF0') {
-                                                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
-                                                            } else {
-                                                                echo $rowx3['product_name'];
-                                                                if ($rowx3['spacial'] == '') {
+                </tr>
+                <?php
+                // ส่วนของ repeat content
+                for ($v = 1; $v <= $total_page_item; $v++) {
+                    $item_i = (($i - 1) * $total_page_item) + $v;
+                    $_product_id = isset($arr_data_set['product_id'][$item_i]) ? $arr_data_set['product_id'][$item_i] : "";
+                    $_qty = isset($arr_data_set['qty'][$item_i]) ? $arr_data_set['qty'][$item_i] : "";
+                    $_idx = isset($arr_data_set['idx'][$item_i]) ? $arr_data_set['idx'][$item_i] : "";
+                    $_ptype = isset($arr_data_set['ptype'][$item_i]) ? $arr_data_set['ptype'][$item_i] : "";
+                    $_disunit = isset($arr_data_set['disunit'][$item_i]) ? $arr_data_set['disunit'][$item_i] : "";
+                    $_unit_price = isset($arr_data_set['unit_price'][$item_i]) ? $arr_data_set['unit_price'][$item_i] : "";
+                    $item_i = isset($arr_data_set['name_th'][$item_i]) ? $item_i : "";
+                ?>
+                    <?php if ($_ptype <> 'TF') { ?>
+                        <tr>
+                            <td height="20" align="center" class="left_bottom"><?= $_idx ?></td>
+                            <td align="left" class="left_bottom">&nbsp;
+                                <?php
+                                $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
+                                $rsx3 = $conn->query($sqlx3);
+                                $rowx3 = $rsx3->fetch_assoc();
+                                echo $rowx3['product_name'];
+                                if ($rowx3['spacial'] == '') {
+                                } else {
+                                    echo "  (" . $rowx3['spacial'] . ")";
+                                }
+                                $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                $rs_unit = $conn->query($sql_unit);
+                                $row_unit = $rs_unit->fetch_assoc();
+                                $price_dis = $_unit_price - $_disunit;
+                                $total_price = $price_dis * $_qty;
+                                $total_all = $total_all + $total_price;
+                                ?>
+                            </td>
+                            <td align="left" class="left_bottom">
+                                <div class="row_pro">
+                                    <div class="col-4x_product"><?= $_qty ?>
+                                    </div>
+                                    <div class="col-4x_unit"><?= $row_unit['unit_name'] ?>&nbsp;&nbsp;</div>
+                                </div>
+                            </td>
+                            <td align="right" class="left_bottom"><?php if ($price_dis == "") {
+                                                                    } else {
+                                                                        echo number_format($price_dis, '2', '.', ',');
+                                                                    } ?>&nbsp;&nbsp;</td>
+
+                            <td align="right" class="left_right_bottom"><?php if ($total_price == "") {
+                                                                        } else {
+                                                                            echo number_format($total_price, '2', '.', ',');
+                                                                        } ?>&nbsp;&nbsp;</td>
+                        </tr>
+                    <?php } else { ?>
+                        <tr>
+                            <td height="20" align="center" class="left_bottom"><?= $_idx ?></td>
+                            <td align="left" class="left_bottom">&nbsp;
+
+                                <?php
+                                $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
+                                $rsx3 = $conn->query($sqlx3);
+                                $rowx3 = $rsx3->fetch_assoc();
+                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
+                                $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
+                                $rs_unit = $conn->query($sql_unit);
+                                $row_unit = $rs_unit->fetch_assoc();
+                                $price_dis = $_unit_price - $_disunit;
+                                $total_price = $price_dis * $_qty;
+                                $total_all = $total_all + $total_price;
+                                ?>
+                            </td>
+                            <td align="left" class="left_bottom">
+                                <div class="row_pro">
+                                    <div class="col-4x_product"><?= $_qty ?>
+                                    </div>
+                                    <div class="col-4x_unit"><?php if ($row_unit['unit_name'] == '') {
+                                                                    echo "เที่ยว";
                                                                 } else {
-                                                                    echo "  (" . $rowx3['spacial'] . ")";
-                                                                }
-                                                            }
-                                                            $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
-                                                            $rs_unit = $conn->query($sql_unit);
-                                                            $row_unit = $rs_unit->fetch_assoc();
-                                                            $price_dis = $row_pro['unit_price'] - $row_pro['disunit'];
-                                                            $total_price = $price_dis * $row_pro['qty'];
-                                                            ?>
-
-                                                        </td>
-                                                        <td class="text-center"><?= $row_pro['qty'] ?></td>
-                                                        <td class="text-left"> <?= $row_unit['unit_name'] ?></td>
-                                                        <td class="text-right"><?php echo number_format($price_dis, '2', '.', ',') ?></td>
-                                                        <td class="text-right"><?php echo number_format($total_price, '2', '.', ',') ?></td>
-                                                    </tr>
-                                            <?php }
-                                            } ?>
-
-                                            <?php
-                                            $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM order_details where order_id='$order_id'  AND ptype_id='TF'  ");
-                                            $count = mysqli_fetch_array($result_count);
-                                            $countx = $count['total'];
-                                            if ($countx > 0) {
-                                            ?>
-                                                <tr>
-                                                    <td scope="row" class="text-center"><?= ++$id; ?></td>
-
-                                                    <?php
-                                                    $sqlx3x = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF' ";
-                                                    $rsx3x = $conn->query($sqlx3x);
-                                                    $rowx3x = $rsx3x->fetch_assoc();
-                                                    ?>
-
-                                                    <td>
-                                                        <?php
-                                                        $sqlx31 = "SELECT * FROM product  WHERE product_id= '$rowx3x[product_id]'";
-                                                        $rsx31 = $conn->query($sqlx31);
-                                                        $rowx31 = $rsx31->fetch_assoc();
-                                                        //    echo $rowx31['product_name'];
-                                                        echo 'ค่าจัดส่ง' . '(' . $rowx31['product_name'] . ')';
-                                                        $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx31[units]' ";
-                                                        $rs_unit = $conn->query($sql_unit);
-                                                        $row_unit = $rs_unit->fetch_assoc();
-                                                        ?></td>
-                                                    <td class="text-center"><?= $rowx3x['qty'] ?></td>
-                                                    <td class="text-left"> <?php  if($row_unit['unit_name']==''){echo"เที่ยว";} else { echo $row_unit['unit_name']; } ?></td>
-                                                    <td class="text-right"><?php echo number_format($rowx3x['unit_price'], '2', '.', ',') ?></td>
-                                                    <td class="text-right"><?php echo number_format($rowx3x['total_price'], '2', '.', ',') ?></td>
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
+                                                                    echo $row_unit['unit_name'];
+                                                                } ?>&nbsp;&nbsp;</div>
                                 </div>
-                                <div class="col-12">
-                <p></p>
-                <p><br></p>
-            </div>
-                                <div class="col-6">
-<br><br><br><br>
-                                </div>
-                                <div class="col-2">
+                            </td>
+                            <td align="right" class="left_bottom"><?php if ($price_dis == "") {
+                                                                    } else {
+                                                                        echo number_format($price_dis, '2', '.', ',');
+                                                                    } ?>&nbsp;&nbsp;</td>
 
-                                </div>
-                                
-                                <div class="col-3">
-                                    <p>รวมเป็นเงินทั้งสิ้น</p>
-                                    <p>หัก ส่วนลด</p>
-                                    <p>จำนวนเงินก่อนรวมภาษี</p>
-                                    <p>จำนวนภาษีมูลค่าเพิ่ม 7%</p>
-                                </div>
-                                <div class="col-1">
-                                    <div class="invoice-summary-qt2">
-                                        <?php
-                                        $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$order_id'";
-                                        $rsx4 = $conn->query($sqlx4);
-                                        $rowx4 = $rsx4->fetch_assoc();
+                            <td align="right" class="left_right_bottom"><?php if ($total_price == "") {
+                                                                        } else {
+                                                                            echo number_format($total_price, '2', '.', ',');
+                                                                        } ?>&nbsp;&nbsp;</td>
+                        </tr>
 
-                                        ?>
-                                        <p> <span><?php echo number_format($rowx4['total'], '2', '.', ',') ?></span></p>
-                                        <p> <span><?php echo number_format($row['discount'], '2', '.', ',') ?></span></p>
-                                        <?php $sub_total = $rowx4['total'] - $row['discount'];
-                                        $tax = ($sub_total * 100) / 107;
-                                        $tax2 = ($sub_total - $tax);
-                                        $grand_total = ($sub_total - $tax2);
-                                        ?>
-                                        <p> <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></p>
-                                        <p> <span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตัวอักษร :</p>
-                                        </div>
-                                        <div class="col-5">
-                                            <p><?php echo Convert($sub_total); ?></p>
-                                        </div>
-                                        <div class="col-3">
-                                            <p>รวมเป็นเงิน</p>
-                                        </div>
-                                        <div class="col-1 text-right">
-                                            <div class="row" style="justify-content: flex-end; margin-right: 0;">
+                <?php  }
+                } ?>
+                <tr>
+                    <td height="20" align="left" class="bottomx2_firt">&nbsp;</td>
+                    <td align="left" class="bottomx2">&nbsp;</td>
+                    <td align="left" class="bottomx2">&nbsp;</td>
+                    <td align="left" class="bottomx2">&nbsp;</td>
+                    <td align="left" class="bottomx2">&nbsp;</td>
+                </tr>
+                <?php if ($total_page_data == $i) { ?>
+                    <?php $sql_or = "SELECT * FROM orders  WHERE order_id= '$order_id'";
+                    $rs_or  = $conn->query($sql_or);
+                    $row_or = $rs_or->fetch_assoc();
+                    $sub_total = $total_all - $row_or['discount'];
+                    $first_total = ($sub_total * 100) / 107;
+                    $tax = ($sub_total - $first_total);
+                    $grand_total = ($first_total + $tax);
+                    ?>
 
-                                                <h3 class="font-weight-bold" style="width: 120px; display: inline-block;">
-                                                    <span><?php echo number_format($sub_total, '2', '.', ',') ?></span>
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <tr>
+                        <td colspan="2" class="left_bottom" align="left" style="border-top:1px solid #000;">
+                        </td>
+                        <td align="left" colspan="2" style="border-top:1px solid #000; font-size: 18px;">&nbsp;รวมเป็นเงินทั้งสิ้น</td>
+
+                        <td align="right" class="left_right_bottom" style="border-bottom:5px;border-top:1px solid #000;"><?php echo number_format($total_all, '2', '.', ',') ?>&nbsp;&nbsp;</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="left_bottom" align="left"> </td>
+                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;หัก ส่วนลด</td>
+
+                        <td align="right" class="left_right_bottom"><?php echo number_format($row_or['discount'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="left_bottom" align="left"> </td>
+                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;จำนวนเงินก่อนรวมภาษี </td>
+
+                        <td align="right" class="left_right_bottom"><?php echo number_format($first_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="left_bottom" align="left"> </td>
+                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;จำนวนเงินภาษีมูลค่าเพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.00% </td>
+
+                        <td align="right" class="left_right_bottom"><?php echo number_format($tax, '2', '.', ',') ?>&nbsp;&nbsp;</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="left_bottom1" align="left">
+                            <div class="row_text">
+                                <div class="col-3_text"> ตัวอักษร
+                                </div>
+                                <div class="col-9_text ">
+                                    <?php echo Convert($grand_total); ?>
                                 </div>
                             </div>
+                        </td>
+                        <td class="bottomx_rl" colspan="2" align="center" style="font-size: 18px;">&nbsp;รวมเป็นเงิน</td>
 
+                        <td align="right" class="bottomx_rl" style="font-size: 18px;  font-weight: 700;"><?php echo number_format($grand_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
-                        </div>
-                        <!-- <div class="page">PAGE 2</div> -->
-                    </td>
-                </tr>
-            </tbody>
+                    </tr>
+                <?php } ?>
+
+            </table>
+        </div>
+        <div class="page-footer">
+            <div class="row_con">
+                <div class="mt-3 mb-4 border-top"></div>
+
+                <div class="col-12_con mb-3 mb-sm-0">
+                    <h6 class="font-weight-bold" style="font-size: 18px; padding-top: 8px; padding-bottom: 0px; ">เงื่อนไขการขาย</h6>
+                    <p style="font-size: 18px;">1. มัดจำไม่น้อยกว่า 30% ของมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง </p>
+                    <p style="font-size: 18px;">2. ผู้ซื้อเป็นผู้จัดเตรียมสถานที่สำหรับลงสินค้า และทางบริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าตามสถานที่เท่าที่รถเข้าถึงได้ </p>
+                    <p style="font-size: 18px;">3. บริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
+                    <p style="font-size: 18px;">4. สินค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทฯ ขอเก็บค่าดูแลสินค้า 5%
+                        ต่อเดือนของมูลค่าสินค้า </p>
+                    <p style="font-size: 18px;">5. บริษัทฯ ขอสงวนสิทธิ์ไม่คืนมัดจำ/ค่าสินค้าในทุกกรณี หากผู้ชื้อแจ้งยกเลิก/เปลี่ยนแปลงรายการสินค้า</p>
+                    <p style="font-size: 18px;">6. บริษัทฯ ขอไม่รับผิดชอบต่อความเสียหายใดๆ หลังจากตรวจรับสินค้าแล้ว </p>
+                    <br>
+                    <h6 class="font-weight-bold" style="font-size: 18px;">วิธีการชำระเงิน</h6>
+                    <p style="font-size: 18px;">ชื่อบัญชี : บจก.วันเอ็ม ธนาคารกสิกรไทย สาขาสุนีย์ทาวเวอร์ ประเภทออมทรัพย์ เลขที่บัญชี <b>685-2-29088-7 </b> </p>
+                </div>
+                <div class="mt-3 mb-4 border-top"></div>
+            </div>
+            <div class="row_con">
+                <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0" style="margin-top: 0px; margin-right: 0px; margin-left: 0px; margin-bottom: 0px;  ">
+                    <tr>
+                        <td width="300" valign="middle">
+                            <div class="col-12_footx text-center">
+                            <br><br> 
+                                <p> ____________________________</p>
+
+                                <p style="font-size: 18px;">ผู้อนุมัติชื้อ<span></span></p>
+                                <br>
+                                <p style="font-size: 18px;">วันที่ ________/__________/__________ <span></span></p>
+                            </div>
+                        </td>
+                        <td width="300" valign="middle"></td>
+                        <td width="300" valign="middle">
+                            <div class="col-12 text-center">
+                                <p style="font-size: 18px;">ในนาม บริษัท วันเอ็ม จำกัด</p>
+                                <br><br>
+                                <p style="font-size: 18px;">ผู้รับมอบอำนาจ ____________________ <span></span></p>
+                                <br>
+                                <p style="font-size: 18px;">วันที่ ________/__________/__________ <span></span></p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
         </table>
-    </div>
-
-
-
-    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+        </div>
+    <?php } ?>
 </body>
 
 </html>
