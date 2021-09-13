@@ -124,10 +124,10 @@ $row5 = $rs5->fetch_assoc();
                     </div>
                     <div class="col-4xx_cus">
                         <p><?= $row3['customer_name'] ?></p>
-                        <p><?php if ($row3_TF['product_name'] == '') {
+                        <p><?php if ($rowx3_TF['product_name'] == '') {
                                 echo $row3['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th'];
                             } else {
-                                echo $row3_TF['product_name'];
+                                echo $rowx3_TF['product_name'];
                             } ?></p>
                         <p><?= $row3['tel'] ?></p>
                         <p><?= $row3['contact_name'] ?></p>
