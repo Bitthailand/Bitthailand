@@ -286,20 +286,9 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-
-                            </div>
-
-
-                        </div>
-                        <div class="card mb-4">
-                            <div class="card-body p-0">
-                                <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
-                                <div id="eORchartBar" style="height: 360px;"></div>
-                            </div>
-                        </div>
                     </div>
+              
+
                     <div class="col-lg-6 col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
@@ -367,7 +356,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                         </div>
                                         <div class="tab-pane" id="__g-widget4-tab2-content2">
                                             <div class="ul-widget1">
-                                            <div class="table-responsive">
+                                                <div class="table-responsive">
                                                     <table class="table text-center" id="user_table">
                                                         <thead>
                                                             <tr>
@@ -417,6 +406,12 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
 
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card mb-4">
+                            <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
+                            <div id="eORchartBar" style="height: 360px;"></div>
+                        </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
                         <div class="card mb-4">
