@@ -71,18 +71,18 @@ if (mysqli_num_rows($result) > 0) {
 
   // วันที่ย้อนหลัง 30 วัน
 
-$sql = "SELECT  DATE_FORMAT(date_create, '%Y-%m-%d') AS DATE ,ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail WHERE  status_cf='1' AND date_create BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
+$sql = "SELECT ROUND(SUM(production_detail.qty), 2) AS SUM ,production_order.po_enddate  AS MYDATE  FROM  production_detail    INNER JOIN production_order   ON  production_order.po_id=production_detail.po_id  AND production_order.po_enddate BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY MYDATE "; 
 $result = mysqli_query($conn, $sql);
 $datelast = [];
 $sumdate=[];
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
-    $d = explode("-", $row['DATE']);
+    $d = explode("-", $row['MYDATE']);
     $yd = "$d[0]-$d[1]-$d[2]";
     $date1 = explode(" ", $yd);
     $dat1 =datethai4($date1[0]);
     $datelast[] = $dat1;
-    $sumdate[] = $row['sum'];
+    $sumdate[] = $row['SUM'];
   }}
 
 
@@ -223,9 +223,9 @@ while ($row = mysqli_fetch_assoc($result)) {
           axisLabel: {
             formatter: "฿{value}",
           },
-          min: 350000,
-          max: 1000000,
-          interval: 25000,
+          min: 5000,
+          max: 100000,
+          interval: 5000,
           axisLine: {
             show: false,
           },
