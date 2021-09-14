@@ -71,13 +71,13 @@ if (mysqli_num_rows($result) > 0) {
 
   // วันที่ย้อนหลัง 30 วัน
 
-$sql = "SELECT ROUND(SUM(production_detail.qty), 2) AS SUM ,production_order.po_enddate  AS MYDATE  FROM  production_detail    INNER JOIN production_order   ON  production_order.po_id=production_detail.po_id  AND production_order.po_enddate BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY MYDATE "; 
+$sql = "SELECT  DATE_FORMAT(production_order.po_enddate, '%Y-%m-%d') AS DATE ,ROUND(SUM(production_detail.qty)) AS SUM  FROM  production_detail    INNER JOIN production_order   ON  production_order.po_id=production_detail.po_id AND production_detail.status_stock='1'  AND production_order.po_enddate BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
 $result = mysqli_query($conn, $sql);
 $datelast = [];
 $sumdate=[];
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
-    $d = explode("-", $row['MYDATE']);
+    $d = explode("-", $row['DATE']);
     $yd = "$d[0]-$d[1]-$d[2]";
     $date1 = explode(" ", $yd);
     $dat1 =datethai4($date1[0]);
@@ -88,7 +88,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
 
-$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y-%m') As MyDate   FROM production_order  where status_cf='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month_pro = [];
 $pro_PS = [];
@@ -106,72 +106,93 @@ while ($row = mysqli_fetch_assoc($result)) {
   $dat1 =datethai5($date1[0]);
   $month_pro[] = $dat1;
 
-  $sql2 = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $sql2 = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(production_detail.qty) AS qty ,SUM(product.unit_price)AS unit_price , SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM  product INNER JOIN production_detail
+  ON product.product_id = production_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS'  
+  INNER JOIN production_order ON  MONTH(production_order.po_enddate) ='$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]' 
+  AND  production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'
+   GROUP BY product.ptype_id "; 
   $result2 = mysqli_query($conn, $sql2);
   if (mysqli_num_rows($result2) > 0) {
     while ($row2 = mysqli_fetch_assoc($result2)) {
-      $pro_PS[] = $row2['total'];
+      $pro_PS[] = $row2['qty'];
     }
   }
   
-  $sql_FP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='FP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $sql_FP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(production_detail.qty) AS qty ,SUM(product.unit_price)AS unit_price , SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM  product INNER JOIN production_detail
+  ON product.product_id = production_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='FS'  
+  INNER JOIN production_order ON  MONTH(production_order.po_enddate) ='$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]' 
+  AND  production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'
+   GROUP BY product.ptype_id  "; 
   $result_FP = mysqli_query($conn, $sql_FP);
   if (mysqli_num_rows($result_FP) > 0) {
     while ($row_FP = mysqli_fetch_assoc($result_FP)) {
-      $pro_FP[] = $row_FP['total'];
+      $pro_FP[] = $row_FP['qty'];
     }
   }
-  $sql_CF = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CF'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $sql_CF = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(production_detail.qty) AS qty ,SUM(product.unit_price)AS unit_price , SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM  product INNER JOIN production_detail
+  ON product.product_id = production_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CF'  
+  INNER JOIN production_order ON  MONTH(production_order.po_enddate) ='$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]' 
+  AND  production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'
+   GROUP BY product.ptype_id  "; 
   $result_CF = mysqli_query($conn, $sql_CF);
   if (mysqli_num_rows($result_CF) > 0) {
     while ($row_CF = mysqli_fetch_assoc($result_CF)) {
-      $pro_CF[] = $row_CF['total'];
+      $pro_CF[] = $row_CF['qty'];
     }
   }
 
-  $sql_CO = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CO'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $sql_CO = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(production_detail.qty) AS qty ,SUM(product.unit_price)AS unit_price , SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM  product INNER JOIN production_detail
+  ON product.product_id = production_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CO'  
+  INNER JOIN production_order ON  MONTH(production_order.po_enddate) ='$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]' 
+  AND  production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'
+   GROUP BY product.ptype_id  "; 
   $result_CO = mysqli_query($conn, $sql_CO);
   if (mysqli_num_rows($result_CO) > 0) {
     while ($row_CO = mysqli_fetch_assoc($result_CO)) {
-      $pro_CO[] = $row_CO['total'];
+      $pro_CO[] = $row_CO['qty'];
     }
   }
 
-  $sql_IP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='IP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $sql_IP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(production_detail.qty) AS qty ,SUM(product.unit_price)AS unit_price , SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM  product INNER JOIN production_detail
+  ON product.product_id = production_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='IP'  
+  INNER JOIN production_order ON  MONTH(production_order.po_enddate) ='$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]' 
+  AND  production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'
+   GROUP BY product.ptype_id"; 
   $result_IP = mysqli_query($conn, $sql_IP);
   if (mysqli_num_rows($result_IP) > 0) {
     while ($row_IP = mysqli_fetch_assoc($result_IP)) {
-      $pro_IP[] = $row_IP['total'];
+      $pro_IP[] = $row_IP['qty'];
     }
   }
 
-  $sql_BB = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BB'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $sql_BB = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(production_detail.qty) AS qty ,SUM(product.unit_price)AS unit_price , SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM  product INNER JOIN production_detail
+  ON product.product_id = production_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BB'  
+  INNER JOIN production_order ON  MONTH(production_order.po_enddate) ='$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]' 
+  AND  production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'
+   GROUP BY product.ptype_id"; 
   $result_BB = mysqli_query($conn, $sql_BB);
   if (mysqli_num_rows($result_BB) > 0) {
     while ($row_BB = mysqli_fetch_assoc($result_BB)) {
-      $pro_BB[] = $row_BB['total'];
+      $pro_BB[] = $row_BB['qty'];
     }
   }
 
-  $sql_BC = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BC'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  $sql_BC = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(production_detail.qty) AS qty ,SUM(product.unit_price)AS unit_price , SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type FROM  product INNER JOIN production_detail
+  ON product.product_id = production_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BC'  
+  INNER JOIN production_order ON  MONTH(production_order.po_enddate) ='$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]' 
+  AND  production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'
+   GROUP BY product.ptype_id"; 
   $result_BC = mysqli_query($conn, $sql_BC);
   if (mysqli_num_rows($result_BC) > 0) {
     while ($row_BC = mysqli_fetch_assoc($result_BC)) {
-      $pro_BC[] = $row_BC['total'];
+      $pro_BC[] = $row_BC['qty'];
     }
   }
 
@@ -223,9 +244,9 @@ while ($row = mysqli_fetch_assoc($result)) {
           axisLabel: {
             formatter: "฿{value}",
           },
-          min: 5000,
-          max: 100000,
-          interval: 5000,
+          min: 10,
+          max: 6000,
+          interval: 500,
           axisLine: {
             show: false,
           },
@@ -235,7 +256,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
         }, ],
         series: [{
-          name: "ยอดขาย",
+          name: "ยอดผลิต:ชิ้น",
           data: <?= json_encode($sumdate); ?>  ,
           label: {
             show: false,
@@ -397,7 +418,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           borderRadius: 0,
           orient: "horizontal",
           x: "right",
-          data:<?= json_encode($ptype); ?>,
+          data: ["แผ่นพื้นสำเร็จรูป", "เสารั้วลวดหนาม", "รั้วคาวบอย", "เสาตีนช้าง", "ขอบคันหิน", "แผ่นปูทางเท้า", "เสาเข็มไอ"],
         },
         grid: {
           left: "8px",
@@ -427,9 +448,9 @@ while ($row = mysqli_fetch_assoc($result)) {
           axisLabel: {
             formatter: "฿{value}",
           },
-          min: 10000,
-          max: 2000000,
-          interval: 100000,
+          min: 0,
+          max: 8000,
+          interval: 500,
           axisLine: {
             show: false,
           },

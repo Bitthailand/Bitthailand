@@ -409,14 +409,14 @@ $row_order_year = $rs_order_year->fetch_assoc();
                     </div>
                     <div class="col-lg-12 col-md-12">
                         <div class="card mb-4">
-                            <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
+                            <h5 class="card-title m-0 p-3">ยอดผลิต 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
                             <div id="eORchartBar" style="height: 360px;"></div>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="card-title">ยอดขายตามประเภทสินค้า</div>
+                                <div class="card-title">ยอดผลิตตามประเภทสินค้า</div>
                                 <div id="ProtypechartBar" style="height: 300px;"></div>
                             </div>
                         </div>
