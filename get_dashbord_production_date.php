@@ -4,8 +4,8 @@ include './include/config_date2.php';
 
 $datex = date('Y-m');
 $d = explode("-", $datex);
-
-$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y-%m') As MyDate   FROM production_order  GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$MyYear=$_REQUEST['MyYear'];
+$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y-%m') As MyDate   FROM production_order WHERE YEAR(production_order.po_enddate) = '$MyYear'   GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all=[];
@@ -21,18 +21,18 @@ if (mysqli_num_rows($result) > 0) {
     $dat1 =datethai5($date1[0]);
     $month[] = $dat1;
     // $value[] = $row['value'];
-   
-$sql2 = " SELECT SUM(production_detail.qty) AS qty ,production_detail.product_id AS product_id,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_detail  INNER JOIN  product  ON product.product_id=production_detail.product_id  
-INNER JOIN  production_order ON MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' AND production_order.po_id=production_detail.po_id AND production_detail.status_stock='1'   "; 
+
+$sql2 = "SELECT SUM(production_detail.qty) AS qty, SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS CO, SUM(a_type*unit_price) AS sum_a,SUM(b_type*unit_price)AS sum_b  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+ MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'   "; 
 $result2 = mysqli_query($conn, $sql2);
 
 // $value = [];
 if (mysqli_num_rows($result2) > 0) {
 
   while ($row2 = mysqli_fetch_assoc($result2)) {
-    $sum_all[] = $row2['sumall'];
-    $qc_ok[] =   $row2['sum_atype'];
-    $qc_no[] =   $row2['sum_btype'];
+    $sum_all[] = $row2['CO'];
+    $qc_ok[] =   $row2['sum_a'];
+    $qc_no[] =   $row2['sum_b'];
   }
 }
 

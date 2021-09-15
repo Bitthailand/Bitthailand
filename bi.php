@@ -136,6 +136,13 @@ if ($action == 'add') {
                 $rs_dev = $conn->query($sql_dev);
                 $row_dev = $rs_dev->fetch_assoc();
                 // echo "$row_dev[order_id]";
+                $datex = date('Y-m-d');
+                $sqlxxx1 = "UPDATE delivery  SET  status_payment='1',date_create='$datex' where dev_id='$row_dev[dev_id]'";
+                if ($conn->query($sqlxxx1) === TRUE) {
+                }
+                $sql5 = "UPDATE deliver_detail  SET payment='1',date_create='$datex' where dev_id='$row_dev[dev_id]'";
+                if ($conn->query($sql5) === TRUE) {
+                }
                 $sql3 = "UPDATE orders  SET order_status='5'  where order_id='$row_dev[order_id]'";
                 if ($conn->query($sql3) === TRUE) {
                 }

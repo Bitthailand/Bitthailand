@@ -280,13 +280,16 @@ if ($rowS == '') {
 
                                                     ?>
                                                     <?php $sub_total = $rowx4['total'] - $row['discount'];
-                                                                $tax = ($sub_total * 0.07);
-                                                                $grand_total = ($sub_total + $tax);
-                                                    ?> <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                          $sub_total_ai=$sub_total-$row['ai_count'];
+                                                          $first_total = ($sub_total_ai * 100) / 107;
+                                                          $tax = ($sub_total_ai - $first_total);
+                                                          $grand_total = ($sub_total_ai - $tax);
+                                                          $grand_total_all=($grand_total + $tax);
+                                                    ?> <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td> <span class="font-weight-bold"> <?php echo number_format($tax, '2', '.', ',') ?></span> </td>
                                                 <td>
-                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($grand_total_all, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td>
                                                     <?php

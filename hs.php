@@ -477,14 +477,19 @@ $row_h = $rs_h->fetch_assoc();
                     <td align="left" class="bottomx2">&nbsp;</td>
                 </tr>
                 <?php if ($total_page_data == $i) { ?>
+                    
                     <?php $sql_or = "SELECT * FROM orders  WHERE order_id= '$order_id'";
                     $rs_or  = $conn->query($sql_or);
                     $row_or = $rs_or->fetch_assoc();
+                    $sql_ai = "SELECT * FROM ai_number  WHERE order_id= '$order_id'";
+                    $rs_ai = $conn->query($sql_ai);
+                    $row_ai = $rs_ai->fetch_assoc();
                     $sub_total = $total_all - $row_or['discount'];
                     $sub_total_ai=$sub_total-$row_ai['price'];
                     $first_total = ($sub_total_ai * 100) / 107;
                     $tax = ($sub_total_ai - $first_total);
                     $grand_total = ($sub_total_ai - $tax);
+                  
                     ?>
 
                     <tr>
@@ -507,11 +512,7 @@ $row_h = $rs_h->fetch_assoc();
 
                         <td align="right" class="left_right_bottom"><?php echo number_format($sub_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
                     </tr>
-                    <?php
-                    $sql_ai = "SELECT * FROM ai_number  WHERE order_id= '$order_id'";
-                    $rs_ai = $conn->query($sql_ai);
-                    $row_ai = $rs_ai->fetch_assoc();
-                    ?>
+                  
                     <tr>
                         <td colspan="2" class="left_bottom" align="left"> </td>
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;หักมัดจำ&nbsp;&nbsp;&nbsp;&nbsp; <?php if($row_ai['ai_num']==""){}else{ echo '#'.$row_ai['ai_num']; } ?></td>

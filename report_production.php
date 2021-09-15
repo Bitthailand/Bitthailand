@@ -13,7 +13,7 @@ if (isset($_SESSION["username"])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Dashboard | ภาพรวมการทำงาน</title>
+    <title>Dashboard | ภาพรวมการผลิต</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -82,7 +82,36 @@ $row_order_year = $rs_order_year->fetch_assoc();
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
+                       <!-- ============ Tab Menu ============= -->
+                       <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="linkLoadModalNext nav-link active" href="/report_production.php">
+                                    <h4 class="h5 font-weight-bold"> ภาพรวมข้อมูลสั่งผลิต
+                                    </h4>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="linkLoadModalNext nav-link" href="/report_production_year.php">
+                                    <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายปี
+                                    </h4>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="linkLoadModalNext nav-link" href="/report_production_month.php">
+                                    <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายเดือน
+                                    </h4>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="linkLoadModalNext nav-link" href="/report_production_day.php">
+                                    <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายวัน
+                                    </h4>
+                                </a>
+                            </li>
+                            
+                        </ul> <div class="tab-content">
             <div class="main-content">
+                
                 <div class="breadcrumb">
                     <h1 class="mr-2">ข้อมูลสั่งผลิตสินค้า
                     </h1>
@@ -181,7 +210,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                                         <div class="ul-widget__head">
                                             <div class="ul-widget__head-label">
-                                                <h3 class="ul-widget__head-title">รายการสินค้าสั่งผลิตสูงสุด</h3>
+                                                <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าสูงสุด</h3>
                                             </div>
                                             <div class="ul-widget__head-toolbar">
                                                 <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">

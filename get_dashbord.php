@@ -5,7 +5,7 @@ include './include/config_date2.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
 
-$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' AND payment='1' GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all=[];
@@ -22,7 +22,7 @@ if (mysqli_num_rows($result) > 0) {
     $month[] = $dat1;
     // $value[] = $row['value'];
 
-$sql2 = "SELECT  ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail where status_cf='1' AND  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  "; 
+$sql2 = "SELECT  ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail where status_cf='1' AND payment='1' AND  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  "; 
 $result2 = mysqli_query($conn, $sql2);
 
 // $value = [];
@@ -35,7 +35,7 @@ if (mysqli_num_rows($result2) > 0) {
   }
 }
 
-$sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
+$sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND payment='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
 $result3 = mysqli_query($conn, $sql3);
 if (mysqli_num_rows($result3) > 0) {
   while ($row3 = mysqli_fetch_assoc($result3)) {
@@ -44,7 +44,7 @@ if (mysqli_num_rows($result3) > 0) {
   //  echo json_encode($row3['sum']);
   }
 }
-$sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
+$sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND payment='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
 $result4 = mysqli_query($conn, $sql4);
 if (mysqli_num_rows($result4) > 0) {
   while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -68,7 +68,7 @@ if (mysqli_num_rows($result) > 0) {
   // แบ่งตามประเภทสินค้า PIE
 $sql = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
 ON product.product_id = deliver_detail.product_id 
-INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id  GROUP BY product.ptype_id"; 
+INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND deliver_detail.payment='1' AND deliver_detail.status_cf='1' GROUP BY product.ptype_id"; 
 $result = mysqli_query($conn, $sql);
 $content = [];
 if (mysqli_num_rows($result) > 0) {
@@ -84,7 +84,7 @@ if (mysqli_num_rows($result) > 0) {
 
   // วันที่ย้อนหลัง 30 วัน
 
-$sql = "SELECT  DATE_FORMAT(date_create, '%Y-%m-%d') AS DATE ,ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail WHERE  status_cf='1' AND date_create BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
+$sql = "SELECT  DATE_FORMAT(date_create, '%Y-%m-%d') AS DATE ,ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail WHERE  status_cf='1' AND payment='1' AND date_create BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
 $result = mysqli_query($conn, $sql);
 $datelast = [];
 $sumdate=[];
@@ -101,7 +101,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
 
-$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' AND payment='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month_pro = [];
 $pro_PS = [];
@@ -121,7 +121,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
   $sql2 = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
   $result2 = mysqli_query($conn, $sql2);
   if (mysqli_num_rows($result2) > 0) {
     while ($row2 = mysqli_fetch_assoc($result2)) {
@@ -131,7 +131,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   
   $sql_FP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='FP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='FP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
   $result_FP = mysqli_query($conn, $sql_FP);
   if (mysqli_num_rows($result_FP) > 0) {
     while ($row_FP = mysqli_fetch_assoc($result_FP)) {
@@ -140,7 +140,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   }
   $sql_CF = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CF'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CF'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
   $result_CF = mysqli_query($conn, $sql_CF);
   if (mysqli_num_rows($result_CF) > 0) {
     while ($row_CF = mysqli_fetch_assoc($result_CF)) {
@@ -150,7 +150,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
   $sql_CO = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CO'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CO'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
   $result_CO = mysqli_query($conn, $sql_CO);
   if (mysqli_num_rows($result_CO) > 0) {
     while ($row_CO = mysqli_fetch_assoc($result_CO)) {
@@ -160,7 +160,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
   $sql_IP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='IP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='IP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'   GROUP BY product.ptype_id "; 
   $result_IP = mysqli_query($conn, $sql_IP);
   if (mysqli_num_rows($result_IP) > 0) {
     while ($row_IP = mysqli_fetch_assoc($result_IP)) {
@@ -170,7 +170,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
   $sql_BB = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BB'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BB'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
   $result_BB = mysqli_query($conn, $sql_BB);
   if (mysqli_num_rows($result_BB) > 0) {
     while ($row_BB = mysqli_fetch_assoc($result_BB)) {
@@ -180,7 +180,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
   $sql_BC = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BC'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY product.ptype_id "; 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BC'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
   $result_BC = mysqli_query($conn, $sql_BC);
   if (mysqli_num_rows($result_BC) > 0) {
     while ($row_BC = mysqli_fetch_assoc($result_BC)) {

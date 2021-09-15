@@ -5,7 +5,7 @@ include './include/config_date2.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
 
-$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y-%m') As MyDate   FROM production_order  GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y') As MyDate   FROM production_order  GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 5 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all=[];
@@ -16,14 +16,14 @@ if (mysqli_num_rows($result) > 0) {
 
   while ($row = mysqli_fetch_assoc($result)) {
     $d = explode("-", $row['MyDate']);
-    $yd = "$d[0]-$d[1]";
+    $yd = "$d[0]";
     $date1 = explode(" ", $yd);
     $dat1 =datethai5($date1[0]);
     $month[] = $dat1;
     // $value[] = $row['value'];
-   
-$sql2 = " SELECT SUM(production_detail.qty) AS qty ,production_detail.product_id AS product_id,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_detail  INNER JOIN  product  ON product.product_id=production_detail.product_id  
-INNER JOIN  production_order ON MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' AND production_order.po_id=production_detail.po_id AND production_detail.status_stock='1'   "; 
+
+$sql2 = "SELECT DATE_FORMAT(po_enddate,'%Y') As MyYear,SUM(production_detail.qty) AS qty ,production_detail.product_id AS product_id,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_detail  INNER JOIN  product  ON product.product_id=production_detail.product_id  
+INNER JOIN  production_order ON YEAR(production_order.po_enddate) = '$d[0]' AND production_order.po_id=production_detail.po_id  AND production_detail.status_stock='1'   GROUP BY MyYear  ORDER BY qty DESC "; 
 $result2 = mysqli_query($conn, $sql2);
 
 // $value = [];
@@ -333,8 +333,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             formatter: "฿{value}",
           },
           min: 0,
-          max: 4000000,
-          interval: 300000,
+          max: 14000000,
+          interval: 1000000,
           axisLine: {
             show: false,
           },
