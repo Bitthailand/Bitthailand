@@ -167,7 +167,7 @@ $so_id = $_REQUEST['so_id'];
             }
         }
     </style>
-    <link href="../../dist-assets/css/themes/styleforprint2.css?v=8" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/styleforprint2.css?v=18" rel="stylesheet" />
 </head>
 <?php
 include './include/config.php';
