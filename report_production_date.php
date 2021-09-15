@@ -21,10 +21,10 @@ if (isset($_SESSION["username"])) {
 <?php
 include './include/connect.php';
 include './include/config.php';
-$MyMonth=$_REQUEST['MyMonth'];
+$MyMonth = $_REQUEST['MyMonth'];
 
 $date1 = explode(" ", $MyMonth);
-$dat1 =datethai2($date1[0]);
+$dat1 = datethai2($date1[0]);
 include './get_dashbord_production_date.php';
 $d = explode("-", $MyMonth);
 $sql_pday = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
@@ -62,18 +62,7 @@ $row_pday = $rs_pday->fetch_assoc();
                         </h4>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link" href="/report_production_month.php">
-                        <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายเดือน
-                        </h4>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link" href="/report_production_day.php">
-                        <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายวัน
-                        </h4>
-                    </a>
-                </li>
+ 
 
             </ul>
             <div class="tab-content">
@@ -83,7 +72,7 @@ $row_pday = $rs_pday->fetch_assoc();
                         <h1 class="mr-2">ข้อมูลสั่งผลิตสินค้า
                         </h1>
                         <ul>
-                            <li><a href="">ภาพรวมการผลิตรายเดือน <?=$dat1 ?></a></li>
+                            <li><a href="">ภาพรวมการผลิตรายเดือน <?= $dat1 ?></a></li>
 
                         </ul>
                     </div>
@@ -94,7 +83,7 @@ $row_pday = $rs_pday->fetch_assoc();
                         <div class="col-lg-12 col-md-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="card-title">ยอดผลิตประจำเดือน  <?=$dat1 ?></div>
+                                    <div class="card-title">ยอดผลิตประจำเดือน <?= $dat1 ?></div>
                                     <div id="echartBar" style="height: 300px;"></div>
                                 </div>
                             </div>
@@ -110,9 +99,9 @@ $row_pday = $rs_pday->fetch_assoc();
 
                                             <div class="ul-widget__head">
                                                 <div class="ul-widget__head-label">
-                                                    <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าแบบรายเดือน  <?=$dat1 ?></h3>
+                                                    <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าแบบรายเดือน <?= $dat1 ?></h3>
                                                 </div>
-                                                
+
                                             </div>
 
 
@@ -141,15 +130,17 @@ $row_pday = $rs_pday->fetch_assoc();
                                                                         <?php $sql_pro = "SELECT * FROM product   WHERE product_id= '$row4[product_id]'";
                                                                         $rs_pro = $conn->query($sql_pro);
                                                                         $row_pro = $rs_pro->fetch_assoc();
+                                                                        $date1 = explode(" ", $row4['MyDate']);
+                                                                        $dat1 = datethai2($date1[0]);
                                                                         ?>
-                                                                        <?=$row4['MyDate']?></td>
+                                                                        <?= $dat1?></td>
                                                                     <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',') ?></td>
                                                                     <td class="text-left"><?php echo number_format($row4['a_type'], '0', '.', ',') ?></td>
                                                                     <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
                                                                     <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
-                                                                    <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_production_date.php?MyDate=<?= $row4['MyDate'] ?>">
-                                                        <i class="i-Check font-weight-bold"></i>
-                                                    </a></td>
+                                                                    <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายวัน" href="/report_production_detail.php?MyDate=<?= $row4['MyDate'] ?>">
+                                                                            <i class="i-Check font-weight-bold"></i>
+                                                                        </a></td>
                                                                 </tr>
                                                         <?php }
                                                         } ?>

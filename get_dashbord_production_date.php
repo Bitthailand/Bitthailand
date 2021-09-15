@@ -4,8 +4,9 @@ include './include/config_date2.php';
 
 $datex = date('Y-m');
 $d = explode("-", $datex);
-$MyYear=$_REQUEST['MyYear'];
-$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y-%m') As MyDate   FROM production_order WHERE YEAR(production_order.po_enddate) = '$MyYear'   GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$MyMonth=$_REQUEST['MyMonth'];
+$d = explode("-", $MyMonth);
+$sql = "SELECT  DATE_FORMAT(po_enddate,'%Y-%m-%d') As MyDate   FROM production_order WHERE YEAR(production_order.po_enddate) = '$d[0]' AND MONTH(production_order.po_enddate) = '$d[1]'  GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 31"; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all=[];
@@ -16,14 +17,15 @@ if (mysqli_num_rows($result) > 0) {
 
   while ($row = mysqli_fetch_assoc($result)) {
     $d = explode("-", $row['MyDate']);
-    $yd = "$d[0]-$d[1]";
+    $yd = "$d[0]-$d[1]-$d[2]";
     $date1 = explode(" ", $yd);
-    $dat1 =datethai5($date1[0]);
-    $month[] = $dat1;
+    $dat1 =datethai4($date1[0]);
+    $month[] = $d[2];
+    // echo"$d[2]";
     // $value[] = $row['value'];
 
 $sql2 = "SELECT SUM(production_detail.qty) AS qty, SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS CO, SUM(a_type*unit_price) AS sum_a,SUM(b_type*unit_price)AS sum_b  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
- MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'   "; 
+ MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' AND DAY(production_order.po_enddate) = '$d[2]' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'   "; 
 $result2 = mysqli_query($conn, $sql2);
 
 // $value = [];
@@ -333,8 +335,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             formatter: "฿{value}",
           },
           min: 0,
-          max: 4000000,
-          interval: 300000,
+          max: 200000,
+          interval: 10000,
           axisLine: {
             show: false,
           },

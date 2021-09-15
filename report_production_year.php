@@ -58,18 +58,7 @@ $row_pday = $rs_pday->fetch_assoc();
                         </h4>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link" href="/report_production_month.php">
-                        <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายเดือน
-                        </h4>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link" href="/report_production_day.php">
-                        <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายวัน
-                        </h4>
-                    </a>
-                </li>
+
 
             </ul>
             <div class="tab-content">

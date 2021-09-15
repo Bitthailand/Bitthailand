@@ -96,18 +96,6 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     </h4>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                            <a class="linkLoadModalNext nav-link" href="/report_production_month.php">
-                                    <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายเดือน
-                                    </h4>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="linkLoadModalNext nav-link" href="/report_production_day.php">
-                                    <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายวัน
-                                    </h4>
-                                </a>
-                            </li>
                             
                         </ul> <div class="tab-content">
             <div class="main-content">
@@ -145,7 +133,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget__content">
                                         <p class="m-0">สินค้าผลิตประจำเดือน</p>
                                         <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty'], '0', '.', ',') ?> ชิ้น </h4>
-                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดของเดือน : <?php echo number_format($row_pmonth1['qty'], '0', '.', ',') ?> ชิ้น</small>
+                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดเดือน : <?php echo number_format($row_pmonth1['qty'], '0', '.', ',') ?> ชิ้น</small>
 
                                     </div>
                                 </div>
