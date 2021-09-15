@@ -240,7 +240,7 @@ $row5 = $rs5->fetch_assoc();
         </div>
         <div class="mt-3 mb-4 border-top"></div>
         <div class="row">
-            <div class="col-7 mb-3 mb-sm-0"> <?php
+            <div class="col-8 mb-3 mb-sm-0"> <?php
                                                 $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
                                                 $rs6 = $conn->query($sql6);
                                                 $row6 = $rs6->fetch_assoc();
@@ -265,10 +265,10 @@ $row5 = $rs5->fetch_assoc();
                                                 ?>
                 <div class="rowx_cus">
                     <div class="col-4x_cus">
-                        <p style="font-size: 18px;"><strong>ชื่อลูกค้า</strong> </p>
-                        <p style="font-size: 18px;"><strong>ที่อยู่จัดส่ง</strong> </p>
-                        <p style="font-size: 18px;"><strong>โทร </strong> </p>
-                        <p style="font-size: 18px;"><strong>อ้างอิง</strong> </p>
+                        <p style="font-size: 18px;font-weight: 700;">ชื่อลูกค้า </p>
+                        <p style="font-size: 18px;font-weight: 700;">ที่อยู่จัดส่ง </p>
+                        <p style="font-size: 18px;font-weight: 700;">โทร  </p>
+                        <p style="font-size: 18px;font-weight: 700;">อ้างอิง </p>
 
                     </div>
                     <div class="col-1x_cus">
@@ -291,7 +291,7 @@ $row5 = $rs5->fetch_assoc();
                 </div>
 
             </div>
-            <div class="col-5 text-sm-right">
+            <div class="col-4 text-sm-right">
                 <div class="row_so">
                     <div class="col-4_text_so">
                         <p style="font-size: 18px;">เลขที่ใบส่งของ </p>
@@ -347,9 +347,9 @@ $row5 = $rs5->fetch_assoc();
                 ?>
                     <?php if ($_ptype <> 'TF') { ?>
                         <tr>
-                            <td height="20" align="center" class="left_bottom"><?= $_idx ?></td>
-                            <td align="center" class="left_bottom">&nbsp;&nbsp;<?php echo "$_product_id" . '&nbsp;'; ?></td>
-                            <td align="left" class="left_bottom">&nbsp;&nbsp;
+                            <td height="20" align="center" class="left_bottom"<?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>><?= $_idx ?></td>
+                            <td align="center" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>&nbsp;&nbsp;<?php echo "$_product_id" . '&nbsp;'; ?></td>
+                            <td align="left" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>&nbsp;&nbsp;
                                 <?php
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
@@ -367,7 +367,7 @@ $row5 = $rs5->fetch_assoc();
                                 $total_all = $total_all + $total_price;
                                 ?>
                             </td>
-                            <td align="left" class="left_right_bottom">
+                            <td align="left" class="left_right_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>
                                 <div class="row_pro">
                                     <div class="col-4x_product"><?= $_qty ?>
                                     </div>

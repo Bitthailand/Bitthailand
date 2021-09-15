@@ -247,10 +247,10 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                                 ?>
                 <div class="rowx_cus">
                     <div class="col-4x_cus">
-                        <p style="font-size: 18px;"><strong>ชื่อลูกค้า</strong> </p>
-                        <p style="font-size: 18px;"><strong>ที่อยู่</strong> </p>
-                        <p style="font-size: 18px;"><strong>โทร </strong> </p>
-                        <p style="font-size: 18px;"><strong>อ้างอิง</strong> </p>
+                        <p style="font-size: 18px;font-weight: 700;">ชื่อลูกค้า </p>
+                        <p style="font-size: 18px;font-weight: 700;">ที่อยู่ </p>
+                        <p style="font-size: 18px;font-weight: 700;">โทร </p>
+                        <p style="font-size: 18px;font-weight: 700;">อ้างอิง </p>
 
                     </div>
                     <div class="col-1x_cus">

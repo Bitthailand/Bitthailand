@@ -876,7 +876,7 @@ strong {
     width: 100%;
     min-height: 1px;
     padding-right: 0px;
-    padding-left: 20px;
+    padding-left: 10px;
     text-align: left;
 }
 
@@ -885,7 +885,7 @@ strong {
     width: 100%;
     min-height: 1px;
     padding-right: 0px;
-    padding-left: 50px;
+    padding-left: 10px;
     text-align: left;
     float: right;
 }
