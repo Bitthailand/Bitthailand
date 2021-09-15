@@ -386,7 +386,7 @@ $row5 = $rs5->fetch_assoc();
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
                                 $rowx3 = $rsx3->fetch_assoc();
-                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
+                                echo 'ค่าจัดส่ง'.'   ' . '(' . $rowx3['product_name'] . ')';
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();

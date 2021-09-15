@@ -334,8 +334,8 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                 ?>
                     <?php if ($_ptype <> 'TF') { ?>
                         <tr>
-                            <td height="20" align="center" class="left_bottom"><?= $_idx ?></td>
-                            <td align="left" class="left_bottom">&nbsp;
+                            <td height="20" align="center" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>><?= $_idx ?></td>
+                            <td align="left" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>&nbsp;
                                 <?php
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
@@ -353,14 +353,14 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                 $total_all = $total_all + $total_price;
                                 ?>
                             </td>
-                            <td align="left" class="left_bottom">
+                            <td align="left" class="left_bottom"<?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>
                                 <div class="row_pro">
                                     <div class="col-4x_product"><?= $_qty ?>
                                     </div>
                                     <div class="col-4x_unit"><?= $row_unit['unit_name'] ?>&nbsp;&nbsp;</div>
                                 </div>
                             </td>
-                            <td align="right" class="left_bottom"><?php if ($price_dis == "") {
+                            <td align="right" class="left_bottom"<?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>><?php if ($price_dis == "") {
                                                                     } else {
                                                                         echo number_format($price_dis, '2', '.', ',');
                                                                     } ?>&nbsp;&nbsp;</td>
@@ -379,7 +379,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
                                 $rowx3 = $rsx3->fetch_assoc();
-                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
+                                echo 'ค่าจัดส่ง'.' ' . '(' . $rowx3['product_name'] . ')';
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();
