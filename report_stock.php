@@ -27,6 +27,15 @@ $d = explode("-", $datex);
 $sql_pday = "SELECT SUM(fac1_stock) AS fac1_stock,SUM(fac2_stock)AS fac2_stock,SUM(fac1_stock+fac2_stock)AS sum_all  FROM product   ";
 $rs_pday = $conn->query($sql_pday);
 $row_pday = $rs_pday->fetch_assoc();
+// รวมสินค้าผลิตทั้งหมด
+
+$sql_pmonth = "SELECT count(production_detail.product_id) AS month,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
+MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]'   INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'   ";
+$rs_pmonth = $conn->query($sql_pmonth);
+$row_pmonth = $rs_pmonth->fetch_assoc();
+
+
+
 
 $sql_pdaycf = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='0'  ";
@@ -131,7 +140,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div class="ul-widget__row">
                                     <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                     <div class="ul-widget__content">
-                                        <p class="m-0">สินค้าเข้า</p>
+                                        <p class="m-0">สินค้าผลิตคงเหลือ</p>
                                         <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty'], '0', '.', ',') ?> ชิ้น </h4>
                                         <small class="text-muted m-0">สั่งผลิตทั้งหมดเดือน : <?php echo number_format($row_pmonth1['qty'], '0', '.', ',') ?> ชิ้น</small>
 
