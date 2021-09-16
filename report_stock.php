@@ -21,11 +21,10 @@ if (isset($_SESSION["username"])) {
 <?php
 include './include/connect.php';
 include './include/config.php';
-include './get_dashbord_production.php';
+include './get_dashbord_stock.php';
 $datex = date('Y-m-d');
 $d = explode("-", $datex);
-$sql_pday = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-production_order.po_enddate LIKE  '$datex%'  ";
+$sql_pday = "SELECT SUM(fac1_stock) AS fac1_stock,SUM(fac2_stock)AS fac2_stock,SUM(fac1_stock+fac2_stock)AS sum_all  FROM product   ";
 $rs_pday = $conn->query($sql_pday);
 $row_pday = $rs_pday->fetch_assoc();
 
@@ -117,9 +116,9 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">สต็อกทั้งหมดประจำวันนี้</p>
-                                        <h4 class="heading"><?php echo number_format($row_pday['today'], '0', '.', ',') ?> รายการ</h4>
-                                        <small class="text-muted m-0">โรงงาน1 : <?= $row_pdaycf['today'] ?>|นำเข้าสต็อก:<?= $row_pdaycf1['today'] ?> </small>
-                                        <small class="text-muted m-0">โรงงาน2 : <?= $row_pdaycf['today'] ?>|นำเข้าสต็อก:<?= $row_pdaycf1['today'] ?> </small>
+                                        <h4 class="heading"><?php echo number_format($row_pday['sum_all'], '0', '.', ',') ?> ชิ้น</h4>
+                                        <small class="text-muted m-0">โรงงาน1 :<?php echo number_format($row_pday['fac1_stock'] , '0', '.', ',') ?> ชิ้น </small><br>
+                                        <small class="text-muted m-0">โรงงาน2 :<?php echo number_format($row_pday['fac2_stock'] , '0', '.', ',') ?> ชิ้น </small>
 
                                     </div>
                                 </div>
@@ -132,7 +131,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div class="ul-widget__row">
                                     <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                     <div class="ul-widget__content">
-                                        <p class="m-0">สินค้าผลิตประจำเดือน</p>
+                                        <p class="m-0">สินค้าเข้า</p>
                                         <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty'], '0', '.', ',') ?> ชิ้น </h4>
                                         <small class="text-muted m-0">สั่งผลิตทั้งหมดเดือน : <?php echo number_format($row_pmonth1['qty'], '0', '.', ',') ?> ชิ้น</small>
 
@@ -147,7 +146,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div class="ul-widget__row">
                                     <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
                                     <div class="ul-widget__content">
-                                        <p class="m-0">สินค้าดี:ชำรุดประจำเดือน</p>
+                                        <p class="m-0">ขายได้</p>
                                         <h4 class="heading"><?php echo number_format($row_qc['a_type'], '0', '.', ',') ?> : <?php echo number_format($row_qc['b_type'], '0', '.', ',') ?> </h4>
                                         <small class="text-muted m-0">มูลค่าสินค้าดี <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?>: <?php echo number_format($row_qc['sum_b'], '0', '.', ',') ?></small>
                                     </div>
