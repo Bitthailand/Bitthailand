@@ -106,6 +106,7 @@ if ($rowS == '') {
                                             import Excel
                                         </button>
                                         <a href="/inventorylist.php">   รายงานแบบที่1</a>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist4.php"> รายงานแบบที่3</a>
                                     </div>
                                     <div class="text-left">
                                         

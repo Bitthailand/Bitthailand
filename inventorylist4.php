@@ -6,53 +6,6 @@ if (isset($_SESSION["username"])) {
 }
 include './include/connect.php';
 error_reporting(0);
-$action = $_REQUEST['action'];
-if ($action == 'del') {
-    $del_id = $_REQUEST['del_id'];
-
-    $sql = "DELETE FROM product  WHERE product_id='$del_id' ";
-    if ($conn->query($sql) === TRUE) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ลบรายการสำเร็จ", "alert-primary");
-            });
-        </script>
-    <?php  } else { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ไม่สามารถลบรายการได้", "alert-danger");
-            });
-        </script>
-<?php }
-}
-?>
-<?php $keyword = $_POST['keyword'];
-$column = $_REQUEST['column'];
-// echo"$column";
-$rowS = $_REQUEST['row'];
-if (empty($column) && ($keyword)) {
-    echo "cc";
-    $columx = "";
-    $keywordx = "";
-} else {
-    // echo"$column";
-    $columx = "";
-    $keywordx = "";
-    // echo"$columx";   
-}
-
-
-if (($column == "") && ($keyword == "$keyword")) {
-
-    $keywordx = "AND product_id LIKE'$keyword%'
-                 OR product_name LIKE'$keyword%' ";
-    //    echo"$keywordx";
-}
-if ($rowS == '') {
-    $total_records_per_page = 60;
-} else {
-    $total_records_per_page = $rowS;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -74,7 +27,45 @@ if ($rowS == '') {
         font-size: 0.813rem !important;
     }
 </style>
+<?php 
+$action = $_REQUEST['action'];
+if ($action == 'del') {
+    $del_id = $_REQUEST['del_id'];
 
+    $sql = "DELETE FROM product  WHERE product_id='$del_id' ";
+    if ($conn->query($sql) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ลบรายการสำเร็จ", "alert-primary");
+            });
+        </script>
+    <?php  } else { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ไม่สามารถลบรายการได้", "alert-danger");
+            });
+        </script>
+<?php }
+}
+
+$action = $_REQUEST['action'];
+if ($action =='edit') {
+  
+    // $edit_id= $_REQUEST['edit_id'];   
+    $fac1_stock= $_REQUEST['fac1_stock'];  
+    $fac2_stock= $_REQUEST['fac2_stock'];  
+    echo $edit_id;
+// echo"$delivery_date";
+    $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where id='$edit_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+<script>
+$(document).ready(function() {
+    showAlert("อับเดตสต็อกเรียบร้อย", "alert-primary");
+});
+</script>
+<?php }  
+ }
+?>
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <?php include './include/config.php'; ?>
@@ -133,13 +124,12 @@ if ($rowS == '') {
                                                         <th>รหัสสินค้า</th>
                                                         <th>ประเภทสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
-
-                                                        <th>ราคาต่อหน่วย</th>
-                                                        <th>ข้อมูลเพิ่มเติม</th>
-                                                        <th>โรงงาน 1</th>
-                                                        <th>โรงงาน 2</th>
-                                                        <th>ยอดสั่งจอง</th>
-                                                        <th>หน่วยนับ</th>
+                                                        <th>stock1</th>
+                                                        <th>stock2</th>
+                                                        <th>จอง</th>
+                                                        <th>ผลิต</th>
+                                                        <th>ขาย</th>
+                                                        <th>เหลือ</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -162,11 +152,9 @@ if ($rowS == '') {
                                                                 echo $row3['ptype_name'];  ?> </td>
                                                             <td> <?php echo $row["product_name"]; ?></td>
 
-                                                            <td> <?php echo $row["unit_price"]; ?> </td>
-                                                            <td><?php echo $row["spacial"]; ?> </td>
+
                                                             <td> <?php echo $row["fac1_stock"]; ?> </td>
                                                             <td>
-
                                                                 <?php echo $row["fac2_stock"]; ?> </td>
                                                             <td>
                                                                 <?php
@@ -181,20 +169,37 @@ if ($rowS == '') {
                                                                 <?php   }
                                                                 ?>
                                                             </td>
-                                                            <td> <?php
-                                                                    $sql4 = "SELECT * FROM unit WHERE id= '$row[units]'";
-                                                                    $rs4 = $conn->query($sql4);
-                                                                    $row4 = $rs4->fetch_assoc();
-                                                                    echo $row4['unit_name'];
-
-                                                                    ?>
-                                                            </td>
-
                                                             <td>
+                                                                <?php
+                                                                if ($row3['stock_m'] == 1) {
+                                                                    $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row[product_id]' ";
+                                                                    $rs_po = $conn->query($sql_po);
+                                                                    $row_po = $rs_po->fetch_assoc();
+                                                                    echo "$row_po[a_type]";
+                                                                } else {
 
-                                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product_update.php?product_id=<?php echo $row["product_id"]; ?>">
-                                                                    <i class="i-Pen-2 font-weight-bold"></i>
-                                                                </a>
+
+                                                                    $sql_po = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1' AND product_id='$row[product_id]' ";
+                                                                    $rs_po = $conn->query($sql_po);
+                                                                    $row_po = $rs_po->fetch_assoc();
+                                                                    echo "$row_po[a_type]";
+                                                                } ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php
+                                                                $sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail  where  product_id='$row[product_id]' ";
+                                                                $rs_dev = $conn->query($sql_dev);
+                                                                $row_dev = $rs_dev->fetch_assoc();
+                                                                echo "$row_dev[dev_qty]";
+                                                                ?>
+
+                                                            </td>
+                                                            <td><?php $sum_stock = $row_po['a_type'] - $row_dev['dev_qty'];
+                                                                echo "$sum_stock";
+                                                                ?></td>
+                                                            <td>
+                                                                <button data-toggle="modal" data-target="#Modal-add1" data-id="<?php echo $row['id']; ?>" id="edit" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+
                                                             </td>
                                                         </tr>
                                                     <?php
@@ -209,13 +214,12 @@ if ($rowS == '') {
                                                         <th>รหัสสินค้า</th>
                                                         <th>ประเภทสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
-
-                                                        <th>ราคาต่อหน่วย</th>
-                                                        <th>ข้อมูลเพิ่มเติม</th>
-                                                        <th>โรงงาน 1</th>
-                                                        <th>โรงงาน 2</th>
-                                                        <th>ยอดสั่งจอง</th>
-                                                        <th>หน่วยนับ</th>
+                                                        <th>stock1</th>
+                                                        <th>stock2</th>
+                                                        <th>จอง</th>
+                                                        <th>ผลิต</th>
+                                                        <th>ขาย</th>
+                                                        <th>เหลือ</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </tfoot>
@@ -250,38 +254,28 @@ if ($rowS == '') {
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>อับโหลดไฟล์ Excle สต็อกสินค้า
+                                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>อับเดตสต็อกสินค้า
                                 </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div class="modal-body">
 
-                                <form class="form-horizontal well" action="import_stock.php" method="post" name="upload_excel" enctype="multipart/form-data">
+                              
                                     <div class="box-content">
                                         <div class="form-row">
-                                            <div class="form-group col-md-12">
-                                                <legend>Import CSV/Excel file</legend>
+                                            <div class="modal-body">
 
-                                                <div class="controls">
-                                                    <input type="file" name="file" id="file" class="input-large" required>
-                                                </div>
+                                                <!-- mysql data will be load here -->
+                                                <div id="dynamic-content"></div>
                                             </div>
                                         </div>
-
-
-                                        <div class="modal-footer">
-                                            <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
-
-                                            <input type="hidden" name="action" value="add2">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                </form>
+                               
                             </div>
                         </div>
                     </div>
                 </div>
 
-             
+
                 <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
                 <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
                 <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -461,4 +455,32 @@ if ($rowS == '') {
         ],
 
     }); // multi column ordering
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'stock_update.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content').html(''); // blank before load.
+                    $('#dynamic-content').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
+        });
+    });
 </script>
