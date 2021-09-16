@@ -34,48 +34,17 @@ MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddat
 $rs_pmonth = $conn->query($sql_pmonth);
 $row_pmonth = $rs_pmonth->fetch_assoc();
 
+$sql_po = "SELECT sum(qty) AS a_type  FROM production_import   ";
+$rs_po = $conn->query($sql_po);
+$row_po = $rs_po->fetch_assoc();
+$sql_po1 = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1'  ";
+$rs_po1 = $conn->query($sql_po1);
+$row_po1 = $rs_po1->fetch_assoc();
+$sum_stock=$row_po['a_type']+$row_po1['a_type'];
 
-
-
-$sql_pdaycf = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='0'  ";
-$rs_pdaycf = $conn->query($sql_pdaycf);
-$row_pdaycf = $rs_pdaycf->fetch_assoc();
-
-$sql_pdaycf1 = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='1'  ";
-$rs_pdaycf1 = $conn->query($sql_pdaycf1);
-$row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
-
-$sql_value = "SELECT count(production_detail.product_id) AS today,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS CO  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'  ";
-$rs_value = $conn->query($sql_value);
-$row_value = $rs_value->fetch_assoc();
-
-
-$sql_pmonth = "SELECT count(production_detail.product_id) AS month,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]'   INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'   ";
-$rs_pmonth = $conn->query($sql_pmonth);
-$row_pmonth = $rs_pmonth->fetch_assoc();
-
-$sql_pmonth1 = "SELECT count(production_detail.product_id) AS month,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]'   INNER JOIN  product ON product.product_id=production_detail.product_id    ";
-$rs_pmonth1 = $conn->query($sql_pmonth1);
-$row_pmonth1 = $rs_pmonth1->fetch_assoc();
-
-$sql_qc = "SELECT SUM(production_detail.a_type) AS a_type,SUM(production_detail.b_type) AS b_type,SUM(product.unit_price)AS unit_price, SUM(a_type*unit_price) AS sum_a,SUM(b_type*unit_price)AS sum_b  FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-MONTH(production_order.po_enddate) = '$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1' ";
-$rs_qc = $conn->query($sql_qc);
-$row_qc = $rs_qc->fetch_assoc();
-
-$sql_order_month = "SELECT COUNT(*) AS month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5' ";
-$rs_order_month = $conn->query($sql_order_month);
-$row_order_month = $rs_order_month->fetch_assoc();
-
-$sql_order_year = "SELECT COUNT(*) AS year  FROM orders  WHERE  YEAR(date_create) = '$d[0]'  AND order_status='5'  ";
-$rs_order_year = $conn->query($sql_order_year);
-$row_order_year = $rs_order_year->fetch_assoc();
-
+$sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail   ";
+$rs_dev = $conn->query($sql_dev);
+$row_dev = $rs_dev->fetch_assoc();
 ?>
 
 <body class="text-left">
@@ -109,10 +78,10 @@ $row_order_year = $rs_order_year->fetch_assoc();
             <div class="main-content">
                 
                 <div class="breadcrumb">
-                    <h1 class="mr-2">ข้อมูลสั่งผลิตสินค้า
+                    <h1 class="mr-2">ข้อมูลสต็อกสินค้า
                     </h1>
                     <ul>
-                        <li><a href="">ภาพรวมการผลิต</a></li>
+                        <li><a href="">ภาพรวมสต็อกสินค้า</a></li>
                         <li>มูลค่าการผลิต</li>
                     </ul>
                 </div>
@@ -140,9 +109,10 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div class="ul-widget__row">
                                     <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                     <div class="ul-widget__content">
-                                        <p class="m-0">สินค้าผลิตคงเหลือ</p>
-                                        <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty'], '0', '.', ',') ?> ชิ้น </h4>
-                                        <small class="text-muted m-0">สั่งผลิตทั้งหมดเดือน : <?php echo number_format($row_pmonth1['qty'], '0', '.', ',') ?> ชิ้น</small>
+                                        <p class="m-0">สินค้าผลิตทั้งหมด</p>
+                                        <h4 class="heading"> <?php echo number_format($sum_stock, '0', '.', ',') ?> ชิ้น </h4>
+                                        <small class="text-muted m-0">สั่งผลิตเสร็จ: <?php echo number_format($row_po1['a_type'], '0', '.', ',') ?> ชิ้น</small><br>
+                                        <small class="text-muted m-0">นำเข้าขาย: <?php echo number_format($row_po['a_type'], '0', '.', ',') ?> ชิ้น</small>
 
                                     </div>
                                 </div>
@@ -155,9 +125,10 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div class="ul-widget__row">
                                     <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
                                     <div class="ul-widget__content">
-                                        <p class="m-0">ขายได้</p>
-                                        <h4 class="heading"><?php echo number_format($row_qc['a_type'], '0', '.', ',') ?> : <?php echo number_format($row_qc['b_type'], '0', '.', ',') ?> </h4>
-                                        <small class="text-muted m-0">มูลค่าสินค้าดี <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?>: <?php echo number_format($row_qc['sum_b'], '0', '.', ',') ?></small>
+                                        <p class="m-0">สินค้าออกจากสต็อก</p>
+                                        <h4 class="heading"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?> ชิ้น </h4>
+                                        <small class="text-muted m-0">สินค้ามัดจำ <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?> ชิ้น</small><br>
+                                        <small class="text-muted m-0">สินค้าส่งเสร็จ <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?> ชิ้น</small>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +140,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div class="ul-widget__row">
                                     <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
                                     <div class="ul-widget__content">
-                                        <p class="m-0">มูลค่าการผลิตประจำเดือน</p>
+                                        <p class="m-0">สต็อกคงเหลือ</p>
                                         <h4 class="heading"><?php echo number_format($row_value['CO'], '2', '.', ',') ?></h4>
                                         <small class="text-muted m-0">จำนวนสินค้า : <?php echo number_format($row_value['qty'], '2', '.', ',') ?> ชิ้น </small>
                                     </div>
