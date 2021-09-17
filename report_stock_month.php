@@ -47,14 +47,14 @@ $row_pday = $rs_pday->fetch_assoc();
             <!-- ============ Tab Menu ============= -->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link " href="/report_production.php">
-                        <h4 class="h5 font-weight-bold"> ภาพรวมข้อมูลสั่งผลิต
+                    <a class="linkLoadModalNext nav-link " href="/report_stock.php">
+                        <h4 class="h5 font-weight-bold"> ภาพรวมสต็อก
                         </h4>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link active" href="/report_production_year.php">
-                        <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายปี
+                    <a class="linkLoadModalNext nav-link active" href="/report_stock_year.php">
+                        <h4 class="h5 font-weight-bold"> รายงานสต็อกผลิตรายปี
                         </h4>
                     </a>
                 </li>
@@ -65,27 +65,17 @@ $row_pday = $rs_pday->fetch_assoc();
                 <div class="main-content">
 
                     <div class="breadcrumb">
-                        <h1 class="mr-2">ข้อมูลสั่งผลิตสินค้า
+                        <h1 class="mr-2">ภาพรวมสต็อก
                         </h1>
                         <ul>
-                            <li><a href="">ภาพรวมการผลิตรายปี</a></li>
+                            <li><a href="">รายงานยอดสต็อกรายปี</a></li>
 
                         </ul>
                     </div>
 
 
 
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <div class="card-title">ยอดผลิตประจำปี</div>
-                                    <div id="echartBar" style="height: 300px;"></div>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
@@ -97,7 +87,7 @@ $row_pday = $rs_pday->fetch_assoc();
                                                 <div class="ul-widget__head-label">
                                                     <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าแบบรายปี</h3>
                                                 </div>
-                                                
+
                                             </div>
 
 
@@ -108,9 +98,9 @@ $row_pday = $rs_pday->fetch_assoc();
                                                             <th scope="col">#</th>
                                                             <th scope="col" class="text-left">ชื่อสินค้า</th>
                                                             <th scope="col" class="text-left">ผลิต</th>
-                                                            <th scope="col" class="text-left">สำเร็จ</th>
-                                                            <th scope="col" class="text-left">ชำรุด</th>
-                                                            <th scope="col" class="text-left">มูลค่า</th>
+                                                            <th scope="col" class="text-left">ขาย</th>
+                                                            <th scope="col" class="text-left">คงเหลือ</th>
+                                                            <!-- <th scope="col" class="text-left">มูลค่า</th> -->
                                                             <th scope="col" class="text-left">ข้อมูล</th>
                                                         </tr>
                                                     </thead>
@@ -123,18 +113,29 @@ $row_pday = $rs_pday->fetch_assoc();
                                                         ?> <tr>
                                                                     <th scope="row"><?= ++$idx; ?></th>
                                                                     <td class="text-left">
-                                                                        <?php $sql_pro = "SELECT * FROM product   WHERE product_id= '$row4[product_id]'";
-                                                                        $rs_pro = $conn->query($sql_pro);
-                                                                        $row_pro = $rs_pro->fetch_assoc();
-                                                                        $year =$row4['MyYear'] + 543;  ?>
+                                                                        <?php
+                                                                        $d1 = explode("-", $row4['MyYear']);
+                                                                        $sql_div = "SELECT  SUM(dev_qty)AS dev_qty FROM deliver_detail   WHERE YEAR(date_create) = '$d1[0]'  AND  ptype_id<>'TF' AND status_cf='1'  ";
+                                                                        $rs_div  = $conn->query($sql_div);
+                                                                        $row_div  = $rs_div ->fetch_assoc();
+                                                                        $year = $row4['MyYear'] + 543;
+                                                                        $sql_po1 = "SELECT  SUM(qty)AS qty_im FROM production_import  WHERE YEAR(date_import) = '$d1[0]'  ";
+                                                                        $rs_po1  = $conn->query($sql_po1);
+                                                                        $row_po1  = $rs_po1 ->fetch_assoc();
+                                                                        
+                                                                        $sum_po=$row4['a_type']+$row_po1['qty_im'];
+                                                                        $sum_all=$sum_po-$row_div['dev_qty'];
+
+
+                                                                        ?>
                                                                         <?= $year ?></td>
-                                                                    <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',') ?></td>
-                                                                    <td class="text-left"><?php echo number_format($row4['a_type'], '0', '.', ',') ?></td>
-                                                                    <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
-                                                                    <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
-                                                                    <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_production_month.php?MyYear=<?= $row4['MyYear'] ?>">
-                                                        <i class="i-Check font-weight-bold"></i>
-                                                    </a></td>
+                                                                    <td class="text-left"><?php echo number_format($sum_po, '0', '.', ',') ?></td>
+                                                                    <td class="text-left"><?php echo number_format($row_div['dev_qty'], '0', '.', ',') ?></td>
+                                                                    <td class="text-left"><?php echo number_format($sum_all, '0', '.', ',') ?></td>
+                                                                    <!-- <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td> -->
+                                                                    <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_stock_month.php?MyYear=<?= $row4['MyYear'] ?>">
+                                                                            <i class="i-Check font-weight-bold"></i>
+                                                                        </a></td>
                                                                 </tr>
                                                         <?php }
                                                         } ?>

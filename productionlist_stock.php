@@ -14,22 +14,23 @@ echo "$row2[po_id]";
 ?>
 
 
-<form action="" method="post" name="form1"  id="form1">
+<form action="" method="post" name="form1" id="form1">
 
 
 
     <!-- ============ Table Start ============= -->
     <div id="productionorder" class="table-responsive">
-  
+
         <table role="table" class="table table-hover text-nowrap table-sm">
             <thead>
                 <tr class="table-secondary">
-
+                   
                     <th>รหัสสินค้า</th>
                     <th>ชื่อสินค้า</th>
                     <th>แพที่</th>
                     <th>ความยาว</th>
                     <th>จำนวนผลิต</th>
+                    <th>คงเหลือ</th>
                     <th>สมบูรณ์</th>
                     <th>ไม่สมบูรณ์</th>
                 </tr>
@@ -39,29 +40,33 @@ echo "$row2[po_id]";
                 $resultxx = mysqli_query($conn, $sqlxx);
                 if (mysqli_num_rows($resultxx) > 0) {
                     while ($rowx = mysqli_fetch_assoc($resultxx)) { ?>
-                        <tr>
+                        <tr>  
                             <td><?php
                                 $sqlx = "SELECT * FROM product   WHERE product_id= '$rowx[product_id]'";
                                 $rsx = $conn->query($sqlx);
                                 $rowx2 = $rsx->fetch_assoc();
-                                $pid=$rowx['id'];
-                                $product_id=$rowx['product_id'];
+                                $pid = $rowx['id'];
+                                // echo"$pid";
+                                $product_id = $rowx['product_id'];
                                 echo "$rowx[product_id]";
+                                $sumx=$rowx['a_type']+$rowx['b_type'];
+                                $sumy=$rowx['qty']-$sumx;
                                 ?></td>
-                           
-                            <td><?php echo"$rowx2[product_name]";?></td>
-                            <td><?php echo"$rowx[plant_id]";?></td>
-                            <td><?php echo"$rowx2[width]";?></td>
-                            <td><?php echo"$rowx[qty]";?></td>
-                            <td><input class="form-control" value="<?php echo"$rowx[a_type]";?>" type="text" name='a_type[<?=$product_id?>][<?=$pid?>][<?=++$idx;?>]' placeholder="ใส่ข้อมูล" require></td>
-                            <td><input class="form-control" value="<?php echo"$rowx[b_type]";?>"type="text" name='b_type[<?=$product_id?>][<?=$pid?>][<?=++$idx1;?>]' placeholder="ใส่ข้อมูล" ></td>
+                         
+                            <td><?php echo "$rowx2[product_name]"; ?></td>
+                            <td><?php echo "$rowx[plant_id]"; ?></td>
+                            <td><?php echo "$rowx2[width]"; ?></td>
+                            <td><?php echo "$rowx[qty]"; ?></td>
+                            <td><?php echo "$sumy"; ?></td>
+                            <td><input class="form-control" value="" type="text" name='a_type[<?= $product_id ?>][<?= $pid ?>][<?= ++$idx; ?>]' placeholder="ใส่ข้อมูล" require></td>
+                            <td><input class="form-control" value="" type="text" name='b_type[<?= $product_id ?>][<?= $pid ?>][<?= ++$idx1; ?>]' placeholder="ใส่ข้อมูล"></td>
                         </tr>
                 <?php }
                 } ?>
 
             </tbody>
         </table>
-   
+
     </div>
     <!-- ============ Table End ============= -->
 
@@ -70,8 +75,8 @@ echo "$row2[po_id]";
     <div class="modal-footer">
 
         <button type="submit" class="btn btn-primary ml-2" name="add-data">บันทึก</span>
-        <input type="hidden" name="po_id" value="<?php echo $id; ?>">
-        <input type="hidden" name="action" value="add_stock">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="hidden" name="po_id" value="<?php echo $id; ?>">
+            <input type="hidden" name="action" value="add_stock">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
 </form>

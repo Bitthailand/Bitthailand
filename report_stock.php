@@ -67,10 +67,24 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <!-- ============ Tab Menu ============= -->
-            
+            <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="linkLoadModalNext nav-link active" href="/report_stock.php">
+                                    <h4 class="h5 font-weight-bold"> ภาพรวมสต็อก
+                                    </h4>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="linkLoadModalNext nav-link" href="/report_stock_year.php">
+                                    <h4 class="h5 font-weight-bold"> รายงานยอดสต็อกรายปี
+                                    </h4>
+                                </a>
+                            </li>
+                            
+                        </ul> 
             <div class="tab-content">
                 <div class="main-content">
-
+                
                     <div class="breadcrumb">
                         <h1 class="mr-2">ข้อมูลสต็อกสินค้า
                         </h1>
@@ -174,6 +188,8 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                             <th scope="col" class="text-left">สต็อกโรงงาน2</th>
                                                                             <th scope="col" class="text-left">ผลิต</th>
                                                                             <th scope="col" class="text-left">ขาย</th>
+                                                                            <th scope="col" class="text-left">มูลค่าผลิต</th>
+                                                                            <th scope="col" class="text-left">มูลค่าขาย</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -191,14 +207,14 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                         $row_pro = $rs_pro->fetch_assoc();  ?>
                                                                                         <?php
                                                                                         if ($row_pro['stock_m'] == 1) {
-                                                                                            $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row4[product_id]' ";
+                                                                                            $sql_po = "SELECT sum(production_import.qty) AS a_type,SUM(product.unit_price)AS unit_price,SUM(a_type*unit_price) AS sumall_pro  FROM production_import INNER JOIN product on production_import.product_id=product.product_id  AND   production_import.product_id='$row4[product_id]' ";
                                                                                             $rs_po = $conn->query($sql_po);
                                                                                             $row_po = $rs_po->fetch_assoc();
                                                                                             // echo "$row_po[a_type]";
                                                                                         } else {
 
 
-                                                                                            $sql_po = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1' AND product_id='$row4[product_id]' ";
+                                                                                            $sql_po = "SELECT sum(a_type) AS a_type,SUM(product.unit_price)AS unit_price,SUM(a_type*unit_price) AS sumall_pro FROM production_detail   INNER JOIN product on production_detail.product_id=product.product_id  AND  production_detail.status_stock='1' AND production_detail.product_id='$row4[product_id]' ";
                                                                                             $rs_po = $conn->query($sql_po);
                                                                                             $row_po = $rs_po->fetch_assoc();
                                                                                             // echo "$row_po[a_type]";
@@ -212,6 +228,9 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                     <td class="text-left"><?php echo number_format($row4['fac1_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row4['fac2_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row_po['a_type'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row_po['sumall_pro'], '0', '.', ',') ?></td>
+                                                                                    
                                                                                     <td class="text-left"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
                                                                                 </tr>
                                                                         <?php }

@@ -318,7 +318,7 @@ $row_emp = $rs_emp->fetch_assoc();
                                                                 $rsx31 = $conn->query($sqlx31);
                                                                 $rowx31 = $rsx31->fetch_assoc();
                                                                 
-                                                                echo 'ค่าจัดส่ง' . '(' . $rowx31['product_name'] . ')';
+                                                                echo 'ค่าจัดส่ง' ;
                                                                 
                                                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx31[units]' ";
                                                                 $rs_unit = $conn->query($sql_unit);
