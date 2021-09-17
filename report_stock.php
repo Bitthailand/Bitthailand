@@ -40,11 +40,18 @@ $row_po = $rs_po->fetch_assoc();
 $sql_po1 = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1'  ";
 $rs_po1 = $conn->query($sql_po1);
 $row_po1 = $rs_po1->fetch_assoc();
-$sum_stock=$row_po['a_type']+$row_po1['a_type'];
+$sum_stock = $row_po['a_type'] + $row_po1['a_type'];
 
-$sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail   ";
+$sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail  where  ptype_id<>'TF' AND status_cf='1' ";
 $rs_dev = $conn->query($sql_dev);
 $row_dev = $rs_dev->fetch_assoc();
+
+
+$sql_pro2 = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON  order_details.order_id=orders.order_id AND orders.is_ai='Y' AND order_details.ptype_id<>'TF' ";
+$rs_pro2 = $conn->query($sql_pro2);
+$row_pro2 = $rs_pro2->fetch_assoc();
+$sum_stock_all = $sum_stock - $row_dev['dev_qty'];
+
 ?>
 
 <body class="text-left">
@@ -59,387 +66,196 @@ $row_dev = $rs_dev->fetch_assoc();
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
-                       <!-- ============ Tab Menu ============= -->
-                       <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/report_production.php">
-                                    <h4 class="h5 font-weight-bold"> ภาพรวมสต็อกสินค้า
-                                    </h4>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="linkLoadModalNext nav-link" href="/report_production_year.php">
-                                    <h4 class="h5 font-weight-bold"> รายงานสต็อกรายปี
-                                    </h4>
-                                </a>
-                            </li>
-                            
-                        </ul> <div class="tab-content">
-            <div class="main-content">
-                
-                <div class="breadcrumb">
-                    <h1 class="mr-2">ข้อมูลสต็อกสินค้า
-                    </h1>
-                    <ul>
-                        <li><a href="">ภาพรวมสต็อกสินค้า</a></li>
-                        <li>มูลค่าการผลิต</li>
-                    </ul>
-                </div>
-                <div class="row">
-                    <!-- ICON BG-->
-                    <div class="col-md-3 col-lg-3">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <div class="ul-widget__row">
-                                    <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
-                                    <div class="ul-widget__content">
-                                        <p class="m-0">สต็อกทั้งหมดประจำวันนี้</p>
-                                        <h4 class="heading"><?php echo number_format($row_pday['sum_all'], '0', '.', ',') ?> ชิ้น</h4>
-                                        <small class="text-muted m-0">โรงงาน1 :<?php echo number_format($row_pday['fac1_stock'] , '0', '.', ',') ?> ชิ้น </small><br>
-                                        <small class="text-muted m-0">โรงงาน2 :<?php echo number_format($row_pday['fac2_stock'] , '0', '.', ',') ?> ชิ้น </small>
+            <!-- ============ Tab Menu ============= -->
+            
+            <div class="tab-content">
+                <div class="main-content">
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="breadcrumb">
+                        <h1 class="mr-2">ข้อมูลสต็อกสินค้า
+                        </h1>
+                        <ul>
+                            <li><a href="">ภาพรวมสต็อกสินค้า</a></li>
+                            <li>มูลค่าการผลิต</li>
+                        </ul>
                     </div>
-                    <div class="col-md-3 col-lg-3">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <div class="ul-widget__row">
-                                    <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
-                                    <div class="ul-widget__content">
-                                        <p class="m-0">สินค้าผลิตทั้งหมด</p>
-                                        <h4 class="heading"> <?php echo number_format($sum_stock, '0', '.', ',') ?> ชิ้น </h4>
-                                        <small class="text-muted m-0">สั่งผลิตเสร็จ: <?php echo number_format($row_po1['a_type'], '0', '.', ',') ?> ชิ้น</small><br>
-                                        <small class="text-muted m-0">นำเข้าขาย: <?php echo number_format($row_po['a_type'], '0', '.', ',') ?> ชิ้น</small>
+                    <div class="row">
+                        <!-- ICON BG-->
+                        <div class="col-md-3 col-lg-3">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <div class="ul-widget__row">
+                                        <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
+                                        <div class="ul-widget__content">
+                                            <p class="m-0">สต็อกทั้งหมดประจำวันนี้</p>
+                                            <h4 class="heading"><?php echo number_format($row_pday['sum_all'], '0', '.', ',') ?> ชิ้น</h4>
+                                            <small class="text-muted m-0">โรงงาน1 :<?php echo number_format($row_pday['fac1_stock'], '0', '.', ',') ?> ชิ้น </small><br>
+                                            <small class="text-muted m-0">โรงงาน2 :<?php echo number_format($row_pday['fac2_stock'], '0', '.', ',') ?> ชิ้น </small>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-lg-3">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <div class="ul-widget__row">
-                                    <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
-                                    <div class="ul-widget__content">
-                                        <p class="m-0">สินค้าออกจากสต็อก</p>
-                                        <h4 class="heading"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?> ชิ้น </h4>
-                                        <small class="text-muted m-0">สินค้ามัดจำ <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?> ชิ้น</small><br>
-                                        <small class="text-muted m-0">สินค้าส่งเสร็จ <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?> ชิ้น</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-lg-3">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <div class="ul-widget__row">
-                                    <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
-                                    <div class="ul-widget__content">
-                                        <p class="m-0">สต็อกคงเหลือ</p>
-                                        <h4 class="heading"><?php echo number_format($row_value['CO'], '2', '.', ',') ?></h4>
-                                        <small class="text-muted m-0">จำนวนสินค้า : <?php echo number_format($row_value['qty'], '2', '.', ',') ?> ชิ้น </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-8 col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="card-title">ยอดผลิตประจำปี</div>
-                                <div id="echartBar" style="height: 300px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-12">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="card-title">ยอดผลิตตามประเภทสินค้า ปี <?= $d['0'] ?></div>
-                                <div id="echartPie" style="height: 300px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12">
-                                <div class="card mb-4">
-                                    <div class="card-body">
-
-                                        <div class="ul-widget__head">
-                                            <div class="ul-widget__head-label">
-                                                <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าสูงสุด</h3>
-                                            </div>
-                                            <div class="ul-widget__head-toolbar">
-                                                <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
-                                                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__d-widget4-tab1-content" role="tab" aria-selected="true">Month</a></li>
-                                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__d-widget4-tab2-content" role="tab" aria-selected="false">Year</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
                                         </div>
-                                        <div class="ul-widget__body">
-                                            <div class="tab-content">
-                                                <div class="tab-pane active show" id="__d-widget4-tab1-content">
-                                                    <div class="ul-widget1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <div class="ul-widget__row">
+                                        <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
+                                        <div class="ul-widget__content">
+                                            <p class="m-0">สินค้าผลิตทั้งหมด</p>
+                                            <h4 class="heading"> <?php echo number_format($sum_stock, '0', '.', ',') ?> ชิ้น </h4>
+                                            <small class="text-muted m-0">สั่งผลิตเสร็จ: <?php echo number_format($row_po1['a_type'], '0', '.', ',') ?> ชิ้น</small><br>
+                                            <small class="text-muted m-0">นำเข้าขาย: <?php echo number_format($row_po['a_type'], '0', '.', ',') ?> ชิ้น</small>
 
-                                                        <div class="table-responsive">
-                                                            <table class="table text-center" id="user_table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">#</th>
-                                                                        <th scope="col" class="text-left">ชื่อสินค้า</th>
-                                                                        <th scope="col" class="text-left">ผลิต</th>
-                                                                        <th scope="col" class="text-left">สำเร็จ</th>
-                                                                        <th scope="col" class="text-left">ชำรุด</th>
-                                                                        <th scope="col" class="text-left">มูลค่า</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <?php $sql4 = "SELECT SUM(production_detail.qty) AS qty ,production_detail.product_id AS product_id,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_detail  INNER JOIN  product  ON product.product_id=production_detail.product_id  
-                                                                                    INNER JOIN  production_order on  MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]' AND production_order.po_id=production_detail.po_id  GROUP BY product_id  ORDER BY qty DESC LIMIT 5";
-                                                                    $result4 = mysqli_query($conn, $sql4);
-                                                                    if (mysqli_num_rows($result4) > 0) {
-                                                                        while ($row4 = mysqli_fetch_assoc($result4)) {
-                                                                    ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <div class="ul-widget__row">
+                                        <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
+                                        <div class="ul-widget__content">
+                                            <p class="m-0">สินค้าออกจากสต็อก</p>
+                                            <h4 class="heading"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?> ชิ้น </h4>
+                                            <small class="text-muted m-0">สินค้ามัดจำ <?php echo number_format($row_pro2['qty_out'], '0', '.', ',') ?> ชิ้น</small><br>
+                                            <small class="text-muted m-0">สินค้าส่งเสร็จ <?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?> ชิ้น</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <div class="ul-widget__row">
+                                        <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
+                                        <div class="ul-widget__content">
+                                            <p class="m-0">สต็อกคงเหลือ</p>
+                                            <h4 class="heading"><?php echo number_format($sum_stock_all, '0', '.', ',') ?></h4><br><br>
+                                            <!-- <small class="text-muted m-0">จำนวนสินค้า : <?php echo number_format($row_value['qty'], '2', '.', ',') ?> ชิ้น </small> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                                                            <tr>
-                                                                                <th scope="row"><?= ++$idx; ?></th>
-                                                                                <td class="text-left">
-                                                                                    <?php $sql_pro = "SELECT * FROM product   WHERE product_id= '$row4[product_id]'";
-                                                                                    $rs_pro = $conn->query($sql_pro);
-                                                                                    $row_pro = $rs_pro->fetch_assoc();  ?>
-                                                                                    <?= $row_pro['product_name'] ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',') ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['a_type'], '0', '.', ',') ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
-                                                                            </tr>
-                                                                    <?php }
-                                                                    } ?>
 
-                                                                </tbody>
-                                                            </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+
+                                            <div class="ul-widget__head">
+                                                <div class="ul-widget__head-label">
+                                                    <h3 class="ul-widget__head-title">รายการสินค้าที่มีสต็อกสูงสุด</h3>
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="ul-widget__body">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active show" id="__d-widget4-tab1-content">
+                                                        <div class="ul-widget1">
+
+                                                            <div class="table-responsive">
+                                                                <table class="table text-center" id="user_table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col" class="text-left">ชื่อสินค้า</th>
+                                                                            <th scope="col" class="text-left">สต็อกโรงงาน1</th>
+                                                                            <th scope="col" class="text-left">สต็อกโรงงาน2</th>
+                                                                            <th scope="col" class="text-left">ผลิต</th>
+                                                                            <th scope="col" class="text-left">ขาย</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <?php $sql4 = "SELECT *  FROM product where  ptype_id<>'TF0'  ORDER BY fac1_stock DESC ";
+                                                                        $result4 = mysqli_query($conn, $sql4);
+                                                                        if (mysqli_num_rows($result4) > 0) {
+                                                                            while ($row4 = mysqli_fetch_assoc($result4)) {
+                                                                        ?>
+
+                                                                                <tr>
+                                                                                    <th scope="row"><?= ++$idx; ?></th>
+                                                                                    <td class="text-left"> <?= $row4['ptype_id'] ?>
+                                                                                        <?php $sql_pro = "SELECT * FROM product_type  WHERE ptype_id= '$row4[ptype_id]'  ";
+                                                                                        $rs_pro = $conn->query($sql_pro);
+                                                                                        $row_pro = $rs_pro->fetch_assoc();  ?>
+                                                                                        <?php
+                                                                                        if ($row_pro['stock_m'] == 1) {
+                                                                                            $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row4[product_id]' ";
+                                                                                            $rs_po = $conn->query($sql_po);
+                                                                                            $row_po = $rs_po->fetch_assoc();
+                                                                                            // echo "$row_po[a_type]";
+                                                                                        } else {
+
+
+                                                                                            $sql_po = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1' AND product_id='$row4[product_id]' ";
+                                                                                            $rs_po = $conn->query($sql_po);
+                                                                                            $row_po = $rs_po->fetch_assoc();
+                                                                                            // echo "$row_po[a_type]";
+                                                                                        } 
+                                                                                        $sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail  where  product_id='$row4[product_id]' ";
+                                                                                        $rs_dev = $conn->query($sql_dev);
+                                                                                        $row_dev = $rs_dev->fetch_assoc();
+
+                                                                                        ?>
+                                                                                        <?= $row4['product_name'] ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row4['fac1_stock'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row4['fac2_stock'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row_po['a_type'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
+                                                                                </tr>
+                                                                        <?php }
+                                                                        } ?>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="tab-pane" id="__d-widget4-tab2-content">
-                                                    <div class="ul-widget1">
-                                                        <div class="table-responsive">
-                                                            <table class="table text-center" id="user_table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">#</th>
-                                                                        <th scope="col" class="text-left">ชื่อสินค้า</th>
-                                                                        <th scope="col" class="text-left">ผลิต</th>
-                                                                        <th scope="col" class="text-left">สำเร็จ</th>
-                                                                        <th scope="col" class="text-left">ชำรุด</th>
-                                                                        <th scope="col" class="text-left">มูลค่า</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <?php $sql4 = "SELECT SUM(production_detail.qty) AS qty ,production_detail.product_id AS product_id,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_detail  INNER JOIN  product  ON product.product_id=production_detail.product_id  
-                                                                                    INNER JOIN  production_order ON YEAR(production_order.po_enddate) = '$d[0]' AND production_order.po_id=production_detail.po_id  GROUP BY product_id  ORDER BY qty DESC LIMIT 5 ";
-                                                                    $result4 = mysqli_query($conn, $sql4);
-                                                                    if (mysqli_num_rows($result4) > 0) {
-                                                                        while ($row4 = mysqli_fetch_assoc($result4)) {
-                                                                    ?> <tr>
-                                                                                <th scope="row"><?= ++$idx; ?></th>
-                                                                                <td class="text-left">
-                                                                                    <?php $sql_pro = "SELECT * FROM product   WHERE product_id= '$row4[product_id]'";
-                                                                                    $rs_pro = $conn->query($sql_pro);
-                                                                                    $row_pro = $rs_pro->fetch_assoc();  ?>
-                                                                                    <?= $row_pro['product_name'] ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',') ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['a_type'], '0', '.', ',') ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
-                                                                            </tr>
-                                                                    <?php }
-                                                                    } ?>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                              
 
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-              
-
-                    <div class="col-lg-6 col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-body">
-
-                                <div class="ul-widget__head">
-                                    <div class="ul-widget__head-label">
-                                        <h3 class="ul-widget__head-title">แพที่ใช้ผลิตมากสุด</h3>
-                                    </div>
-                                    <div class="ul-widget__head-toolbar">
-                                        <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
-                                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__g-widget4-tab1-content2" role="tab" aria-selected="true">Month</a></li>
-                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__g-widget4-tab2-content2" role="tab" aria-selected="false">Year</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="ul-widget__body">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active show" id="__g-widget4-tab1-content2">
-                                            <div class="ul-widget1">
-                                                <div class="table-responsive">
-                                                    <table class="table text-center" id="user_table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col" class="text-center">แพที่</th>
-                                                                <th scope="col" class="text-left">โรงงาน</th>
-                                                                <th scope="col" class="text-left">ประเภทสินค้า</th>
-                                                                <th scope="col" class="text-left">จำนวนผลิต</th>
-                                                                <th scope="col" class="text-left">มูลค่า</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $sql5 = "SELECT production_detail.plant_id, SUM(production_detail.qty) AS qty,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-                                                                        MONTH(production_order.po_enddate) = '$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'
-                                                                        GROUP BY production_detail.plant_id  ORDER BY  qty DESC  LIMIT 5 ";
-                                                            $result5 = mysqli_query($conn, $sql5);
-                                                            if (mysqli_num_rows($result5) > 0) {
-                                                                while ($row5 = mysqli_fetch_assoc($result5)) {
-                                                            ?> <tr>
-                                                                        <th scope="row"><?= ++$idx5; ?></th>
-                                                                        <td class="text-center">
-                                                                            <?php $sql_plant = "SELECT * FROM plant  WHERE plant_id= '$row5[plant_id]'";
-                                                                            $rs_plant = $conn->query($sql_plant);
-                                                                            $row_plant = $rs_plant->fetch_assoc();
-                                                                            $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row_plant[ptype_id]'";
-                                                                            $rs_type  = $conn->query($sql_type);
-                                                                            $row_type  = $rs_type->fetch_assoc();
-
-                                                                            ?>
-                                                                            <?= $row5['plant_id'] ?></td>
-                                                                        <td class="text-left"> <?= $row_plant['factory'] ?></td>
-                                                                        <td class="text-left"><?= $row_type['ptype_name'] ?></td>
-                                                                        <td class="text-left"><?php echo number_format($row5['qty'], '0', '.', ',') ?></td>
-                                                                        <td class="text-left"><?php echo number_format($row5['sumall'], '2', '.', ',') ?></td>
-                                                                    </tr>
-                                                            <?php }
-                                                            } ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="__g-widget4-tab2-content2">
-                                            <div class="ul-widget1">
-                                                <div class="table-responsive">
-                                                    <table class="table text-center" id="user_table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col" class="text-center">แพที่</th>
-                                                                <th scope="col" class="text-left">โรงงาน</th>
-                                                                <th scope="col" class="text-left">ประเภทสินค้า</th>
-                                                                <th scope="col" class="text-left">จำนวนผลิต</th>
-                                                                <th scope="col" class="text-left">มูลค่า</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $sql5 = "SELECT production_detail.plant_id, SUM(production_detail.qty) AS qty,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-                                                                         YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'
-                                                                        GROUP BY production_detail.plant_id  ORDER BY  qty DESC  LIMIT 5 ";
-                                                            $result5 = mysqli_query($conn, $sql5);
-                                                            if (mysqli_num_rows($result5) > 0) {
-                                                                while ($row5 = mysqli_fetch_assoc($result5)) {
-                                                            ?> <tr>
-                                                                        <th scope="row"><?= ++$idx6; ?></th>
-                                                                        <td class="text-center">
-                                                                            <?php $sql_plant = "SELECT * FROM plant  WHERE plant_id= '$row5[plant_id]'";
-                                                                            $rs_plant = $conn->query($sql_plant);
-                                                                            $row_plant = $rs_plant->fetch_assoc();
-                                                                            $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row_plant[ptype_id]'";
-                                                                            $rs_type  = $conn->query($sql_type);
-                                                                            $row_type  = $rs_type->fetch_assoc();
-
-                                                                            ?>
-                                                                            <?= $row5['plant_id'] ?></td>
-                                                                        <td class="text-left"> <?= $row_plant['factory'] ?></td>
-                                                                        <td class="text-left"><?= $row_type['ptype_name'] ?></td>
-                                                                        <td class="text-left"><?php echo number_format($row5['qty'], '0', '.', ',') ?></td>
-                                                                        <td class="text-left"><?php echo number_format($row5['sumall'], '2', '.', ',') ?></td>
-                                                                    </tr>
-                                                            <?php }
-                                                            } ?>
-                                                        </tbody>
-                                                    </table>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
 
-
                             </div>
-                        </div>
 
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card mb-4">
-                            <h5 class="card-title m-0 p-3">ยอดผลิต 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
-                            <div id="eORchartBar" style="height: 360px;"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="card-title">ยอดผลิตตามประเภทสินค้า</div>
-                                <div id="ProtypechartBar" style="height: 300px;"></div>
-                            </div>
                         </div>
                     </div>
 
-                </div><!-- end of main-content -->
+
+                    <!-- Header -->
+                    <?php include './include/footer.php'; ?>
+                    <!-- =============== Header End ================-->
+
+                </div>
             </div>
-
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
-
-        </div>
-    </div>
-    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js?id=1"></script>
-    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-    <script src="../../dist-assets/js/plugins/apexcharts.min.js"></script>
-    <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
-    <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
+            <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+            <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+            <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+            <script src="../../dist-assets/js/scripts/script.min.js"></script>
+            <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+            <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+            <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+            <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js?id=1"></script>
+            <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+            <script src="../../dist-assets/js/plugins/apexcharts.min.js"></script>
+            <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
+            <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
 </body>
 
 </html>

@@ -48,13 +48,13 @@ if ($action == 'del') {
 <?php }
 }
 
-$action = $_REQUEST['action'];
-if ($action =='edit') {
-  
-    // $edit_id= $_REQUEST['edit_id'];   
+
+if ($action =='editx') {
+//   echo"xx";
+    $edit_id= $_REQUEST['edit_id'];   
     $fac1_stock= $_REQUEST['fac1_stock'];  
     $fac2_stock= $_REQUEST['fac2_stock'];  
-    echo $edit_id;
+    // echo $edit_id;
 // echo"$delivery_date";
     $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where id='$edit_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
@@ -451,7 +451,7 @@ $(document).ready(function() {
 <script>
     $('#orderby1').DataTable({
         "order": [
-            [0, "asc"]
+            [6, "asc"]
         ],
 
     }); // multi column ordering
