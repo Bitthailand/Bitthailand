@@ -212,8 +212,6 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                             $row_po = $rs_po->fetch_assoc();
                                                                                             // echo "$row_po[a_type]";
                                                                                         } else {
-
-
                                                                                             $sql_po = "SELECT sum(a_type) AS a_type,SUM(product.unit_price)AS unit_price,SUM(a_type*unit_price) AS sumall_pro FROM production_detail   INNER JOIN product on production_detail.product_id=product.product_id  AND  production_detail.status_stock='1' AND production_detail.product_id='$row4[product_id]' ";
                                                                                             $rs_po = $conn->query($sql_po);
                                                                                             $row_po = $rs_po->fetch_assoc();

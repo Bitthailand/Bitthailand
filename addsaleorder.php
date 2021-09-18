@@ -236,9 +236,14 @@ if ($action == 'add_dev') {
         if ($cus_type == 2) {
             $datetodat = date('Y-m-d');
             $datetomonth = date('Y-m');
+            $sql_cus = "SELECT COUNT(*) AS ts2  FROM order_details  WHERE   order_id= '$order_id' AND ptype_id<>'TF' ";
+            $rs_cus = $conn->query($sql_cus);
+            $row_cus = $rs_cus->fetch_assoc();
+
 
             $date = explode("-", $date_end);
             $date_run = $date[2];
+            echo"";
             if ($date_run <= 15) {
                 $datemont = "$date[0]-$date[1]";
                 $date_start_true = "$datemont-1";
