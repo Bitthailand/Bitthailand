@@ -308,8 +308,9 @@ if ($rowS == '') {
                                                          $sql_unit = "SELECT * FROM unit  WHERE id= '$row_pro[units]' ";
                                                          $rs_unit = $conn->query($sql_unit);
                                                          $row_unit = $rs_unit->fetch_assoc();
-                                                       
+                                                       if($row_pro['product_name']==""){echo"ค่าจัดส่ง";}else{ 
                                                          echo"$row_pro[product_name]";
+                                                        }
                                                         ?></td>
                                                         <td> <?=$row2['qty']?>  <?=$row_unit['unit_name']?></td>
                                                         <td> <?php echo number_format($row2['unit'], '2', '.', ',') ?> </td>

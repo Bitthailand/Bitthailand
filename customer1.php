@@ -16,7 +16,7 @@ unset($_SESSION['order_id']);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Datatables | Gull Admin Template</title>
+    <title>รายการลูกค้า</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -32,6 +32,65 @@ unset($_SESSION['order_id']);
         <!-- side bar menu -->
         <?php include './include/menu.php'; ?>
         <!-- =============== Left side End ================-->
+<?php
+include './include/connect.php';
+include './include/config.php';
+$sql = "SELECT * FROM provinces";
+$query = mysqli_query($conn, $sql);
+
+$status_confirm= $_REQUEST['status_confirm'];
+if($status_confirm=='add'){
+    $datemonth = date('Y-m');   
+$sql5 = "SELECT COUNT(id) AS id_run FROM customer  where datemonth='$datemonth'  ";
+$rs5 = $conn->query($sql5);
+$row_run = $rs5->fetch_assoc(); 
+
+$datetodat=date('Y-m-d');
+ $date=explode(" ",$datetodat);
+ $dat=datethai_cus($date[0]);
+ $code_new=$row_run['id_run']+1;
+ $code = sprintf('%05d', $code_new);
+ $cus_id=$dat.$code;
+}
+
+$action= $_REQUEST['action'];
+if ($action == 'add') {
+    $datemonth = date('Y-m'); 
+    $customer_id = $_REQUEST['customer_id'];  
+    $customer_name= $_REQUEST['customer_name']; 
+    $customer_type= $_REQUEST['customer_type']; 
+    // echo"xx";
+    $company_name = $_REQUEST['company_name'];   
+    $bill_address= $_REQUEST['bill_address'];  
+    $subdistrict = $_REQUEST['subdistrict'];
+    $district= $_REQUEST['district'];
+    $province= $_REQUEST['province'];
+    $tel = $_REQUEST['tel'];
+    $tax_number = $_REQUEST['tax_number'];
+    $contact_name = $_REQUEST['contact_name'];
+    $referent = $_REQUEST['referent'];
+    // $delivery_address=$_REQUEST['delivery_address'];
+    $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
+    $result = mysqli_query($conn, $sqlx);
+    if (mysqli_num_rows($result) > 0) {?>
+<script>
+$(document).ready(function() {
+    showAlert("ข้อมูลซ้ำไม่สามารถบันทึกได้", "alert-danger");
+});
+</script>
+<?php    } else { 
+                   $sql = "INSERT INTO customer (customer_id,customer_name,company_name,bill_address,subdistrict,district,province,tel,tax_number,contact_name,customer_type,referent,datemonth)
+                   VALUES ('$customer_id','$customer_name','$company_name','$bill_address','$subdistrict','$district','$province','$tel','$tax_number','$contact_name','$customer_type','$referent','$datemonth')";                 
+                    if ($conn->query($sql) === TRUE) {  ?>
+<script>
+$(document).ready(function() {
+    showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
+    window.location='customer.php?status_confirm=add'
+});
+</script>
+<?php   }   }   }
+                        
+?>
 
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
@@ -89,7 +148,7 @@ unset($_SESSION['order_id']);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/ordersuccesslist.php">
+                                <a class="linkLoadModalNext nav-link" href="/ordersuccesslist.php">
                                     <h3 class="h5 font-weight-bold"> Order สำเร็จ</h3>
                                     <span>Order ที่ส่งสินค้าเรียบร้อย
                                         <span class="badge badge-success"> Pass </span>
@@ -110,7 +169,7 @@ unset($_SESSION['order_id']);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link " href="/orderloglist.php">
+                                <a class="linkLoadModalNext nav-link active" href="/orderloglist.php">
                                     <h3 class="h5 font-weight-bold"> Order Log </h3>
                                     <span> รายการ Order ทั้งหมด
                                         <span class="badge badge-light"> Log </span>
@@ -128,7 +187,7 @@ unset($_SESSION['order_id']);
                             <div class="mb-1">
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
-                                        <h3 class="ul-widget1__title "> รายการสำเร็จ </h3>
+                                        <h3 class="ul-widget1__title "> รายการ LOG </h3>
 
                                     </div>
 
@@ -137,31 +196,24 @@ unset($_SESSION['order_id']);
 
                             <!-- ============ Table Start ============= -->
                             <div class="table-responsive">
-                            <table id="employee-grid" class="display nowrap table-bordered" style="width:100%">
-                               
+                            <table class="display table table-striped table-bordered" id="employee-grid" class="display" style="width:100%">
 
-                                    <thead>
-                                        <tr>
-                                            <th width="10%">วันที่</th>
-                                            <th width="10%">Order ID</th>
-                                            <th width="10%">ประเภท</th>
-                                            <th width="20%">รับสินค้า</th>
-                                            <th width="30%">ชื่อลูกค้า</th>
-                                            <th width="10%">เบอร์โทร</th>
-                                            <th width="10%">อำเภอ</th>
-                                            <th width="10%">จังหวัด</th>
-                                            <th width="10%">ค่ามัดจำ</th>
-                                            <th width="10%">ก่อนรวมภาษี</th>
-                                            <th width="10%">ภาษี</th>
-                                            <th width="10%">ยอดรวม</th>
-                                            <th width="20%">Action</th>
-                                            <th width="5%">แก้ไข</th>
-                                        </tr>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                <thead>
+                                    <tr>
+                                        <th width="120">วันที่</th>
+                                        <th width="100">Order ID</th>
+                                        <th width="80" >เลขใบเสนอราคา</th>
+                                        <th width="80">ประเภทลูกค้า</th>
+                                        <th width="280">ชื่อลูกค้า</th>
+                                        <th width="100">เบอร์โทร</th>
+                                        <th width="100">อำเภอ</th>
+                                        <th width="100">จังหวัด</th>
+                                        <th width="50">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
 
-                            </div>
+                        </div>
                         </div>
                         <!-- ============ Table End ============= -->
 
@@ -189,15 +241,15 @@ unset($_SESSION['order_id']);
                         </div>
                     </div>
                 </div>
-                <!-- ============ Search UI End ============= -->
-                <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-                <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-                <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-                <script src="../../dist-assets/js/scripts/script.min.js"></script>
-                <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-                <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
-                <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+  <!-- ============ Search UI End ============= -->
+  <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../../dist-assets/js/scripts/script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
 
 </html>
 <script type="text/javascript" language="javascript">
@@ -206,7 +258,7 @@ unset($_SESSION['order_id']);
             "processing": true,
             "serverSide": true,
             "ajax": {
-                url: "order_success_json.php", // json datasource
+                url: "orderloglist_json.php", // json datasource
                 type: "post", // method  , by default get
                 error: function() { // error handling
                     $(".employee-grid-error").html("");
@@ -214,10 +266,19 @@ unset($_SESSION['order_id']);
                     $("#employee-grid_processing").css("display", "none");
 
                 },
-                "scrollX": true
+
+                "search": {
+                    return: true
+                },
+                "order": [
+                    [6, "asc"]
+                ],
+                fixedHeader: true,
+                fixedColumns: true
             }
         });
     });
+    
 </script>
 
 <script type="text/javascript">

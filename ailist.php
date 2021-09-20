@@ -335,37 +335,7 @@ if ($action == 'edit') {
                                         }
                                         mysqli_close($conn);
                                         ?>
-                                        <!-- <tr>
-                                            <td> 29 ก.ค. 2021 17:53 </td>
-                                            <td> OR6400002</td>
-                                            <td> เครดิต</td>
-                                            <td> คุณธนนวัต </td>
-                                            <td> 0888888888 </td>
-                                            <td>
-                                                เมือง
-                                            </td>
-                                            <td> ยโสธร </td>
-                                            <td>
-                                                <span class="font-weight-bold"> 0.00 </span>
-                                            </td>
-                                            <td> <span class="font-weight-bold"> 6,651.59 </span> </td>
-                                            <td> <span class="font-weight-bold"> 953.41 </span> </td>
-                                            <td>
-                                                <span class="font-weight-bold"> 7,545.00 </span>
-                                            </td>
-                                            <td>
-                                            <span class="badge badge-warning p-1">ยืนยันสั่งสินค้า</span>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)"
-                                                    href="/addsaleorder.php?saleorder_id=268">
-                                                    <i class="i-Car-Items font-weight-bold"></i>
-                                                </a>
-                                                <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="สั่งสินค้าเพิ่ม" href="/editorder.php?order_id=OR6400001">
-                                                        <i class="i-Check font-weight-bold"></i>
-                                                    </a>
-                                            </td>
-                                        </tr> -->
+                                      
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>

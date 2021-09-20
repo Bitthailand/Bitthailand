@@ -107,7 +107,7 @@ if ($action == 'add_dev') {
                     $total_price = $add_qty * $row_p['unit_price'];
 
                     $sqlx1 = "INSERT INTO sr_detail (sr_id,order_id,product_id,qty,unit,total_price,face_stock1,face_stock2)
-            VALUES ('$sr_id','$order_id','$product_id','$add_qty','$row_p[unit_price]','$total_price','$stock1','$stock2')";
+                    VALUES ('$sr_id','$order_id','$product_id','$add_qty','$row_p[unit_price]','$total_price','$stock1','$stock2')";
                     if ($conn->query($sqlx1) === TRUE) {
                     }
 

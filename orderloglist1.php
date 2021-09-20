@@ -219,6 +219,7 @@ unset($_SESSION['order_id']);
             }
         });
     });
+    
 </script>
 
 <script type="text/javascript">
