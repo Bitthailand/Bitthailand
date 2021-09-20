@@ -8,35 +8,35 @@ error_reporting(0);
 // storing  request (ie, get/post) global array to a variable  
 $requestData = $_REQUEST;
 
-$table = 'orders';
 
-// Table's primary key
-$primaryKey = 'id';
 $columns = array(
                 // datatable column index  => database column name
-                0 => 'date_create',
-                1 => 'order_id',
-                2 => 'qt_id',
-                3 => 'cus_id'
+                0 => 'orders.date_create',
+                1 => 'orders.order_id',
+                2 => 'orders.qt_id',
+                3 => 'customer.customer_name',
+                4 => 'customer.tel'
 );
 
 // getting total number records without any search
-$sql = "SELECT * FROM orders where status='0'   AND status_button='1'   ";
+$sql = "SELECT * FROM orders JOIN customer ON  orders.cus_id=customer.customer_id   AND orders.status_button='1'   ";
 $query = mysqli_query($conn, $sql) or die("");
 $totalData = mysqli_num_rows($query);
 $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
-$sql = "SELECT * FROM orders  where status='0' AND status_button='1'";
+$sql = "SELECT * FROM  orders JOIN customer ON  orders.cus_id=customer.customer_id  AND orders.status_button='1'";
 // $sql.=" FROM employee WHERE 1=1";
 if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
-                $sql .= " AND ( order_id LIKE '" . $requestData['search']['value'] . "%' ";
-                $sql .= " OR qt_id  LIKE '" . $requestData['search']['value'] . "%' ";
-                $sql .= " OR cus_id  LIKE '" . $requestData['search']['value'] . "%' )";
+                $sql .= " AND ( orders.order_id LIKE '" . $requestData['search']['value'] . "%' ";
+                $sql .= " OR orders.qt_id  LIKE '" . $requestData['search']['value'] . "%' ";
+                $sql .= " OR customer.customer_name  LIKE '" . $requestData['search']['value'] . "%' )";
+                // $sql .= " OR tel  LIKE '" . $requestData['search']['value'] . "%' )";
+             
 }
 $query = mysqli_query($conn, $sql) or die("");
 $totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result. 
-$sql .= "ORDER BY " . $columns[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "  LIMIT " . $requestData['start'] . " ," . $requestData['length'] . "   ";
+$sql .= " ORDER BY " . $columns[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "  LIMIT " . $requestData['start'] . " ," . $requestData['length'] . "   ";
 /* $requestData['order'][0]['column'] contains colmun index, $requestData['order'][0]['dir'] contains order such as asc/desc  */
 $query = mysqli_query($conn, $sql) or die("");
 
@@ -85,7 +85,6 @@ $json_data = array(
 );
 
 echo json_encode($json_data);  // send data as json format
-
 
 function datethai2($date1)
 {

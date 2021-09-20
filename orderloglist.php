@@ -5,37 +5,8 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-include './include/config.php';
+
 unset($_SESSION['order_id']);
-$emp_id = $_SESSION["username"];
-$sql = "DELETE FROM orders  WHERE status_button='0' AND emp_id='$emp_id'  ";
-if ($conn->query($sql) === TRUE) {
-}
-$sql2 = "DELETE FROM order_details  WHERE status_button='0' AND emp_id='$emp_id'  ";
-if ($conn->query($sql2) === TRUE) {
-}
-
-$action = $_REQUEST['action'];
-if ($action == 'del') {
-    $del_id = $_REQUEST['del_id'];
-
-    // $sql = "DELETE FROM customer  WHERE customer_id='$del_id' ";
-    $sql = "UPDATE orders    SET status='1',order_status='6'  where id='$del_id' ";
-
-    if ($conn->query($sql) === TRUE) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ลบรายการสำเร็จ", "alert-primary");
-            });
-        </script>
-    <?php  } else { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ไม่สามารถลบรายการได้", "alert-danger");
-            });
-        </script>
-<?php }
-}
 ?>
 
 <!DOCTYPE html>
@@ -45,19 +16,13 @@ if ($action == 'del') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
+    <title>Datatables | Gull Admin Template</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../dist-assets/css/plugins/datatables.min.css" />
-    <style>
-        .table-sm th,
-        .table-sm td {
-            padding: 0.3rem;
-            font-size: 0.813rem !important;
-        }
-    </style>
 </head>
+
 
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
@@ -171,307 +136,98 @@ if ($action == 'del') {
                             </div>
 
                             <!-- ============ Table Start ============= -->
-                            <div class="row mb-4">
-                                <div class="col-md-12 mb-4">
-                                    <div class="card text-left">
-                                        <div class="card-body">
-                                            <div class="table-responsive">
+                            <div class="table-responsive">
+                            <table class="display table table-striped table-bordered" id="employee-grid" class="display" style="width:100%">
 
-                                                <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>วันที่</th>
-                                                            <th>Order ID</th>
-                                                            <th>เลขใบเสนอราคา</th>
-                                                            <th>ประเภทลูกค้า</th>
-                                                            <th>ชื่อลูกค้า</th>
-                                                            <th>เบอร์โทร์</th>
-                                                            <th>อำเภอ</th>
-                                                            <th>จังหวัด</th>
+                                <thead>
+                                    <tr>
+                                        <th width="120">วันที่</th>
+                                        <th width="100">Order ID</th>
+                                        <th width="80" >เลขใบเสนอราคา</th>
+                                        <th width="80">ประเภทลูกค้า</th>
+                                        <th width="280">ชื่อลูกค้า</th>
+                                        <th width="100">เบอร์โทร</th>
+                                        <th width="100">อำเภอ</th>
+                                        <th width="100">จังหวัด</th>
+                                        <th width="50">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
 
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="myTable">
-                                                        <?php
-                                                        if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
-                                                            $page_no = $_GET['page_no'];
-                                                        } else {
-                                                            $page_no = 1;
-                                                        }
-                                                        // $total_records_per_page = 10;
-                                                        $offset = ($page_no - 1) * $total_records_per_page;
-                                                        $previous_page = $page_no - 1;
-                                                        $next_page = $page_no + 1;
-                                                        $adjacents = "2";
+                        </div>
+                        </div>
+                        <!-- ============ Table End ============= -->
 
-                                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `orders` where  status='0'   AND status_button='1'  ");
-                                                        $total_records = mysqli_fetch_array($result_count);
-                                                        $total_records = $total_records['total_records'];
-                                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
-                                                        $second_last = $total_no_of_pages - 1; // total page minus 1
+                        <!-- Header -->
+                        <?php include './include/footer.php'; ?>
+                        <!-- =============== Header End ================-->
+                    </div>
+                </div>
 
-                                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'   AND status_button='1'  order by date_create DESC ");
-                                                        while ($row = mysqli_fetch_array($result)) { ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <?php $date = explode(" ", $row['date_create']);
-                                                                    $dat = datethai2($date[0]);
-                                                                    echo $dat ?>
-                                                                </td>
-                                                                <td> <?= $row['order_id'] ?></td>
-                                                                <td> <?= $row['qt_id'] ?></td>
-                                                                <td><?php
-                                                                    $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
-                                                                    $rs2 = $conn->query($sql2);
-                                                                    $row2 = $rs2->fetch_assoc();
-                                                                    // ====
-                                                                    $sql3 = "SELECT * FROM customer WHERE customer_id= '$row[cus_id]'";
-                                                                    $rs3 = $conn->query($sql3);
-                                                                    $row3 = $rs3->fetch_assoc();
-                                                                    ?>
-                                                                    <?= $row2['name'] ?></td>
-                                                                <td> <?php echo iconv_substr($row3['customer_name'], 0, 30, 'UTF-8'); ?> </td>
-                                                                <td> <?php echo substr($row3['tel'], 0, 12);  ?> </td>
-                                                                <td>
-                                                                    <?php
-                                                                    $sql2 = "SELECT * FROM amphures   WHERE id= '$row3[district]'";
-                                                                    $rs2 = $conn->query($sql2);
-                                                                    $row2 = $rs2->fetch_assoc();
-                                                                    echo $row2['name_th'];
-                                                                    ?>
-                                                                </td>
-                                                                <td> <?php
-                                                                        $sql2 = "SELECT * FROM provinces WHERE id= '$row3[province]'";
-                                                                        $rs2 = $conn->query($sql2);
-                                                                        $row2 = $rs2->fetch_assoc();
-                                                                        echo $row2['name_th'];
-                                                                        ?> </td>
-
-
-
-                                                                <td>
-                                                                    <a class="btn btn-outline-success btn-sm line-height-1" title="TIME LINE" href="/ordertimeline.php?order_id=<?= $row['order_id'] ?>" target="_blank">
-                                                                        <i class="i-File font-weight-bold"></i>
-                                                                    </a>
-                                                                    <button type="button" class="btn btn-outline-danger btn-sm line-height-1" title="ยกเลิก Order" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
-                                            </div>
-                                            </td>
-
-                                        <?php
-                                                        }
-
-                                        ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>วันที่</th>
-                                                <th>Order ID</th>
-                                                <th>เลขใบเสนอราคา</th>
-                                                <th>ประเภทลูกค้า</th>
-                                                <th>ชื่อลูกค้า</th>
-                                                <th>เบอร์โทร์</th>
-                                                <th>อำเภอ</th>
-                                                <th>จังหวัด</th>
-
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
-                                        </table>
-                                        </div>
-                                    </div>
-                                </div>
+                <!-- Modal ยกเลิก Order -->
+                <div class="modal fade" id="medalcancleorder" tabindex="-1" role="dialog" aria-labelledby="medalcancleorderTitle-2" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered " role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="medalcancleorderTitle-2">ยกเลิก Order</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-danger text-16 line-height-1 mb-2">คุณต้องการยกเลิก Order : OR6400001 ใช่หรือไม่ ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
+                                <button class="btn btn-primary ml-2" type="button">ใช่</button>
                             </div>
                         </div>
-                            <!-- ============ Table End ============= -->
-                           
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
-        </div>
-    </div>
-
-    <!-- Modal ยกเลิก Order -->
-    <div class="modal fade" id="medalcancleorder" tabindex="-1" role="dialog" aria-labelledby="medalcancleorderTitle-2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="medalcancleorderTitle-2">ยกเลิก Order</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p class="text-danger text-16 line-height-1 mb-2">คุณต้องการยกเลิก Order : OR6400001 ใช่หรือไม่ ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
-                    <button class="btn btn-primary ml-2" type="button">ใช่</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal ยืนยันสั่งผลิต -->
-    <div class="modal fade" id="medalconfirmorder" tabindex="-1" role="dialog" aria-labelledby="medalconfirmorder" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="medalconfirmorder">ยืนยันสั่งผลิต</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-danger text-16 line-height-1 mb-2">ยืนยันสั่งผลิต Order : OR6400001 ใช่หรือไม่ ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ไม่ใช่</button>
-                    <button class="btn btn-primary ml-2" type="button">ใช่</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal DEL  -->
-    <div class="modal fade" id="myModal_del" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> DELETE</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post">
-
-                        <div class="form-row">
-                            <div class="form-group col-md-10">
-                                <label for="inputEmail4"><strong>คุณต้องการลบข้อมูลใช่หรือไม่
-                                        <span>*</span></strong></label>
-
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <input type="hidden" name="action" value="del">
-                            <input type="hidden" name="del_id" id="del_id" value="">
-                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
-                                DELETE</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <form class="d-none" method="POST">
-        <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
-        <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
-        <input type="text" id="FSRowId" name="row" value="<?php echo $S_ROW; ?>" placeholder="">
-        <input type="number" id="FSPageId" name="page" value="<?php echo $S_PAGE; ?>" placeholder="">
-        <button class="btn" id="FSButtonID" type="submit"></button>
-    </form>
-    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+  <!-- ============ Search UI End ============= -->
+  <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../../dist-assets/js/scripts/script.min.js"></script>
     <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
-    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
-</body>
 
 </html>
-<script>
-    /* ===== search start ===== */
-    function modalLoad() {
-        $("#ModalLoadId").modal({
-            backdrop: 'static',
-            'keyboard': false,
-        });
-    };
-
-    function clickNav(page) {
-        modalLoad();
-
-        $("#FSPageId").val(page);
-        $("#FSButtonID").click();
-    }
-    $("#searchRowsId").on("change", function() {
-        modalLoad();
-
-        let row = $("#searchRowsId").val();
-        $("#FSRowId").val(row);
-        $("#FSButtonID").click();
-
-    });
-    $("#searchNameId").on("change", function() {
-        modalLoad();
-
-        let name = $("#searchNameId").val();
-        $("#FSKeywordId").val(name);
-        let column = $("#searchColumnId").val();
-        $("#FSColumnId").val(column);
-        $("#FSButtonID").click();
-
-    });
-    /* ===== search end ===== */
-
-    //click next link
-    $(".linkLoadModalNext").on('click', function() {
-        $("#ModalLoadId").modal({
-            backdrop: 'static',
-            'keyboard': false,
-        });
-    });
-</script>
-<script>
-    $('#myModal_del').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var modal = $(this)
-        modal.find('#del_id').val(id)
-
-    })
-</script>
-<script>
-    $(function() {
-        $('#orderModal').modal({
-            keyboard: true,
-            backdrop: "static",
-            show: false,
-
-        }).on('show', function() {
-            var getIdFromRow = $(this).data('orderid');
-            //make your ajax call populate items or what even you need
-            $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
-        });
-
-        $(".table-striped").find('tr[data-target]').on('click', function() {
-            //or do your operations here instead of on show of modal to populate values to modal.
-            $('#orderModal').data('orderid', $(this).data('id'));
-        });
-
-    });
-</script>
-<script>
+<script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        $("#myInput").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+        var dataTable = $('#employee-grid').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "orderloglist_json.php", // json datasource
+                type: "post", // method  , by default get
+                error: function() { // error handling
+                    $(".employee-grid-error").html("");
+                    $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                    $("#employee-grid_processing").css("display", "none");
+
+                },
+
+                "search": {
+                    return: true
+                },
+                "order": [
+                    [6, "asc"]
+                ],
+                fixedHeader: true,
+                fixedColumns: true
+            }
         });
     });
+    
 </script>
-<script>
-    $('#orderby1').DataTable({
-        "order": [
-            [6, "asc"]
-        ],
 
-    }); // multi column ordering
+<script type="text/javascript">
+    function createManageBtn() {
+        return '<button id="manageBtn" type="button" onclick="myFunc()" class="btn btn-success btn-xs">Manage</button>';
+    }
+
+    function myFunc() {
+        console.log("Button was clicked!!!");
+    }
 </script>
