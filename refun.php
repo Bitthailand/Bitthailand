@@ -116,8 +116,9 @@ if ($action == 'add_dev') {
                     $add_fac1_stock = $row_p['fac1_stock'] + $stock1; //เพิ่มสต็อกคืนโรงงาน1
                     $add_fac2_stock = $row_p['fac2_stock'] + $stock2; //เพิ่มสต็อกคืนโรงงาน2
                     $qtyx = $row_pro['qty'] - $add_qty;
-                    $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,qty='$add_qty' where product_id='$product_id' AND order_id='$order_id'";
-                    $sql1 = "UPDATE deliver_detail  SET dev_qty='$add_qty' where product_id='$product_id' AND order_id='$order_id'";
+                   
+                    $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,qty='$add_qty',total_price='$total_price'  where product_id='$product_id' AND order_id='$order_id'";
+                    $sql1 = "UPDATE deliver_detail  SET dev_qty='$add_qty',total_price='$total_price' where product_id='$product_id' AND order_id='$order_id'";
                     $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
                     //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
                     if ($conn->query($sql1) === TRUE) {
