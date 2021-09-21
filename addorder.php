@@ -820,7 +820,7 @@ if ($action == 'add_hs') {
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $sql_pro = "SELECT * FROM order_details  where order_id='$order_idx' order by date_create  ASC ";
+                                                        $sql_pro = "SELECT * FROM order_details INNER JOIN  product_type  ON order_details.ptype_id=product_type.ptype_id  AND order_details.order_id='$order_idx' ORDER BY  product_type.num_orderby,order_details.date_create ASC ";
                                                         $result_pro = mysqli_query($conn, $sql_pro);
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>

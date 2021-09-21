@@ -283,6 +283,7 @@ if ($action == 'edit') {
 }
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
+
     $sql = "DELETE FROM order_details WHERE  id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
         <script>
@@ -747,10 +748,11 @@ if ($action == 'add') {
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
                                                                     <td> <?= $row_pro['qty'] ?></td>
                                                                     <td><?= $row_pro['total_price'] ?> </td>
-                                                                    <td>
+                                                                    <td> <?php if($row_pro['status_new']==1){ ?> 
                                                                             <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
                                                                             <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
+                                                                      <?php } ?>
                                                                         </td>
                                                                    
 

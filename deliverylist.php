@@ -347,7 +347,7 @@ if ($action == 'add_hs') {
                                                 ?>
                                             </td>
                                             <td>
-                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Orderที่ออกใบจัดส่งแล้ว" href="/editorder_step2.php?order_id=<?= $row['order_id'] ?>&dev_id=<?= $row['dev_id'] ?>">
+                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูล Orderที่ออกใบจัดส่งแล้ว" href="/editorder_step2.php?order_id=<?= $row['order_id'] ?>&dev_id=<?= $row['dev_id'] ?>">
                                                             <i class="i-Check font-weight-bold"></i>
                                                         </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/saleorder.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">

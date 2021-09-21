@@ -320,8 +320,12 @@ if ($action == 'edit') {
                                                 <td>
 
                                                     <?php if ($row['dev_status'] == 1) {
+                                                    ?>
+                                                       
+                                                    <?php
+
                                                     } else { ?>
-                                                        <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/addsaleorder.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                        <a class="btn btn-outline-info btn-sm line-height-2" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/addsaleorder.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                             <i class="i-Car-Items font-weight-bold"></i>
                                                         </a>
 
@@ -335,7 +339,7 @@ if ($action == 'edit') {
                                         }
                                         mysqli_close($conn);
                                         ?>
-                                      
+
                                         <tr>
                                             <td colspan="14"> &nbsp;</td>
                                         </tr>

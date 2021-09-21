@@ -5,30 +5,18 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-include './include/config_date.php';
-$order_id = $_REQUEST['order_id'];
-$sqlx = "SELECT * FROM orders   WHERE order_id= '$order_id'";
-$rsx = $conn->query($sqlx);
-$rowx = $rsx->fetch_assoc();
-// ====
-$sql2 = "SELECT * FROM customer_type  WHERE id= '$rowx[cus_type]'";
-$rs2 = $conn->query($sql2);
-$row2 = $rs2->fetch_assoc();
-// ====
-$sql3 = "SELECT * FROM customer  WHERE customer_id= '$rowx[cus_id]'";
-$rs3 = $conn->query($sql3);
-$row3 = $rs3->fetch_assoc();
-// ===
-$strStartDate = $rowx['qt_date'];
-$strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($strStartDate)));
-// echo"$strNewDate";
+
 ?>
+
+
+
+
 <!doctype html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>ใบเสนอราคา</title>
+
     <style type="text/css">
         * {
             margin: 0;
@@ -181,16 +169,55 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
             }
         }
     </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SR | ใบคืนสินค้า </title>
     <link href="../../dist-assets/css/themes/styleforprint2.css?v=5" rel="stylesheet" />
 </head>
+<?php
+$sr_id = $_REQUEST['sr_id'];
+$sql_sr = "SELECT * FROM sr_number  WHERE sr_id= '$sr_id' ";
+$rs_sr = $conn->query($sql_sr);
+$row_sr  = $rs_sr->fetch_assoc();
+
+$sql_h = "SELECT * FROM hs_number  WHERE order_id= '$row_sr[order_id]' ";
+$rs_h = $conn->query($sql_h);
+$row_h = $rs_h->fetch_assoc();
+// echo"$row_hs[id]";
+?>
+<?php
+include './include/config.php';
+include './include/config_text.php';
+$datetoday = date('Y-m-d');
+$sql = "SELECT * FROM orders   WHERE order_id= '$row_sr[order_id]'";
+$rs = $conn->query($sql);
+$rowx = $rs->fetch_assoc();
+// ====
+$sql2 = "SELECT * FROM customer_type  WHERE id= '$rowx[cus_type]'";
+$rs2 = $conn->query($sql2);
+$row2 = $rs2->fetch_assoc();
+// ====
+$sql3 = "SELECT * FROM customer  WHERE customer_id= '$rowx[cus_id]'";
+$rs3 = $conn->query($sql3);
+$row3 = $rs3->fetch_assoc();
+
+$sql_emp = "SELECT * FROM employee  WHERE username= '$rowx[emp_id]'";
+$rs_emp = $conn->query($sql_emp);
+$row_emp = $rs_emp->fetch_assoc();
+
+
+
+// ===
+?>
 
 <body>
     <?php
     $total_page_data = 0;  // เก็บจำนวนหน้า รายการทั้งหมด
-    $total_page_item = 10; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
+    $total_page_item = 15; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
-    $sql = "SELECT * FROM order_details INNER JOIN product_type  ON order_details.ptype_id=product_type.ptype_id  AND  (order_details.order_id='$order_id')  ORDER BY  product_type.num_orderby,order_details.date_create ASC    ";
+    $sql = "SELECT * FROM sr_detail    where sr_id='$sr_id'   order by product_id ASC  ";
     $i = 1;
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {  // คิวรี่ข้อมูลสำเร็จหรือไม่ และมีรายการข้อมูลหรือไม่
@@ -202,9 +229,8 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
             $arr_data_set['product_id'][$i] = $row['product_id'];
             $arr_data_set['qty'][$i] = $row['qty'];
             $arr_data_set['disunit'][$i] = $row['disunit'];
-            $arr_data_set['unit_price'][$i] = $row['unit_price'];
+            $arr_data_set['unit_price'][$i] = $row['unit'];
             $arr_data_set['ptype'][$i] = $row['ptype_id'];
-            $arr_data_set['status_new'][$i] = $row['status_new'];
             $i++;
         }
     }
@@ -214,7 +240,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
         <div class="page-break<?= ($i == 1) ? "-no" : "" ?>"></div>
 
         <div class="col-12 text-right">
-            <button class="btn-primary mb-sm-0 mb-3" onclick="window.print()">พิมพ์ใบเสนอราคา</button>
+            <button class="btn-primary mb-sm-0 mb-3" onclick="window.print()">พิมพ์ใบเสร็จรับเงิน</button>
         </div>
         <div class="col-12">
             <div class="row">
@@ -228,30 +254,34 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     <p>โทร. 061-436-2825</p>
                 </div>
                 <div class="col-5 text-right">
-                    <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
+                    <h2 class="font-weight-bold">ใบคืนสินค้า</h2>
                 </div>
             </div>
         </div>
         <div class="mt-3 mb-4 border-top"></div>
         <div class="row">
-            <div class="col-7 mb-3 mb-sm-0"> <?php
-                                                $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
-                                                $rs6 = $conn->query($sql6);
-                                                $row6 = $rs6->fetch_assoc();
-                                                $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
-                                                $rs7 = $conn->query($sql7);
-                                                $row7 = $rs7->fetch_assoc();
-                                                $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
-                                                $rs8 = $conn->query($sql8);
-                                                $row8 = $rs8->fetch_assoc();
-                                                if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
-                                                ?>
+            <div class="col-8_slip mb-3 mb-sm-0">  <?php
+                    $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                    $rs6 = $conn->query($sql6);
+                    $row6 = $rs6->fetch_assoc();
+                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                    $rs7 = $conn->query($sql7);
+                    $row7 = $rs7->fetch_assoc();
+                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                    $rs8 = $conn->query($sql8);
+                    $row8 = $rs8->fetch_assoc();
+                    if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
+                    $sql_dev = "SELECT * FROM delivery  WHERE order_id= '$order_id' AND dev_id='$so_id'";
+                    $rs_dev  = $conn->query($sql_dev);
+                    $row_dev  = $rs_dev->fetch_assoc();
+                    ?>
                 <div class="rowx_cus">
-                    <div class="col-4x_cus">
-                        <p style="font-size: 18px;font-weight: 700;">ชื่อลูกค้า </p>
-                        <p style="font-size: 18px;font-weight: 700;">ที่อยู่ </p>
-                        <p style="font-size: 18px;font-weight: 700;">โทร </p>
-                        <p style="font-size: 18px;font-weight: 700;">อ้างอิง </p>
+                    <div class="col-4x_slip">
+                        <p style="font-size: 18px;"><strong>ชื่อลูกค้า</strong> </p>
+                        <p style="font-size: 18px;"><strong>ที่อยู่</strong> </p>
+                        <p style="font-size: 18px;"><strong>โทร </strong> </p>
+                        <p style="font-size: 18px;"><strong>เลขที่ประจำตัวผู้เสียภาษี</strong> </p>
+                        <p style="font-size: 18px;"><strong>อ้างอิง</strong> </p>
 
                     </div>
                     <div class="col-1x_cus">
@@ -259,25 +289,32 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;">:</p>
                     </div>
-                    <div class="col-4xx_cus">
+                    <div class="col-4xx_cus_slip">
                         <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
                         <p style="font-size: 18px;"><?php echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
                         <p style="font-size: 18px;"><?= $row3['tel'] ?></p>
+                        <p style="font-size: 18px;"><?php if ($row3['tax_number'] == '') {
+                                                        echo "-";
+                                                    } else {
+                                                        echo $row3['tax_number'];
+                                                    } ?></p>
+
                         <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
 
                     </div>
                 </div>
 
             </div>
-            <div class="col-5 text-sm-right">
-                <div class="rowx">
-                    <div class="col-4x">
-                        <p style="font-size: 18px;">เลขที่ใบเสนอราคา </p>
-                        <p style="font-size: 18px;">ลำดับการสั่งซื้อ </p>
+            <div class="col-4 text-sm-right">
+                <div class="rowx_slip">
+                    <div class="col-4x_slip1">
+                        <p style="font-size: 18px;">เลขที่ใบคืนสินค้า </p>
                         <p style="font-size: 18px;">วันที่ </p>
-                        <p style="font-size: 18px;">ยืนราคา <?php echo "$rowx[date_confirm]"; ?> วัน </p>
-                        <p style="font-size: 18px;">เงื่อนไขการชำระเงิน </p>
+                        <p style="font-size: 18px;">ลำดับการสั่งซื้อ </p>
+                        <p style="font-size: 18px;">พนักงานขาย </p>
+                        <p style="font-size: 18px;">เขตการขาย </p>
                     </div>
                     <div class="col-1x">
                         <p style="font-size: 18px;">:</p>
@@ -286,25 +323,20 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
                     </div>
-                    <div class="col-4xx">
-                        <p style="font-size: 18px;"><?php echo "$rowx[qt_id]"; ?></p>
-                        <p style="font-size: 18px;"><?php echo "$rowx[order_id]"; ?> </p>
-                        <p style="font-size: 18px;"><?php $date = explode(" ", $rowx['qt_date']);
-                                                    $dat = datethai2($date[0]);
-                                                    echo "$dat"; ?> </p>
-                        <p style="font-size: 18px;">ถึงวันที่
-                            <?php $date = explode(" ", $strNewDate);
-                            $dat = datethai2($date[0]);
-                            echo "$dat"; ?></p>
-                        <p><?= $row2['name'] ?> </p>
+                    <div class="col-4xx_slip">
+                        <p style="font-size: 18px;"><?= $row_sr['sr_id'] ?></p>
+                        <p style="font-size: 18px;"><?php $date = explode(" ", $row_sr['date_create']);
+                                                        $dat = datethai2($date[0]);
+                                                        echo "$dat"; ?></p>
+                        <p style="font-size: 18px;"><?= $row_sr['order_id'] ?></p>
+                        <p style="font-size: 18px;"><?= $row_emp['emp_name'] ?> </p>
+
                     </div>
                 </div>
 
             </div>
 
-            <div class="col-12">
-                <p>&nbsp;บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
-            </div>
+
 
         </div>
 
@@ -331,14 +363,13 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     $_ptype = isset($arr_data_set['ptype'][$item_i]) ? $arr_data_set['ptype'][$item_i] : "";
                     $_disunit = isset($arr_data_set['disunit'][$item_i]) ? $arr_data_set['disunit'][$item_i] : "";
                     $_unit_price = isset($arr_data_set['unit_price'][$item_i]) ? $arr_data_set['unit_price'][$item_i] : "";
-                    $_status_new = isset($arr_data_set['status_new'][$item_i]) ? $arr_data_set['status_new'][$item_i] : "";
                     $item_i = isset($arr_data_set['name_th'][$item_i]) ? $item_i : "";
                 ?>
-                    <?php  if ($_ptype <> 'TF') { ?>
+                    <?php if ($_ptype <> 'TF') { ?>
                         <tr>
-                            <td height="20" align="center" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>><?= $_idx ?></td>
-                            <td align="left" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>&nbsp;
-                                <?php 
+                            <td height="20" align="center" class="left_bottom"><?= $_idx ?></td>
+                            <td align="left" class="left_bottom">&nbsp;
+                                <?php
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
                                 $rowx3 = $rsx3->fetch_assoc();
@@ -347,7 +378,6 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                 } else {
                                     echo "  (" . $rowx3['spacial'] . ")";
                                 }
-                                if($_status_new==1){echo"*";}
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();
@@ -356,14 +386,14 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                 $total_all = $total_all + $total_price;
                                 ?>
                             </td>
-                            <td align="left" class="left_bottom"<?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>
+                            <td align="left" class="left_bottom">
                                 <div class="row_pro">
                                     <div class="col-4x_product"><?= $_qty ?>
                                     </div>
                                     <div class="col-4x_unit"><?= $row_unit['unit_name'] ?>&nbsp;&nbsp;</div>
                                 </div>
                             </td>
-                            <td align="right" class="left_bottom"<?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>><?php if ($price_dis == "") {
+                            <td align="right" class="left_bottom"><?php if ($price_dis == "") {
                                                                     } else {
                                                                         echo number_format($price_dis, '2', '.', ',');
                                                                     } ?>&nbsp;&nbsp;</td>
@@ -382,7 +412,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
                                 $rowx3 = $rsx3->fetch_assoc();
-                                echo 'ค่าจัดส่ง'.' ' . '(' . $rowx3['product_name'] . ')';
+                                echo 'ค่าจัดส่ง' . '(' . $rowx3['product_name'] . ')';
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();
@@ -423,19 +453,20 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     <td align="left" class="bottomx2">&nbsp;</td>
                 </tr>
                 <?php if ($total_page_data == $i) { ?>
-                    <?php $sql_or = "SELECT * FROM orders  WHERE order_id= '$order_id'";
-                    $rs_or  = $conn->query($sql_or);
-                    $row_or = $rs_or->fetch_assoc();
-                    $sub_total = $total_all - $row_or['discount'];
-                    $first_total = ($sub_total * 100) / 107;
-                    $tax = ($sub_total - $first_total);
-                    $grand_total = ($first_total + $tax);
+
+                    <?php 
+                    $sub_total = $total_all;
+                    $sub_total_ai = $sub_total - $row_ai['price'];
+                    $first_total = ($sub_total_ai * 100) / 107;
+                    $tax = ($sub_total_ai - $first_total);
+                    $grand_total = ($sub_total_ai - $tax);
+
                     ?>
 
                     <tr>
                         <td colspan="2" class="left_bottom" align="left" style="border-top:1px solid #000;">
                         </td>
-                        <td align="left" colspan="2" style="border-top:1px solid #000; font-size: 18px;">&nbsp;รวมเป็นเงินทั้งสิ้น</td>
+                        <td align="left" colspan="2" style="border-top:1px solid #000; font-size: 18px;">&nbsp;รวม</td>
 
                         <td align="right" class="left_right_bottom" style="border-bottom:5px;border-top:1px solid #000;"><?php echo number_format($total_all, '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
@@ -445,13 +476,29 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;หักส่วนลด</td>
 
                         <td align="right" class="left_right_bottom"><?php echo number_format($row_or['discount'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="left_bottom" align="left"> </td>
+                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;มูลค่าของสินค้าหรือบริการตามใบกำกับภาษีเดิม</td>
+
+                        <td align="right" class="left_right_bottom"><?php echo number_format($sub_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="left_bottom" align="left"> </td>
+                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;มูลค่าของสินค้าหรือบริการที่ถูกต้อง <?php if ($row_ai['ai_num'] == "") {
+                                                                                                                        } else {
+                                                                                                                            echo '#' . $row_ai['ai_num'];
+                                                                                                                        } ?></td>
+
+                        <td align="right" class="left_right_bottom"><?php echo number_format($row_ai['price'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
                     </tr>
                     <tr>
                         <td colspan="2" class="left_bottom" align="left"> </td>
-                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;จำนวนเงินก่อนรวมภาษี </td>
+                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;ผลต่าง</td>
 
-                        <td align="right" class="left_right_bottom"><?php echo number_format($first_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                        <td align="right" class="left_right_bottom"><?php echo number_format($sub_total_ai, '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
                     </tr>
                     <tr>
@@ -467,11 +514,11 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                 <div class="col-3_text"> ตัวอักษร
                                 </div>
                                 <div class="col-9_text ">
-                                    <?php echo Convert($grand_total); ?>
+                                    <?php echo Convert2($grand_total); ?>
                                 </div>
                             </div>
                         </td>
-                        <td class="bottomx_rl" colspan="2" align="center" style="font-size: 18px;">&nbsp;รวมเป็นเงิน</td>
+                        <td class="bottomx_rl" colspan="2" align="center" style="font-size: 18px;">&nbsp;รวมเป็นเงินทั้งสิ้น</td>
 
                         <td align="right" class="bottomx_rl" style="font-size: 18px;  font-weight: 700;"><?php echo number_format($grand_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
@@ -485,17 +532,9 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                 <div class="mt-3 mb-4 border-top"></div>
 
                 <div class="col-12_con mb-3 mb-sm-0">
-                    <h6 class="font-weight-bold" style="font-size: 18px; padding-top: 8px; padding-bottom: 0px; ">เงื่อนไขการขาย</h6>
-                    <p style="font-size: 18px;">1. มัดจำไม่น้อยกว่า 30% ของมูลค่าสินค้า เมื่อทำการสั่งซื้อสินค้า และชำระค่าสินค้าส่วนที่เหลือในวันที่จัดส่ง </p>
-                    <p style="font-size: 18px;">2. ผู้ซื้อเป็นผู้จัดเตรียมสถานที่สำหรับลงสินค้า และทางบริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าตามสถานที่เท่าที่รถเข้าถึงได้ </p>
-                    <p style="font-size: 18px;">3. บริษัทฯ ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาผู้ขายคิดเพิ่มชั่วโมงละ 500 บาท หรือตามตกลง </p>
-                    <p style="font-size: 18px;">4. สินค้ารับฝากไม่เกิน 1 เดือน นับจากวันที่กำหนดส่งสินค้า หากยังไม่รับสินค้า ทางบริษัทฯ ขอเก็บค่าดูแลสินค้า 5%
-                        ต่อเดือนของมูลค่าสินค้า </p>
-                    <p style="font-size: 18px;">5. บริษัทฯ ขอสงวนสิทธิ์ไม่คืนมัดจำ/ค่าสินค้าในทุกกรณี หากผู้ชื้อแจ้งยกเลิก/เปลี่ยนแปลงรายการสินค้า</p>
-                    <p style="font-size: 18px;">6. บริษัทฯ ขอไม่รับผิดชอบต่อความเสียหายใดๆ หลังจากตรวจรับสินค้าแล้ว </p>
                     <br>
-                    <h6 class="font-weight-bold" style="font-size: 18px;">วิธีการชำระเงิน</h6>
-                    <p style="font-size: 18px;">ชื่อบัญชี : บจก.วันเอ็ม ธนาคารกสิกรไทย สาขาสุนีย์ทาวเวอร์ ประเภทออมทรัพย์ เลขที่บัญชี <b>685-2-29088-7 </b> </p>
+                    <p style="font-size: 18px;">ได้รับสินค้าตามรายการข้างบนนี้ไว้ถูกต้องและอยู่ในสภาพเรียบร้อยทุกประการ </p>
+                    <br>
                 </div>
                 <div class="mt-3 mb-4 border-top"></div>
             </div>
@@ -504,20 +543,31 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     <tr>
                         <td width="300" valign="middle">
                             <div class="col-12_footx text-center">
-                            <br><br> 
+                                <br><br>
                                 <p> ____________________________</p>
 
-                                <p style="font-size: 18px;">ผู้อนุมัติชื้อ<span></span></p>
+                                <p style="font-size: 18px;">แผนกรับสินค้า<span></span></p>
                                 <br>
                                 <p style="font-size: 18px;">วันที่ ________/__________/__________ <span></span></p>
                             </div>
                         </td>
-                        <td width="300" valign="middle"></td>
+                        <td width="300" valign="middle">
+                            <div class="col-12_footx text-center">
+                                <br><br>
+                                <p> ____________________________</p>
+
+                                <p style="font-size: 18px;">แผนกคลังสินค้า<span></span></p>
+                                <br>
+                                <p style="font-size: 18px;">วันที่ ________/__________/__________ <span></span></p>
+                            </div>
+                        </td>
                         <td width="300" valign="middle">
                             <div class="col-12 text-center">
                                 <p style="font-size: 18px;">ในนาม บริษัท วันเอ็ม จำกัด</p>
-                                <br><br>
-                                <p style="font-size: 18px;">ผู้รับมอบอำนาจ ____________________ <span></span></p>
+                                <br>
+                                <p> ____________________________</p>
+
+                                <p style="font-size: 18px;">ผู้รับมอบอำนาจ<span></span></p>
                                 <br>
                                 <p style="font-size: 18px;">วันที่ ________/__________/__________ <span></span></p>
                             </div>
