@@ -197,7 +197,7 @@ $row5 = $rs5->fetch_assoc();
     $total_page_item = 22; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
-    $sql = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by date_create ASC";
+    $sql = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by ptype_id,date_create ASC";
     $i = 1;
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {  // คิวรี่ข้อมูลสำเร็จหรือไม่ และมีรายการข้อมูลหรือไม่
@@ -211,6 +211,7 @@ $row5 = $rs5->fetch_assoc();
             $arr_data_set['disunit'][$i] = $row['disunit'];
             $arr_data_set['unit_price'][$i] = $row['unit_price'];
             $arr_data_set['ptype'][$i] = $row['ptype_id'];
+            $arr_data_set['status_new'][$i] = $row['status_new'];
             $i++;
         }
     }
@@ -280,9 +281,14 @@ $row5 = $rs5->fetch_assoc();
                     <div class="col-4xx_cus">
                         <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
                         <p style="font-size: 18px;"><?php if ($rowx3_TF['product_name'] == '') {
+                                                       
                                                         echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th'];
                                                     } else {
+                                                        if($row5['cus_back']==1){
+                                                            echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th'];
+                                                        }else{ 
                                                         echo $rowx3_TF['product_name'];
+                                                    }
                                                     } ?></p>
                         <p style="font-size: 18px;"><?= $row3['tel'] ?></p>
                         <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
@@ -344,6 +350,7 @@ $row5 = $rs5->fetch_assoc();
                     $_disunit = isset($arr_data_set['disunit'][$item_i]) ? $arr_data_set['disunit'][$item_i] : "";
                     $_unit_price = isset($arr_data_set['unit_price'][$item_i]) ? $arr_data_set['unit_price'][$item_i] : "";
                     $item_i = isset($arr_data_set['name_th'][$item_i]) ? $item_i : "";
+                    $_status_new = isset($arr_data_set['status_new'][$item_i]) ? $arr_data_set['status_new'][$item_i] : "";
                 ?>
                     <?php if ($_ptype <> 'TF') { ?>
                         <tr>
@@ -359,6 +366,8 @@ $row5 = $rs5->fetch_assoc();
                                 } else {
                                     echo "  (" . $rowx3['spacial'] . ")";
                                 }
+                              
+                                if($_status_new==1){ echo"*";}
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();
