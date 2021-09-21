@@ -155,7 +155,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
 
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 col-md-12">
+                        <div class="col-lg-12 col-md-12">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12">
                                     <div class="card mb-4">
@@ -186,22 +186,26 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                             <th scope="col" class="text-left">วันที่</th>
                                                                             <th scope="col" class="text-left">ลูกค้า</th>
                                                                             <th scope="col" class="text-left">รายการ</th>
+                                                                            <th scope="col" class="text-left">ยอดมัดจำ</th>
                                                                             <th scope="col" class="text-left">ยอดขาย</th>
+                                                                            <th scope="col" class="text-left">ยอดคืน</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <?php $sql4 = "SELECT  DATE_FORMAT(dev_date, '%Y-%m-%d') AS DATE   FROM delivery WHERE  status_chk='1'  AND dev_date  BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE ORDER BY DATE DESC";
+                                                                        <?php $sql4 = "SELECT  DATE_FORMAT(dev_date, '%Y-%m-%d') AS DATE   FROM delivery WHERE  status_chk='1' AND status_payment='1'  AND dev_date  BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE ORDER BY DATE DESC";
                                                                         $result4 = mysqli_query($conn, $sql4);
                                                                         if (mysqli_num_rows($result4) > 0) {
                                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
                                                                                 $d = explode("-", $row4['DATE']);
-                                                                                $sql_cus_day = "SELECT COUNT(DISTINCT cus_id) month FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' ";
+                                                                                $sql_cus_day = "SELECT COUNT(DISTINCT cus_id) month FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  ";
                                                                                 $rs_cus_day = $conn->query($sql_cus_day);
                                                                                 $row_cus_day = $rs_cus_day->fetch_assoc();
-                                                                                $sql_dev = "SELECT COUNT(DISTINCT dev_id) dev FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' ";
+                                                                                $sql_dev = "SELECT COUNT(DISTINCT dev_id) dev FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  ";
                                                                                 $rs_dev = $conn->query($sql_dev);
                                                                                 $row_dev = $rs_dev->fetch_assoc();
-                                                                                $sql_sum = "SELECT COUNT(DISTINCT dev_id) dev FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' ";
+                                                                                $sql_sum = "SELECT SUM(deliver_detail.total_price)AS total  FROM deliver_detail
+                                                                                INNER JOIN  delivery ON delivery.dev_id=deliver_detail.dev_id  AND
+                                                                                DAY(delivery.dev_date)= '$d[2]' AND MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.status_payment='1' ";
                                                                                 $rs_sum = $conn->query($sql_sum);
                                                                                 $row_sum = $rs_sum->fetch_assoc();
                                                                                 ?>
@@ -212,8 +216,10 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                        </td>
                                                                                     <td class="text-left"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row_dev['dev'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row_sum['total'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
+                                                                                    
                                                                                 </tr>
                                                                         <?php }
                                                                         } ?>
@@ -276,124 +282,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                         </div>
 
 
-                        <div class="col-lg-6 col-md-12">
-                            <div class="card mb-4">
-                                <div class="card-body">
-
-                                    <div class="ul-widget__head">
-                                        <div class="ul-widget__head-label">
-                                            <h3 class="ul-widget__head-title">แพที่ใช้ผลิตมากสุด</h3>
-                                        </div>
-                                        <div class="ul-widget__head-toolbar">
-                                            <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
-                                                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__g-widget4-tab1-content2" role="tab" aria-selected="true">Month</a></li>
-                                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__g-widget4-tab2-content2" role="tab" aria-selected="false">Year</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="ul-widget__body">
-                                        <div class="tab-content">
-                                            <div class="tab-pane active show" id="__g-widget4-tab1-content2">
-                                                <div class="ul-widget1">
-                                                    <div class="table-responsive">
-                                                        <table class="table text-center" id="user_table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">#</th>
-                                                                    <th scope="col" class="text-center">แพที่</th>
-                                                                    <th scope="col" class="text-left">โรงงาน</th>
-                                                                    <th scope="col" class="text-left">ประเภทสินค้า</th>
-                                                                    <th scope="col" class="text-left">จำนวนผลิต</th>
-                                                                    <th scope="col" class="text-left">มูลค่า</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php $sql5 = "SELECT production_detail.plant_id, SUM(production_detail.qty) AS qty,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-                                                                        MONTH(production_order.po_enddate) = '$d[1]'  AND YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'
-                                                                        GROUP BY production_detail.plant_id  ORDER BY  qty DESC  LIMIT 5 ";
-                                                                $result5 = mysqli_query($conn, $sql5);
-                                                                if (mysqli_num_rows($result5) > 0) {
-                                                                    while ($row5 = mysqli_fetch_assoc($result5)) {
-                                                                ?> <tr>
-                                                                            <th scope="row"><?= ++$idx5; ?></th>
-                                                                            <td class="text-center">
-                                                                                <?php $sql_plant = "SELECT * FROM plant  WHERE plant_id= '$row5[plant_id]'";
-                                                                                $rs_plant = $conn->query($sql_plant);
-                                                                                $row_plant = $rs_plant->fetch_assoc();
-                                                                                $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row_plant[ptype_id]'";
-                                                                                $rs_type  = $conn->query($sql_type);
-                                                                                $row_type  = $rs_type->fetch_assoc();
-
-                                                                                ?>
-                                                                                <?= $row5['plant_id'] ?></td>
-                                                                            <td class="text-left"> <?= $row_plant['factory'] ?></td>
-                                                                            <td class="text-left"><?= $row_type['ptype_name'] ?></td>
-                                                                            <td class="text-left"><?php echo number_format($row5['qty'], '0', '.', ',') ?></td>
-                                                                            <td class="text-left"><?php echo number_format($row5['sumall'], '2', '.', ',') ?></td>
-                                                                        </tr>
-                                                                <?php }
-                                                                } ?>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane" id="__g-widget4-tab2-content2">
-                                                <div class="ul-widget1">
-                                                    <div class="table-responsive">
-                                                        <table class="table text-center" id="user_table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">#</th>
-                                                                    <th scope="col" class="text-center">แพที่</th>
-                                                                    <th scope="col" class="text-left">โรงงาน</th>
-                                                                    <th scope="col" class="text-left">ประเภทสินค้า</th>
-                                                                    <th scope="col" class="text-left">จำนวนผลิต</th>
-                                                                    <th scope="col" class="text-left">มูลค่า</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php $sql5 = "SELECT production_detail.plant_id, SUM(production_detail.qty) AS qty,SUM(production_detail.a_type) AS a_type ,SUM(production_detail.b_type) AS b_type ,SUM(product.unit_price)AS unit_price,SUM(qty*unit_price) AS sumall ,SUM(a_type*unit_price) AS sum_atype ,SUM(b_type*unit_price) AS sum_btype   FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-                                                                         YEAR(production_order.po_enddate) = '$d[0]'  INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'
-                                                                        GROUP BY production_detail.plant_id  ORDER BY  qty DESC  LIMIT 5 ";
-                                                                $result5 = mysqli_query($conn, $sql5);
-                                                                if (mysqli_num_rows($result5) > 0) {
-                                                                    while ($row5 = mysqli_fetch_assoc($result5)) {
-                                                                ?> <tr>
-                                                                            <th scope="row"><?= ++$idx6; ?></th>
-                                                                            <td class="text-center">
-                                                                                <?php $sql_plant = "SELECT * FROM plant  WHERE plant_id= '$row5[plant_id]'";
-                                                                                $rs_plant = $conn->query($sql_plant);
-                                                                                $row_plant = $rs_plant->fetch_assoc();
-                                                                                $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row_plant[ptype_id]'";
-                                                                                $rs_type  = $conn->query($sql_type);
-                                                                                $row_type  = $rs_type->fetch_assoc();
-
-                                                                                ?>
-                                                                                <?= $row5['plant_id'] ?></td>
-                                                                            <td class="text-left"> <?= $row_plant['factory'] ?></td>
-                                                                            <td class="text-left"><?= $row_type['ptype_name'] ?></td>
-                                                                            <td class="text-left"><?php echo number_format($row5['qty'], '0', '.', ',') ?></td>
-                                                                            <td class="text-left"><?php echo number_format($row5['sumall'], '2', '.', ',') ?></td>
-                                                                        </tr>
-                                                                <?php }
-                                                                } ?>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div>
+                    
                         <div class="col-lg-12 col-md-12">
                             <div class="card mb-4">
                                 <h5 class="card-title m-0 p-3">ยอดผลิต 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
