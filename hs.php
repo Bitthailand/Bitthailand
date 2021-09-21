@@ -238,7 +238,7 @@ $row_h = $rs_h->fetch_assoc();
     $total_page_item = 15; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
-    $sql = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id'  order by date_create ASC";
+    $sql = "SELECT * FROM deliver_detail INNER JOIN product_type  ON deliver_detail.ptype_id=product_type.ptype_id  AND deliver_detail.order_id='$order_id'  AND deliver_detail.dev_id='$so_id'  ORDER BY  product_type.num_orderby,deliver_detail.date_create ASC";
     $i = 1;
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {  // คิวรี่ข้อมูลสำเร็จหรือไม่ และมีรายการข้อมูลหรือไม่
