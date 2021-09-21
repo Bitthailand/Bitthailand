@@ -551,7 +551,7 @@ if ($action == 'del') {
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $sql_pro = "SELECT * FROM deliver_detail   where order_id='$order_id' AND dev_id='$dev_id' order by date_create  ASC ";
+                                                        $sql_pro = "SELECT * FROM deliver_detail  INNER JOIN product_type  ON deliver_detail.ptype_id=product_type.ptype_id  AND   deliver_detail.order_id='$order_id' AND deliver_detail.dev_id='$dev_id' ORDER BY  product_type.num_orderby,deliver_detail.date_create ASC ";
                                                         $result_pro = mysqli_query($conn, $sql_pro);
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
