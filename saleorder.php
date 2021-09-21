@@ -280,11 +280,11 @@ $row5 = $rs5->fetch_assoc();
                     </div>
                     <div class="col-4xx_cus">
                         <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
-                        <p style="font-size: 18px;"><?php echo $row5['cus_back']; if ($rowx3_TF['product_name'] == '') {
+                        <p style="font-size: 18px;"><?php  if ($rowx3_TF['product_name'] == '') {
                                                        
                                                         echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th'];
                                                     } else {
-                                                        if($row5['cus_back']==1){
+                                                        if($row5['cus_back']==1||$row5['cus_back']==3){
                                                             echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th'];
                                                         }else{ 
                                                         echo $rowx3_TF['product_name'];
