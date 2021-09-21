@@ -122,6 +122,7 @@ header("Pragma:no-cache");
                                                     <th>สต๊อกโรงงาน 1</th>
                                                     <th>สต๊อกโรงงาน 2</th>
                                                     <th>หน่วยนับ</th>
+                                                    <th>น้ำหนัก</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -175,6 +176,7 @@ header("Pragma:no-cache");
 
                                                                 ?>
                                                         </td>
+                                                        <td> <?php echo $row["weight"]; ?> </td>
                                                         <td>
 
                                                             <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูลสินค้า" href="/product_update.php?product_id=<?php echo $row["product_id"]; ?>">
