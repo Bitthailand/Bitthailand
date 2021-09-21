@@ -25,10 +25,11 @@ if ($action == 'edit') {
     $remarks = $_REQUEST['remarks'];
     $thickness = $_REQUEST['thickness'];
     $area = $_REQUEST['area'];
+    $weight = $_REQUEST['weight'];
     $sql = "UPDATE product SET ptype_id='$type_id',product_name='$product_name',
     width='$width',size='$size',dia_size='$dia_size',dia_count='$dia_count',
     units='$units',unit_price='$unit_price',spacial='$spacial',fac1_stock ='$fac1_stock',
-    fac2_stock='$fac2_stock',remarks='$remarks',thickness='$thickness',area='$area'
+    fac2_stock='$fac2_stock',remarks='$remarks',thickness='$thickness',area='$area',weight='$weight'
       where product_id='$edit_id'";
  
     if ($conn->query($sql) === TRUE) {  ?>
@@ -224,11 +225,14 @@ if ($action == 'add_unit') {
 
                                         </div>
                                         <button class="btn btn-outline-primary ripple m-1" type="button" data-toggle="modal" data-target="#modal2" style=" height: 33px; margin-top: 24px!important;">เพิ่มหน่วยนับ</button>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label for="tax_number"><strong>ข้อมูลพิเศษ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="spacial" value="<?php echo $row['spacial']; ?>" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off">
                                         </div>
-
+                                        <div class="form-group col-md-2">
+                                            <label for="tax_number"><strong>น้ำหนัก:kg <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="weight" value="<?php echo $row['weight']; ?>" class="classcus form-control" placeholder="น้ำหนักสินค้า" autocomplete="off">
+                                        </div>
                                     </div>
 
                                     <div class="form-row mt-3">

@@ -73,6 +73,7 @@ if ($action == 'add') {
     $remarks = $_REQUEST['remarks'];
     $thickness = $_REQUEST['thickness'];
     $area = $_REQUEST['area'];
+    $weight = $_REQUEST['weight'];
 
     $sqlx = "SELECT * FROM product  WHERE product_id='$product_id' ";
     $result = mysqli_query($conn, $sqlx);
@@ -83,8 +84,8 @@ $(document).ready(function() {
 });
 </script>
 <?php    } else {
-        $sql = "INSERT INTO product (product_id,ptype_id,product_name,width,size,dia_size,dia_count,units,unit_price,spacial,remarks,area,thickness )
-                   VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$units','$unit_price','$spacial','$remarks','$area','$thickness')";
+        $sql = "INSERT INTO product (product_id,ptype_id,product_name,width,size,dia_size,dia_count,units,unit_price,spacial,remarks,area,thickness,weight )
+                   VALUES ('$product_id','$type_id','$product_name','$width','$size','$dia_size','$dia_count','$units','$unit_price','$spacial','$remarks','$area','$thickness','$weight')";
         if ($conn->query($sql) === TRUE) {  ?>
 <script>
 $(document).ready(function() {
@@ -141,7 +142,7 @@ $(document).ready(function() {
                                             <label for="product_id"><strong>รหัสสินค้า <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_id" id="product_id" class="classcus form-control" placeholder="รหัสสินค้า" required>
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-5">
                                             <label for="product_id"><strong>ชื่อสินค้า <span class="text-danger"></span></strong></label>
                                             <input type="text" name="product_name" class="classcus form-control" placeholder="ชื่อสินค้า" required>
                                         </div>
@@ -225,6 +226,10 @@ $(document).ready(function() {
                                         <div class="form-group col-md-4">
                                             <label for="tax_number"><strong>ข้อมูลพิเศษ <span class="text-danger"></span></strong></label>
                                             <input type="text" name="spacial" class="classcus form-control" placeholder="ข้อมูลเพิ่มเติม" autocomplete="off">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="tax_number"><strong>น้ำหนัก : kg <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="weight" class="classcus form-control" placeholder="น้ำหนักสินค้า" autocomplete="off">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="delivery_address"><strong>หมายเหตุ <span class="text-danger"></span></strong></label>
