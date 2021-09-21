@@ -204,6 +204,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
             $arr_data_set['disunit'][$i] = $row['disunit'];
             $arr_data_set['unit_price'][$i] = $row['unit_price'];
             $arr_data_set['ptype'][$i] = $row['ptype_id'];
+            $arr_data_set['status_new'][$i] = $row['status_new'];
             $i++;
         }
     }
@@ -330,13 +331,14 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     $_ptype = isset($arr_data_set['ptype'][$item_i]) ? $arr_data_set['ptype'][$item_i] : "";
                     $_disunit = isset($arr_data_set['disunit'][$item_i]) ? $arr_data_set['disunit'][$item_i] : "";
                     $_unit_price = isset($arr_data_set['unit_price'][$item_i]) ? $arr_data_set['unit_price'][$item_i] : "";
+                    $_status_new = isset($arr_data_set['status_new'][$item_i]) ? $arr_data_set['status_new'][$item_i] : "";
                     $item_i = isset($arr_data_set['name_th'][$item_i]) ? $item_i : "";
                 ?>
-                    <?php if ($_ptype <> 'TF') { ?>
+                    <?php  if ($_ptype <> 'TF') { ?>
                         <tr>
                             <td height="20" align="center" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>><?= $_idx ?></td>
                             <td align="left" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>&nbsp;
-                                <?php
+                                <?php 
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
                                 $rowx3 = $rsx3->fetch_assoc();
@@ -345,6 +347,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                                 } else {
                                     echo "  (" . $rowx3['spacial'] . ")";
                                 }
+                                if($_status_new==1){echo"*";}
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();

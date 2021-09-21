@@ -197,7 +197,7 @@ $row5 = $rs5->fetch_assoc();
     $total_page_item = 22; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
-    $sql = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by ptype_id,date_create ASC";
+    $sql = "SELECT * FROM deliver_detail  where order_id='$order_id'  AND dev_id='$so_id' order by date_create ASC";
     $i = 1;
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {  // คิวรี่ข้อมูลสำเร็จหรือไม่ และมีรายการข้อมูลหรือไม่
