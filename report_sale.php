@@ -183,12 +183,12 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                     <thead>
                                                                         <tr>
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col" class="text-left">วันที่</th>
-                                                                            <th scope="col" class="text-left">ลูกค้า</th>
-                                                                            <th scope="col" class="text-left">รายการ</th>
-                                                                            <th scope="col" class="text-left">ยอดมัดจำ</th>
-                                                                            <th scope="col" class="text-left">ยอดขาย</th>
-                                                                            <th scope="col" class="text-left">ยอดคืน</th>
+                                                                            <th scope="col" class="text-right">วันที่</th>
+                                                                            <th scope="col" class="text-right">ลูกค้า</th>
+                                                                            <th scope="col" class="text-right">รายการ</th>
+                                                                            <th scope="col" class="text-right">ยอดมัดจำ</th>
+                                                                            <th scope="col" class="text-right">ยอดขาย</th>
+                                                                            <th scope="col" class="text-right">ยอดคืน</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -208,17 +208,27 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                 DAY(delivery.dev_date)= '$d[2]' AND MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.status_payment='1' ";
                                                                                 $rs_sum = $conn->query($sql_sum);
                                                                                 $row_sum = $rs_sum->fetch_assoc();
+
+                                                                                $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE
+                                                                                DAY(date_create)= '$d[2]' AND MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+                                                                                $rs_refun = $conn->query($sql_refun);
+                                                                                $row_refun = $rs_refun->fetch_assoc();
+
+                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE
+                                                                                DAY(date_create)= '$d[2]' AND MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+                                                                                $rs_ai = $conn->query($sql_ai);
+                                                                                $row_ai = $rs_ai->fetch_assoc();
                                                                                 ?>
                                                                                 <tr>
                                                                                     <th scope="row"><?= ++$idx; ?></th>
                                                                                     <td class="text-left">
                                                                                         <?php echo "$row4[DATE]"; ?>
                                                                                        </td>
-                                                                                    <td class="text-left"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php echo number_format($row_dev['dev'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php echo number_format($row_sum['total'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row_ai['total'], '2', '.', ',') ?></td>
+                                                                                    <td class="text-lright"><?php echo number_format($row_sum['total'], '2', '.', ',') ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',') ?></td>
                                                                                     
                                                                                 </tr>
                                                                         <?php }
