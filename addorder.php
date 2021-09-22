@@ -198,7 +198,7 @@ if ($action == 'add_product') {
                             });
                         </script>
           <?php  } else {
-              echo"xxxx";
+            //   echo"xxxx";
             // สินค้าไม่ซ้ำ ให้มาตรวจสอบ ถ้ามี ==1 ให้ เพิ่มรายการลงในตาราง orders
                 $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
                 $result2 = mysqli_query($conn, $sql2);
@@ -808,6 +808,7 @@ if ($action == 'add_hs') {
                                                             <th>รหัสสินค้า</th>
                                                             <th>ประเภทสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
+                                                            <th>น้ำหนัก</th>
                                                             <th>ราคาต่อหน่วย</th>
                                                             <th>ลดต่อหน่วย</th>
                                                             <th>จำนวนที่สั่ง</th>
@@ -843,6 +844,7 @@ if ($action == 'add_hs') {
                                                                         echo $row3['product_name'];
                                                                         ?>
                                                                     </td>
+                                                                    <td> <?php echo number_format($row_pro['weight'], '2', '.', ','); $sum_weight=$sum_weight+$row_pro['weight']; ?> </td>
                                                                     <td> <?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?> </td>
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
                                                                     <td> <?= $row_pro['qty'] ?><?php $sumqty = $sumqty + $row_pro['qty'];  ?></td>
@@ -863,7 +865,7 @@ if ($action == 'add_hs') {
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td></td>
+                                                            <td><?php echo number_format($sum_weight, '2', '.', ',') ?></td>
                                                             <td>รวม</td>
                                                             <td><?= $sumqty ?></td>
                                                             <td><?php echo number_format($sumtotal, '2', '.', ',') ?></td>
