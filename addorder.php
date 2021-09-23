@@ -821,7 +821,9 @@ if ($action == 'add_hs') {
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $sql_pro = "SELECT * FROM order_details INNER JOIN  product_type  ON order_details.ptype_id=product_type.ptype_id  AND order_details.order_id='$order_idx' ORDER BY  product_type.num_orderby,order_details.date_create ASC ";
+                                                        $sql_pro = "SELECT order_details.id AS id,order_details.ptype_id AS ptype_id,order_details.product_id AS  product_id,
+                                                        order_details.qty AS qty,order_details.unit_price AS unit_price,order_details.disunit AS disunit
+                                                        ,order_details.total_price AS total_price  FROM order_details INNER JOIN  product_type  ON order_details.ptype_id=product_type.ptype_id  AND order_details.order_id='$order_idx' ORDER BY  product_type.num_orderby,order_details.date_create ASC ";
                                                         $result_pro = mysqli_query($conn, $sql_pro);
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
@@ -844,7 +846,7 @@ if ($action == 'add_hs') {
                                                                         echo $row3['product_name'];
                                                                         ?>
                                                                     </td>
-                                                                    <td> <?php echo number_format($row_pro['weight'], '2', '.', ','); $sum_weight=$sum_weight+$row_pro['weight']; ?> </td>
+                                                                    <td> <?php $weight1=$row3['weight']*$row_pro['qty']; echo number_format($weight1, '2', '.', ','); $sum_weight=$sum_weight+$weight1; ?> </td>
                                                                     <td> <?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?> </td>
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
                                                                     <td> <?= $row_pro['qty'] ?><?php $sumqty = $sumqty + $row_pro['qty'];  ?></td>
