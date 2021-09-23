@@ -21,9 +21,9 @@ if ($conn->query($sql2) === TRUE) {
 // $sql3 = "DELETE FROM orders_number  WHERE status_use='2' AND status_cf='0' AND emp_id='$emp_id'  ";
 // if ($conn->query($sql3) === TRUE) {
 // }
-$sql3 = "DELETE FROM orders_number  WHERE status_use='1' AND status_cf='0' AND emp_id='$emp_id'  ";
-if ($conn->query($sql3) === TRUE) {
-}
+// $sql3 = "DELETE FROM orders_number  WHERE status_use='1' AND status_cf='0' AND emp_id='$emp_id'  ";
+// if ($conn->query($sql3) === TRUE) {
+// }
 ?>
 <?php $keyword = $_POST['keyword'];
 $column = $_REQUEST['column'];
