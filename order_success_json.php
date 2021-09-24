@@ -108,11 +108,7 @@ while ($row = mysqli_fetch_array($query)) {  // preparing an array
                 $nestedData[] ="<a class='btn btn-outline-info btn-sm line-height-1'  title='ใบเสร็จรับเงิน' href='/hs_all.php?order_id=$row[order_id] target='_blank'> <i class='i-File font-weight-bold'></i></a>
                 <a class='btn btn-outline-success btn-sm line-height-1' title='คืนสินค้า' href='/refun.php?order_id=$row[order_id]&so_id=$row[dev_id]' target='_blank'> <i class='i-Repeat-2 font-weight-bold'></i></a>";                
                }
-               if($emp_id=='admin'){
-               $nestedData[] = "<a class='btn btn-outline-success btn-sm line-height-1'  title='แก้ข้ข้อมูล Order' href='/editorder_final.php?order_id=$row[order_id]'> <i class='i-Check font-weight-bold'></i></a>";
-                }else{
-                $nestedData[] =  '';         
-                }
+             
                  $data[] = $nestedData;
 }
 

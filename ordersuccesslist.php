@@ -155,7 +155,7 @@ unset($_SESSION['order_id']);
                                             <th width="10%">ภาษี</th>
                                             <th width="10%">ยอดรวม</th>
                                             <th width="20%">Action</th>
-                                            <th width="5%">แก้ไข</th>
+                                          
                                         </tr>
                                         </tr>
                                     </thead>
