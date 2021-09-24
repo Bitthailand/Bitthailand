@@ -32,7 +32,7 @@ if ($status_order == 'Mnew') {
 }
 if ($status_order == 'new') {
     $date_month = date('Y-m');
-    $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'    ";
+    $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2' AND status_cf='1'  ";
     $rs5 = $conn->query($sql5);
     $row_run = $rs5->fetch_assoc();
     
@@ -45,7 +45,7 @@ if ($status_order == 'new') {
     $_SESSION["order_id"] = $order_id;
 
     $sqlx5 = "INSERT INTO orders_number (order_id,emp_id,status_use,date_month)
-    VALUES ('$order_id','$emp_id','1','$date_month')";
+    VALUES ('$order_id','$emp_id','2','$date_month')";
     if ($conn->query($sqlx5) === TRUE) { }
 }
 $order_idx = $_SESSION["order_id"];
@@ -113,6 +113,8 @@ if ($status_order == 'confirm') {
     $discount = $_REQUEST['Fdiscount'];
     $Forder_id = $_REQUEST['Forder_id'];
 if ($action == 'add_product') {
+
+    echo"xx";
     $Fproduct_type = $_REQUEST['Fproduct_type'];
     $Fproductx = $_REQUEST['Fproductx'];
     $Funit_price = $_REQUEST['Funit_price'];
@@ -144,6 +146,9 @@ if ($action == 'add_product') {
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
+    $sql112 = "UPDATE orders_number  SET status_cf='1'  where order_id='$Forder_id'";
+    if ($conn->query($sql112) === TRUE) { }
+
     if ($TF == 1) {  // ค่าจัดส่ง
         $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
         $result2 = mysqli_query($conn, $sql2);
@@ -155,11 +160,10 @@ if ($action == 'add_product') {
                         $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
                                 VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
                                 if ($conn->query($sqlx5) === TRUE) { }
-                                $sql112 = "UPDATE orders_number  SET status_use='2' where order_id='$Forder_id'";
-                                if ($conn->query($sql112) === TRUE) { }
-
+                               
                   }
                  // ====บันทึกเป็นสินค้าใหม่
+              
                   $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF0'  ";
                     $rs9 = $conn->query($sql9);
                     $row_run = $rs9->fetch_assoc();
@@ -347,6 +351,8 @@ if ($action == 'add') {
      <?php } 
      else
     {
+        $sql112 = "UPDATE orders_number  SET status_button='1'  where order_id='$order_idx'";
+        if ($conn->query($sql112) === TRUE) { }
             // ลูกค้ารับกลับเอง เงินสด
         if (($cus_type == 1) && ($cus_back == 1)) {
             // echo "ค้นหา ORDER ว่ามีหรือไม่";
