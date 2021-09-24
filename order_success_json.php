@@ -20,13 +20,15 @@ $columns = array(
 );
 
 // getting total number records without any search
-$sql = "SELECT * FROM orders JOIN customer ON  orders.cus_id=customer.customer_id   AND orders.order_status='5'    ";
+$sql = "SELECT orders.date_create AS date_create  FROM orders JOIN customer ON  orders.cus_id=customer.customer_id   AND orders.order_status='5'   ";
 $query = mysqli_query($conn, $sql) or die("");
 $totalData = mysqli_num_rows($query);
 $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
-$sql = "SELECT * FROM  orders JOIN customer ON  orders.cus_id=customer.customer_id  AND orders.order_status='5'  ";
+$sql = "SELECT orders.date_create AS date_create,orders.cus_type AS cus_type,orders.cus_id AS cus_id,
+orders.cus_back AS cus_back,orders.ai_count AS  ai_count,orders.discount AS discount,
+orders.order_id AS order_id ,orders.dev_id AS dev_id FROM  orders JOIN customer ON  orders.cus_id=customer.customer_id  AND orders.order_status='5'    ";
 // $sql.=" FROM employee WHERE 1=1";
 if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
                 $sql .= " AND ( orders.order_id LIKE '" . $requestData['search']['value'] . "%' ";

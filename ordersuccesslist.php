@@ -214,7 +214,8 @@ unset($_SESSION['order_id']);
                     $("#employee-grid_processing").css("display", "none");
 
                 },
-                "scrollX": true
+                "scrollX": true,
+                "order": [[ 0, "asc" ]]
             }
         });
     });
