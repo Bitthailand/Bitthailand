@@ -22,16 +22,15 @@ if (mysqli_num_rows($result) > 0) {
     $month[] = $dat1;
     // $value[] = $row['value'];
 
-$sql2 = "SELECT DATE_FORMAT(delivery.dev_date,'%Y') As MyYear   FROM delivery  INNER JOIN  deliver_detail ON delivery.dev_id=deliver_detail.dev_id
+$sql2 = "SELECT DATE_FORMAT(delivery.dev_date,'%Y') As MyYear, SUM(deliver_detail.dev_qty) AS qty   FROM delivery  INNER JOIN  deliver_detail ON delivery.dev_id=deliver_detail.dev_id
 AND  YEAR(delivery.dev_date) = '$d[0]'  GROUP BY MyYear  "; 
 $result2 = mysqli_query($conn, $sql2);
 
 // $value = [];
 if (mysqli_num_rows($result2) > 0) {
-
   while ($row2 = mysqli_fetch_assoc($result2)) {
     $sum_all[] = $row2['sumall'];
-    // $qc_ok[] =   $row2['sum_atype'];
+    $qc_ok[] =   $row2['qty'];
     // $qc_no[] =   $row2['sum_btype'];
   }
 }
