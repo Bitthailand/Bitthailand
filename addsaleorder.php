@@ -177,6 +177,7 @@ if ($action == 'add_dev') {
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
+                        echo"dd";
                         echo"$call_qty";
                         if ($action == 'add_dev') {
                             if ($call_qty == 0) {

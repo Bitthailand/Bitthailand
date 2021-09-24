@@ -114,7 +114,7 @@ if ($status_order == 'confirm') {
     $Forder_id = $_REQUEST['Forder_id'];
 if ($action == 'add_product') {
 
-    echo"xx";
+  
     $Fproduct_type = $_REQUEST['Fproduct_type'];
     $Fproductx = $_REQUEST['Fproductx'];
     $Funit_price = $_REQUEST['Funit_price'];
