@@ -21,7 +21,7 @@ if (isset($_SESSION["username"])) {
 <?php
 include './include/connect.php';
 include './include/config.php';
-include './get_dashbord_production_year.php';
+include './get_dashbord_sale_year.php';
 $datex = date('Y-m-d');
 $d = explode("-", $datex);
 $sql_pday = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
@@ -78,7 +78,7 @@ $row_pday = $rs_pday->fetch_assoc();
                         <div class="col-lg-12 col-md-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="card-title">ยอดผลิตประจำปี</div>
+                                    <div class="card-title">ยอดขายประจำปี</div>
                                     <div id="echartBar" style="height: 300px;"></div>
                                 </div>
                             </div>
