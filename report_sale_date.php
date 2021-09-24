@@ -4,9 +4,8 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
+$MyDate = $_REQUEST['MyDate'];
 
-$order_id = $_REQUEST['order_id'];
-$dev_id= $_REQUEST['dev_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">

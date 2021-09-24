@@ -56,13 +56,13 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
             <!-- ============ Tab Menu ============= -->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link active" href="/report_sale.php">
+                    <a class="linkLoadModalNext nav-link " href="/report_sale.php">
                         <h4 class="h5 font-weight-bold"> ภาพรวมข้อมูลยอดขาย
                         </h4>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link" href="/report_sale_year.php">
+                    <a class="linkLoadModalNext nav-link active" href="/report_sale_year.php">
                         <h4 class="h5 font-weight-bold"> รายงานยอดขายรายปี
                         </h4>
                     </a>
@@ -175,7 +175,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                         </div>
                                                     </div>
 
-                                               
+                                      
 
                                                 </div>
                                             </div>
