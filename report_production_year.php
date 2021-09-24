@@ -133,8 +133,7 @@ $row_pday = $rs_pday->fetch_assoc();
                                                                     <td class="text-left"><?php echo number_format($row4['b_type'], '0', '.', ',') ?></td>
                                                                     <td class="text-left"><?php echo number_format($row4['sumall'], '2', '.', ',') ?></td>
                                                                     <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_production_month.php?MyYear=<?= $row4['MyYear'] ?>">
-                                                        <i class="i-Check font-weight-bold"></i>
-                                                    </a></td>
+                                                        <i class="i-Check font-weight-bold"></i> </a></td>
                                                                 </tr>
                                                         <?php }
                                                         } ?>

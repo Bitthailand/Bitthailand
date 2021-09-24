@@ -4,7 +4,9 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$MyDate = $_REQUEST['MyDate'];
+
+$order_id = $_REQUEST['order_id'];
+$dev_id= $_REQUEST['dev_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -56,14 +58,14 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
             <!-- ============ Tab Menu ============= -->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link active" href="/report_production.php">
-                        <h4 class="h5 font-weight-bold"> ภาพรวมข้อมูลสั่งผลิต
+                    <a class="linkLoadModalNext nav-link active" href="/report_sale.php">
+                        <h4 class="h5 font-weight-bold"> ภาพรวมข้อมูลยอดขาย
                         </h4>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link" href="/report_production_year.php">
-                        <h4 class="h5 font-weight-bold"> รายงานยอดผลิตรายปี
+                    <a class="linkLoadModalNext nav-link" href="/report_sale_year.php">
+                        <h4 class="h5 font-weight-bold"> รายงานยอดขายรายปี
                         </h4>
                     </a>
                 </li>
@@ -72,76 +74,15 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
             <div class="tab-content">
                 <div class="main-content">
 
-                    <div class="breadcrumb">
-                        <h1 class="mr-2">ข้อมูลสั่งผลิตสินค้า
+                <div class="breadcrumb">
+                        <h1 class="mr-2">ข้อมูลยอดขาย
                         </h1>
                         <ul>
-                            <li><a href="">ภาพรวมการผลิต</a></li>
-                            <li>มูลค่าการผลิต</li>
+                            <li><a href="">ภาพรวมยอดขาย</a></li>
+                       
                         </ul>
                     </div>
-                    <div class="row">
-                        <!-- ICON BG-->
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">สินค้าผลิตเสร็จประจำวันนี้</p>
-                                            <h4 class="heading"><?php echo number_format($row_pday['today'], '0', '.', ',') ?> รายการ</h4>
-                                            <small class="text-muted m-0">รอดำเนินการ : <?= $row_pdaycf['today'] ?>|นำเข้าสต็อก:<?= $row_pdaycf1['today'] ?> </small>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">สินค้าผลิตประจำเดือน</p>
-                                            <h4 class="heading">สำเร็จ <?php echo number_format($row_pmonth['qty'], '0', '.', ',') ?> ชิ้น </h4>
-                                            <small class="text-muted m-0">สั่งผลิตทั้งหมดเดือน : <?php echo number_format($row_pmonth1['qty'], '0', '.', ',') ?> ชิ้น</small>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">สินค้าดี:ชำรุดประจำเดือน</p>
-                                            <h4 class="heading"><?php echo number_format($row_qc['a_type'], '0', '.', ',') ?> : <?php echo number_format($row_qc['b_type'], '0', '.', ',') ?> </h4>
-                                            <small class="text-muted m-0">มูลค่าสินค้าดี <?php echo number_format($row_qc['sum_a'], '0', '.', ',') ?>: <?php echo number_format($row_qc['sum_b'], '0', '.', ',') ?></small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">มูลค่าการผลิตประจำเดือน</p>
-                                            <h4 class="heading"><?php echo number_format($row_value['CO'], '2', '.', ',') ?></h4>
-                                            <small class="text-muted m-0">จำนวนสินค้า : <?php echo number_format($row_value['qty'], '2', '.', ',') ?> ชิ้น </small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
