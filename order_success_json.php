@@ -20,7 +20,9 @@ $columns = array(
 );
 
 // getting total number records without any search
-$sql = "SELECT orders.date_create AS date_create  FROM orders JOIN customer ON  orders.cus_id=customer.customer_id   AND orders.order_status='5'   ";
+$sql = "SELECT orders.date_create AS date_create,orders.cus_type AS cus_type,orders.cus_id AS cus_id,
+orders.cus_back AS cus_back,orders.ai_count AS  ai_count,orders.discount AS discount,
+orders.order_id AS order_id ,orders.dev_id AS dev_id  FROM orders JOIN customer ON  orders.cus_id=customer.customer_id   AND orders.order_status='5'   ";
 $query = mysqli_query($conn, $sql) or die("");
 $totalData = mysqli_num_rows($query);
 $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
@@ -39,7 +41,7 @@ if (!empty($requestData['search']['value'])) {   // if there is a search paramet
 }
 $query = mysqli_query($conn, $sql) or die("");
 $totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result. 
-$sql .= " ORDER BY " . $columns[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "  LIMIT " . $requestData['start'] . " ," . $requestData['length'] . "   ";
+$sql .= " ORDER BY orders.date_create DESC  LIMIT " . $requestData['start'] . " ," . $requestData['length'] . "   ";
 /* $requestData['order'][0]['column'] contains colmun index, $requestData['order'][0]['dir'] contains order such as asc/desc  */
 $query = mysqli_query($conn, $sql) or die("");
 
