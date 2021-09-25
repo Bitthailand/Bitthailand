@@ -209,11 +209,11 @@ if ($rowS == '') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='1'  LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='1'  order by po_id DESC  LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) {
 
 
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'  order by id ASC ");
+                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'  order by po_id DESC ");
                                             $total = mysqli_fetch_array($count);
                                             $count = 0;
                                             $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0' order by id ASC ";

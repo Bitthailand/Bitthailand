@@ -24,11 +24,6 @@ include './include/config.php';
 include './get_dashbord_sale_year.php';
 $datex = date('Y-m-d');
 $d = explode("-", $datex);
-$sql_pday = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-production_order.po_enddate LIKE  '$datex%'  ";
-$rs_pday = $conn->query($sql_pday);
-$row_pday = $rs_pday->fetch_assoc();
-
 
 ?>
 

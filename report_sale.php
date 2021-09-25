@@ -21,23 +21,9 @@ if (isset($_SESSION["username"])) {
 <?php
 include './include/connect.php';
 include './include/config.php';
-include './get_dashbord.php';
+include './get_dashbord_sale.php';
 $datex = date('Y-m-d');
 $d = explode("-", $datex);
-$sql_pday = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-production_order.po_enddate LIKE  '$datex%'  ";
-$rs_pday = $conn->query($sql_pday);
-$row_pday = $rs_pday->fetch_assoc();
-
-$sql_pdaycf = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='0'  ";
-$rs_pdaycf = $conn->query($sql_pdaycf);
-$row_pdaycf = $rs_pdaycf->fetch_assoc();
-
-$sql_pdaycf1 = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
-production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='1'  ";
-$rs_pdaycf1 = $conn->query($sql_pdaycf1);
-$row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
 
 ?>
 

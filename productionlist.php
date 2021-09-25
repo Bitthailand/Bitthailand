@@ -116,8 +116,8 @@ if ($action == 'add_stock') {
                     $sum_po = $row_po['a_type'] + $row_po['b_type'];
                     $sumy = $rowx['qty'] - $sum_po;
                     $total_sumy = $total_stock - $sumy;
-                    $totalstock1=$row_po['a_type']+$stock_a;
-                    $totalstock2=$row_po['b_type']+$stock_b;
+                    $totalstock1 = $row_po['a_type'] + $stock_a;
+                    $totalstock2 = $row_po['b_type'] + $stock_b;
                     // echo"$total_sumy";
                     // ผลรวมเป็น 0 คือครบจำนวนผลิตแล้ว
                     if ($total_sumy == 0) {
@@ -125,6 +125,9 @@ if ($action == 'add_stock') {
                         $rsx3 = $conn->query($sqlx3);
                         $rowx3 = $rsx3->fetch_assoc();
                         if ($rowx2['factory_id'] == 1) {
+                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$rowx[product_id]'";
+                            $rsx3 = $conn->query($sqlx3);
+                            $rowx3 = $rsx3->fetch_assoc();
                             // echo'st'.$rowx3['fac1_stock'];
                             $sum_stock1 = $rowx3['fac1_stock'] + $stock_a;
 
@@ -137,13 +140,12 @@ if ($action == 'add_stock') {
                             }
                         }
                         if ($rowx2['factory_id'] == 2) {
+                            $sqlx3 = "SELECT * FROM product  WHERE product_id= '$rowx[product_id]'";
+                            $rsx3 = $conn->query($sqlx3);
+                            $rowx3 = $rsx3->fetch_assoc();
                             $sum_stock2 = $rowx3['fac2_stock'] + $stock_a;
-                            $sqlx4 = "UPDATE product   SET fac2_stock='$sum_stock1' WHERE product_id='$rowx[product_id]' ";
+                            $sqlx4 = "UPDATE product   SET fac2_stock='$sum_stock2' WHERE product_id='$rowx[product_id]' ";
                             if ($conn->query($sqlx4) === TRUE) {
-                            }
-                            $sqlx = "INSERT INTO product_log  (product_id,stock2_in,po_id)
-                            VALUES ('$product_id','$stock_a','$po_id')";
-                            if ($conn->query($sqlx) === TRUE) {
                             }
                         }
                         // echo"$stock_a";
@@ -160,11 +162,11 @@ if ($action == 'add_stock') {
                     }
                     if ($total_sumy > 0) { ?>
                         <script>
-                        $(document).ready(function() {
-                            showAlert("ไม่สามารถบันทึกเกินจำนวนสั่งผลิต", "alert-danger");
-                        });
-                    </script>
-                  <?php   }
+                            $(document).ready(function() {
+                                showAlert("ไม่สามารถบันทึกเกินจำนวนสั่งผลิต", "alert-danger");
+                            });
+                        </script>
+                        <?php   }
                     if ($total_sumy < 0) {
                         $sqlx3 = "SELECT * FROM product  WHERE product_id= '$rowx[product_id]'";
                         $rsx3 = $conn->query($sqlx3);
