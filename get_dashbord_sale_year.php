@@ -143,7 +143,7 @@ if (mysqli_num_rows($result) > 0) {
             },
             type: "bar",
             barGap: 0,
-            color: "#8b5cf4",
+            color: "#FF3333",
             smooth: true,
             itemStyle: {
               emphasis: {
@@ -162,7 +162,7 @@ if (mysqli_num_rows($result) > 0) {
               color: "#639",
             },
             type: "bar",
-            color: "#A78BFA",
+            color: "#FF9966",
             smooth: true,
             itemStyle: {
               emphasis: {
@@ -181,7 +181,7 @@ if (mysqli_num_rows($result) > 0) {
               color: "#639",
             },
             type: "bar",
-            color: "#DDD6FE",
+            color: "#CC6666",
             smooth: true,
             itemStyle: {
               emphasis: {
@@ -200,7 +200,7 @@ if (mysqli_num_rows($result) > 0) {
               color: "#619",
             },
             type: "bar",
-            color: "#DDD6FE",
+            color: "#FF0099",
             smooth: true,
             itemStyle: {
               emphasis: {
