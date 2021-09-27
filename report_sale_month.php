@@ -98,6 +98,7 @@ $d = explode("-", $datex);
                                                             <th scope="col" class="text-right">ยอดขาย</th>
                                                             <th scope="col" class="text-right">ยอดคืน</th>
                                                             <th scope="col" class="text-right">ข้อมูล</th>
+                                                            <th scope="col" class="text-right">ข้อมูล1</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -137,6 +138,8 @@ $d = explode("-", $datex);
                                                                     <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ',');$total=$total+$row_sum['total']; ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_refun['total_price'], '2', '.', ',') ?></td>
                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_sale_date1.php?MyMonth=<?= $row4['MONTH'] ?>">
+                                                                            <i class="i-Check font-weight-bold"></i> </a></td>
+                                                                            <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือนแบบที่2" href="/report_sale_date2.php?MyMonth=<?= $row4['MONTH'] ?>">
                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
                                                                 </tr>
                                                         <?php }
