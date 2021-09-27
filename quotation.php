@@ -267,6 +267,13 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                         <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
 
                     </div>
+                    <div class="rowx_cus">
+                    <p style="font-size: 18px;font-weight: 700; padding-left: 4px;">เลขประจำตัวผู้เสียภาษี &nbsp; </p> <p style="font-size: 18px;">: <?php if ($row3['tax_number'] == '') {
+                                                        echo "-";
+                                                    } else {
+                                                        echo $row3['tax_number'];
+                                                    } ?> </p>
+            </div>
                 </div>
 
             </div>
@@ -301,7 +308,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                 </div>
 
             </div>
-
+           
             <div class="col-12">
                 <p>&nbsp;บริษัทฯ มีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้ : </p>
             </div>
