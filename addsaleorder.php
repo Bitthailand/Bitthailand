@@ -104,7 +104,7 @@ if ($action == 'add_dev') {
             });
         </script>
         <?php } else {
-        $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF'  ORDER BY id ASC";
+        $sqlxx = "SELECT *  FROM order_details  where order_id= '$order_id' AND ptype_id<>'TF'  AND product_id<>'TF00000000' ORDER BY id ASC";
         $resultxx = mysqli_query($conn, $sqlxx);
         if (mysqli_num_rows($resultxx) > 0) {
             while ($rowx = mysqli_fetch_assoc($resultxx)) {
@@ -177,8 +177,8 @@ if ($action == 'add_dev') {
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
-                        echo"dd";
-                        echo"$call_qty";
+                        // echo"dd";
+                        // echo"$call_qty";
                         if ($action == 'add_dev') {
                             if ($call_qty == 0) {
                                 $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'  ";
@@ -206,10 +206,10 @@ if ($action == 'add_dev') {
             }
         }
 
-        $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$order_id' AND status_delivery='1' AND ptype_id<>'TF' ";
+        $sqlc1 = "SELECT COUNT(*) AS ts  FROM order_details  WHERE   order_id= '$order_id' AND status_delivery='1' AND ptype_id<>'TF' AND product_id<>'TF00000000' ";
         $rsc1 = $conn->query($sqlc1);
         $rowc1 = $rsc1->fetch_assoc();
-        $sqlc0 = "SELECT COUNT(*) AS ts2  FROM order_details  WHERE   order_id= '$order_id' AND ptype_id<>'TF' ";
+        $sqlc0 = "SELECT COUNT(*) AS ts2  FROM order_details  WHERE   order_id= '$order_id' AND ptype_id<>'TF' AND product_id<>'TF00000000' ";
         $rsc0 = $conn->query($sqlc0);
         $rowc0 = $rsc0->fetch_assoc();
         // $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$dev_date' WHERE order_id= '$order_id'";
@@ -468,7 +468,7 @@ if ($action == 'add_dev') {
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' AND ptype_id<>'TF' order by id  ASC ";
+                                                            $sql_pro = "SELECT * FROM order_details  where order_id='$order_id' AND ptype_id<>'TF' AND product_id<>'TF00000000' order by id  ASC ";
                                                             $result_pro = mysqli_query($conn, $sql_pro);
                                                             if (mysqli_num_rows($result_pro) > 0) {
                                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
