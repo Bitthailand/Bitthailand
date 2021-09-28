@@ -74,6 +74,21 @@ if ($action == 'del') {
         </script>
 <?php }
 }
+if ($action == 'add_cfx') {
+    $order_id= $_REQUEST['order_id'];
+    $sqlxxx1 = "UPDATE orders  SET order_status='2'  where id='$order_id'";
+    if ($conn->query($sqlxxx1) === TRUE) {
+        ?>
+<script>
+        $(document).ready(function() {
+            showAlert("ยืนยันสั่งสินค้าลูกค้าเครดิส", "alert-primary");
+        });
+    </script>
+
+<?php 
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -107,6 +122,8 @@ if ($action == 'del') {
 
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
+        <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <!-- ============ Body content start ============= -->
             <div class="main-content">
 
@@ -341,7 +358,10 @@ if ($action == 'del') {
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>
-
+<?php if($row['cus_type']==2){ ?>
+    <button data-toggle="modal" data-target="#medalcf" title="ยืนยันสั่งสินค้าลูกค้าเครดิส" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Yes font-weight-bold"></i> </button>
+          </a>
+    <?php } ?>
 
                                                     <button type="button" class="btn btn-outline-danger btn-sm line-height-1" title="ยกเลิก Order" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
                             </div>
@@ -530,6 +550,24 @@ if ($action == 'del') {
             </div>
         </div>
     </div>
+     <!-- Modal CF-->
+     <div class="modal fade" id="medalcf" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">ยืนยันลูกค้าเครดิสสั่งสินค้า</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="dynamic-content1"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <form class="d-none" method="POST">
         <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
         <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
@@ -631,3 +669,37 @@ if ($action == 'del') {
         });
     });
 </script>
+<script>
+        $(document).ready(function() {
+
+            $(document).on('click', '#add_cf', function(e) {
+
+                e.preventDefault();
+
+                var uid = $(this).data('id'); // get id of clicked row
+
+                $('#dynamic-content1').html(''); // leave this div blank
+                $('#modal-loader').show(); // load ajax loader on button click
+
+                $.ajax({
+                        url: 'customercredit_confirm.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content1').html(''); // blank before load.
+                        $('#dynamic-content1').html(data); // load here
+                        $('#modal-loader').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader').hide();
+                    });
+
+            });
+        });
+    </script>
