@@ -359,7 +359,7 @@ if ($action == 'add_cfx') {
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>
 <?php if($row['cus_type']==2){ ?>
-    <button data-toggle="modal" data-target="#medalcf" title="ยืนยันสั่งสินค้าลูกค้าเครดิส" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Yes font-weight-bold"></i> </button>
+    <button data-toggle="modal" data-target="#medalcf" title="ยืนยันสั่งสินค้าลูกค้าเครดิต" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Yes font-weight-bold"></i> </button>
           </a>
     <?php } ?>
 

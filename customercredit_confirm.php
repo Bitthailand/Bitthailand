@@ -15,7 +15,7 @@ $row = $rs->fetch_assoc();
 
 
     <div class="modal-body">
-        <p class="text-Success text-16 line-height-1 mb-2">ยืนยันลูกค้าเครดิสสั่งสินค้าเลขที่ใบสั่งชื้อ : <?=$row['order_id']?>  เรียบร้อยใช่หรือไม่ ?</p>
+        <p class="text-Success text-16 line-height-1 mb-2">ยืนยันลูกค้าเครดิตสั่งสินค้าเลขที่ใบสั่งชื้อ : <?=$row['order_id']?>  เรียบร้อยใช่หรือไม่ ?</p>
     </div>
 
     <div class="modal-footer">
