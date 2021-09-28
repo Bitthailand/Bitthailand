@@ -29,16 +29,19 @@ $(function() {
             document.getElementById("btu").disabled = false;
             var df = 0;
             var TF = 1;
-            // $('#qty').val(df);
+            console.log('TF', TF)
+                // $('#qty').val(df);
             $('#send_qty').val(df);
             $('#TF').val(TF);
 
         } else {
             console.log('cus_back', cus_back);
             var TF = '';
+            console.log('TF', TF)
             $('#TF').val(TF);
             // $('#qty')
-
+            document.getElementById("ifYes").style.display = "none";
+            document.getElementById("ifYes1").style.display = "block";
             if (cus_back == 1) {
                 document.getElementById("ifYes").style.display = "none";
                 document.getElementById("ifYes1").style.display = "block";
