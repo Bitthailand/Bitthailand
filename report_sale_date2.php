@@ -18,7 +18,7 @@ if (isset($_SESSION["username"])) {
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../dist-assets/css/plugins/datatables.min.css" />
-   
+
 </head>
 <?php
 include './include/connect.php';
@@ -29,7 +29,6 @@ $datex = date($MyMonth);
 $d = explode("-", $datex);
 
 ?>
-
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -38,7 +37,6 @@ $d = explode("-", $datex);
         <!-- side bar menu -->
         <?php include './include/menu.php'; ?>
         <!-- =============== Left side End ================-->
-
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
@@ -56,44 +54,32 @@ $d = explode("-", $datex);
                         </h4>
                     </a>
                 </li>
-
             </ul>
             <div class="tab-content">
                 <div class="main-content">
-
                     <div class="breadcrumb">
                         <h1 class="mr-2">ข้อมูลยอดขาย
                         </h1>
                         <ul>
                             <li><a href="">ภาพรวมยอดขาย</a></li>
-
                         </ul>
                     </div>
-
-
-
-
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12">
                                     <div class="card mb-4">
                                         <div class="card-body">
-
                                             <div class="ul-widget__head">
                                                 <div class="ul-widget__head-label">
                                                     <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าแบบรายเดือน <?= $MyMonth ?> </h3>
                                                 </div>
-                                                <a class="btn btn btn-success mb-2 mr-2" href="/report_sale_excel.php?MyMonth=<?=$MyMonth?>">export excel</a>
+                                                <a class="btn btn btn-success mb-2 mr-2" href="/report_sale_excel.php?MyMonth=<?= $MyMonth ?>">export excel</a>
                                             </div>
-
-
                                             <div class="table-responsive">
-                  
                                                 <table class="table table-hover text-nowrap table-sm" id="example">
                                                     <thead>
                                                         <tr>
-
                                                             <th style="width: 16.66%">ลำดับ</th>
                                                             <th style="width: 16.66%">ชื่อลูกค้า</th>
                                                             <th style="width: 16.66%">ผู้ติดต่อ</th>
@@ -160,10 +146,10 @@ $d = explode("-", $datex);
                                                                     <td class="text-left"> <?php echo "$row_cus[customer_name]"; ?> </td>
                                                                     <td class="text-left"> <?php echo "$row_cus[contact_name]"; ?> </td>
                                                                     <td class="text-left"> <?php echo "$address"; ?> </td>
-                                                                    <td class="text-left"> <?php 
-                                                                     $tel = explode(" ", $row_cus['tel']); 
-                                                                     echo"$tel[0]";
-                                                                    ?></td>
+                                                                    <td class="text-left"> <?php
+                                                                                            $tel = explode(" ", $row_cus['tel']);
+                                                                                            echo "$tel[0]";
+                                                                                            ?></td>
                                                                     <td class="text-left">
                                                                         <?php
                                                                         $sql_dev1 = "SELECT * FROM deliver_detail  WHERE dev_id='$row4[dev_id]' AND ptype_id <>'TF'";
@@ -176,14 +162,12 @@ $d = explode("-", $datex);
                                                                             $sql_unit = "SELECT * FROM unit  WHERE id='$row_pro[units]'";
                                                                             $rs_unit = $conn->query($sql_unit);
                                                                             $row_unit  = $rs_unit->fetch_assoc();
-                                                         
+
                                                                             $st = $row_pro['product_name'] . ' ' . $row_dev1['dev_qty'] . ' ' . $row_unit['unit_name'] . ',<br> ';
 
                                                                             echo $st;
                                                                         }
-
                                                                         ?></td>
-
                                                                     <td class="text-left">
                                                                         <?php
                                                                         $sql_tf = "SELECT SUM(total_price) AS  total_price  FROM deliver_detail  WHERE dev_id='$row4[dev_id]' AND ptype_id ='TF'";
@@ -191,7 +175,6 @@ $d = explode("-", $datex);
                                                                         while ($row_tf = mysqli_fetch_assoc($result_tf)) {
                                                                             echo number_format($row_tf['total_price'], '2', '.', ',');
                                                                         }
-
                                                                         ?></td>
                                                                     <td class="text-left">
                                                                         <?php
@@ -200,66 +183,59 @@ $d = explode("-", $datex);
                                                                         while ($row_tf = mysqli_fetch_assoc($result_tf)) {
                                                                             echo number_format($row_tf['total_price'], '2', '.', ',');
                                                                         }
-
                                                                         ?></td>
-                                                                   <td class="text-center">
+                                                                    <td class="text-center">
                                                                         <?php $date = explode(" ", $row4['dev_date']);
                                                                         $dat = datethai2($date[0]);
                                                                         echo $dat ?>
                                                                     </td>
                                                                     <td>
-                                                                  <?php    $sql_quo= "SELECT * FROM quotation  WHERE  order_id='$row4[order_id]'";
-                                                                            $rs_quo = $conn->query($sql_quo);
-                                                                            $row_quo  = $rs_quo->fetch_assoc();
-                                                                            echo"$row_quo[qt_number]";
-                                                                            ?>
+                                                                        <?php $sql_quo = "SELECT * FROM quotation  WHERE  order_id='$row4[order_id]'";
+                                                                        $rs_quo = $conn->query($sql_quo);
+                                                                        $row_quo  = $rs_quo->fetch_assoc();
+                                                                        echo "$row_quo[qt_number]";
+                                                                        ?>
                                                                     </td>
                                                                     <td>
-                                                                  <?php    $sql_de= "SELECT * FROM delivery  WHERE dev_id='$row4[dev_id]' AND order_id='$row4[order_id]'";
-                                                                            $rs_de = $conn->query($sql_de);
-                                                                            $row_de  = $rs_de->fetch_assoc();
-                                                                            if($row_de['hs_id']=='0'){}else{  echo"$row_de[hs_id]"; }
-                                                                            ?>
+                                                                        <?php $sql_de = "SELECT * FROM delivery  WHERE dev_id='$row4[dev_id]' AND order_id='$row4[order_id]'";
+                                                                        $rs_de = $conn->query($sql_de);
+                                                                        $row_de  = $rs_de->fetch_assoc();
+                                                                        if ($row_de['hs_id'] == '0') {
+                                                                        } else {
+                                                                            echo "$row_de[hs_id]";
+                                                                        }
+                                                                        ?>
                                                                     </td>
                                                                     <td>
-                                                                  <?php    $sql_emp= "SELECT * FROM employee_check WHERE id='$row_de[dev_employee]' ";
-                                                                            $rs_emp = $conn->query($sql_emp);
-                                                                            $row_emp  = $rs_emp->fetch_assoc();
-                                                                            echo"$row_emp[name]";
-                                                                            ?>
+                                                                        <?php $sql_emp = "SELECT * FROM employee_check WHERE id='$row_de[dev_employee]' ";
+                                                                        $rs_emp = $conn->query($sql_emp);
+                                                                        $row_emp  = $rs_emp->fetch_assoc();
+                                                                        echo "$row_emp[name]";
+                                                                        ?>
                                                                     </td>
                                                                     <td>
-                                                                  <?php    $sql_emp= "SELECT * FROM employee_check WHERE id='$row_de[dev_check]' ";
-                                                                            $rs_emp = $conn->query($sql_emp);
-                                                                            $row_emp  = $rs_emp->fetch_assoc();
-                                                                            echo"$row_emp[name]";
-                                                                            ?>
+                                                                        <?php $sql_emp = "SELECT * FROM employee_check WHERE id='$row_de[dev_check]' ";
+                                                                        $rs_emp = $conn->query($sql_emp);
+                                                                        $row_emp  = $rs_emp->fetch_assoc();
+                                                                        echo "$row_emp[name]";
+                                                                        ?>
                                                                     </td>
                                                                 </tr>
                                                         <?php }
                                                         } ?>
-                                                       
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-
-
-
                 <!-- Header -->
                 <?php include './include/footer.php'; ?>
                 <!-- =============== Header End ================-->
-
             </div>
         </div>
         <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
@@ -275,21 +251,22 @@ $d = explode("-", $datex);
         <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
         <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
         <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+        <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
 </body>
 <script>
     $(document).ready(function() {
-    $('#example').DataTable( {
-        "scrollX": true,
-        "columns" : columns,
-        "scrollX": true,
-        "ordering" : false,
-        "fixedColumns":   {
-            leftColumns: 1,
-            rightColumns: 1
-        }
-       
-    } );
-} );
+        $('#example').DataTable({
+            "scrollX": true,
+            "columns": columns,
+            "scrollX": true,
+            "ordering": false,
+            "fixedColumns": {
+                leftColumns: 1,
+                rightColumns: 1
+            }
+
+        });
+    });
 </script>
+
 </html>

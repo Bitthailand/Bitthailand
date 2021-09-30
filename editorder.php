@@ -517,7 +517,7 @@ if ($action == 'add') {
                 // ============ปิดการสร้างรหัส QT
                 else {  ?>
 
-        <?php
+<?php
                 }
             }
         }
@@ -594,17 +594,17 @@ if ($action == 'add') {
                                         $cus_type = $rs3->fetch_assoc();
 
                                         ?> <?php
-                                        $sql6 = "SELECT * FROM districts  WHERE id= '$cus[subdistrict]'";
-                                        $rs6 = $conn->query($sql6);
-                                        $row6 = $rs6->fetch_assoc();
-                                        $sql7 = "SELECT * FROM amphures  WHERE id= '$cus[district]'";
-                                        $rs7 = $conn->query($sql7);
-                                        $row7 = $rs7->fetch_assoc();
-                                        $sql8 = "SELECT * FROM provinces  WHERE id= '$cus[province]'";
-                                        $rs8 = $conn->query($sql8);
-                                        $row8 = $rs8->fetch_assoc();
-                                        
-                                         ?>
+                                            $sql6 = "SELECT * FROM districts  WHERE id= '$cus[subdistrict]'";
+                                            $rs6 = $conn->query($sql6);
+                                            $row6 = $rs6->fetch_assoc();
+                                            $sql7 = "SELECT * FROM amphures  WHERE id= '$cus[district]'";
+                                            $rs7 = $conn->query($sql7);
+                                            $row7 = $rs7->fetch_assoc();
+                                            $sql8 = "SELECT * FROM provinces  WHERE id= '$cus[province]'";
+                                            $rs8 = $conn->query($sql8);
+                                            $row8 = $rs8->fetch_assoc();
+
+                                            ?>
                                         <input type="text" value="<?php echo "$cus_type[name]"; ?>" class="classcus form-control" readonly>
 
                                     </div>
@@ -614,12 +614,12 @@ if ($action == 'add') {
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="phone"><strong>เบอร์โทร <span class="text-danger"></span></strong></label>
-                                            <input type="text" value="<?php echo $cus['tel']; ?>" class="classcus form-control">
+                                        <input type="text" value="<?php echo $cus['tel']; ?>" class="classcus form-control">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="accAddressId"><strong>ที่อยู่ <span class="text-danger"></span></strong></label>
-                                       
-                                            <input type="text" class="classcus form-control" value="<?php  echo $cus['bill_address']." ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>">
+
+                                        <input type="text" class="classcus form-control" value="<?php echo $cus['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>">
                                     </div>
                                     <!-- สั่งสินค้า -->
                                     <div class="row mt-12">
@@ -704,17 +704,18 @@ if ($action == 'add') {
                                                 <table class="table table-hover text-nowrap table-sm">
                                                     <thead>
                                                         <tr>
-                                                            <th>ลำดับ</th>
+                                                        <th>ลำดับ</th>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ประเภทสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
+                                                            <th>น้ำหนัก</th>
                                                             <th>ราคาต่อหน่วย</th>
                                                             <th>ลดต่อหน่วย</th>
                                                             <th>จำนวนที่สั่ง</th>
                                                             <th>รวมเป็นเงิน</th>
 
-                                                           
-                                                           <th>Action</th> 
+
+                                                            <th>Action</th>
                                                             <!-- <th>chk</th> -->
                                                         </tr>
                                                     </thead>
@@ -743,23 +744,34 @@ if ($action == 'add') {
                                                                         echo $row3['product_name'];
                                                                         ?>
                                                                     </td>
-                                                                    <td> <?= $row_pro['unit_price'] ?> </td>
+                                                                    <td> <?php $weight1=$row3['weight']*$row_pro['qty']; echo number_format($weight1, '2', '.', ','); $sum_weight=$sum_weight+$weight1; ?> </td>
+                                                                    <td> <?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?> </td>
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
-                                                                    <td> <?= $row_pro['qty'] ?></td>
-                                                                    <td><?= $row_pro['total_price'] ?> </td>
+                                                                    <td> <?= $row_pro['qty'] ?><?php $sumqty = $sumqty + $row_pro['qty'];  ?></td>
+                                                                    <td> <?php echo number_format($row_pro['total_price'], '2', '.', ',') ?><?php $sumtotal = $sumtotal + $row_pro['total_price']; ?></td>
                                                                     <td>
-                                                                            <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                                                        <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
-                                                                            <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
-                                                                        </td>
-                                                                   
+                                                                        <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
+                                                                    </td>
+
 
                                                                 </tr>
                                                         <?php }
                                                         } ?>
-
                                                         <tr>
-                                                            <td colspan="14"> &nbsp;</td>
+                                                          
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td><?php echo number_format($sum_weight, '2', '.', ',') ?></td>
+                                                            <td>รวม</td>
+                                                            <td></td>
+                                                            <td><?= $sumqty ?></td>
+                                                            <td><?php echo number_format($sumtotal, '2', '.', ',') ?></td>
+                                                            <td></td>
+                                                            <td></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -775,60 +787,60 @@ if ($action == 'add') {
                                     </div>
                                     <?php if ($main['cus_back'] == '2') {
                                     ?>
-                                            <div class="form-group col-md-2">
-                                                <label for="delivery_date">กำหนดส่งสินค้า<span class="text-danger"></span></strong></label>
-                                                <input value="<?php echo "$main[delivery_date]"; ?>" class="form-control" type="text" readonly>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
-                                                <input type="text" value="<?= $main['delivery_Address'] ?>" class="classcus form-control" readonly>
-                                            </div>
-                                            <div class="form-group col-md-1">
-                                                <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
-                                                <input type="text" value="<?= $main['date_confirm'] ?>" class="classcus form-control" readonly>
-                                            </div>
-                                    <?php  
-                                    } ?>   
+                                        <div class="form-group col-md-2">
+                                            <label for="delivery_date">กำหนดส่งสินค้า<span class="text-danger"></span></strong></label>
+                                            <input value="<?php echo "$main[delivery_date]"; ?>" class="form-control" type="text" readonly>
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
+                                            <input type="text" value="<?= $main['delivery_Address'] ?>" class="classcus form-control" readonly>
+                                        </div>
+                                        <div class="form-group col-md-1">
+                                            <label for="date_confirm"><strong>ยืนยันใน(วัน) <span class="text-danger"></span></strong></label>
+                                            <input type="text" value="<?= $main['date_confirm'] ?>" class="classcus form-control" readonly>
+                                        </div>
+                                    <?php
+                                    } ?>
                                     <div class="form-group col-md-1">
                                         <label for="tax"><strong>ภาษี(%) <span class="text-danger"></span></strong></label>
-                                            <input type="text" value="<?php echo "$main[tax]"; ?>" class="classcus form-control">
-                                        
+                                        <input type="text" value="<?php echo "$main[tax]"; ?>" class="classcus form-control">
+
                                     </div>
                                     <div class="form-group col-md-1">
                                         <label for="discount"><strong>ส่วนลด(บาท) <span class="text-danger"></span></strong></label>
-                                          <input type="text" name="discount" id="discount" value="<?= $main['discount'] ?>" class="classcus form-control" placeholder="ส่วนลด">
+                                        <input type="text" name="discount" id="discount" value="<?= $main['discount'] ?>" class="classcus form-control" placeholder="ส่วนลด">
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="text-right">
 
                                     <?php
-                                        $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
-                                        $rs = $conn->query($sql);
-                                        $rs = $rs->fetch_assoc();
-                                        // echo "ประเภทลูกค้า" . $rs['cus_type'];
-                                        // echo "รับกลับ" . $rs['cus_back'];
+                                    $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
+                                    $rs = $conn->query($sql);
+                                    $rs = $rs->fetch_assoc();
+                                    // echo "ประเภทลูกค้า" . $rs['cus_type'];
+                                    // echo "รับกลับ" . $rs['cus_back'];
                                     ?>
-                                        <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 1)) { ?>
-                                            <?php $sql = "SELECT * FROM delivery  where order_id='$order_idx'  ";
-                                            $rsx = $conn->query($sql);
-                                            $rsx = $rsx->fetch_assoc();
-                                            ?>
-                                            <a class="btn btn-outline-primary m-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS) " href="/hs.php?order_id=<?= $rsx['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" target="_blank">
-                                                ออกใบเสร็จรับเงิน(HS)
-                                            </a>
-                                            <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $rs['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
-                                        <?php } ?>
-                                        <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 2)) { ?>
-                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
-                                        <?php } ?>
-                                        <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 3)) { ?>
-                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
-                                        <?php } ?>
-                                        <?php if ($rs['cus_type'] == 2) { ?>
-                                            <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
-                                        <?php } ?>
-                                        <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $order_id ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
+                                    <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 1)) { ?>
+                                        <?php $sql = "SELECT * FROM delivery  where order_id='$order_idx'  ";
+                                        $rsx = $conn->query($sql);
+                                        $rsx = $rsx->fetch_assoc();
+                                        ?>
+                                        <a class="btn btn-outline-primary m-1" data-toggle="tooltip" title="ออกใบเสร็จรับเงิน(HS) " href="/hs.php?order_id=<?= $rsx['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" target="_blank">
+                                            ออกใบเสร็จรับเงิน(HS)
+                                        </a>
+                                        <a class="btn btn-outline-primary m-1" href="/saleorder.php?order_id=<?= $rs['order_id'] ?>&so_id=<?= $rsx['dev_id'] ?>" type="button" target="_blank" id="SO">ออกใบส่งของ(SO)</a>
+                                    <?php } ?>
+                                    <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 2)) { ?>
+                                        <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
+                                    <?php } ?>
+                                    <?php if (($rs['cus_type'] == 1) && ($rs['cus_back'] == 3)) { ?>
+                                        <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
+                                    <?php } ?>
+                                    <?php if ($rs['cus_type'] == 2) { ?>
+                                        <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
+                                    <?php } ?>
+                                    <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $order_id ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
                                     <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการ Order</a>
                                 </div>
                             </form>
@@ -857,7 +869,7 @@ if ($action == 'add') {
                     <form action="" id='inputform2' method="post" name="myform">
                         <!-- mysql data will be load here -->
                         <div id="dynamic-content"></div>
-                     
+
 
                     </form>
                 </div>

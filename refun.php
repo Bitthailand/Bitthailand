@@ -69,6 +69,7 @@ $sr_id = $dat . $code;
 include './include/alert.php';
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
+    echo"xxx";
     $order_id = $_REQUEST['order_id'];
     $sr_id = $_REQUEST['sr_id'];
     $sr_date = $_REQUEST['sr_date'];
@@ -85,7 +86,7 @@ if ($action == 'add_dev') {
     VALUES ('$sr_id','$order_id','$datemonth','1')";
         if ($conn->query($sqlx) === TRUE) {
         }
-        $sql_pro = "SELECT  SUM(dev_qty) AS qty ,product_id,id FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'  GROUP BY product_id  ORDER BY product_id DESC ";
+        $sql_pro = "SELECT  *  FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'   ORDER BY product_id DESC ";
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
             while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -93,7 +94,10 @@ if ($action == 'add_dev') {
                 $pid = $row_pro['id'];
                 $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
                 $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
+            //    echo"$pid";
+                // echo "$stock1";
 
+                // echo "$stock2";
                 $sqlx3 = "SELECT * FROM order_details  WHERE product_id= '$product_id'  AND order_id='$order_id' ";
                 $rsx3 = $conn->query($sqlx3);
                 $rowx3 = $rsx3->fetch_assoc();
@@ -104,25 +108,27 @@ if ($action == 'add_dev') {
                 $add_qty = $stock1 + $stock2;
                 if ($add_qty == 0) {
                 } else {
+                    // echo"xxx";
                     $total_price = $add_qty * $row_p['unit_price'];
 
-                    $sqlx1 = "INSERT INTO sr_detail (sr_id,order_id,product_id,qty,unit,total_price,face_stock1,face_stock2)
-                    VALUES ('$sr_id','$order_id','$product_id','$add_qty','$row_p[unit_price]','$total_price','$stock1','$stock2')";
+                    $sqlx1 = "INSERT INTO sr_detail (sr_id,order_id,product_id,qty,unit,total_price,face_stock1,face_stock2,dev_id)
+                    VALUES ('$sr_id','$order_id','$product_id','$add_qty','$row_p[unit_price]','$total_price','$stock1','$stock2','')";
                     if ($conn->query($sqlx1) === TRUE) {
                     }
 
-                    $add_qty = $rowx3['qty'] - $add_qty;  //ลบยอดสั่งชื้อลง
+                    $add_qty1 = $row_pro['dev_qty']- $add_qty;  //ลบยอดสั่งชื้อลง
                     $add_qty_refun = $rowx3['qty'] + $add_qty;  //เพิ่มจำนวนสินค้าเข้าไปเพื่อเอาไปคืนใน ยอดจัดส่ง
                     $add_fac1_stock = $row_p['fac1_stock'] + $stock1; //เพิ่มสต็อกคืนโรงงาน1
                     $add_fac2_stock = $row_p['fac2_stock'] + $stock2;
-                    $add_qty_fac1 = $rowx3['face1_stock_out'] - $stock1; 
-                    $add_qty_fac2 = $rowx3['face2_stock_out'] - $stock2; 
+                    $add_qty_fac1 = $rowx3['face1_stock_out'] + $stock1;
+                    $add_qty_fac2 = $rowx3['face2_stock_out'] + $stock2;
+                    $total_price1 = $add_qty1 * $row_p['unit_price'];
                     //เพิ่มสต็อกคืนโรงงาน2
                     $qtyx = $row_pro['qty'] - $add_qty;
-                   
-                    $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,qty='$add_qty',total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'";
-                    $sql3 = "UPDATE deliver_detail  SET dev_qty='$add_qty',total_price='$total_price' where product_id='$product_id' AND order_id='$order_id'";
-                    $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+
+                    $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'  ";
+                    $sql3 = "UPDATE deliver_detail  SET dev_qty='$add_qty1',total_price='$total_price1' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
+                    $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac2_stock' where product_id='$product_id' ";
                     //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
                     if ($conn->query($sql1) === TRUE) {
                     }
@@ -245,6 +251,7 @@ if ($action == 'add_dev') {
                                                         <thead class="bg-gray-300">
                                                             <tr>
                                                                 <th scope="col" class="text-center" width="5%">No.</th>
+                                                                <th scope="col" class="text-center" width="5%">SO</th>
                                                                 <th scope="col" class="text-center" width="35%">รหัสสินค้า/รายละเอียด</th>
 
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
@@ -256,7 +263,7 @@ if ($action == 'add_dev') {
                                                         </thead>
                                                         <tbody>
                                                             <?php echo "$order_id";
-                                                            $sql_pro = "SELECT  SUM(dev_qty) AS qty ,product_id,id FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'  GROUP BY product_id  ORDER BY product_id DESC ";
+                                                            $sql_pro = "SELECT *  FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0' AND status_cf='1'   ORDER BY product_id DESC ";
                                                             $result_pro = mysqli_query($conn, $sql_pro);
                                                             if (mysqli_num_rows($result_pro) > 0) {
                                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -266,12 +273,13 @@ if ($action == 'add_dev') {
                                                             ?>
                                                                     <tr class="line">
                                                                         <th scope="row" class="text-center"><?= ++$idx; ?></th>
+                                                                        <th scope="row" class="text-center"><?= $row_pro['dev_id'] ?></th>
                                                                         <td> <?php $idx7 = ++$id7;
                                                                                 $idx8 = ++$id8;
                                                                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]' ";
                                                                                 $rsx3 = $conn->query($sqlx3);
                                                                                 $rowx3 = $rsx3->fetch_assoc();
-                                                                                $sqlx_sr = "SELECT SUM(qty) AS qty_sr FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' ";
+                                                                                $sqlx_sr = "SELECT SUM(qty) AS qty_sr FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' AND dev_id='$row_pro[dev_id]' ";
                                                                                 $rsx_sr = $conn->query($sqlx_sr);
                                                                                 $rowx_sr = $rsx_sr->fetch_assoc();
 
@@ -280,12 +288,12 @@ if ($action == 'add_dev') {
                                                                                 } else {
                                                                                     echo '*' . $rowx_sr['qty_sr'];
                                                                                 }
-                                                                                $sum_qty = $row_pro['qty'] - $rowx_sr['qty_sr'];
+                                                                                $sum_qty = $row_pro['dev_qty'] - $rowx_sr['qty_sr'];
                                                                                 ?></td>
 
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $sum_qty; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $row_pro['dev_qty'];?>' readonly></td>
                                                                         <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
