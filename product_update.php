@@ -4,6 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
+$emp_id=$_SESSION["username"]; 
 include './include/connect.php';
 include './include/config.php';
 $product_id = $_REQUEST['product_id'];

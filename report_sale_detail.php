@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-
+$emp_id=$_SESSION["username"]; 
 $order_id = $_REQUEST['order_id'];
 $dev_id = $_REQUEST['dev_id'];
 ?>

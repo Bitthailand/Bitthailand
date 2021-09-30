@@ -24,6 +24,7 @@ if ($action == 'login') {
             session_start();
             echo "Password verified $row[username] ";
             $_SESSION["username"] = $row['username'];
+            
             $_SESSION["rule"] = $row['rule'];
             $_SESSION["time"] = time() + 30;
             header('Location: index.php');

@@ -4,6 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
+$emp_id=$_SESSION["username"]; 
 include './include/connect.php';
 include './include/config_date2.php';
 include './include/config_text.php';

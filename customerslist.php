@@ -4,6 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
+$emp_id=$_SESSION["username"]; 
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">

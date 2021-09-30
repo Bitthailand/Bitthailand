@@ -1,6 +1,6 @@
 <?php
 include './include/connect.php';
-
+$emp_id=$_SESSION["username"]; 
 $id = intval($_REQUEST['id']);
 // echo "$id";
 $sql = "SELECT * FROM order_details  WHERE id = '$id' ";

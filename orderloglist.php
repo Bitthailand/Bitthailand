@@ -5,7 +5,7 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 include './include/connect.php';
-
+$emp_id=$_SESSION["username"]; 
 unset($_SESSION['order_id']);
 ?>
 

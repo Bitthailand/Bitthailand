@@ -1,6 +1,7 @@
 <?php
 include './include/connect.php';
 include './include/config.php';
+$emp_id=$_SESSION["username"]; 
 $id = intval($_REQUEST['id']);
 // echo "$id";
 $sql = "SELECT * FROM production_detail  WHERE id = '$id'";
