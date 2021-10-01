@@ -12,13 +12,11 @@ $status_order = $_REQUEST['status_order'];
 error_reporting(0);
 $emp_id = $_SESSION["username"];
 // echo "$status_order";
-
 $order_id = $_REQUEST['order_id'];
 $dev_id = $_REQUEST['dev_id'];
 $sql = "SELECT * FROM orders  where  order_id='$order_id' ";
 $rs = $conn->query($sql);
 $main = $rs->fetch_assoc();
-
 $sql_cus = "SELECT * FROM customer where  customer_id='$main[cus_id]' ";
 $rs_cus = $conn->query($sql_cus);
 $cus = $rs_cus->fetch_assoc();
@@ -50,7 +48,6 @@ if ($status_order == 'confirm') {
     }
     // echo"วิธีรับสินค้า";
     // echo"$discount ";
-
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $Fcus_type_name = $_REQUEST['Fcus_type_name'];
@@ -84,8 +81,6 @@ $Fdate_confirm = $_REQUEST['Fdate_confirm'];
 $tax = $_REQUEST['Ftax'];
 $discount = $_REQUEST['Fdiscount'];
 $Forder_id = $_REQUEST['Forder_id'];
-
-
 if ($action == 'add_product') {
     $Fproduct_type = $_REQUEST['Fproduct_type'];
     $Fproductx = $_REQUEST['Fproductx'];
@@ -134,7 +129,6 @@ if ($action == 'add_product') {
         $sql9 = "SELECT COUNT(id) AS id_run FROM product where ptype_id='TF0'  ";
         $rs9 = $conn->query($sql9);
         $row_run = $rs9->fetch_assoc();
-
         $datetodat = date('Y-m-d');
         $date = explode(" ", $datetodat);
         $dat = datethai_TF($date[0]);
@@ -164,8 +158,6 @@ if ($action == 'add_product') {
             </script>
         <?php   }
     } else {
-
-
         $sqlx = "SELECT * FROM order_details   WHERE order_id='$Forder_id' AND product_id='$row5[product_id]' ";
         $result = mysqli_query($conn, $sqlx);
         if (mysqli_num_rows($result) > 0) { ?>
