@@ -873,10 +873,11 @@ if ($action == 'add_hs') {
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td></td>
+                                                            <td>รวม</td>
                                                             
                                                             <td><?php echo number_format($sum_weight, '2', '.', ',') ?></td>
-                                                            <td>รวม</td>
+                                                            <td></td>
+                                                            <td></td>
                                                             <td><?= $sumqty ?></td>
                                                             <td><?php echo number_format($sumtotal, '2', '.', ',') ?></td>
                                                             <td></td>
