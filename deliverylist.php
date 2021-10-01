@@ -67,7 +67,7 @@ if ($action == 'add_cfx') {
         if ($conn->query($sql5) === TRUE) {
         }
     } else {
-        $sqlxxx1 = "UPDATE delivery  SET status_chk='1' where id='$dev_id'";
+        $sqlxxx1 = "UPDATE delivery  SET status_chk='1',status_payment='1' where id='$dev_id'";
         if ($conn->query($sqlxxx1) === TRUE) {
         }
         $sql5 = "UPDATE deliver_detail  SET status_cf='1',payment='1' where dev_id='$row[dev_id]'";
