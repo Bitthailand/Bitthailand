@@ -440,15 +440,15 @@ if ($action == 'add') {
                              {
                              } else {
                                  // echo "tt"; cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type'
-                                 $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk,cus_id,cus_back,cus_type)
-                                          VALUES ('$dev_id','$order_idx','$datetodat','1','$cus_id','$cus_back','$cus_type')";
+                                 $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,status_chk,cus_id,cus_back,cus_type,status_payment)
+                                          VALUES ('$dev_id','$order_idx','$datetodat','1','$cus_id','$cus_back','$cus_type','1')";
                                           if ($conn->query($sqlx) === TRUE) {}
                                 $sql_pro2 = "SELECT * FROM order_details  WHERE  order_id='$order_idx' ";
                                 $result_pro2 = mysqli_query($conn, $sql_pro2);
                                 if (mysqli_num_rows($result_pro2) > 0) {
                                     while ($row_pro2 = mysqli_fetch_assoc($result_pro2)) {
-                                            $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,status_cf,ptype_id,cus_back,cus_type)
-                                                     VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$row_pro2[qty]','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]','1','$row_pro2[ptype_id]','$cus_back','$cus_type')";
+                                            $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,status_cf,ptype_id,cus_back,cus_type,payment)
+                                                     VALUES ('$dev_id','$row_pro2[product_id]','$order_idx','$row_pro2[qty]','$row_pro2[unit_price]','$row_pro2[total_price]','$row_pro2[disunit]','1','$row_pro2[ptype_id]','$cus_back','$cus_type','1')";
                                                         if ($conn->query($sqlx) === TRUE) { }
                                              }
                                 }
