@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -22,13 +22,14 @@ $emp_id=$_SESSION["username"];
 include './include/connect.php';
 include './include/config.php';
 include './get_dashbord.php';
+include './get_chart.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
 $sql_month = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND  status_cf='1' AND payment='1' ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
 
-$sql_year = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]'  AND status_cf='1' AND payment='1'  ";
+$sql_year = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  AND status_cf='1' AND payment='1'  ";
 $rs_year = $conn->query($sql_year);
 $row_year = $rs_year->fetch_assoc();
 
@@ -187,7 +188,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                 <tbody>
                                                                     <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
                                                                             ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
                                                                     $result4 = mysqli_query($conn, $sql4);
                                                                     if (mysqli_num_rows($result4) > 0) {
                                                                         while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -239,7 +240,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                 <tbody>
                                                                     <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
                                                                             ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'  AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 5  ";
                                                                     $result4 = mysqli_query($conn, $sql4);
                                                                     if (mysqli_num_rows($result4) > 0) {
                                                                         while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -271,15 +272,12 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card mb-4">
@@ -289,15 +287,11 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
-
                                 <div class="ul-widget__head">
                                     <div class="ul-widget__head-label">
                                         <h3 class="ul-widget__head-title">รายชื่อสินค้าที่มียอดขายสูงสุด</h3>
@@ -310,7 +304,6 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                         </ul>
                                     </div>
                                 </div>
-
                                 <div class="ul-widget__body">
                                     <div class="tab-content">
                                         <div class="tab-pane active show" id="__g-widget4-tab1-content">
@@ -330,11 +323,11 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                     $row_pro = $rs_pro->fetch_assoc();
 
                                                                     $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row4[ptype_id]'";
-                                                                    $rs_type= $conn->query($sql_type);
-                                                                    $row_type= $rs_type->fetch_assoc();
+                                                                    $rs_type = $conn->query($sql_type);
+                                                                    $row_type = $rs_type->fetch_assoc();
                                                                     ?>
-                                                                    <h5><a href="#"> <?=$row_pro['product_name']?></a></h5>
-                                                                    <p class="m-0 text-small text-muted"><?=$row_type['ptype_name']?></p>
+                                                                    <h5><a href="#"> <?= $row_pro['product_name'] ?></a></h5>
+                                                                    <p class="m-0 text-small text-muted"><?= $row_type['ptype_name'] ?></p>
                                                                     <p class="text-small text-danger m-0">฿<?php echo number_format($row4['sum'], '2', '.', ',') ?>
                                                                         <del class="text-muted"></del>
                                                                     </p>
@@ -349,26 +342,27 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                         </div>
                                         <div class="tab-pane" id="__g-widget4-tab2-content">
                                             <div class="ul-widget1">
-                                            <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE    YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
+                                                <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE    YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
                                                 $result4 = mysqli_query($conn, $sql4);
                                                 if (mysqli_num_rows($result4) > 0) {
                                                     while ($row4 = mysqli_fetch_assoc($result4)) {
                                                 ?>
-                                                <div class="ul-widget4__item ul-widget4__users">
-                                                    <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
-                                                        <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/33.jpg" alt="" />
-                                                        <div class="flex-grow-1">
-                                                            <h5><a href="#"> เสารั้วลวดหนาม ขนาด 4 นิ้ว ยาว 4.00 เมตร</a></h5>
-                                                            <p class="m-0 text-small text-muted">เสารั้วลวดหนาม</p>
-                                                            <p class="text-small text-danger m-0">฿159,493.00
-                                                                <del class="text-muted"></del>
-                                                            </p>
+                                                        <div class="ul-widget4__item ul-widget4__users">
+                                                            <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
+                                                                <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/33.jpg" alt="" />
+                                                                <div class="flex-grow-1">
+                                                                    <h5><a href="#"> เสารั้วลวดหนาม ขนาด 4 นิ้ว ยาว 4.00 เมตร</a></h5>
+                                                                    <p class="m-0 text-small text-muted">เสารั้วลวดหนาม</p>
+                                                                    <p class="text-small text-danger m-0">฿159,493.00
+                                                                        <del class="text-muted"></del>
+                                                                    </p>
+                                                                </div>
+                                                                <div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php } } ?>
+                                                <?php }
+                                                } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -387,10 +381,10 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="card-title">Dashed Line Chart(Page Statistics)</div>
+                                <div class="card-title">ยอดขายรายปี</div>
                                 <div id="dashedLineChart"></div>
                             </div>
                         </div>
@@ -415,7 +409,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
     <script src="../../dist-assets/js/plugins/apexcharts.min.js"></script>
     <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
-    <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
+   
 </body>
 
 </html>
