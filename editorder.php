@@ -91,6 +91,8 @@ if ($action == 'add_product') {
     $Funit_price = $_REQUEST['Funit_price'];
     $Fqty = $_REQUEST['Fqty'];
     $Fqty2 = $_REQUEST['Fqty2'];
+    // echo"$Fqty2";
+    
     $qty = $_REQUEST['qty'];
     $Forder_id = $_REQUEST['Forder_id'];
     $Fcus_id = $_REQUEST['Fcus_id'];
@@ -193,6 +195,7 @@ if ($action == 'add_product') {
                 $rs5 = $conn->query($sql5);
                 $row5 = $rs5->fetch_assoc();
                 $sum_qty = $Fqty + $Fqty2;
+                echo"$sum_qty";
                 if ($row['fac1_stock'] < $Fqty) {
                     $chk1 = 'true';
                 } else {
@@ -223,8 +226,9 @@ if ($action == 'add_product') {
                     // echo "errALL";
                 }
             } else {
+                $sum_qty = $Fqty + $Fqty2;
                 $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out,updates)
-            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$Fqty','$Funit_price','$total_price','1','$emp_id','$disunit','CB','$Fqty','1')";
+            VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','$disunit','CB','$Fqty','1')";
                 if ($conn->query($sql) === TRUE) { ?>
                     <script>
                         $(document).ready(function() {
