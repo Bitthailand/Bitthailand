@@ -224,6 +224,9 @@ if ($action == 'add_dev') {
             $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id' WHERE order_id= '$order_id'";
             if ($conn->query($sqlx12) === TRUE) {
             }
+            $sqlx13 = "UPDATE order_details SET status_delivery='1',error='13' WHERE order_id= '$order_id'";
+            if ($conn->query($sqlx13) === TRUE) {
+            }
         }
         // ตัดยอดมัดจำ
         $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
