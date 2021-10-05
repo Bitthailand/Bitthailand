@@ -207,11 +207,11 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                                                         ?>
                                                     <tfoot>
                                                         <tr>
-                                                            <th>วันที่</th>
+                                                        <th>วันที่</th>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ประเภทสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
-                                                            <th>ราคาต่อหน่วย</th>
+                                                            <th>จำนวน</th>
                                                             <th>โรงงาน 1</th>
 
                                                             <th>หน่วยนับ</th>

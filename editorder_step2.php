@@ -204,10 +204,12 @@ if ($action == 'add_product') {
 
                     $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out,updates,status_new)
                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty','1','1')";
-                    if ($conn->query($sqlx4) === TRUE) { ?>
+                    $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
+                    if ($conn->query($sql2) === TRUE) {}
+                   if ($conn->query($sqlx4) === TRUE) { ?>
                         <script>
                             $(document).ready(function() {
-                                showAlert("บันทึกข้อมูลสำเร็จปปปปป", "alert-success");
+                                showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
                             });
                         </script>
                     <?php   } //
@@ -249,7 +251,8 @@ if ($action == 'add_product') {
 
                   $sqlx2 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out,updates,status_new)
                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$row5[unit_price]','$sum_total','1','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty','1','1')";
-                
+                $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
+                if ($conn->query($sql2) === TRUE) {}
                 if ($conn->query($sqlx2) === TRUE) { ?>
                     <script>
                         $(document).ready(function() {
