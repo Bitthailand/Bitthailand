@@ -230,6 +230,7 @@ if ($action == 'add_product') {
             } else {
                 $sum_qty = $Fqty + $Fqty2;
                 $date = date('Y-m-d');
+                $total_price=($Funit_price-$disunit)*$sum_qty;
                 $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out,updates)
             VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','$disunit','CB','$Fqty','1')";
                $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
