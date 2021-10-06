@@ -85,7 +85,7 @@ if ($action == 'add_cfx') {
     $rowx2 = $rsx2->fetch_assoc();
 
 
-    $sqlx3 = "SELECT * FROM order_details WHERE order_id = '$row[order_id]' AND ptype_id='TF'";
+    $sqlx3 = "SELECT * FROM order_details WHERE order_id = '$row[order_id]' AND ptype_id='TF0'";
     $rsx3 = $conn->query($sqlx3);
     $rowx3 = $rsx3->fetch_assoc();
 
