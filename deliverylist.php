@@ -80,9 +80,14 @@ if ($action == 'add_cfx') {
     $rs1 = $conn->query($sql1);
     $row1 = $rs1->fetch_assoc();
 
-    $sql1 = "SELECT * FROM order_details WHERE order_id = '$row[order_id]' AND ptype_id='TF' ";
-    $rs1 = $conn->query($sql1);
-    $row2 = $rs1->fetch_assoc();
+    $sqlx2 = "SELECT * FROM order_details WHERE order_id = '$row[order_id]' AND ptype_id='TF'";
+    $rsx2 = $conn->query($sqlx2);
+    $rowx2 = $rsx2->fetch_assoc();
+
+
+    $sqlx3 = "SELECT * FROM order_details WHERE order_id = '$row[order_id]' AND ptype_id='TF'";
+    $rsx3 = $conn->query($sqlx3);
+    $rowx3 = $rsx3->fetch_assoc();
 
 
 
@@ -90,7 +95,13 @@ if ($action == 'add_cfx') {
     $rsc0 = $conn->query($sqlc0);
     $rowc0 = $rsc0->fetch_assoc();
     // echo $rowc0['ts2'].'<br>'.$rowc1['ts'] ;
-    if ($row2['qty'] == $rowc0['ts2']) {
+    if ($rowx2['qty'] == $rowc0['ts2']) {
+        $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]' ";
+        if ($conn->query($sqlx12) === TRUE) {
+        }
+    }
+
+    if ($rowx3['qty'] == $rowc0['ts2']) {
         $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]' ";
         if ($conn->query($sqlx12) === TRUE) {
         }
