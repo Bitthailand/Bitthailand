@@ -163,7 +163,7 @@ if ($action == 'add_dev') {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
                     echo "xxxxxyyyy";
-                    echo "$rowx[qty_out]";
+                    echo $rowx['qty_out'].'x'.$total_instock;
                     $call_qty = $rowx['qty_out'] - $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
                     $add_devqty = $rowx['qty_dev'] + $total_instock; //เพิ่มจำนวนจัดส่ง
                     //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
