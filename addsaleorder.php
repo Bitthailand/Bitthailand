@@ -188,7 +188,7 @@ if ($action == 'add_dev') {
 
                             echo"cal=".$call_qty.'id='.$pid.'pro_id='.$product_id.'$stock1='.$stock1;
                             if ($call_qty == 0) {
-                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',qty_out='$call_qty' where  id='$pid'  ";
+                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_out='$call_qty' where  id='$pid'  ";
                                 if ($conn->query($sql1yyy) === TRUE) {
                                 }
                             } else {
