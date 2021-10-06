@@ -87,7 +87,7 @@ include './include/alert.php';
 
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
-    echo"$action";
+    // echo"$action";
     $order_id = $_REQUEST['order_id'];
     $dev_id = $_REQUEST['dev_id'];
     $dev_date = $_REQUEST['dev_date'];
@@ -157,12 +157,12 @@ if ($action == 'add_dev') {
                 <?php
                 }
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
-                echo "xxxxx";
+                // echo "xxxxx";
 
         if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
-                    echo "xxxxxyyyy";
+                    // echo "xxxxxyyyy";
                     echo $rowx['qty_out'].'x'.$total_instock;
                     
                     $call_qty = $rowx['qty_out'] - $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
@@ -188,11 +188,11 @@ if ($action == 'add_dev') {
 
                             echo"cal=".$call_qty.'id='.$pid.'pro_id='.$product_id;
                             if ($call_qty == 0) {
-                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'  ";
+                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where  id='$pid'  ";
                                 if ($conn->query($sql1yyy) === TRUE) {
                                 }
                             } else {
-                                $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where product_id='$product_id' AND order_id='$order_id' AND id='$pid' ";
+                                $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where   id='$pid' ";
                                 if ($conn->query($sql1xxx) === TRUE) {
                                 }
                             }
