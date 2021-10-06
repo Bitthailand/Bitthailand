@@ -548,7 +548,6 @@ $row_h = $rs_h->fetch_assoc();
                         <td class="bottomx_rl" colspan="2" align="center" style="font-size: 18px;">&nbsp;ราคาสินค้า</td>
 
                         <td align="right" class="bottomx_rl" style="font-size: 18px;  "><?php echo number_format($grand_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
-
                     </tr>
                 <?php } ?>
 
