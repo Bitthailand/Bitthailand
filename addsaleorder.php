@@ -166,7 +166,7 @@ if ($action == 'add_dev') {
                     echo $rowx['qty_out'].'x'.$total_instock;
                     
                     $call_qty = $rowx['qty_out'] - $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
-                    echo"cal=".$call_qty;
+                   
                     $add_devqty = $rowx['qty_dev'] + $total_instock; //เพิ่มจำนวนจัดส่ง
                     //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
                     $sql99 = "SELECT *  FROM deliver_detail  where order_id= '$order_id' AND dev_id='$dev_id'AND product_id='$product_id' ";
@@ -183,8 +183,10 @@ if ($action == 'add_dev') {
                         if ($conn->query($sqlx) === TRUE) {
                         }
                         // echo"dd";
-                        // echo"$call_qty";
+                       
                         if ($action == 'add_dev') {
+
+                            echo"cal=".$call_qty;
                             if ($call_qty == 0) {
                                 $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'  ";
                                 if ($conn->query($sql1yyy) === TRUE) {
