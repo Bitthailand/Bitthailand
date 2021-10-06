@@ -406,7 +406,7 @@ if ($action == 'add') {
                     }
                     if ($fac2_stock >= $row_pro['face2_stock_out']) { //จำนวนที่สั่งต้องน้อยกว่าสต็อก
                         $stock2 = $fac2_stock - $row_pro['face2_stock_out'];
-                        $sql222 = "UPDATE product  SET  fac1_stock2='$stock2' where product_id='$row2[product_id]'";
+                        $sql222 = "UPDATE product  SET  fac2_stock='$stock2' where product_id='$row2[product_id]'";
                         if ($conn->query($sql222) === TRUE) { }
                     } else {
                         echo "error";
