@@ -187,14 +187,17 @@ if ($action == 'add_dev') {
                         if ($action == 'add_dev') {
                             if($stock1==''){$stock1='0';}
                             if($stock2==''){$stock2='0';}
-
-                            echo"cal=".$call_qty.'id='.$pid.'pro_id='.$product_id.'$stock1='.$stock1.'$stock2='.$stock2;
+                            $c_stock1=$rowx['face1_stock_out']+$stock1;
+                            $c_stock2=$rowx['face2_stock_out']+$stock2;
+                            // echo"cal=".$call_qty.'id='.$pid.'pro_id='.$product_id.'$stock1='.$stock1.'$stock2='.$stock2;
                             if ($call_qty == 0) {
-                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where  id='$pid'  ";
+                                $sql1yyy = "UPDATE order_details SET face1_stock_out='$c_stock1',face2_stock_out='$c_stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where  id='$pid'  ";
                                 if ($conn->query($sql1yyy) === TRUE) {
                                 }
                             } else {
-                                $sql1xxx = "UPDATE order_details SET face1_stock_out='$stock1',face2_stock_out='$stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where  id='$pid' ";
+                                
+
+                                $sql1xxx = "UPDATE order_details SET face1_stock_out='$c_stock1',face2_stock_out='$c_stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where  id='$pid' ";
                                 if ($conn->query($sql1xxx) === TRUE) {
                                 }
                             }
@@ -560,8 +563,8 @@ if ($action == 'add_dev') {
 
                 </div>
             </div>
-        </div>
-    </div>
+        
+
     <!-- Header -->
     <?php include './include/footer.php'; ?>
     <!-- =============== Header End ================-->
