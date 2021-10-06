@@ -76,19 +76,21 @@ if ($action == 'add_cfx') {
     }
    
 
-    $sql1 = "SELECT * FROM orders WHERE id= '$row[order_id]'";
+    $sql1 = "SELECT * FROM orders WHERE order_id= '$row[order_id]'";
     $rs1 = $conn->query($sql1);
     $row1 = $rs1->fetch_assoc();
 
-    $sqlc1 = "SELECT COUNT(*) AS ts  FROM delivery  WHERE   order_id= '$row[order_id]'  ";
-    $rsc1 = $conn->query($sqlc1);
-    $rowc1 = $rsc1->fetch_assoc();
+    $sql1 = "SELECT * FROM order_details WHERE order_id = '$row[order_id]' AND ptype_id='TF' ";
+    $rs1 = $conn->query($sql1);
+    $row2 = $rs1->fetch_assoc();
+
+
 
     $sqlc0 = "SELECT COUNT(*) AS ts2  FROM delivery   WHERE   order_id= '$row[order_id]' AND status_chk='1' ";
     $rsc0 = $conn->query($sqlc0);
     $rowc0 = $rsc0->fetch_assoc();
     // echo $rowc0['ts2'].'<br>'.$rowc1['ts'] ;
-    if ($rowc0['ts2'] == $rowc1['ts']) {
+    if ($row2['qty'] == $rowc0['ts2']) {
         $sqlx12 = "UPDATE orders  SET order_status='5' WHERE order_id= '$row[order_id]' ";
         if ($conn->query($sqlx12) === TRUE) {
         }
