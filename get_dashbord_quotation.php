@@ -9,7 +9,7 @@ $sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM quotation  GRO
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all=[];
-$cus_back=[];
+
 $cus_back2=[];
 // $value = [];
 if (mysqli_num_rows($result) > 0) {
@@ -35,15 +35,7 @@ if (mysqli_num_rows($result2) > 0) {
   }
 }
 
-$sql3 = "SELECT ROUND(SUM((order_details.qty-order_details.disunit)*order_details.unit_price), 2) AS sum  FROM quotation  INNER JOIN order_details  ON  quotation.order_id=order_details.order_id AND  MONTH(quotation.date_create) = '$d[1]' AND YEAR(quotation.date_create) = '$d[0]' "; 
-$result3 = mysqli_query($conn, $sql3);
-if (mysqli_num_rows($result3) > 0) {
-  while ($row3 = mysqli_fetch_assoc($result3)) {
-    $cus_back[] = $row3['sum'];
-    // $value[] = $row['value'];
-  //  echo json_encode($row3['sum']);
-  }
-}
+
 $sql4 = "SELECT ROUND(SUM((deliver_detail.dev_qty-deliver_detail.disunit)*deliver_detail.unit_price), 2) AS sum  FROM quotation  INNER JOIN deliver_detail  ON  quotation.order_id=deliver_detail.order_id AND  MONTH(quotation.date_create) = '$d[1]' AND YEAR(quotation.date_create) = '$d[0]'  AND  deliver_detail.status_cf='1' "; 
 $result4 = mysqli_query($conn, $sql4);
 if (mysqli_num_rows($result4) > 0) {
@@ -218,25 +210,7 @@ if (mysqli_num_rows($result4) > 0) {
               },
             },
           },
-          {
-            name: "เสนอราคา",
-            data:<?= json_encode($cus_back); ?>,
-            label: {
-              show: false,
-              color: "#639",
-            },
-            type: "bar",
-            color: "#A78BFA",
-            smooth: true,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowOffsetY: -2,
-                shadowColor: "rgba(0, 0, 0, 0.3)",
-              },
-            },
-          },
+         
           {
             name: "ส่งสำเร็จ",
             data:<?= json_encode($cus_back2); ?>,

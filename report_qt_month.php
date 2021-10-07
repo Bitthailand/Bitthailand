@@ -13,7 +13,7 @@ $emp_id=$_SESSION["username"];
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>รายงานยอดขาย</title>
+    <title>รายงานใบเสนอราคา</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -21,8 +21,9 @@ $emp_id=$_SESSION["username"];
 <?php
 include './include/connect.php';
 include './include/config.php';
-include './get_dashbord_quotation_year.php';
-$datex = date('Y-m-d');
+include './get_dashbord_qt_year.php';
+$MyYear = $_REQUEST['MyYear'];
+$datex = date($MyYear);
 $d = explode("-", $datex);
 
 ?>
@@ -58,6 +59,7 @@ $d = explode("-", $datex);
             <div class="tab-content">
                 <div class="main-content">
 
+                    
                 <div class="breadcrumb">
                         <h1 class="mr-2">ข้อมูลใบเสนอราคา
                         </h1>
@@ -69,17 +71,7 @@ $d = explode("-", $datex);
 
 
 
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <div class="card-title">ใบเสนอราคาประจำปี</div>
-                                    <div id="echartBar" style="height: 300px;"></div>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
@@ -89,9 +81,9 @@ $d = explode("-", $datex);
 
                                             <div class="ul-widget__head">
                                                 <div class="ul-widget__head-label">
-                                                    <h3 class="ul-widget__head-title">รายการใบเสนอราคาแบบรายปี</h3>
+                                                    <h3 class="ul-widget__head-title">รายการใบเสนอราคาแบบรายปี <?= $MyYear ?> </h3>
                                                 </div>
-                                                
+
                                             </div>
 
 
@@ -100,42 +92,63 @@ $d = explode("-", $datex);
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col" class="text-left">ปี</th>
-                                                            <th scope="col" class="text-left">มูลค่าใบเสนอราคาประจำปี</th>
-                                                            <th scope="col" class="text-left">ใบเสนอราคาสำเร็จ</th>
-                                              
-                                                            <th scope="col" class="text-left">ข้อมูล</th>
+                                                            <th scope="col" class="text-right">เดือน</th>
+                                                            <th scope="col" class="text-right">จำนวนใบเสนอราคา</th>
+                                                            
+                                                            <th scope="col" class="text-right">มูลค่าใบเสนอราคา</th>
+                                                            <th scope="col" class="text-right">ขายสำเร็จ</th>
+                                                        
+                                                            <th scope="col" class="text-right">ข้อมูล</th>
+                                                     
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $sql4 = "SELECT DATE_FORMAT(date_create,'%Y') As MyYear   FROM quotation  GROUP BY MyYear  ORDER BY MyYear  DESC  ";
+                                                        <?php $sql4 = "SELECT DATE_FORMAT(date_create, '%Y-%m') AS MONTH   FROM quotation  WHERE   YEAR(date_create) = '$d[0]'   GROUP BY MONTH  ORDER BY MONTH DESC ";
                                                         $result4 = mysqli_query($conn, $sql4);
                                                         if (mysqli_num_rows($result4) > 0) {
                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
                                                         ?> <tr>
                                                                     <th scope="row"><?= ++$idx; ?></th>
-                                                                    <td class="text-left">
-                                                                        <?php 
-                                                                        $year =$row4['MyYear'] + 543; 
-                                                                        $d = explode("-", $row4['MyYear']);
-                                                                        $sql3 = "SELECT ROUND(SUM((order_details.qty-order_details.disunit)*order_details.unit_price), 2) AS sum  FROM quotation  INNER JOIN order_details  ON  quotation.order_id=order_details.order_id AND  YEAR(quotation.date_create) = '$d[0]' ";
-                                                                        $rs3 = $conn->query($sql3);
-                                                                        $row3 = $rs3->fetch_assoc();
+                                                                    <td class="text-right">
 
-                                                                        $sql5 = "SELECT ROUND(SUM((deliver_detail.dev_qty-deliver_detail.disunit)*deliver_detail.unit_price), 2) AS sum  FROM quotation  INNER JOIN deliver_detail  ON  quotation.order_id=deliver_detail.order_id  AND YEAR(quotation.date_create) = '$d[0]'  AND  deliver_detail.status_cf='1' ";
-                                                                        $rs5 = $conn->query($sql5);
-                                                                        $row5 = $rs5->fetch_assoc();
+                                                                        <?= $row4['MONTH'] ?></td>
+                                                                    <?php
+                                                                    $datex1 = date($row4['MONTH']);
+                                                                    $d1 = explode("-", $datex1);
+                                                                    $sql_cus_day = "SELECT COUNT(DISTINCT qt_number) AS sum_qt FROM quotation WHERE   MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'  ";
+                                                                    $rs_cus_day = $conn->query($sql_cus_day);
+                                                                    $row_cus_day = $rs_cus_day->fetch_assoc();
+                                                                   
+                                                                    $sql_qt = "SELECT ROUND(SUM((order_details.qty-order_details.disunit)*order_details.unit_price), 2) AS sum  FROM quotation  INNER JOIN order_details  ON  quotation.order_id=order_details.order_id AND  MONTH(quotation.date_create) = '$d1[1]' AND YEAR(quotation.date_create) = '$d1[0]'";
+                                                                    $rs_qt = $conn->query($sql_qt);
+                                                                    $row_qt = $rs_qt->fetch_assoc();
 
-                                                                         ?>
-                                                                        <?= $year ?></td>
-                                                                    <td class="text-left"><?php echo number_format($row3['sum'], '2', '.', ',') ?></td>
-                                                                    <td class="text-left"><?php echo number_format($row5['sum'], '0', '.', ',') ?></td>
+                                                                    $sql_sum = "SELECT ROUND(SUM((deliver_detail.dev_qty-deliver_detail.disunit)*deliver_detail.unit_price), 2) AS sum  FROM quotation  INNER JOIN deliver_detail  ON  quotation.order_id=deliver_detail.order_id AND  MONTH(quotation.date_create) = '$d1[1]' AND YEAR(quotation.date_create) = '$d1[0]'  AND  deliver_detail.status_cf='1' ";
+                                                                    $rs_sum = $conn->query($sql_sum);
+                                                                    $row_sum = $rs_sum->fetch_assoc();
+
+                                                                 
+                                                                    ?>
+                                                                    <td class="text-right"><?php echo number_format($row_cus_day['sum_qt'], '0', '.', ',') ?></td>
                                                                     
-                                                                    <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_qt_month.php?MyYear=<?= $row4['MyYear'] ?>">
-                                                        <i class="i-Check font-weight-bold"></i> </a></td>
+                                                                    <td class="text-right"><?php echo number_format($row_qt['sum'], '2', '.', ','); $total_ai=$total_ai+$row_qt['sum']; ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_sum['sum'], '2', '.', ',');$total=$total+$row_sum['sum']; ?></td>
+                                                                  
+                                                                    <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_qt_date1.php?MyMonth=<?= $row4['MONTH'] ?>">
+                                                                            <i class="i-Check font-weight-bold"></i> </a></td>
+                                                                            
                                                                 </tr>
                                                         <?php }
-                                                        } ?>
+                                                        } ?><tr>
+                                                            
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td class="text-right"><?php echo number_format($total_ai, '2', '.', ',');?></td>
+                                                            <td class="text-right"><?php echo number_format($total, '2', '.', ',');?></td>
+                                                            <td></td>
+                                                          
+                                                            </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
