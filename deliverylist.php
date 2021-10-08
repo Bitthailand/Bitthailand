@@ -330,7 +330,7 @@ if ($action == 'add_hs') {
                                                     echo "$row4[name]";
 
                                                     ?></td>
-                                            <td style=vertical-align='middle'><h5> <span class="badge badge-success  "> <?php
+                                            <td ><h5> <span class="badge badge-success  "> <?php
                                                     $sql5 = "SELECT * FROM customer WHERE customer_id= '$row1[cus_id]'";
                                                     $rs5 = $conn->query($sql5);
                                                     $row5 = $rs5->fetch_assoc();
