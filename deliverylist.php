@@ -164,7 +164,7 @@ if ($action == 'add_hs') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
+    <title>ขนส่งสินค้า</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -330,11 +330,11 @@ if ($action == 'add_hs') {
                                                     echo "$row4[name]";
 
                                                     ?></td>
-                                            <td> <?php
+                                            <td style=vertical-align='middle'><h5> <span class="badge badge-success  "> <?php
                                                     $sql5 = "SELECT * FROM customer WHERE customer_id= '$row1[cus_id]'";
                                                     $rs5 = $conn->query($sql5);
                                                     $row5 = $rs5->fetch_assoc();
-                                                    echo $row5['customer_name']; ?> </td>
+                                                    echo $row5['customer_name']; ?></span></h5> </td>
                                             <td> <?php
                                                     $sqlct = "SELECT * FROM customer_type  WHERE  id= '$row1[cus_type]'";
                                                     $rsct = $conn->query($sqlct);

@@ -131,7 +131,14 @@ $d = explode("-", $datex);
                                                                                 <tr>
                                                                                     <th scope="row"><?= ++$idx; ?></th>
                                                                                     <td class="text-center">
-                                                                                        <?php echo "$row4[DATE]"; ?>
+                                                                                       
+                                                                                        <?php $d = explode("-", $row4['DATE']);
+                                                                                        $yd = "$d[0]-$d[1]";
+                                                                                        $date1 = explode(" ", $row4['DATE']);
+                                                                                        $dat1 = datethai2($date1[0]);
+                                                                                        echo $dat1;
+
+                                                                                        ?>
                                                                                     </td>
 
                                                                                     <td class="text-right"><?php echo number_format($row_qt_day['date1'], '0', '.', ',') ?></td>

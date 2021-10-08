@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 $MyMonth = $_REQUEST['MyMonth'];
 
 ?>
@@ -74,15 +74,15 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
             <div class="tab-content">
                 <div class="main-content">
 
-                <div class="breadcrumb">
+                    <div class="breadcrumb">
                         <h1 class="mr-2">ข้อมูลใบเสนอราคา
                         </h1>
                         <ul>
                             <li><a href="">ภาพรวมใบเสนอราคา</a></li>
-                       
+
                         </ul>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
@@ -91,7 +91,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                         <div class="card-body">
 
 
-                                        <div class="ul-widget__body">
+                                            <div class="ul-widget__body">
                                                 <div class="tab-content">
                                                     <div class="tab-pane active show" id="__d-widget4-tab1-content">
                                                         <div class="ul-widget1">
@@ -110,7 +110,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <?php 
+                                                                        <?php
                                                                         $dx = explode("-", $MyMonth);
                                                                         $sql4 = "SELECT  DATE_FORMAT(quotation.date_create, '%Y-%m-%d') AS DATE  FROM quotation  INNER JOIN   order_details  ON  quotation.order_id=order_details.order_id   AND quotation.date_create  AND MONTH(quotation.date_create) = '$dx[1]' AND YEAR(quotation.date_create) = '$dx[0]'  GROUP BY DATE ORDER BY DATE DESC";
                                                                         $result4 = mysqli_query($conn, $sql4);
@@ -133,7 +133,14 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                 <tr>
                                                                                     <th scope="row"><?= ++$idx; ?></th>
                                                                                     <td class="text-center">
-                                                                                        <?php echo "$row4[DATE]"; ?>
+                                                                                     
+                                                                                        <?php $d = explode("-", $row4['DATE']);
+                                                                                        $yd = "$d[0]-$d[1]";
+                                                                                        $date1 = explode(" ", $row4['DATE']);
+                                                                                        $dat1 = datethai2($date1[0]);
+                                                                                        echo $dat1;
+
+                                                                                        ?>
                                                                                     </td>
 
                                                                                     <td class="text-right"><?php echo number_format($row_qt_day['date1'], '0', '.', ',') ?></td>

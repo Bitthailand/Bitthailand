@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -21,6 +21,7 @@ $emp_id=$_SESSION["username"];
 <?php
 include './include/connect.php';
 include './include/config.php';
+include './include/config_date2.php';
 include './get_dashbord_qt_year.php';
 $MyYear = $_REQUEST['MyYear'];
 $datex = date($MyYear);
@@ -59,8 +60,8 @@ $d = explode("-", $datex);
             <div class="tab-content">
                 <div class="main-content">
 
-                    
-                <div class="breadcrumb">
+
+                    <div class="breadcrumb">
                         <h1 class="mr-2">ข้อมูลใบเสนอราคา
                         </h1>
                         <ul>
@@ -94,12 +95,12 @@ $d = explode("-", $datex);
                                                             <th scope="col">#</th>
                                                             <th scope="col" class="text-right">เดือน</th>
                                                             <th scope="col" class="text-right">จำนวนใบเสนอราคา</th>
-                                                            
+
                                                             <th scope="col" class="text-right">มูลค่าใบเสนอราคา</th>
                                                             <th scope="col" class="text-right">ขายสำเร็จ</th>
-                                                        
+
                                                             <th scope="col" class="text-right">ข้อมูล</th>
-                                                     
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -111,14 +112,22 @@ $d = explode("-", $datex);
                                                                     <th scope="row"><?= ++$idx; ?></th>
                                                                     <td class="text-right">
 
-                                                                        <?= $row4['MONTH'] ?></td>
+                                                                       
+                                                                      <?php   $d = explode("-", $row4['MONTH']);
+                                                                        $yd = "$d[0]-$d[1]";
+                                                                        $date1 = explode(" ", $yd);
+                                                                        $dat1 =datethai5($date1[0]);
+                                                                        echo $dat1;
+
+                                                                        ?>
+                                                                    </td>
                                                                     <?php
                                                                     $datex1 = date($row4['MONTH']);
                                                                     $d1 = explode("-", $datex1);
                                                                     $sql_cus_day = "SELECT COUNT(DISTINCT qt_number) AS sum_qt FROM quotation WHERE   MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'  ";
                                                                     $rs_cus_day = $conn->query($sql_cus_day);
                                                                     $row_cus_day = $rs_cus_day->fetch_assoc();
-                                                                   
+
                                                                     $sql_qt = "SELECT ROUND(SUM((order_details.qty-order_details.disunit)*order_details.unit_price), 2) AS sum  FROM quotation  INNER JOIN order_details  ON  quotation.order_id=order_details.order_id AND  MONTH(quotation.date_create) = '$d1[1]' AND YEAR(quotation.date_create) = '$d1[0]'";
                                                                     $rs_qt = $conn->query($sql_qt);
                                                                     $row_qt = $rs_qt->fetch_assoc();
@@ -127,28 +136,30 @@ $d = explode("-", $datex);
                                                                     $rs_sum = $conn->query($sql_sum);
                                                                     $row_sum = $rs_sum->fetch_assoc();
 
-                                                                 
+
                                                                     ?>
                                                                     <td class="text-right"><?php echo number_format($row_cus_day['sum_qt'], '0', '.', ',') ?></td>
-                                                                    
-                                                                    <td class="text-right"><?php echo number_format($row_qt['sum'], '2', '.', ','); $total_ai=$total_ai+$row_qt['sum']; ?></td>
-                                                                    <td class="text-right"><?php echo number_format($row_sum['sum'], '2', '.', ',');$total=$total+$row_sum['sum']; ?></td>
-                                                                  
+
+                                                                    <td class="text-right"><?php echo number_format($row_qt['sum'], '2', '.', ',');
+                                                                                            $total_ai = $total_ai + $row_qt['sum']; ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_sum['sum'], '2', '.', ',');
+                                                                                            $total = $total + $row_sum['sum']; ?></td>
+
                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_qt_date1.php?MyMonth=<?= $row4['MONTH'] ?>">
                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
-                                                                            
+
                                                                 </tr>
                                                         <?php }
                                                         } ?><tr>
-                                                            
+
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td class="text-right"><?php echo number_format($total_ai, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total, '2', '.', ',');?></td>
+                                                            <td class="text-right"><?php echo number_format($total_ai, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total, '2', '.', ','); ?></td>
                                                             <td></td>
-                                                          
-                                                            </tr>
+
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
