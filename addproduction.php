@@ -450,11 +450,15 @@ if ($action == 'del') {
                                                                       $sumdia_count = $sumdia_count+ $row3['dia_count'];
                                                                     ?> </td>
 
-                                                                    <td> <?php echo $row['sqm'];
+                                                                    <td> <?php echo $row['sqm']; 
+                                                                    if($row3['ptype_id']=='PS'){
                                                                             $sumsqm = $sumsqm + $row['sqm'];
+                                                                        }
                                                                             ?> </td>
                                                                     <td> <?php echo $row['concrete_cal'];
+                                                                     if($row3['ptype_id']=='PS'){
                                                                             $sumconcrete_cal = $sumconcrete_cal + $row['concrete_cal'];
+                                                                     }
                                                                             ?></td>
                                                                     <td><?php echo $row['qty'];
                                                                         $sumqty = $sumqty + $row['qty']; ?></td>
