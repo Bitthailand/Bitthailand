@@ -77,7 +77,7 @@ if ($action == 'del') {
 }
 if ($action == 'add_cfx') {
     $order_id= $_REQUEST['order_id'];
-    $sqlxxx1 = "UPDATE orders  SET order_status='2'  where id='$order_id'";
+    $sqlxxx1 = "UPDATE orders  SET order_status='2',is_ai='Y'  where id='$order_id'";
     if ($conn->query($sqlxxx1) === TRUE) {
         ?>
 <script>
