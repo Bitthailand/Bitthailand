@@ -56,10 +56,12 @@ if ($action == 'edit') {
 
 if ($action == 'edit_ai') {
     $edit_id = $_REQUEST['edit_id'];
+    $order_id = $_REQUEST['order_id'];
     $price = $_REQUEST['price'];
     // echo"$delivery_date";
     $sqlxxx = "UPDATE ai_number  SET price='$price' where id='$edit_id'";
-    $sqlxxx2 = "UPDATE orders  SET ai_count='$price' where id='$edit_id'";
+    $sqlxxx2 = "UPDATE orders  SET ai_count='$price' where order_id='$order_id'";
+    if ($conn->query($sqlxxx2) === TRUE) { }
     if ($conn->query($sqlxxx) === TRUE) { ?>
         <script>
             $(document).ready(function() {
