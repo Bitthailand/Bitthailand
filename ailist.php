@@ -52,6 +52,22 @@ if ($action == 'edit') {
         </script>
 <?php }
 }
+
+
+if ($action == 'edit_ai') {
+    $edit_id = $_REQUEST['edit_id'];
+    $price = $_REQUEST['price'];
+    // echo"$delivery_date";
+    $sqlxxx = "UPDATE ai_number  SET price='$price' where id='$edit_id'";
+    $sqlxxx2 = "UPDATE orders  SET ai_count='$price' where id='$edit_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("อับเดตค่ามัดจำเรียบร้อย", "alert-primary");
+            });
+        </script>
+<?php }
+}
 ?>
 
 <!DOCTYPE html>
@@ -295,7 +311,17 @@ if ($action == 'edit') {
                                                         echo $row2['name_th'];
                                                         ?>
                                                 </td>
-                                                <td><span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
+                                                <td>
+                                                <?php
+                                                    $sql_ai = "SELECT * FROM ai_number   WHERE order_id= '$row[order_id]'";
+                                                    $rs_ai = $conn->query($sql_ai);
+                                                    $row_ai = $rs_ai->fetch_assoc();
+                                                   
+                                                    ?>    
+                                                
+                                                <button data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row_ai['id']; ?>" id="edit2" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                                    <span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
+                                                
                                                 </td>
                                                 <td>
                                                     <?php
@@ -330,9 +356,10 @@ if ($action == 'edit') {
                                                             <i class="i-Car-Items font-weight-bold"></i>
                                                         </a>
 
-                                                        <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
+                                                        <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
                                                             <i class="i-Check font-weight-bold"></i>
                                                         </a>
+                                                       
                                                     <?php } ?>
                                                 </td>
                                             </tr>
@@ -348,18 +375,7 @@ if ($action == 'edit') {
                                 </table>
                             </div>
                             <!-- ============ Table End ============= -->
-                            <div class="mt-1">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted"> มัดจำขั้นต่ำ 30% เมื่อทำการสั่งซื้อสินค้า</span>
-                            </div>
-                            <div class="">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted">ชำระค่าสินค้าที่เหลือในวันจัดส่ง ก่อนลงสินค้า</span>
-                            </div>
-                            <div class="">
-                                <span class="text-danger mr-1">**</span>
-                                <span class="text-muted">ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาคิดเพิ่มชั่วโมงละ 500 บาท</span>
-                            </div>
+                           
                             <div class="mb-5 mt-3">
                                 <nav aria-label="Page navigation ">
                                     <ul class="pagination justify-content-center">
@@ -463,6 +479,26 @@ if ($action == 'edit') {
 
                     <!-- mysql data will be load here -->
                     <div id="dynamic-content"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        แก้ไขใบมัดจำ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content2"></div>
                 </div>
 
             </div>
@@ -594,6 +630,36 @@ if ($action == 'edit') {
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader').hide();
+                });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit2', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content2').html(''); // leave this div blank
+            $('#modal-loader2').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'ai_edit.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content2').html(''); // blank before load.
+                    $('#dynamic-content2').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content2').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
                 });
         });
     });
