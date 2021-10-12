@@ -215,7 +215,7 @@ if ($rowS == '') {
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr data-target="#orderModal">
                                                 <td><?php echo $row['ptype_id']; ?></td>
-                                                <td><?php echo $row['ptype_name']; ?></td>
+                                                <td><a href="inventorylist4_group.php?ptype=<?=$row['ptype_id']?>"><?php echo $row['ptype_name']; ?></a></td>
                                                 <td><?php echo $row['date_create']; ?></td>
 
                                                

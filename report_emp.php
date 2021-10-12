@@ -59,10 +59,10 @@ $d = explode("-", $datex);
                 <div class="main-content">
 
                     <div class="breadcrumb">
-                        <h1 class="mr-2">ข้อมูลยอดขาย
+                        <h1 class="mr-2">ข้อมูลพนักงาน
                         </h1>
                         <ul>
-                            <li><a href="">ภาพรวมยอดขาย</a></li>
+                            <li><a href="">ภาพรวมพนักงานส่งสินค้า</a></li>
                        
                         </ul>
                     </div>
@@ -71,7 +71,7 @@ $d = explode("-", $datex);
                         <div class="col-lg-12 col-md-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="card-title">ยอดขายประจำปี</div>
+                                    <div class="card-title">พนักงานส่งสินค้า</div>
                                     <div id="echartBar" style="height: 300px;"></div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@ $d = explode("-", $datex);
 
                                             <div class="ul-widget__head">
                                                 <div class="ul-widget__head-label">
-                                                    <h3 class="ul-widget__head-title">รายการขายประจำเดือน</h3>
+                                                    <h3 class="ul-widget__head-title">รายการส่งสินค้าประจำเดือน</h3>
                                                 </div>
                                                 
                                             </div>
@@ -101,7 +101,7 @@ $d = explode("-", $datex);
                                                                     <thead>
                                                                         <tr>
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col" class="text-right">วันที่</th>
+                                                                            <th scope="col" class="text-center">วันที่</th>
                                                                             <th scope="col" class="text-right">ลูกค้า</th>
                                                                             <th scope="col" class="text-right">รายการ</th>
                                                                             <th scope="col" class="text-right">ยอดมัดจำ</th>
@@ -140,7 +140,7 @@ $d = explode("-", $datex);
                                                                         ?>
                                                                                 <tr>
                                                                                     <th scope="row"><?= ++$idx; ?></th>
-                                                                                    <td class="text-left">
+                                                                                    <td class="text-center">
                                                                                         <?php echo "$row4[DATE]"; ?>
                                                                                     </td>
                                                                                     <td class="text-right"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
