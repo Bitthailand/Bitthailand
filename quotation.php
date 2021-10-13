@@ -259,7 +259,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     <div class="col-1x_cus">
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
-                        <p style="font-size: 18px;padding-top:3px;">:</p>
+                        <p style="font-size: 18px;padding-top:3px;">&nbsp;</p>
                         <p style="font-size: 18px;">:</p>
                     </div>
                     <div class="col-4xx_cus">
