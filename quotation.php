@@ -259,14 +259,14 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     <div class="col-1x_cus">
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
-                        <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;padding-top:3px;">:</p>
                         <p style="font-size: 18px;">:</p>
                     </div>
                     <div class="col-4xx_cus">
                         <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
                         <p style="font-size: 18px;"><?php echo $row3['bill_address'] . " $t" . $row6['name_th']; ?></p>
                         <p style="font-size: 18px;"><?php echo $a . $row7['name_th'] . " จ." . $row8['name_th']; ?>
-                        <p style="font-size: 18px;"><?= $row3['tel'] ?></p>
+                        <p style="font-size: 18.5px;padding-top:4px;"><?= $row3['tel'] ?></p>
                         <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
 
                     </div>
