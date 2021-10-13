@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 $order_id = $_REQUEST['order_id'];
 $so_id = $_REQUEST['so_id'];
@@ -195,7 +195,7 @@ $row5 = $rs5->fetch_assoc();
 <body>
     <?php
     $total_page_data = 0;  // เก็บจำนวนหน้า รายการทั้งหมด
-    $total_page_item = 22; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
+    $total_page_item = 20; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
     $sql = "SELECT * FROM deliver_detail  INNER JOIN product_type  ON deliver_detail.ptype_id=product_type.ptype_id  AND  deliver_detail.order_id='$order_id'  AND deliver_detail.dev_id='$so_id' ORDER BY  product_type.num_orderby,deliver_detail.date_create ASC";
@@ -252,7 +252,13 @@ $row5 = $rs5->fetch_assoc();
                                                 $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
                                                 $rs8 = $conn->query($sql8);
                                                 $row8 = $rs8->fetch_assoc();
-                                                if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
+                                                if ($row3['province'] == 1) {
+                                                    $t = 'แขวง';
+                                                    $a = '';
+                                                } else {
+                                                    $t = 'ต.';
+                                                    $a = 'อ.';
+                                                }
                                                 $sql_dev = "SELECT * FROM delivery  WHERE order_id= '$order_id' AND dev_id='$so_id'";
                                                 $rs_dev  = $conn->query($sql_dev);
                                                 $row_dev  = $rs_dev->fetch_assoc();
@@ -269,28 +275,40 @@ $row5 = $rs5->fetch_assoc();
                     <div class="col-4x_cus">
                         <p style="font-size: 18px;font-weight: 700;">ชื่อลูกค้า </p>
                         <p style="font-size: 18px;font-weight: 700;">ที่อยู่จัดส่ง </p>
-                        <p style="font-size: 18px;font-weight: 700;">โทร  </p>
+                        <p style="font-size: 18px;font-weight: 700;">&nbsp;</p>
+                        <p style="font-size: 18px;font-weight: 700;">โทร </p>
                         <p style="font-size: 18px;font-weight: 700;">อ้างอิง </p>
 
                     </div>
                     <div class="col-1x_cus">
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
+                        <p style="font-size: 18px;padding-top:3px;">&nbsp;</p>
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
                     </div>
                     <div class="col-4xx_cus">
                         <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
-                        <p style="font-size: 18px;"><?php  if ($rowx3_TF['product_name'] == '') {
-                                                       
-                                                        echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th'];
+                        <p style="font-size: 18px;"><?php if ($rowx3_TF['product_name'] == '') {
+
+                                                        echo $row3['bill_address'] . " $t" . $row6['name_th'];
                                                     } else {
-                                                        if($row5['cus_back']==1||$row5['cus_back']==3){
+                                                        if ($row5['cus_back'] == 1 || $row5['cus_back'] == 3) {
                                                             echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th'];
-                                                        }else{ 
-                                                        echo $rowx3_TF['product_name'];
-                                                    }
+                                                        } else {
+                                                            echo $rowx3_TF['product_name'];
+                                                        }
                                                     } ?></p>
+                        <p style="font-size: 18px;padding-top:4px;"><?php if ($rowx3_TF['product_name'] == '') {
+                                                        echo "$a" . $row7['name_th'] . " จ." . $row8['name_th'];
+                                                    } else {
+                                                        if ($row5['cus_back'] == 1 || $row5['cus_back'] == 3) {
+                                                            echo "$a" . $row7['name_th'] . " จ." . $row8['name_th'];
+                                                        } else {
+                                                            echo $rowx3_TF['product_name'];
+                                                        }
+                                                    }
+                                                    ?></p>
                         <p style="font-size: 18px;"><?= $row3['tel'] ?></p>
                         <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
 
@@ -355,9 +373,9 @@ $row5 = $rs5->fetch_assoc();
                 ?>
                     <?php if ($_ptype <> 'TF') { ?>
                         <tr>
-                            <td height="20" align="center" class="left_bottom"<?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>><?= $_idx ?></td>
-                            <td align="center" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>&nbsp;&nbsp;<?php echo "$_product_id" . '&nbsp;'; ?></td>
-                            <td align="left" class="left_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>&nbsp;&nbsp;
+                            <td height="20" align="center" class="left_bottom" <?php if ($_idx == 1) { ?>style="padding-top: 5px;" <?php } ?>><?= $_idx ?></td>
+                            <td align="center" class="left_bottom" <?php if ($_idx == 1) { ?>style="padding-top: 5px;" <?php } ?>>&nbsp;&nbsp;<?php echo "$_product_id" . '&nbsp;'; ?></td>
+                            <td align="left" class="left_bottom" <?php if ($_idx == 1) { ?>style="padding-top: 5px;" <?php } ?>>&nbsp;&nbsp;
                                 <?php
                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$_product_id'";
                                 $rsx3 = $conn->query($sqlx3);
@@ -367,8 +385,10 @@ $row5 = $rs5->fetch_assoc();
                                 } else {
                                     echo "  (" . $rowx3['spacial'] . ")";
                                 }
-                              
-                                if($_status_new==1){ echo"*";}
+
+                                if ($_status_new == 1) {
+                                    echo "*";
+                                }
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();
@@ -377,7 +397,7 @@ $row5 = $rs5->fetch_assoc();
                                 $total_all = $total_all + $total_price;
                                 ?>
                             </td>
-                            <td align="left" class="left_right_bottom" <?php if($_idx==1){ ?>style="padding-top: 5px;"<?php } ?>>
+                            <td align="left" class="left_right_bottom" <?php if ($_idx == 1) { ?>style="padding-top: 5px;" <?php } ?>>
                                 <div class="row_pro">
                                     <div class="col-4x_product"><?= $_qty ?>
                                     </div>
@@ -479,14 +499,14 @@ $row5 = $rs5->fetch_assoc();
                             </div>
                         </td>
                         <td width="300" valign="middle">
-                        <div class="col-12 text-center">
-                    <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
-                    <br> 
-                    <p> _________________________</p>
-                    <p>ผู้รับมอบอำนาจ<span></span></p>
-                    <br>
-                    <p>วันที่ _____/_______/______ <span></span></p>
-                </div>
+                            <div class="col-12 text-center">
+                                <p>ในนาม บริษัท วันเอ็ม จำกัด</p>
+                                <br>
+                                <p> _________________________</p>
+                                <p>ผู้รับมอบอำนาจ<span></span></p>
+                                <br>
+                                <p>วันที่ _____/_______/______ <span></span></p>
+                            </div>
                         </td>
                     </tr>
                 </table>
