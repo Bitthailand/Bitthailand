@@ -188,7 +188,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
 <body>
     <?php
     $total_page_data = 0;  // เก็บจำนวนหน้า รายการทั้งหมด
-    $total_page_item = 10; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
+    $total_page_item = 8; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
     $sql = "SELECT * FROM order_details INNER JOIN product_type  ON order_details.ptype_id=product_type.ptype_id  AND  (order_details.order_id='$order_id')  ORDER BY  product_type.num_orderby,order_details.date_create ASC    ";
@@ -251,6 +251,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     <div class="col-4x_cus">
                         <p style="font-size: 18px;font-weight: 700;">ชื่อลูกค้า </p>
                         <p style="font-size: 18px;font-weight: 700;">ที่อยู่ </p>
+                        <p style="font-size: 18px;font-weight: 700;"> &nbsp;</p>
                         <p style="font-size: 18px;font-weight: 700;">โทร </p>
                         <p style="font-size: 18px;font-weight: 700;">อ้างอิง </p>
 
@@ -263,7 +264,8 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     </div>
                     <div class="col-4xx_cus">
                         <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
-                        <p style="font-size: 18px;"><?php echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th']; ?></p>
+                        <p style="font-size: 18px;"><?php echo $row3['bill_address'] . " $t" . $row6['name_th']; ?></p>
+                        <p style="font-size: 18px;"><?php echo $a . $row7['name_th'] . " จ." . $row8['name_th']; ?>
                         <p style="font-size: 18px;"><?= $row3['tel'] ?></p>
                         <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
 
