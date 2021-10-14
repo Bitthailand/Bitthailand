@@ -195,7 +195,7 @@ $row5 = $rs5->fetch_assoc();
 <body>
     <?php
     $total_page_data = 0;  // เก็บจำนวนหน้า รายการทั้งหมด
-    $total_page_item = 20; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
+    $total_page_item = 22; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
     $sql = "SELECT * FROM deliver_detail  INNER JOIN product_type  ON deliver_detail.ptype_id=product_type.ptype_id  AND  deliver_detail.order_id='$order_id'  AND deliver_detail.dev_id='$so_id' ORDER BY  product_type.num_orderby,deliver_detail.date_create ASC";
