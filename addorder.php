@@ -233,8 +233,8 @@ if ($action == 'add_product') {
                              $chk2 = 'false';
                          }
                          if ($chk1 == 'true' && $chk2 = 'true') {
-                                 $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out)
-                                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','0','$emp_id','CB2','$Fqty','$Fqty2','0')";
+                                 $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out,disunit)
+                                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','0','$emp_id','CB2','$Fqty','$Fqty2','0',$disunit)";
                                     if ($conn->query($sqlx4) === TRUE) { ?>
                                     <script>
                                         $(document).ready(function() {
@@ -748,7 +748,7 @@ if ($action == 'add_hs') {
 
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <div id="ifYes1" style="display: block;">
                                                 <label for="product"><strong>สินค้าที่สั่งชื้อ <span class="text-danger"></span></strong></label>
                                                 <select name="productx" id="productx" style="display:block;" class="classcus custom-select" data-index="1">
@@ -771,7 +771,7 @@ if ($action == 'add_hs') {
                                             <input type="text" name="send_price" id="send_price" class="classcus form-control" placeholder="ราคาค่าจัดส่ง">
                                         </div>
 
-                                        <div class="form-group col-md-1" id="ifYes_dis" style="display: none;">
+                                        <div class="form-group col-md-1" id="ifYes_dis" style="display: block;">
                                             <label for="qty"><strong>ส่วนลด <span class="text-danger"></span></strong></label>
                                             <input type="text" name="disunit" id="disunit" class="classcus form-control" placeholder="ลดต่อหน่วย">
                                         </div>

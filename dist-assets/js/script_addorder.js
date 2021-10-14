@@ -146,7 +146,7 @@ $("#cus_back").on("change", function() {
         document.getElementById("cus_back_show").style.display = "none";
         document.getElementById("cus_back_show1").style.display = "none";
         document.getElementById("cus_back_show2").style.display = "none";
-        document.getElementById("ifYes_dis").style.display = "none";
+        document.getElementById("ifYes_dis").style.display = "block";
         document.getElementById("ifYes_qty_face2").style.display = "block";
         document.getElementById("btu").disabled = true;
 
@@ -468,7 +468,7 @@ if (cus_back == 1) {
     document.getElementById("cus_back_show").style.display = "none";
     document.getElementById("cus_back_show1").style.display = "none";
     document.getElementById("cus_back_show2").style.display = "none";
-    document.getElementById("ifYes_dis").style.display = "none";
+    document.getElementById("ifYes_dis").style.display = "block";
     document.getElementById("ifYes_qty_face2").style.display = "block";
     document.getElementById("btu").disabled = true;
     let Aproduct_type = $("#product_type").val();

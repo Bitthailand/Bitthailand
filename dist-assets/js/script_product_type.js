@@ -54,7 +54,7 @@ $(function() {
                 document.getElementById("cus_back_show").style.display = "none";
                 document.getElementById("cus_back_show1").style.display = "none";
                 document.getElementById("cus_back_show2").style.display = "none";
-                document.getElementById("ifYes_dis").style.display = "none";
+                document.getElementById("ifYes_dis").style.display = "block";
                 document.getElementById("ifYes_qty_face2").style.display = "block";
             }
             if (cus_back == 2) {
