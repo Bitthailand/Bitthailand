@@ -275,7 +275,7 @@ $row5 = $rs5->fetch_assoc();
                     <div class="col-4x_cus">
                         <p style="font-size: 18px;font-weight: 700;">ชื่อลูกค้า </p>
                         <p style="font-size: 18px;font-weight: 700;">ที่อยู่จัดส่ง </p>
-                        <p style="font-size: 18px;font-weight: 700;">&nbsp;</p>
+                       
                         <p style="font-size: 18px;font-weight: 700;">โทร </p>
                         <p style="font-size: 18px;font-weight: 700;">อ้างอิง </p>
 
@@ -283,7 +283,7 @@ $row5 = $rs5->fetch_assoc();
                     <div class="col-1x_cus">
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
-                        <p style="font-size: 18px;padding-top:3px;">&nbsp;</p>
+                        
                         <p style="font-size: 18px;">:</p>
                         <p style="font-size: 18px;">:</p>
                     </div>
@@ -291,7 +291,7 @@ $row5 = $rs5->fetch_assoc();
                         <p style="font-size: 18px;"><?= $row3['customer_name'] ?></p>
                         <p style="font-size: 18px;"><?php if ($rowx3_TF['product_name'] == '') {
 
-                                                        echo $row3['bill_address'] . " $t" . $row6['name_th'];
+                                                        echo $row3['bill_address'] . " $t" . $row6['name_th']."$a" . $row7['name_th'] . " จ." . $row8['name_th'];
                                                     } else {
                                                         if ($row5['cus_back'] == 1 || $row5['cus_back'] == 3) {
                                                             echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th'];
@@ -299,16 +299,7 @@ $row5 = $rs5->fetch_assoc();
                                                             echo $rowx3_TF['product_name'];
                                                         }
                                                     } ?></p>
-                        <p style="font-size: 18px;padding-top:4px;"><?php if ($rowx3_TF['product_name'] == '') {
-                                                        echo "$a" . $row7['name_th'] . " จ." . $row8['name_th'];
-                                                    } else {
-                                                        if ($row5['cus_back'] == 1 || $row5['cus_back'] == 3) {
-                                                            echo "$a" . $row7['name_th'] . " จ." . $row8['name_th'];
-                                                        } else {
-                                                            echo $rowx3_TF['product_name'];
-                                                        }
-                                                    }
-                                                    ?></p>
+                       
                         <p style="font-size: 18px;"><?= $row3['tel'] ?></p>
                         <p style="font-size: 18px;"><?= $row3['contact_name'] ?></p>
 
