@@ -97,8 +97,10 @@ $(document).ready(function() {
                                         <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
                                             import Excel
                                         </button>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist.php"> รายงานแบบที่1</a>
                                         <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist_hfix.php"> รายงานแบบที่2</a>
                                         <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist4.php"> รายงานแบบที่3</a>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist5.php"> รายงานสินค้าที่ถูกจอง</a>
                                         <a class="btn btn btn-success mb-2 mr-2" href="/stock_import.php"> สินค้านำเข้าจำหน่าย</a>
                                     </div>
                                     <div class="text-left">
@@ -142,7 +144,7 @@ $(document).ready(function() {
                                                     $total_records = $total_records['total_records'];
                                                     $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                                     $second_last = $total_no_of_pages - 1; // total page minus 1
-                                                    $result = mysqli_query($conn, "SELECT product.product_id AS product_id,product.fac1_stock AS fac1_stock,product.fac2_stock AS fac2_stock,sum(order_details.qty_out) AS qty_out ,sum(fac1_stock+fac2_stock) AS sum_stock FROM product INNER JOIN order_details  ON  order_details.order_id=product.order_id  AND  product.ptype_id <> 'TF0' AND  product.status='0'  AND  sum_stock  qty_out  order by product.product_id asc  ");
+                                                    $result = mysqli_query($conn, "SELECT product.id AS id,product.product_id AS product_id,product.product_name AS product_name ,product.fac1_stock AS fac1_stock,product.fac2_stock AS fac2_stock,SUM(order_details.qty_out) AS qty_out ,fac1_stock+fac2_stock AS sum_stock, order_details.order_id AS order_id,product.ptype_id AS ptype_id FROM product INNER JOIN  order_details  ON  order_details.product_id=product.product_id    AND  product.ptype_id <> 'TF0' AND  product.status='0'  INNER JOIN orders  ON  order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' GROUP BY product_id order by product.product_id asc  ");
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <tr>
                                                             <td><?php echo $row["product_id"]; ?></td>

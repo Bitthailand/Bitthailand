@@ -105,6 +105,11 @@ if ($rowS == '') {
                                         <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
                                             import Excel
                                         </button>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist.php"> รายงานแบบที่1</a>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist_hfix.php"> รายงานแบบที่2</a>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist4.php"> รายงานแบบที่3</a>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist5.php"> รายงานสินค้าที่ถูกจอง</a>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/stock_import.php"> สินค้านำเข้าจำหน่าย</a>
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
