@@ -242,8 +242,8 @@ if ($action == 'edit_ai') {
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
                                             <th>เงินมัดจำ</th>
-                                            <th>ก่อนรวมภาษี</th>
-                                            <th>ภาษี</th>
+                                            <!-- <th>ก่อนรวมภาษี</th> -->
+                                            <!-- <th>ภาษี</th> -->
                                             <th>ยอดรวม</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -325,7 +325,7 @@ if ($action == 'edit_ai') {
                                                     <span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
                                                 
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <?php
                                                     $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
                                                     $rsx4 = $conn->query($sqlx4);
@@ -337,8 +337,8 @@ if ($action == 'edit_ai') {
                                                     $tax2 = ($sub_total - $tax);
                                                     $grand_total = ($sub_total - $tax2);
                                                     ?> <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
-                                                </td>
-                                                <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td>
+                                                </td> -->
+                                                <!-- <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td> -->
                                                 <td>
                                                     <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>

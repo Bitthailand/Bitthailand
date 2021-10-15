@@ -261,9 +261,9 @@ if ($action == 'add_cfx') {
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
-                                            <th>ส่วนลด</th>
-                                            <th>ก่อนรวมภาษี</th>
-                                            <th>ภาษี</th>
+                                            <!-- <th>ส่วนลด</th> -->
+                                            <!-- <th>ก่อนรวมภาษี</th> -->
+                                            <!-- <th>ภาษี</th> -->
                                             <th>ยอดรวม</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -324,10 +324,10 @@ if ($action == 'add_cfx') {
                                                         $row2 = $rs2->fetch_assoc();
                                                         echo $row2['name_th'];
                                                         ?> </td>
-                                                <td>
+                                                <!-- <td>
                                                     <span class="font-weight-bold"><?php echo number_format($row['discount'], '2', '.', ',') ?> </span>
-                                                </td>
-                                                <td>
+                                                </td> -->
+                                                <!-- <td>
                                                     <?php
                                                     $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
                                                     $rsx4 = $conn->query($sqlx4);
@@ -342,7 +342,7 @@ if ($action == 'add_cfx') {
                                                     ?>
                                                     <span class="font-weight-bold"> <?php echo number_format($grand_total, '2', '.', ',') ?> </span>
                                                 </td>
-                                                <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td>
+                                                <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td> -->
                                                 <td>
                                                     <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
@@ -379,18 +379,7 @@ if ($action == 'add_cfx') {
                         </table>
                         </div>
                         <!-- ============ Table End ============= -->
-                        <div class="mt-1">
-                            <span class="text-danger mr-1">**</span>
-                            <span class="text-muted"> มัดจำขั้นต่ำ 30% เมื่อทำการสั่งซื้อสินค้า</span>
-                        </div>
-                        <div class="">
-                            <span class="text-danger mr-1">**</span>
-                            <span class="text-muted">ชำระค่าสินค้าที่เหลือในวันจัดส่ง ก่อนลงสินค้า</span>
-                        </div>
-                        <div class="">
-                            <span class="text-danger mr-1">**</span>
-                            <span class="text-muted">ขอสงวนสิทธิ์ในการลงสินค้าต่อเที่ยว (ไม่เกิน 2 ชั่วโมง) หากเกินเวลาคิดเพิ่มชั่วโมงละ 500 บาท</span>
-                        </div>
+                     
                         <div class="mb-5 mt-3">
                             <nav aria-label="Page navigation ">
                                 <ul class="pagination justify-content-center">
