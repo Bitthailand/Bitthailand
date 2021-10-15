@@ -295,7 +295,7 @@ if ($action == 'add') {
                                                                                 $sql_dev = "SELECT * FROM delivery  WHERE iv_id= '$row_pro[iv_id]'";
                                                                                 $rs_dev = $conn->query($sql_dev);
                                                                                 $row_dev  = $rs_dev->fetch_assoc();
-                                                                                $sql_dev_detail = "SELECT  SUM(dev_qty*unit_price) AS total FROM deliver_detail  WHERE dev_id= '$row_dev[dev_id]'";
+                                                                                $sql_dev_detail = "SELECT  SUM((unit_price-disunit)*dev_qty) AS total FROM deliver_detail  WHERE dev_id= '$row_dev[dev_id]'";
                                                                                 $rs_dev_detail = $conn->query($sql_dev_detail);
                                                                                 $row_dev_detail  = $rs_dev_detail->fetch_assoc();
 
