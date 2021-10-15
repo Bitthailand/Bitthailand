@@ -186,7 +186,7 @@ if ($action == 'add_stock') {
                         }
                         if ($rowx2['factory_id'] == 2) {
                             $sum_stock2 = $rowx3['fac2_stock'] + $stock_a;
-                            $sqlx4 = "UPDATE product   SET fac2_stock='$sum_stock1' WHERE product_id='$rowx[product_id]' ";
+                            $sqlx4 = "UPDATE product   SET fac2_stock='$sum_stock2' WHERE product_id='$rowx[product_id]' ";
                             if ($conn->query($sqlx4) === TRUE) {
                             }
                             $sqlx = "INSERT INTO product_log  (product_id,stock2_in,po_id)
