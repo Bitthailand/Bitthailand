@@ -260,6 +260,7 @@ if ($action == 'add_dev') {
             $date = explode("-", $date_end);
             $date_run = $date[2];
             echo"";
+            if($date_credit==15){ 
             if ($date_run <= 15) {
                 $datemont = "$date[0]-$date[1]";
                 $date_start_true = "$datemont-1";
@@ -273,6 +274,18 @@ if ($action == 'add_dev') {
                 $date_start_true = "$datemont-16";
                 $date_end_true = "$datemont-$enddate";
             }
+            }
+            if($date_credit==30){ 
+                $datetoday = $date_end;
+                $enddate = date("t", strtotime($datetoday));
+                $datemont = "$date[0]-$date[1]";
+                $date_start_true = "$datemont-1";
+                $date_end_true = "$datemont-$enddate";
+                echo"$date_start_true";
+                echo"$date_end_true";
+
+            }
+
             //    echo"xxxxxxxxxxxxx"."$cus_id";
 
             $sql_pro = "SELECT * FROM bi_number where cus_id='$cus_id' AND iv_id='$iv_id' AND status_bi='1' ";
@@ -450,7 +463,7 @@ if ($action == 'add_dev') {
                                                                 <div class="form-row mt-3">
                                                                     <div class="form-group col-md-6">
                                                                         <label for="ai_id"><strong>เครดิต <span class="text-danger"></span></strong></label>
-                                                                        <input type="text" name="date_credit" value="<?= $date_credit ?>" class="classcus form-control" id="date_credit" placeholder="เครดิตจำนวนวัน">
+                                                                        <input type="text" name="date_credit" value="<?= $row3['credit_day']?>" class="classcus form-control" id="date_credit" placeholder="เครดิตจำนวนวัน">
                                                                     </div>
 
                                                                     <div class="form-group col-md-6">
