@@ -173,7 +173,7 @@ if ($rowS == '') {
                                                     <?php echo $row["fac2_stock"]; ?> </td>
                                                 <td>
                                                 <?php
-                                                                $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' ";
+                                                                $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' ";
                                                                 $rs_pro = $conn->query($sql_pro);
                                                                 $row_pro = $rs_pro->fetch_assoc();
                                                                 $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];

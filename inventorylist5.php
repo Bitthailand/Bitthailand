@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 error_reporting(0);
 ?>
@@ -28,7 +28,7 @@ error_reporting(0);
         font-size: 0.813rem !important;
     }
 </style>
-<?php 
+<?php
 $action = $_REQUEST['action'];
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
@@ -46,27 +46,28 @@ if ($action == 'del') {
                 showAlert("ไม่สามารถลบรายการได้", "alert-danger");
             });
         </script>
-<?php }
+    <?php }
 }
 
 
-if ($action =='editx') {
-//   echo"xx";
-    $edit_id= $_REQUEST['edit_id'];   
-    $fac1_stock= $_REQUEST['fac1_stock'];  
-    $fac2_stock= $_REQUEST['fac2_stock'];  
+if ($action == 'editx') {
+    //   echo"xx";
+    $edit_id = $_REQUEST['edit_id'];
+    $fac1_stock = $_REQUEST['fac1_stock'];
+    $fac2_stock = $_REQUEST['fac2_stock'];
     // echo $edit_id;
-// echo"$delivery_date";
+    // echo"$delivery_date";
     $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where id='$edit_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
-<script>
-$(document).ready(function() {
-    showAlert("อับเดตสต็อกเรียบร้อย", "alert-primary");
-});
-</script>
-<?php }  
- }
+        <script>
+            $(document).ready(function() {
+                showAlert("อับเดตสต็อกเรียบร้อย", "alert-primary");
+            });
+        </script>
+<?php }
+}
 ?>
+
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <?php include './include/config.php'; ?>
@@ -144,7 +145,7 @@ $(document).ready(function() {
                                                     $total_records = $total_records['total_records'];
                                                     $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                                     $second_last = $total_no_of_pages - 1; // total page minus 1
-                                                    $result = mysqli_query($conn, "SELECT product.id AS id,product.product_id AS product_id,product.product_name AS product_name ,product.fac1_stock AS fac1_stock,product.fac2_stock AS fac2_stock,SUM(order_details.qty_out) AS qty_out ,fac1_stock+fac2_stock AS sum_stock, order_details.order_id AS order_id,product.ptype_id AS ptype_id FROM product INNER JOIN  order_details  ON  order_details.product_id=product.product_id    AND  product.ptype_id <> 'TF0' AND  product.status='0'  INNER JOIN orders  ON  order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' GROUP BY product_id order by product.product_id asc  ");
+                                                    $result = mysqli_query($conn, "SELECT product.id AS id,product.product_id AS product_id,product.product_name AS product_name ,product.fac1_stock AS fac1_stock,product.fac2_stock AS fac2_stock,SUM(order_details.qty_out) AS qty_out ,fac1_stock+fac2_stock AS sum_stock, order_details.order_id AS order_id,product.ptype_id AS ptype_id FROM product INNER JOIN  order_details  ON  order_details.product_id=product.product_id    AND  product.ptype_id <> 'TF0' AND  product.status='0'  INNER JOIN orders  ON  order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' GROUP BY product_id order by product.product_id asc  ");
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <tr>
                                                             <td><?php echo $row["product_id"]; ?></td>
@@ -160,17 +161,19 @@ $(document).ready(function() {
                                                             <td>
                                                                 <?php echo $row["fac2_stock"]; ?> </td>
                                                             <td>
-                                                                <?php
-                                                                $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' ";
-                                                                $rs_pro = $conn->query($sql_pro);
-                                                                $row_pro = $rs_pro->fetch_assoc();
-                                                                $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
-                                                                if ($sum_stock < $row_pro['qty_out']) {  ?>
-                                                                    <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php    } else { ?>
-                                                                    <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php   }
-                                                                ?>
+                                                            <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row['id']; ?>" id="edit2" class="btn  btn-sm line-height-1">  
+                                                                    <?php
+                                                                    $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND  order_details.status_delivery='0' ";
+                                                                    $rs_pro = $conn->query($sql_pro);
+                                                                    $row_pro = $rs_pro->fetch_assoc();
+                                                                    $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
+                                                                    if ($sum_stock < $row_pro['qty_out']) {  ?>
+                                                                        <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                                    <?php    } else { ?>
+                                                                        <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                                    <?php   }
+                                                                    ?>
+                                                                    </a>
                                                             </td>
                                                             <td>
                                                                 <?php
@@ -263,36 +266,54 @@ $(document).ready(function() {
                             </div>
                             <div class="modal-body">
 
-                              
-                                    <div class="box-content">
-                                        <div class="form-row">
-                                            <div class="modal-body">
 
-                                                <!-- mysql data will be load here -->
-                                                <div id="dynamic-content"></div>
-                                            </div>
+                                <div class="box-content">
+                                    <div class="form-row">
+                                        <div class="modal-body">
+
+                                            <!-- mysql data will be load here -->
+                                            <div id="dynamic-content"></div>
                                         </div>
-                               
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
+                    <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                        แสดงรายการลูกค้าที่จอง</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
 
+                                    <!-- mysql data will be load here -->
+                                    <div id="dynamic-content2"></div>
+                                </div>
 
-                <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-                <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-                <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-                <script src="../../dist-assets/js/scripts/script.min.js"></script>
-                <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-                <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-                <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-                <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-                <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-                <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
-                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-                <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
-                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-                <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+                            </div>
+                        </div>
+                    </div>
+                    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+                    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+                    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/script.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+                    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+                    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+                    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+                    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
 
 
 </body>
@@ -483,6 +504,34 @@ $(document).ready(function() {
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit2', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content2').html(''); // leave this div blank
+            $('#modal-loader2').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'product_show_book.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content2').html(''); // blank before load.
+                    $('#dynamic-content2').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content2').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
                 });
         });
     });
