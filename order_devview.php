@@ -117,7 +117,7 @@ $row_emp = $rs_emp->fetch_assoc();
                     <p>โทร. 061-436-2825</p>
                 </div>
                 <div class="col-5 text-right">
-                    <h2 class="font-weight-bold">ใบเสนอราคา/ใบสั่งซื้อ</h2>
+                    <h2 class="font-weight-bold">ใบเสร็จรับเงิน</h2>
                 </div>
             </div>
             <div class="mt-3 mb-4 border-top"></div>
