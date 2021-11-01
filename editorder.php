@@ -817,6 +817,10 @@ if ($action == 'add') {
                                         <input type="text" value="<?php echo "$main[tax]"; ?>" class="classcus form-control">
 
                                     </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="discount_text"><strong>รายละเอียดส่วนลด <span class="text-danger"></span></strong></label>
+                                        <input type="text" name="discount_text" id="discount_text" value="<?= $main['discount_text'] ?>" class="classcus form-control" placeholder="รายละเอียดส่วนลด">
+                                    </div>
                                     <div class="form-group col-md-1">
                                         <label for="discount"><strong>ส่วนลด(บาท) <span class="text-danger"></span></strong></label>
                                         <input type="text" name="discount" id="discount" value="<?= $main['discount'] ?>" class="classcus form-control" placeholder="ส่วนลด">
