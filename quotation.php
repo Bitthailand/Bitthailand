@@ -451,7 +451,9 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
 
                     </tr>
                     <tr>
-                        <td colspan="2" class="left_bottom" align="left"> </td>
+                        
+                        <td colspan="2" class="left_bottom" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $row_or['discount_text']; ?> </td>
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;หักส่วนลด</td>
 
                         <td align="right" class="left_right_bottom"><?php echo number_format($row_or['discount'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
