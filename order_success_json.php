@@ -82,6 +82,7 @@ while ($row = mysqli_fetch_array($query)) {  // preparing an array
                 $tax = ($sub_total_ai - $first_total);
                 $grand_total = ($sub_total_ai - $tax);
                 $grand_total_all=($grand_total + $tax);
+                $sub_total=number_format($sub_total, '2', '.', ',');
                 $grand_total=number_format($grand_total, '2', '.', ',');
                 $taxx=number_format($tax, '2', '.', ',');
                 $grand_total_all=number_format($grand_total_all, '2', '.', ',');
@@ -97,7 +98,9 @@ while ($row = mysqli_fetch_array($query)) {  // preparing an array
                 $nestedData[] = $tel;
                 $nestedData[] = $row_am['name_th'];
                 $nestedData[] = $row_provin['name_th'];
+                $nestedData[] = $sub_total;
                 $nestedData[] = $ai_count;
+               
                 $nestedData[] = $grand_total;
                 $nestedData[] = $taxx;
                 $nestedData[] = $grand_total_all;
