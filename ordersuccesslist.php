@@ -151,6 +151,7 @@ unset($_SESSION['order_id']);
                                             <th width="10%">เบอร์โทร</th>
                                             <th width="10%">อำเภอ</th>
                                             <th width="10%">จังหวัด</th>
+                                            <th width="10%">ราคาทั้งหมด</th>
                                             <th width="10%">ค่ามัดจำ</th>
                                             <th width="10%">ก่อนรวมภาษี</th>
                                             <th width="10%">ภาษี</th>
@@ -207,7 +208,7 @@ unset($_SESSION['order_id']);
             "processing": true,
             "serverSide": true,
             "ajax": {
-                url: "order_success_json.php", // json datasource
+                url: "order_success_json1.php", // json datasource
                 type: "post", // method  , by default get
                 error: function() { // error handling
                     $(".employee-grid-error").html("");
