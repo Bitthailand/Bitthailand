@@ -104,13 +104,14 @@ while ($row = mysqli_fetch_array($query)) {  // preparing an array
                 $nestedData[] = $grand_total;
                 $nestedData[] = $taxx;
                 $nestedData[] = $grand_total_all;
-                if ($rowx5['sum'] == 1) {
+                // if ($rowx5['sum'] == 1) {
+
                 $nestedData[] ="<a class='btn btn-outline-info btn-sm line-height-1'  title='ใบเสร็จรับเงิน' href='/hs.php?order_id=$row[order_id]&so_id=$row[dev_id]' target='_blank'> <i class='i-File font-weight-bold'></i></a>
                 <a class='btn btn-outline-success btn-sm line-height-1' title='คืนสินค้า' href='/refun.php?order_id=$row[order_id]&so_id=$row[dev_id]' target='_blank'> <i class='i-Repeat-2 font-weight-bold'></i></a>";                
-               } else{
+              //  } else{
                 $nestedData[] ="<a class='btn btn-outline-info btn-sm line-height-1'  title='ใบเสร็จรับเงิน' href='/hs_all.php?order_id=$row[order_id] target='_blank'> <i class='i-File font-weight-bold'></i></a>
                 <a class='btn btn-outline-success btn-sm line-height-1' title='คืนสินค้า' href='/refun.php?order_id=$row[order_id]&so_id=$row[dev_id]' target='_blank'> <i class='i-Repeat-2 font-weight-bold'></i></a>";                
-               }
+              //  }
              
                  $data[] = $nestedData;
 }
