@@ -63,8 +63,9 @@ include './get_dashbord_sale_year.php';
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col" class="text-right">เลขที่สั่งชื้อ</th>
                                                     <th scope="col" class="text-right">เลขที่ QT</th>
+                                                    <th scope="col" class="text-right">เลขที่สั่งชื้อ</th>
+                                  
                                                     <th scope="col" class="text-left">ลูกค้า</th>
                                                     <th scope="col" class="text-left">ประเภทลูกค้า</th>
                                                     <th scope="col" class="text-left">รับสินค้า</th>
@@ -120,8 +121,9 @@ include './get_dashbord_sale_year.php';
 
                                                         <tr>
                                                             <th scope="row"><?= ++$idx; ?></th>
-                                                            <td class="text-right"><?php echo $row4['order_id']; ?> </td>
                                                             <td class="text-right"><?php echo $row4['qt_id']; ?> </td>
+                                                            <td class="text-right"><?php echo $row4['order_id']; ?> </td>
+                                                          
                                                             <td class="text-left"><?php echo $row_cus['customer_name']; ?></td>
                                                             <td class="text-left"><?php echo $row_custype['name']; ?></td>
                                                             <td class="text-left"><?php echo $row_cusback['name']; ?></td>
