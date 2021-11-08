@@ -229,29 +229,18 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
-
-
-
-
-
                     </div><!-- end of main-content -->
                 </div>
-
                 <!-- Header -->
                 <?php include './include/footer.php'; ?>
                 <!-- =============== Header End ================-->
-
             </div>
         </div>
         <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>

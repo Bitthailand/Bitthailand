@@ -26,9 +26,7 @@ include './get_dashbord_qt_year.php';
 $MyYear = $_REQUEST['MyYear'];
 $datex = date($MyYear);
 $d = explode("-", $datex);
-
 ?>
-
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -55,24 +53,16 @@ $d = explode("-", $datex);
                         </h4>
                     </a>
                 </li>
-
             </ul>
             <div class="tab-content">
                 <div class="main-content">
-
-
                     <div class="breadcrumb">
                         <h1 class="mr-2">ข้อมูลใบเสนอราคา
                         </h1>
                         <ul>
                             <li><a href="">ภาพรวมใบเสนอราคา</a></li>
-
                         </ul>
                     </div>
-
-
-
-
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
@@ -84,10 +74,7 @@ $d = explode("-", $datex);
                                                 <div class="ul-widget__head-label">
                                                     <h3 class="ul-widget__head-title">รายการใบเสนอราคาแบบรายปี <?= $MyYear ?> </h3>
                                                 </div>
-
                                             </div>
-
-
                                             <div class="table-responsive">
                                                 <table class="table text-center" id="user_table">
                                                     <thead>
@@ -95,12 +82,9 @@ $d = explode("-", $datex);
                                                             <th scope="col">#</th>
                                                             <th scope="col" class="text-right">เดือน</th>
                                                             <th scope="col" class="text-right">จำนวนใบเสนอราคา</th>
-
                                                             <th scope="col" class="text-right">มูลค่าใบเสนอราคา</th>
                                                             <th scope="col" class="text-right">ขายสำเร็จ</th>
-
                                                             <th scope="col" class="text-right">ข้อมูล</th>
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -111,14 +95,11 @@ $d = explode("-", $datex);
                                                         ?> <tr>
                                                                     <th scope="row"><?= ++$idx; ?></th>
                                                                     <td class="text-right">
-
-                                                                       
                                                                       <?php   $d = explode("-", $row4['MONTH']);
                                                                         $yd = "$d[0]-$d[1]";
                                                                         $date1 = explode(" ", $yd);
                                                                         $dat1 =datethai5($date1[0]);
                                                                         echo $dat1;
-
                                                                         ?>
                                                                     </td>
                                                                     <?php
@@ -127,16 +108,12 @@ $d = explode("-", $datex);
                                                                     $sql_cus_day = "SELECT COUNT(DISTINCT qt_number) AS sum_qt FROM quotation WHERE   MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'  ";
                                                                     $rs_cus_day = $conn->query($sql_cus_day);
                                                                     $row_cus_day = $rs_cus_day->fetch_assoc();
-
                                                                     $sql_qt = "SELECT ROUND(SUM((order_details.qty-order_details.disunit)*order_details.unit_price), 2) AS sum  FROM quotation  INNER JOIN order_details  ON  quotation.order_id=order_details.order_id AND  MONTH(quotation.date_create) = '$d1[1]' AND YEAR(quotation.date_create) = '$d1[0]'";
                                                                     $rs_qt = $conn->query($sql_qt);
                                                                     $row_qt = $rs_qt->fetch_assoc();
-
                                                                     $sql_sum = "SELECT ROUND(SUM((deliver_detail.dev_qty-deliver_detail.disunit)*deliver_detail.unit_price), 2) AS sum  FROM quotation  INNER JOIN deliver_detail  ON  quotation.order_id=deliver_detail.order_id AND  MONTH(quotation.date_create) = '$d1[1]' AND YEAR(quotation.date_create) = '$d1[0]'  AND  deliver_detail.status_cf='1' ";
                                                                     $rs_sum = $conn->query($sql_sum);
                                                                     $row_sum = $rs_sum->fetch_assoc();
-
-
                                                                     ?>
                                                                     <td class="text-right"><?php echo number_format($row_cus_day['sum_qt'], '0', '.', ',') ?></td>
 
@@ -151,36 +128,26 @@ $d = explode("-", $datex);
                                                                 </tr>
                                                         <?php }
                                                         } ?><tr>
-
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td class="text-right"><?php echo number_format($total_ai, '2', '.', ','); ?></td>
                                                             <td class="text-right"><?php echo number_format($total, '2', '.', ','); ?></td>
                                                             <td></td>
-
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-
-
-
                 <!-- Header -->
                 <?php include './include/footer.php'; ?>
                 <!-- =============== Header End ================-->
-
             </div>
         </div>
         <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
@@ -196,5 +163,4 @@ $d = explode("-", $datex);
         <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
         <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
 </body>
-
 </html>

@@ -206,10 +206,6 @@ $row3 = $rs3->fetch_assoc();
 $sql_emp = "SELECT * FROM employee  WHERE username= '$rowx[emp_id]'";
 $rs_emp = $conn->query($sql_emp);
 $row_emp = $rs_emp->fetch_assoc();
-
-
-
-// ===
 ?>
 
 <body>
@@ -331,16 +327,10 @@ $row_emp = $rs_emp->fetch_assoc();
                                                         echo "$dat"; ?></p>
                         <p style="font-size: 18px;"><?= $row_sr['order_id'] ?></p>
                         <p style="font-size: 18px;"><?= $row_emp['emp_name'] ?> </p>
-
                     </div>
                 </div>
-
             </div>
-
-
-
         </div>
-
         </div>
         <div class="row">
             <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0" style="margin-top: 15px; margin-right: 15px; margin-left: 15px; margin-bottom: 0px;  ">
@@ -454,23 +444,19 @@ $row_emp = $rs_emp->fetch_assoc();
                     <td align="left" class="bottomx2">&nbsp;</td>
                 </tr>
                 <?php if ($total_page_data == $i) { ?>
-
                     <?php 
                     $sub_total = $total_all;
                     $sub_total_ai = $sub_total - $row_ai['price'];
                     $first_total = ($sub_total_ai * 100) / 107;
                     $tax = ($sub_total_ai - $first_total);
                     $grand_total = ($sub_total_ai - $tax);
-
                     ?>
-
                     <tr>
                         <td colspan="2" class="left_bottom" align="left" style="border-top:1px solid #000;">
                         </td>
                         <td align="left" colspan="2" style="border-top:1px solid #000; font-size: 18px;">&nbsp;รวม</td>
 
                         <td align="right" class="left_right_bottom" style="border-bottom:5px;border-top:1px solid #000;"><?php echo number_format($total_all, '2', '.', ',') ?>&nbsp;&nbsp;</td>
-
                     </tr>
                     <tr>
                         <td colspan="2" class="left_bottom" align="left"> </td>
@@ -582,5 +568,4 @@ $row_emp = $rs_emp->fetch_assoc();
         </div>
     <?php } ?>
 </body>
-
 </html>

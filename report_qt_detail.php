@@ -116,8 +116,6 @@ include './include/config.php';
                                             </tr>
                                     <?php }
                                     } ?>
-
-
                                 </tbody>
                             </table>
                             <div class="col-md-12">
@@ -135,12 +133,9 @@ include './include/config.php';
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
-
                                     <div class="col-md-5">
-
                                     </div>
                                     <div class="col-md-4 text-right">
-
                                     </div>
                                 </div>
                             </div>
@@ -149,8 +144,7 @@ include './include/config.php';
                             </div>
                         </div>
                     </div>
-                </div>
-         
+                </div>    
             <?php
             $sql_dev = "SELECT * FROM delivery   where order_id='$order_id'  order by dev_id ASC ";
             $result_dev = mysqli_query($conn, $sql_dev);
@@ -187,9 +181,7 @@ include './include/config.php';
                                     <strong class="font-weight-bold text-primary"><?= $row_emp['name'] ?></strong>
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="col-md-12">
                             <table class="table table-hover text-nowrap table-sm">
                                 <thead class="bg-gray-300">
@@ -233,8 +225,6 @@ include './include/config.php';
                                             </tr>
                                     <?php }
                                     } ?>
-
-
                                 </tbody>
                             </table>
                             <div class="col-md-12">
@@ -252,12 +242,9 @@ include './include/config.php';
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
-
                                     <div class="col-md-5">
-
                                     </div>
                                     <div class="col-md-4 text-right">
-
                                     </div>
                                 </div>
                             </div>
@@ -268,9 +255,7 @@ include './include/config.php';
                     </div>
             <?php }
             } ?>
-
         </div><!-- end of main-content -->
-
         <!-- Header -->
         <?php include './include/footer.php'; ?>
         <!-- =============== Header End ================-->
