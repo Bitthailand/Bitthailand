@@ -89,6 +89,19 @@ if ($action == 'add_cfx') {
 <?php 
     }
 }
+if ($action == 'edit') {
+    $edit_id = $_REQUEST['edit_id'];
+    $delivery_date = $_REQUEST['delivery_date'];
+    // echo"$delivery_date";
+    $sqlxxx = "UPDATE orders  SET qt_date='$delivery_date' where id='$edit_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("อับเดตวันที่ส่งเรียบร้อย", "alert-primary");
+            });
+        </script>
+<?php }
+}
 
 ?>
 
@@ -288,11 +301,12 @@ if ($action == 'add_cfx') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='1'  AND status_button='1' $columx $keywordx  order by date_create DESC  LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='1'  AND status_button='1' $columx $keywordx  order by qt_date DESC  LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
                                                 <td>
-                                                    <?php $date = explode(" ", $row['date_create']);
+                                                <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                                    <?php $date = explode(" ", $row['qt_date']);
                                                     $dat = datethai2($date[0]);
                                                     echo $dat ?>
                                                 </td>
@@ -558,6 +572,25 @@ if ($action == 'add_cfx') {
         </div>
     </div>
 
+    <div id="view-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        แก้ไขวันที่เสนอราคา</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <form class="d-none" method="POST">
         <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
         <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
@@ -693,3 +726,32 @@ if ($action == 'add_cfx') {
             });
         });
     </script>
+    
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'datequotion_edit.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content').html(''); // blank before load.
+                    $('#dynamic-content').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
+        });
+    });
+</script>
