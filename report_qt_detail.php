@@ -54,7 +54,12 @@ include './include/config.php';
                         </h4>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="linkLoadModalNext nav-link" href="/report_qt_date_all.php">
+                        <h4 class="h5 font-weight-bold"> รายงานใบเสนอทั้งหมด
+                        </h4>
+                    </a>
+                </li>
             </ul> <div class="card mt-3">
             <div class="tab-content">
                 <div class="main-content">

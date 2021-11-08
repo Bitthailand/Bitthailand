@@ -53,7 +53,12 @@ $d = explode("-", $datex);
                         </h4>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="linkLoadModalNext nav-link" href="/report_qt_date_all.php">
+                        <h4 class="h5 font-weight-bold"> รายงานใบเสนอทั้งหมด
+                        </h4>
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="main-content">
@@ -93,8 +98,6 @@ $d = explode("-", $datex);
                                                 </div>
                                                 
                                             </div>
-
-
                                             <div class="table-responsive">
                                                 <table class="table text-center" id="user_table">
                                                     <thead>
@@ -103,7 +106,7 @@ $d = explode("-", $datex);
                                                             <th scope="col" class="text-left">ปี</th>
                                                             <th scope="col" class="text-left">มูลค่าใบเสนอราคาประจำปี</th>
                                                             <th scope="col" class="text-left">ใบเสนอราคาสำเร็จ</th>
-                                              
+           
                                                             <th scope="col" class="text-left">ข้อมูล</th>
                                                         </tr>
                                                     </thead>
