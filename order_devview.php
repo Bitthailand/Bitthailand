@@ -485,8 +485,13 @@ $row_h = $rs_h->fetch_assoc();
                     $sql_ai = "SELECT * FROM ai_number  WHERE order_id= '$order_id'";
                     $rs_ai = $conn->query($sql_ai);
                     $row_ai = $rs_ai->fetch_assoc();
-                    $sub_total = $total_all - $row_or['discount'];
-                    $sub_total_ai=$sub_total-$row_ai['price'];
+                    $sub_total = $total_all - $row_hs['discount'];
+                    if($row_hs['ai_count']==''){
+                        $sub_total_ai=$sub_total-$row_ai['price'];
+                    }else{
+                        $sub_total_ai=$sub_total-$row_hs['ai_count'];
+                    }
+                   
                     $first_total = ($sub_total_ai * 100) / 107;
                     $tax = ($sub_total_ai - $first_total);
                     $grand_total = ($sub_total_ai - $tax);
@@ -505,7 +510,7 @@ $row_h = $rs_h->fetch_assoc();
                         <td colspan="2" class="left_bottom" align="left"> </td>
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;หักส่วนลด</td>
 
-                        <td align="right" class="left_right_bottom"><?php echo number_format($row_or['discount'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                        <td align="right" class="left_right_bottom"><?php echo number_format($row_hs['discount'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="left_bottom" align="left"> </td>
@@ -518,7 +523,7 @@ $row_h = $rs_h->fetch_assoc();
                         <td colspan="2" class="left_bottom" align="left"> </td>
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;หักมัดจำ&nbsp;&nbsp;&nbsp;&nbsp; <?php if($row_ai['ai_num']==""){}else{ echo '#'.$row_ai['ai_num']; } ?></td>
 
-                        <td align="right" class="left_right_bottom"><?php echo number_format($row_ai['price'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                        <td align="right" class="left_right_bottom"><?php   if($row_hs['ai_count']==''){ echo number_format($row_ai['price'], '2', '.', ','); } else{ echo number_format($row_hs['ai_count'], '2', '.', ','); }  ?>&nbsp;&nbsp;</td>
 
                     </tr>
                     <tr>

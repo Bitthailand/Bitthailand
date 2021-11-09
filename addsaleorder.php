@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config_so.php';
 include './include/config_date.php';
@@ -97,7 +97,7 @@ if ($action == 'add_dev') {
     $ai_count = $_REQUEST['ai_count'];
     $date_credit = $_REQUEST['date_credit'];
     $date_end = $_REQUEST['date_end'];
-
+    $discount = $_REQUEST['discount'];
     if ($dev_date == '') { ?>
         <script>
             $(document).ready(function() {
@@ -116,7 +116,7 @@ if ($action == 'add_dev') {
                 // echo"++$id5x";
                 $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
                 $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
-                echo $stock1."<br>".$stock2;
+                echo $stock1 . "<br>" . $stock2;
                 $total_instock = $stock1 + $stock2;  //รวมจำนวนที่รรับเข้ามาเพื่อต้องการส่ง
                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$product_id'";
                 $rsx3 = $conn->query($sqlx3);
@@ -138,35 +138,35 @@ if ($action == 'add_dev') {
                     </script>
                 <?php
                 }
-                if ($rowx['qty'] < $total_instock) { 
+                if ($rowx['qty'] < $total_instock) {
                 ?>
-                <script>
-                    $(document).ready(function() {
-                    showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
-                    });
-                </script>
+                    <script>
+                        $(document).ready(function() {
+                            showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่กรอกเกินจำนวนที่สั่งไว้", "alert-danger");
+                        });
+                    </script>
                 <?php
                 }
-                if ($total_instock == 0) { 
+                if ($total_instock == 0) {
                 ?>
-                <script>
-                    $(document).ready(function() {
-                        showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
-                    });
-                </script>
-                <?php
+                    <script>
+                        $(document).ready(function() {
+                            showAlert("ไม่สามารถบันทึกรหัส  <?= $product_id ?> ได้เนื่องจากจำนวนที่ส่งเป็น 0 หรือ ค่าว่าง", "alert-danger");
+                        });
+                    </script>
+                    <?php
                 }
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
                 // echo "xxxxx";
 
-        if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
+                if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
                     // echo "xxxxxyyyy";
                     // echo $rowx['qty_out'].'x'.$total_instock;
-                    
+
                     $call_qty = $rowx['qty_out'] - $total_instock; //ยอดที่สั่งเพื่อส่ง มาลบกับยอดที่่สั่งชื้อ
-                   
+
                     $add_devqty = $rowx['qty_dev'] + $total_instock; //เพิ่มจำนวนจัดส่ง
                     //    ตรวจสอบรหัสซ้ำในตารางจัดส่ง
                     $sql99 = "SELECT *  FROM deliver_detail  where order_id= '$order_id' AND dev_id='$dev_id'AND product_id='$product_id' ";
@@ -176,26 +176,30 @@ if ($action == 'add_dev') {
                         $sql_or = "SELECT * FROM orders   WHERE order_id= '$order_id'";
                         $rs_or = $conn->query($sql_or);
                         $row_or = $rs_or->fetch_assoc();
-                        $sum_dis=$rowx['unit_price']-$rowx['disunit'];
-                        $sumtotal=$sum_dis*$total_instock;
+                        $sum_dis = $rowx['unit_price'] - $rowx['disunit'];
+                        $sumtotal = $sum_dis * $total_instock;
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
                         // echo"dd";
-                       
+
                         if ($action == 'add_dev') {
-                            if($stock1==''){$stock1='0';}
-                            if($stock2==''){$stock2='0';}
-                            $c_stock1=$rowx['face1_stock_out']+$stock1;
-                            $c_stock2=$rowx['face2_stock_out']+$stock2;
+                            if ($stock1 == '') {
+                                $stock1 = '0';
+                            }
+                            if ($stock2 == '') {
+                                $stock2 = '0';
+                            }
+                            $c_stock1 = $rowx['face1_stock_out'] + $stock1;
+                            $c_stock2 = $rowx['face2_stock_out'] + $stock2;
                             // echo"cal=".$call_qty.'id='.$pid.'pro_id='.$product_id.'$stock1='.$stock1.'$stock2='.$stock2;
                             if ($call_qty == 0) {
                                 $sql1yyy = "UPDATE order_details SET face1_stock_out='$c_stock1',face2_stock_out='$c_stock2',qty_dev='$add_devqty',status_delivery='1',qty_out='$call_qty',error='2' where  id='$pid'  ";
                                 if ($conn->query($sql1yyy) === TRUE) {
                                 }
                             } else {
-                                
+
 
                                 $sql1xxx = "UPDATE order_details SET face1_stock_out='$c_stock1',face2_stock_out='$c_stock2',qty_dev='$add_devqty',status_delivery='0',qty_out='$call_qty',error='3' where  id='$pid' ";
                                 if ($conn->query($sql1xxx) === TRUE) {
@@ -205,16 +209,16 @@ if ($action == 'add_dev') {
                         $sql2 = "UPDATE product  SET fac1_stock='$sum_face1',fac2_stock='$sum_face2' where product_id='$product_id'";
                         if ($conn->query($sql2) === TRUE) {
                         }
-                ?>
+                    ?>
                         <script>
                             $(document).ready(function() {
                                 showAlert("บันทึกสต็อกรหัส <?= $product_id ?> สำเร็จ", "alert-primary");
                             });
                         </script>
-                <?php
+<?php
 
                     }
-         }
+                }
             }
         }
 
@@ -259,31 +263,30 @@ if ($action == 'add_dev') {
 
             $date = explode("-", $date_end);
             $date_run = $date[2];
-            echo"";
-            if($date_credit==15){ 
-            if ($date_run <= 15) {
-                $datemont = "$date[0]-$date[1]";
-                $date_start_true = "$datemont-1";
-                $date_end_true = "$datemont-15";
+            echo "";
+            if ($date_credit == 15) {
+                if ($date_run <= 15) {
+                    $datemont = "$date[0]-$date[1]";
+                    $date_start_true = "$datemont-1";
+                    $date_end_true = "$datemont-15";
+                }
+                if ($date_run >= 16) {
+                    $date_start = '16';
+                    $datetoday = $date_end;
+                    $enddate = date("t", strtotime($datetoday));
+                    $datemont = "$date[0]-$date[1]";
+                    $date_start_true = "$datemont-16";
+                    $date_end_true = "$datemont-$enddate";
+                }
             }
-            if ($date_run >= 16) {
-                $date_start = '16';
+            if ($date_credit == 30) {
                 $datetoday = $date_end;
                 $enddate = date("t", strtotime($datetoday));
                 $datemont = "$date[0]-$date[1]";
-                $date_start_true = "$datemont-16";
-                $date_end_true = "$datemont-$enddate";
-            }
-            }
-            if($date_credit==30){ 
-                $datetoday = $date_end;
-                $enddate = date("t", strtotime($datetoday));
-                $datemont = "$date[0]-$date[1]";
                 $date_start_true = "$datemont-1";
                 $date_end_true = "$datemont-$enddate";
-                echo"$date_start_true";
-                echo"$date_end_true";
-
+                echo "$date_start_true";
+                echo "$date_end_true";
             }
 
             //    echo"xxxxxxxxxxxxx"."$cus_id";
@@ -331,8 +334,8 @@ if ($action == 'add_dev') {
             } else {
                 $status_inv = '2';
             }
-            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back)
-             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]')";
+            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount)
+             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount')";
             if ($conn->query($sqlx) === TRUE) {
             }
             if ($cus_type == 2) {
@@ -412,7 +415,13 @@ if ($action == 'add_dev') {
                                                         $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
                                                         $rs8 = $conn->query($sql8);
                                                         $row8 = $rs8->fetch_assoc();
-                                                        if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
+                                                        if ($row3['province'] == 1) {
+                                                            $t = 'แขวง';
+                                                            $a = '';
+                                                        } else {
+                                                            $t = 'ต.';
+                                                            $a = 'อ.';
+                                                        }
                                                         ?>
                                                         <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                                                         <!-- <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p> -->
@@ -457,13 +466,22 @@ if ($action == 'add_dev') {
                                                                     <input type="text" name="ai_count" value="<?= $ai_count ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
                                                                 </div>
                                                             </div>
+                                                            <div class="form-row mt-3">
+
+
+                                                                <div class="form-group col-md-6">
+
+                                                                    <label for="ai_id"><strong>เงินส่วนลด<?= $row['discount'] ?><span class="text-danger"></span></strong></label>
+                                                                    <input type="text" name="discount" value="<?= $discount ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำแยกใบส่ง">
+                                                                </div>
+                                                            </div>
                                                             <input type="hidden" name="cus_id" value="<?= $row['cus_id'] ?>">
                                                             <input type="hidden" name="cus_type" value="<?= $row['cus_type'] ?>">
                                                             <?php if ($row['cus_type'] == 2) { ?>
                                                                 <div class="form-row mt-3">
                                                                     <div class="form-group col-md-6">
                                                                         <label for="ai_id"><strong>เครดิต <span class="text-danger"></span></strong></label>
-                                                                        <input type="text" name="date_credit" value="<?= $row3['credit_day']?>" class="classcus form-control" id="date_credit" placeholder="เครดิตจำนวนวัน">
+                                                                        <input type="text" name="date_credit" value="<?= $row3['credit_day'] ?>" class="classcus form-control" id="date_credit" placeholder="เครดิตจำนวนวัน">
                                                                     </div>
 
                                                                     <div class="form-group col-md-6">
@@ -518,11 +536,11 @@ if ($action == 'add_dev') {
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='qty_out" . $no . "'"; ?> value='<?php echo $row_pro['qty_out']; ?>' readonly></td>
                                                                         <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
-                                                                                                                                                                                                                                                                                                                                                                                    echo "disabled";
-                                                                                                                                                                                                                                                                                                                                                                                } ?>></td>
+                                                                                                                                                                                                                                                                                                                                        echo "disabled";
+                                                                                                                                                                                                                                                                                                                                    } ?>></td>
                                                                         <td class="text-center"> <?php echo "<span id='err2" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face2" . $no . "'"; ?> value='' <?php echo "name='stock2[$product_id][$no][$idx8]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
-                                                                                                                                                                                                                                                                                                                                                                                    echo "disabled";
-                                                                                                                                                                                                                                                                                                                                                                                } ?>></td>
+                                                                                                                                                                                                                                                                                                                                            echo "disabled";
+                                                                                                                                                                                                                                                                                                                                        } ?>></td>
                                                                         <td class="text-center"> <?php echo "<span id='err3" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='total_price" . $no . "'"; ?> value='<?php echo $row_pro['qty_dev']; ?>' readonly></td>
 
 
@@ -576,12 +594,12 @@ if ($action == 'add_dev') {
 
                 </div>
             </div>
-        
 
-    <!-- Header -->
-    <?php include './include/footer.php'; ?>
-    <!-- =============== Header End ================-->
-    </div>
+
+            <!-- Header -->
+            <?php include './include/footer.php'; ?>
+            <!-- =============== Header End ================-->
+        </div>
     </div>
     <!-- Modal HS-->
     <div class="modal fade" id="medalhs" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
