@@ -127,6 +127,7 @@ $(document).ready(function() {
                                                         <th>รหัสสินค้า</th>
                                                         <th>ประเภทสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
+                                                        <th>ข้อมูลเพิ่มเติม</th>
                                                         <th>stock1</th>
                                                         <th>stock2</th>
                                                         <th>จอง</th>
@@ -154,7 +155,7 @@ $(document).ready(function() {
                                                                 $row3 = $rs3->fetch_assoc();
                                                                 echo $row3['ptype_name'];  ?> </td>
                                                             <td> <?php echo $row["product_name"]; ?></td>
-
+                                                            <td><?php echo $row["spacial"]; ?> </td>
 
                                                             <td> <?php echo $row["fac1_stock"]; ?> </td>
                                                             <td>

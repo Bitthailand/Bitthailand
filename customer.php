@@ -12,11 +12,12 @@ $query = mysqli_query($conn, $sql);
 
 $status_confirm= $_REQUEST['status_confirm'];
 if($status_confirm=='add'){
-    $datemonth = date('Y-m');   
+    $datemonth = date('Y-m'); 
+    echo"$datemonth";  
 $sql5 = "SELECT COUNT(id) AS id_run FROM customer  where datemonth='$datemonth'  ";
 $rs5 = $conn->query($sql5);
 $row_run = $rs5->fetch_assoc(); 
-
+echo $row_run['id_run']+1;
 $datetodat=date('Y-m-d');
  $date=explode(" ",$datetodat);
  $dat=datethai_cus($date[0]);
