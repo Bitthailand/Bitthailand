@@ -105,6 +105,7 @@ $d = explode("-", $datex);
                                                                             <th scope="col" class="text-right">ลูกค้า</th>
                                                                             <th scope="col" class="text-right">รายการ</th>
                                                                             <th scope="col" class="text-right">ยอดมัดจำ</th>
+                                                                            <th scope="col" class="text-right">ส่วนลด</th>
                                                                             <th scope="col" class="text-right">ยอดขาย</th>
                                                                             <th scope="col" class="text-right">ยอดคืน</th>
                                                                             <th scope="col" class="text-right">ข้อมูล</th>
@@ -119,7 +120,7 @@ $d = explode("-", $datex);
                                                                                 $sql_cus_day = "SELECT COUNT(DISTINCT cus_id) month FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  ";
                                                                                 $rs_cus_day = $conn->query($sql_cus_day);
                                                                                 $row_cus_day = $rs_cus_day->fetch_assoc();
-                                                                                $sql_dev = "SELECT COUNT(DISTINCT dev_id) dev FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  ";
+                                                                                $sql_dev = "SELECT COUNT(DISTINCT dev_id) AS dev , SUM(discount) AS discount FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  ";
                                                                                 $rs_dev = $conn->query($sql_dev);
                                                                                 $row_dev = $rs_dev->fetch_assoc();
                                                                                 $sql_sum = "SELECT SUM(deliver_detail.total_price)AS total  FROM deliver_detail
@@ -146,7 +147,9 @@ $d = explode("-", $datex);
                                                                                     <td class="text-right"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ',') ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_ai['total'], '2', '.', ',') ?></td>
-                                                                                    <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ',') ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row_dev['discount'], '2', '.', ',') ?></td>
+                                                                                    <td class="text-right"><?php $sumx=$row_sum['total']-$row_dev['discount'];  echo number_format($sumx, '2', '.', ',') ?></td>
+                                                                             
                                                                                     <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',') ?></td>
                                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายวัน" href="/report_sale_date.php?MyDate=<?= $row4['DATE'] ?>">
                                                                                             <i class="i-Check font-weight-bold"></i> </a></td>

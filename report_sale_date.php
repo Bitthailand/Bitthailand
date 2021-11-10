@@ -107,7 +107,9 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                             <th scope="col" class="text-left">ประเภทลูกค้า</th>
                                                                             <th scope="col" class="text-left">รับสินค้า</th>
                                                                             <th scope="col" class="text-right">จำนวนสินค้า</th>
+                                                                            <th scope="col" class="text-right">ยอดก่อนหัก</th>
                                                                             <th scope="col" class="text-right">ยอดมัดจำ</th>
+                                                                             <th scope="col" class="text-right">ส่วนลด</th>
                                                                             <th scope="col" class="text-right">ยอดขาย</th>
 
                                                                             <th scope="col" class="text-right">ข้อมูล</th>
@@ -154,9 +156,11 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                     <td class="text-left"><?php echo $row_custype['name']; ?></td>
                                                                                     <td class="text-left"><?php echo $row_cusback['name']; ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ','); $sum_dev=$sum_dev+$row_dev['dev']; ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row_sum['total'], '0', '.', ','); $sum_tl=$sum_tl+$row_sum['total']; ?></td>
 
-                                                                                    <td class="text-right"><?php echo number_format($row_ai['total'], '2', '.', ','); $sum_total=$sum_total+$row_ai['total']; ?></td>
-                                                                                    <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ','); $sum_total2=$sum_total2+$row_sum['total']; ?></td>
+                                                                                    <td class="text-right"><?php if($row4['ai_count']==''){  echo number_format($row_ai['total'], '2', '.', ','); $sum_total=$sum_total+$row_ai['total']; $ai=$row_ai['total']; }else{  echo number_format($row4['ai_count'], '2', '.', ','); $sum_total=$sum_total+$row4['ai_count'];  $ai=$row4['ai_count'];} ?></td>
+                                                                                    <td class="text-right"><?php  echo number_format($row4['discount'], '2', '.', ','); $sum_discount=$sum_discount+$row4['discount']; ?></td>
+                                                                                    <td class="text-right"><?php $total_dis=$row_sum['total']-$row4['discount']-$ai; echo number_format($total_dis, '2', '.', ','); $sum_total2=$sum_total2+$total_dis; ?></td>
 
                                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายการส่งสินค้า" href="/report_sale_detail.php?order_id=<?=$row4['order_id']?>&dev_id=<?=$row4['dev_id']?>">
                                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
@@ -172,7 +176,10 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                             <th scope="col" class="text-left"></th>
                                                                             <th scope="col" class="text-left"></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_dev, '0', '.', ',');?></th>
+                                                                          
+                                                                            <th scope="col" class="text-right"><?php echo number_format($sum_tl, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_total, '2', '.', ',');?></th>
+                                                                            <th scope="col" class="text-right"><?php echo number_format($sum_discount, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_total2, '2', '.', ',');?></th>
 
                                                                             <th scope="col" class="text-right"></th>

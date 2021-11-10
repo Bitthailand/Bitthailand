@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 $order_id = $_REQUEST['order_id'];
 $dev_id = $_REQUEST['dev_id'];
 ?>
@@ -69,7 +69,7 @@ include './get_dashbord.php';
                     </div>
 
                     <?php
-                    $sql_dev = "SELECT * FROM delivery   where order_id='$order_id'  order by dev_id ASC ";
+                    $sql_dev = "SELECT * FROM delivery   where order_id='$order_id'  AND dev_id='$dev_id' order by dev_id ASC ";
                     $result_dev = mysqli_query($conn, $sql_dev);
                     if (mysqli_num_rows($result_dev) > 0) {
                         while ($row_dev = mysqli_fetch_assoc($result_dev)) { ?>
@@ -155,25 +155,41 @@ include './get_dashbord.php';
                                     </table>
                                     <div class="col-md-12">
                                         <div class="invoice-summary">
-                                            <p style="margin-bottom: 0;">รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
-                                            <p style="margin-bottom: 0;">หัก ส่วนลด <span>0.00</span></p>
-                                            <?php $first_total = ($total_all * 100) / 107;
-                                            $tax = ($total_all - $first_total);
-                                            $grand_total = ($first_total + $tax);
+                                            <?php
+
+                                            $sql_ai = "SELECT * FROM ai_number  WHERE order_id= '$order_id'";
+                                            $rs_ai = $conn->query($sql_ai);
+                                            $row_ai = $rs_ai->fetch_assoc();
+
+                                           
+                                            $sub_total = $total_all - $row_dev['discount'];
+                                            if($row_dev['ai_count']==''){
+                                                $sub_total_ai=$sub_total-$row_ai['price'];
+                                            }else{
+                                                $sub_total_ai=$sub_total-$row_dev['ai_count'];
+                                            }
+                                            $first_total = ($sub_total_ai * 100) / 107;
+                                            $tax = ($sub_total_ai - $first_total);
+                                            $grand_total = ($sub_total_ai - $tax);
                                             ?>
-                                            <p style="margin-bottom: 0;">จำนวนเงินก่อนรวมภาษี <span><?php echo number_format($first_total , '2', '.', ',') ?></span></p>
+                                            <p style="margin-bottom: 0;">รวมเป็นเงินทั้งสิ้น <span><?php echo number_format($total_all, '2', '.', ',') ?></span></p>
+                                            <p style="margin-bottom: 0;">หัก ส่วนลด <span><?php echo number_format($row_dev['discount'], '2', '.', ',') ?></span></p>
+                                            <p style="margin-bottom: 0;">ยอดหลังหักส่วนลด <span><?php echo number_format($sub_total, '2', '.', ',') ?></span></p>
+                                            <p style="margin-bottom: 0;">หักมัดจำ <span><?php   if($row_dev['ai_count']==''){ echo number_format($row_ai['price'], '2', '.', ','); } else{ echo number_format($row_dev['ai_count'], '2', '.', ','); }   ?></span></p>
+                                           
+                                            <p style="margin-bottom: 0;">จำนวนเงินรวมทั้งสิ้น<span><?php echo number_format($sub_total_ai, '2', '.', ',') ?></span></p>
                                             <p>จำนวนภาษีมูลค่าเพิ่ม 7% <span><?php echo number_format($tax, '2', '.', ',') ?></span></p>
                                             <p>รวมเป็นเงิน <span><?php echo number_format($grand_total, '2', '.', ',') ?></span></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="row">
-                                            
+
                                             <div class="col-md-5">
-                                               
+
                                             </div>
                                             <div class="col-md-4 text-right">
-                                              
+
                                             </div>
                                         </div>
                                     </div>
