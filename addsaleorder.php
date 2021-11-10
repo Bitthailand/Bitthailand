@@ -116,7 +116,7 @@ if ($action == 'add_dev') {
                 // echo"++$id5x";
                 $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
                 $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
-                echo $stock1 . "<br>" . $stock2;
+                // echo $stock1 . "<br>" . $stock2;
                 $total_instock = $stock1 + $stock2;  //รวมจำนวนที่รรับเข้ามาเพื่อต้องการส่ง
                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$product_id'";
                 $rsx3 = $conn->query($sqlx3);
@@ -263,7 +263,7 @@ if ($action == 'add_dev') {
 
             $date = explode("-", $date_end);
             $date_run = $date[2];
-            echo "";
+            // echo "";
             if ($date_credit == 15) {
                 if ($date_run <= 15) {
                     $datemont = "$date[0]-$date[1]";
@@ -334,8 +334,8 @@ if ($action == 'add_dev') {
             } else {
                 $status_inv = '2';
             }
-            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back)
-             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]')";
+            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount)
+             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount')";
             if ($conn->query($sqlx) === TRUE) {
             }
             if ($cus_type == 2) {
