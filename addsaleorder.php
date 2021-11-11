@@ -98,6 +98,9 @@ if ($action == 'add_dev') {
     $date_credit = $_REQUEST['date_credit'];
     $date_end = $_REQUEST['date_end'];
     $discount = $_REQUEST['discount'];
+    if($discount==""){
+        $discount=0;
+    }
     if ($dev_date == '') { ?>
         <script>
             $(document).ready(function() {
