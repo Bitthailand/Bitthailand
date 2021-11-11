@@ -294,7 +294,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             <div class="card-body">
                                 <div class="ul-widget__head">
                                     <div class="ul-widget__head-label">
-                                        <h3 class="ul-widget__head-title">รายชื่อสินค้าที่มียอดขายสูงสุด</h3>
+                                        <h3 class="ul-widget__head-title">สินค้าที่มียอดขายสูงสุด</h3>
                                     </div>
                                     <div class="ul-widget__head-toolbar">
                                         <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
@@ -348,12 +348,21 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                     while ($row4 = mysqli_fetch_assoc($result4)) {
                                                 ?>
                                                         <div class="ul-widget4__item ul-widget4__users">
-                                                            <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
-                                                                <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/33.jpg" alt="" />
+                                                        <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
+                                                                <!-- <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/11.jpg" alt="" /> -->
                                                                 <div class="flex-grow-1">
-                                                                    <h5><a href="#"> เสารั้วลวดหนาม ขนาด 4 นิ้ว ยาว 4.00 เมตร</a></h5>
-                                                                    <p class="m-0 text-small text-muted">เสารั้วลวดหนาม</p>
-                                                                    <p class="text-small text-danger m-0">฿159,493.00
+                                                                    <?php
+                                                                    $sql_pro = "SELECT * FROM product  WHERE product_id= '$row4[product_id]'";
+                                                                    $rs_pro = $conn->query($sql_pro);
+                                                                    $row_pro = $rs_pro->fetch_assoc();
+
+                                                                    $sql_type = "SELECT * FROM product_type  WHERE ptype_id= '$row4[ptype_id]'";
+                                                                    $rs_type = $conn->query($sql_type);
+                                                                    $row_type = $rs_type->fetch_assoc();
+                                                                    ?>
+                                                                    <h5><a href="#"> <?= $row_pro['product_name'] ?></a></h5>
+                                                                    <p class="m-0 text-small text-muted"><?= $row_type['ptype_name'] ?></p>
+                                                                    <p class="text-small text-danger m-0">฿<?php echo number_format($row4['sum'], '2', '.', ',') ?>
                                                                         <del class="text-muted"></del>
                                                                     </p>
                                                                 </div>
