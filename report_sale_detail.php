@@ -202,7 +202,7 @@ include './get_dashbord.php';
                     } ?>
                 </div>
             </div><!-- end of main-content -->
-        </div>
+        
         <!-- Header -->
         <?php include './include/footer.php'; ?>
         <!-- =============== Header End ================-->
