@@ -140,7 +140,6 @@ if ($action == 'editx') {
                                                 </thead>
                                                 <tbody id="myTable">
                                                     <?php
-
                                                     $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM product  where  status='0' AND  ptype_id<>'TF0'  order by product_id asc ");
                                                     $total_records = mysqli_fetch_array($result_count);
                                                     $total_records = $total_records['total_records'];
