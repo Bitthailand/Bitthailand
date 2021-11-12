@@ -40,14 +40,25 @@ $row4 = $rs4->fetch_assoc();
         <label for="plant"><strong>สต็อกโรงงาน2 <span class="text-danger"></span></strong></label>
         <input type="text" class="classcus form-control" value="<?php echo $row3['fac2_stock']; ?>" id="face2_stock" name="face2_stock" readonly>
     </div>
-    <div class="form-group col-md-4">
+
+</div>
+<div class="row mt-12">
+<div class="form-group col-md-4">
         <label for="sqm"><strong>ราคาต่อหน่วย<span class="text-danger"></span></strong></label>
         <input type="text" name="unit_pricex" id="unit_pricex" value="<?php echo "$row[unit_price]"; ?>"  class="classcus form-control" readonly>
 
     </div>
-</div>
-<div class="row mt-12">
+<div class="form-group col-md-4">
+        <label for="sqm"><strong>ส่วนลดต่อหน่วย<span class="text-danger"></span></strong></label>
+        <input type="text" name="unit_discount" id="unit_discount" value="<?php echo "$row[disunit]"; ?>"  class="classcus form-control" readonly>
+    </div>
+  
+    <div class="form-group col-md-4">
+        <?php $price_dis=$row['unit_price']-$row['disunit']; ?>
+        <label for="sqm"><strong>ราคาหักส่วนลด<span class="text-danger"></span></strong></label>
+        <input type="text" name="price_dis" id="price_dis" value="<?php echo "$price_dis"; ?>"  class="classcus form-control" readonly>
 
+    </div>
     <!-- <div class="form-group col-md-4">
         <label><strong>จำนวนสั่งโรงงาน1 <span class="text-danger"></span></strong></label>
         <input type="text" name="face1_out" id="face1_out" value="<?php echo "$row[face1_stock_out]"; ?>" onkeyup="keyup()" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
@@ -87,13 +98,13 @@ $row4 = $rs4->fetch_assoc();
         var face1_stock = $('#face1_stock').val();
         var face2_stock = $('#face2_stock').val();
         var qtyx = $('#qtyx').val();
-        var unit_price = $('#unit_pricex').val();
+        var price_dis = $('#price_dis').val();
         var face1_outx = Number(face1_out);
         var face2_outx = Number(face2_out);
         var qtyx = Number(qtyx);
         var face1x_stock = Number(face1_stock);
         var face2x_stock = Number(face2_stock);
-        var unit_pricex = Number(unit_price);
+        var unit_pricex = Number(price_dis);
         var qtyx = Number(qtyx);
         console.log('ct', face1_out)
         console.log('qtyx', qtyx)
