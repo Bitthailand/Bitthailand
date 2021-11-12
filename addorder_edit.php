@@ -64,7 +64,7 @@ $row4 = $rs4->fetch_assoc();
     </div>
     <div class="form-group col-md-4">
     <label for="sqm"><strong>ราคารวม<span class="text-danger"></span></strong></label>
-    <input type="text" name="total_price" id="total_pricex" value="<?php echo "$row[total_price]"; ?>" class="classcus form-control">
+    <input type="text" name="total_price" id="total_pricex" value="<?php echo "$row[total_price]"; ?>" class="classcus form-control" readonly>
 </div>
 </div>
 <div class="row mt-12">
