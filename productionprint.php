@@ -12,16 +12,11 @@ $po_id = $_REQUEST['po_id'];
 ?>
 <!DOCTYPE html>
 <html>
-
 <head>
     <link href="../../dist-assets/css/themes/styleforprint.css?v=2" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
-
 </head>
-
 <body>
-    <!--  header  -->
-
     <div class="page-header" style="text-align: center">
         <div class="col-12">
             <div class="row">
@@ -63,7 +58,6 @@ $po_id = $_REQUEST['po_id'];
                 </div>
             </div>
         </div>
-
         <br />
     </div>
     <!-- End header  -->
@@ -71,7 +65,6 @@ $po_id = $_REQUEST['po_id'];
     <div class="page-footer">
         <div class="row">
             <div class="col-1">
-
             </div>
             <div class="col-5">
                 <p> ผู้สั่งผลิต <span>_____________________</span></p>
@@ -80,7 +73,6 @@ $po_id = $_REQUEST['po_id'];
                 <br>
             </div>
             <div class="col-1">
-
             </div>
             <div class="col-5 ">
                 <p> ผู้รับเหมา <span>_____________________</span></p>
@@ -103,7 +95,6 @@ $po_id = $_REQUEST['po_id'];
                     </td>
                 </tr>
             </thead>
-
             <tbody>
                 <tr>
                     <td>
@@ -210,13 +201,11 @@ $po_id = $_REQUEST['po_id'];
                                     </table>
                                 </div>
                             </div>
-
                         </div>
                         <!-- <div class="page">PAGE 2</div> -->
                     </td>
                 </tr>
             </tbody>
-
             <tfoot>
                 <tr>
                     <td>
@@ -225,10 +214,8 @@ $po_id = $_REQUEST['po_id'];
                     </td>
                 </tr>
             </tfoot>
-
         </table>
     </div>
-
     <!-- End Print List data  -->
 </body>
 

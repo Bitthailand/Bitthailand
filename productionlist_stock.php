@@ -2,8 +2,6 @@
 include './include/connect.php';
 include './include/config.php';
 $id = intval($_REQUEST['id']);
-
-
 $sql = "SELECT * FROM production_order  WHERE id= '$id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -12,19 +10,12 @@ $rs2 = $conn->query($sql2);
 $row2 = $rs2->fetch_assoc();
 echo "$row2[po_id]";
 ?>
-
-
 <form action="" method="post" name="form1" id="form1">
-
-
-
     <!-- ============ Table Start ============= -->
     <div id="productionorder" class="table-responsive">
-
         <table role="table" class="table table-hover text-nowrap table-sm">
             <thead>
-                <tr class="table-secondary">
-                   
+                <tr class="table-secondary">         
                     <th>รหัสสินค้า</th>
                     <th>ชื่อสินค้า</th>
                     <th>แพที่</th>
@@ -51,8 +42,7 @@ echo "$row2[po_id]";
                                 echo "$rowx[product_id]";
                                 $sumx=$rowx['a_type']+$rowx['b_type'];
                                 $sumy=$rowx['qty']-$sumx;
-                                ?></td>
-                         
+                                ?></td>         
                             <td><?php echo "$rowx2[product_name]"; ?></td>
                             <td><?php echo "$rowx[plant_id]"; ?></td>
                             <td><?php echo "$rowx2[width]"; ?></td>
@@ -66,14 +56,10 @@ echo "$row2[po_id]";
 
             </tbody>
         </table>
-
     </div>
     <!-- ============ Table End ============= -->
-
     </div>
-
     <div class="modal-footer">
-
         <button type="submit" class="btn btn-primary ml-2" name="add-data">บันทึก</span>
             <input type="hidden" name="po_id" value="<?php echo $id; ?>">
             <input type="hidden" name="action" value="add_stock">

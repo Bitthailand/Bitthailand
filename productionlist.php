@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config.php';
 ?>
@@ -212,10 +212,6 @@ if ($action == 'add_stock') {
                     });
                 </script>
         <?php       }
-
-
-
-
             //  $sql = "UPDATE production_detail   SET a_type='$stock_a',b_type='$stock_b'  where  po_id= '$row[po_id]' AND product_id='$product_id' ";
 
             // echo 'A' . $stock_a . 'B' . $stock_b . 'ID' . $product_id . 'จำนวนกรอกรวม' . $total_stock . 'สต็อก' . $rowx['qty'] . '<br>';
@@ -256,8 +252,6 @@ if ($action == 'del') {
 <?php }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en" dir="">
 
@@ -351,7 +345,6 @@ if ($action == 'del') {
                                                         <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
                                                         <option value="po_id" <?php echo $column == 'po_id' ? 'selected' : ''; ?>> รหัสสั่งผลิต </option>
                                                         <option value="po_date" <?php echo $column == 'po_date' ? 'selected' : ''; ?>> วันที่สั่งผลิต </option>
-
                                                     </select>
                                                 </div>
                                             </div>
@@ -425,12 +418,8 @@ if ($action == 'del') {
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
-
                                         $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='0' $colum_po ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
-                                        while ($row = mysqli_fetch_array($result)) {
-
-
-                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC ");
+                                        while ($row = mysqli_fetch_array($result)) {       $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC ");
                                             $total = mysqli_fetch_array($count);
                                             $count = 0;
                                             $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC  ";
@@ -465,14 +454,11 @@ if ($action == 'del') {
                                                         $sqlx = "SELECT * FROM product   WHERE product_id= '$row2[product_id]'";
                                                         $rsx = $conn->query($sqlx);
                                                         $rowx = $rsx->fetch_assoc();
-
                                                         ?>
                                                         <td><?php echo $rowx['product_name']; ?></td>
-
                                                         <td><?php echo $rowx['thickness']; ?></td>
                                                         <td><?php echo $rowx['width']; ?></td>
                                                         <td><?php echo $rowx['size']; ?></td>
-
                                                         <td> <?php echo $rowx['dia_size']; ?></td>
                                                         <td> <?php echo $rowx['dia_count']; ?> </td>
                                                         <!-- <td> <?php echo $row2['sqm']; ?></td>
@@ -501,7 +487,6 @@ if ($action == 'del') {
                                                 }
                                                 mysqli_close($conn);
                                                             ?>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -518,7 +503,6 @@ if ($action == 'del') {
                                                                         echo "href='?page_no=$previous_page' ";
                                                                     } ?>>Previous</a>
                                         </li>
-
                                         <?php
                                         if ($total_no_of_pages <= 10) {
                                             for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
@@ -570,7 +554,6 @@ if ($action == 'del') {
                                             }
                                         }
                                         ?>
-
                                         <li <?php if ($page_no >= $total_no_of_pages) {
                                                 echo "class='disabled'";
                                             } ?>>
@@ -578,7 +561,6 @@ if ($action == 'del') {
                                                                         echo "href='?page_no=$next_page'";
                                                                     } ?>>Next</a>
                                         </li>
-
                                         <?php if ($page_no < $total_no_of_pages) { ?>
                                             <li><a class="page-link" href='?page_no=<?php echo "$total_no_of_pages"; ?>'>Last &rsaquo;&rsaquo;</a></li>
                                         <?php   } ?>
