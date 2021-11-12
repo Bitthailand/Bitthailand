@@ -1,6 +1,6 @@
 <?php
 include './include/connect.php';
-$emp_id=$_SESSION["username"]; 
+// $emp_id=$_SESSION["username"]; 
 $id = intval($_REQUEST['id']);
 // echo "$id";
 $sql = "SELECT * FROM order_details  WHERE id = '$id' ";
@@ -48,26 +48,27 @@ $row4 = $rs4->fetch_assoc();
 </div>
 <div class="row mt-12">
 
-    <div class="form-group col-md-4">
+    <!-- <div class="form-group col-md-4">
         <label><strong>จำนวนสั่งโรงงาน1 <span class="text-danger"></span></strong></label>
         <input type="text" name="face1_out" id="face1_out" value="<?php echo "$row[face1_stock_out]"; ?>" onkeyup="keyup()" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
     </div>
     <div class="form-group col-md-4">
         <label><strong>จำนวนสั่งโรงงาน2 <span class="text-danger"></span></strong></label>
         <input type="text" name="face2_out" id="face2_out" value="<?php echo "$row[face2_stock_out]"; ?>" onkeyup="keyup()" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
-    </div>
+    </div> -->
     <div class="form-group col-md-4">
         <label for="sqm"><strong>จำนวนสั่งรวม<span class="text-danger"></span></strong></label>
 
-        <input type="text" name="qty" id="qtyx" value="<?php echo "$row[qty]"; ?>" class="classcus form-control">
+        <input type="text" name="qty" id="qtyx" value="<?php echo "$row[qty]"; ?>" onkeyup="keyup()" class="classcus form-control" placeholder="จำนวนสั่งผลิต" required>
 
     </div>
-</div>
-<div class="row mt-12">
-<div class="form-group col-md-4">
+    <div class="form-group col-md-4">
     <label for="sqm"><strong>ราคารวม<span class="text-danger"></span></strong></label>
     <input type="text" name="total_price" id="total_pricex" value="<?php echo "$row[total_price]"; ?>" class="classcus form-control">
 </div>
+</div>
+<div class="row mt-12">
+
 </div>
 <div class="modal-footer">
     <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span>
@@ -85,36 +86,38 @@ $row4 = $rs4->fetch_assoc();
         var face2_out = $('#face2_out').val();
         var face1_stock = $('#face1_stock').val();
         var face2_stock = $('#face2_stock').val();
+        var qtyx = $('#qtyx').val();
         var unit_price = $('#unit_pricex').val();
         var face1_outx = Number(face1_out);
         var face2_outx = Number(face2_out);
+        var qtyx = Number(qtyx);
         var face1x_stock = Number(face1_stock);
         var face2x_stock = Number(face2_stock);
         var unit_pricex = Number(unit_price);
         var qtyx = Number(qtyx);
         console.log('ct', face1_out)
-        console.log('ct2', face2_out)
+        console.log('qtyx', qtyx)
         console.log('unit_pricex', unit_pricex)
-        if (face1x_stock < face1_outx) {
+        // if (face1x_stock < face1_outx) {
 
-            alert('กรอกเลขเกินจำนวนสต็อก')
-            var dff = 0;
-            $('#face1_out').val(dff);
+        //     alert('กรอกเลขเกินจำนวนสต็อก')
+        //     var dff = 0;
+        //     $('#face1_out').val(dff);
 
 
-        }
+        // }
 
-        if (face2x_stock < face2_outx) {
-            alert('กรอกเลขเกินจำนวนสต็อก')
-            var dff = 0;
-            $('#face2_out').val(dff);
+        // if (face2x_stock < face2_outx) {
+        //     alert('กรอกเลขเกินจำนวนสต็อก')
+        //     var dff = 0;
+        //     $('#face2_out').val(dff);
 
-        }
-        qty = parseFloat(face1_outx) + parseFloat(face2_outx);
-        var total_price =  parseFloat(unit_pricex)*parseFloat(qty);
+        // }
+        // qty = parseFloat(face1_outx) + parseFloat(face2_outx);
+        var total_price =  parseFloat(unit_pricex)*parseFloat(qtyx);
         console.log('qty', qty)
         console.log('total_price', total_price)
-        $('#qtyx').val(qty);
+        $('#qtyx').val(qtyx);
         $('#total_pricex').val(total_price);
 
 
