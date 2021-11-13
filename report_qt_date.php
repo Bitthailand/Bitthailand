@@ -183,6 +183,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                             <th scope="col" class="text-left"></th>
                                                                             <th scope="col" class="text-left"></th>
                                                                             <th scope="col" class="text-left"></th>
+                                                                            <th scope="col" class="text-left"></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_dev, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_total, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_total2, '2', '.', ',');?></th>
