@@ -73,7 +73,7 @@ while ($row = mysqli_fetch_array($query)) {  // preparing an array
                 $rs2 = $conn->query($sql2);
                 $row2 = $rs2->fetch_assoc();
                 $ai_count=number_format($row['ai_count'], '2', '.', ',');
-                $sqlx4 = "SELECT SUM(total_price) AS total FROM order_details  WHERE order_id= '$row[order_id]'";
+                $sqlx4 = "SELECT SUM(total_price) AS total FROM deliver_detail  WHERE order_id= '$row[order_id]'";
                 $rsx4 = $conn->query($sqlx4);
                 $rowx4 = $rsx4->fetch_assoc();
                 $sub_total = $rowx4['total'] - $row['discount'];
