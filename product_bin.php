@@ -125,7 +125,7 @@ if ($action == 'bin') {
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
                                         <h3 class="ul-widget1__title "> สต๊อกสินค้า </h3>
-                                      
+
                                         <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
                                             import Excel
                                         </button>
@@ -163,82 +163,46 @@ if ($action == 'bin') {
                                                         <th>ข้อมูลเพิ่มเติม</th>
                                                         <th>stock1</th>
                                                         <th>stock2</th>
-                                                        <th>จอง</th>
-                                                        <th>ผลิต</th>
-                                                        <th>ขาย</th>
-                                                        <th>เหลือ</th>
-                                                        <th>Action</th>
+                                                        <th>สาเหตุชำรุด</th>
+                                                        <th>บันทึกโดย</th>
+                                                        <th>วันที่</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody id="myTable">
                                                     <?php
 
-                                                    $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM product  where  status='0' AND  ptype_id<>'TF0'  order by product_id asc ");
+                                                    $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM product_bin   order by product_id asc ");
                                                     $total_records = mysqli_fetch_array($result_count);
                                                     $total_records = $total_records['total_records'];
                                                     $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                                     $second_last = $total_no_of_pages - 1; // total page minus 1
-                                                    $result = mysqli_query($conn, "SELECT * FROM product where  ptype_id <> 'TF0' AND  status='0'   order by product_id asc  ");
+                                                    $result = mysqli_query($conn, "SELECT * FROM product_bin  order by product_id asc  ");
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <tr>
                                                             <td><?php echo $row["product_id"]; ?></td>
                                                             <td><?php
-                                                                $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
+                                                                $sql = "SELECT * FROM product  WHERE product_id= '$row[product_id]'";
+                                                                $rs = $conn->query($sql);
+                                                                $row1 = $rs->fetch_assoc();
+                                                                $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row1[ptype_id]'";
                                                                 $rs3 = $conn->query($sql3);
                                                                 $row3 = $rs3->fetch_assoc();
                                                                 echo $row3['ptype_name'];  ?> </td>
-                                                            <td> <?php echo $row["product_name"]; ?></td>
-                                                            <td><?php echo $row["spacial"]; ?> </td>
+                                                            <td> <?php echo $row1["product_name"]; ?></td>
+                                                            <td><?php echo $row1["spacial"]; ?> </td>
 
-                                                            <td> <?php echo $row["fac1_stock"]; ?> </td>
+                                                            <td> <?php echo $row["stock1"]; ?> </td>
                                                             <td>
-                                                                <?php echo $row["fac2_stock"]; ?> </td>
+                                                                <?php echo $row["stock2"]; ?> </td>
                                                             <td>
-                                                                <?php
-                                                                $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' ";
-                                                                $rs_pro = $conn->query($sql_pro);
-                                                                $row_pro = $rs_pro->fetch_assoc();
-                                                                $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
-                                                                if ($sum_stock < $row_pro['qty_out']) {  ?>
-                                                                    <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php    } else { ?>
-                                                                    <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php   }
-                                                                ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php
-                                                                if ($row3['stock_m'] == 1) {
-                                                                    $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row[product_id]' ";
-                                                                    $rs_po = $conn->query($sql_po);
-                                                                    $row_po = $rs_po->fetch_assoc();
-                                                                    echo "$row_po[a_type]";
-                                                                } else {
+                                                                <?php echo $row["comment"]; ?> </td>
+                                                            <td> <?php $date = explode(" ", $row['date_create']);
+                                                                    $dat = datethai2($date[0]);
+                                                                    echo "$dat"; ?></td>
+                                                            <td><?php echo $row["emp_id"]; ?> </td>
 
 
-                                                                    $sql_po = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1' AND product_id='$row[product_id]' ";
-                                                                    $rs_po = $conn->query($sql_po);
-                                                                    $row_po = $rs_po->fetch_assoc();
-                                                                    echo "$row_po[a_type]";
-                                                                } ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php
-                                                                $sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail  where  product_id='$row[product_id]' ";
-                                                                $rs_dev = $conn->query($sql_dev);
-                                                                $row_dev = $rs_dev->fetch_assoc();
-                                                                echo "$row_dev[dev_qty]";
-                                                                ?>
-
-                                                            </td>
-                                                            <td><?php $sum_stock = $row_po['a_type'] - $row_dev['dev_qty'];
-                                                                echo "$sum_stock";
-                                                                ?></td>
-                                                            <td>
-                                                                <button data-toggle="modal" data-target="#Modal-add1" data-id="<?php echo $row['id']; ?>" id="edit" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
-                                                                <button data-toggle="modal" data-target="#Modal-move" data-id="<?php echo $row['id']; ?>" id="edit_bin" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Gear font-weight-bold" title="สินค้าชำรุด"></i> </button>
-
-                                                            </td>
                                                         </tr>
                                                     <?php
                                                     }
@@ -247,20 +211,7 @@ if ($action == 'bin') {
 
 
                                                 </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>รหัสสินค้า</th>
-                                                        <th>ประเภทสินค้า</th>
-                                                        <th>ชื่อสินค้า</th>
-                                                        <th>stock1</th>
-                                                        <th>stock2</th>
-                                                        <th>จอง</th>
-                                                        <th>ผลิต</th>
-                                                        <th>ขาย</th>
-                                                        <th>เหลือ</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </tfoot>
+
                                             </table>
                                         </div>
                                     </div>

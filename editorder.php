@@ -798,9 +798,11 @@ if ($action == 'add') {
                                     </div>
                                     <?php if ($main['cus_back'] == '2') {
                                     ?>
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-3">
                                             <label for="delivery_date">กำหนดส่งสินค้า<span class="text-danger"></span></strong></label>
+                                           
                                             <input value="<?php echo "$main[delivery_date]"; ?>" class="form-control" type="text" readonly>
+                                          
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
