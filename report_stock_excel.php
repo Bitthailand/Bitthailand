@@ -19,6 +19,14 @@ $emp_id=$_SESSION["username"];
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
 </head>
 <?php
+$datetodat = date('Y-m-d');
+$strExcelFileName = "stock-$datetodat.xls";
+header("Content-Type: application/x-msexcel; name=\"$strExcelFileName\"");
+header("Content-Disposition: inline; filename=\"$strExcelFileName\"");
+
+header("Pragma:no-cache");
+?>
+<?php
 include './include/connect.php';
 include './include/config.php';
 include './get_dashbord_stock.php';
@@ -57,109 +65,22 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
-        <?php include './include/header.php'; ?>
+    
         <!-- =============== Header End ================-->
         <!-- side bar menu -->
-        <?php include './include/menu.php'; ?>
+ 
         <!-- =============== Left side End ================-->
 
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <!-- ============ Tab Menu ============= -->
-            <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/report_stock.php">
-                                    <h4 class="h5 font-weight-bold"> ภาพรวมสต็อก
-                                    </h4>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="linkLoadModalNext nav-link" href="/report_stock_year.php">
-                                    <h4 class="h5 font-weight-bold"> รายงานยอดสต็อกรายปี
-                                    </h4>
-                                </a>
-                              
-                            </li>
-                            
-                        </ul> 
+        
             <div class="tab-content">
                 <div class="main-content">
                 
-                    <div class="breadcrumb">
-                        <h1 class="mr-2">ข้อมูลสต็อกสินค้า
-                        </h1>
-                        <ul>
-                            <li><a href="">ภาพรวมสต็อกสินค้า</a></li>
-                            <li>มูลค่าการผลิต</li>
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <!-- ICON BG-->
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">สต็อกทั้งหมดประจำวันนี้</p>
-                                            <h4 class="heading"><?php echo number_format($row_pday['sum_all'], '0', '.', ',') ?> ชิ้น</h4>
-                                            <small class="text-muted m-0">โรงงาน1 :<?php echo number_format($row_pday['fac1_stock'], '0', '.', ',') ?> ชิ้น </small><br>
-                                            <small class="text-muted m-0">โรงงาน2 :<?php echo number_format($row_pday['fac2_stock'], '0', '.', ',') ?> ชิ้น </small>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">สินค้าผลิตทั้งหมด</p>
-                                            <h4 class="heading"> <?php echo number_format($sum_stock, '0', '.', ',') ?> ชิ้น </h4>
-                                            <small class="text-muted m-0">สั่งผลิตเสร็จ: <?php echo number_format($row_po1['a_type'], '0', '.', ',') ?> ชิ้น</small><br>
-                                            <small class="text-muted m-0">นำเข้าขาย: <?php echo number_format($row_po['a_type'], '0', '.', ',') ?> ชิ้น</small>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">สินค้าออกจากสต็อก</p>
-                                            <h4 class="heading"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?> ชิ้น </h4>
-                                            <small class="text-muted m-0">สินค้ามัดจำ <?php echo number_format($row_pro2['qty_out'], '0', '.', ',') ?> ชิ้น</small><br>
-                                            <small class="text-muted m-0">สินค้าส่งเสร็จ <?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?> ชิ้น</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="ul-widget__row">
-                                        <div class="ul-widget-stat__font"><i class="i-Administrator text-primary"></i></div>
-                                        <div class="ul-widget__content">
-                                            <p class="m-0">สต็อกคงเหลือ</p>
-                                            <h4 class="heading"><?php echo number_format($sum_stock_all, '0', '.', ',') ?></h4><br><br>
-                                            <!-- <small class="text-muted m-0">จำนวนสินค้า : <?php echo number_format($row_value['qty'], '2', '.', ',') ?> ชิ้น </small> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
+               
+            
 
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
@@ -172,7 +93,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                 <div class="ul-widget__head-label">
                                                     <h3 class="ul-widget__head-title">รายการสินค้าที่มีสต็อกสูงสุด</h3>
                                                 </div>
-                                                <a class="btn btn btn-success mb-2 mr-2" href="/report_stock_excel.php">export excel</a>
+                                               
                                             </div>
                                             <div class="ul-widget__body">
                                                 <div class="tab-content">
@@ -184,6 +105,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                     <thead>
                                                                         <tr>
                                                                             <th scope="col">#</th>
+                                                                            <th scope="col" class="text-left">รหัสสินค้า</th>
                                                                             <th scope="col" class="text-left">ชื่อสินค้า</th>
                                                                             <th scope="col" class="text-left">สต็อกโรงงาน1</th>
                                                                             <th scope="col" class="text-left">สต็อกโรงงาน2</th>
@@ -202,6 +124,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
 
                                                                                 <tr>
                                                                                     <th scope="row"><?= ++$idx; ?></th>
+                                                                                    <td class="text-left"> <?= $row4['product_id'] ?></td>
                                                                                     <td class="text-left"> <?= $row4['ptype_id'] ?>
                                                                                         <?php $sql_pro = "SELECT * FROM product_type  WHERE ptype_id= '$row4[ptype_id]'  ";
                                                                                         $rs_pro = $conn->query($sql_pro);
@@ -256,7 +179,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
 
 
                     <!-- Header -->
-                    <?php include './include/footer.php'; ?>
+
                     <!-- =============== Header End ================-->
 
                 </div>

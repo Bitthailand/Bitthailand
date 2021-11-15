@@ -102,7 +102,7 @@ if ($rowS == '') {
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
                                         <h3 class="ul-widget1__title "> สต๊อกสินค้า </h3>
-                                        <span class="ul-widget__desc "> รายการสต๊อกสินค้า </span>
+
                                         <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
                                             import Excel
                                         </button>
@@ -111,6 +111,7 @@ if ($rowS == '') {
                                         <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist4.php"> รายงานแบบที่3</a>
                                         <a class="btn btn btn-success mb-2 mr-2" href="/inventorylist5.php"> รายงานสินค้าที่ถูกจอง</a>
                                         <a class="btn btn btn-success mb-2 mr-2" href="/stock_import.php"> สินค้านำเข้าจำหน่าย</a>
+                                        <a class="btn btn btn-success mb-2 mr-2" href="/product_bin.php"> สินค้าชำรุด</a>
                                     </div>
                                     <div class="text-left">
 
