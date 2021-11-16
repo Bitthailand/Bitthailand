@@ -25,15 +25,25 @@ include './get_dashbord.php';
 include './get_chart.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
-$sql_month = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND  status_cf='1' AND payment='1' ";
+$sql_month = "SELECT SUM((unit_price-disunit)*dev_qty) AS month FROM deliver_detail  where MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND  status_cf='1' AND payment='1' ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
 
-$sql_year = "SELECT SUM(dev_qty*unit_price) AS month FROM deliver_detail  WHERE  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  AND status_cf='1' AND payment='1'  ";
+$sql_year = "SELECT SUM((unit_price-disunit)*dev_qty) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]'  AND status_cf='1' AND payment='1'  ";
 $rs_year = $conn->query($sql_year);
 $row_year = $rs_year->fetch_assoc();
 
 
+$sql_month_discount = "SELECT SUM(discount) AS month_discount FROM delivery   WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  ";
+$rs_month_discount = $conn->query($sql_month_discount);
+$row_month_discount = $rs_month_discount->fetch_assoc();
+
+$sql_year_discount = "SELECT SUM(discount) AS year_discount FROM delivery   WHERE  YEAR(date_create) = '$d[0]'  ";
+$rs_year_discount = $conn->query($sql_year_discount);
+$row_year_discount = $rs_year_discount->fetch_assoc();
+
+$SUM_MONTH = $row_month['month']-$row_month_discount['month_discount'];
+$SUM_YEAR = $row_year['month']-$row_year_discount['year_discount'];
 $sql_cus_month = "SELECT COUNT(DISTINCT  cus_id )   month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5'   ";
 $rs_cus_month = $conn->query($sql_cus_month);
 $row_cus_month = $rs_cus_month->fetch_assoc();
@@ -82,8 +92,9 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">ยอดขายประจำเดือน</p>
-                                        <h4 class="heading"><?php echo number_format($row_month['month'], '2', '.', ',') ?></h4>
-                                        <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($row_year['month'], '2', '.', ',') ?></small>
+                                        <h4 class="heading"><?php echo number_format($SUM_MONTH, '2', '.', ',') ?></h4>
+                                     
+                                        <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($SUM_YEAR , '2', '.', ',') ?></small>
                                     </div>
                                 </div>
                             </div>

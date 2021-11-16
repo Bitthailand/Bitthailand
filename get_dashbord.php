@@ -8,9 +8,9 @@ $d = explode("-", $datex);
 $sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' AND payment='1' GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
-$sum_all=[];
-$cus_back=[];
-$cus_back2=[];
+$sum_all = [];
+$cus_back = [];
+$cus_back2 = [];
 // $value = [];
 if (mysqli_num_rows($result) > 0) {
 
@@ -18,57 +18,73 @@ if (mysqli_num_rows($result) > 0) {
     $d = explode("-", $row['MyDate']);
     $yd = "$d[0]-$d[1]";
     $date1 = explode(" ", $yd);
-    $dat1 =datethai5($date1[0]);
+    $dat1 = datethai5($date1[0]);
     $month[] = $dat1;
     // $value[] = $row['value'];
 
-$sql2 = "SELECT  ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail where status_cf='1' AND payment='1' AND  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  "; 
-$result2 = mysqli_query($conn, $sql2);
+    $sql2 = "SELECT  ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail where status_cf='1' AND payment='1' AND  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  ";
+    $result2 = mysqli_query($conn, $sql2);
 
-// $value = [];
-if (mysqli_num_rows($result2) > 0) {
+    // $value = [];
+    if (mysqli_num_rows($result2) > 0) {
 
-  while ($row2 = mysqli_fetch_assoc($result2)) {
-    $sum_all[] = $row2['sum'];
-    // $value[] = $row['value'];
- 
+      while ($row2 = mysqli_fetch_assoc($result2)) {
+
+        $sql_month_discount = "SELECT SUM(discount) AS month_discount FROM delivery   WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  ";
+        $rs_month_discount = $conn->query($sql_month_discount);
+        $row_month_discount = $rs_month_discount->fetch_assoc();
+        $SUM_MONTH=$row2['sum']-$row_month_discount['month_discount'];
+        $sum_all[] = $SUM_MONTH;
+        // $value[] = $row['value'];
+
+      }
+    }
+
+    $sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND payment='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+    $result3 = mysqli_query($conn, $sql3);
+    if (mysqli_num_rows($result3) > 0) {
+      while ($row3 = mysqli_fetch_assoc($result3)) {
+
+        $sql_month_discount = "SELECT SUM(discount) AS month_discount FROM delivery   WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND  cus_back='1'   ";
+        $rs_month_discount = $conn->query($sql_month_discount);
+        $row_month_discount = $rs_month_discount->fetch_assoc();
+     
+        $SUM_MONTH=$row3['sum']-$row_month_discount['month_discount'];
+        $cus_back[] = $SUM_MONTH;
+        // $value[] = $row['value'];
+        //  echo json_encode($row3['sum']);
+      }
+    }
+    $sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND payment='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' ";
+    $result4 = mysqli_query($conn, $sql4);
+    if (mysqli_num_rows($result4) > 0) {
+      while ($row4 = mysqli_fetch_assoc($result4)) {
+
+        $sql_month_discount = "SELECT SUM(discount) AS month_discount FROM delivery   WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND  cus_back='2'   ";
+        $rs_month_discount = $conn->query($sql_month_discount);
+        $row_month_discount = $rs_month_discount->fetch_assoc();
+        $SUM_MONTH=$row4['sum']-$row_month_discount['month_discount'];
+        $cus_back2[] = $SUM_MONTH;
+      }
+    }
   }
-}
-
-$sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND payment='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
-$result3 = mysqli_query($conn, $sql3);
-if (mysqli_num_rows($result3) > 0) {
-  while ($row3 = mysqli_fetch_assoc($result3)) {
-    $cus_back[] = $row3['sum'];
-    // $value[] = $row['value'];
-  //  echo json_encode($row3['sum']);
-  }
-}
-$sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND payment='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
-$result4 = mysqli_query($conn, $sql4);
-if (mysqli_num_rows($result4) > 0) {
-  while ($row4 = mysqli_fetch_assoc($result4)) {
-    $cus_back2[] = $row4['sum'];
-  }
-}
-
-}
 }
 // แบ่งตามประเภทสินค้า
-$sql = "SELECT *  FROM product_type  where status='0'  ORDER BY  id  ASC  LIMIT 20 "; 
+$sql = "SELECT *  FROM product_type  where status='0'  ORDER BY  id  ASC  LIMIT 20 ";
 $result = mysqli_query($conn, $sql);
 $ptype = [];
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
     // echo"$row[ptype_name]<br>";
     $ptype[] = $row['ptype_name'];
-  }}
+  }
+}
 
 
-  // แบ่งตามประเภทสินค้า PIE
+// แบ่งตามประเภทสินค้า PIE
 $sql = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
 ON product.product_id = deliver_detail.product_id 
-INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND deliver_detail.payment='1' AND deliver_detail.status_cf='1' GROUP BY product.ptype_id"; 
+INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND deliver_detail.payment='1' AND deliver_detail.status_cf='1' GROUP BY product.ptype_id";
 $result = mysqli_query($conn, $sql);
 $content = [];
 if (mysqli_num_rows($result) > 0) {
@@ -78,25 +94,27 @@ if (mysqli_num_rows($result) > 0) {
     $content[] = [
       'name' => $row['pname'],
       'value' => $row['total']
-     ];
-  }}
+    ];
+  }
+}
 
 
-  // วันที่ย้อนหลัง 30 วัน
+// วันที่ย้อนหลัง 30 วัน
 
-$sql = "SELECT  DATE_FORMAT(date_create, '%Y-%m-%d') AS DATE ,ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail WHERE  status_cf='1' AND payment='1' AND date_create BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
+$sql = "SELECT  DATE_FORMAT(date_create, '%Y-%m-%d') AS DATE ,ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail WHERE  status_cf='1' AND payment='1' AND date_create BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  ";
 $result = mysqli_query($conn, $sql);
 $datelast = [];
-$sumdate=[];
+$sumdate = [];
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
     $d = explode("-", $row['DATE']);
     $yd = "$d[0]-$d[1]-$d[2]";
     $date1 = explode(" ", $yd);
-    $dat1 =datethai4($date1[0]);
+    $dat1 = datethai4($date1[0]);
     $datelast[] = $dat1;
     $sumdate[] = $row['sum'];
-  }}
+  }
+}
 
 
 
@@ -112,84 +130,84 @@ $pro_IP = [];
 $pro_BB = [];
 $pro_BC = [];
 if (mysqli_num_rows($result) > 0) {
-while ($row = mysqli_fetch_assoc($result)) {
-  $d = explode("-", $row['MyDate']);
-  $yd = "$d[0]-$d[1]";
-  $date1 = explode(" ", $yd);
-  $dat1 =datethai5($date1[0]);
-  $month_pro[] = $dat1;
+  while ($row = mysqli_fetch_assoc($result)) {
+    $d = explode("-", $row['MyDate']);
+    $yd = "$d[0]-$d[1]";
+    $date1 = explode(" ", $yd);
+    $dat1 = datethai5($date1[0]);
+    $month_pro[] = $dat1;
 
-  $sql2 = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+    $sql2 = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
-  $result2 = mysqli_query($conn, $sql2);
-  if (mysqli_num_rows($result2) > 0) {
-    while ($row2 = mysqli_fetch_assoc($result2)) {
-      $pro_PS[] = $row2['total'];
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id ";
+    $result2 = mysqli_query($conn, $sql2);
+    if (mysqli_num_rows($result2) > 0) {
+      while ($row2 = mysqli_fetch_assoc($result2)) {
+        $pro_PS[] = $row2['total'];
+      }
     }
-  }
-  
-  $sql_FP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='FP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
-  $result_FP = mysqli_query($conn, $sql_FP);
-  if (mysqli_num_rows($result_FP) > 0) {
-    while ($row_FP = mysqli_fetch_assoc($result_FP)) {
-      $pro_FP[] = $row_FP['total'];
-    }
-  }
-  $sql_CF = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CF'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
-  $result_CF = mysqli_query($conn, $sql_CF);
-  if (mysqli_num_rows($result_CF) > 0) {
-    while ($row_CF = mysqli_fetch_assoc($result_CF)) {
-      $pro_CF[] = $row_CF['total'];
-    }
-  }
 
-  $sql_CO = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+    $sql_FP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
   ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CO'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
-  $result_CO = mysqli_query($conn, $sql_CO);
-  if (mysqli_num_rows($result_CO) > 0) {
-    while ($row_CO = mysqli_fetch_assoc($result_CO)) {
-      $pro_CO[] = $row_CO['total'];
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='FP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id ";
+    $result_FP = mysqli_query($conn, $sql_FP);
+    if (mysqli_num_rows($result_FP) > 0) {
+      while ($row_FP = mysqli_fetch_assoc($result_FP)) {
+        $pro_FP[] = $row_FP['total'];
+      }
+    }
+    $sql_CF = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CF'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id ";
+    $result_CF = mysqli_query($conn, $sql_CF);
+    if (mysqli_num_rows($result_CF) > 0) {
+      while ($row_CF = mysqli_fetch_assoc($result_CF)) {
+        $pro_CF[] = $row_CF['total'];
+      }
+    }
+
+    $sql_CO = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='CO'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id ";
+    $result_CO = mysqli_query($conn, $sql_CO);
+    if (mysqli_num_rows($result_CO) > 0) {
+      while ($row_CO = mysqli_fetch_assoc($result_CO)) {
+        $pro_CO[] = $row_CO['total'];
+      }
+    }
+
+    $sql_IP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='IP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'   GROUP BY product.ptype_id ";
+    $result_IP = mysqli_query($conn, $sql_IP);
+    if (mysqli_num_rows($result_IP) > 0) {
+      while ($row_IP = mysqli_fetch_assoc($result_IP)) {
+        $pro_IP[] = $row_IP['total'];
+      }
+    }
+
+    $sql_BB = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BB'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id ";
+    $result_BB = mysqli_query($conn, $sql_BB);
+    if (mysqli_num_rows($result_BB) > 0) {
+      while ($row_BB = mysqli_fetch_assoc($result_BB)) {
+        $pro_BB[] = $row_BB['total'];
+      }
+    }
+
+    $sql_BC = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+  ON product.product_id = deliver_detail.product_id 
+  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BC'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id ";
+    $result_BC = mysqli_query($conn, $sql_BC);
+    if (mysqli_num_rows($result_BC) > 0) {
+      while ($row_BC = mysqli_fetch_assoc($result_BC)) {
+        $pro_BC[] = $row_BC['total'];
+      }
     }
   }
-
-  $sql_IP = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='IP'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'   GROUP BY product.ptype_id "; 
-  $result_IP = mysqli_query($conn, $sql_IP);
-  if (mysqli_num_rows($result_IP) > 0) {
-    while ($row_IP = mysqli_fetch_assoc($result_IP)) {
-      $pro_IP[] = $row_IP['total'];
-    }
-  }
-
-  $sql_BB = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BB'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
-  $result_BB = mysqli_query($conn, $sql_BB);
-  if (mysqli_num_rows($result_BB) > 0) {
-    while ($row_BB = mysqli_fetch_assoc($result_BB)) {
-      $pro_BB[] = $row_BB['total'];
-    }
-  }
-
-  $sql_BC = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
-  ON product.product_id = deliver_detail.product_id 
-  INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='BC'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]' AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id "; 
-  $result_BC = mysqli_query($conn, $sql_BC);
-  if (mysqli_num_rows($result_BC) > 0) {
-    while ($row_BC = mysqli_fetch_assoc($result_BC)) {
-      $pro_BC[] = $row_BC['total'];
-    }
-  }
-
-}}
-  ?>
+}
+?>
 <script>
   "use strict";
 
@@ -220,7 +238,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         },
         xAxis: [{
           type: "category",
-          data: <?= json_encode($datelast); ?>  ,
+          data: <?= json_encode($datelast); ?>,
           axisTick: {
             alignWithLabel: true,
           },
@@ -249,7 +267,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         }, ],
         series: [{
           name: "ยอดขาย",
-          data: <?= json_encode($sumdate); ?>  ,
+          data: <?= json_encode($sumdate); ?>,
           label: {
             show: false,
             color: "#0168c1",
@@ -303,7 +321,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         },
         xAxis: [{
           type: "category",
-          data: <?= json_encode($month); ?>  ,
+          data: <?= json_encode($month); ?>,
 
           axisTick: {
             alignWithLabel: true,
@@ -354,7 +372,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "รับกลับบ้าน",
-            data:<?= json_encode($cus_back); ?>,
+            data: <?= json_encode($cus_back); ?>,
             label: {
               show: false,
               color: "#639",
@@ -373,7 +391,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "บริษัทจัดส่ง",
-            data:<?= json_encode($cus_back2); ?>,
+            data: <?= json_encode($cus_back2); ?>,
             label: {
               show: false,
               color: "#639",
@@ -410,7 +428,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           borderRadius: 0,
           orient: "horizontal",
           x: "right",
-          data:<?= json_encode($ptype); ?>,
+          data: <?= json_encode($ptype); ?>,
         },
         grid: {
           left: "8px",
@@ -424,7 +442,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         },
         xAxis: [{
           type: "category",
-          data: <?= json_encode($month_pro); ?>  ,
+          data: <?= json_encode($month_pro); ?>,
           axisTick: {
             alignWithLabel: true,
           },
@@ -453,7 +471,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         }, ],
         series: [{
             name: "แผ่นพื้นสำเร็จรูป",
-            data: <?= json_encode($pro_PS); ?>  ,
+            data: <?= json_encode($pro_PS); ?>,
             label: {
               show: false,
               color: "#360167",
@@ -473,7 +491,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "เสารั้วลวดหนาม",
-            data: <?= json_encode($pro_FP); ?>  ,
+            data: <?= json_encode($pro_FP); ?>,
             label: {
               show: false,
               color: "#639",
@@ -492,7 +510,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "รั้วคาวบอย",
-            data: <?= json_encode($pro_CF); ?>  ,
+            data: <?= json_encode($pro_CF); ?>,
             label: {
               show: false,
               color: "#639",
@@ -511,7 +529,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "เสาตีนช้าง",
-            data: <?= json_encode($pro_CO); ?>  ,
+            data: <?= json_encode($pro_CO); ?>,
             label: {
               show: false,
               color: "#639",
@@ -530,7 +548,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "ขอบคันหิน",
-            data: <?= json_encode($pro_BC); ?>  ,
+            data: <?= json_encode($pro_BC); ?>,
             label: {
               show: false,
               color: "#639",
@@ -549,7 +567,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "แผ่นปูทางเท้า",
-            data: <?= json_encode($pro_BB); ?>  ,
+            data: <?= json_encode($pro_BB); ?>,
             label: {
               show: false,
               color: "#639",
@@ -568,7 +586,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           },
           {
             name: "เสาเข็มไอ",
-            data: <?= json_encode($pro_IP); ?>  ,
+            data: <?= json_encode($pro_IP); ?>,
             label: {
               show: false,
               color: "#639",
@@ -585,7 +603,7 @@ while ($row = mysqli_fetch_assoc($result)) {
               },
             },
           },
-         
+
         ],
       });
       $(window).on("resize", function() {
@@ -611,8 +629,8 @@ while ($row = mysqli_fetch_assoc($result)) {
           type: "pie",
           radius: "60%",
           center: ["50%", "50%"],
-          data:<?=json_encode($content)?>,
-           
+          data: <?= json_encode($content) ?>,
+
           itemStyle: {
             emphasis: {
               shadowBlur: 10,
