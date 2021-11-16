@@ -102,13 +102,14 @@ $d = explode("-", $datex);
                                                             <th scope="col">#</th>
                                                             <th scope="col" class="text-left">ปี</th>
                                                             <th scope="col" class="text-left">ยอดขายประจำปี</th>
+                                                            <th scope="col" class="text-left">ส่วนลด</th>
                                                             <th scope="col" class="text-left">จำนวนสินค้า</th>
                                               
                                                             <th scope="col" class="text-left">ข้อมูล</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $sql4 = "SELECT DATE_FORMAT(delivery.dev_date,'%Y') As MyYear ,SUM(deliver_detail.dev_qty) AS qty ,SUM(deliver_detail.unit_price) AS unit_price ,SUM(total_price) AS total  FROM delivery  INNER JOIN  deliver_detail ON delivery.dev_id=deliver_detail.dev_id  
+                                                        <?php $sql4 = "SELECT DATE_FORMAT(delivery.dev_date,'%Y') As MyYear ,SUM(deliver_detail.dev_qty) AS qty ,SUM(deliver_detail.unit_price) AS unit_price ,SUM(deliver_detail.total_price) AS total ,SUM(delivery.discount) AS discount  FROM delivery  INNER JOIN  deliver_detail ON delivery.dev_id=deliver_detail.dev_id  
                                                          AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY MyYear  ORDER BY MyYear  DESC  ";
                                                         $result4 = mysqli_query($conn, $sql4);
                                                         if (mysqli_num_rows($result4) > 0) {
@@ -120,6 +121,7 @@ $d = explode("-", $datex);
                                                                         $year =$row4['MyYear'] + 543;  ?>
                                                                         <?= $year ?></td>
                                                                     <td class="text-left"><?php echo number_format($row4['total'], '2', '.', ',') ?></td>
+                                                                    <td class="text-left"><?php echo number_format($row4['discount'], '2', '.', ',') ?></td>
                                                                     <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',') ?></td>
                                                                     
                                                                     <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_sale_month.php?MyYear=<?= $row4['MyYear'] ?>">

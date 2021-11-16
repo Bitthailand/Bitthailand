@@ -95,6 +95,7 @@ $d = explode("-", $datex);
                                                             <th scope="col" class="text-right">จำนวนลูกค้า</th>
                                                             <th scope="col" class="text-right">จำนวนรายการ</th>
                                                             <th scope="col" class="text-right">ยอดมัดจำ</th>
+                                                            <th scope="col" class="text-right">ส่วนลด</th>
                                                             <th scope="col" class="text-right">ยอดขาย</th>
                                                             <th scope="col" class="text-right">ยอดคืน</th>
                                                             <th scope="col" class="text-right">ข้อมูล</th>
@@ -123,7 +124,7 @@ $d = explode("-", $datex);
                                                                     $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
                                                                     $rs_ai = $conn->query($sql_ai);
                                                                     $row_ai = $rs_ai->fetch_assoc();
-                                                                    $sql_sum = "SELECT SUM(deliver_detail.total_price)AS total  FROM  delivery INNER JOIN  deliver_detail
+                                                                    $sql_sum = "SELECT SUM(deliver_detail.total_price)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
                                                                     ON  MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1'  ";
                                                                     $rs_sum = $conn->query($sql_sum);
                                                                     $row_sum = $rs_sum->fetch_assoc();
@@ -135,6 +136,7 @@ $d = explode("-", $datex);
                                                                     <td class="text-right"><?php echo number_format($row_cus_day['month'], '2', '.', ',') ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ',') ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_ai['total'], '2', '.', ',');$total_ai=$total_ai+$row_ai['total']; ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_sum['discount'], '2', '.', ',');$total_discount=$total_discount+$row_sum['discount']; ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ',');$total=$total+$row_sum['total']; ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_refun['total_price'], '2', '.', ',') ?></td>
                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_sale_date1.php?MyMonth=<?= $row4['MONTH'] ?>">
@@ -148,8 +150,11 @@ $d = explode("-", $datex);
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
+                                                            
                                                             <td class="text-right"><?php echo number_format($total_ai, '2', '.', ',');?></td>
+                                                            <td class="text-right"><?php echo number_format($total_discount, '2', '.', ',');?></td>
                                                             <td class="text-right"><?php echo number_format($total, '2', '.', ',');?></td>
+                                                            <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             </tr>
