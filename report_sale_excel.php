@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -161,7 +161,7 @@ $d = explode("-", $datex);
                                                                 $rs_tf = $conn->query($sql_tf);
                                                                 $row_tf  = $rs_tf->fetch_assoc();
                                                                 echo number_format($row_tf['total_price'], '2', '.', ',');
-                                                                $sumtf=$sumtf+$row_tf['total_price'];
+                                                                $sumtf = $sumtf + $row_tf['total_price'];
 
                                                                 ?></td>
                                                             <td valign="top" class="text-left">
@@ -170,11 +170,11 @@ $d = explode("-", $datex);
                                                                 $rs_all = $conn->query($sql_all);
                                                                 $row_all  = $rs_all->fetch_assoc();
                                                                 $sql_dev1 = "SELECT * FROM delivery   WHERE dev_id='$row4[dev_id]'";
-                                                                            $rs_dev1  = $conn->query($sql_dev1);
-                                                                            $row_dev1  = $rs_dev1->fetch_assoc();
-                                                                            $sum_dis=$row_tf['total_price']-$row_dev1['discount'];
-                                                                            echo number_format($sum_dis, '2', '.', ',');
-                                                                $sumall=$sumall+$sum_dis;
+                                                                $rs_dev1  = $conn->query($sql_dev1);
+                                                                $row_dev1  = $rs_dev1->fetch_assoc();
+                                                                $sum_dis = $row_tf['total_price'] - $row_dev1['discount'];
+                                                                echo number_format($sum_dis, '2', '.', ',');
+                                                                $sumall = $sumall + $sum_dis;
                                                                 ?></td>
                                                             <td valign="top" class="text-center">
                                                                 <?php $date = explode(" ", $row4['dev_date']);
@@ -222,8 +222,8 @@ $d = explode("-", $datex);
                                                     <th style="width: 16.66%"></th>
                                                     <th style="width: 16.66%"></th>
                                                     <th style="width: 45%"></th>
-                                                    <th style="width: 16.66%"><?php  echo number_format($sumtf, '2', '.', ','); ?></th>
-                                                    <th style="width: 16.66%"><?php  echo number_format($sumall, '2', '.', ','); ?></th>
+                                                    <th style="width: 16.66%"><?php echo number_format($sumtf, '2', '.', ','); ?></th>
+                                                    <th style="width: 16.66%"><?php echo number_format($sumall, '2', '.', ','); ?></th>
                                                     <th style="width: 16.66%"></th>
                                                     <th style="width: 16.66%"></th>
                                                     <th style="width: 16.66%"></th>
