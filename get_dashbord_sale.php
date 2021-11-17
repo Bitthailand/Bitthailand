@@ -22,33 +22,36 @@ if (mysqli_num_rows($result) > 0) {
     $month[] = $dat1;
     // $value[] = $row['value'];
 
-$sql2 = "SELECT  ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail where status_cf='1' AND payment='1' AND  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  "; 
+$sql2 = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
+ON  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1'   "; 
 $result2 = mysqli_query($conn, $sql2);
 
 // $value = [];
 if (mysqli_num_rows($result2) > 0) {
 
   while ($row2 = mysqli_fetch_assoc($result2)) {
-    $sum_all[] = $row2['sum'];
+    $sum_all[] = $row2['total'];
     // $value[] = $row['value'];
  
   }
 }
 
-$sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND payment='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
+$sql3 = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
+ON  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1' AND deliver_detail.cus_back='1' "; 
 $result3 = mysqli_query($conn, $sql3);
 if (mysqli_num_rows($result3) > 0) {
   while ($row3 = mysqli_fetch_assoc($result3)) {
-    $cus_back[] = $row3['sum'];
+    $cus_back[] = $row3['total'];
     // $value[] = $row['value'];
   //  echo json_encode($row3['sum']);
   }
 }
-$sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND payment='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
+$sql4 = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
+ON  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1' AND deliver_detail.cus_back='2'"; 
 $result4 = mysqli_query($conn, $sql4);
 if (mysqli_num_rows($result4) > 0) {
   while ($row4 = mysqli_fetch_assoc($result4)) {
-    $cus_back2[] = $row4['sum'];
+    $cus_back2[] = $row4['total'];
   }
 }
 

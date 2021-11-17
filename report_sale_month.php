@@ -124,7 +124,7 @@ $d = explode("-", $datex);
                                                                     $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
                                                                     $rs_ai = $conn->query($sql_ai);
                                                                     $row_ai = $rs_ai->fetch_assoc();
-                                                                    $sql_sum = "SELECT SUM(deliver_detail.total_price)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
+                                                                    $sql_sum = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
                                                                     ON  MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1'  ";
                                                                     $rs_sum = $conn->query($sql_sum);
                                                                     $row_sum = $rs_sum->fetch_assoc();

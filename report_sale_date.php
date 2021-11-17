@@ -158,7 +158,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                     <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ','); $sum_dev=$sum_dev+$row_dev['dev']; ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_sum['total'], '0', '.', ','); $sum_tl=$sum_tl+$row_sum['total']; ?></td>
 
-                                                                                    <td class="text-right"><?php if($row4['ai_count']==''){  echo number_format($row_ai['total'], '2', '.', ','); $sum_total=$sum_total+$row_ai['total']; $ai=$row_ai['total']; }else{  echo number_format($row4['ai_count'], '2', '.', ','); $sum_total=$sum_total+$row4['ai_count'];  $ai=$row4['ai_count'];} ?></td>
+                                                                                    <td class="text-right"><?php if($row4['ai_count']==''){  echo number_format($row_ai['total'], '2', '.', ',');  $ai=$row_ai['total']; }else{  echo number_format($row4['ai_count'], '2', '.', ',');     $ai=$row4['ai_count'];} $sum_total=$sum_total+$ai; ?></td>
                                                                                     <td class="text-right"><?php  echo number_format($row4['discount'], '2', '.', ','); $sum_discount=$sum_discount+$row4['discount']; ?></td>
                                                                                     <td class="text-right"><?php $total_dis=$row_sum['total']-$row4['discount']-$ai; echo number_format($total_dis, '2', '.', ','); $sum_total2=$sum_total2+$total_dis; ?></td>
 
