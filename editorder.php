@@ -283,8 +283,11 @@ if ($action == 'edit') {
     $face1_out = $_REQUEST['face1_out'];
     $face2_out = $_REQUEST['face2_out'];
     $total_price = $_REQUEST['total_price'];
-    $sql = "UPDATE order_details    SET qty='$qty',qty_out='$qty',total_price='$total_price',face1_stock_out='$face1_out',face2_stock_out='$face2_out' where id='$edit_id'";
-    if ($conn->query($sql) === TRUE) {  ?>
+    $qty_out = $_REQUEST['qty'];
+    echo"$qty";
+    echo"$edit_id";
+    $sql2 = "UPDATE order_details    SET qty='$qty',qty_out='$qty_out',total_price='$total_price' where id='$edit_id'";
+    if ($conn->query($sql2) === TRUE) {  ?>
         <script>
             $(document).ready(function() {
                 showAlert("แก้ไขข้อมูลจำนวนสั่งสินค้าสำเร็จ", "alert-success");
