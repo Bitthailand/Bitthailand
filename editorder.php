@@ -284,8 +284,7 @@ if ($action == 'edit') {
     $face2_out = $_REQUEST['face2_out'];
     $total_price = $_REQUEST['total_price'];
     $qty_out = $_REQUEST['qty'];
-    echo"$qty";
-    echo"$edit_id";
+   
     $sql2 = "UPDATE order_details    SET qty='$qty',qty_out='$qty_out',total_price='$total_price' where id='$edit_id'";
     if ($conn->query($sql2) === TRUE) {  ?>
         <script>
