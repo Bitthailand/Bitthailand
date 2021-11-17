@@ -173,6 +173,7 @@ $d = explode("-", $datex);
                                                                         $sql_tf = "SELECT SUM(total_price) AS  total_price  FROM deliver_detail  WHERE dev_id='$row4[dev_id]' AND ptype_id ='TF'";
                                                                         $result_tf = mysqli_query($conn, $sql_tf);
                                                                         while ($row_tf = mysqli_fetch_assoc($result_tf)) {
+
                                                                             echo number_format($row_tf['total_price'], '2', '.', ',');
                                                                         }
                                                                         ?></td>
@@ -181,7 +182,13 @@ $d = explode("-", $datex);
                                                                         $sql_tf = "SELECT SUM(total_price) AS  total_price  FROM deliver_detail  WHERE dev_id='$row4[dev_id]' ";
                                                                         $result_tf = mysqli_query($conn, $sql_tf);
                                                                         while ($row_tf = mysqli_fetch_assoc($result_tf)) {
-                                                                            echo number_format($row_tf['total_price'], '2', '.', ',');
+
+                                                                            $sql_dev1 = "SELECT * FROM delivery   WHERE dev_id='$row4[dev_id]'";
+                                                                            $rs_dev1  = $conn->query($sql_dev1);
+                                                                            $row_dev1  = $rs_dev1->fetch_assoc();
+                                                                            $sum_dis=$row_tf['total_price']-$row_dev1['discount'];
+                                                                            echo number_format($sum_dis, '2', '.', ',');
+                                                                            
                                                                         }
                                                                         ?></td>
                                                                     <td class="text-center">

@@ -191,8 +191,8 @@ if (mysqli_num_rows($result4) > 0) {
             formatter: "฿{value}",
           },
           min: 0,
-          max: 4000000,
-          interval: 300000,
+          max: 5000000,
+          interval: 400000,
           axisLine: {
             show: false,
           },

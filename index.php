@@ -25,11 +25,13 @@ include './get_dashbord.php';
 include './get_chart.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
-$sql_month = "SELECT SUM((unit_price-disunit)*dev_qty) AS month FROM deliver_detail  where MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND  status_cf='1' AND payment='1' ";
+$sql_month = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
+    ON  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1' ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
 
-$sql_year = "SELECT SUM((unit_price-disunit)*dev_qty) AS month FROM deliver_detail  WHERE  YEAR(date_create) = '$d[0]'  AND status_cf='1' AND payment='1'  ";
+$sql_year = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
+ON  YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1'";
 $rs_year = $conn->query($sql_year);
 $row_year = $rs_year->fetch_assoc();
 
@@ -92,9 +94,9 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">ยอดขายประจำเดือน</p>
-                                        <h4 class="heading"><?php echo number_format($SUM_MONTH, '2', '.', ',') ?></h4>
+                                        <h4 class="heading"><?php echo number_format($row_month['total'], '2', '.', ',') ?></h4>
                                      
-                                        <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($SUM_YEAR , '2', '.', ',') ?></small>
+                                        <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($row_year['total'] , '2', '.', ',') ?></small>
                                     </div>
                                 </div>
                             </div>

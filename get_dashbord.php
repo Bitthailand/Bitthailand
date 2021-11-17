@@ -41,7 +41,7 @@ if (mysqli_num_rows($result) > 0) {
       }
     }
 
-    $sql3 = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
+    $sql3 = "SELECT  SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
     ON  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1' AND deliver_detail.cus_back='1' ";
     $result3 = mysqli_query($conn, $sql3);
     if (mysqli_num_rows($result3) > 0) {
@@ -343,8 +343,8 @@ if (mysqli_num_rows($result) > 0) {
             formatter: "฿{value}",
           },
           min: 0,
-          max: 4000000,
-          interval: 300000,
+          max: 5000000,
+          interval: 400000,
           axisLine: {
             show: false,
           },

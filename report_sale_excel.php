@@ -169,8 +169,12 @@ $d = explode("-", $datex);
                                                                 $sql_all = "SELECT SUM(total_price) AS  total_price  FROM deliver_detail  WHERE dev_id='$row4[dev_id]' ";
                                                                 $rs_all = $conn->query($sql_all);
                                                                 $row_all  = $rs_all->fetch_assoc();
-                                                                echo number_format($row_all['total_price'], '2', '.', ',');
-                                                                $sumall=$sumall+$row_all['total_price'];
+                                                                $sql_dev1 = "SELECT * FROM delivery   WHERE dev_id='$row4[dev_id]'";
+                                                                            $rs_dev1  = $conn->query($sql_dev1);
+                                                                            $row_dev1  = $rs_dev1->fetch_assoc();
+                                                                            $sum_dis=$row_tf['total_price']-$row_dev1['discount'];
+                                                                            echo number_format($sum_dis, '2', '.', ',');
+                                                                $sumall=$sumall+$sum_dis;
                                                                 ?></td>
                                                             <td valign="top" class="text-center">
                                                                 <?php $date = explode(" ", $row4['dev_date']);
