@@ -184,12 +184,14 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                     <thead>
                                                                         <tr>
                                                                             <th scope="col">#</th>
+                                                                            <th scope="col" class="text-left">รหัสสินค้า</th>
                                                                             <th scope="col" class="text-left">ชื่อสินค้า</th>
                                                                             <th scope="col" class="text-left">สต็อกโรงงาน1</th>
                                                                             <th scope="col" class="text-left">สต็อกโรงงาน2</th>
                                                                             <th scope="col" class="text-left">ผลิต</th>
                                                                             <th scope="col" class="text-left">ขาย</th>
-                                                                         
+                                                                            <th scope="col" class="text-left">คงเหลือ</th>
+                                                                            <th scope="col" class="text-left">ราคาขาย</th>
                                                                             <th scope="col" class="text-left">มูลค่าขาย</th>
                                                                         </tr>
                                                                     </thead>
@@ -202,6 +204,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
 
                                                                                 <tr>
                                                                                     <th scope="row"><?= ++$idx; ?></th>
+                                                                                    <th scope="row"><?= $row4['product_id'] ?></th>
                                                                                     <td class="text-left"> <?= $row4['ptype_id'] ?>
                                                                                         <?php $sql_pro = "SELECT * FROM product_type  WHERE ptype_id= '$row4[ptype_id]'  ";
                                                                                         $rs_pro = $conn->query($sql_pro);
@@ -217,7 +220,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                             $row_po = $rs_po->fetch_assoc();
                                                                                             // echo "$row_po[a_type]";
                                                                                         } 
-                                                                                        $sql_dev = "SELECT sum(dev_qty) AS dev_qty,sum(total_price) AS total_price  FROM deliver_detail  where  product_id='$row4[product_id]' ";
+                                                                                        $sql_dev = "SELECT sum(dev_qty) AS dev_qty   FROM deliver_detail  where  product_id='$row4[product_id]' ";
                                                                                         $rs_dev = $conn->query($sql_dev);
                                                                                         $row_dev = $rs_dev->fetch_assoc();
 
@@ -226,10 +229,12 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                     <td class="text-left"><?php echo number_format($row4['fac1_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row4['fac2_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row_po['a_type'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
-                                                                                   
+                                                                                    <td class="text-left"><?php  echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php $sumx=$row_po['a_type']-$row_dev['dev_qty'];    echo number_format($sumx, '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php   echo number_format($row4['unit_price'], '0', '.', ',') ?></td>
                                                                                     
-                                                                                    <td class="text-left"><?php echo number_format($row_dev['total_price'], '2', '.', ',') ?></td>
+                                                                                    
+                                                                                    <td class="text-left"><?php $total=$sumx*$row4['unit_price'];  echo number_format($total, '2', '.', ',') ?></td>
                                                                                 </tr>
                                                                         <?php }
                                                                         } ?>
