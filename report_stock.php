@@ -191,6 +191,8 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                             <th scope="col" class="text-left">ผลิต</th>
                                                                             <th scope="col" class="text-left">ขาย</th>
                                                                             <th scope="col" class="text-left">คงเหลือ</th>
+                                                                            <th scope="col" class="text-left">สต็อกเดิม</th>
+                                                                            <th scope="col" class="text-left">รวมสินค้าที่ขาย</th>
                                                                             <th scope="col" class="text-left">ราคาขาย</th>
                                                                             <th scope="col" class="text-left">มูลค่าขาย</th>
                                                                         </tr>
@@ -231,10 +233,13 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                     <td class="text-left"><?php echo number_format($row_po['a_type'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php  echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php $sumx=$row_po['a_type']-$row_dev['dev_qty'];    echo number_format($sumx, '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php   echo number_format($row4['stock_old'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php  $sum_stock=$sumx+$row4['stock_old']; echo number_format($sum_stock, '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php   echo number_format($row4['unit_price'], '0', '.', ',') ?></td>
+                                                                             
                                                                                     
                                                                                     
-                                                                                    <td class="text-left"><?php $total=$sumx*$row4['unit_price'];  echo number_format($total, '2', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php $total=$sum_stock*$row4['unit_price'];  echo number_format($total, '2', '.', ',') ?></td>
                                                                                 </tr>
                                                                         <?php }
                                                                         } ?>
