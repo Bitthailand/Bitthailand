@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -68,24 +68,24 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
             <!-- ============ Body content start ============= -->
             <!-- ============ Tab Menu ============= -->
             <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="linkLoadModalNext nav-link active" href="/report_stock.php">
-                                    <h4 class="h5 font-weight-bold"> ภาพรวมสต็อก
-                                    </h4>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="linkLoadModalNext nav-link" href="/report_stock_year.php">
-                                    <h4 class="h5 font-weight-bold"> รายงานยอดสต็อกรายปี
-                                    </h4>
-                                </a>
-                              
-                            </li>
-                            
-                        </ul> 
+                <li class="nav-item">
+                    <a class="linkLoadModalNext nav-link active" href="/report_stock.php">
+                        <h4 class="h5 font-weight-bold"> ภาพรวมสต็อก
+                        </h4>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="linkLoadModalNext nav-link" href="/report_stock_year.php">
+                        <h4 class="h5 font-weight-bold"> รายงานยอดสต็อกรายปี
+                        </h4>
+                    </a>
+
+                </li>
+
+            </ul>
             <div class="tab-content">
                 <div class="main-content">
-                
+
                     <div class="breadcrumb">
                         <h1 class="mr-2">ข้อมูลสต็อกสินค้า
                         </h1>
@@ -194,6 +194,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                             <th scope="col" class="text-left">สต็อกเดิม</th>
                                                                             <th scope="col" class="text-left">รวมสินค้าที่ขาย</th>
                                                                             <th scope="col" class="text-left">ราคาขาย</th>
+                                                                            <th scope="col" class="text-left">x</th>
                                                                             <th scope="col" class="text-left">มูลค่าขาย</th>
                                                                         </tr>
                                                                     </thead>
@@ -221,7 +222,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                             $rs_po = $conn->query($sql_po);
                                                                                             $row_po = $rs_po->fetch_assoc();
                                                                                             // echo "$row_po[a_type]";
-                                                                                        } 
+                                                                                        }
                                                                                         $sql_dev = "SELECT sum(dev_qty) AS dev_qty   FROM deliver_detail  where  product_id='$row4[product_id]' ";
                                                                                         $rs_dev = $conn->query($sql_dev);
                                                                                         $row_dev = $rs_dev->fetch_assoc();
@@ -231,15 +232,22 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                     <td class="text-left"><?php echo number_format($row4['fac1_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row4['fac2_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row_po['a_type'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php  echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php $sumx=$row_po['a_type']-$row_dev['dev_qty'];    echo number_format($sumx, '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php   echo number_format($row4['stock_old'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php  $sum_stock=$sumx+$row4['stock_old']; echo number_format($sum_stock, '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php   echo number_format($row4['unit_price'], '0', '.', ',') ?></td>
-                                                                             
+                                                                                    <td class="text-left"><?php echo number_format($row_dev['dev_qty'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php $sumx = $row_po['a_type'] - $row_dev['dev_qty'];
+                                                                                                            echo number_format($sumx, '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row4['stock_old'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php $sum_stock = $sumx + $row4['stock_old'];
+                                                                                                            echo number_format($sum_stock, '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php echo number_format($row4['unit_price'], '0', '.', ',') ?></td>
+                                                                                    <td class="text-left"><?php $sumx1 = ($row4['fac1_stock'] + $row4['fac2_stock']) - $sumx;
+                                                                                                            echo number_format($sumx1, '0', '.', ',') ?>
+                                                                                                       
+                                                                                                        </td>
                                                                                     
-                                                                                    
-                                                                                    <td class="text-left"><?php $total=$sum_stock*$row4['unit_price'];  echo number_format($total, '2', '.', ',') ?></td>
+
+
+                                                                                    <td class="text-left"><?php $total = $sum_stock * $row4['unit_price'];
+                                                                                                            echo number_format($total, '2', '.', ',') ?></td>
                                                                                 </tr>
                                                                         <?php }
                                                                         } ?>
@@ -250,7 +258,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                         </div>
                                                     </div>
 
-                                              
+
 
                                                 </div>
                                             </div>
