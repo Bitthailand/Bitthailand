@@ -43,6 +43,7 @@ $ai_date_start = $_REQUEST['ai_date_start'];
 $ai_date_end = $_REQUEST['ai_date_end'];
 $Fai_id = $_REQUEST['ai_id'];
 $status_ai = $_REQUEST['status_ai'];
+echo"$ai_date_start";
 
 if ($status_ai == 1) {
     $sqlx = "SELECT * FROM ai_number   WHERE order_id='$order_id'  ";
@@ -163,7 +164,7 @@ if ($status_ai == 1) {
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่</label>
-                                                                <input id="Fai_date_start" class="form-control" type="date" min="2021-06-01" name="ai_date_start" value="<?= $datetoday?>">
+                                                                <input id="Fai_date_start" class="form-control" type="date" min="2021-06-01" name="ai_date_start" value="<?= $ai_date_start?>">
                                                             </div>
                                                         </div>
                                                         <div class="viewDateClass col pr-12 ">
