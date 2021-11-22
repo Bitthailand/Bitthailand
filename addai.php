@@ -54,8 +54,8 @@ if ($status_ai == 1) {
             });
         </script>
         <?php } else {
-        $sqlx5 = "INSERT INTO ai_number (order_id,ai_num,messages,price)
- VALUES ('$order_id','$Fai_id','$Finput_text','$input_price')";
+        $sqlx5 = "INSERT INTO ai_number (order_id,ai_num,messages,price,date_create)
+ VALUES ('$order_id','$Fai_id','$Finput_text','$input_price','$ai_date_start')";
 
         $sql7 = "UPDATE orders SET is_ai='Y',ai_id='$Fai_id',ai_count='$input_price',ai_date_start='$ai_date_start',ai_date_end='$ai_date_end',order_status='2' where order_id='$order_id'";
         if ($conn->query($sql7) === TRUE) { }
