@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -92,18 +92,22 @@ $d = explode("-", $datex);
                                                         <tr>
                                                             <th scope="col">#</th>
                                                             <th scope="col" class="text-right">เดือน</th>
-                                                            <th scope="col" class="text-right">จำนวนลูกค้า</th>
-                                                            <th scope="col" class="text-right">จำนวนรายการ</th>
+                                                            <th scope="col" class="text-right">ลูกค้า</th>
+                                                            <th scope="col" class="text-right">รายการ</th>
                                                             <th scope="col" class="text-right">ยอดมัดจำ</th>
+                                                            <th scope="col" class="text-right">ยอดเครดิต</th>
                                                             <th scope="col" class="text-right">ส่วนลด</th>
                                                             <th scope="col" class="text-right">ยอดขาย</th>
+                                                            <th scope="col" class="text-right">มัดจำ</th>
+                                                            <th scope="col" class="text-right">ยอดหักมัดจำ</th>
                                                             <th scope="col" class="text-right">ยอดคืน</th>
+                                                            <th scope="col" class="text-right">เงินสด</th>
                                                             <th scope="col" class="text-right">ข้อมูล</th>
                                                             <th scope="col" class="text-right">ข้อมูล1</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $sql4 = "SELECT DATE_FORMAT(dev_date, '%Y-%m') AS MONTH   FROM delivery  WHERE   YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'   GROUP BY MONTH  ORDER BY MONTH DESC ";
+                                                        <?php $sql4 = "SELECT DATE_FORMAT(dev_date, '%Y-%m') AS MONTH ,SUM(discount) AS discount   FROM delivery  WHERE   YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'   GROUP BY MONTH  ORDER BY MONTH DESC ";
                                                         $result4 = mysqli_query($conn, $sql4);
                                                         if (mysqli_num_rows($result4) > 0) {
                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -118,46 +122,81 @@ $d = explode("-", $datex);
                                                                     $sql_cus_day = "SELECT COUNT(DISTINCT cus_id) AS month FROM delivery  WHERE   MONTH(dev_date) = '$d1[1]' AND YEAR(dev_date) = '$d1[0]' AND status_chk='1' AND status_payment='1'  ";
                                                                     $rs_cus_day = $conn->query($sql_cus_day);
                                                                     $row_cus_day = $rs_cus_day->fetch_assoc();
+
                                                                     $sql_dev = "SELECT COUNT(DISTINCT dev_id) AS dev FROM delivery  WHERE  MONTH(dev_date) = '$d1[1]' AND YEAR(dev_date) = '$d1[0]' AND status_chk='1' AND status_payment='1'  ";
                                                                     $rs_dev = $conn->query($sql_dev);
                                                                     $row_dev = $rs_dev->fetch_assoc();
-                                                                    $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
+
+                                                                    $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'  ";
                                                                     $rs_ai = $conn->query($sql_ai);
                                                                     $row_ai = $rs_ai->fetch_assoc();
-                                                                    $sql_sum = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
-                                                                    ON  MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1'  ";
+
+                                                                    $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND   MONTH(delivery.date_create) = '$d1[1]' AND YEAR(delivery.date_create) = '$d1[0]'  AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
+                                                                    $rs_sum3 = $conn->query($sql_sum3);
+                                                                    $row_sum3 = $rs_sum3->fetch_assoc();
+
+                                                                    $sql_sum = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND  MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]'   AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.dev_id=deliver_detail.dev_id   AND delivery.cus_type='1' ";
                                                                     $rs_sum = $conn->query($sql_sum);
                                                                     $row_sum = $rs_sum->fetch_assoc();
 
-                                                                    $sql_refun = "SELECT SUM(total_price)AS total_price  FROM sr_detail  WHERE MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
+                                                                    $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND   MONTH(delivery.dev_date) = '$d1[1]'  AND YEAR(delivery.dev_date) = '$d1[0]'  AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
+                                                                    $rs_sum1 = $conn->query($sql_sum1);
+                                                                    $row_sum1 = $rs_sum1->fetch_assoc();
+                                                                    $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]'   AND delivery.ai_status = '1' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1'";
+                                                                    $rs_sum4 = $conn->query($sql_sum4);
+                                                                    $row_sum4 = $rs_sum4->fetch_assoc();
+
+                                                                    $sumx_ai = $row_sum1['price'] + $row_sum4['ai_count'];
+
+                                                                    $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE   MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]' ";
                                                                     $rs_refun = $conn->query($sql_refun);
                                                                     $row_refun = $rs_refun->fetch_assoc();
                                                                     ?>
-                                                                    <td class="text-right"><?php echo number_format($row_cus_day['month'], '2', '.', ',') ?></td>
-                                                                    <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ',') ?></td>
-                                                                    <td class="text-right"><?php echo number_format($row_ai['total'], '2', '.', ',');$total_ai=$total_ai+$row_ai['total']; ?></td>
-                                                                    <td class="text-right"><?php echo number_format($row_sum['discount'], '2', '.', ',');$total_discount=$total_discount+$row_sum['discount']; ?></td>
-                                                                    <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ',');$total=$total+$row_sum['total']; ?></td>
-                                                                    <td class="text-right"><?php echo number_format($row_refun['total_price'], '2', '.', ',') ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_cus_day['month'], '0', '.', ',');
+                                                                                            $cus = $cus + $row_cus_day['month']; ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ',');
+                                                                                            $dev = $dev + $row_dev['dev']; ?></td>
+                                                                    <td class="text-right"> <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row4['dev_date']; ?>" id="edit2" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai['total'], '2', '.', ',');
+                                                                                                                                                                                                                                        $total_ai = $total_ai + $row_ai['total'];  ?></a></td>
+                                                                    <td class="text-right"><?php echo number_format($row_sum3['total'], '2', '.', ',');
+                                                                                            $total3 = $total3 + $row_sum3['total'];  ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row4['discount'], '2', '.', ',');
+                                                                                            $total_discount = $total_discount + $row4['discount']; ?></td>
+                                                                    <td class="text-right"><?php $sum_total = $row_sum['total'] - $row4['discount'];
+                                                                                            echo number_format($sum_total, '2', '.', ',');
+                                                                                            $total = $total + $sum_total; ?></td>
+                                                                    <td class="text-right"><?php echo number_format($sumx_ai, '2', '.', ',');
+                                                                                            $sum2 = $sum2 + $sumx_ai; ?></td>
+                                                                    <td class="text-right"><?php $sum_ai = $sum_total - $sumx_ai;
+                                                                                            echo number_format($sum_ai, '2', '.', ',');
+                                                                                            $sum3 = $sum3 + $sum_ai;  ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',');
+                                                                                            $sum4 = $sum4 + $row_refun['total']; ?></td>
+                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total'];
+                                                                                            echo number_format($money_in, '2', '.', ',');
+                                                                                            $sum5 = $sum5 + $money_in; ?></td>
                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_sale_date1.php?MyMonth=<?= $row4['MONTH'] ?>">
                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
-                                                                            <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือนแบบที่2" href="/report_sale_date2.php?MyMonth=<?= $row4['MONTH'] ?>">
+                                                                    <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือนแบบที่2" href="/report_sale_date2.php?MyMonth=<?= $row4['MONTH'] ?>">
                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
                                                                 </tr>
                                                         <?php }
                                                         } ?><tr>
                                                             <td></td>
                                                             <td></td>
+                                                            <td class="text-right"><?php echo number_format($cus, '0', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($dev, '0', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total_ai, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total3, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total_discount, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum2, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum3, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum4, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum5, '2', '.', ','); ?></td>
                                                             <td></td>
                                                             <td></td>
-                                                            
-                                                            <td class="text-right"><?php echo number_format($total_ai, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total_discount, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total, '2', '.', ',');?></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            </tr>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
