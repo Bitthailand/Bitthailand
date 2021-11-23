@@ -148,7 +148,7 @@ $d = explode("-", $datex);
 
                                                                     $sumx_ai = $row_sum1['price'] + $row_sum4['ai_count'];
 
-                                                                    $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE   MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]' ";
+                                                                    $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE   MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
                                                                     $rs_refun = $conn->query($sql_refun);
                                                                     $row_refun = $rs_refun->fetch_assoc();
                                                                     ?>
