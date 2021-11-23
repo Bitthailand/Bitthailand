@@ -107,7 +107,8 @@ $d = explode("-", $datex);
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $sql4 = "SELECT DATE_FORMAT(dev_date, '%Y-%m') AS MONTH ,SUM(discount) AS discount   FROM delivery  WHERE   YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'   GROUP BY MONTH  ORDER BY MONTH DESC ";
+                                                        <?php
+                                                        $sql4 = "SELECT DATE_FORMAT(dev_date, '%Y-%m') AS MONTH ,SUM(discount) AS discount   FROM delivery  WHERE   YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'   GROUP BY MONTH  ORDER BY MONTH DESC ";
                                                         $result4 = mysqli_query($conn, $sql4);
                                                         if (mysqli_num_rows($result4) > 0) {
                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
