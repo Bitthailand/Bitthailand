@@ -128,9 +128,15 @@ $d = explode("-", $datex);
                                                                                 $rs_sum = $conn->query($sql_sum);
                                                                                 $row_sum = $rs_sum->fetch_assoc();
 
-                                                                                $sql_sum1 = "SELECT SUM(ai_number.price) AS price ,SUM(delivery.ai_count) AS ai_count, SUM(price+ai_count) AS SS  FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
+                                                                                $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
                                                                                 $rs_sum1 = $conn->query($sql_sum1);
                                                                                 $row_sum1 = $rs_sum1->fetch_assoc();
+
+                                                                                $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND delivery.ai_status = '1' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1'";
+                                                                                $rs_sum4 = $conn->query($sql_sum4);
+                                                                                $row_sum4 = $rs_sum4->fetch_assoc();
+
+                                                                                $sumx_ai=$row_sum1['price']+$row_sum4['ai_count'];
 
                                                                                 $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE  date_create LIKE '$row4[dev_date]%' ";
                                                                                 $rs_refun = $conn->query($sql_refun);
@@ -146,12 +152,12 @@ $d = explode("-", $datex);
                                                                                     <td class="text-left"> <?php echo "$row4[dev_date]"; ?>  </td>
                                                                                     <td class="text-right"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ','); $dev=$dev+$row_dev['dev'];   ?></td>
-                                                                                    <td class="text-right"><?php echo number_format($row_ai['total'], '2', '.', ','); $total_ai=$total_ai+$row_ai['total'];  ?></td>
+                                                                                    <td class="text-right"> <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row4['dev_date']; ?>" id="edit2" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai['total'], '2', '.', ','); $total_ai=$total_ai+$row_ai['total'];  ?></a></td>
                                                                                     <td class="text-right"><?php echo number_format($row_sum3['total'], '2', '.', ','); $total3=$total3+$row_sum3['total'];  ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row4['discount'], '2', '.', ','); $total_discount=$total_discount+$row4['discount']; ?></td>
                                                                                     <td class="text-right"><?php $sum_total=$row_sum['total']-$row4['discount']; echo number_format($sum_total, '2', '.', ','); $total=$total+$sum_total; ?></td>
-                                                                                    <td class="text-right"><?php  echo number_format($row_sum1['SS'], '2', '.', ','); $sum2=$sum2+$row_sum1['SS']; ?></td>
-                                                                                    <td class="text-right"><?php $sum_ai=$sum_total-$row_sum1['SS']; echo number_format($sum_ai, '2', '.', ',');  $sum3=$sum3+$sum_ai;  ?></td>
+                                                                                    <td class="text-right"><?php  echo number_format($sumx_ai, '2', '.', ','); $sum2=$sum2+$sumx_ai; ?></td>
+                                                                                    <td class="text-right"><?php $sum_ai=$sum_total-$sumx_ai; echo number_format($sum_ai, '2', '.', ',');  $sum3=$sum3+$sum_ai;  ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ','); $sum4=$sum4+$row_refun['total']; ?></td>
                                                                                     <td class="text-right"><?php $money_in=$sum_ai+$row_ai['total']; echo number_format($money_in, '2', '.', ',');$sum5=$sum5+$money_in; ?></td>
                                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายวัน" href="/report_sale_date.php?MyDate=<?= $row4['dev_date'] ?>">
@@ -198,6 +204,24 @@ $d = explode("-", $datex);
 
             </div>
         </div>
+        <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                        แสดงรายการลูกค้าที่จอง</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <!-- mysql data will be load here -->
+                                    <div id="dynamic-content2"></div>
+                                </div>
+
+                            </div>
+                        </div>
         <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
         <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
         <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -211,5 +235,33 @@ $d = explode("-", $datex);
         <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
         <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
 </body>
-
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit2', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            console.log('xxxx',uid);
+            $('#dynamic-content2').html(''); // leave this div blank
+            $('#modal-loader2').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'ai_show.php',
+                    type: 'POST',
+                    data: 'id='+uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content2').html(''); // blank before load.
+                    $('#dynamic-content2').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content2').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
 </html>

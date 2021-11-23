@@ -101,6 +101,9 @@ if ($action == 'add_dev') {
     if($discount==""){
         $discount=0;
     }
+    if($ai_count==""){
+        $ai_count=0;
+    }
     if ($dev_date == '') { ?>
         <script>
             $(document).ready(function() {
@@ -246,6 +249,16 @@ if ($action == 'add_dev') {
             if ($conn->query($sqlx13) === TRUE) {
             }
         }
+        // if($ai_count==0){
+           
+        // }else{
+        //     $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id' WHERE order_id= '$order_id'";
+        //     if ($conn->query($sqlx12) === TRUE) {
+        //     }
+        //     $sqlx13 = "UPDATE order_details SET status_delivery='1',error='13' WHERE order_id= '$order_id'";
+        //     if ($conn->query($sqlx13) === TRUE) {
+        //     }
+        // }
         // ตัดยอดมัดจำ
         $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
         $rs = $conn->query($sql);
@@ -337,8 +350,17 @@ if ($action == 'add_dev') {
             } else {
                 $status_inv = '2';
             }
-            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount)
-             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount')";
+            if($ai_count==0){
+                $ai_status = '0';
+            }else{
+                $ai_status = '1';
+                $sqlx15 = "UPDATE ai_number SET aix_status='1' WHERE order_id= '$order_id'";
+                if ($conn->query($sqlx15) === TRUE) {
+                }
+
+            }
+            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount,ai_status)
+             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount','$ai_status')";
             if ($conn->query($sqlx) === TRUE) {
             }
             if ($cus_type == 2) {
