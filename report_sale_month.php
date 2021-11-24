@@ -173,7 +173,7 @@ $d = explode("-", $datex);
                                                                                             $sum3 = $sum3 + $sum_ai;  ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',');
                                                                                             $sum4 = $sum4 + $row_refun['total']; ?></td>
-                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total'];
+                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total']+$row_sum3['total'];
                                                                                             echo number_format($money_in, '2', '.', ',');
                                                                                             $sum5 = $sum5 + $money_in; ?></td>
                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายเดือน" href="/report_sale_date1.php?MyMonth=<?= $row4['MONTH'] ?>">

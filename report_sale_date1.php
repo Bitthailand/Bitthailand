@@ -159,7 +159,7 @@ $d = explode("-", $datex);
                                                                                     <td class="text-right"><?php  echo number_format($sumx_ai, '2', '.', ','); $sum2=$sum2+$sumx_ai; ?></td>
                                                                                     <td class="text-right"><?php $sum_ai=$sum_total-$sumx_ai; echo number_format($sum_ai, '2', '.', ',');  $sum3=$sum3+$sum_ai;  ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ','); $sum4=$sum4+$row_refun['total']; ?></td>
-                                                                                    <td class="text-right"><?php $money_in=$sum_ai+$row_ai['total']; echo number_format($money_in, '2', '.', ',');$sum5=$sum5+$money_in; ?></td>
+                                                                                    <td class="text-right"><?php $money_in=$sum_ai+$row_ai['total']+$row_sum3['total']; echo number_format($money_in, '2', '.', ',');$sum5=$sum5+$money_in; ?></td>
                                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายวัน" href="/report_sale_date.php?MyDate=<?= $row4['dev_date'] ?>">
                                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
 
