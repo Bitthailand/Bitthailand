@@ -25,10 +25,33 @@ include './get_dashbord.php';
 include './get_chart.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
-$sql_month = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
-    ON  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1' ";
+$sql_month = "SELECT  DATE_FORMAT(dev_date,'%Y-%m') As MyDate ,SUM(discount) AS discount  FROM delivery  WHERE    status_chk='1' AND status_payment='1' AND  MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
+// มัดจำ
+$sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  ";
+$rs_ai = $conn->query($sql_ai);
+$row_ai = $rs_ai->fetch_assoc();
+// เครดิส
+$sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND   MONTH(delivery.date_create) = '$d[1]' AND YEAR(delivery.date_create) = '$d[0]'  AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
+$rs_sum3 = $conn->query($sql_sum3);
+$row_sum3 = $rs_sum3->fetch_assoc();
+// ยอดก่อนหัก
+$sql_sum = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]'   AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.dev_id=deliver_detail.dev_id   AND delivery.cus_type='1' ";
+$rs_sum = $conn->query($sql_sum);
+$row_sum = $rs_sum->fetch_assoc();
+
+// หักมัดจำ
+$sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND   MONTH(delivery.dev_date) = '$d[1]'  AND YEAR(delivery.dev_date) = '$d[0]'  AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
+$rs_sum1 = $conn->query($sql_sum1);
+$row_sum1 = $rs_sum1->fetch_assoc();
+$sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]'   AND delivery.ai_status = '1' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1'";
+$rs_sum4 = $conn->query($sql_sum4);
+$row_sum4 = $rs_sum4->fetch_assoc();
+
+$sumx_ai = $row_sum1['price'] + $row_sum4['ai_count'];
+$sum_total = $row_sum['total'] - $row_month['discount'];
+$sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total'];
 
 $sql_year = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
 ON  YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1'";
@@ -36,9 +59,13 @@ $rs_year = $conn->query($sql_year);
 $row_year = $rs_year->fetch_assoc();
 
 
-$sql_month_discount = "SELECT SUM(discount) AS month_discount FROM delivery   WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  ";
-$rs_month_discount = $conn->query($sql_month_discount);
-$row_month_discount = $rs_month_discount->fetch_assoc();
+
+
+
+
+
+
+
 
 $sql_year_discount = "SELECT SUM(discount) AS year_discount FROM delivery   WHERE  YEAR(date_create) = '$d[0]'  ";
 $rs_year_discount = $conn->query($sql_year_discount);
@@ -94,7 +121,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">ยอดขายประจำเดือน</p>
-                                        <h4 class="heading"><?php echo number_format($row_month['total'], '2', '.', ',') ?></h4>
+                                        <h4 class="heading"><?php echo number_format($sum, '2', '.', ',') ?></h4>
                                      
                                         <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($row_year['total'] , '2', '.', ',') ?></small>
                                     </div>
