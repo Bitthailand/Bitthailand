@@ -132,7 +132,7 @@ $d = explode("-", $datex);
                                                                     $rs_ai = $conn->query($sql_ai);
                                                                     $row_ai = $rs_ai->fetch_assoc();
 
-                                                                    $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND   MONTH(delivery.date_create) = '$d1[1]' AND YEAR(delivery.date_create) = '$d1[0]'  AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
+                                                                    $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND   MONTH(delivery.date_create) = '$d1[1]' AND YEAR(delivery.date_create) = '$d1[0]'  AND delivery.status_chk='1' AND delivery.dev_id=deliver_detail.dev_id   AND delivery.status_payment='1' AND delivery.cus_type='2' ";
                                                                     $rs_sum3 = $conn->query($sql_sum3);
                                                                     $row_sum3 = $rs_sum3->fetch_assoc();
 

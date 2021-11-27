@@ -143,7 +143,7 @@ $d = explode("-", $datex);
                                                                                 $row_refun = $rs_refun->fetch_assoc();
 
 
-                                                                                $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND delivery.date_create='$row4[dev_date]' AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
+                                                                                $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id  AND delivery.dev_id=deliver_detail.dev_id AND delivery.date_create='$row4[dev_date]' AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
                                                                                 $rs_sum3 = $conn->query($sql_sum3);
                                                                                 $row_sum3 = $rs_sum3->fetch_assoc();
                                                                         ?>

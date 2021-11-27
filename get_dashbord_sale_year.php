@@ -33,7 +33,7 @@ if (mysqli_num_rows($result) > 0) {
         $rs_ai = $conn->query($sql_ai);
         $row_ai = $rs_ai->fetch_assoc();
     
-        $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND   YEAR(delivery.date_create) = '$d1[0]'  AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
+        $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND   YEAR(delivery.date_create) = '$d1[0]'  AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2'   AND delivery.dev_id=deliver_detail.dev_id ";
         $rs_sum3 = $conn->query($sql_sum3);
         $row_sum3 = $rs_sum3->fetch_assoc();
     
