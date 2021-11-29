@@ -33,7 +33,7 @@ $d = explode(" ", $datex);
         $total_records = $total_records['total_records'];
         $total_no_of_pages = ceil($total_records / $total_records_per_page);
         $second_last = $total_no_of_pages - 1; // total page minus 1
-        $result = mysqli_query($conn, "SELECT * FROM   ai_number INNER JOIN  orders  ON ai_number.order_id=orders.order_id  INNER JOIN customer ON orders.cus_id=customer.customer_id    AND  ai_number.date_create LIKE '$d[0]%'  AND ai_number.aix_status='0' ");
+        $result = mysqli_query($conn, "SELECT ai_number.date_create AS date_create ,ai_number.price AS price,ai_number.messages AS messages,customer.customer_name AS customer_name, order.order_id AS order_id  FROM   ai_number INNER JOIN  orders  ON ai_number.order_id=orders.order_id  INNER JOIN customer ON orders.cus_id=customer.customer_id    AND  ai_number.date_create LIKE '$d[0]%'  AND ai_number.aix_status='0' ");
         while ($rowx = mysqli_fetch_array($result)) { ?>
             <tr>
                 <td><?php echo $rowx["order_id"]; ?></td>
