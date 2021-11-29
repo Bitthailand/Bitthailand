@@ -136,6 +136,7 @@ if ($action == 'editx') {
                                                         <th>ผลิต</th>
                                                         <th>ขาย</th>
                                                         <th>เหลือ</th>
+                                                        <th>Update</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -146,7 +147,7 @@ if ($action == 'editx') {
                                                     $total_records = $total_records['total_records'];
                                                     $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                                     $second_last = $total_no_of_pages - 1; // total page minus 1
-                                                    $result = mysqli_query($conn, "SELECT product.id AS id,product.product_id AS product_id,product.product_name AS product_name ,product.fac1_stock AS fac1_stock,product.fac2_stock AS fac2_stock,SUM(order_details.qty_out) AS qty_out ,fac1_stock+fac2_stock AS sum_stock, order_details.order_id AS order_id,product.ptype_id AS ptype_id FROM product INNER JOIN  order_details  ON  order_details.product_id=product.product_id    AND  product.ptype_id <> 'TF0' AND  product.status='0'  INNER JOIN orders  ON  order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' GROUP BY product_id order by product.product_id asc  ");
+                                                    $result = mysqli_query($conn, "SELECT product.id AS id,product.product_id AS product_id,product.product_name AS product_name ,product.fac1_stock AS fac1_stock,product.fac2_stock AS fac2_stock,SUM(order_details.qty_out) AS qty_out ,fac1_stock+fac2_stock AS sum_stock, order_details.order_id AS order_id,product.ptype_id AS ptype_id,product.date_update AS date_update  FROM product INNER JOIN  order_details  ON  order_details.product_id=product.product_id    AND  product.ptype_id <> 'TF0' AND  product.status='0'  INNER JOIN orders  ON  order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' GROUP BY product_id order by product.product_id asc  ");
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <tr>
                                                             <td><?php echo $row["product_id"]; ?></td>
@@ -177,6 +178,7 @@ if ($action == 'editx') {
                                                                     </a>
                                                             </td>
                                                             <td>
+                                                            <a data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row['id']; ?>" id="edit3" class="btn  btn-sm line-height-1">  
                                                                 <?php
                                                                 if ($row3['stock_m'] == 1) {
                                                                     $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row[product_id]' ";
@@ -191,6 +193,7 @@ if ($action == 'editx') {
                                                                     $row_po = $rs_po->fetch_assoc();
                                                                     echo "$row_po[a_type]";
                                                                 } ?>
+                                                                  </a>
                                                             </td>
                                                             <td>
                                                                 <?php
@@ -199,11 +202,15 @@ if ($action == 'editx') {
                                                                 $row_dev = $rs_dev->fetch_assoc();
                                                                 echo "$row_dev[dev_qty]";
                                                                 ?>
+                                                              
 
                                                             </td>
                                                             <td><?php $sum_stock = $row_po['a_type'] - $row_dev['dev_qty'];
                                                                 echo "$sum_stock";
                                                                 ?></td>
+                                                                 <td> <?php $date = explode(" ", $row['date_update']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo $dat ?> </td>
                                                             <td>
                                                                 <button data-toggle="modal" data-target="#Modal-add1" data-id="<?php echo $row['id']; ?>" id="edit" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
 
@@ -221,12 +228,14 @@ if ($action == 'editx') {
                                                         <th>รหัสสินค้า</th>
                                                         <th>ประเภทสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
+                                                        <th>ข้อมูลเพิ่มเติม</th>
                                                         <th>stock1</th>
                                                         <th>stock2</th>
                                                         <th>จอง</th>
                                                         <th>ผลิต</th>
                                                         <th>ขาย</th>
                                                         <th>เหลือ</th>
+                                                        <th>Update</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </tfoot>
@@ -296,6 +305,26 @@ if ($action == 'editx') {
 
                                     <!-- mysql data will be load here -->
                                     <div id="dynamic-content2"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="view-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                        แสดงรายการผลิต</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <!-- mysql data will be load here -->
+                                    <div id="dynamic-content3"></div>
                                 </div>
 
                             </div>
@@ -533,6 +562,34 @@ if ($action == 'editx') {
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit3', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content3').html(''); // leave this div blank
+            $('#modal-loader3').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'product_show_production.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content3').html(''); // blank before load.
+                    $('#dynamic-content3').html(data); // load here
+                    $('#modal-loader3').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content3').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader3').hide();
                 });
         });
     });
