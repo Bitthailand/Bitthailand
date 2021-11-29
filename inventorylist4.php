@@ -194,6 +194,7 @@ if ($action == 'bin') {
                                                             <td>
                                                                 <?php echo $row["fac2_stock"]; ?> </td>
                                                             <td>
+                                                            <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row['id']; ?>" id="edit2" class="btn  btn-sm line-height-1">  
                                                                 <?php
                                                                 $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' ";
                                                                 $rs_pro = $conn->query($sql_pro);
@@ -204,9 +205,10 @@ if ($action == 'bin') {
                                                                 <?php    } else { ?>
                                                                     <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
                                                                 <?php   }
-                                                                ?>
+                                                                ?></a>
                                                             </td>
                                                             <td>
+                                                            <a data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row['id']; ?>" id="edit3" class="btn  btn-sm line-height-1">  
                                                                 <?php
                                                                 if ($row3['stock_m'] == 1) {
                                                                     $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row[product_id]' ";
@@ -221,6 +223,7 @@ if ($action == 'bin') {
                                                                     $row_po = $rs_po->fetch_assoc();
                                                                     echo "$row_po[a_type]";
                                                                 } ?>
+                                                                </a>
                                                             </td>
                                                             <td>
                                                                 <?php
@@ -313,6 +316,26 @@ if ($action == 'bin') {
                         </div>
                     </div>
                 </div>
+                <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                        แสดงรายการลูกค้าที่จอง</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <!-- mysql data will be load here -->
+                                    <div id="dynamic-content2"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 <div id="Modal-move" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
@@ -337,8 +360,26 @@ if ($action == 'bin') {
                             </div>
                         </div>
                     </div>
+                    </div>
+                    <div id="view-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                        แสดงรายการผลิต</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
 
+                                    <!-- mysql data will be load here -->
+                                    <div id="dynamic-content3"></div>
+                                </div>
 
+                            </div>
+                        </div>
+                    </div>
                     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
                     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
                     <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -572,6 +613,62 @@ if ($action == 'bin') {
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit2', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content2').html(''); // leave this div blank
+            $('#modal-loader2').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'product_show_book.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content2').html(''); // blank before load.
+                    $('#dynamic-content2').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content2').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit3', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content3').html(''); // leave this div blank
+            $('#modal-loader3').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'product_show_production.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content3').html(''); // blank before load.
+                    $('#dynamic-content3').html(data); // load here
+                    $('#modal-loader3').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content3').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader3').hide();
                 });
         });
     });
