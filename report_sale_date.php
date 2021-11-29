@@ -138,7 +138,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                 $rs_cusback = $conn->query($sql_cusback);
                                                                                 $row_cusback = $rs_cusback->fetch_assoc();
 
-                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE order_id='$row4[order_id]' ";
+                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE order_id='$row4[order_id]'  ";
                                                                                 $rs_ai = $conn->query($sql_ai);
                                                                                 $row_ai = $rs_ai->fetch_assoc();
 
@@ -158,7 +158,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                     <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ','); $sum_dev=$sum_dev+$row_dev['dev']; ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ','); $sum_tl=$sum_tl+$row_sum['total']; ?></td>
 
-                                                                                    <td class="text-right"><?php if($row4['ai_count']==''){  echo number_format($row_ai['total'], '2', '.', ',');  $ai=$row_ai['total']; }else{  echo number_format($row4['ai_count'], '2', '.', ',');     $ai=$row4['ai_count'];} $sum_total=$sum_total+$ai; ?></td>
+                                                                                    <td class="text-right"><?php if($row4['ai_count']==''){  $ai=$row_ai['total'];   echo number_format($ai, '2', '.', ',');  }else{      $ai=$row4['ai_count'];  echo number_format($ai, '2', '.', ','); } $sum_totalx=$sum_totalx+$ai; ?></td>
                                                                                     <td class="text-right"><?php  echo number_format($row4['discount'], '2', '.', ','); $sum_discount=$sum_discount+$row4['discount']; ?></td>
                                                                                     <td class="text-right"><?php $total_dis=$row_sum['total']-$row4['discount']-$ai; echo number_format($total_dis, '2', '.', ','); $sum_total2=$sum_total2+$total_dis; ?></td>
 
@@ -178,7 +178,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_dev, '0', '.', ',');?></th>
                                                                           
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_tl, '2', '.', ',');?></th>
-                                                                            <th scope="col" class="text-right"><?php echo number_format($sum_total, '2', '.', ',');?></th>
+                                                                            <th scope="col" class="text-right"><?php echo number_format($sum_totalx, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_discount, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_total2, '2', '.', ',');?></th>
 
