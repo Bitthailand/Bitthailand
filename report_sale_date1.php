@@ -120,7 +120,7 @@ $d = explode("-", $datex);
                                                                                 $sql_dev = "SELECT COUNT(DISTINCT dev_id) dev FROM delivery  WHERE dev_date= '$row4[dev_date]' AND status_chk='1' AND status_payment='1'  ";
                                                                                 $rs_dev = $conn->query($sql_dev);
                                                                                 $row_dev = $rs_dev->fetch_assoc();
-                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE date_create LIKE'$row4[dev_date]%' ";
+                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE date_create LIKE'$row4[dev_date]%'  AND aix_status = '0'  ";
                                                                                 $rs_ai = $conn->query($sql_ai);
                                                                                 $row_ai = $rs_ai->fetch_assoc();
 
