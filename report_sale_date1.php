@@ -136,7 +136,7 @@ $d = explode("-", $datex);
                                                                                 $rs_sum4 = $conn->query($sql_sum4);
                                                                                 $row_sum4 = $rs_sum4->fetch_assoc();
 
-                                                                                $sumx_ai=$row_sum1['price']+$row_sum4['ai_count'];
+                                                                                $sumx_ai=$row_sum4['ai_count'];
 
                                                                                 $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE  date_create LIKE '$row4[dev_date]%' ";
                                                                                 $rs_refun = $conn->query($sql_refun);
