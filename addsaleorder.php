@@ -485,11 +485,14 @@ if ($action == 'add_dev') {
                                                                     <label for="delivery_date">วันที่</label>
                                                                     <input id="dev_date" class="form-control" type="date" require min="2021-06-01" name="dev_date" value="<?= $datetoday ?>">
                                                                 </div>
+                                                                <?php if($row['pay_full']==1){ }else{ ?>
                                                                 <div class="form-group col-md-6">
 
                                                                     <label for="ai_id"><strong>หักเงินมัดจำจากราคา<?= $row['ai_count'] ?><span class="text-danger"></span></strong></label>
                                                                     <input type="text" name="ai_count" value="<?= $row['ai_count'] ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
                                                                 </div>
+                                                                <?php } ?>
+
                                                             </div>
                                                             <div class="form-row mt-3">
 
