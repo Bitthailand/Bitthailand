@@ -89,6 +89,39 @@ if ($action == 'add_cfx') {
 <?php 
     }
 }
+
+if ($action == 'add_pay') {
+    $order_id= $_REQUEST['order_id'];
+    $price= $_REQUEST['price'];
+    $pay_date= $_REQUEST['pay_date'];
+    $sql5 = "SELECT MAX(id) AS id_run FROM ai_number  ";
+    $rs5 = $conn->query($sql5);
+    $row_run = $rs5->fetch_assoc();
+    
+    $datetodat = date('Y-m-d');
+    $date = explode(" ", $datetodat);
+    $dat = datethai_ai($date[0]);
+    $code_new = $row_run['id_run'] + 1;
+    $code = sprintf('%05d', $code_new);
+    $ai_id = $dat . $code;
+
+    $sqlx5 = "INSERT INTO ai_number (order_id,ai_num,messages,price,date_create,aix_status,pay_full)
+    VALUES ('$order_id','$ai_id','รับเงินเต็มจำนวน','$price','$pay_date','1','1')";
+    $sqlxxx1 = "UPDATE orders  SET order_status='2',is_ai='Y',pay_full='1'  where order_id='$order_id'";
+    if ($conn->query($sqlx5) === TRUE) {}
+    if ($conn->query($sqlxxx1) === TRUE) {
+        ?>
+<script>
+        $(document).ready(function() {
+            showAlert("ยืนยันรับเงินเต็มจำนวนจากลูกค้า", "alert-primary");
+        });
+    </script>
+
+<?php 
+    }
+}
+
+
 if ($action == 'edit') {
     $edit_id = $_REQUEST['edit_id'];
     $delivery_date = $_REQUEST['delivery_date'];
@@ -370,6 +403,7 @@ if ($action == 'edit') {
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-Money-Bag font-weight-bold"></i>
                                                     </a>
+                                                    <button data-toggle="modal" data-target="#medal_pay" title="รับเงินเต็ม" data-id="<?php echo $row['id']; ?>" id="pay" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pound  font-weight-bold"></i> </button>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>
@@ -572,6 +606,24 @@ if ($action == 'edit') {
         </div>
     </div>
 
+
+     <!-- Modal pay-->
+     <div class="modal fade" id="medal_pay" tabindex="-1" role="dialog" aria-labelledby="medalconcreteuseTitle-2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medalconcreteuseTitle-2">ลูกค้าจ่ายเงินเต็มจำนวน</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="dynamic-content2"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
     <div id="view-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
             <div class="modal-content">
@@ -755,3 +807,39 @@ if ($action == 'edit') {
         });
     });
 </script>
+
+
+<script>
+        $(document).ready(function() {
+
+            $(document).on('click', '#pay', function(e) {
+
+                e.preventDefault();
+
+                var uid = $(this).data('id'); // get id of clicked row
+
+                $('#dynamic-content2').html(''); // leave this div blank
+                $('#modal-loader').show(); // load ajax loader on button click
+
+                $.ajax({
+                        url: 'payfull.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content2').html(''); // blank before load.
+                        $('#dynamic-content2').html(data); // load here
+                        $('#modal-loader').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content2').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader').hide();
+                    });
+
+            });
+        });
+    </script>

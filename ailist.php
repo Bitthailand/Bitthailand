@@ -242,6 +242,7 @@ if ($action == 'edit_ai') {
                                             <th>อำเภอ</th>
                                             <th>จังหวัด</th>
                                             <th>เงินมัดจำ</th>
+                                            <th>ชำระเต็ม</th>
                                             <!-- <th>ก่อนรวมภาษี</th> -->
                                             <!-- <th>ภาษี</th> -->
                                             <th>ยอดรวม</th>
@@ -315,14 +316,26 @@ if ($action == 'edit_ai') {
                                                 </td>
                                                 <td>
                                                 <?php
-                                                    $sql_ai = "SELECT * FROM ai_number   WHERE order_id= '$row[order_id]'";
+                                                    $sql_ai = "SELECT * FROM ai_number   WHERE order_id= '$row[order_id]' AND aix_status='0' ";
                                                     $rs_ai = $conn->query($sql_ai);
                                                     $row_ai = $rs_ai->fetch_assoc();
                                                    
                                                     ?>    
                                                 
                                                 <button data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row_ai['id']; ?>" id="edit2" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
-                                                    <span class="font-weight-bold"> <?php echo number_format($row['ai_count'], '2', '.', ',') ?></span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($row_ai['price'], '2', '.', ',') ?></span>
+                                                
+                                                </td>
+                                                <td>
+                                                <?php
+                                                    $sql_ai2 = "SELECT * FROM ai_number   WHERE order_id= '$row[order_id]' AND aix_status='1'  AND pay_full='1'";
+                                                    $rs_ai2 = $conn->query($sql_ai2);
+                                                    $row_ai2 = $rs_ai2->fetch_assoc();
+                                                   
+                                                    ?>    
+                                                
+                                              
+                                                    <span class="font-weight-bold"> <?php echo number_format($row_ai2['price'], '2', '.', ',') ?></span>
                                                 
                                                 </td>
                                                 <!-- <td>
@@ -343,8 +356,11 @@ if ($action == 'edit_ai') {
                                                     <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
 
-                                                <td>
-                                                    <span class="badge badge-warning p-1">มัดจำ</span>
+                                                <td><?php if($row['pay_full']=='1'){ ?>
+                                                    <span class="badge badge-success p-1">ชำระเต็ม</span>
+                                                    <?php }else{ ?>
+                                                        <span class="badge badge-warning p-1">มัดจำ</span>
+                                                    <?php } ?>
                                                 </td>
                                                 <td>
 
