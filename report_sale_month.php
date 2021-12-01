@@ -128,7 +128,7 @@ $d = explode("-", $datex);
                                                                     $rs_dev = $conn->query($sql_dev);
                                                                     $row_dev = $rs_dev->fetch_assoc();
 
-                                                                    $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'  ";
+                                                                    $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'   AND aix_status = '0'  ";
                                                                     $rs_ai = $conn->query($sql_ai);
                                                                     $row_ai = $rs_ai->fetch_assoc();
 
@@ -147,7 +147,7 @@ $d = explode("-", $datex);
                                                                     $rs_sum4 = $conn->query($sql_sum4);
                                                                     $row_sum4 = $rs_sum4->fetch_assoc();
 
-                                                                    $sumx_ai = $row_sum1['price'] + $row_sum4['ai_count'];
+                                                                    $sumx_ai = $row_sum4['ai_count'];
 
                                                                     $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE   MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
                                                                     $rs_refun = $conn->query($sql_refun);
