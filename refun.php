@@ -134,7 +134,7 @@ if ($action == 'add_dev') {
                     $qtyx = $row_pro['qty'] - $add_qty;
                     $sql4 = "UPDATE sr_number SET price_refun='$price_refun' where id='$last_id' AND order_id='$order_id'  ";
                     $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'  ";
-                    $sql3 = "UPDATE deliver_detail  SET dev_qty='$add_qty1',total_price='$total_price1' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
+                    $sql3 = "UPDATE deliver_detail  SET dev_qty='$add_qty1' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
                     $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac2_stock' where product_id='$product_id' ";
                     //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
                     if ($conn->query($sql1) === TRUE) {
