@@ -185,6 +185,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                           
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_tl, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_totalx, '2', '.', ',');?></th>
+                                                                            <th scope="col" class="text-right"><?php echo number_format($sum_pay_full, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_discount, '2', '.', ',');?></th>
                                                                             <th scope="col" class="text-right"><?php echo number_format($sum_total2, '2', '.', ',');?></th>
 
