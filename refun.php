@@ -363,9 +363,9 @@ if ($action == 'add_dev') {
                                                 <option value="<?php echo $row6['statusx'] ?>" <?php
                                                                                                         if (isset($row['status_refun']) && ($row['status_refun'] == $row6['statusx'])) {
                                                                                                             echo "selected"; ?>>
-                                                    <?php echo "$row6[statusx]";
+                                                    <?php echo "$row6[name]";
                                                                                                         } else {      ?>
-                                                <option value="<?php echo $row6['statusx']; ?>"> <?php echo $row6['statusx'];  ?>
+                                                <option value="<?php echo $row6['statusx']; ?>"> <?php echo $row6['name'];  ?>
                                                     <?php } ?>
                                                 </option>
                                                 <?php  }
