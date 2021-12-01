@@ -450,6 +450,7 @@ $row_emp = $rs_emp->fetch_assoc();
                     $first_total = ($sub_total_ai * 100) / 107;
                     $tax = ($sub_total_ai - $first_total);
                     $grand_total = ($sub_total_ai - $tax);
+                    $total_dis= $total_all-$row_sr['total_dis'];
                     ?>
                     <tr>
                         <td colspan="2" class="left_bottom" align="left" style="border-top:1px solid #000;">
@@ -462,52 +463,29 @@ $row_emp = $rs_emp->fetch_assoc();
                         <td colspan="2" class="left_bottom" align="left"> </td>
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;หักส่วนลด</td>
 
-                        <td align="right" class="left_right_bottom"><?php echo number_format($row_or['discount'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                        <td align="right" class="left_right_bottom"><?php echo number_format($row_sr['total_dis'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="left_bottom" align="left"> </td>
-                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;มูลค่าของสินค้าหรือบริการตามใบกำกับภาษีเดิม</td>
+                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;จำนวนเงินหลังหักส่วนลด</td>
 
-                        <td align="right" class="left_right_bottom"><?php echo number_format($sub_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                        <td align="right" class="left_right_bottom"><?php echo number_format($total_dis, '2', '.', ',') ?>&nbsp;&nbsp;</td>
                     </tr>
-
-                    <tr>
-                        <td colspan="2" class="left_bottom" align="left"> </td>
-                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;มูลค่าของสินค้าหรือบริการที่ถูกต้อง <?php if ($row_ai['ai_num'] == "") {
-                                                                                                                        } else {
-                                                                                                                            echo '#' . $row_ai['ai_num'];
-                                                                                                                        } ?></td>
-
-                        <td align="right" class="left_right_bottom"><?php echo number_format($row_ai['price'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
-
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="left_bottom" align="left"> </td>
-                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;ผลต่าง</td>
-
-                        <td align="right" class="left_right_bottom"><?php echo number_format($sub_total_ai, '2', '.', ',') ?>&nbsp;&nbsp;</td>
-
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="left_bottom" align="left"> </td>
-                        <td align="left" colspan="2" style="font-size: 18px;">&nbsp;จำนวนเงินภาษีมูลค่าเพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.00% </td>
-
-                        <td align="right" class="left_right_bottom"><?php echo number_format($tax, '2', '.', ',') ?>&nbsp;&nbsp;</td>
-
-                    </tr>
+                 
+                  
                     <tr>
                         <td colspan="2" class="left_bottom1" align="left">
                             <div class="row_text">
                                 <div class="col-3_text"> ตัวอักษร
                                 </div>
                                 <div class="col-9_text ">
-                                    <?php echo Convert2($grand_total); ?>
+                                    <?php echo Convert2($total_dis); ?>
                                 </div>
                             </div>
                         </td>
                         <td class="bottomx_rl" colspan="2" align="center" style="font-size: 18px;">&nbsp;รวมเป็นเงินทั้งสิ้น</td>
 
-                        <td align="right" class="bottomx_rl" style="font-size: 18px;  font-weight: 700;"><?php echo number_format($grand_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
+                        <td align="right" class="bottomx_rl" style="font-size: 18px;  font-weight: 700;"><?php echo number_format($total_dis, '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
                     </tr>
                 <?php } ?>

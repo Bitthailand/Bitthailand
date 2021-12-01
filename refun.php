@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config_so.php';
 include './include/config_date.php';
@@ -70,12 +70,14 @@ $sr_id = $dat . $code;
 include './include/alert.php';
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
-    echo"xxx";
+    echo "xxx";
     $order_id = $_REQUEST['order_id'];
     $sr_id = $_REQUEST['sr_id'];
     $sr_date = $_REQUEST['sr_date'];
     $cus_id = $_REQUEST['cus_id'];
     $cus_type = $_REQUEST['cus_type'];
+    $total_dis = $_REQUEST['total_dis'];
+    $comment = $_REQUEST['comment'];
     $datemonth = date('Y-m');
     $sql_true = "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
     $result_true = mysqli_query($conn, $sql_true);
@@ -83,10 +85,12 @@ if ($action == 'add_dev') {
     } else {
 
 
-        $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr)
-    VALUES ('$sr_id','$order_id','$datemonth','1')";
+        $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr,total_dis,comment)
+    VALUES ('$sr_id','$order_id','$datemonth','1','$total_dis','$comment')";
         if ($conn->query($sqlx) === TRUE) {
+            $last_id = $conn->insert_id;
         }
+
         $sql_pro = "SELECT  *  FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'   ORDER BY product_id DESC ";
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
@@ -95,7 +99,7 @@ if ($action == 'add_dev') {
                 $pid = $row_pro['id'];
                 $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
                 $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
-            //    echo"$pid";
+                //    echo"$pid";
                 // echo "$stock1";
 
                 // echo "$stock2";
@@ -111,13 +115,14 @@ if ($action == 'add_dev') {
                 } else {
                     // echo"xxx";
                     $total_price = $add_qty * $row_p['unit_price'];
+                    $price_refun = $add_qty * $row_p['unit_price'] - $total_dis;
 
                     $sqlx1 = "INSERT INTO sr_detail (sr_id,order_id,product_id,qty,unit,total_price,face_stock1,face_stock2,dev_id)
                     VALUES ('$sr_id','$order_id','$product_id','$add_qty','$row_p[unit_price]','$total_price','$stock1','$stock2','$row_pro[dev_id]')";
                     if ($conn->query($sqlx1) === TRUE) {
                     }
 
-                    $add_qty1 = $row_pro['dev_qty']- $add_qty;  //ลบยอดสั่งชื้อลง
+                    $add_qty1 = $row_pro['dev_qty'] - $add_qty;  //ลบยอดสั่งชื้อลง
                     $add_qty_refun = $rowx3['qty'] + $add_qty;  //เพิ่มจำนวนสินค้าเข้าไปเพื่อเอาไปคืนใน ยอดจัดส่ง
                     $add_fac1_stock = $row_p['fac1_stock'] + $stock1; //เพิ่มสต็อกคืนโรงงาน1
                     $add_fac2_stock = $row_p['fac2_stock'] + $stock2;
@@ -126,7 +131,7 @@ if ($action == 'add_dev') {
                     $total_price1 = $add_qty1 * $row_p['unit_price'];
                     //เพิ่มสต็อกคืนโรงงาน2
                     $qtyx = $row_pro['qty'] - $add_qty;
-
+                    $sql4 = "UPDATE sr_number SET price_refun='$price_refun' where id='$last_id' AND order_id='$order_id'  ";
                     $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'  ";
                     $sql3 = "UPDATE deliver_detail  SET dev_qty='$add_qty1',total_price='$total_price1' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
                     $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac2_stock' where product_id='$product_id' ";
@@ -136,6 +141,8 @@ if ($action == 'add_dev') {
                     if ($conn->query($sql2) === TRUE) {
                     }
                     if ($conn->query($sql3) === TRUE) {
+                    }
+                    if ($conn->query($sql4) === TRUE) {
                     }
                 }
             }
@@ -253,13 +260,15 @@ if ($action == 'add_dev') {
                                                             <tr>
                                                                 <th scope="col" class="text-center" width="5%">No.</th>
                                                                 <th scope="col" class="text-center" width="5%">SO</th>
-                                                                <th scope="col" class="text-center" width="35%">รหัสสินค้า/รายละเอียด</th>
+                                                                <th scope="col" class="text-center" width="10%">รหัสสินค้า/รายละเอียด</th>
 
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 1</th>
                                                                 <th scope="col" class="text-center" width="10%">สต๊อกโรงงาน 2</th>
                                                                 <th scope="col" class="text-center" width="10%">จำนวนที่สั่ง</th>
                                                                 <th scope="col" class="text-center" width="10%">คืนโรงงาน 1</th>
                                                                 <th scope="col" class="text-center" width="10%">คืนโรงงาน 2</th>
+                                                                <!-- <th scope="col" class="text-center" width="10%">จำนวนเงิน</th> -->
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -294,7 +303,7 @@ if ($action == 'add_dev') {
 
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $row_pro['dev_qty'];?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $row_pro['dev_qty']; ?>' readonly></td>
                                                                         <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
@@ -332,29 +341,46 @@ if ($action == 'add_dev') {
 
 
                                             <a class="btn btn-outline-primary m-1" href="/order_sr.php?sr_id=<?= $sr_id ?>" type="button" target="_blank">พิมพ์ใบคืนสินค้า(SR)</a>
-
+                                            <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
                                         <?php  } else { ?>
-
-                                            <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
-                                            <input type="hidden" name="action" value="add_dev">
-                                            <input type="hidden" name="dev_status" value="1">
-                                            <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการคืนสินค้า</span></button>
+                                            <div class="col-md-6 text-sm-right">
+                                                <div class="form-group col-md-12">
+                                                    <label for="ai_id"><strong>จำนวนเงินคืน <span class="text-danger"></span></strong></label>
+                                                    <input type="text" name="total_dis" value="" class="classcus form-control" placeholder="จำนวนเงินคืน" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 text-sm-right">
+                                                <div class="form-group col-md-12">
+                                                    <label for="ai_id"><strong>สาเหตุการคืน<span class="text-danger"></span></strong></label>
+                                                    <input type="text" name="comment" value="" class="classcus form-control" placeholder="สาเหตุรับคืน" required>
+                                                </div>
+                                              
+                                                <div class="row text-sm-right" >
+                                                <div class="form-group col-md-12">
+                                                    <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
+                                                    <input type="hidden" name="action" value="add_dev">
+                                                    <input type="hidden" name="dev_status" value="1">
+                                                    <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการคืนสินค้า</span></button>
+                                                    <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         <?php } ?>
-
-                                        <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
                                     </div>
-
+                                  
                                 </div>
-                                <!-- ==== / Print Area =====-->
-                                </form>
+
                             </div>
+                            <!-- ==== / Print Area =====-->
+                            </form>
                         </div>
                     </div>
-
                 </div>
+
             </div>
-        </div>
-    </div>
+      
+  
+ 
     <!-- Header -->
     <?php include './include/footer.php'; ?>
     <!-- =============== Header End ================-->

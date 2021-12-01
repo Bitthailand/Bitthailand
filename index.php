@@ -29,7 +29,7 @@ $sql_month = "SELECT  DATE_FORMAT(dev_date,'%Y-%m') As MyDate ,SUM(discount) AS 
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
 // มัดจำ
-$sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  ";
+$sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'   AND aix_status = '0'  ";
 $rs_ai = $conn->query($sql_ai);
 $row_ai = $rs_ai->fetch_assoc();
 // เครดิส
@@ -49,7 +49,7 @@ $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN
 $rs_sum4 = $conn->query($sql_sum4);
 $row_sum4 = $rs_sum4->fetch_assoc();
 
-$sumx_ai = $row_sum1['price'] + $row_sum4['ai_count'];
+$sumx_ai = $row_sum4['ai_count'];
 $sum_total = $row_sum['total'] - $row_month['discount'];
 $sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total'];
 
