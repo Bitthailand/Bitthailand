@@ -109,6 +109,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                             <th scope="col" class="text-right">จำนวนสินค้า</th>
                                                                             <th scope="col" class="text-right">ยอดก่อนหัก</th>
                                                                             <th scope="col" class="text-right">ยอดมัดจำ</th>
+                                                                            <th scope="col" class="text-right">ยอดจ่ายเต็ม</th>
                                                                              <th scope="col" class="text-right">ส่วนลด</th>
                                                                             <th scope="col" class="text-right">ยอดขาย</th>
 
@@ -138,9 +139,13 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                 $rs_cusback = $conn->query($sql_cusback);
                                                                                 $row_cusback = $rs_cusback->fetch_assoc();
 
-                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE order_id='$row4[order_id]'  ";
+                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE order_id='$row4[order_id]' AND aix_status = '0'  ";
                                                                                 $rs_ai = $conn->query($sql_ai);
                                                                                 $row_ai = $rs_ai->fetch_assoc();
+
+                                                                                $sql_ai2 = "SELECT SUM(price)AS total  FROM ai_number  WHERE order_id='$row4[order_id]'  AND aix_status = '1' AND pay_full='1'  ";
+                                                                                $rs_ai2 = $conn->query($sql_ai2);
+                                                                                $row_ai2 = $rs_ai2->fetch_assoc();
 
                                                                                 $sql_sum = "SELECT SUM(total_price)AS total  FROM deliver_detail
                                                                                 where dev_id='$row4[dev_id]'  AND order_id='$row4[order_id]' ";
@@ -159,6 +164,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                     <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ','); $sum_tl=$sum_tl+$row_sum['total']; ?></td>
 
                                                                                     <td class="text-right"><?php if($row4['ai_count']==''){  $ai=$row_ai['total'];   echo number_format($ai, '2', '.', ',');  }else{      $ai=$row4['ai_count'];  echo number_format($ai, '2', '.', ','); } $sum_totalx=$sum_totalx+$ai; ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row_ai2['total'], '2', '.', ','); ?></td>
                                                                                     <td class="text-right"><?php  echo number_format($row4['discount'], '2', '.', ','); $sum_discount=$sum_discount+$row4['discount']; ?></td>
                                                                                     <td class="text-right"><?php $total_dis=$row_sum['total']-$row4['discount']-$ai; echo number_format($total_dis, '2', '.', ','); $sum_total2=$sum_total2+$total_dis; ?></td>
 
