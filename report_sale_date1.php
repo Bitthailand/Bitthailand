@@ -257,7 +257,7 @@ $d = explode("-", $datex);
                     <div class="modal-body">
 
                         <!-- mysql data will be load here -->
-                        <div id="dynamic-content2"></div>
+                        <div id="dynamic-content3"></div>
                     </div>
 
                 </div>
