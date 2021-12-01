@@ -78,6 +78,7 @@ if ($action == 'add_dev') {
     $cus_type = $_REQUEST['cus_type'];
     $total_dis = $_REQUEST['total_dis'];
     $comment = $_REQUEST['comment'];
+    $status_refun = $_REQUEST['status_refun'];
     $datemonth = date('Y-m');
     $sql_true = "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
     $result_true = mysqli_query($conn, $sql_true);
@@ -85,8 +86,8 @@ if ($action == 'add_dev') {
     } else {
 
 
-        $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr,total_dis,comment)
-    VALUES ('$sr_id','$order_id','$datemonth','1','$total_dis','$comment')";
+        $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr,total_dis,comment,status_refun)
+    VALUES ('$sr_id','$order_id','$datemonth','1','$total_dis','$comment','$status_refun')";
         if ($conn->query($sqlx) === TRUE) {
             $last_id = $conn->insert_id;
         }
@@ -343,19 +344,43 @@ if ($action == 'add_dev') {
                                             <a class="btn btn-outline-primary m-1" href="/order_sr.php?sr_id=<?= $sr_id ?>" type="button" target="_blank">พิมพ์ใบคืนสินค้า(SR)</a>
                                             <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
                                         <?php  } else { ?>
-                                            <div class="col-md-6 text-sm-right">
+                                            <div class="col-md-4 text-sm-right">
                                                 <div class="form-group col-md-12">
                                                     <label for="ai_id"><strong>จำนวนเงินคืน <span class="text-danger"></span></strong></label>
                                                     <input type="text" name="total_dis" value="" class="classcus form-control" placeholder="จำนวนเงินคืน" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 text-sm-right">
+                                            <div class="col-md-4 text-sm-right">
+                                                <div class="form-group col-md-12">
+                                                    <label for="ai_id"><strong>สถานะ<span class="text-danger"></span></strong></label>
+                                                    <select class="classcus custom-select" name="status_refun" id="status_refun" required>
+                                                <?php
+                                                $sql6 = "SELECT *  FROM  status_refun  order by statusx  DESC ";
+                                                $result6 = mysqli_query($conn, $sql6);
+                                                if (mysqli_num_rows($result6) > 0) {
+                                                    while ($row6 = mysqli_fetch_assoc($result6)) {
+                                                ?>
+                                                <option value="<?php echo $row6['statusx'] ?>" <?php
+                                                                                                        if (isset($row['status_refun']) && ($row['status_refun'] == $row6['statusx'])) {
+                                                                                                            echo "selected"; ?>>
+                                                    <?php echo "$row6[statusx]";
+                                                                                                        } else {      ?>
+                                                <option value="<?php echo $row6['statusx']; ?>"> <?php echo $row6['statusx'];  ?>
+                                                    <?php } ?>
+                                                </option>
+                                                <?php  }
+                                                }  ?>
+
+                                            </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-sm-right">
                                                 <div class="form-group col-md-12">
                                                     <label for="ai_id"><strong>สาเหตุการคืน<span class="text-danger"></span></strong></label>
                                                     <input type="text" name="comment" value="" class="classcus form-control" placeholder="สาเหตุรับคืน" required>
                                                 </div>
-                                              
-                                                <div class="row text-sm-right" >
+                                            
+                                                <div class="row" >
                                                 <div class="form-group col-md-12">
                                                     <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
                                                     <input type="hidden" name="action" value="add_dev">
