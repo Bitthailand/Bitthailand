@@ -159,7 +159,7 @@ $d = explode("-", $datex);
 
                                                                     $sumx_ai = $row_sum4['ai_count'];
 
-                                                                    $sql_refun = "SELECT SUM(total_price)AS total  FROM sr_detail WHERE    YEAR(date_create) = '$d1[0]' ";
+                                                                    $sql_refun = " SELECT SUM(price_refun)AS total  FROM  sr_number  WHERE status_refun='1' AND     YEAR(date_create) = '$d1[0]' ";
                                                                     $rs_refun = $conn->query($sql_refun);
                                                                     $row_refun = $rs_refun->fetch_assoc();
                                                                     ?>
@@ -183,7 +183,7 @@ $d = explode("-", $datex);
                                                                                             $sum3 = $sum3 + $sum_ai;  ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',');
                                                                                             $sum4 = $sum4 + $row_refun['total']; ?></td>
-                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total']+$row_sum3['total'];
+                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total']+$row_sum3['total']-$row_refun['total'];
                                                                                             echo number_format($money_in, '2', '.', ',');
                                                                                             $sum5 = $sum5 + $money_in; ?></td>
                                                                     

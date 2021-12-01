@@ -29,7 +29,7 @@ if (mysqli_num_rows($result) > 0) {
         $rs_dev = $conn->query($sql_dev);
         $row_dev = $rs_dev->fetch_assoc();
 
-        $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'  ";
+        $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' AND aix_status = '0'  ";
         $rs_ai = $conn->query($sql_ai);
         $row_ai = $rs_ai->fetch_assoc();
 
@@ -48,9 +48,13 @@ if (mysqli_num_rows($result) > 0) {
         $rs_sum4 = $conn->query($sql_sum4);
         $row_sum4 = $rs_sum4->fetch_assoc();
 
-        $sumx_ai = $row_sum1['price'] + $row_sum4['ai_count'];
+        $sql_refun = "SELECT SUM(price_refun)AS total  FROM  sr_number  WHERE status_refun='1' AND   MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
+        $rs_refun = $conn->query($sql_refun);
+        $row_refun = $rs_refun->fetch_assoc();
+
+        $sumx_ai = $row_sum4['ai_count'];
         $sum_total = $row_sum['total'] - $row['discount'];
-        $sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total'];
+        $sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total']-$row_refun['total'];
 
         $sum_all[] = $sum;
         // $value[] = $row['value'];

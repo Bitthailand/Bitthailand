@@ -354,7 +354,7 @@ if ($action == 'add_dev') {
                 $ai_status = '0';
             }else{
                 $ai_status = '1';
-                $sqlx15 = "UPDATE ai_number SET aix_status='1' WHERE order_id= '$order_id'";
+                $sqlx15 = "UPDATE ai_number SET aix_status='0' WHERE order_id= '$order_id'";
                 if ($conn->query($sqlx15) === TRUE) {
                 }
 
@@ -488,7 +488,7 @@ if ($action == 'add_dev') {
                                                                 <div class="form-group col-md-6">
 
                                                                     <label for="ai_id"><strong>หักเงินมัดจำจากราคา<?= $row['ai_count'] ?><span class="text-danger"></span></strong></label>
-                                                                    <input type="text" name="ai_count" value="<?= $ai_count ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
+                                                                    <input type="text" name="ai_count" value="<?= $row['ai_count'] ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
                                                                 </div>
                                                             </div>
                                                             <div class="form-row mt-3">

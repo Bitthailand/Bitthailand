@@ -49,9 +49,14 @@ $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN
 $rs_sum4 = $conn->query($sql_sum4);
 $row_sum4 = $rs_sum4->fetch_assoc();
 
+
+$sql_refun = "SELECT SUM(price_refun)AS total  FROM  sr_number  WHERE status_refun='1' AND   MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' ";
+$rs_refun = $conn->query($sql_refun);
+$row_refun = $rs_refun->fetch_assoc();
+
 $sumx_ai = $row_sum4['ai_count'];
 $sum_total = $row_sum['total'] - $row_month['discount'];
-$sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total'];
+$sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total']-$row_refun['total'];
 
 $sql_year = "SELECT SUM(deliver_detail.total_price-delivery.discount)AS total,SUM(delivery.discount)AS discount  FROM  delivery INNER JOIN  deliver_detail
 ON  YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id  AND  deliver_detail.status_cf='1' AND deliver_detail.payment='1'";

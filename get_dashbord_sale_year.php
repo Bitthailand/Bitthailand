@@ -29,7 +29,7 @@ if (mysqli_num_rows($result) > 0) {
         $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND   YEAR(delivery.dev_date) = '$d1[0]'   AND delivery.ai_status = '1' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1'";
         $rs_sum4 = $conn->query($sql_sum4);
         $row_sum4 = $rs_sum4->fetch_assoc();
-        $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE   YEAR(date_create) = '$d1[0]'  ";
+        $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE   YEAR(date_create) = '$d1[0]' AND aix_status = '0'  ";
         $rs_ai = $conn->query($sql_ai);
         $row_ai = $rs_ai->fetch_assoc();
     
@@ -41,9 +41,13 @@ if (mysqli_num_rows($result) > 0) {
         $rs_sum = $conn->query($sql_sum);
         $row_sum = $rs_sum->fetch_assoc();
     
+        $sql_refun = "SELECT SUM(price_refun)AS total  FROM  sr_number  WHERE status_refun='1' AND  YEAR(date_create) = '$d1[0]' ";
+        $rs_refun = $conn->query($sql_refun);
+        $row_refun = $rs_refun->fetch_assoc();
+
         $sumx_ai = $row_sum1['price'] + $row_sum4['ai_count'];
         $sum_total = $row_sum['total'] - $row['discount'];
-        $sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total'];
+        $sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total']-$row_refun['total'];
 
         $sum_all[] = $sum;
         // $value[] = $row['value'];
