@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -89,106 +89,119 @@ $d = explode("-", $datex);
                                             <div class="table-responsive">
                                                 <table class="table text-center" id="user_table">
                                                     <thead>
-                                                    <tr>
-                                                                            <th scope="col">#</th>
-                                                                            <th scope="col" class="text-right">วันที่</th>
-                                                                            <th scope="col" class="text-right">ลูกค้า</th>
-                                                                            <th scope="col" class="text-right">รายการ</th>
-                                                                            <th scope="col" class="text-right">ยอดมัดจำ</th>
-                                                                            <th scope="col" class="text-right">จ่ายเต็ม</th>
-                                                                            <th scope="col" class="text-right">ยอดเครดิต</th>
-                                                                            <th scope="col" class="text-right">ส่วนลด</th>
-                                                                            <th scope="col" class="text-right">ยอดขาย</th>
-                                                                            <th scope="col" class="text-right">มัดจำ</th>
-                                                                            <th scope="col" class="text-right">ยอดหักมัดจำ</th>
-                                                                            <th scope="col" class="text-right">ยอดคืน</th>
-                                                                            <th scope="col" class="text-right">เงินสด</th>
-                                                                            <th scope="col" class="text-right">ข้อมูล</th>
-                                                                        </tr>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col" class="text-right">วันที่</th>
+                                                            <th scope="col" class="text-right">ลูกค้า</th>
+                                                            <th scope="col" class="text-right">รายการ</th>
+                                                            <th scope="col" class="text-right">ยอดมัดจำ</th>
+                                                            <th scope="col" class="text-right">จ่ายเต็ม</th>
+                                                            <th scope="col" class="text-right">ยอดเครดิต</th>
+                                                            <th scope="col" class="text-right">ส่วนลด</th>
+                                                            <th scope="col" class="text-right">ยอดขาย</th>
+                                                            <th scope="col" class="text-right">มัดจำ</th>
+                                                            <th scope="col" class="text-right">ยอดหักมัดจำ</th>
+                                                            <th scope="col" class="text-right">ยอดคืน</th>
+                                                            <th scope="col" class="text-right">เงินสด</th>
+                                                            <th scope="col" class="text-right">ข้อมูล</th>
+                                                        </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <?php 
-                                                    $d = explode("-", $MyMonth);
-                                                    $sql4 = "SELECT  dev_date AS dev_date,SUM(discount) AS discount ,SUM(ai_count) AS ai_count FROM delivery  WHERE  MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  GROUP BY dev_date   ORDER BY dev_date  DESC ";
-                                                                        $result4 = mysqli_query($conn, $sql4);
-                                                                        if (mysqli_num_rows($result4) > 0) {
-                                                                            while ($row4 = mysqli_fetch_assoc($result4)) {
-                                                                                // $d = explode("-", $row4['DATE']);
-                                                                                $d = explode("-", $row4['dev_date']);
-                                                                                $sql_cus_day = "SELECT COUNT(DISTINCT cus_id) month FROM delivery  WHERE dev_date= '$row4[dev_date]' AND status_chk='1' AND status_payment='1'  ";
-                                                                                $rs_cus_day = $conn->query($sql_cus_day);
-                                                                                $row_cus_day = $rs_cus_day->fetch_assoc();
-                                                                                $sql_dev = "SELECT COUNT(DISTINCT dev_id) dev FROM delivery  WHERE dev_date= '$row4[dev_date]' AND status_chk='1' AND status_payment='1'  ";
-                                                                                $rs_dev = $conn->query($sql_dev);
-                                                                                $row_dev = $rs_dev->fetch_assoc();
-                                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE date_create LIKE'$row4[dev_date]%'  AND aix_status = '0'  ";
-                                                                                $rs_ai = $conn->query($sql_ai);
-                                                                                $row_ai = $rs_ai->fetch_assoc();
+                                                        <?php
+                                                        $d = explode("-", $MyMonth);
+                                                        $sql4 = "SELECT  dev_date AS dev_date,SUM(discount) AS discount ,SUM(ai_count) AS ai_count FROM delivery  WHERE  MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  GROUP BY dev_date   ORDER BY dev_date  DESC ";
+                                                        $result4 = mysqli_query($conn, $sql4);
+                                                        if (mysqli_num_rows($result4) > 0) {
+                                                            while ($row4 = mysqli_fetch_assoc($result4)) {
+                                                                // $d = explode("-", $row4['DATE']);
+                                                                $d = explode("-", $row4['dev_date']);
+                                                                $sql_cus_day = "SELECT COUNT(DISTINCT cus_id) month FROM delivery  WHERE dev_date= '$row4[dev_date]' AND status_chk='1' AND status_payment='1'  ";
+                                                                $rs_cus_day = $conn->query($sql_cus_day);
+                                                                $row_cus_day = $rs_cus_day->fetch_assoc();
+                                                                $sql_dev = "SELECT COUNT(DISTINCT dev_id) dev FROM delivery  WHERE dev_date= '$row4[dev_date]' AND status_chk='1' AND status_payment='1'  ";
+                                                                $rs_dev = $conn->query($sql_dev);
+                                                                $row_dev = $rs_dev->fetch_assoc();
+                                                                $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE date_create LIKE'$row4[dev_date]%'  AND aix_status = '0'  ";
+                                                                $rs_ai = $conn->query($sql_ai);
+                                                                $row_ai = $rs_ai->fetch_assoc();
 
-                                                                                $sql_ai2 = "SELECT SUM(price)AS total  FROM ai_number  WHERE date_create LIKE'$row4[dev_date]%'  AND aix_status = '1' AND pay_full='1'  ";
-                                                                                $rs_ai2 = $conn->query($sql_ai2);
-                                                                                $row_ai2 = $rs_ai2->fetch_assoc();
-
-
-                                                                                $sql_sum = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND delivery.dev_date ='$row4[dev_date]' AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.dev_id=deliver_detail.dev_id   AND delivery.cus_type='1' ";
-                                                                                $rs_sum = $conn->query($sql_sum);
-                                                                                $row_sum = $rs_sum->fetch_assoc();
-
-                                                                                $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
-                                                                                $rs_sum1 = $conn->query($sql_sum1);
-                                                                                $row_sum1 = $rs_sum1->fetch_assoc();
-
-                                                                                $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND delivery.ai_status = '1' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1'";
-                                                                                $rs_sum4 = $conn->query($sql_sum4);
-                                                                                $row_sum4 = $rs_sum4->fetch_assoc();
-
-                                                                                $sumx_ai=$row_sum4['ai_count'];
-
-                                                                                $sql_refun = "SELECT SUM(price_refun)AS total  FROM sr_number  WHERE status_refun='1' AND  date_create LIKE '$row4[dev_date]%' ";
-                                                                                $rs_refun = $conn->query($sql_refun);
-                                                                                $row_refun = $rs_refun->fetch_assoc();
+                                                                $sql_ai2 = "SELECT SUM(price)AS total  FROM ai_number  WHERE date_create LIKE'$row4[dev_date]%'  AND aix_status = '1' AND pay_full='1'  ";
+                                                                $rs_ai2 = $conn->query($sql_ai2);
+                                                                $row_ai2 = $rs_ai2->fetch_assoc();
 
 
-                                                                                $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id  AND delivery.dev_id=deliver_detail.dev_id AND delivery.date_create='$row4[dev_date]' AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
-                                                                                $rs_sum3 = $conn->query($sql_sum3);
-                                                                                $row_sum3 = $rs_sum3->fetch_assoc();
-                                                                        ?>
-                                                                                <tr>
-                                                                                    <th scope="row"><?= ++$idx; ?></th>
-                                                                                    <td class="text-left"> <?php echo "$row4[dev_date]"; ?>  </td>
-                                                                                    <td class="text-right"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ','); $dev=$dev+$row_dev['dev'];   ?></td>
-                                                                                    <td class="text-right"> <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row4['dev_date']; ?>" id="edit2" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai['total'], '2', '.', ','); $total_ai=$total_ai+$row_ai['total'];  ?></a></td>
-                                                                                    <td class="text-right"> <a data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row4['dev_date']; ?>" id="edit2" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai2['total'], '2', '.', ','); $total_ai2=$total_ai2+$row_ai2['total'];  ?></a></td>
-                                                                                    <td class="text-right"><?php echo number_format($row_sum3['total'], '2', '.', ','); $total3=$total3+$row_sum3['total'];  ?></td>
-                                                                                    <td class="text-right"><?php echo number_format($row4['discount'], '2', '.', ','); $total_discount=$total_discount+$row4['discount']; ?></td>
-                                                                                    <td class="text-right"><?php $sum_total=$row_sum['total']-$row4['discount']; echo number_format($sum_total, '2', '.', ','); $total=$total+$sum_total; ?></td>
-                                                                                    <td class="text-right"><?php  echo number_format($sumx_ai, '2', '.', ','); $sum2=$sum2+$sumx_ai; ?></td>
-                                                                                    <td class="text-right"><?php $sum_ai=$sum_total-$sumx_ai; echo number_format($sum_ai, '2', '.', ',');  $sum3=$sum3+$sum_ai;  ?></td>
-                                                                                    <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ','); $sum4=$sum4+$row_refun['total']; ?></td>
-                                                                                    <td class="text-right"><?php $money_in=$sum_ai+$row_ai['total']+$row_ai2['total']+$row_sum3['total']-$row_refun['total']; echo number_format($money_in, '2', '.', ',');$sum5=$sum5+$money_in; ?></td>
-                                                                                    <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายวัน" href="/report_sale_date.php?MyDate=<?= $row4['dev_date'] ?>">
-                                                                                            <i class="i-Check font-weight-bold"></i> </a></td>
+                                                                $sql_sum = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND delivery.dev_date ='$row4[dev_date]' AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.dev_id=deliver_detail.dev_id   AND delivery.cus_type='1' ";
+                                                                $rs_sum = $conn->query($sql_sum);
+                                                                $row_sum = $rs_sum->fetch_assoc();
 
-                                                                                </tr>
-                                                                        <?php }
-                                                                        } ?>
-                                                                        <tr>
+                                                                $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
+                                                                $rs_sum1 = $conn->query($sql_sum1);
+                                                                $row_sum1 = $rs_sum1->fetch_assoc();
+
+                                                                $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND delivery.ai_status = '1' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1'";
+                                                                $rs_sum4 = $conn->query($sql_sum4);
+                                                                $row_sum4 = $rs_sum4->fetch_assoc();
+
+                                                                $sumx_ai = $row_sum4['ai_count'];
+
+                                                                $sql_refun = "SELECT SUM(price_refun)AS total  FROM sr_number  WHERE status_refun='1' AND  date_create LIKE '$row4[dev_date]%' ";
+                                                                $rs_refun = $conn->query($sql_refun);
+                                                                $row_refun = $rs_refun->fetch_assoc();
+
+
+                                                                $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id  AND delivery.dev_id=deliver_detail.dev_id AND delivery.date_create='$row4[dev_date]' AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2' ";
+                                                                $rs_sum3 = $conn->query($sql_sum3);
+                                                                $row_sum3 = $rs_sum3->fetch_assoc();
+                                                        ?>
+                                                                <tr>
+                                                                    <th scope="row"><?= ++$idx; ?></th>
+                                                                    <td class="text-left"> <?php echo "$row4[dev_date]"; ?> </td>
+                                                                    <td class="text-right"><?php echo number_format($row_cus_day['month'], '0', '.', ',') ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ',');
+                                                                                            $dev = $dev + $row_dev['dev'];   ?></td>
+                                                                    <td class="text-right"> <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row4['dev_date']; ?>" id="edit2" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai['total'], '2', '.', ',');
+                                                                                                                                                                                                                                        $total_ai = $total_ai + $row_ai['total'];  ?></a></td>
+                                                                    <td class="text-right"> <a data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row4['dev_date']; ?>" id="edit3" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai2['total'], '2', '.', ',');
+                                                                                                                                                                                                                                        $total_ai2 = $total_ai2 + $row_ai2['total'];  ?></a></td>
+                                                                    <td class="text-right"><?php echo number_format($row_sum3['total'], '2', '.', ',');
+                                                                                            $total3 = $total3 + $row_sum3['total'];  ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row4['discount'], '2', '.', ',');
+                                                                                            $total_discount = $total_discount + $row4['discount']; ?></td>
+                                                                    <td class="text-right"><?php $sum_total = $row_sum['total'] - $row4['discount'];
+                                                                                            echo number_format($sum_total, '2', '.', ',');
+                                                                                            $total = $total + $sum_total; ?></td>
+                                                                    <td class="text-right"><?php echo number_format($sumx_ai, '2', '.', ',');
+                                                                                            $sum2 = $sum2 + $sumx_ai; ?></td>
+                                                                    <td class="text-right"><?php $sum_ai = $sum_total - $sumx_ai;
+                                                                                            echo number_format($sum_ai, '2', '.', ',');
+                                                                                            $sum3 = $sum3 + $sum_ai;  ?></td>
+                                                                    <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',');
+                                                                                            $sum4 = $sum4 + $row_refun['total']; ?></td>
+                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total'] + $row_ai2['total'] + $row_sum3['total'] - $row_refun['total'];
+                                                                                            echo number_format($money_in, '2', '.', ',');
+                                                                                            $sum5 = $sum5 + $money_in; ?></td>
+                                                                    <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายวัน" href="/report_sale_date.php?MyDate=<?= $row4['dev_date'] ?>">
+                                                                            <i class="i-Check font-weight-bold"></i> </a></td>
+
+                                                                </tr>
+                                                        <?php }
+                                                        } ?>
+                                                        <tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td class="text-right"><?php echo number_format($dev, '0', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total_ai, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total_ai2, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total3, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total_discount, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($total, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($sum2, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($sum3, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($sum4, '2', '.', ',');?></td>
-                                                            <td class="text-right"><?php echo number_format($sum5, '2', '.', ',');?></td>
+                                                            <td class="text-right"><?php echo number_format($dev, '0', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total_ai, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total_ai2, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total3, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total_discount, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($total, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum2, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum3, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum4, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum5, '2', '.', ','); ?></td>
                                                             <td></td>
-                                                            </tr>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -213,23 +226,43 @@ $d = explode("-", $datex);
             </div>
         </div>
         <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                                        แสดงรายการลูกค้าที่จอง</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                            แสดงรายการลูกค้าที่จอง</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
-                                    <!-- mysql data will be load here -->
-                                    <div id="dynamic-content2"></div>
-                                </div>
+                        <!-- mysql data will be load here -->
+                        <div id="dynamic-content2"></div>
+                    </div>
 
-                            </div>
-                        </div>
+                </div>
+            </div>
+        </div>
+        <div id="view-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                            แสดงรายการลูกค้าชำระเงินเต็ม</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- mysql data will be load here -->
+                        <div id="dynamic-content2"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
         <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
         <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -248,13 +281,13 @@ $d = explode("-", $datex);
         $(document).on('click', '#edit2', function(e) {
             e.preventDefault();
             var uid = $(this).data('id'); // get id of clicked row
-            console.log('xxxx',uid);
+            console.log('xxxx', uid);
             $('#dynamic-content2').html(''); // leave this div blank
             $('#modal-loader2').show(); // load ajax loader on button click
             $.ajax({
                     url: 'ai_show.php',
                     type: 'POST',
-                    data: 'id='+uid,
+                    data: 'id=' + uid,
                     dataType: 'html'
                 })
                 .done(function(data) {
@@ -272,4 +305,35 @@ $d = explode("-", $datex);
         });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit3', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            console.log('xxxx', uid);
+            $('#dynamic-content3').html(''); // leave this div blank
+            $('#modal-loader3').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'pay_show.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content3').html(''); // blank before load.
+                    $('#dynamic-content3').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content3').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
+
 </html>
