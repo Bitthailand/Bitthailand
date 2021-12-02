@@ -362,7 +362,7 @@ if ($action == 'add_dev') {
             }
             if($row['pay_full']=='1'){
                 $pay_full_status = '1';
-                $pay_full='$sumtotal'; 
+                $pay_full=$sumtotal; 
                 // echo"$sumtotal";
 
             }else{
