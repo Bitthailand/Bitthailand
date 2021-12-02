@@ -188,13 +188,13 @@ $d = explode("-", $datex);
                                                                                             $sum2 = $sum2 + $sumx_ai; ?></td>
                                                                     <td class="text-right"><?php echo number_format($row4['pay_full'], '2', '.', ',');
                                                                                             $sum_pay = $sum_pay + $row4['pay_full']; ?></td>
-                                                                    <td class="text-right"><?php $sum_ai = $sum_total - $sumx_ai;
+                                                                    <td class="text-right"><?php $sum_ai = $sum_total - $sumx_ai - $row4['pay_full'];;
                                                                                             echo number_format($sum_ai, '2', '.', ',');
                                                                                             $sum3 = $sum3 + $sum_ai;  ?></td>
 
                                                                     <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',');
                                                                                             $sum4 = $sum4 + $row_refun['total']; ?></td>
-                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total'] + $row_sum3['total'] - $row_refun['total'];
+                                                                    <td class="text-right"><?php $money_in = $sum_ai + $row_ai['total'] +$row_pay['totalx']+ $row_sum3['total'] - $row_refun['total'];
                                                                                             echo number_format($money_in, '2', '.', ',');
                                                                                             $sum5 = $sum5 + $money_in; ?></td>
 

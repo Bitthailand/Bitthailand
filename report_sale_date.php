@@ -166,7 +166,16 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                     <td class="text-right"><?php if($row4['ai_count']==''){  $ai=$row_ai['total'];   echo number_format($ai, '2', '.', ',');  }else{      $ai=$row4['ai_count'];  echo number_format($ai, '2', '.', ','); } $sum_totalx=$sum_totalx+$ai; ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row4['pay_full'], '2', '.', ','); $sum_pay_full=$sum_pay_full+$row4['pay_full']; ?></td>
                                                                                     <td class="text-right"><?php  echo number_format($row4['discount'], '2', '.', ','); $sum_discount=$sum_discount+$row4['discount']; ?></td>
-                                                                                    <td class="text-right"><?php $total_dis=$row_sum['total']-$row4['discount']-$ai-$sum_pay_full; echo number_format($total_dis, '2', '.', ','); $sum_total2=$sum_total2+$total_dis; ?></td>
+                                                                                    <td class="text-right">
+                                                                                    <?php
+                                                                                        $sum_total_dis=$row_sum['total']-$row4['discount'];
+                                                                                        $sum_pay_ai=$ai+$row4['pay_full'];
+                                                                                      $sum_x=$sum_total_dis-$sum_pay_ai;
+                                                                                        echo number_format($sum_x, '2', '.', ',');
+                                                                                        $sum_total2=$sum_total2+$sum_x;
+                                                                                    //   echo number_format($sum_pay_ai, '2', '.', ','); 
+                                                                                   ?>
+                                                                                     </td>
 
                                                                                     <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลรายการส่งสินค้า" href="/report_sale_detail.php?order_id=<?=$row4['order_id']?>&dev_id=<?=$row4['dev_id']?>">
                                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
