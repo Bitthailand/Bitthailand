@@ -164,7 +164,7 @@ if ($action == 'add_dev') {
                 }
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
                 // echo "xxxxx";
-
+                $sum_all = [];
                 if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
@@ -184,6 +184,7 @@ if ($action == 'add_dev') {
                         $row_or = $rs_or->fetch_assoc();
                         $sum_dis = $rowx['unit_price'] - $rowx['disunit'];
                         $sumtotal = $sum_dis * $total_instock;
+                        $sumtotal[] = $sumtotal;
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         if ($conn->query($sqlx) === TRUE) {
@@ -359,8 +360,15 @@ if ($action == 'add_dev') {
                 }
 
             }
-            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount,ai_status)
-             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount','$ai_status')";
+            if($row['pay_full']=='1'){
+                $pay_full_status = '1';
+                $pay_full='$sumtotal'; 
+                // echo"$sumtotal";
+
+            }else{
+            }
+            $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount,ai_status,pay_full,pay_full_status)
+             VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount','$ai_status','$pay_full','$pay_full_status')";
             if ($conn->query($sqlx) === TRUE) {
             }
             if ($cus_type == 2) {
