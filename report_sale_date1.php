@@ -100,6 +100,7 @@ $d = explode("-", $datex);
                                                             <th scope="col" class="text-right">ส่วนลด</th>
                                                             <th scope="col" class="text-right">ยอดขาย</th>
                                                             <th scope="col" class="text-right">มัดจำ</th>
+                                                            <th scope="col" class="text-right">จ่ายเต็ม</th>
                                                             <th scope="col" class="text-right">ยอดหักมัดจำ</th>
                                                             <th scope="col" class="text-right">ยอดคืน</th>
                                                             <th scope="col" class="text-right">เงินสด</th>
@@ -109,7 +110,7 @@ $d = explode("-", $datex);
                                                     <tbody>
                                                         <?php
                                                         $d = explode("-", $MyMonth);
-                                                        $sql4 = "SELECT  dev_date AS dev_date,SUM(discount) AS discount ,SUM(ai_count) AS ai_count FROM delivery  WHERE  MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  GROUP BY dev_date   ORDER BY dev_date  DESC ";
+                                                        $sql4 = "SELECT  dev_date AS dev_date,SUM(discount) AS discount ,SUM(ai_count) AS ai_count,SUM(pay_full) AS pay_full   FROM delivery  WHERE  MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  GROUP BY dev_date   ORDER BY dev_date  DESC ";
                                                         $result4 = mysqli_query($conn, $sql4);
                                                         if (mysqli_num_rows($result4) > 0) {
                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -172,7 +173,9 @@ $d = explode("-", $datex);
                                                                                             $total = $total + $sum_total; ?></td>
                                                                     <td class="text-right"><?php echo number_format($sumx_ai, '2', '.', ',');
                                                                                             $sum2 = $sum2 + $sumx_ai; ?></td>
-                                                                    <td class="text-right"><?php $sum_ai = $sum_total - $sumx_ai;
+                                                                                             <td class="text-right"><?php echo number_format($row4['pay_full'], '2', '.', ',');
+                                                                                            $sum_pay = $sum_pay + $row4['pay_full']; ?></td>
+                                                                    <td class="text-right"><?php $sum_ai = $sum_total - $sumx_ai-$row4['pay_full'];
                                                                                             echo number_format($sum_ai, '2', '.', ',');
                                                                                             $sum3 = $sum3 + $sum_ai;  ?></td>
                                                                     <td class="text-right"><?php echo number_format($row_refun['total'], '2', '.', ',');
@@ -197,6 +200,7 @@ $d = explode("-", $datex);
                                                             <td class="text-right"><?php echo number_format($total_discount, '2', '.', ','); ?></td>
                                                             <td class="text-right"><?php echo number_format($total, '2', '.', ','); ?></td>
                                                             <td class="text-right"><?php echo number_format($sum2, '2', '.', ','); ?></td>
+                                                            <td class="text-right"><?php echo number_format($sum_pay, '2', '.', ','); ?></td>
                                                             <td class="text-right"><?php echo number_format($sum3, '2', '.', ','); ?></td>
                                                             <td class="text-right"><?php echo number_format($sum4, '2', '.', ','); ?></td>
                                                             <td class="text-right"><?php echo number_format($sum5, '2', '.', ','); ?></td>

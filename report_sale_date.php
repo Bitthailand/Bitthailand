@@ -164,7 +164,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                     <td class="text-right"><?php echo number_format($row_sum['total'], '2', '.', ','); $sum_tl=$sum_tl+$row_sum['total']; ?></td>
 
                                                                                     <td class="text-right"><?php if($row4['ai_count']==''){  $ai=$row_ai['total'];   echo number_format($ai, '2', '.', ',');  }else{      $ai=$row4['ai_count'];  echo number_format($ai, '2', '.', ','); } $sum_totalx=$sum_totalx+$ai; ?></td>
-                                                                                    <td class="text-right"><?php echo number_format($row_ai2['total'], '2', '.', ','); $sum_pay_full=$sum_pay_full+$row_ai2['total']; ?></td>
+                                                                                    <td class="text-right"><?php echo number_format($row4['pay_full'], '2', '.', ','); $sum_pay_full=$sum_pay_full+$row4['pay_full']; ?></td>
                                                                                     <td class="text-right"><?php  echo number_format($row4['discount'], '2', '.', ','); $sum_discount=$sum_discount+$row4['discount']; ?></td>
                                                                                     <td class="text-right"><?php $total_dis=$row_sum['total']-$row4['discount']-$ai-$sum_pay_full; echo number_format($total_dis, '2', '.', ','); $sum_total2=$sum_total2+$total_dis; ?></td>
 
