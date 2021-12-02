@@ -99,9 +99,9 @@ $d = explode("-", $datex);
                                                             <th scope="col" class="text-right">ยอดเครดิต</th>
                                                             <th scope="col" class="text-right">ส่วนลด</th>
                                                             <th scope="col" class="text-right">ยอดขาย</th>
-                                                            <th scope="col" class="text-right">มัดจำ</th>
-                                                            <th scope="col" class="text-right">จ่ายเต็ม</th>
-                                                            <th scope="col" class="text-right">ยอดหักมัดจำ</th>
+                                                            <th scope="col" class="text-right">หักมัดจำ</th>
+                                                            <th scope="col" class="text-right">หักจ่ายเต็ม</th>
+                                                            <th scope="col" class="text-right">ยอดรวม</th>
                                                             <th scope="col" class="text-right">ยอดคืน</th>
                                                             <th scope="col" class="text-right">เงินสด</th>
                                                             <th scope="col" class="text-right">ข้อมูล</th>
