@@ -9,6 +9,7 @@ $('#myModal_del').on('show.bs.modal', function(event) {
     let Fcus_name = $("#Fcus_name").val();
     let Fcus_tel = $("#Fcus_tel").val();
     let Fcus_bill_address = $("#Fcus_bill_address").val();
+    let Fcontact_name = $("#Fcontact_name").val();
     let Fcus_back = $("#cus_back").val();
     let Fdelivery_date = $("#delivery_date").val();
     let Fdelivery_Address = $("#delivery_Address").val();
@@ -22,6 +23,7 @@ $('#myModal_del').on('show.bs.modal', function(event) {
     $("#Dcus_name").val(Fcus_name);
     $("#Dcus_tel").val(Fcus_tel);
     $("#Dcus_bill_address").val(Fcus_bill_address);
+    $("#Dcontact_name").val(Fcontact_name);
     $("#Ddelivery_date").val(Fdelivery_date);
     $("#Ddelivery_Address").val(Fdelivery_Address);
     $("#Ddate_confirm").val(Fdate_confirm);
@@ -192,6 +194,7 @@ $("#cus_back").on("change", function() {
     let Fcus_name = $("#Fcus_name").val();
     let Fcus_tel = $("#Fcus_tel").val();
     let Fcus_bill_address = $("#Fcus_bill_address").val();
+    let Fcontact_name = $("#Fcontact_name").val();
     let Fcus_back = $("#cus_back").val();
     let Fdelivery_date = $("#delivery_date").val();
     let Fdelivery_Address = $("#delivery_Address").val();
@@ -205,6 +208,7 @@ $("#cus_back").on("change", function() {
     $("#PPcus_name").val(Fcus_name);
     $("#PPcus_tel").val(Fcus_tel);
     $("#PPcus_bill_address").val(Fcus_bill_address);
+    $("#PPcontact_name").val(Fcontact_name);
     $("#PPdelivery_date").val(Fdelivery_date);
     $("#PPdelivery_Address").val(Fdelivery_Address);
     $("#PPdate_confirm").val(Fdate_confirm);
@@ -313,6 +317,7 @@ $("#btu").click("change", function() {
     let Fcus_name = $("#Fcus_name").val();
     let Fcus_tel = $("#Fcus_tel").val();
     let Fcus_bill_address = $("#Fcus_bill_address").val();
+    let Fcontact_name = $("#Fcontact_name").val();
     let Fcus_back = $("#cus_back").val();
     let Fdelivery_date = $("#delivery_date").val();
     let Fdelivery_Address = $("#delivery_Address").val();
@@ -347,6 +352,7 @@ $("#btu").click("change", function() {
     $("#FFcus_name").val(Fcus_name);
     $("#FFcus_tel").val(Fcus_tel);
     $("#FFcus_bill_address").val(Fcus_bill_address);
+    $("#FFcontact_name").val(Fcontact_name);
     $("#FFdelivery_date").val(Fdelivery_date);
     $("#FFdelivery_Address").val(Fdelivery_Address);
     $("#FFdate_confirm").val(Fdate_confirm);
@@ -408,6 +414,7 @@ $(document).ready(function() {
         let Fcus_name = $("#Fcus_name").val();
         let Fcus_tel = $("#Fcus_tel").val();
         let Fcus_bill_address = $("#Fcus_bill_address").val();
+        let Fcontact_name = $("#Fcontact_name").val();
         let Fcus_back = $("#cus_back").val();
         let Fdelivery_date = $("#delivery_date").val();
         let Fdelivery_Address = $("#delivery_Address").val();

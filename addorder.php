@@ -83,6 +83,7 @@ if ($status_order == 'confirm') {
     // echo"$discount ";
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
+    $contact_name = $_REQUEST['contact_name'];
     $Fcus_type_name = $_REQUEST['Fcus_type_name'];
     $Fcus_type_id = $_REQUEST['Fcus_type_id'];
     $Fcus_name = $_REQUEST['Fcus_name'];
@@ -108,6 +109,7 @@ $Fcus_name = $_REQUEST['Fcus_name'];
 $Fcus_id = $_REQUEST['Fcus_id'];
 $Fcus_tel = $_REQUEST['Fcus_tel'];
 $Fcus_bill_address = $_REQUEST['Fcus_bill_address'];
+$Fcontact_name = $_REQUEST['Fcontact_name'];
 $Fcus_back = $_REQUEST['Fcus_back'];
 $Fdelivery_date = $_REQUEST['Fdelivery_date'];
 $Fdelivery_Address = $_REQUEST['Fdelivery_Address'];
@@ -133,6 +135,7 @@ if ($action == 'add_product') {
     $Fcus_id = $_REQUEST['Fcus_id'];
     $Fcus_tel = $_REQUEST['Fcus_tel'];
     $Fcus_bill_address = $_REQUEST['Fcus_bill_address'];
+    $Fcontact_name = $_REQUEST['Fcontact_name'];
     $Fcus_back = $_REQUEST['Fcus_back'];
     $send_to = $_REQUEST['Fsend_to'];
     $send_price = $_REQUEST['Fsend_price'];
@@ -147,7 +150,7 @@ if ($action == 'add_product') {
     $discount_text = $_REQUEST['Fdiscount_text'];
     $status_order = 'update';
     $Fcus_back = $_REQUEST['Fcus_back'];
-    // echo "$Fproductx";
+    // echo "$Fcontact_name";
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
@@ -163,8 +166,8 @@ if ($action == 'add_product') {
         } else {
             // echo "ordersss";
 
-            $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
-                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
+            $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button,contact_name)
+                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0','$Fcontact_name')";
             if ($conn->query($sqlx5) === TRUE) {
             }
         }
@@ -214,8 +217,8 @@ if ($action == 'add_product') {
             $result2 = mysqli_query($conn, $sql2);
             if (mysqli_num_rows($result2) > 0) {
             } else {
-                $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button)
-                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0')";
+                $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button,contact_name)
+                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0','$Fcontact_name')";
                 if ($conn->query($sqlx5) === TRUE) {
                 }
                 $sql112 = "UPDATE orders_number  SET status_use='2' where order_id='$Forder_id'";
@@ -338,6 +341,7 @@ if ($action == 'add') {
     $cus_type = $_REQUEST['customer_type_id'];
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
+    $contact_name = $_REQUEST['contact_name'];
     $delivery_date = $_REQUEST['delivery_date'];
     $delivery_Address = $_REQUEST['delivery_Address'];
     $date_confirm = $_REQUEST['date_confirmx'];
@@ -743,6 +747,14 @@ if ($action == 'add_hs') {
                                             <input type="text" class="classcus form-control" value="<?= $cus_bill_address ?>">
                                         <?php } else { ?>
                                             <input type="text" name="cus_bill_address" class="classcus form-control" id="Fcus_bill_address" value="<?= $Fcus_bill_address ?>" placeholder="ที่อยู่" required="">
+                                        <?php } ?>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="accAddressId"><strong>ข้อมูลบุคคลอ้างอิง <span class="text-danger"></span></strong></label>
+                                        <?php if ($status_order == 'confirm') { ?>
+                                            <input type="text" class="classcus form-control" value="<?= $contact_name?>">
+                                        <?php } else { ?>
+                                            <input type="text" name="contact_name" class="classcus form-control" id="Fcontact_name" value="<?= $Fcontact_name ?>" placeholder="ข้อมูลบุคคลอ้างอิง" required="">
                                         <?php } ?>
                                     </div>
                                     <div class="row mt-12">
@@ -1247,6 +1259,8 @@ if ($action == 'add_hs') {
         <input type="text" id="FFcus_id" name="Fcus_id" value="<?php echo $Fcus_id; ?>" placeholder="">
         <input type="text" id="FFcus_tel" name="Fcus_tel" value="<?php echo $Fcus_tel; ?>" placeholder="">
         <input type="text" id="FFcus_bill_address" name="Fcus_bill_address" value="<?php echo $Fcus_bill_address; ?>" placeholder="">
+        <input type="text" id="FFcontact_name" name="Fcontact_name" value="<?php echo $Fcontact_name; ?>" placeholder="">
+
         <input type="text" id="FFcus_back" name="Fcus_back" value="<?php echo $Fcus_back; ?>" placeholder="">
         <input type="text" id="FFdelivery_date" name="Fdelivery_date" value="<?php echo $Fdelivery_date ?>" placeholder="">
         <input type="text" id="FFdelivery_Address" name="Fdelivery_Address" value="<?php echo $Fdelivery_Address; ?>" placeholder="">
@@ -1277,6 +1291,8 @@ if ($action == 'add_hs') {
         <input type="text" id="PPcus_id" name="Fcus_id" value="<?php echo $Fcus_id; ?>" placeholder="">
         <input type="text" id="PPcus_tel" name="Fcus_tel" value="<?php echo $Fcus_tel; ?>" placeholder="">
         <input type="text" id="PPcus_bill_address" name="Fcus_bill_address" value="<?php echo $Fcus_bill_address; ?>" placeholder="">
+        <input type="text" id="PPcontact_name" name="Fcontact_name" value="<?php echo $contact_name; ?>" placeholder="">
+        
         <input type="text" id="PPcus_back" name="Fcus_back" value="<?php echo $Fcus_back; ?>" placeholder="">
         <input type="text" id="PPdelivery_date" name="Fdelivery_date" value="<?php echo $Fdelivery_date ?>" placeholder="">
         <input type="text" id="PPdelivery_Address" name="Fdelivery_Address" value="<?php echo $Fdelivery_Address; ?>" placeholder="">

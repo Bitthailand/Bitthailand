@@ -634,6 +634,13 @@ if ($action == 'add') {
 
                                         <input type="text" class="classcus form-control" value="<?php echo $cus['bill_address'] . " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th']; ?>">
                                     </div>
+
+
+                                    <div class="form-group col-md-6">
+                                        <label for="accAddressId"><strong>ข้อมูลบุคคลอ้างอิง <span class="text-danger"></span></strong></label>
+
+                                        <input type="text" class="classcus form-control" value="<?php echo $main['contact_name']; ?>">
+                                    </div>
                                     <!-- สั่งสินค้า -->
                                     <div class="row mt-12">
                                         <div class="form-group col-md-2">
