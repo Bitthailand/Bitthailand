@@ -5,7 +5,7 @@ include './include/config_date2.php';
 // $datex = date('Y-m');
 // $d = explode("-", $datex);
 
-$sql = "SELECT  DATE_FORMAT(dev_date,'%Y-%m') As MyDate ,SUM(discount) AS discount  FROM delivery  WHERE    status_chk='1' AND status_payment='1'   GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(dev_date,'%Y-%m') As MyDate ,SUM(discount) AS discount ,SUM(pay_full) AS pay_full    FROM delivery  WHERE    status_chk='1' AND status_payment='1'   GROUP BY MyDate   ORDER BY MyDate ASC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 $sum_all = [];
@@ -32,7 +32,9 @@ if (mysqli_num_rows($result) > 0) {
         $sql_ai = "SELECT SUM(price)AS total  FROM ai_number  WHERE  MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]' AND aix_status = '0'  ";
         $rs_ai = $conn->query($sql_ai);
         $row_ai = $rs_ai->fetch_assoc();
-
+        $sql_pay = "SELECT SUM(price)AS totalx  FROM ai_number  WHERE MONTH(date_create) = '$d1[1]' AND YEAR(date_create) = '$d1[0]'  AND aix_status = '1' AND pay_full='1'  ";
+        $rs_pay = $conn->query($sql_pay);
+        $row_pay = $rs_pay->fetch_assoc();
         $sql_sum3 = "SELECT SUM(deliver_detail.total_price) AS total  FROM delivery  INNER JOIN deliver_detail  ON  delivery.order_id=deliver_detail.order_id AND   MONTH(delivery.date_create) = '$d1[1]' AND YEAR(delivery.date_create) = '$d1[0]'  AND delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='2'  AND delivery.dev_id=deliver_detail.dev_id  ";
         $rs_sum3 = $conn->query($sql_sum3);
         $row_sum3 = $rs_sum3->fetch_assoc();
@@ -54,7 +56,12 @@ if (mysqli_num_rows($result) > 0) {
 
         $sumx_ai = $row_sum4['ai_count'];
         $sum_total = $row_sum['total'] - $row['discount'];
-        $sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total']-$row_refun['total'];
+        $sum_totalz= $sum_total-$sumx_ai-$row['pay_full'];
+        $sum= $sum_totalz+$row_ai['total']+$row_pay['totalx']+$row_sum3['total']-$row_refun['total'];
+
+        // $sumx_ai = $row_sum4['ai_count'];
+        // $sum_total = $row_sum['total'] - $row['discount'];
+        // $sum= $sum_total- $sumx_ai+$row_ai['total']+$row_sum3['total']-$row_refun['total'];
 
         $sum_all[] = $sum;
         // $value[] = $row['value'];

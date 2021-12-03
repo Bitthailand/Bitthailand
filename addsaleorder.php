@@ -366,6 +366,8 @@ if ($action == 'add_dev') {
                 // echo"$sumtotal";
 
             }else{
+                $pay_full_status = '0';
+                $pay_full='0'; 
             }
             $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount,ai_status,pay_full,pay_full_status)
              VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount','$ai_status','$pay_full','$pay_full_status')";
