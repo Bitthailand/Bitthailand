@@ -33,7 +33,7 @@ if ($status_order == 'Mnew') {
 }
 if ($status_order == 'new') {
     $date_month = date('Y-m');
-    $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2' AND status_cf='1' AND emp_id='$emp_id' ";
+    $sql5 = "SELECT COUNT(id) AS id_run FROM orders_number where date_month='$date_month'  AND status_use='2' AND status_cf='1'  ";
     $rs5 = $conn->query($sql5);
     $row_run = $rs5->fetch_assoc();
 
