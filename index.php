@@ -5,6 +5,11 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 $emp_id = $_SESSION["username"];
+
+
+echo 'from database';
+$s = ob_get_clean();
+file_put_contents('cache.html',$s);
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">

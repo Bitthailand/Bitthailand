@@ -98,11 +98,11 @@ if ($action == 'add_dev') {
     $date_credit = $_REQUEST['date_credit'];
     $date_end = $_REQUEST['date_end'];
     $discount = $_REQUEST['discount'];
-    if($discount==""){
-        $discount=0;
+    if ($discount == "") {
+        $discount = 0;
     }
-    if($ai_count==""){
-        $ai_count=0;
+    if ($ai_count == "") {
+        $ai_count = 0;
     }
     if ($dev_date == '') { ?>
         <script>
@@ -164,7 +164,8 @@ if ($action == 'add_dev') {
                 }
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
                 // echo "xxxxx";
-                $sum_all = [];
+                $sumtotal[] = [];
+
                 if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
                     $sum_face2 = $rowx3['fac2_stock'] - $stock2;
@@ -182,9 +183,13 @@ if ($action == 'add_dev') {
                         $sql_or = "SELECT * FROM orders   WHERE order_id= '$order_id'";
                         $rs_or = $conn->query($sql_or);
                         $row_or = $rs_or->fetch_assoc();
+
+
+
                         $sum_dis = $rowx['unit_price'] - $rowx['disunit'];
                         $sumtotal = $sum_dis * $total_instock;
                         $sumtotal[] = $sumtotal;
+
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
                         if ($conn->query($sqlx) === TRUE) {
@@ -251,7 +256,7 @@ if ($action == 'add_dev') {
             }
         }
         // if($ai_count==0){
-           
+
         // }else{
         //     $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id' WHERE order_id= '$order_id'";
         //     if ($conn->query($sqlx12) === TRUE) {
@@ -342,6 +347,11 @@ if ($action == 'add_dev') {
                 }
             }
         }     //  if($cus_type==2){
+        $sql_tf3 = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'";
+        $rs_tf3 = $conn->query($sql_tf3);
+        $row_tf3 = $rs_tf3->fetch_assoc();
+        // echo"$row_tf3[unit_price]";
+
         $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_id' AND dev_id='$dev_id' ";
         $resultxx = mysqli_query($conn, $sqlxx);
         if (mysqli_num_rows($resultxx) > 0) {
@@ -351,24 +361,27 @@ if ($action == 'add_dev') {
             } else {
                 $status_inv = '2';
             }
-            if($ai_count==0){
+            if ($ai_count == 0) {
                 $ai_status = '0';
-            }else{
+            } else {
                 $ai_status = '1';
                 $sqlx15 = "UPDATE ai_number SET aix_status='0' WHERE order_id= '$order_id'";
                 if ($conn->query($sqlx15) === TRUE) {
                 }
-
             }
-            if($row['pay_full']=='1'){
+
+
+            if ($row['pay_full'] == '1') {
                 $pay_full_status = '1';
-                $pay_full=$sumtotal; 
-                // echo"$sumtotal";
-
-            }else{
+                $pay_full = $sumtotal+$row_tf3['unit_price'];
+                // echo "$pay_full";
+            } else {
                 $pay_full_status = '0';
-                $pay_full='0'; 
+                $pay_full = '0';
             }
+
+
+
             $sqlx = "INSERT INTO delivery(dev_id,order_id,dev_date,cus_id,cus_type,iv_id,ai_count,date_credit,date_end,status_inv,cus_back,discount,ai_status,pay_full,pay_full_status)
              VALUES ('$dev_id','$order_id','$dev_date','$cus_id','$cus_type','$iv_id','$ai_count','$date_credit','$date_end','$status_inv','$row[cus_back]','$discount','$ai_status','$pay_full','$pay_full_status')";
             if ($conn->query($sqlx) === TRUE) {
@@ -495,12 +508,13 @@ if ($action == 'add_dev') {
                                                                     <label for="delivery_date">วันที่</label>
                                                                     <input id="dev_date" class="form-control" type="date" require min="2021-06-01" name="dev_date" value="<?= $datetoday ?>">
                                                                 </div>
-                                                                <?php if($row['pay_full']==1){ }else{ ?>
-                                                                <div class="form-group col-md-6">
+                                                                <?php if ($row['pay_full'] == 1) {
+                                                                } else { ?>
+                                                                    <div class="form-group col-md-6">
 
-                                                                    <label for="ai_id"><strong>หักเงินมัดจำจากราคา<?= $row['ai_count'] ?><span class="text-danger"></span></strong></label>
-                                                                    <input type="text" name="ai_count" value="<?= $row['ai_count'] ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
-                                                                </div>
+                                                                        <label for="ai_id"><strong>หักเงินมัดจำจากราคา<?= $row['ai_count'] ?><span class="text-danger"></span></strong></label>
+                                                                        <input type="text" name="ai_count" value="<?= $row['ai_count'] ?>" class="classcus form-control" id="so_id" placeholder="หักเงินมัดจำ">
+                                                                    </div>
                                                                 <?php } ?>
 
                                                             </div>
