@@ -268,7 +268,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                         <p style="font-size: 18px;"><?php echo $row3['bill_address'] . " $t" . $row6['name_th']; ?></p>
                         <p style="font-size: 18px;"><?php echo $a . $row7['name_th'] . " จ." . $row8['name_th']; ?>
                         <p style="font-size: 18.5px;padding-top:4px;"><?= $row3['tel'] ?></p>
-                        <p style="font-size: 18px;"><?php if($rowx['contact_name']==''){ echo $row3['contact_name'];  }else{ echo $rowx['contact_name']; } ?></p>
+                        <p style="font-size: 18px;"><?php if($rowx['contact_name']=='-'){ echo $row3['contact_name'];  }else{ echo $rowx['contact_name']; } ?></p>
 
                     </div>
                     <div class="rowx_cus">

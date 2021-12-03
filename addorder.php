@@ -150,6 +150,9 @@ if ($action == 'add_product') {
     $discount_text = $_REQUEST['Fdiscount_text'];
     $status_order = 'update';
     $Fcus_back = $_REQUEST['Fcus_back'];
+    if($Fcontact_name==''){
+        $Fcontact_name = '-';
+    }
     // echo "$Fcontact_name";
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
@@ -754,7 +757,7 @@ if ($action == 'add_hs') {
                                         <?php if ($status_order == 'confirm') { ?>
                                             <input type="text" class="classcus form-control" value="<?= $contact_name?>">
                                         <?php } else { ?>
-                                            <input type="text" name="contact_name" class="classcus form-control" id="Fcontact_name" value="<?= $Fcontact_name ?>" placeholder="ข้อมูลบุคคลอ้างอิง" required="">
+                                            <input type="text" name="contact_name" class="classcus form-control" id="Fcontact_name" value="<?= $Fcontact_name ?>" placeholder="ข้อมูลบุคคลอ้างอิง" >
                                         <?php } ?>
                                     </div>
                                     <div class="row mt-12">
