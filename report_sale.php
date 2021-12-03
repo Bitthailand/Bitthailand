@@ -222,7 +222,44 @@ $d = explode("-", $datex);
 
                     </div><!-- end of main-content -->
                 </div>
+                <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                            แสดงรายการลูกค้าที่จอง</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
+                        <!-- mysql data will be load here -->
+                        <div id="dynamic-content2"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="view-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                            แสดงรายการลูกค้าชำระเงินเต็ม</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- mysql data will be load here -->
+                        <div id="dynamic-content3"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
                 <!-- Header -->
                 <?php include './include/footer.php'; ?>
                 <!-- =============== Header End ================-->
@@ -243,4 +280,63 @@ $d = explode("-", $datex);
         <script src="../../dist-assets/js/scripts/apexChart.script.min.js"></script>
 </body>
 
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit2', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            console.log('xxxx', uid);
+            $('#dynamic-content2').html(''); // leave this div blank
+            $('#modal-loader2').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'ai_show.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content2').html(''); // blank before load.
+                    $('#dynamic-content2').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content2').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit3', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            console.log('xxxx', uid);
+            $('#dynamic-content3').html(''); // leave this div blank
+            $('#modal-loader3').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'pay_show.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content3').html(''); // blank before load.
+                    $('#dynamic-content3').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content3').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
 </html>
