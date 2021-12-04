@@ -81,6 +81,7 @@ if ($action == 'add_dev') {
     $comment = $_REQUEST['comment'];
     $status_refun = $_REQUEST['status_refun'];
     $datemonth = date('Y-m');
+    $datetoday = date('Y-m-d');
     $sql_true = "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
     $result_true = mysqli_query($conn, $sql_true);
     if (mysqli_num_rows($result_true) > 0) {
@@ -133,17 +134,33 @@ if ($action == 'add_dev') {
                     $total_price1 = $add_qty1 * $row_p['unit_price'];
                     //เพิ่มสต็อกคืนโรงงาน2
                     $qtyx = $row_pro['qty'] - $add_qty;
+                 
+                        
+                       
                     $sql4 = "UPDATE sr_number SET price_refun='$price_refun' where id='$last_id' AND order_id='$order_id'  ";
+                   
+                   
+                    if($status_refun=='1'){
                     $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'  ";
-                    $sql3 = "UPDATE deliver_detail  SET status_refun='1',date_refun where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
-                    $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac2_stock' where product_id='$product_id' ";
-                    //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
-                    if ($conn->query($sql1) === TRUE) {
-                    }
+                    $sql3 = "UPDATE deliver_detail  SET status_refun='1',date_refun='$datetoday' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
                     if ($conn->query($sql2) === TRUE) {
                     }
                     if ($conn->query($sql3) === TRUE) {
                     }
+                    }
+                    if($status_refun=='2'){
+                        $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'  ";
+                    $sql3 = "UPDATE deliver_detail  SET status_refun='2',dev_qty='$add_qty1',total_price='$total_price1',date_refun='$datetoday' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
+                    if ($conn->query($sql2) === TRUE) {
+                    }
+                    if ($conn->query($sql3) === TRUE) {
+                    }
+                    }
+                    $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac2_stock' where product_id='$product_id' ";
+                    //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+                    if ($conn->query($sql1) === TRUE) {
+                    }
+                    
                     if ($conn->query($sql4) === TRUE) {
                     }
                 }
@@ -275,7 +292,7 @@ if ($action == 'add_dev') {
                                                         </thead>
                                                         <tbody>
                                                             <?php echo "$order_id";
-                                                            $sql_pro = "SELECT *  FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0' AND status_cf='1'   ORDER BY product_id DESC ";
+                                                            $sql_pro = "SELECT *  FROM   deliver_detail  where order_id='$order_id'  AND status_cf='1'   ORDER BY product_id DESC ";
                                                             $result_pro = mysqli_query($conn, $sql_pro);
                                                             if (mysqli_num_rows($result_pro) > 0) {
                                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -305,7 +322,7 @@ if ($action == 'add_dev') {
 
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face2_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac2_stock']; ?>' readonly></td>
-                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo $row_pro['dev_qty']; ?>' readonly></td>
+                                                                        <td class="text-center"><input type='number' class="form-control" <?php echo "id='dev_qty" . $no . "'"; ?> value='<?php echo  $sum_qty; ?>' readonly></td>
                                                                         <td class="text-center"> <?php echo "<span id='err" . $no . "' ></span>"; ?><input type='number' class="form-control" <?php echo "id='face1" . $no . "'"; ?> value='<?php echo $row_pro['face1_stock_out']; ?>' <?php echo "name='stock1[$product_id][$no][$idx7]'"; ?> onkeyup='keyup("<?= $no ?>")' <?php if ($row_pro['status_delivery'] == 1) {
                                                                                                                                                                                                                                                                                                                                                                                     echo "disabled";
                                                                                                                                                                                                                                                                                                                                                                                 } ?>></td>
