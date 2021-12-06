@@ -195,6 +195,7 @@ if ($action == 'add_product') {
                 $rs5 = $conn->query($sql5);
                 $row5 = $rs5->fetch_assoc();
                 $sum_qty = $Fqty + $Fqty2;
+                $sum_qty1 = $Fqty + $Fqty2;
                 echo"$sum_qty";
                 if ($row['fac1_stock'] < $Fqty) {
                     $chk1 = 'true';
@@ -213,7 +214,7 @@ if ($action == 'add_product') {
                     // echo "sum_qty" . $sum_qty . "xx";
 
                     $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out,updates)
-                    VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty','1')";
+                    VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty1','1')";
                    $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
                    if ($conn->query($sql2) === TRUE) {}
                   if ($conn->query($sqlx4) === TRUE) { ?>
