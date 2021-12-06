@@ -164,7 +164,7 @@ if ($action == 'add_dev') {
                 }
                 //  ถ้าผ่านเงื่อนไขไม่มี error ให้ บันทึก
                 // echo "xxxxx";
-                $sumtotal[] = [];
+                // $sumtotalx[] = [];
 
                 if (($rowx['qty'] >= $total_instock) && ($total_instock <> 0)) {
                     $sum_face1 = $rowx3['fac1_stock'] - $stock1;
@@ -188,7 +188,7 @@ if ($action == 'add_dev') {
 
                         $sum_dis = $rowx['unit_price'] - $rowx['disunit'];
                         $sumtotal = $sum_dis * $total_instock;
-                        $sumtotal[] = $sumtotal;
+                        $sumtotalx[] = $sumtotal;
 
                         $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
                             VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
@@ -347,9 +347,14 @@ if ($action == 'add_dev') {
                 }
             }
         }     //  if($cus_type==2){
-        $sql_tf3 = "SELECT * FROM order_details  where order_id='$order_id'  AND ptype_id='TF'";
+        $sql_tf3 = "SELECT * FROM order_details  where order_id='$order_id'  AND (ptype_id='TF'  OR ptype_id='TF0') ";
         $rs_tf3 = $conn->query($sql_tf3);
         $row_tf3 = $rs_tf3->fetch_assoc();
+
+        $sql_dev2 = "SELECT sum(total_price) AS total  FROM deliver_detail  where order_id='$order_id'  AND dev_id='$dev_id'";
+        $rs_dev2 = $conn->query($sql_dev2);
+        $row_dev2 = $rs_dev2->fetch_assoc();
+        
         // echo"$row_tf3[unit_price]";
 
         $sqlxx = "SELECT *  FROM delivery  where order_id= '$order_id' AND dev_id='$dev_id' ";
@@ -373,8 +378,8 @@ if ($action == 'add_dev') {
 
             if ($row['pay_full'] == '1') {
                 $pay_full_status = '1';
-                $pay_full = $sumtotal+$row_tf3['unit_price'];
-                // echo "$pay_full";
+                $pay_full = $row_dev2['total']+$row_tf3['unit_price'];
+                echo "$pay_full";
             } else {
                 $pay_full_status = '0';
                 $pay_full = '0';
