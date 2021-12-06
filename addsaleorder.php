@@ -379,7 +379,7 @@ if ($action == 'add_dev') {
             if ($row['pay_full'] == '1') {
                 $pay_full_status = '1';
                 $pay_full = $row_dev2['total']+$row_tf3['unit_price'];
-                echo "$pay_full";
+                // echo "$pay_full";
             } else {
                 $pay_full_status = '0';
                 $pay_full = '0';
