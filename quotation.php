@@ -191,7 +191,7 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
     $total_page_item = 8; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
     $total_page_item_all = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
     $arr_data_set = array(array()); // [][];
-    $sql = "SELECT * FROM order_details INNER JOIN product_type  ON order_details.ptype_id=product_type.ptype_id  AND  (order_details.order_id='$order_id')  ORDER BY  product_type.num_orderby,order_details.date_create ASC    ";
+    $sql = "SELECT * FROM order_details INNER JOIN product_type  ON order_details.ptype_id=product_type.ptype_id  AND  (order_details.order_id='$order_id')  ORDER BY  product_type.num_orderby,order_details.product_id, order_details.date_create ASC    ";
     $i = 1;
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {  // คิวรี่ข้อมูลสำเร็จหรือไม่ และมีรายการข้อมูลหรือไม่
