@@ -282,7 +282,7 @@ if ($action == 'update') {
                                             <?php } else { ?>
                                                 <select name="productx" id="productx" class="classcus custom-select " required>
                                                     <?php
-                                                    $sql6 = "SELECT *  FROM product where ptype_id='$plant_ptype'  AND width='$plant_w'  order by id ASC ";
+                                                    $sql6 = "SELECT *  FROM product where ptype_id='$plant_ptype'  AND width='$plant_w' AND status='0'   order by id ASC ";
                                                     $result6 = mysqli_query($conn, $sql6);
                                                     if (mysqli_num_rows($result6) > 0) {
                                                         while ($row6 = mysqli_fetch_assoc($result6)) {

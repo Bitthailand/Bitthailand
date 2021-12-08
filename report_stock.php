@@ -199,7 +199,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <?php $sql4 = "SELECT *  FROM product where  ptype_id<>'TF0'  ORDER BY fac1_stock DESC ";
+                                                                        <?php $sql4 = "SELECT *  FROM product where  ptype_id<>'TF0'  AND status='0'  ORDER BY fac1_stock DESC ";
                                                                         $result4 = mysqli_query($conn, $sql4);
                                                                         if (mysqli_num_rows($result4) > 0) {
                                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
