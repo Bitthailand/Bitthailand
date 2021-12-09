@@ -194,7 +194,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                             <th scope="col" class="text-left">สต็อกเดิม</th>
                                                                             <th scope="col" class="text-left">รวมสินค้าที่ขาย</th>
                                                                             <th scope="col" class="text-left">ราคาขาย</th>
-                                                                            <th scope="col" class="text-left">x</th>
+                                                                           
                                                                             <th scope="col" class="text-left">มูลค่าขาย</th>
                                                                         </tr>
                                                                     </thead>
@@ -239,10 +239,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                     <td class="text-left"><?php $sum_stock = $sumx + $row4['stock_old'];
                                                                                                             echo number_format($sum_stock, '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row4['unit_price'], '0', '.', ',') ?></td>
-                                                                                    <td class="text-left"><?php $sumx1 = ($row4['fac1_stock'] + $row4['fac2_stock']) - $sumx;
-                                                                                                            echo number_format($sumx1, '0', '.', ',') ?>
-                                                                                                       
-                                                                                                        </td>
+                                                                                  
                                                                                     
 
 
