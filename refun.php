@@ -138,12 +138,13 @@ if ($action == 'add_dev') {
                         
                        
                     $sql4 = "UPDATE sr_number SET price_refun='$price_refun' where id='$last_id' AND order_id='$order_id'  ";
-                   
+                    if ($conn->query($sql4) === TRUE) {
+                    }
                    
                     if($status_refun=='1'){
                     $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'  ";
                     $sql3 = "UPDATE deliver_detail  SET status_refun='1',date_refun='$datetoday' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
-                    if ($conn->query($sql2) === TRUE) {
+                    if ($conn->query($sql1) === TRUE) {
                     }
                     if ($conn->query($sql3) === TRUE) {
                     }
@@ -151,18 +152,18 @@ if ($action == 'add_dev') {
                     if($status_refun=='2'){
                         $sql1 = "UPDATE order_details SET qty_out='$add_qty_refun' ,total_price='$total_price' ,face1_stock_out='$add_qty_fac1',face2_stock_out='$add_qty_fac2' where product_id='$product_id' AND order_id='$order_id'  ";
                     $sql3 = "UPDATE deliver_detail  SET status_refun='2',dev_qty='$add_qty1',total_price='$total_price1',date_refun='$datetoday' where product_id='$product_id' AND order_id='$order_id' AND id='$pid'";
-                    if ($conn->query($sql2) === TRUE) {
+                    if ($conn->query($sql1) === TRUE) {
                     }
                     if ($conn->query($sql3) === TRUE) {
                     }
                     }
-                    $sql2 = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac2_stock' where product_id='$product_id' ";
+                    $sql2x = "UPDATE product  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac2_stock' where product_id='$product_id' ";
                     //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
-                    if ($conn->query($sql1) === TRUE) {
+                    if ($conn->query($sql2x) === TRUE) {
                     }
+                  
                     
-                    if ($conn->query($sql4) === TRUE) {
-                    }
+                  
                 }
             }
         } ?>
