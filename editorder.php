@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config.php';
 include './include/config_so.php';
@@ -92,7 +92,7 @@ if ($action == 'add_product') {
     $Fqty = $_REQUEST['Fqty'];
     $Fqty2 = $_REQUEST['Fqty2'];
     // echo"$Fqty2";
-    
+
     $qty = $_REQUEST['qty'];
     $Forder_id = $_REQUEST['Forder_id'];
     $Fcus_id = $_REQUEST['Fcus_id'];
@@ -215,9 +215,10 @@ if ($action == 'add_product') {
 
                     $sqlx4 = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,face1_stock_out,face2_stock_out,qty_out,updates,status_new)
                     VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','CB2','$Fqty','$Fqty2','$sum_qty1','1','5')";
-                   $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
-                   if ($conn->query($sqlx4) === TRUE) {}
-                  if ($conn->query($sql2) === TRUE) { ?>
+                    $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
+                    if ($conn->query($sqlx4) === TRUE) {
+                    }
+                    if ($conn->query($sql2) === TRUE) { ?>
                         <script>
                             $(document).ready(function() {
                                 showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
@@ -231,12 +232,13 @@ if ($action == 'add_product') {
             } else {
                 $sum_qty = $Fqty + $Fqty2;
                 $date = date('Y-m-d');
-                $total_price=($Funit_price-$disunit)*$sum_qty;
+                $total_price = ($Funit_price - $disunit) * $sum_qty;
                 $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out,updates,status_new)
             VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','$disunit','CB','$sum_qty','1','6')";
-               $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
-               if ($conn->query($sql2) === TRUE) {}
-               if ($conn->query($sql) === TRUE) { ?>
+                $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
+                if ($conn->query($sql2) === TRUE) {
+                }
+                if ($conn->query($sql) === TRUE) { ?>
                     <script>
                         $(document).ready(function() {
                             showAlert("บันทึกข้อมูลสำเร็จ", "alert-success");
@@ -285,7 +287,7 @@ if ($action == 'edit') {
     $face2_out = $_REQUEST['face2_out'];
     $total_price = $_REQUEST['total_price'];
     $qty_out = $_REQUEST['qty'];
-   
+
     $sql2 = "UPDATE order_details    SET qty='$qty',qty_out='$qty_out',total_price='$total_price' where id='$edit_id'";
     if ($conn->query($sql2) === TRUE) {  ?>
         <script>
@@ -295,6 +297,23 @@ if ($action == 'edit') {
         </script>
     <?php   }
 }
+
+
+if ($action == 'edit_contact') {
+    $edit_id = $_REQUEST['edit_id'];
+    $contact_name = $_REQUEST['contact_name'];
+    $sql2 = "UPDATE orders   SET contact_name='$contact_name'   where order_id='$edit_id'";
+    if ($conn->query($sql2) === TRUE) {  ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("แก้ไขข้อมูลบุคคลติดต่อสำเร็จ", "alert-success");
+            });
+        </script>
+    <?php   }
+}
+
+
+
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
     $sql = "DELETE FROM order_details WHERE  id='$del_id' ";
@@ -639,8 +658,9 @@ if ($action == 'add') {
 
                                     <div class="form-group col-md-6">
                                         <label for="accAddressId"><strong>ข้อมูลบุคคลอ้างอิง <span class="text-danger"></span></strong></label>
-
+                                        <button data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $order_id; ?>" id="edit3" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
                                         <input type="text" class="classcus form-control" value="<?php echo $main['contact_name']; ?>">
+                                       
                                     </div>
                                     <!-- สั่งสินค้า -->
                                     <div class="row mt-12">
@@ -725,7 +745,7 @@ if ($action == 'add') {
                                                 <table class="table table-hover text-nowrap table-sm">
                                                     <thead>
                                                         <tr>
-                                                        <th>ลำดับ</th>
+                                                            <th>ลำดับ</th>
                                                             <th>รหัสสินค้า</th>
                                                             <th>ประเภทสินค้า</th>
                                                             <th>ชื่อสินค้า</th>
@@ -765,7 +785,9 @@ if ($action == 'add') {
                                                                         echo $row3['product_name'];
                                                                         ?>
                                                                     </td>
-                                                                    <td> <?php $weight1=$row3['weight']*$row_pro['qty']; echo number_format($weight1, '2', '.', ','); $sum_weight=$sum_weight+$weight1; ?> </td>
+                                                                    <td> <?php $weight1 = $row3['weight'] * $row_pro['qty'];
+                                                                            echo number_format($weight1, '2', '.', ',');
+                                                                            $sum_weight = $sum_weight + $weight1; ?> </td>
                                                                     <td> <?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?> </td>
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
                                                                     <td> <?= $row_pro['qty'] ?><?php $sumqty = $sumqty + $row_pro['qty'];  ?></td>
@@ -781,7 +803,7 @@ if ($action == 'add') {
                                                         <?php }
                                                         } ?>
                                                         <tr>
-                                                          
+
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
@@ -810,9 +832,9 @@ if ($action == 'add') {
                                     ?>
                                         <div class="form-group col-md-3">
                                             <label for="delivery_date">กำหนดส่งสินค้า<span class="text-danger"></span></strong></label>
-                                           
+
                                             <input value="<?php echo "$main[delivery_date]"; ?>" class="form-control" type="text" readonly>
-                                          
+
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label for="delivery_Address"><strong>ที่อยู่ จัดส่ง<span class="text-danger"></span></strong></label>
@@ -1126,7 +1148,25 @@ if ($action == 'add') {
         </div>
     </div>
 
+    <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        แก้ไขข้อมูลบุคคลอ้างอิง</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content3"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- Modal ยืนยันส่งสินค้า -->
     <div class="modal fade" id="modalcus" tabindex="-1" role="dialog" aria-labelledby="medaltransuccess-2" style="display: none;" aria-hidden="true">
@@ -1276,6 +1316,35 @@ if ($action == 'add') {
                         $('#modal-loader').hide();
                     });
 
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#edit3', function(e) {
+                e.preventDefault();
+                var uid = $(this).data('id'); // get id of clicked row
+                $('#dynamic-content3').html(''); // leave this div blank
+                $('#modal-loader3').show(); // load ajax loader on button click
+                $.ajax({
+                        url: 'contact_edit.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content3').html(''); // blank before load.
+                        $('#dynamic-content3').html(data); // load here
+                        $('#modal-loader3').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content3').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader3').hide();
+                    });
             });
         });
     </script>
