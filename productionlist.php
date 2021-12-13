@@ -52,7 +52,7 @@ if (($column == "") && ($keyword == "$keyword")) {
     //    echo"$keywordx";
 }
 if ($rowS == '') {
-    $total_records_per_page = 20;
+    $total_records_per_page = 40;
 } else {
     $total_records_per_page = $rowS;
 }

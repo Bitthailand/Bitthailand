@@ -26,6 +26,9 @@ $row2 = $rs2->fetch_assoc();
 $sql3 = "SELECT * FROM customer  WHERE customer_id= '$row[cus_id]'";
 $rs3 = $conn->query($sql3);
 $row3 = $rs3->fetch_assoc();
+
+
+
 $datemonth = date('Y-m');
 
 $sql5 = "SELECT COUNT(id) AS id_run  FROM sr_number  where datemonth='$datemonth'  ";
@@ -70,8 +73,9 @@ $sr_id = $dat . $code;
 include './include/alert.php';
 $action = $_REQUEST['action'];
 if ($action == 'add_dev') {
-    echo "xxx";
+    // echo "xxx";
     $order_id = $_REQUEST['order_id'];
+    $so_id = $_REQUEST['so_id'];
     $sr_id = $_REQUEST['sr_id'];
     $sr_date = $_REQUEST['sr_date'];
     $re_date = $_REQUEST['re_date'];
@@ -80,6 +84,8 @@ if ($action == 'add_dev') {
     $total_dis = $_REQUEST['total_dis'];
     $comment = $_REQUEST['comment'];
     $status_refun = $_REQUEST['status_refun'];
+    $ai_num = $_REQUEST['ai_num'];
+    $ai_num_main=$_REQUEST['ai_num_main'];
     $datemonth = date('Y-m');
     $datetoday = date('Y-m-d');
     $sql_true = "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
@@ -161,8 +167,14 @@ if ($action == 'add_dev') {
                     //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
                     if ($conn->query($sql2x) === TRUE) {
                     }
-                  
-                    
+                    $sql3x = "UPDATE ai_number  SET price='$ai_num_main' where order_id='$order_id' ";
+                    //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+                    if ($conn->query($sql3x) === TRUE) {
+                    }
+                    $sql4x = "UPDATE delivery  SET ai_count='$ai_num' where order_id='$order_id' AND dev_id='$so_id' ";
+                    //   $sql3 = "UPDATE deliver_detail  SET fac1_stock='$add_fac1_stock',fac2_stock='$add_fac1_stock' where product_id='$product_id' ";
+                    if ($conn->query($sql4x) === TRUE) {
+                    }
                   
                 }
             }
@@ -228,6 +240,16 @@ if ($action == 'add_dev') {
                                                         $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
                                                         $rs8 = $conn->query($sql8);
                                                         $row8 = $rs8->fetch_assoc();
+
+                                                        $sql_dev = "SELECT * FROM delivery   WHERE order_id= '$order_id' AND dev_id='$so_id'";
+                                                        $rs_dev = $conn->query($sql_dev);
+                                                        $row_dev = $rs_dev->fetch_assoc();
+
+                                                        $sql_ai = "SELECT * FROM ai_number   WHERE order_id= '$order_id' ";
+                                                        $rs_ai = $conn->query($sql_ai);
+                                                        $row_ai = $rs_ai->fetch_assoc();
+
+
                                                         if ($row3['province'] == 1) {
                                                             $t = 'แขวง';
                                                             $a = '';
@@ -363,13 +385,25 @@ if ($action == 'add_dev') {
                                             <a class="btn btn-outline-primary m-1" href="/order_sr.php?sr_id=<?= $sr_id ?>" type="button" target="_blank">พิมพ์ใบคืนสินค้า(SR)</a>
                                             <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
                                         <?php  } else { ?>
-                                            <div class="col-md-4 text-sm-right">
+                                            <div class="col-md-2 text-sm-right">
                                                 <div class="form-group col-md-12">
                                                     <label for="ai_id"><strong>จำนวนเงินคืน <span class="text-danger"></span></strong></label>
                                                     <input type="text" name="total_dis" value="" class="classcus form-control" placeholder="จำนวนเงินคืน" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 text-sm-right">
+                                            <div class="col-md-2 text-sm-right">
+                                                <div class="form-group col-md-12">
+                                                    <label for="ai_id"><strong>คืนเงินมัดจำหลัก <span class="text-danger"></span></strong></label>
+                                                    <input type="text" name="ai_num_main" value="<?=$row_ai['price']?>" class="classcus form-control" placeholder="คืนเงินมัดจำหลัก " >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-sm-right">
+                                                <div class="form-group col-md-12">
+                                                    <label for="ai_id"><strong>คืนเงินมัดจำย่อย <span class="text-danger"></span></strong></label>
+                                                    <input type="text" name="ai_num" value="<?=$row_dev['ai_count']?>" class="classcus form-control" placeholder="คืนเงินมัดจำ " >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-sm-right">
                                                 <div class="form-group col-md-12">
                                                     <label for="ai_id"><strong>สถานะ<span class="text-danger"></span></strong></label>
                                                     <select class="classcus custom-select" name="status_refun" id="status_refun" required>

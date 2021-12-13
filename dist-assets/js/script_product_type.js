@@ -126,6 +126,7 @@ $(function() {
                 let unit_price = item.unit_price;
                 let stock1 = item.fac1_stock;
                 let stock2 = item.fac2_stock;
+
                 let sum;
                 var df = 0;
                 var df2 = 0;
@@ -133,17 +134,26 @@ $(function() {
                 console.log('stock1', stock1);
 
 
-                $('#qty').val(df);
-                $('#qty2').val(df2);
-                $('#disunit').val(disunit);
-                $('#unit_price').val(unit_price);
-                $('#stock1').val(stock1);
-                $('#stock2').val(stock2);
+
+                $.get('get_product_order_book.php?ProId=' + ProId, function(data1) {
+                    var result1 = JSON.parse(data1);
+                    $.each(result1, function(index, item1) {
+                        let book = item1.qty_out;
+                        console.log('xxx', result1)
+                        console.log('book', book);
+                        $('#qty').val(df);
+                        $('#qty2').val(df2);
+                        $('#disunit').val(disunit);
+                        $('#unit_price').val(unit_price);
+                        $('#stock1').val(stock1);
+                        $('#stock2').val(stock2);
+                        $('#book').val(book);
 
 
 
 
-
+                    });
+                });
 
             });
         });

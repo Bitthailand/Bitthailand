@@ -789,7 +789,7 @@ if ($action == 'add_hs') {
 
                                         </div>
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-2">
                                             <div id="ifYes1" style="display: block;">
                                                 <label for="product"><strong>สินค้าที่สั่งชื้อ <span class="text-danger"></span></strong></label>
                                                 <select name="productx" id="productx" style="display:block;" class="classcus custom-select" data-index="1">
@@ -825,6 +825,11 @@ if ($action == 'add_hs') {
                                             <label for="stock1"><strong>โรงงาน2 <span class="text-danger"></span></strong></label>
                                             <input type="text" name="stock2" id="stock2" class="classcus form-control" placeholder="จำนวนสินค้า" disabled>
                                         </div>
+                                        <div class="form-group col-md-1" id="bookx" style="display: block;">
+                                            <label for="stock1"><strong>จอง <span class="text-danger"></span></strong></label>
+                                            <input type="text" name="book" id="book" class="classcus form-control" placeholder="จำนวนสินค้า" disabled>
+                                        </div>
+
 
                                         <div class="form-group col-md-1" id="ifYes_qty" style="display: block;">
                                             <label for="qty"><strong>จำนวน1 <span class="text-danger"></span></strong></label>
