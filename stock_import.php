@@ -148,6 +148,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
 
                                             <div class="table-responsive">
                                                 <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
+                                                
                                                     <thead>
                                                         <tr>
                                                             <th>วันที่</th>
@@ -510,7 +511,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
 
     $(document).ready(function() {
     $('#orderby1').DataTable( {
-        "order": [[ 0, "desc" ]]
+        "order": [[ 1, "asc" ]]
     } );
 } );
 </script>
