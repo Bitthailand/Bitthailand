@@ -166,12 +166,12 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
 
                                                         <?php
 
-                                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM production_import  where  status='0'  order by product_id asc ");
+                                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM production_import  where  status='0'  ");
                                                         $total_records = mysqli_fetch_array($result_count);
                                                         $total_records = $total_records['total_records'];
                                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                                         $second_last = $total_no_of_pages - 1; // total page minus 1
-                                                        $result = mysqli_query($conn, "SELECT * FROM production_import   where    status='0'   order by date_create desc  ");
+                                                        $result = mysqli_query($conn, "SELECT * FROM production_import   where    status='0'    ");
                                                         while ($row = mysqli_fetch_array($result)) { ?>
                                                             <tr>
                                                                 <td> <?php $date = explode(" ", $row['date_import']);
