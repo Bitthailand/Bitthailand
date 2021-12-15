@@ -147,7 +147,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                                         <div class="card-body">
 
                                             <div class="table-responsive">
-                                                <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
+                                            <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
                                                 
                                                     <thead>
                                                         <tr>
@@ -177,7 +177,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                                                             <tr>
                                                                 <td> <?php $date = explode(" ", $row['date_import']);
                                                                         $dat = datethai2($date[0]);
-                                                                        echo "$dat"; ?></td>
+                                                                        echo $row['date_import'] ?></td>
                                                                 <td><?php echo $row["product_id"]; ?></td>
                                                                 <td><?php
                                                                     $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
@@ -507,13 +507,12 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
     });
 </script>
 <script>
- // multi column ordering
+    $('#orderby1').DataTable({
+        "order": [
+            [0, "desc"]
+        ],
 
-    $(document).ready(function() {
-    $('#orderby1').DataTable( {
-        "order": [[ 0, "asc" ]]
-    } );
-} );
+    }); // multi column ordering
 </script>
 
 </html>
