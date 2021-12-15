@@ -511,7 +511,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
 
     $(document).ready(function() {
     $('#orderby1').DataTable( {
-        "order": [[ 1, "asc" ]]
+        "order": [[ 0, "asc" ]]
     } );
 } );
 </script>
