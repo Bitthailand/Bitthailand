@@ -506,12 +506,13 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
     });
 </script>
 <script>
-    $('#orderby1').DataTable({
-        "order": [
-            [0, "asc"]
-        ],
+ // multi column ordering
 
-    }); // multi column ordering
+    $(document).ready(function() {
+    $('#orderby1').DataTable( {
+        "order": [[ 0, "desc" ]]
+    } );
+} );
 </script>
 
 </html>
