@@ -508,7 +508,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
 <script>
     $('#orderby1').DataTable({
         "order": [
-            [0, "desc"]
+            [1, "ASC"]
         ],
 
     }); // multi column ordering
