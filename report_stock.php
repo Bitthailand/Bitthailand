@@ -24,10 +24,12 @@ include './include/config.php';
 include './get_dashbord_stock.php';
 $datex = date('Y-m-d');
 $d = explode("-", $datex);
-$sql_pday = "SELECT SUM(fac1_stock) AS fac1_stock,SUM(fac2_stock)AS fac2_stock,SUM(fac1_stock+fac2_stock)AS sum_all  FROM product   ";
+$sql_pday = "SELECT SUM(fac1_stock) AS fac1_stock,SUM(fac2_stock)AS fac2_stock,SUM(fac1_stock+fac2_stock)AS sum_all ,SUM(unit_price*fac1_stock) AS total1 ,SUM(unit_price*fac2_stock) AS total2  FROM product   ";
 $rs_pday = $conn->query($sql_pday);
 $row_pday = $rs_pday->fetch_assoc();
+$sum_v=$row_pday['total1']+$row_pday['total2'];
 // รวมสินค้าผลิตทั้งหมด
+
 
 $sql_pmonth = "SELECT count(production_detail.product_id) AS month,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 MONTH(production_order.po_enddate) = '$d[1]' AND YEAR(production_order.po_enddate) = '$d[0]'   INNER JOIN  product ON product.product_id=production_detail.product_id AND production_detail.status_stock='1'   ";
@@ -118,10 +120,10 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                     <div class="ul-widget__row">
                                         <div class="ul-widget-stat__font"><i class="i-Full-Cart text-success"></i></div>
                                         <div class="ul-widget__content">
-                                            <p class="m-0">สินค้าผลิตทั้งหมด</p>
-                                            <h4 class="heading"> <?php echo number_format($sum_stock, '0', '.', ',') ?> ชิ้น </h4>
-                                            <small class="text-muted m-0">สั่งผลิตเสร็จ: <?php echo number_format($row_po1['a_type'], '0', '.', ',') ?> ชิ้น</small><br>
-                                            <small class="text-muted m-0">นำเข้าขาย: <?php echo number_format($row_po['a_type'], '0', '.', ',') ?> ชิ้น</small>
+                                            <p class="m-0">มูลค่าสต็อก</p>
+                                            <h4 class="heading"> <?php echo number_format($sum_v, '2', '.', ',') ?> ชิ้น </h4>
+                                            <small class="text-muted m-0">มูลค่าโรงงาน1: <?php echo number_format($row_pday['total1'], '2', '.', ',') ?> ชิ้น</small><br>
+                                            <small class="text-muted m-0">มูลค่าโรงงาน2: <?php echo number_format($row_pday['total2'], '2', '.', ',') ?> ชิ้น</small>
 
                                         </div>
                                     </div>
