@@ -171,8 +171,8 @@ $d = explode("-", $datex);
                                                                                                                                                                                                                                         $total_ai = $total_ai + $row_ai['total'];  ?></a></td>
                                                                     <td class="text-right"> <a data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row4['dev_date']; ?>" id="edit3" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai2['total'], '2', '.', ',');
                                                                                                                                                                                                                                         $total_ai2 = $total_ai2 + $row_ai2['total'];  ?></a></td>
-                                                                    <td class="text-right"><?php echo number_format($row_sum3['total'], '2', '.', ',');
-                                                                                            $total3 = $total3 + $row_sum3['total'];  ?></td>
+                                                                    <td class="text-right"><a data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $row4['dev_date']; ?>" id="edit4" class="btn  btn-sm line-height-1">  <?php echo number_format($row_sum3['total'], '2', '.', ',');
+                                                                                            $total3 = $total3 + $row_sum3['total'];  ?></a></td>
                                                                     <td class="text-right"><?php echo number_format($row4['discount'], '2', '.', ',');
                                                                                             $total_discount = $total_discount + $row4['discount']; ?></td>
                                                                     <td class="text-right"><?php $sum_total = $row_sum['total'] - $row4['discount'];
@@ -260,6 +260,25 @@ $d = explode("-", $datex);
                 </div>
             </div>
         </div>
+        <div id="view-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                            แสดงรายการลูกค้าเครดิต</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- mysql data will be load here -->
+                        <div id="dynamic-content4"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
                 <!-- Header -->
                 <?php include './include/footer.php'; ?>
                 <!-- =============== Header End ================-->
@@ -332,6 +351,36 @@ $d = explode("-", $datex);
                 })
                 .fail(function() {
                     $('#dynamic-content3').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit4', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            console.log('xxxx', uid);
+            $('#dynamic-content4').html(''); // leave this div blank
+            $('#modal-loader3').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'credit2_show.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content4').html(''); // blank before load.
+                    $('#dynamic-content4').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content4').html(
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader2').hide();
