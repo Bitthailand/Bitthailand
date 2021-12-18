@@ -120,7 +120,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                         <?php
                                                                         $d = explode("-", $MyDate);
                                                                         echo 'รายงานยอดขาย' . $MyDate;
-                                                                        $sql4 = "SELECT  *  FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  AND cus_type='1'   ";
+                                                                        $sql4 = "SELECT  *  FROM delivery  WHERE DAY(dev_date)= '$d[2]' AND MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' AND status_chk='1' AND status_payment='1'  ";
                                                                         $result4 = mysqli_query($conn, $sql4);
                                                                         if (mysqli_num_rows($result4) > 0) {
                                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
