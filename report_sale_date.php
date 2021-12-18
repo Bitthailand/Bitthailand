@@ -128,7 +128,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                 $sql_cus = "SELECT * FROM customer  WHERE customer_id='$row4[cus_id]' ";
                                                                                 $rs_cus = $conn->query($sql_cus);
                                                                                 $row_cus = $rs_cus->fetch_assoc();
-                                                                                $sql_dev = "SELECT SUM(dev_qty) AS dev FROM deliver_detail  WHERE dev_id='$row4[dev_id]' AND order_id='$row4[order_id]' ";
+                                                                                $sql_dev = "SELECT SUM(dev_qty) AS dev FROM deliver_detail  WHERE dev_id='$row4[dev_id]' AND order_id='$row4[order_id]' AND cus_type='1' ";
                                                                                 $rs_dev = $conn->query($sql_dev);
                                                                                 $row_dev = $rs_dev->fetch_assoc();
                                                                                 $sql_custype = "SELECT * FROM customer_type WHERE id='$row4[cus_type]' ";
@@ -148,7 +148,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                                                 $row_ai2 = $rs_ai2->fetch_assoc();
 
                                                                                 $sql_sum = "SELECT SUM(total_price)AS total  FROM deliver_detail
-                                                                                where dev_id='$row4[dev_id]'  AND order_id='$row4[order_id]' ";
+                                                                                where dev_id='$row4[dev_id]'  AND order_id='$row4[order_id]'  AND cus_type='1' ";
                                                                                 $rs_sum = $conn->query($sql_sum);
                                                                                 $row_sum = $rs_sum->fetch_assoc();
 
