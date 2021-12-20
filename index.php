@@ -178,7 +178,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">ยอดขายประจำเดือน</p>
-                                        <h4 class="heading"><?php echo number_format($sum, '2', '.', ',') ?></h4>
+                                        <h4 class="heading"><a href="report_sale_date1.php?MyMonth=<?=$datex?>" target="blank"><?php echo number_format($sum, '2', '.', ',') ?></a></h4>
                                      
                                         <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($sum_year, '2', '.', ',') ?></small>
                                     </div>
