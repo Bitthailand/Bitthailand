@@ -1,49 +1,18 @@
 
 <?php 
+
+$sql4 = "SELECT DATE_FORMAT(delivery.dev_date,'%Y') As MyYear ,SUM(discount) AS discount ,SUM(pay_full) AS pay_full   FROM delivery  WHERE    status_chk='1' AND status_payment='1'   GROUP BY MyYear ORDER BY MyYear  DESC ";
+$result4 = mysqli_query($conn, $sql4);
+if (mysqli_num_rows($result4) > 0) {
+    while ($row4 = mysqli_fetch_assoc($result4)) {
+$year = [];
+
 $sql = "SELECT  DATE_FORMAT(date_create,'%Y') As MyYear   FROM deliver_detail where status_cf='1' AND payment='1' GROUP BY MyDate    ORDER BY MyDate ASC  LIMIT 3 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month = [];
 
 // $value = [];
-if (mysqli_num_rows($result) > 0) {
 
-  while ($row = mysqli_fetch_assoc($result)) {
-    $d = explode("-", $row['MyDate']);
-    $yd = "$d[0]-$d[1]";
-    $date1 = explode(" ", $yd);
-    $dat1 =datethai5($date1[0]);
-    $month[] = $dat1;
-    // $value[] = $row['value'];
-
-$sql2 = "SELECT  ROUND(SUM(total_price), 2) AS sum  FROM deliver_detail where status_cf='1' AND payment='1' AND  MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  "; 
-$result2 = mysqli_query($conn, $sql2);
-
-// $value = [];
-if (mysqli_num_rows($result2) > 0) {
-
-  while ($row2 = mysqli_fetch_assoc($result2)) {
-    $sum_all[] = $row2['sum'];
-    // $value[] = $row['value'];
- 
-  }
-}
-
-$sql3 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE  status_cf='1' AND payment='1' AND  cus_back='1'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
-$result3 = mysqli_query($conn, $sql3);
-if (mysqli_num_rows($result3) > 0) {
-  while ($row3 = mysqli_fetch_assoc($result3)) {
-    $cus_back[] = $row3['sum'];
-    // $value[] = $row['value'];
-  //  echo json_encode($row3['sum']);
-  }
-}
-$sql4 = "SELECT ROUND(SUM(total_price), 2) AS  sum  FROM  deliver_detail  WHERE status_cf='1' AND payment='1' AND cus_back='2'  AND   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' "; 
-$result4 = mysqli_query($conn, $sql4);
-if (mysqli_num_rows($result4) > 0) {
-  while ($row4 = mysqli_fetch_assoc($result4)) {
-    $cus_back2[] = $row4['sum'];
-  }
-}
 
 }
 }
@@ -446,14 +415,11 @@ $(document).ready(function () {
       dashArray: [0, 8, 5]
     },
     series: [{
-      name: "ปี 2562",
+      name: "ปี 2564",
       data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
     }, {
-      name: "ปี 2563",
+      name: "ปี 2565",
       data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
-    }, {
-      name: 'ปี 2564',
-      data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47]
     }],
     markers: {
       size: 0,
@@ -462,7 +428,7 @@ $(document).ready(function () {
       }
     },
     xaxis: {
-      categories: ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan', '10 Jan', '11 Jan', '12 Jan']
+      categories: ['ม.ค', 'ก.พ', 'มี.ค', 'เม.ย', 'พ.ค', 'มิ.ย', 'ก.ค', 'ส.ค', 'ก.ย', 'ต.ค', 'พ.ย', 'ธ.ค'],
     },
     tooltip: {
       y: [{

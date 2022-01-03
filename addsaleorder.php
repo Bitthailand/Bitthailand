@@ -29,7 +29,8 @@ if ($row['dev_status'] == 1) {
     $dev_status = $row['dev_status'];
     $datetoday = $row['dev_date'];
 } else {
-    $sql5 = "SELECT MAX(id) AS id_run FROM delivery  ";
+    $year = date('Y');
+    $sql5 = "SELECT COUNT(id) AS id_run FROM delivery where year(date_create) = '$year'";
     $rs5 = $conn->query($sql5);
     $row_run = $rs5->fetch_assoc();
     $dev_status = $row['dev_status'];

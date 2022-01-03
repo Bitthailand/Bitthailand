@@ -70,6 +70,25 @@ if ($action == 'edit_ai') {
         </script>
 <?php }
 }
+if ($action == 'full_ai') {
+    $edit_id = $_REQUEST['edit_id'];
+    $order_id = $_REQUEST['order_id'];
+    $price = $_REQUEST['price'];
+    // echo"$delivery_date";
+    $sqlxxx = "UPDATE ai_number  SET price='$price' where id='$edit_id'";
+    $sqlxxx2 = "UPDATE orders  SET ai_count='$price' where order_id='$order_id'";
+    if ($conn->query($sqlxxx2) === TRUE) { }
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("อับเดตราคาจ่ายเต็มเรียบร้อย", "alert-primary");
+            });
+        </script>
+<?php }
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -334,7 +353,7 @@ if ($action == 'edit_ai') {
                                                    
                                                     ?>    
                                                 
-                                              
+                                                <button data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row_ai2['id']; ?>" id="edit3" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
                                                     <span class="font-weight-bold"> <?php echo number_format($row_ai2['price'], '2', '.', ',') ?></span>
                                                 
                                                 </td>
@@ -522,6 +541,25 @@ if ($action == 'edit_ai') {
             </div>
         </div>
     </div>
+    <div id="view-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        แก้ไขใบจ่ายเต็ม</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content3"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <form class="d-none" method="POST">
         <input type="text" id="FSColumnId" name="column" value="<?php echo $S_COLUMN; ?>" placeholder="">
         <input type="text" id="FSKeywordId" name="keyword" value="<?php echo $S_KEYWORD; ?>" placeholder="">
@@ -678,6 +716,34 @@ if ($action == 'edit_ai') {
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader2').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit3', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content2').html(''); // leave this div blank
+            $('#modal-loader2').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'full_edit.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content3').html(''); // blank before load.
+                    $('#dynamic-content3').html(data); // load here
+                    $('#modal-loader2').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content3').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader3').hide();
                 });
         });
     });
