@@ -9,7 +9,7 @@ $emp_id = $_SESSION["username"];
 
 echo 'from database';
 $s = ob_get_clean();
-file_put_contents('cache.html',$s);
+file_put_contents('cache.html', $s);
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -67,8 +67,8 @@ $row_refun = $rs_refun->fetch_assoc();
 $sumx_ai = $row_sum4['ai_count'];
 $sum_total = $row_sum['total'] - $row_month['discount'];
 // $sum= $sum_total- ($sumx_ai-$row_month['pay_full'])+$row_ai['total']+$row_pay['totalx']+$row_sum3['total']-$row_refun['total'];
-$sum_totalz= $sum_total-$sumx_ai-$row_month['pay_full'];
-$sum=$sum_totalz+$row_ai['total']+$row_pay['totalx']+$row_sum3['total']-$row_refun['total'];
+$sum_totalz = $sum_total - $sumx_ai - $row_month['pay_full'];
+$sum = $sum_totalz + $row_ai['total'] + $row_pay['totalx'] + $row_sum3['total'] - $row_refun['total'];
 
 // รายปี
 
@@ -109,8 +109,8 @@ $row_refun_year = $rs_refun_year->fetch_assoc();
 $sumx_ai_year = $row_sum4_year['ai_count'];
 $sum_total_year = $row_sum_year['total'] - $row_year['discount'];
 // $sum= $sum_total- ($sumx_ai-$row_month['pay_full'])+$row_ai['total']+$row_pay['totalx']+$row_sum3['total']-$row_refun['total'];
-$sum_totaly= $sum_total_year-$sumx_ai_year-$row_year['pay_full'];
-$sum_year=$sum_totaly+$row_ai_year['total']+$row_pay_year['totalx']+$row_sum3_year['total']-$row_refun_year['total'];
+$sum_totaly = $sum_total_year - $sumx_ai_year - $row_year['pay_full'];
+$sum_year = $sum_totaly + $row_ai_year['total'] + $row_pay_year['totalx'] + $row_sum3_year['total'] - $row_refun_year['total'];
 // 
 
 
@@ -128,8 +128,8 @@ $sql_year_discount = "SELECT SUM(discount) AS year_discount FROM delivery   WHER
 $rs_year_discount = $conn->query($sql_year_discount);
 $row_year_discount = $rs_year_discount->fetch_assoc();
 
-$SUM_MONTH = $row_month['month']-$row_month_discount['month_discount'];
-$SUM_YEAR = $row_year['month']-$row_year_discount['year_discount'];
+$SUM_MONTH = $row_month['month'] - $row_month_discount['month_discount'];
+$SUM_YEAR = $row_year['month'] - $row_year_discount['year_discount'];
 $sql_cus_month = "SELECT COUNT(DISTINCT  cus_id )   month FROM orders  WHERE MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND order_status='5'   ";
 $rs_cus_month = $conn->query($sql_cus_month);
 $row_cus_month = $rs_cus_month->fetch_assoc();
@@ -178,8 +178,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="ul-widget-stat__font"><i class="i-Money-2 text-success"></i></div>
                                     <div class="ul-widget__content">
                                         <p class="m-0">ยอดขายประจำเดือน</p>
-                                        <h4 class="heading"><a href="report_sale_date1.php?MyMonth=<?=$datex?>" target="blank"><?php echo number_format($sum, '2', '.', ',') ?></a></h4>
-                                     
+                                        <h4 class="heading"><a href="report_sale_date1.php?MyMonth=<?= $datex ?>" target="blank"><?php echo number_format($sum, '2', '.', ',') ?></a></h4>
+
                                         <small class="text-muted m-0">ยอดขายประจำปี : <?php echo number_format($sum_year, '2', '.', ',') ?></small>
                                     </div>
                                 </div>
@@ -283,7 +283,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <?php 
+                                                                    <?php
                                                                     $datex = date('Y-m');
                                                                     $d = explode("-", $datex);
                                                                     $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
@@ -408,7 +408,11 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                     <div class="tab-content">
                                         <div class="tab-pane active show" id="__g-widget4-tab1-content">
                                             <div class="ul-widget1">
-                                                <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
+                                                <?php
+
+                                                $datex = date('Y-m');
+                                                $d = explode("-", $datex);
+                                                $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
                                                 $result4 = mysqli_query($conn, $sql4);
                                                 if (mysqli_num_rows($result4) > 0) {
                                                     while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -448,7 +452,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                     while ($row4 = mysqli_fetch_assoc($result4)) {
                                                 ?>
                                                         <div class="ul-widget4__item ul-widget4__users">
-                                                        <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
+                                                            <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-3">
                                                                 <!-- <img class="avatar-lg mb-3 mb-sm-0 rounded mr-sm-3" src="../../dist-assets/images/products/11.jpg" alt="" /> -->
                                                                 <div class="flex-grow-1">
                                                                     <?php
@@ -518,7 +522,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
     <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
     <script src="../../dist-assets/js/plugins/apexcharts.min.js"></script>
     <script src="../../dist-assets/js/plugins/apexcharts.dataseries.min.js"></script>
-   
+
 </body>
 
 </html>
