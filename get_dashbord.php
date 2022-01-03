@@ -152,7 +152,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
 
-$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail,delivery where status_cf='1' AND payment='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
+$sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' AND payment='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
 $result = mysqli_query($conn, $sql);
 $month_pro = [];
 $pro_PS = [];
