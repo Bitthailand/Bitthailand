@@ -117,7 +117,9 @@ if (mysqli_num_rows($result) > 0) {
 // แบ่งตามประเภทสินค้า PIE
 $sql = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
 ON product.product_id = deliver_detail.product_id 
-INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND deliver_detail.payment='1' AND deliver_detail.status_cf='1' GROUP BY product.ptype_id";
+INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND deliver_detail.payment='1' AND deliver_detail.status_cf='1' 
+INNER JOIN  delivery ON  MONTH(delivery.dev_date) = '$d[1]' AND YEAR(delivery.dev_date) = '$d[0]' AND delivery.dev_id=deliver_detail.dev_id
+GROUP BY product.ptype_id";
 $result = mysqli_query($conn, $sql);
 $content = [];
 if (mysqli_num_rows($result) > 0) {
