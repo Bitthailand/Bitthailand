@@ -171,69 +171,10 @@ $row_bk = $rs_bk->fetch_assoc();
                                                                             echo $dat . '-' . $date[1] ?> </span>
                                     </div>
                                     <?php } } ?>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-info ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">เพิ่มรายการสั่งสินค้า</strong>
-                                            <a class=" btn-info text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">OR64080001</a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">
-                                            30 ก.ค. 2021 11:24 </span>
-                                    </div>
-                                    <?php
-                                    $sql_iv= "SELECT  * FROM  iv_number  where  order_id='$order_id'   ";
-                                    $result_iv = mysqli_query($conn, $sql_iv);
-                                    if (mysqli_num_rows($result_iv) > 0) {
-                                        while ($row_iv = mysqli_fetch_assoc($result_iv)) {
-                                            ?>
-
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-primary ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ออกใบกำกับสินค้า</strong>
-                                            <a class=" btn-primary text-white " href="invoice.php?order_id=<?=$order_id?>" target="_blank"><?=$row_iv['iv_number']?></a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">
-                                            30 ก.ค. 2021 11:19 </span>
-                                    </div>
-                                    <?php }} ?>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-primary ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ออกใบเสร็จรับเงิน</strong>
-                                            <a class=" btn-primary text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">RE64080001</a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">
-                                            30 ก.ค. 2021 11:19 </span>
-                                    </div>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-primary ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ออกใบวางบิล</strong>
-                                            <a class=" btn-primary text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">BI64080001</a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">
-                                            30 ก.ค. 2021 11:19 </span>
-                                    </div>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-danger ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ยกเลิก Order</strong>
-                                            <a class=" btn-danger text-white " href="orderview.php?saleorder_id=OR6408001" target="_blank">OR64080001</a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">
-                                            30 ก.ค. 2021 11:19 </span>
-                                    </div>
+                                   
+                
+                                   
+                                   
                                 </div>
                             </div>
                         </div>
