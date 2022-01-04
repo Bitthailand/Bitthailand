@@ -80,6 +80,8 @@
                                             <li><a href="report_sale.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">รายงานยอดขาย</span></a></li> 
                                             <li><a href="report_emp.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">รายงานพนักงาน</span></a></li> 
                                             <li><a href="report_quotation.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">ใบเสนอราคา</span></a></li> 
+                                            <li><a href="report_ai.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">ยอดมัดจำ</span></a></li> 
+                                            <li><a href="report_full.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">ยอดจ่ายเต็ม</span></a></li> 
                                         </ul>
                                     </div>
                                 </div>
