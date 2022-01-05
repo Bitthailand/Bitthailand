@@ -517,13 +517,13 @@ if (mysqli_num_rows($result) > 0) {
         y: [{
           title: {
             formatter: function formatter(val) {
-              return val + " (mins)";
+              return val + " (ปีปัจจุบัน)";
             }
           }
         }, {
           title: {
             formatter: function formatter(val) {
-              return val + " per session";
+              return val + " ปีก่อนหน้า";
             }
           }
         }, {
