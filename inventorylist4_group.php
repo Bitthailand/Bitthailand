@@ -165,9 +165,9 @@ $(document).ready(function() {
                                                                 $row_pro = $rs_pro->fetch_assoc();
                                                                 $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
                                                                 if ($sum_stock < $row_pro['qty_out']) {  ?>
-                                                                    <span class="badge badge-square-danger m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                                    <span class="badge badge-square-danger2"> <?php echo "$row_pro[qty_out]"; ?></span>
                                                                 <?php    } else { ?>
-                                                                    <span class="badge badge-square-success m-1"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                                    <span class="badge badge-square-success2"> <?php echo "$row_pro[qty_out]"; ?></span>
                                                                 <?php   }
                                                                 ?>
                                                             </td>

@@ -28537,6 +28537,16 @@ img-cropper input[type="file"] {
     text-align: center;
 }
 
+.badge-square-success2 {
+    background: #4caf50;
+    border-radius: 10%;
+    width: 40px;
+    height: 25px;
+    color: #fff;
+    line-height: 20px;
+    text-align: center;
+}
+
 .badge-square-success.lg {
     width: 40px;
     height: 40px;
@@ -28606,6 +28616,16 @@ img-cropper input[type="file"] {
     background: #f44336;
     border-radius: 20%;
     width: 25px;
+    height: 25px;
+    color: #fff;
+    line-height: 20px;
+    text-align: center;
+}
+
+.badge-square-danger2 {
+    background: #f44336;
+    border-radius: 10%;
+    width: 40px;
     height: 25px;
     color: #fff;
     line-height: 20px;
