@@ -497,7 +497,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                     <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="card-title">ยอดขายรายปี</div>
+                                <div class="card-title">เปรียบเทียบยอดขายแต่ละปี</div>
                                 <div id="dashedLineChart"></div>
                             </div>
                         </div>
