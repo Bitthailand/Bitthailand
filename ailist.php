@@ -88,6 +88,23 @@ if ($action == 'full_ai') {
 }
 
 
+if ($action == 'cancle_ai') {
+    $edit_id = $_REQUEST['edit_id'];
+    $order_id = $_REQUEST['order_id'];
+    $price = $_REQUEST['price'];
+    // echo"$delivery_date";
+    $sqlxxx = "UPDATE ai_number  SET price='0',messages='ยกเลิกมัดจำ' where order_id='$order_id'";
+    $sqlxxx2 = "UPDATE orders  SET ai_count='0',order_status='1' where order_id='$order_id'";
+    if ($conn->query($sqlxxx2) === TRUE) { }
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("ยกเลิกรายการมัดจำ", "alert-primary");
+            });
+        </script>
+<?php }
+}
+
 
 ?>
 
@@ -396,7 +413,7 @@ if ($action == 'full_ai') {
                                                         <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>">
                                                             <i class="i-Check font-weight-bold"></i>
                                                         </a>
-                                                       
+                                                        <button data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $row['order_id']; ?>" id="edit4" class="btn feather feather-folder-plus  btn-sm line-height-1" title="ยกเลิกรายการมัดจำ" > <i class="i-Pen-2 font-weight-bold"></i> </button>
                                                     <?php } ?>
                                                 </td>
                                             </tr>
@@ -555,6 +572,27 @@ if ($action == 'full_ai') {
 
                     <!-- mysql data will be load here -->
                     <div id="dynamic-content3"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="view-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        ยกเลิกรายการมัดจำ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content4"></div>
                 </div>
 
             </div>
@@ -744,6 +782,34 @@ if ($action == 'full_ai') {
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader3').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit4', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content4').html(''); // leave this div blank
+            $('#modal-loader4').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'cancle_ai.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content43').html(''); // blank before load.
+                    $('#dynamic-content4').html(data); // load here
+                    $('#modal-loader4').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content4').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader4').hide();
                 });
         });
     });
