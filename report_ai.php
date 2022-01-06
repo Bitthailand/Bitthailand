@@ -40,21 +40,7 @@ $d = explode("-", $datex);
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <!-- ============ Tab Menu ============= -->
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link active" href="/report_sale.php">
-                        <h4 class="h5 font-weight-bold"> ภาพรวมข้อมูลพนักงาน
-                        </h4>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="linkLoadModalNext nav-link" href="/report_sale_year.php">
-                        <h4 class="h5 font-weight-bold"> รายงานข้อมูลพนักงาน
-                        </h4>
-                    </a>
-                </li>
-
-            </ul>
+          
             <div class="tab-content">
                 <div class="main-content">
 

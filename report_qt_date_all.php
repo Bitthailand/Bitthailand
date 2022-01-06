@@ -236,7 +236,7 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
 <script>
     $('#orderby1').DataTable({
         "order": [
-            [0, "desc"]
+            [1, "desc"]
         ],
 
     }); // multi column ordering
