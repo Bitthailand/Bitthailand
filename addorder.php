@@ -437,7 +437,8 @@ if ($action == 'add') {
                     }
                 }
             }
-            $sql5 = "SELECT MAX(id) AS id_run FROM delivery ";
+            $year = date('Y');
+            $sql5 = "SELECT COUNT(id) AS id_run FROM delivery where YEAR(date_create) = '$year' ";
             $rs5 = $conn->query($sql5);
             $row_run = $rs5->fetch_assoc();
             $dev_status = $row['dev_status'];
