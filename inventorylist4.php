@@ -352,7 +352,7 @@ if ($action == 'bin') {
                                         <div class="modal-body">
 
                                             <!-- mysql data will be load here -->
-                                            <div id="dynamic-content2"></div>
+                                            <div id="dynamic-content7"></div>
                                         </div>
                                     </div>
 
@@ -594,8 +594,8 @@ if ($action == 'bin') {
         $(document).on('click', '#edit_bin', function(e) {
             e.preventDefault();
             var uid = $(this).data('id'); // get id of clicked row
-            $('#dynamic-content2').html(''); // leave this div blank
-            $('#modal-loader2').show(); // load ajax loader on button click
+            $('#dynamic-content7').html(''); // leave this div blank
+            $('#modal-loader7').show(); // load ajax loader on button click
             $.ajax({
                     url: 'edit_bin.php',
                     type: 'POST',
@@ -604,15 +604,15 @@ if ($action == 'bin') {
                 })
                 .done(function(data) {
                     console.log(data);
-                    $('#dynamic-content2').html(''); // blank before load.
-                    $('#dynamic-content2').html(data); // load here
-                    $('#modal-loader2').hide(); // hide loader  
+                    $('#dynamic-content7').html(''); // blank before load.
+                    $('#dynamic-content7').html(data); // load here
+                    $('#modal-loader7').hide(); // hide loader  
                 })
                 .fail(function() {
-                    $('#dynamic-content2').html(
+                    $('#dynamic-content7').html(
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
-                    $('#modal-loader2').hide();
+                    $('#modal-loader7').hide();
                 });
         });
     });
