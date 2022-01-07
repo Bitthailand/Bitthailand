@@ -46,7 +46,7 @@ echo "$row[product_id]";
                 
                 echo $row2["name"]; ?></td>
                  <td> <?php echo $row3["customer_name"]; ?> </td>
-                <td> <?php echo $rowx["qty"]; ?> </td>
+                <td> <?php echo $rowx["qty_out"]; ?> </td>
                 <td> <?php $date = explode(" ", $rowx['delivery_date']);
                                                     $dat = datethai2($date[0]);
                                                     echo $dat;    ?></td>
