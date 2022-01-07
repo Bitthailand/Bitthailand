@@ -76,6 +76,12 @@ if ($action == 'bin') {
     $commentx = $_REQUEST['comment'];
     // echo $edit_id;
     // echo"$delivery_date";
+    if($stock1 == ""){
+        $stock1 = 0;
+    }
+    if($stock2 == ""){
+        $stock2 = 0;
+    }
     $sql = "SELECT * FROM product  WHERE product_id= '$product_id'";
     $rs = $conn->query($sql);
     $row = $rs->fetch_assoc();
