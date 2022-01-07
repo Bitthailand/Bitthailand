@@ -88,19 +88,19 @@ if ($action == 'add_dev') {
     $ai_num_main=$_REQUEST['ai_num_main'];
     $datemonth = date('Y-m');
     $datetoday = date('Y-m-d');
-    $sql_true = "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' ";
+    $sql_true = "SELECT  * FROM   sr_number   where sr_id='$sr_id' AND order_id='$order_id' AND status_sr='1' AND so_id='$so_id' ";
     $result_true = mysqli_query($conn, $sql_true);
     if (mysqli_num_rows($result_true) > 0) {
     } else {
 
 
-        $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr,total_dis,comment,status_refun,date_create)
-    VALUES ('$sr_id','$order_id','$datemonth','1','$total_dis','$comment','$status_refun','$re_date')";
+        $sqlx = "INSERT INTO sr_number (sr_id,order_id,datemonth,status_sr,total_dis,comment,status_refun,date_create,so_id)
+    VALUES ('$sr_id','$order_id','$datemonth','1','$total_dis','$comment','$status_refun','$re_date','$so_id')";
         if ($conn->query($sqlx) === TRUE) {
             $last_id = $conn->insert_id;
         }
 
-        $sql_pro = "SELECT  *  FROM   deliver_detail  where order_id='$order_id' AND ptype_id<>'TF0'  AND status_cf='1'   ORDER BY product_id DESC ";
+        $sql_pro = "SELECT  *  FROM   deliver_detail  where order_id='$order_id' AND  dev_id='$so_id'  AND ptype_id<>'TF0'   ORDER BY product_id DESC ";
         $result_pro = mysqli_query($conn, $sql_pro);
         if (mysqli_num_rows($result_pro) > 0) {
             while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -108,8 +108,8 @@ if ($action == 'add_dev') {
                 $pid = $row_pro['id'];
                 $stock1 = $_POST['stock1'][$product_id][$pid][++$id];
                 $stock2 = $_POST['stock2'][$product_id][$pid][++$id2];
-                //    echo"$pid";
-                // echo "$stock1";
+                   echo"$pid";
+                echo "$stock1";
 
                 // echo "$stock2";
                 $sqlx3 = "SELECT * FROM order_details  WHERE product_id= '$product_id'  AND order_id='$order_id' ";
@@ -315,7 +315,7 @@ if ($action == 'add_dev') {
                                                         </thead>
                                                         <tbody>
                                                             <?php echo "$order_id";
-                                                            $sql_pro = "SELECT *  FROM   deliver_detail  where order_id='$order_id'  AND status_cf='1'   ORDER BY product_id DESC ";
+                                                            $sql_pro = "SELECT *  FROM   deliver_detail  where order_id='$order_id'  AND  dev_id='$so_id'   ORDER BY product_id DESC ";
                                                             $result_pro = mysqli_query($conn, $sql_pro);
                                                             if (mysqli_num_rows($result_pro) > 0) {
                                                                 while ($row_pro = mysqli_fetch_assoc($result_pro)) {
@@ -331,7 +331,7 @@ if ($action == 'add_dev') {
                                                                                 $sqlx3 = "SELECT * FROM product  WHERE product_id= '$row_pro[product_id]' ";
                                                                                 $rsx3 = $conn->query($sqlx3);
                                                                                 $rowx3 = $rsx3->fetch_assoc();
-                                                                                $sqlx_sr = "SELECT SUM(qty) AS qty_sr FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' AND dev_id='$row_pro[dev_id]' ";
+                                                                                $sqlx_sr = "SELECT *  FROM sr_detail WHERE product_id= '$row_pro[product_id]' AND order_id='$order_id' AND dev_id='$row_pro[dev_id]' ";
                                                                                 $rsx_sr = $conn->query($sqlx_sr);
                                                                                 $rowx_sr = $rsx_sr->fetch_assoc();
 
@@ -340,8 +340,7 @@ if ($action == 'add_dev') {
                                                                                 } else {
                                                                                     echo '*' . $rowx_sr['qty_sr'];
                                                                                 }
-                                                                                // $sum_qty = $row_pro['dev_qty'] - $rowx_sr['qty_sr'];
-                                                                                $sum_qty = $row_pro['dev_qty'];
+                                                                                $sum_qty = $row_pro['dev_qty'] ;
                                                                                 ?></td>
 
                                                                         <td class="text-center"><input type='number' class="form-control" <?php echo "id='face1_stock" . $no . "'"; ?> value='<?php echo $rowx3['fac1_stock']; ?>' readonly></td>
@@ -384,7 +383,7 @@ if ($action == 'add_dev') {
 
 
                                             <a class="btn btn-outline-primary m-1" href="/order_sr.php?sr_id=<?= $sr_id ?>" type="button" target="_blank">พิมพ์ใบคืนสินค้า(SR)</a>
-                                            <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
+                                            <a class="btn btn-outline-danger m-1" href="/deliverylist.php" type="button">กลับหน้ารายการ Order</a>
                                         <?php  } else { ?>
                                             <div class="col-md-2 text-sm-right">
                                                 <div class="form-group col-md-12">
@@ -440,7 +439,7 @@ if ($action == 'add_dev') {
                                                     <input type="hidden" name="action" value="add_dev">
                                                     <input type="hidden" name="dev_status" value="1">
                                                     <button type="submit" id="btu" class="btn btn-outline-primary m-1" name="add-data">บันทึกการคืนสินค้า</span></button>
-                                                    <a class="btn btn-outline-danger m-1" href="/ordersuccesslist.php" type="button">กลับหน้ารายการ Order</a>
+                                                    <a class="btn btn-outline-danger m-1" href="/deliverylist.php" type="button">กลับหน้ารายการ Order</a>
                                                     </div>
                                                 </div>
                                             </div>

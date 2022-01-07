@@ -196,6 +196,7 @@ if ($rowS == '') {
                                         <tr>
                                             <th>วันที่</th>
                                             <th>Order ID</th>
+                                            <th>SO ID</th>
                                             <th>SR ID</th>
                                             <th>ประเภทลูกค้า</th>
                                             <th>ชื่อลูกค้า</th>
@@ -254,6 +255,9 @@ if ($rowS == '') {
                                                         </td>
                                                         <td> <?php if ($x == 0) {
                                                                             echo $row['order_id'];
+                                                                        } ?></td>
+                                                                         <td> <?php if ($x == 0) {
+                                                                            echo $row['so_id'];
                                                                         } ?></td>
                                                         <td><?php
                                                                         $sql_order = "SELECT * FROM orders  WHERE order_id= '$row[order_id]'";

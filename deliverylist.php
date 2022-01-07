@@ -390,7 +390,7 @@ if ($action == 'add_hs') {
                                                 <button data-toggle="modal" data-target="#medalemp" title="กำหนดพนักงานส่ง" data-id="<?php echo $row['id']; ?>" id="add_emp" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Add-User font-weight-bold"></i> </button>
 
                                                 <button data-toggle="modal" data-target="#medalcf" title="ยืนยันส่งสินค้า" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
-
+                                                <a class='btn btn-outline-success btn-sm line-height-1' title='คืนสินค้า' href='/refun_so.php?order_id=<?=$row['order_id']?>&so_id=<?=$row['dev_id']?>' target='_blank'> <i class='i-Repeat-2 font-weight-bold'></i></a>
 
 
                                             </td>
