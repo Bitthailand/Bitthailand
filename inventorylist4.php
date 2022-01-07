@@ -73,7 +73,7 @@ if ($action == 'bin') {
     $stock1 = $_REQUEST['stock1'];
     $stock2 = $_REQUEST['stock2'];
     $product_id = $_REQUEST['product_id'];
-    $comment = $_REQUEST['comment'];
+    $commentx = $_REQUEST['comment'];
     // echo $edit_id;
     // echo"$delivery_date";
     $sql = "SELECT * FROM product  WHERE product_id= '$product_id'";
@@ -83,7 +83,7 @@ if ($action == 'bin') {
     $fac2_stock = $row['fac2_stock'] - $stock2;
     $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where product_id='$product_id'";
 
-    $sql2 = "INSERT INTO product_bin (product_id,stock1,stock2,comment,emp_id) VALUES ('$product_id','$stock1','$stock2','$comment','$emp_id')";
+    $sql2 = "INSERT INTO product_bin (product_id,stock1,stock2,comment,emp_id) VALUES ('$product_id','$stock1','$stock2','$commentx','$emp_id')";
 
     if ($conn->query($sql2) === TRUE) {
     }
