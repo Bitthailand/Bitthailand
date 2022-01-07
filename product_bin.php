@@ -197,10 +197,11 @@ if ($action == 'bin') {
                                                                 <?php echo $row["stock2"]; ?> </td>
                                                             <td>
                                                                 <?php echo $row["comment"]; ?> </td>
+                                                                <td><?php echo $row["emp_id"]; ?> </td>
                                                             <td> <?php $date = explode(" ", $row['date_create']);
                                                                     $dat = datethai2($date[0]);
                                                                     echo "$dat"; ?></td>
-                                                            <td><?php echo $row["emp_id"]; ?> </td>
+                                                            
 
 
                                                         </tr>
