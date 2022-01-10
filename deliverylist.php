@@ -107,11 +107,11 @@ if ($action == 'add_cfx') {
         if ($conn->query($sqlx12) === TRUE) {
         }
     }
-    if ($rowx3['qty']==0){
-        $sqlx13 = "UPDATE orders  SET order_status='5',error_status='3' WHERE order_id= '$row[order_id]' ";
-        if ($conn->query($sqlx13) === TRUE) {
-        }
-    } 
+    // if ($rowx3['qty']==0){
+    //     $sqlx13 = "UPDATE orders  SET order_status='5',error_status='3' WHERE order_id= '$row[order_id]' ";
+    //     if ($conn->query($sqlx13) === TRUE) {
+    //     }
+    // } 
     ?>
     <script>
         $(document).ready(function() {
