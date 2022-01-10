@@ -49,6 +49,16 @@ if ($status_order == 'new') {
     VALUES ('$order_id','$emp_id','2','$date_month')";
     if ($conn->query($sqlx5) === TRUE) {
     }
+
+    $sqlx5 = "INSERT INTO orders (order_id,emp_id)
+    VALUES ('$order_id','$emp_id')";
+if ($conn->query($sqlx5) === TRUE) {
+}
+
+$sql112 = "UPDATE orders_number  SET status_cf='1'  where order_id='$order_id'";
+if ($conn->query($sql112) === TRUE) {
+}
+
 }
 $order_idx = $_SESSION["order_id"];
 $Forder_idx = $_SESSION["order_id"];
