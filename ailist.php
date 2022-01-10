@@ -32,7 +32,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 40;
+    $total_records_per_page = 120;
 } else {
     $total_records_per_page = $rowS;
 }
