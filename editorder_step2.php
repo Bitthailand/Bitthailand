@@ -315,24 +315,8 @@ if ($action == 'edit') {
 }
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
-    $sql_dev = "SELECT * FROM deliver_detail  WHERE  id='$del_id' ";
-    $rs_dev  = $conn->query($sql_dev );
-    $row_dev  = $rs_dev->fetch_assoc();
-    $sql_ord = "SELECT * FROM order_details  WHERE  order_id='$row_dev[order_id]' AND product_id='$row_dev[product_id]' ";
-    $rs_ord  = $conn->query($sql_ord );
-    $row_ord  = $rs_ord->fetch_assoc();
-
-    $sql_pro = "SELECT * FROM product  WHERE   product_id='$row_dev[product_id]' ";
-    $rs_pro  = $conn->query($sql_pro);
-    $row_pro  = $rs_pro->fetch_assoc();
-
-    $add_stock1=$row_pro['fac1_stock']+$row_ord['face1_stock_out'];
-    $add_stock2=$row_pro['fac2_stock']+$row_ord['face2_stock_out'];
-
-    $sql2 = "UPDATE product  SET fac1_stock='$add_stock1',fac2_stock='$add_stock2'  where  product_id='$row_dev[product_id]' ";
-    if ($conn->query($sql2) === TRUE) {}
-    $sql3 = "DELETE FROM order_details  WHERE  order_id='$row_dev[order_id]' AND product_id='$row_dev[product_id]' ";
-    if ($conn->query($sql3) === TRUE) {}
+  
+//    echo"$del_id";
     $sql = "DELETE FROM deliver_detail  WHERE  id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
         <script>
@@ -547,7 +531,7 @@ if ($action == 'del') {
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $sql_pro = "SELECT * FROM deliver_detail  INNER JOIN product_type  ON deliver_detail.ptype_id=product_type.ptype_id  AND   deliver_detail.order_id='$order_id' AND deliver_detail.dev_id='$dev_id' ORDER BY  product_type.num_orderby,deliver_detail.date_create ASC ";
+                                                        $sql_pro = "SELECT *,deliver_detail.id AS idx FROM deliver_detail  INNER JOIN product_type  ON deliver_detail.ptype_id=product_type.ptype_id  AND   deliver_detail.order_id='$order_id' AND deliver_detail.dev_id='$dev_id' ORDER BY  product_type.num_orderby,deliver_detail.date_create ASC ";
                                                         $result_pro = mysqli_query($conn, $sql_pro);
                                                         if (mysqli_num_rows($result_pro) > 0) {
                                                             while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
@@ -574,10 +558,10 @@ if ($action == 'del') {
                                                                     <td> <?= $row_pro['disunit'] ?> </td>
                                                                     <td> <?= $row_pro['dev_qty'] ?></td>
                                                                     <td><?= $row_pro['total_price'] ?> </td>
-                                                                    <td><?php if($row_pro['status_new']==1){ ?> 
+                                                                    <td><?php if(($row_pro['ptype_id']=='TF')||($row_pro['ptype_id']=='TF0')){ ?> 
                                                                             <!-- <button type="button" class="btn btn-outline-success btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#Modaledit" id="edit_po"> <i class="i-Pen-2 font-weight-bold"></i> </button> -->
-
-                                                                            <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['id']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
+                                                                            <!-- <?php echo $row_pro['idx']; ?> -->
+                                                                            <button type="button" class="btn btn-outline-danger btn-sm line-height-1" data-id="<?php echo $row_pro['idx']; ?>" data-toggle="modal" data-target="#myModal_del" data-toggle="tooltip" title="ยกเลิกรายการสั่งสินค้า"> <i class="i-Close-Window font-weight-bold"></i> </button>
                                                                       <?php } ?>
                                                                         </td>
                                                                    

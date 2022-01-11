@@ -52,13 +52,12 @@ if ($status_order == 'new') {
 
     $sqlx5 = "INSERT INTO orders (order_id,emp_id)
     VALUES ('$order_id','$emp_id')";
-if ($conn->query($sqlx5) === TRUE) {
-}
+    if ($conn->query($sqlx5) === TRUE) {
+    }
 
-$sql112 = "UPDATE orders_number  SET status_cf='1'  where order_id='$order_id'";
-if ($conn->query($sql112) === TRUE) {
-}
-
+    $sql112 = "UPDATE orders_number  SET status_cf='1'  where order_id='$order_id'";
+    if ($conn->query($sql112) === TRUE) {
+    }
 }
 $order_idx = $_SESSION["order_id"];
 $Forder_idx = $_SESSION["order_id"];
@@ -160,7 +159,7 @@ if ($action == 'add_product') {
     $discount_text = $_REQUEST['Fdiscount_text'];
     $status_order = 'update';
     $Fcus_back = $_REQUEST['Fcus_back'];
-    if($Fcontact_name==''){
+    if ($Fcontact_name == '') {
         $Fcontact_name = '-';
     }
     // echo "$Fcontact_name";
@@ -766,9 +765,9 @@ if ($action == 'add_hs') {
                                     <div class="form-group col-md-6">
                                         <label for="accAddressId"><strong>ข้อมูลบุคคลอ้างอิง <span class="text-danger"></span></strong></label>
                                         <?php if ($status_order == 'confirm') { ?>
-                                            <input type="text" class="classcus form-control" value="<?= $contact_name?>">
+                                            <input type="text" class="classcus form-control" value="<?= $contact_name ?>">
                                         <?php } else { ?>
-                                            <input type="text" name="contact_name" class="classcus form-control" id="Fcontact_name" value="<?= $Fcontact_name ?>" placeholder="ข้อมูลบุคคลอ้างอิง" >
+                                            <input type="text" name="contact_name" class="classcus form-control" id="Fcontact_name" value="<?= $Fcontact_name ?>" placeholder="ข้อมูลบุคคลอ้างอิง">
                                         <?php } ?>
                                     </div>
                                     <div class="row mt-12">
@@ -1026,7 +1025,7 @@ if ($action == 'add_hs') {
                                             <input type="text" value="<?= $discount_text ?>" class="classcus form-control">
                                         <?php  } else { ?>
 
-                                            <input type="text" name="discount_text" id="discount_text" value="<?= $discount_text?>" class="classcus form-control" placeholder="รายละเอียดส่วนลด">
+                                            <input type="text" name="discount_text" id="discount_text" value="<?= $discount_text ?>" class="classcus form-control" placeholder="รายละเอียดส่วนลด">
                                         <?php } ?>
                                     </div>
                                     <div class="form-group col-md-1">
@@ -1311,7 +1310,7 @@ if ($action == 'add_hs') {
         <input type="text" id="PPcus_tel" name="Fcus_tel" value="<?php echo $Fcus_tel; ?>" placeholder="">
         <input type="text" id="PPcus_bill_address" name="Fcus_bill_address" value="<?php echo $Fcus_bill_address; ?>" placeholder="">
         <input type="text" id="PPcontact_name" name="Fcontact_name" value="<?php echo $contact_name; ?>" placeholder="">
-        
+
         <input type="text" id="PPcus_back" name="Fcus_back" value="<?php echo $Fcus_back; ?>" placeholder="">
         <input type="text" id="PPdelivery_date" name="Fdelivery_date" value="<?php echo $Fdelivery_date ?>" placeholder="">
         <input type="text" id="PPdelivery_Address" name="Fdelivery_Address" value="<?php echo $Fdelivery_Address; ?>" placeholder="">
