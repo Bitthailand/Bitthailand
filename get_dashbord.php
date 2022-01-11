@@ -282,6 +282,17 @@ if (mysqli_num_rows($result) > 0) {
         $pro_BC[] = $row_BC['total'];
       }
     }
+
+    $sql_PS2 = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname ,SUM(deliver_detail.total_price) AS total FROM  product INNER JOIN deliver_detail
+    ON product.product_id = deliver_detail.product_id 
+    INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND   product.ptype_id='PS2'  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.payment='1' AND deliver_detail.status_cf='1'  GROUP BY product.ptype_id ";
+      $result_PS2 = mysqli_query($conn, $sql_PS2);
+      if (mysqli_num_rows($result_PS2) > 0) {
+        while ($row_PS2 = mysqli_fetch_assoc($result_PS2)) {
+          $pro_PS2[] = $row_PS2['total'];
+        }
+      }
+
   }
 }
 ?>
@@ -663,13 +674,32 @@ if (mysqli_num_rows($result) > 0) {
           },
           {
             name: "เสาเข็มไอ",
-            data: <?= json_encode($pro_IP); ?>,
+            data: <?= json_encode($pro_PS2); ?>,
+            label: {
+              show: false,
+              color: "#659",
+            },
+            type: "bar",
+            color: "#DDD6FE",
+            smooth: true,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowOffsetY: -2,
+                shadowColor: "rgba(0, 0, 0, 0.3)",
+              },
+            },
+          },
+          {
+            name: "แผ่นพื้นสำเร็จรูป 30",
+            data: <?= json_encode($pro_PS2); ?>,
             label: {
               show: false,
               color: "#639",
             },
             type: "bar",
-            color: "#DDD6FE",
+            color: "#99CC99",
             smooth: true,
             itemStyle: {
               emphasis: {
