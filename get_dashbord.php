@@ -101,7 +101,7 @@ if (mysqli_num_rows($result) > 0) {
   }
 }
 // แบ่งตามประเภทสินค้า
-$sql = "SELECT *  FROM product_type  where status='0'  ORDER BY  id  ASC  LIMIT 20 ";
+$sql = "SELECT *  FROM product_type  where statusx='1'  ORDER BY  num_orderby  ASC  LIMIT 20 ";
 $result = mysqli_query($conn, $sql);
 $ptype = [];
 if (mysqli_num_rows($result) > 0) {
@@ -547,7 +547,7 @@ if (mysqli_num_rows($result) > 0) {
           },
         }, ],
         series: [{
-            name: "แผ่นพื้นสำเร็จรูป",
+            name: "แผ่นพื้นสำเร็จรูป 35",
             data: <?= json_encode($pro_PS); ?>,
             label: {
               show: false,
