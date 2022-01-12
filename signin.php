@@ -26,7 +26,7 @@ if ($action == 'login') {
             $_SESSION["username"] = $row['username'];
             
             $_SESSION["rule"] = $row['rule'];
-            $_SESSION["time"] = time() + 30;
+            $_SESSION["time"] = time() + 3000;
             header('Location: index.php');
         } else {
 ?>
