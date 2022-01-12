@@ -7,6 +7,7 @@ if (isset($_SESSION["username"])) {
 $emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config_date.php';
+
 $order_id = $_REQUEST['order_id'];
 $sql = "SELECT * FROM orders   WHERE order_id= '$order_id'";
 $rs = $conn->query($sql);
@@ -46,6 +47,24 @@ $row_ref  = $rs_ref->fetch_assoc();
 $sql_bk = "SELECT * FROM customer_back   WHERE id= '$row[cus_back]'";
 $rs_bk = $conn->query($sql_bk);
 $row_bk = $rs_bk->fetch_assoc();
+
+
+$action = $_REQUEST['action'];
+if ($action == 'edit') {
+    $edit_id = $_REQUEST['edit_id'];
+    $order_status = $_REQUEST['order_status'];
+    // echo"$delivery_date";
+    $sqlxxx = "UPDATE orders  SET order_status='$order_status' where id='$edit_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("อับเดตสถานะใบสั่งชื้อเรียบร้อย", "alert-primary");
+            });
+        </script>
+<?php }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -67,11 +86,15 @@ $row_bk = $rs_bk->fetch_assoc();
         <?php include './include/header.php'; ?>
         <!-- =============== Header End ================-->
         <!-- side bar menu -->
+        
         <?php include './include/menu.php'; ?>
         <!-- =============== Left side End ================-->
 
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
+             <!-- แจ้งเตือน -->
+             <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- ปิดการแจ้งเตือน -->
             <!-- ============ Body content start ============= -->
             <div class="main-content">
 
@@ -194,12 +217,18 @@ $row_bk = $rs_bk->fetch_assoc();
                         <div class="mb-3">
 
                             <div class="class-view-log card-body" id="order_create" style="padding-top:0!important;">
-
+                            <?php
+                                                                        $sql_or= "SELECT * FROM status_or  where id='$row[order_status]'";
+                                                                        $rs_or = $conn->query($sql_or);
+                                                                        $row_or = $rs_or->fetch_assoc();
+                                                                        // echo $rowx3['product_id'];
+                                                                        ?>
                                 <!-- รายละเอียด Order -->
                                 <div class="card">
                                     <div class="col-md-12">
                                         <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
-                                            <h4 class="text-muteds"><span>รายละเอียด Order: <?= $row['order_id'] ?></span></h4>
+                                            <h4 class="text-muteds"><span>รายละเอียด Order: <?= $row['order_id'] ?> สถานะ Order:<?= $row_or['name'] ?>
+                                            <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button> </span></h4>
                                         </div>
                                         <div class="separator-breadcrumb border-top mb-3"></div>
                                         <div class="row">
@@ -563,6 +592,25 @@ $row_bk = $rs_bk->fetch_assoc();
             <!-- =============== Header End ================-->
         </div>
     </div>
+    <div id="view-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        แก้ไขสถานะใบสั่งชื้อ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
@@ -576,3 +624,32 @@ $row_bk = $rs_bk->fetch_assoc();
 </body>
 
 </html>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'order_status_edit.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content').html(''); // blank before load.
+                    $('#dynamic-content').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
+        });
+    });
+</script>
