@@ -196,13 +196,14 @@ if ($action == 'editx') {
                                                                   </a>
                                                             </td>
                                                             <td>
+                                                            <a data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $row['id']; ?>" id="edit4" class="btn  btn-sm line-height-1"> 
                                                                 <?php
                                                                 $sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail  where  product_id='$row[product_id]' ";
                                                                 $rs_dev = $conn->query($sql_dev);
                                                                 $row_dev = $rs_dev->fetch_assoc();
                                                                 echo "$row_dev[dev_qty]";
                                                                 ?>
-                                                              
+                                                              </a>
 
                                                             </td>
                                                             <td><?php $sum_stock = $row_po['a_type'] - $row_dev['dev_qty'];
@@ -325,6 +326,25 @@ if ($action == 'editx') {
 
                                     <!-- mysql data will be load here -->
                                     <div id="dynamic-content3"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="view-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                        แสดงรายการขาย</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <!-- mysql data will be load here -->
+                                    <div id="dynamic-content4"></div>
                                 </div>
 
                             </div>
@@ -590,6 +610,34 @@ if ($action == 'editx') {
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader3').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit4', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content4').html(''); // leave this div blank
+            $('#modal-loader4').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'product_show_dev.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content4').html(''); // blank before load.
+                    $('#dynamic-content4').html(data); // load here
+                    $('#modal-loader4').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content4').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader4').hide();
                 });
         });
     });
