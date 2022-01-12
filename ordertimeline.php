@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config_date.php';
 $order_id = $_REQUEST['order_id'];
@@ -31,7 +31,13 @@ $row7 = $rs7->fetch_assoc();
 $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
 $rs8 = $conn->query($sql8);
 $row8 = $rs8->fetch_assoc();
-if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
+if ($row3['province'] == 1) {
+    $t = 'แขวง';
+    $a = '';
+} else {
+    $t = 'ต.';
+    $a = 'อ.';
+}
 $sql_ref = "SELECT * FROM referent  WHERE id= '$row3[province]'";
 $rs_ref  = $conn->query($sql_ref);
 $row_ref  = $rs_ref->fetch_assoc();
@@ -97,84 +103,88 @@ $row_bk = $rs_bk->fetch_assoc();
                                                                             echo $dat . '-' . $date[1] ?> </span>
                                     </div>
                                     <?php
-                                    $sql_qt= "SELECT  * FROM  quotation  where  order_id='$order_id'   ";
+                                    $sql_qt = "SELECT  * FROM  quotation  where  order_id='$order_id'   ";
                                     $result_qt = mysqli_query($conn, $sql_qt);
                                     if (mysqli_num_rows($result_qt) > 0) {
                                         while ($row_qt = mysqli_fetch_assoc($result_qt)) {
-                                            ?>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-primary ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ออกใบเสนอราคา</strong>
-                                            <a class=" btn-primary text-white " href="quotation.php?order_id=<?=$order_id?>" target="_blank"><?=$row_qt['qt_number']?></a>
-                                        </span>
-                                        <span class="ul-widget-s6__time"> <?php $date = explode(" ", $row_qt['date_create']);
-                                                                            $dat = datethai2($date[0]);
-                                                                            echo $dat . '-' . $date[1] ?></span>
-                                    </div>
-                                    
-                                    <?php }} 
-                                    $sql_ai= "SELECT  * FROM  ai_number   where  order_id='$order_id'   ";
+                                    ?>
+                                            <div class="ul-widget-s6__item">
+                                                <span class="ul-widget-s6__badge">
+                                                    <p class="badge-dot-primary ul-widget6__dot"></p>
+                                                </span>
+                                                <span class="ul-widget-s6__text">
+                                                    <strong class="mr-1">ออกใบเสนอราคา</strong>
+                                                    <a class=" btn-primary text-white " href="quotation.php?order_id=<?= $order_id ?>" target="_blank"><?= $row_qt['qt_number'] ?></a>
+                                                </span>
+                                                <span class="ul-widget-s6__time"> <?php $date = explode(" ", $row_qt['date_create']);
+                                                                                    $dat = datethai2($date[0]);
+                                                                                    echo $dat . '-' . $date[1] ?></span>
+                                            </div>
+
+                                        <?php }
+                                    }
+                                    $sql_ai = "SELECT  * FROM  ai_number   where  order_id='$order_id'   ";
                                     $result_ai = mysqli_query($conn, $sql_ai);
                                     if (mysqli_num_rows($result_ai) > 0) {
                                         while ($row_ai = mysqli_fetch_assoc($result_ai)) {
-                                            ?>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-primary ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ออกใบมัดจำสินค้า</strong>
-                                            <a class=" btn-primary text-white " href="ai.php?order_id=<?=$order_id?>" target="_blank"><?=$row_ai['ai_num']?></a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">  <?php $date = explode(" ", $row_ai['date_create']);
-                                                                            $dat = datethai2($date[0]);
-                                                                            echo $dat . '-' . $date[1] ?></span>
-                                    </div>
-                                    <?php   }
+                                        ?>
+                                            <div class="ul-widget-s6__item">
+                                                <span class="ul-widget-s6__badge">
+                                                    <p class="badge-dot-primary ul-widget6__dot"></p>
+                                                </span>
+                                                <span class="ul-widget-s6__text">
+                                                    <strong class="mr-1">ออกใบมัดจำสินค้า</strong>
+                                                    <a class=" btn-primary text-white " href="ai.php?order_id=<?= $order_id ?>" target="_blank"><?= $row_ai['ai_num'] ?></a>
+                                                </span>
+                                                <span class="ul-widget-s6__time"> <?php $date = explode(" ", $row_ai['date_create']);
+                                                                                    $dat = datethai2($date[0]);
+                                                                                    echo $dat . '-' . $date[1] ?></span>
+                                            </div>
+                                        <?php   }
                                     }
-                                    $sql_hs= "SELECT  * FROM  hs_number  where  order_id='$order_id'   ";
+                                    $sql_hs = "SELECT  * FROM  hs_number  where  order_id='$order_id'   ";
                                     $result_hs = mysqli_query($conn, $sql_hs);
                                     if (mysqli_num_rows($result_hs) > 0) {
                                         while ($row_hs = mysqli_fetch_assoc($result_hs)) {
-                                            ?>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-primary ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ออกใบเสร็จรับเงิน</strong>
-                                            <a class=" btn-primary text-white " href="hs_all.php?order_id=<?=$order_id?>" target="_blank"><?=$row_hs['hs_id']?></a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">  <?php $date = explode(" ", $row_hs['date_create']);
-                                                                            $dat = datethai2($date[0]);
-                                                                            echo $dat . '-' . $date[1] ?> </span>
-                                    </div>
-                                    <?php }}   $sql_dev= "SELECT  * FROM  delivery  where  order_id='$order_id'   ";
+                                        ?>
+                                            <div class="ul-widget-s6__item">
+                                                <span class="ul-widget-s6__badge">
+                                                    <p class="badge-dot-primary ul-widget6__dot"></p>
+                                                </span>
+                                                <span class="ul-widget-s6__text">
+                                                    <strong class="mr-1">ออกใบเสร็จรับเงิน</strong>
+                                                    <a class=" btn-primary text-white " href="hs_all.php?order_id=<?= $order_id ?>" target="_blank"><?= $row_hs['hs_id'] ?></a>
+                                                </span>
+                                                <span class="ul-widget-s6__time"> <?php $date = explode(" ", $row_hs['date_create']);
+                                                                                    $dat = datethai2($date[0]);
+                                                                                    echo $dat . '-' . $date[1] ?> </span>
+                                            </div>
+                                        <?php }
+                                    }
+                                    $sql_dev = "SELECT  * FROM  delivery  where  order_id='$order_id'   ";
                                     $result_dev = mysqli_query($conn, $sql_dev);
                                     if (mysqli_num_rows($result_dev) > 0) {
                                         while ($row_dev = mysqli_fetch_assoc($result_dev)) {
-                                            ?>
-                                    <div class="ul-widget-s6__item">
-                                        <span class="ul-widget-s6__badge">
-                                            <p class="badge-dot-primary ul-widget6__dot"></p>
-                                        </span>
-                                        <span class="ul-widget-s6__text">
-                                            <strong class="mr-1">ออกใบส่งสินค้า</strong>
-                                            <a class=" btn-primary text-white " href="saleorder.php?order_id=<?=$order_id?>&so_id=<?=$row_dev['dev_id']?>" target="_blank"><?=$row_dev['dev_id']?></a>
-                                        </span>
-                                        <span class="ul-widget-s6__time">
-                                        <?php $date = explode(" ", $row_dev['date_create']);
-                                                                            $dat = datethai2($date[0]);
-                                                                            echo $dat . '-' . $date[1] ?> </span>
-                                    </div>
-                                    <?php } } ?>
-                                   
-                
-                                   
-                                   
+                                        ?>
+                                            <div class="ul-widget-s6__item">
+                                                <span class="ul-widget-s6__badge">
+                                                    <p class="badge-dot-primary ul-widget6__dot"></p>
+                                                </span>
+                                                <span class="ul-widget-s6__text">
+                                                    <strong class="mr-1">ออกใบส่งสินค้า</strong>
+                                                    <a class=" btn-primary text-white " href="saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $row_dev['dev_id'] ?>" target="_blank"><?= $row_dev['dev_id'] ?></a>
+                                                </span>
+                                                <span class="ul-widget-s6__time">
+                                                    <?php $date = explode(" ", $row_dev['date_create']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo $dat . '-' . $date[1] ?> </span>
+                                            </div>
+                                    <?php }
+                                    } ?>
+
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -364,6 +374,56 @@ $row_bk = $rs_bk->fetch_assoc();
                                         </div>
                                     </div>
                                 </div>
+                                <br>
+                                <?php
+                                $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM ai_number where   order_id='$order_id'  ");
+                                $count = mysqli_fetch_array($result_count);
+                                $countx = $count['total'];
+                                if ($countx > 0) {
+
+                                   
+                                    $sql_ai = "SELECT * FROM ai_number where   order_id='$order_id'  ";
+                                    $rs_ai = $conn->query($sql_ai);
+                                    $row_ai = $rs_ai->fetch_assoc();
+                                ?> 
+                                <div class="card">
+                                    <div class="col-md-12">
+                                        <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
+                                            <h4 class="text-muteds"><span>ใบเสนอราคา/จ่ายเต็ม Order: <?= $row['order_id'] ?></span></h4>
+                                        </div>
+                                        <div class="separator-breadcrumb border-top mb-3"></div>
+                                        <div class="row">
+                                            <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
+                                                <h4 class="text-muted text-success"> ข้อมูลใบเสนอราคาเลขที่  <?= $row_ai['ai_num'] ?></h4>
+                                            </div>
+                                            <div class="col-md-12 col-12 mb-2">
+                                              ข้อความมัดจำ :
+                                                <strong class="font-weight-bold text-primary"><?= $row_ai['messages'] ?></strong>
+                                            </div>
+
+                                            <div class="col-md-4 col-12 mb-2">
+                                                จำนวนเงินมัดจำ :
+                                                <strong><?php echo $row_ai['price']; ?></strong>
+                                            </div>
+                                            <div class="col-md-4 col-12 mb-2">
+                                                ประเภทการชำระเงิน :
+                                                <strong><?php if($row_ai['aix_status']==0){ echo"มัดจำ"; }
+                                                if($row_ai['aix_status']==1){ echo"จ่ายเต็ม"; }
+                                                ?></strong>
+                                            </div>
+                                            <div class="col-md-4 col-12 mb-2">
+                                                วันที่ทำรายการ :
+                                                <strong class="font-weight-bold text-primary"><?php $date = explode(" ", $row_ai['date_create']);
+                                                                    $dat = datethai2($date[0]);
+                                                                    echo $dat ?></strong>
+                                            </div>
+
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php } ?>
                                 <?php
                                 $result_count = mysqli_query($conn, "SELECT COUNT(*) As total  FROM delivery  where  status='0' AND  order_id='$order_id'  ");
                                 $count = mysqli_fetch_array($result_count);
