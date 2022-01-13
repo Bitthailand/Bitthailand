@@ -31,7 +31,7 @@ echo "$row[product_id]";
         $total_records = $total_records['total_records'];
         $total_no_of_pages = ceil($total_records / $total_records_per_page);
         $second_last = $total_no_of_pages - 1; // total page minus 1
-        $result = mysqli_query($conn, "SELECT * FROM deliver_detail  INNER JOIN delivery   ON deliver_detail.product_id= '$row[product_id]' AND deliver_detail.order_id=delivery.order_id AND delivery.status_payment='1' ORDER BY delivery.dev_date DESC ");
+        $result = mysqli_query($conn, "SELECT * FROM deliver_detail  INNER JOIN delivery   ON deliver_detail.product_id= '$row[product_id]' AND deliver_detail.order_id=delivery.order_id AND delivery.status_payment='1' GROUP BY deliver_detail.dev_id ORDER BY delivery.dev_date DESC ");
         while ($rowx = mysqli_fetch_array($result)) { ?>
             <tr>
                 <td><?php echo $rowx["product_id"]; ?></td>
