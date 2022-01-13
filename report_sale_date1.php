@@ -161,7 +161,7 @@ $d = explode("-", $datex);
                                                                     <td class="text-right"><?php echo number_format($row_dev['dev'], '0', '.', ',');
                                                                                             $dev = $dev + $row_dev['dev'];   ?></td>
                                                                     <td class="text-right"> 
-                                                                        <?php if($row_ai['total']==0){  echo number_format($row_ai['total'], '2', '.', ','); } else{  ?>
+                                                                        <?php if($row_ai['total']==0){ ?>  <span class="btn  btn-sm line-height-1">  <?php   echo  number_format($row_ai['total'], '2', '.', ','); ?> </span> <?php  } else{  ?>
                                                                         <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row4['dev_date']; ?>" id="edit2" class="btn  btn-sm line-height-1"><?php echo number_format($row_ai['total'], '2', '.', ',');
                                                                                                                                                                                                                                         $total_ai = $total_ai + $row_ai['total'];  ?></a><?php } ?></td>
                                                                     <td class="text-right"> 
