@@ -324,6 +324,18 @@ if ($action == 'edit_discount') {
         </script>
     <?php   }
 }
+if ($action == 'edit_vat') {
+    $edit_id = $_REQUEST['edit_id'];
+    $vat = $_REQUEST['vat'];
+    $sql2 = "UPDATE orders   SET vat='$vat'   where order_id='$edit_id'";
+    if ($conn->query($sql2) === TRUE) {  ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("แก้ไขสถานะใบกำกับภาษีสำเร็จ", "alert-success");
+            });
+        </script>
+    <?php   }
+}
 
 
 if ($action == 'del') {
@@ -672,7 +684,20 @@ if ($action == 'add') {
                                         <label for="accAddressId"><strong>ข้อมูลบุคคลอ้างอิง <span class="text-danger"></span></strong></label>
                                         <button data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $order_id; ?>" id="edit3" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
                                         <input type="text" class="classcus form-control" value="<?php echo $main['contact_name']; ?>">
-                                       
+
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="accAddressId"><strong>ใบกำกับภาษีหรือไม่<span class="text-danger"></span></strong></label>
+                                        <button data-toggle="modal" data-target="#view-modal6" data-id="<?php echo $order_id; ?>" id="edit6" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                        <?php if ($main['vat'] == 'Y') {
+                                            $vat1 = "ออกใบกำกับภาษี";
+                                        }
+                                        if ($main['vat'] == 'N') {
+                                            $vat1 = "ไม่ออกใบกำกับภาษี";
+                                        }
+                                        ?>
+                                        <input type="text" value="<?php echo $vat1; ?>" class="classcus form-control">
+
                                     </div>
                                     <!-- สั่งสินค้า -->
                                     <div class="row mt-12">
@@ -868,7 +893,7 @@ if ($action == 'add') {
                                         <input type="text" name="discount_text" id="discount_text" value="<?= $main['discount_text'] ?>" class="classcus form-control" placeholder="รายละเอียดส่วนลด">
                                     </div>
                                     <div class="form-group col-md-3">
-                                    <button data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $order_id; ?>" id="edit4" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                        <button data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $order_id; ?>" id="edit4" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
                                         <label for="discount"><strong>ส่วนลด(บาท) <span class="text-danger"></span></strong></label>
                                         <input type="text" name="discount" id="discount" value="<?= $main['discount'] ?>" class="classcus form-control" placeholder="ส่วนลด">
                                     </div>
@@ -1201,6 +1226,25 @@ if ($action == 'add') {
             </div>
         </div>
     </div>
+    <div id="view-modal6" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        แก้ไขสถานะใบกำกับภาษี</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content6"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- Modal ยืนยันส่งสินค้า -->
     <div class="modal fade" id="modalcus" tabindex="-1" role="dialog" aria-labelledby="medaltransuccess-2" style="display: none;" aria-hidden="true">
@@ -1383,7 +1427,7 @@ if ($action == 'add') {
         });
     </script>
 
-<script>
+    <script>
         $(document).ready(function() {
             $(document).on('click', '#edit4', function(e) {
                 e.preventDefault();
@@ -1407,6 +1451,36 @@ if ($action == 'add') {
                             '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                         );
                         $('#modal-loader4').hide();
+                    });
+            });
+        });
+    </script>
+
+ 
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#edit6', function(e) {
+                e.preventDefault();
+                var uid = $(this).data('id'); // get id of clicked row
+                $('#dynamic-content6').html(''); // leave this div blank
+                $('#modal-loader6').show(); // load ajax loader on button click
+                $.ajax({
+                        url: 'vat_edit.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content6').html(''); // blank before load.
+                        $('#dynamic-content6').html(data); // load here
+                        $('#modal-loader6').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content6').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader6').hide();
                     });
             });
         });

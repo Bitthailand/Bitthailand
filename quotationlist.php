@@ -302,7 +302,9 @@ if ($action == 'edit') {
                                             <th>วันที่</th>
                                             <th>Order ID</th>
                                             <th>เลขใบเสนอราคา</th>
+                                            <th>Vat</th>
                                             <th>ประเภทลูกค้า</th>
+                                            
                                             <th>ชื่อลูกค้า</th>
                                             <th>เบอร์โทร์</th>
                                             <th>อำเภอ</th>
@@ -345,6 +347,7 @@ if ($action == 'edit') {
                                                 </td>
                                                 <td> <?= $row['order_id'] ?></td>
                                                 <td> <?= $row['qt_id'] ?></td>
+                                                <td> <?= $row['vat'] ?></td>
                                                 <td><?php
                                                     $sql2 = "SELECT * FROM customer_type WHERE id= '$row[cus_type]'";
                                                     $rs2 = $conn->query($sql2);
