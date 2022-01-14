@@ -23,7 +23,7 @@ $row4 = $rs4->fetch_assoc();
 
 <div class="row mt-12">
     <div class="form-group col-md-4">
-        <label for="plant"><strong>ประเภทสินค้า <span class="text-danger"></span></strong></label>
+        <label for="plant"><strong>ประเภทสินค้าxxx <span class="text-danger"></span></strong></label>
         <input type="text" class="classcus form-control" value="<?php echo $row2['ptype_name']; ?>" placeholder="ประเภทสินค้า" disabled>
     </div>
     <div class="form-group col-md-8">
@@ -73,8 +73,8 @@ $row4 = $rs4->fetch_assoc();
     <button type="submit" class="btn btn-primary" name="add-data"><span class="glyphicon glyphicon-plus"></span>
         EDIT</button>
     <input type="hidden" name="edit_id" value="<?php echo $id; ?>">
-    <input type="hidden" name="action" value="edit">
-
+    <input type="hidden" name="actionx" value="editxx">
+    <input type="hidden" name="status_order" value="editxx">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 </div>
 

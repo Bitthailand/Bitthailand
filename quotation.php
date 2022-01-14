@@ -460,20 +460,22 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                         <td align="right" class="left_right_bottom"><?php echo number_format($row_or['discount'], '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
                     </tr>
-                    <tr>
+                   <?php if($rowx['vat']=='Y'){  ?> <tr>
                         <td colspan="2" class="left_bottom" align="left"> </td>
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;จำนวนเงินก่อนรวมภาษี </td>
 
                         <td align="right" class="left_right_bottom"><?php echo number_format($first_total, '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
                     </tr>
-                    <tr>
+                    <?php } ?>
+                    <?php if($rowx['vat']=='Y'){  ?> <tr>
                         <td colspan="2" class="left_bottom" align="left"> </td>
                         <td align="left" colspan="2" style="font-size: 18px;">&nbsp;จำนวนเงินภาษีมูลค่าเพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.00% </td>
 
                         <td align="right" class="left_right_bottom"><?php echo number_format($tax, '2', '.', ',') ?>&nbsp;&nbsp;</td>
 
                     </tr>
+                    <?php } ?>
                     <tr>
                         <td colspan="2" class="left_bottom1" align="left">
                             <div class="row_text">
@@ -508,7 +510,8 @@ $strNewDate = date("Y-m-d", strtotime("+$rowx[date_confirm] day", strtotime($str
                     <p style="font-size: 18px;">6. บริษัทฯ ขอไม่รับผิดชอบต่อความเสียหายใดๆ หลังจากตรวจรับสินค้าแล้ว </p>
                     <br>
                     <h6 class="font-weight-bold" style="font-size: 18px;">วิธีการชำระเงิน</h6>
-                    <p style="font-size: 18px;">ชื่อบัญชี : บจก.วันเอ็ม ธนาคารกสิกรไทย สาขาสุนีย์ทาวเวอร์ ประเภทออมทรัพย์ เลขที่บัญชี <b>685-2-29088-7 </b> </p>
+                    <?php if($rowx['vat']=='Y'){  ?> <p style="font-size: 18px;">ชื่อบัญชี : บจก.วันเอ็ม ธนาคารกสิกรไทย สาขาสุนีย์ทาวเวอร์ ประเภทออมทรัพย์ เลขที่บัญชี <b>685-2-29088-7 </b> </p> <?php } ?>
+                    <?php if($rowx['vat']=='N'){  ?> <p style="font-size: 18px;">ชื่อบัญชี : นายธนศักดิ์  พละศักดิ์  ธนาคารกสิกรไทย  ประเภทออมทรัพย์ เลขที่บัญชี <b>744-2-56311-4 </b> </p> <?php } ?>
                 </div>
                 <div class="mt-3 mb-4 border-top"></div>
             </div>

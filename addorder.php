@@ -64,9 +64,12 @@ $Forder_idx = $_SESSION["order_id"];
 // echo"$order_idx";
 // echo"$status_order";
 if ($status_order == 'confirm') {
-    // echo"$order_idx";
-    // $order_id = $_REQUEST['Forder_id'];
+    $order_idx = $_REQUEST['order_idx'];
+    // echo "con---$order_idx ---xx";
+
     $cus_back = $_REQUEST['cus_back'];
+    $Fcus_type_name = $_REQUEST['cus_type_name'];
+
     $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
     $rs = $conn->query($sql);
     $rs = $rs->fetch_assoc();
@@ -93,6 +96,15 @@ if ($status_order == 'confirm') {
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $contact_name = $_REQUEST['contact_name'];
+    $vat = $_REQUEST['vat'];
+    if ($vat == 'Y') {
+        $vat1 = "ออกใบกำกับภาษี";
+    }
+    if ($vat == 'N') {
+        $vat1 = "ไม่ออกใบกำกับภาษี";
+    }
+    echo "$Fcus_type_name";
+    echo "$cus_type_name";
     $Fcus_type_name = $_REQUEST['Fcus_type_name'];
     $Fcus_type_id = $_REQUEST['Fcus_type_id'];
     $Fcus_name = $_REQUEST['Fcus_name'];
@@ -113,12 +125,14 @@ if ($status_order == 'confirm') {
 $delivery_datex = $_REQUEST['delivery_datex'];
 $action = $_REQUEST['action'];
 $Fcus_type_name = $_REQUEST['Fcus_type_name'];
+// echo"$Fcus_type_name";
 $Fcus_type_id = $_REQUEST['Fcus_type_id'];
 $Fcus_name = $_REQUEST['Fcus_name'];
 $Fcus_id = $_REQUEST['Fcus_id'];
 $Fcus_tel = $_REQUEST['Fcus_tel'];
 $Fcus_bill_address = $_REQUEST['Fcus_bill_address'];
 $Fcontact_name = $_REQUEST['Fcontact_name'];
+$Fvat = $_REQUEST['Fvat'];
 $Fcus_back = $_REQUEST['Fcus_back'];
 $Fdelivery_date = $_REQUEST['Fdelivery_date'];
 $Fdelivery_Address = $_REQUEST['Fdelivery_Address'];
@@ -145,6 +159,9 @@ if ($action == 'add_product') {
     $Fcus_tel = $_REQUEST['Fcus_tel'];
     $Fcus_bill_address = $_REQUEST['Fcus_bill_address'];
     $Fcontact_name = $_REQUEST['Fcontact_name'];
+    $Fvat = $_REQUEST['Fvat'];
+
+    // echo"$Fvat";
     $Fcus_back = $_REQUEST['Fcus_back'];
     $send_to = $_REQUEST['Fsend_to'];
     $send_price = $_REQUEST['Fsend_price'];
@@ -178,8 +195,8 @@ if ($action == 'add_product') {
         } else {
             // echo "ordersss";
 
-            $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button,contact_name)
-                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0','$Fcontact_name')";
+            $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button,contact_name,vat)
+                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0','$Fcontact_name','$Fvat')";
             if ($conn->query($sqlx5) === TRUE) {
             }
         }
@@ -229,8 +246,8 @@ if ($action == 'add_product') {
             $result2 = mysqli_query($conn, $sql2);
             if (mysqli_num_rows($result2) > 0) {
             } else {
-                $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button,contact_name)
-                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0','$Fcontact_name')";
+                $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button,contact_name,vat)
+                                VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0','$Fcontact_name','$Fvat')";
                 if ($conn->query($sqlx5) === TRUE) {
                 }
                 $sql112 = "UPDATE orders_number  SET status_use='2' where order_id='$Forder_id'";
@@ -311,17 +328,21 @@ if ($action1 == 'chk_cusback') {
         }
     }
 }
-if ($action == 'edit') {
+
+$actionx = $_REQUEST['actionx'];
+// echo"$actionx";
+if ($actionx == 'editxx') {
     $edit_id = $_REQUEST['edit_id'];
-    $edit_id = $_REQUEST['edit_id'];
+    $Fvat = $_REQUEST['Fvat'];
     $qty = $_REQUEST['qty'];
     $total_price = $_REQUEST['total_price'];
     $face1_out = $_REQUEST['face1_out'];
     $face2_out = $_REQUEST['face2_out'];
     $total_price = $_REQUEST['total_price'];
-
-    $sql = "UPDATE order_details    SET qty='$qty',qty_out='$qty',total_price='$total_price',face1_stock_out='$face1_out',face2_stock_out='$face2_out' where id='$edit_id'";
-    if ($conn->query($sql) === TRUE) {  ?>
+    // echo"$Fvat";
+    // echo"แก้ไข";
+    $sqltt = "UPDATE order_details    SET qty='$qty',qty_out='$qty',total_price='$total_price',face1_stock_out='$face1_out',face2_stock_out='$face2_out' where id='$edit_id'";
+    if ($conn->query($sqltt) === TRUE) {  ?>
         <script>
             $(document).ready(function() {
                 showAlert("แก้ไขข้อมูลจำนวนสั่งสินค้าสำเร็จ", "alert-success");
@@ -354,6 +375,13 @@ if ($action == 'add') {
     $cus_tel = $_REQUEST['cus_tel'];
     $cus_bill_address = $_REQUEST['cus_bill_address'];
     $contact_name = $_REQUEST['contact_name'];
+    $vat = $_REQUEST['vat'];
+    // echo"xxxxx-$vat";
+
+    $Fcus_type_name = $_REQUEST['Fcus_type_name'];
+    // echo"$Fcus_type_name";
+
+
     $delivery_date = $_REQUEST['delivery_date'];
     $delivery_Address = $_REQUEST['delivery_Address'];
     $date_confirm = $_REQUEST['date_confirmx'];
@@ -380,7 +408,7 @@ if ($action == 'add') {
             $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx' ";
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
-                $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',error='2' where order_id='$order_idx'";
+                $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',error='2',vat='$vat' where order_id='$order_idx'";
                 if ($conn->query($sql88) === TRUE) {
                 }
                 $sql112 = "UPDATE orders_number   SET status_use='2',status_cf='1' where order_id='$order_idx'";
@@ -458,7 +486,7 @@ if ($action == 'add') {
             $code = sprintf('%05d', $code_new);
             $dev_id = $dat . $code;
             // ตรวจสอบเลขจัดส่ง
-            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1'  WHERE order_id= '$order_idx'";
+            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1',vat='$vat'  WHERE order_id= '$order_idx'";
             if ($conn->query($sqlx12) === TRUE) {
             }
             $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
@@ -501,7 +529,7 @@ if ($action == 'add') {
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
                 // echo "$delivery_date";
-                $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',date_confirm='30',error='12' where order_id='$order_idx'";
+                $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',date_confirm='30',error='12',vat='$vat'  where order_id='$order_idx'";
                 if ($conn->query($sql) === TRUE) {
                 }
                 $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
@@ -597,6 +625,7 @@ if ($action == 'add_cus') {
     $tel = $_REQUEST['tel'];
     $tax_number = $_REQUEST['tax_number'];
     $contact_name = $_REQUEST['contact_name'];
+    $vat = $_REQUEST['vat'];
     $datemonth = date('Y-m');
     $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
     $result = mysqli_query($conn, $sqlx);
@@ -730,6 +759,24 @@ if ($action == 'add_hs') {
                                             <input type="hidden" id="cusx" name="cusx" value="<?= $Fcus_back ?>">
                                         <?php } ?>
                                     </div>
+
+                                    <?php
+                                    if ($status_order == 'confirm') {
+                                    $order_idx = $_REQUEST['order_idx'];
+                                    $sql = "SELECT * FROM orders where order_id='$order_idx'  ";
+                                    $rs = $conn->query($sql);
+                                    $rs = $rs->fetch_assoc();
+                                    // ===============
+                                    $sql2 = "SELECT * FROM customer  where customer_id='$rs[cus_id]'  ";
+                                    $rs2 = $conn->query($sql2);
+                                    $rs2 = $rs2->fetch_assoc();
+                                    // ==================
+                                    $sql3 = "SELECT * FROM customer_type  where id='$rs[cus_type]'  ";
+                                    $rs3 = $conn->query($sql3);
+                                    $rs3 = $rs3->fetch_assoc();
+                                    }
+
+                                    ?>
                                     <div class="form-group col-md-2">
                                         <label for="accNameId"><strong>ประเภทลูกค้า <span class="text-danger"></span></strong></label>
                                         <?php if ($status_order == 'confirm') { ?> <input type="text" value="<?php echo $rs3['name']; ?>" class="classcus form-control">
@@ -768,6 +815,21 @@ if ($action == 'add_hs') {
                                             <input type="text" class="classcus form-control" value="<?= $contact_name ?>">
                                         <?php } else { ?>
                                             <input type="text" name="contact_name" class="classcus form-control" id="Fcontact_name" value="<?= $Fcontact_name ?>" placeholder="ข้อมูลบุคคลอ้างอิง">
+                                        <?php } ?>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="accAddressId"><strong>ใบกำกับภาษีหรือไม่<span class="text-danger"></span></strong></label>
+
+                                        <?php if ($status_order == 'confirm') { ?>
+                                            <input type="text" value="<?php echo $vat1; ?>" class="classcus form-control">
+                                        <?php } else { ?>
+                                            <select id="vat" class="classcus custom-select" name="vat">
+                                                <option value="N" <?php echo $Fvat == 'N' ? 'selected' : ''; ?>>ไม่ออกใบกำกับภาษี</option>
+                                                <option value="Y" <?php echo $Fvat == 'Y' ? 'selected' : ''; ?>> ออกใบกำกับภาษี </option>
+
+
+                                            </select>
+                                            <input type="hidden" id="cusx" name="cusx" value="<?= $Fcus_back ?>">
                                         <?php } ?>
                                     </div>
                                     <div class="row mt-12">
@@ -1120,6 +1182,7 @@ if ($action == 'add_hs') {
                         <input type="hidden" id="Ecus_tel" name="Fcus_tel" value="<?php echo $Fcus_tel; ?>" placeholder="">
                         <input type="hidden" id="Ecus_bill_address" name="Fcus_bill_address" value="<?php echo $Fcus_bill_address; ?>" placeholder="">
                         <input type="hidden" id="Ecus_back" name="Fcus_back" value="<?php echo $Fcus_back; ?>" placeholder="">
+                        <input type="hidden" id="Evat" name="Fvat" value="<?php echo $Fvat; ?>" placeholder="">
                         <input type="hidden" id="Edelivery_date" name="Fdelivery_date" value="<?php echo $Fdelivery_date ?>" placeholder="">
                         <input type="hidden" id="Edelivery_Address" name="Fdelivery_Address" value="<?php echo $Fdelivery_Address; ?>" placeholder="">
                         <input type="hidden" id="Edate_confirm" name="Fdate_confirm" value="<?php echo $Fdate_confirm; ?>" placeholder="">
@@ -1278,6 +1341,7 @@ if ($action == 'add_hs') {
         <input type="text" id="FFcus_tel" name="Fcus_tel" value="<?php echo $Fcus_tel; ?>" placeholder="">
         <input type="text" id="FFcus_bill_address" name="Fcus_bill_address" value="<?php echo $Fcus_bill_address; ?>" placeholder="">
         <input type="text" id="FFcontact_name" name="Fcontact_name" value="<?php echo $Fcontact_name; ?>" placeholder="">
+        <input type="text" id="FFvat" name="Fvat" value="<?php echo $Fvat; ?>" placeholder="">
 
         <input type="text" id="FFcus_back" name="Fcus_back" value="<?php echo $Fcus_back; ?>" placeholder="">
         <input type="text" id="FFdelivery_date" name="Fdelivery_date" value="<?php echo $Fdelivery_date ?>" placeholder="">
@@ -1310,6 +1374,7 @@ if ($action == 'add_hs') {
         <input type="text" id="PPcus_tel" name="Fcus_tel" value="<?php echo $Fcus_tel; ?>" placeholder="">
         <input type="text" id="PPcus_bill_address" name="Fcus_bill_address" value="<?php echo $Fcus_bill_address; ?>" placeholder="">
         <input type="text" id="PPcontact_name" name="Fcontact_name" value="<?php echo $contact_name; ?>" placeholder="">
+        <input type="text" id="PPvat" name="Fvat" value="<?php echo $vat; ?>" placeholder="">
 
         <input type="text" id="PPcus_back" name="Fcus_back" value="<?php echo $Fcus_back; ?>" placeholder="">
         <input type="text" id="PPdelivery_date" name="Fdelivery_date" value="<?php echo $Fdelivery_date ?>" placeholder="">
