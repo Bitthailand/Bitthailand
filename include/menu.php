@@ -24,14 +24,14 @@
                                 </div>
                             </li>
                               <!-- end extra uikits-->
-                              <li>
+                              <!-- <li>
                                 <div>
                                     <div>
                                         <label class="toggle" for="drop-2">คำนวณสินค้า</label><a href="/call_area.php"><i class="nav-icon mr-2 i-Computer-Secure"></i>
                                         คำนวณสินค้า</a>
                                     </div>
                                 </div>
-                            </li>
+                            </li> -->
                             <!-- end apps-->
                             <!-- end ui kits-->
                             <li>
