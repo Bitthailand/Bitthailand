@@ -25,7 +25,11 @@ $row3 = $rs3->fetch_assoc();
 $sql4 = "SELECT * FROM employee  WHERE username= '$row[emp_id]'";
 $rs4 = $conn->query($sql4);
 $row4 = $rs4->fetch_assoc();
-
+$event_msg = "แสดงรายการมัดจำ $order_id";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('$order_id','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">

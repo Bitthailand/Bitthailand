@@ -1,8 +1,15 @@
 <?php
+session_start();
 include './include/connect.php';
 include './include/config.php';
 $datex = $_REQUEST['id'];
 echo "$datex";
+
+if (isset($_SESSION["username"])) {
+} else {
+    header("location:signin.php");
+}
+$emp_id = $_SESSION["username"];
 
 $sql = "SELECT * FROM ai_number WHERE date_create LIKE '$datex%'";
 $rs = $conn->query($sql);
@@ -11,6 +18,11 @@ $row = $rs->fetch_assoc();
 $datex = date($row['date_create']);
 $d = explode(" ", $datex);
 // echo"$d[0]";
+$event_msg = "อยู่หน้าแสดงรายการมัดจำ";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 ?>
 
 

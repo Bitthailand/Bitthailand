@@ -55,6 +55,12 @@ if ($row['dev_status'] == 1) {
     $strStartDate = $row['qt_date'];
     $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
 }
+
+$event_msg = "อยู่หน้าออกใบส่งของตัดสต็อก";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('$order_id','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -99,6 +105,13 @@ if ($action == 'add_dev') {
     $date_credit = $_REQUEST['date_credit'];
     $date_end = $_REQUEST['date_end'];
     $discount = $_REQUEST['discount'];
+
+    $event_msg = "บันทึกใบสั่งสินค้า";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$order_id','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+
     if ($discount == "") {
         $discount = 0;
     }
