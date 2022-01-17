@@ -7,6 +7,11 @@ if (isset($_SESSION["username"])) {
 $emp_id = $_SESSION["username"];
 include './include/connect.php';
 error_reporting(0);
+$event_msg = "อยู่หน้ารายการสต็อก (รายงานแบบที่ 3)";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -57,6 +62,14 @@ if ($action == 'editx') {
     $fac2_stock = $_REQUEST['fac2_stock'];
     // echo $edit_id;
     // echo"$delivery_date";
+    $sql_pro = "SELECT * FROM product  where  id='$edit_id' ";
+    $rs_pro = $conn->query($sql_pro);
+    $rs_pro = $rs_pro->fetch_assoc();
+    $event_msg = "บันทึกแก้ไขสต็อกรหัส  " . $rs_pro['product_id'] . " โรงงาน1 :$fac1_stock โรงงาน2 :$fac2_stock";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
     $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where id='$edit_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
         <script>
@@ -76,10 +89,10 @@ if ($action == 'bin') {
     $commentx = $_REQUEST['comment'];
     // echo $edit_id;
     // echo"$delivery_date";
-    if($stock1 == ""){
+    if ($stock1 == "") {
         $stock1 = 0;
     }
-    if($stock2 == ""){
+    if ($stock2 == "") {
         $stock2 = 0;
     }
     $sql = "SELECT * FROM product  WHERE product_id= '$product_id'";
@@ -131,7 +144,7 @@ if ($action == 'bin') {
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
                                         <h3 class="ul-widget1__title "> สต๊อกสินค้า </h3>
-                                      
+
                                         <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
                                             import Excel
                                         </button>
@@ -200,46 +213,46 @@ if ($action == 'bin') {
                                                             <td>
                                                                 <?php echo $row["fac2_stock"]; ?> </td>
                                                             <td>
-                                                            <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row['id']; ?>" id="edit2" class="btn  btn-sm line-height-1">  
-                                                                <?php
-                                                                $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' ";
-                                                                $rs_pro = $conn->query($sql_pro);
-                                                                $row_pro = $rs_pro->fetch_assoc();
-                                                                $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
-                                                                if ($sum_stock < $row_pro['qty_out']) {  ?>
-                                                                    <span class="badge badge-square-danger2"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php    } else { ?>
-                                                                    <span class="badge badge-square-success2"> <?php echo "$row_pro[qty_out]"; ?></span>
-                                                                <?php   }
-                                                                ?></a>
+                                                                <a data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row['id']; ?>" id="edit2" class="btn  btn-sm line-height-1">
+                                                                    <?php
+                                                                    $sql_pro = "SELECT sum(order_details.qty_out) AS qty_out FROM order_details INNER JOIN orders ON order_details.product_id= '$row[product_id]' AND order_details.order_id=orders.order_id AND orders.order_status='2' AND orders.is_ai='Y' AND order_details.status_delivery='0' ";
+                                                                    $rs_pro = $conn->query($sql_pro);
+                                                                    $row_pro = $rs_pro->fetch_assoc();
+                                                                    $sum_stock = $row["fac1_stock"] + $row["fac2_stock"];
+                                                                    if ($sum_stock < $row_pro['qty_out']) {  ?>
+                                                                        <span class="badge badge-square-danger2"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                                    <?php    } else { ?>
+                                                                        <span class="badge badge-square-success2"> <?php echo "$row_pro[qty_out]"; ?></span>
+                                                                    <?php   }
+                                                                    ?></a>
                                                             </td>
                                                             <td>
-                                                            <a data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row['id']; ?>" id="edit3" class="btn  btn-sm line-height-1">  
-                                                                <?php
-                                                                if ($row3['stock_m'] == 1) {
-                                                                    $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row[product_id]' ";
-                                                                    $rs_po = $conn->query($sql_po);
-                                                                    $row_po = $rs_po->fetch_assoc();
-                                                                    echo "$row_po[a_type]";
-                                                                } else {
+                                                                <a data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row['id']; ?>" id="edit3" class="btn  btn-sm line-height-1">
+                                                                    <?php
+                                                                    if ($row3['stock_m'] == 1) {
+                                                                        $sql_po = "SELECT sum(qty) AS a_type  FROM production_import   where  product_id='$row[product_id]' ";
+                                                                        $rs_po = $conn->query($sql_po);
+                                                                        $row_po = $rs_po->fetch_assoc();
+                                                                        echo "$row_po[a_type]";
+                                                                    } else {
 
 
-                                                                    $sql_po = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1' AND product_id='$row[product_id]' ";
-                                                                    $rs_po = $conn->query($sql_po);
-                                                                    $row_po = $rs_po->fetch_assoc();
-                                                                    echo "$row_po[a_type]";
-                                                                } ?>
+                                                                        $sql_po = "SELECT sum(a_type) AS a_type  FROM production_detail   where status_stock='1' AND product_id='$row[product_id]' ";
+                                                                        $rs_po = $conn->query($sql_po);
+                                                                        $row_po = $rs_po->fetch_assoc();
+                                                                        echo "$row_po[a_type]";
+                                                                    } ?>
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                            <a data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $row['id']; ?>" id="edit4" class="btn  btn-sm line-height-1">  
-                                                                <?php
-                                                                $sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail  where  product_id='$row[product_id]' ";
-                                                                $rs_dev = $conn->query($sql_dev);
-                                                                $row_dev = $rs_dev->fetch_assoc();
-                                                                echo "$row_dev[dev_qty]";
-                                                                ?>
-                                                            </a>
+                                                                <a data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $row['id']; ?>" id="edit4" class="btn  btn-sm line-height-1">
+                                                                    <?php
+                                                                    $sql_dev = "SELECT sum(dev_qty) AS dev_qty  FROM deliver_detail  where  product_id='$row[product_id]' ";
+                                                                    $rs_dev = $conn->query($sql_dev);
+                                                                    $row_dev = $rs_dev->fetch_assoc();
+                                                                    echo "$row_dev[dev_qty]";
+                                                                    ?>
+                                                                </a>
                                                             </td>
                                                             <td><?php $sum_stock = $row_po['a_type'] - $row_dev['dev_qty'];
                                                                 echo "$sum_stock";
@@ -324,24 +337,24 @@ if ($action == 'bin') {
                     </div>
                 </div>
                 <div id="view-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                                        แสดงรายการลูกค้าที่จอง</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <!-- mysql data will be load here -->
-                                    <div id="dynamic-content2"></div>
-                                </div>
-
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                    แสดงรายการลูกค้าที่จอง</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
+                            <div class="modal-body">
+
+                                <!-- mysql data will be load here -->
+                                <div id="dynamic-content2"></div>
+                            </div>
+
                         </div>
                     </div>
+                </div>
 
                 <div id="Modal-move" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -367,59 +380,59 @@ if ($action == 'bin') {
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <div id="view-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                                        แสดงรายการผลิต</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <!-- mysql data will be load here -->
-                                    <div id="dynamic-content3"></div>
-                                </div>
-
+                </div>
+                <div id="view-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                    แสดงรายการผลิต</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
+                            <div class="modal-body">
+
+                                <!-- mysql data will be load here -->
+                                <div id="dynamic-content3"></div>
+                            </div>
+
                         </div>
                     </div>
-                    <div id="view-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
-                                        แสดงรายการขาย</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <!-- mysql data will be load here -->
-                                    <div id="dynamic-content4"></div>
-                                </div>
-
+                </div>
+                <div id="view-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                    แสดงรายการขาย</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
+                            <div class="modal-body">
+
+                                <!-- mysql data will be load here -->
+                                <div id="dynamic-content4"></div>
+                            </div>
+
                         </div>
                     </div>
-                    <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
-                    <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
-                    <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
-                    <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+                </div>
+                <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
+                <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
+                <script src="../../dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+                <script src="../../dist-assets/js/scripts/script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/sidebar-horizontal.script.js"></script>
+                <script src="../../dist-assets/js/plugins/echarts.min.js"></script>
+                <script src="../../dist-assets/js/scripts/echart.options.min.js"></script>
+                <script src="../../dist-assets/js/scripts/dashboard.v1.script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/customizer.script.min.js"></script>
+                <script src="../../dist-assets/js/scripts/tooltip.script.min.js"></script>
+                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+                <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
+                <script src="../../dist-assets/js/plugins/datatables.min.js"></script>
+                <script src="../../dist-assets/js/scripts/datatables.script.min.js"></script>
 
 
 </body>

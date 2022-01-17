@@ -9,6 +9,13 @@ $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 $datetodat = date('Y-m-d');
 echo 'รหัสสินค้า'.$row['product_id'];
+
+
+    $event_msg = "ข้อมูลสินค้าก่อนทำรายการแก้ไข  รหัสสินค้า ".$row['product_id']." โรงงาน1:".$row['fac1_stock']." โรงงาน2:".$row['fac1_stock']."" ;
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
 ?>
 <?php
 $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
