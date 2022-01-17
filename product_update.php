@@ -12,7 +12,7 @@ $sql_pro = "SELECT * FROM product  where  product_id='$product_id' ";
 $rs_pro = $conn->query($sql_pro);
 $rs_pro = $rs_pro->fetch_assoc();
 
-$event_msg = "อยู่หน้าแก้ไขสินค้ารหัส $product_id ข้อมูลเดิมก่อนแก้ไข  ชื่อสินค้า : '$rs_pro[product_name]'  ราคา :'$rs_pro[product_price]' จำนวน : '$rs_pro[product_amount]' หน่วย :'$rs_pro[product_unit]' Stock1: $fac1_stock Stock2: $fac2_stock  "; 
+$event_msg = "อยู่หน้าแก้ไขสินค้ารหัส $product_id ข้อมูลเดิมก่อนแก้ไข  ชื่อสินค้า : $rs_pro[product_name]  ราคา :$rs_pro[product_price] จำนวน : $rs_pro[product_amount] หน่วย :$rs_pro[product_unit] Stock1: $rs_pro[fac1_stock] Stock2: $rs_pro[fac2_stock]  "; 
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('0','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {
