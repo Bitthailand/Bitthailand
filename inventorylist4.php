@@ -101,7 +101,7 @@ if ($action == 'bin') {
     $fac1_stock = $row['fac1_stock'] - $stock1;
     $fac2_stock = $row['fac2_stock'] - $stock2;
 
-    $event_msg = "บันทึกแจ้งสินค้าชำรุด '$row[product_id]' ข้อมูลที่แก้ไข  ชื่อสินค้า : '$row[product_name]'  Stock1: $fac1_stock  Stock2: $fac2_stock แจ้งชำรุด Stock1: $stock1  Stock2: $stock2   "; 
+    $event_msg = "บันทึกแจ้งสินค้าชำรุด $row[product_id]  ข้อมูลที่แก้ไข  ชื่อสินค้า : $row[product_name]  Stock1: $fac1_stock  Stock2: $fac2_stock แจ้งชำรุด Stock1: $stock1  Stock2: $stock2   "; 
     $sql_event = "INSERT INTO log (product_id,emp_id,event)
     VALUES ('$row[product_id]','$emp_id','$event_msg')";
     if ($conn->query($sql_event) === TRUE) {
