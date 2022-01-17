@@ -54,7 +54,9 @@ if ($status_order == 'new') {
     VALUES ('$order_id','$emp_id')";
     if ($conn->query($sqlx5) === TRUE) {
     }
-
+    $sql_event = "INSERT INTO log (emp_id,event,order_id)
+    VALUES ('$emp_id,'เปิดใบสั่งชื้อใหม่','$order_id')";
+if ($conn->query($sql_event ) === TRUE) {  }
     $sql112 = "UPDATE orders_number  SET status_cf='1'  where order_id='$order_id'";
     if ($conn->query($sql112) === TRUE) {
     }
@@ -186,6 +188,10 @@ if ($action == 'add_product') {
     $sql112 = "UPDATE orders_number  SET status_cf='1'  where order_id='$Forder_id'";
     if ($conn->query($sql112) === TRUE) {
     }
+    $event_msg="เพิ่มรายการสินค้ารหัส $Fproductx ชื่อสินค้า '$row5[product_name]' จำนวน $Fqty  ราคา $Funit_price บาท รวม $total_price บาท";
+    $sql_event = "INSERT INTO log (emp_id,event,order_id)
+    VALUES ('$emp_id,'$event_msg','$Forder_id')";
+    if ($conn->query($sql_event ) === TRUE) {  }
 
     if ($TF == 1) {  // ค่าจัดส่ง
         $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
@@ -341,6 +347,14 @@ if ($actionx == 'editxx') {
     $total_price = $_REQUEST['total_price'];
     // echo"$Fvat";
     // echo"แก้ไข";
+    $sql5 = "SELECT * FROM order_details   where id='$edit_id'  ";
+    $rs5 = $conn->query($sql5);
+    $row5 = $rs5->fetch_assoc();
+    $event_msg="แก้ไขข้อมูลสินค้า รหัสสินค้า $row5[product_id] เป็นจำนวน:$qty จำนวนที่ส่ง :$qty ราคา:$total_price ตัดจากโรงงาน1:$face1_out ตัดจากโรงาน2 :$face2_out";
+    $sql_event = "INSERT INTO log (emp_id,event,order_id)
+    VALUES ('$emp_id,'$event_msg','$row5[order_id]')";
+    if ($conn->query($sql_event ) === TRUE) {  }
+
     $sqltt = "UPDATE order_details    SET qty='$qty',qty_out='$qty',total_price='$total_price',face1_stock_out='$face1_out',face2_stock_out='$face2_out' where id='$edit_id'";
     if ($conn->query($sqltt) === TRUE) {  ?>
         <script>
@@ -352,6 +366,16 @@ if ($actionx == 'editxx') {
 }
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
+    $sql5 = "SELECT * FROM order_details   where id='$del_id'  ";
+    $rs5 = $conn->query($sql5);
+    $row5 = $rs5->fetch_assoc();
+
+    $event_msg="ลบรายการสินค้าที่สั่งจากลูกค้า รหัสสั่งซื้อ $row5[order_id] รหัสสินค้า $row5[product_id] จำนวน $row5[qty]";
+    $sql_event = "INSERT INTO log (emp_id,event,order_id)
+    VALUES ('$emp_id,'$event_msg','$order_id')";
+    if ($conn->query($sql_event ) === TRUE) {  }
+
+
     $sql = "DELETE FROM order_details WHERE  id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
         <script>
@@ -390,6 +414,11 @@ if ($action == 'add') {
     $discount_text = $_REQUEST['discount_text'];
     $status_order = 'confirm';
     $delivery_datex = $_REQUEST['delivery_datex'];
+
+    $event_msg="ยืนยันบันทึกรายการ รหัสการสั่งซื้อ $order_idx";
+    $sql_event = "INSERT INTO log (emp_id,event,order_id)
+    VALUES ('$emp_id,'$event_msg','$order_idx')";
+    if ($conn->query($sql_event ) === TRUE) {  }
     $sqlx = "SELECT * FROM order_details  WHERE order_id='$order_idx' AND status_button='0' AND status_delivery='0' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) < 1) { ?>
@@ -627,6 +656,11 @@ if ($action == 'add_cus') {
     $contact_name = $_REQUEST['contact_name'];
     $vat = $_REQUEST['vat'];
     $datemonth = date('Y-m');
+
+    $event_msg="เพิ่มลูกค้าใหม่ $customer_id";
+    $sql_event = "INSERT INTO log (emp_id,event)
+    VALUES ('$emp_id,'$event_msg')";
+    if ($conn->query($sql_event ) === TRUE) {  }
     $sqlx = "SELECT * FROM customer  WHERE customer_id='$customer_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) { ?>
@@ -665,7 +699,10 @@ if ($action == 'add_hs') {
     $code_new = $row_run['id_run'] + 1;
     $code = sprintf('%05d', $code_new);
     $hs_id = $dat . $code;
-
+    $event_msg="เปิดใบสั่งชื้อพร้อมออกใบเสร็จรับเงินเลขที่ $hs_id  เลขที่ใบสั่งชื้อ $order_id เลขที่ใบส่งของ $so_id ";
+    $sql_event = "INSERT INTO log (emp_id,event,order_id)
+    VALUES ('$emp_id,'$event_msg','$order_id')";
+    if ($conn->query($sql_event ) === TRUE) {  }
     $sqlx = "SELECT * FROM hs_number  WHERE order_id='$order_id' AND so_id='$so_id' ";
     $result = mysqli_query($conn, $sqlx);
     if (mysqli_num_rows($result) > 0) {

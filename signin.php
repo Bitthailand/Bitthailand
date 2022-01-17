@@ -26,6 +26,10 @@ if ($action == 'login') {
             $_SESSION["username"] = $row['username'];
             
             $_SESSION["rule"] = $row['rule'];
+
+            $sql = "INSERT INTO log (emp_id,event)
+            VALUES ('$row[username]','ลงชื่อเข้าระบบ')";
+ if ($conn->query($sql) === TRUE) {  }
             // $_SESSION["time"] = time() + 30000;
             header('Location: index.php');
         } else {
