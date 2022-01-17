@@ -8,6 +8,12 @@ $emp_id = $_SESSION["username"];
 include './include/connect.php';
 error_reporting(0);
 $action = $_REQUEST['action'];
+
+$event_msg = "อยู่หน้ารายการสต็อกสินค้าแบบกำหนดหัวท้าย";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
 
