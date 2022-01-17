@@ -359,10 +359,6 @@ if ($action == 'add_hs') {
                                                 $row8 = $rs8->fetch_assoc();
 
                                                 echo " ต." . $row6['name_th'] . "  อ." . $row7['name_th'] . " จ." . $row8['name_th'];
-
-
-
-
                                                 ?>
                                             </td>
                                             <td>
@@ -372,8 +368,6 @@ if ($action == 'add_hs') {
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/saleorder.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
                                                     <i class="i-Lock-2 font-weight-bold"></i>
                                                 </a>
-
-
                                                 <?php if ($row['hs_id'] == '0') { ?>
                                                     <button data-toggle="modal" data-target="#medalhs" title="ออกใบเสร็จรับเงิน(HS)" data-id="<?php echo $row['id']; ?>" id="add_hs" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Car-Items font-weight-bold"></i> </button>
                                                 <?php } else {  ?>
@@ -392,8 +386,6 @@ if ($action == 'add_hs') {
 
                                                 <button data-toggle="modal" data-target="#medalcf" title="ยืนยันส่งสินค้า" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
                                                 <a class='btn btn-outline-success btn-sm line-height-1' title='คืนสินค้า' href='/refun_so.php?order_id=<?=$row['order_id']?>&so_id=<?=$row['dev_id']?>' target='_blank'> <i class='i-Repeat-2 font-weight-bold'></i></a>
-
-
                                             </td>
                                         </tr><?php
                                             }
