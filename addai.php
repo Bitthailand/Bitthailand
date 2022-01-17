@@ -44,6 +44,10 @@ $ai_date_end = $_REQUEST['ai_date_end'];
 $Fai_id = $_REQUEST['ai_id'];
 $status_ai = $_REQUEST['status_ai'];
 echo"$ai_date_start";
+$event_msg="อยู่หน้าออกใบมัดจำ เลขที่ใบสั่งชื้อ $order_id  เลขที่ใบมัดจำ $ai_id";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('$order_id','$emp_id','$event_msg')";
+if ($conn->query($sql_event ) === TRUE) { }
 
 if ($status_ai == 1) {
     $sqlx = "SELECT * FROM ai_number   WHERE order_id='$order_id'  ";
@@ -57,7 +61,10 @@ if ($status_ai == 1) {
         <?php } else {
         $sqlx5 = "INSERT INTO ai_number (order_id,ai_num,messages,price,date_create)
  VALUES ('$order_id','$Fai_id','$Finput_text','$input_price','$ai_date_start')";
-
+$event_msg="บันทึกใบมัดจำ $order_id  เลขที่ใบมัดจำ $ai_id";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('$order_id','$emp_id','$event_msg')";
+if ($conn->query($sql_event ) === TRUE) { }
         $sql7 = "UPDATE orders SET is_ai='Y',ai_id='$Fai_id',ai_count='$input_price',ai_date_start='$ai_date_start',ai_date_end='$ai_date_end',order_status='2' where order_id='$order_id'";
         if ($conn->query($sql7) === TRUE) { }
         if ($conn->query($sqlx5) === TRUE) { ?>
