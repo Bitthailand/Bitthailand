@@ -30,6 +30,11 @@ include './get_dashbord.php';
 include './get_chart.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
+$event_msg = "อยู่หน้าแรกเว็บไซต์";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 $sql_month = "SELECT  DATE_FORMAT(dev_date,'%Y-%m') As MyDate ,SUM(discount) AS discount ,SUM(pay_full) AS pay_full FROM delivery  WHERE    status_chk='1' AND status_payment='1' AND  MONTH(dev_date) = '$d[1]' AND YEAR(dev_date) = '$d[0]' ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
