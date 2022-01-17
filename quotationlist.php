@@ -17,8 +17,8 @@ $sql2 = "DELETE FROM order_details  WHERE status_button='0' AND emp_id='$emp_id'
 if ($conn->query($sql2) === TRUE) {
 }
 $event_msg="อยู่หน้ารายการสั่งซื้อ";
-$sql_event = "INSERT INTO log (emp_id)
-VALUES ('$emp_id)";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id,'$event_msg')";
 if ($conn->query($sql_event ) === TRUE) {  }
 // $sql3 = "UPDATE orders_number  SET  status_use='2',status_cf='0'  where emp_id='$emp_id' AND status_button='0' ";
 // if ($conn->query($sql3) === TRUE) {}
