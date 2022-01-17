@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config.php';
 include './include/config_text.php';
@@ -43,11 +43,12 @@ $ai_date_start = $_REQUEST['ai_date_start'];
 $ai_date_end = $_REQUEST['ai_date_end'];
 $Fai_id = $_REQUEST['ai_id'];
 $status_ai = $_REQUEST['status_ai'];
-echo"$ai_date_start";
-$event_msg="อยู่หน้าออกใบมัดจำ เลขที่ใบสั่งชื้อ $order_id  เลขที่ใบมัดจำ $ai_id";
+echo "$ai_date_start";
+$event_msg = "อยู่หน้าออกใบมัดจำ เลขที่ใบสั่งชื้อ $order_id  เลขที่ใบมัดจำ $ai_id";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$order_id','$emp_id','$event_msg')";
-if ($conn->query($sql_event ) === TRUE) { }
+if ($conn->query($sql_event) === TRUE) {
+}
 
 if ($status_ai == 1) {
     $sqlx = "SELECT * FROM ai_number   WHERE order_id='$order_id'  ";
@@ -61,12 +62,14 @@ if ($status_ai == 1) {
         <?php } else {
         $sqlx5 = "INSERT INTO ai_number (order_id,ai_num,messages,price,date_create)
  VALUES ('$order_id','$Fai_id','$Finput_text','$input_price','$ai_date_start')";
-$event_msg="บันทึกใบมัดจำ $order_id  เลขที่ใบมัดจำ $ai_id";
-$sql_event = "INSERT INTO log (order_id,emp_id,event)
+        $event_msg = "บันทึกใบมัดจำ $order_id  เลขที่ใบมัดจำ $ai_id";
+        $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$order_id','$emp_id','$event_msg')";
-if ($conn->query($sql_event ) === TRUE) { }
+        if ($conn->query($sql_event) === TRUE) {
+        }
         $sql7 = "UPDATE orders SET is_ai='Y',ai_id='$Fai_id',ai_count='$input_price',ai_date_start='$ai_date_start',ai_date_end='$ai_date_end',order_status='2' where order_id='$order_id'";
-        if ($conn->query($sql7) === TRUE) { }
+        if ($conn->query($sql7) === TRUE) {
+        }
         if ($conn->query($sqlx5) === TRUE) { ?>
             <script>
                 $(document).ready(function() {
@@ -96,6 +99,7 @@ if ($conn->query($sql_event ) === TRUE) { }
         }
     </style>
 </head>
+
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -108,8 +112,8 @@ if ($conn->query($sql_event ) === TRUE) { }
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
-              <!-- แจ้งเตือน -->
-              <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- แจ้งเตือน -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
             <!-- ปิดการแจ้งเตือน -->
             <div class="main-content">
 
@@ -138,25 +142,31 @@ if ($conn->query($sql_event ) === TRUE) { }
                                                 <div class="col-md-6 mb-3 mb-sm-0">
                                                     <h5 class="font-weight-bold">ลูกค้า</h5>
                                                     <?php
-                                                       $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
-                                                       $rs6 = $conn->query($sql6);
-                                                       $row6 = $rs6->fetch_assoc();
-                                                       $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
-                                                       $rs7 = $conn->query($sql7);
-                                                       $row7 = $rs7->fetch_assoc();
-                                                       $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
-                                                       $rs8 = $conn->query($sql8);
-                                                       $row8 = $rs8->fetch_assoc();
-                                                       if($row3['province']==1){ $t='แขวง'; $a=''; }else{ $t='ต.'; $a='อ.';  }
+                                                    $sql6 = "SELECT * FROM districts  WHERE id= '$row3[subdistrict]'";
+                                                    $rs6 = $conn->query($sql6);
+                                                    $row6 = $rs6->fetch_assoc();
+                                                    $sql7 = "SELECT * FROM amphures  WHERE id= '$row3[district]'";
+                                                    $rs7 = $conn->query($sql7);
+                                                    $row7 = $rs7->fetch_assoc();
+                                                    $sql8 = "SELECT * FROM provinces  WHERE id= '$row3[province]'";
+                                                    $rs8 = $conn->query($sql8);
+                                                    $row8 = $rs8->fetch_assoc();
+                                                    if ($row3['province'] == 1) {
+                                                        $t = 'แขวง';
+                                                        $a = '';
+                                                    } else {
+                                                        $t = 'ต.';
+                                                        $a = 'อ.';
+                                                    }
 
-                                                       $sql_pro = "SELECT SUM(total_price) AS total FROM order_details   WHERE order_id= '$order_id'";
-                                                       $rs_pro = $conn->query($sql_pro);
-                                                       $row_pro = $rs_pro->fetch_assoc();
-                                                       
-                                                        ?>
+                                                    $sql_pro = "SELECT SUM(total_price) AS total FROM order_details   WHERE order_id= '$order_id'";
+                                                    $rs_pro = $conn->query($sql_pro);
+                                                    $row_pro = $rs_pro->fetch_assoc();
+
+                                                    ?>
                                                     <p><strong>ชื่อลูกค้า : </strong><?= $row3['customer_name'] ?></p>
                                                     <p><strong>บริษัท : </strong><?= $row3['company_name'] ?></p>
-                                                    <p><strong>ที่อยู่ : </strong><?php  echo $row3['bill_address']." $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
+                                                    <p><strong>ที่อยู่ : </strong><?php echo $row3['bill_address'] . " $t" . $row6['name_th'] . "  $a" . $row7['name_th'] . " จ." . $row8['name_th']; ?> </p>
                                                     <p>เลขที่ประจำตัวผู้เสียภาษี <?= $row3['tax_number'] ?></p>
                                                     <p><strong>โทร : </strong> <?= $row3['tel'] ?></p>
                                                     <p><strong>อ้างอิง : </strong><?= $row3['contact_name'] ?></p>
@@ -171,13 +181,13 @@ if ($conn->query($sql_event ) === TRUE) { }
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่</label>
-                                                                <input id="Fai_date_start" class="form-control" type="date" min="2021-06-01" name="ai_date_start" value="<?= $ai_date_start?>">
+                                                                <input id="Fai_date_start" class="form-control" type="date" min="2021-06-01" name="ai_date_start" value="<?= $ai_date_start ?>">
                                                             </div>
                                                         </div>
                                                         <div class="viewDateClass col pr-12 ">
                                                             <div class="form-group">
                                                                 <label for="delivery_date">วันที่ครบกำหนด</label>
-                                                                <input id="Fai_date_end" class="form-control" type="date" min="2021-06-01" name="ai_date_end" value="<?= $datetoday?>">
+                                                                <input id="Fai_date_end" class="form-control" type="date" min="2021-06-01" name="ai_date_end" value="<?= $datetoday ?>">
                                                             </div>
                                                         </div>
 
@@ -212,9 +222,9 @@ if ($conn->query($sql_event ) === TRUE) { }
                                                     <div class="invoice-summary">
                                                         <p>จำนวนเงินค่าสินค้ารวมทั้งสิ้น <span><?php echo number_format($row_pro['total'], '2', '.', ',') ?></span></p>
                                                         <p>จำนวนเงินมัดจำรวมทั้งสิ้น <span><?php echo number_format($input_price, '2', '.', ',') ?></span></p>
-                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <?php $tax = ($input_price * 100)/107;
+                                                        <p>จำนวนภาษีมูลค่าเพิ่ม 7.00% <?php $tax = ($input_price * 100) / 107;
                                                                                         $tax2 = ($input_price - $tax);
-                                                                                        $grand_total = ($input_price- $tax2);
+                                                                                        $grand_total = ($input_price - $tax2);
                                                                                         ?><span><?php echo number_format($tax2, '2', '.', ',') ?></span></p>
                                                     </div>
                                                 </div>
@@ -244,7 +254,7 @@ if ($conn->query($sql_event ) === TRUE) { }
                                         <div class="d-sm-flex mb-5" data-view="print">
                                             <span class="m-auto"></span>
                                             <?php if ($status_ai == 1) { ?>
-                                                <button id="btu" class="btn btn-outline-primary m-1" onclick="window.location.href='ai.php?order_id=<?=$order_id?>', '_blank'">พิมพ์ใบมัดจำ</button>
+                                                <button id="btu" class="btn btn-outline-primary m-1" onclick="window.location.href='ai.php?order_id=<?= $order_id ?>', '_blank'">พิมพ์ใบมัดจำ</button>
                                             <?php } else { ?>
                                                 <button id="btu1" class="btn btn-outline-primary m-1" data-style="expand-left">
                                                     <span class="ladda-label">บันทึกใบมัดจำ</span>
@@ -356,7 +366,7 @@ if ($conn->query($sql_event ) === TRUE) { }
     });
     let input_price = $("#input_price").val();
     let btu = $("#btu").val();
-    console.log('input_price',input_price)
+    console.log('input_price', input_price)
     if (input_price == '') {
         document.getElementById("btu").disabled = true;
         document.getElementById("btu1").disabled = true;
