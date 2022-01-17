@@ -13,7 +13,7 @@ echo 'รหัสสินค้า'.$row['product_id'];
 
 
     $event_msg = "ข้อมูลสินค้าก่อนทำรายการแก้ไข  รหัสสินค้า ".$row['product_id']." โรงงาน1:".$row['fac1_stock']." โรงงาน2:".$row['fac2_stock']."" ;
-    $sql_event = "INSERT INTO log (product_id_id,emp_id,event)
+    $sql_event = "INSERT INTO log (product_id,emp_id,event)
 VALUES ('$row[product_id]','$emp_id','$event_msg')";
     if ($conn->query($sql_event) === TRUE) {
     }
