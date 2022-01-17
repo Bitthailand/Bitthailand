@@ -8,7 +8,11 @@ $emp_id=$_SESSION["username"];
 include './include/connect.php';
 include './include/config.php';
 $product_id = $_REQUEST['product_id'];
-
+$event_msg = "อยู่หน้าแก้ไขสินค้ารหัส $product_id"; 
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 $action = $_REQUEST['action'];
 if ($action == 'edit') {
     $edit_id = $_REQUEST['edit_id'];
@@ -27,6 +31,12 @@ if ($action == 'edit') {
     $thickness = $_REQUEST['thickness'];
     $area = $_REQUEST['area'];
     $weight = $_REQUEST['weight'];
+    $event_msg = "บันทึกการแก้ไขสินค้ารหัส $product_id  ชื่อ $product_name ขนาด $size ความหนา $dia_size จำนวนลวด $dia_count หน่วย $units ราคา $unit_price ข้อมูลพิเศษ $spacial Stock1: $fac1_stock Stock2: $fac2_stock หมายเหตุ $remarks";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('0','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+
     $sql = "UPDATE product SET ptype_id='$type_id',product_name='$product_name',
     width='$width',size='$size',dia_size='$dia_size',dia_count='$dia_count',
     units='$units',unit_price='$unit_price',spacial='$spacial',fac1_stock ='$fac1_stock',

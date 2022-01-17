@@ -7,9 +7,20 @@ if (isset($_SESSION["username"])) {
 $emp_id=$_SESSION["username"]; 
 include './include/connect.php';
 error_reporting(0);
+$event_msg = "อยู๋หน้ารายการสต็อกสินค้า";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 $action = $_REQUEST['action'];
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
+
+    $event_msg = "ลบรายการสินค้ารหัส $del_id";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('0','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
 
     $sql = "DELETE FROM product  WHERE product_id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
