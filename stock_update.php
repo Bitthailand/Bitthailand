@@ -1,8 +1,9 @@
 <?php
+session_start();
 include './include/connect.php';
 include './include/config.php';
 $id = intval($_REQUEST['id']);
-
+$emp_id = $_SESSION["username"];
 
 $sql = "SELECT * FROM product  WHERE id= '$id'";
 $rs = $conn->query($sql);
