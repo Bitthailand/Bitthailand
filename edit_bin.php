@@ -1,14 +1,21 @@
 <?php
+session_start();
 include './include/connect.php';
 include './include/config.php';
 $id = intval($_REQUEST['id']);
-
+$emp_id = $_SESSION["username"];
 
 $sql = "SELECT * FROM product  WHERE id= '$id'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 $datetodat = date('Y-m-d');
 echo 'รหัสสินค้า'.$row['product_id'];
+
+$event_msg = "อยู่หน้าแจ้งสินค้าชำรุดรหัส '$row[product_id]' ข้อมูลเดิมก่อนแก้ไข  ชื่อสินค้า : $row[product_name]  Stock1: $rs_pro[fac1_stock] Stock2: $rs_pro[fac2_stock]  "; 
+$sql_event = "INSERT INTO log (product_id,emp_id,event)
+VALUES ('$row[product_id]','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 ?>
 <?php
 $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";

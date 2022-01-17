@@ -100,6 +100,13 @@ if ($action == 'bin') {
     $row = $rs->fetch_assoc();
     $fac1_stock = $row['fac1_stock'] - $stock1;
     $fac2_stock = $row['fac2_stock'] - $stock2;
+
+    $event_msg = "บันทึกแจ้งสินค้าชำรุด '$row[product_id]' ข้อมูลที่แก้ไข  ชื่อสินค้า : $row[product_name]  Stock1: $fac1_stock  Stock2: $fac2_stock แจ้งชำรุด Stock1: $stock1  Stock2: $stock2   "; 
+    $sql_event = "INSERT INTO log (product_id,emp_id,event)
+    VALUES ('$row[product_id]','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+
     $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where product_id='$product_id'";
 
     $sql2 = "INSERT INTO product_bin (product_id,stock1,stock2,comment,emp_id) VALUES ('$product_id','$stock1','$stock2','$commentx','$emp_id')";
