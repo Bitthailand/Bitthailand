@@ -7,6 +7,11 @@ if (isset($_SESSION["username"])) {
 $emp_id = $_SESSION["username"];
 include './include/connect.php';
 error_reporting(0);
+$event_msg = "อยู่หน้ารายการสต็อก (สต็อกที่ถูกจอง)";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('0','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
@@ -57,6 +62,14 @@ if ($action == 'editx') {
     $fac2_stock = $_REQUEST['fac2_stock'];
     // echo $edit_id;
     // echo"$delivery_date";
+    $sql_pro = "SELECT * FROM product  where  id='$edit_id' ";
+    $rs_pro = $conn->query($sql_pro);
+    $rs_pro = $rs_pro->fetch_assoc();
+    $event_msg = "บันทึกแก้ไขสต็อกรหัส  " . $rs_pro['product_id'] . " โรงงาน1 :$fac1_stock โรงงาน2 :$fac2_stock";
+    $sql_event = "INSERT INTO log (product_id,emp_id,event)
+VALUES ('$rs_pro[product_id]','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
     $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where id='$edit_id'";
     if ($conn->query($sqlxxx) === TRUE) { ?>
         <script>
