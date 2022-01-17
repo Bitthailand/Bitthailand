@@ -66,8 +66,8 @@ if ($action == 'editx') {
     $rs_pro = $conn->query($sql_pro);
     $rs_pro = $rs_pro->fetch_assoc();
     $event_msg = "บันทึกแก้ไขสต็อกรหัส  " . $rs_pro['product_id'] . " โรงงาน1 :$fac1_stock โรงงาน2 :$fac2_stock";
-    $sql_event = "INSERT INTO log (order_id,emp_id,event)
-VALUES ('0','$emp_id','$event_msg')";
+    $sql_event = "INSERT INTO log (product_id,emp_id,event)
+VALUES ('$rs_pro[product_id]','$emp_id','$event_msg')";
     if ($conn->query($sql_event) === TRUE) {
     }
     $sqlxxx = "UPDATE product  SET fac1_stock='$fac1_stock',fac2_stock='$fac2_stock' where id='$edit_id'";
