@@ -122,7 +122,6 @@ VALUES ('$rs_pro[product_id]','$emp_id','$event_msg')";
 
                                         <div class="col-auto">
                                             <a href="/product.php" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มสินค้าใหม่</a>
-
                                         </div>
                                     </div>
                                 </div>

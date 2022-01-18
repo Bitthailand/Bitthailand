@@ -17,7 +17,11 @@ $order_id = $_REQUEST['order_id'];
 $sql = "SELECT * FROM orders  where  order_id='$order_id' ";
 $rs = $conn->query($sql);
 $main = $rs->fetch_assoc();
-
+$event_msg = "อยู่หน้าแก้ไขใบสั่งชื้อเลขที่ $order_id ";
+$sql_event = "INSERT INTO log (order_id,emp_id,event)
+VALUES ('$order_id','$emp_id','$event_msg')";
+if ($conn->query($sql_event) === TRUE) {
+}
 $sql_cus = "SELECT * FROM customer where  customer_id='$main[cus_id]' ";
 $rs_cus = $conn->query($sql_cus);
 $cus = $rs_cus->fetch_assoc();
@@ -116,6 +120,8 @@ if ($action == 'add_product') {
     $status_order = 'update';
     $Fcus_back = $_REQUEST['Fcus_back'];
     // echo "$Fqty";
+
+   
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
@@ -155,6 +161,8 @@ if ($action == 'add_product') {
         $row5 = $rs5->fetch_assoc();
         // =======================
         $send_total = $send_price * $send_qty;
+
+      
         $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,status_chk_stock,qty_out,updates)
         VALUES ('$Forder_id','$Fproduct_type','$row5[product_id]','$send_qty','$send_price','$send_total','1','$emp_id','TF','$send_qty','1')";
         if ($conn->query($sql) === TRUE) { ?>
@@ -233,6 +241,12 @@ if ($action == 'add_product') {
                 $sum_qty = $Fqty + $Fqty2;
                 $date = date('Y-m-d');
                 $total_price = ($Funit_price - $disunit) * $sum_qty;
+
+                $event_msg = "หน้าแก้ไขข้อมูล $Forder_id  เพิ่มรายการสินค้าใหม่ รหัส $Fproductx' จำนวน $sum_qty  ราคา $Funit_price  รวม $total_price  ส่วนลด $disunit  ";
+                $sql_event = "INSERT INTO log (order_id,emp_id,event)
+                VALUES ('$Forder_id ','$emp_id','$event_msg')";
+                if ($conn->query($sql_event) === TRUE) {
+                }
                 $sql = "INSERT INTO order_details (order_id,ptype_id,product_id,qty,unit_price,total_price,status_button,emp_id,disunit,status_chk_stock,qty_out,updates,status_new)
             VALUES ('$Forder_id','$Fproduct_type','$Fproductx','$sum_qty','$Funit_price','$total_price','1','$emp_id','$disunit','CB','$sum_qty','1','6')";
                 $sql2 = "UPDATE orders  SET  qt_date='$date'  where order_id='$Forder_id' ";
@@ -287,7 +301,14 @@ if ($action == 'edit') {
     $face2_out = $_REQUEST['face2_out'];
     $total_price = $_REQUEST['total_price'];
     $qty_out = $_REQUEST['qty'];
-
+    $sql5 = "SELECT * FROM order_details  where  id='$edit_id' ";
+    $rs5 = $conn->query($sql5);
+    $row5 = $rs5->fetch_assoc();
+    $event_msg = "หน้าแก้ไขข้อมูล $Forder_id  แก้ไขสินค้า รหัส $row5[product_id] จำนวน $qty    รวม $total_price  stock1: $face1_out stock2: $face2_out  ";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$Forder_id ','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
     $sql2 = "UPDATE order_details    SET qty='$qty',qty_out='$qty_out',total_price='$total_price' where id='$edit_id'";
     if ($conn->query($sql2) === TRUE) {  ?>
         <script>
@@ -302,6 +323,13 @@ if ($action == 'edit') {
 if ($action == 'edit_contact') {
     $edit_id = $_REQUEST['edit_id'];
     $contact_name = $_REQUEST['contact_name'];
+
+    $event_msg = "หน้าแก้ไขข้อมูล $order_id  แก้ไขชื่อผู้ติดต่อ $contact_name  ";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$order_id ','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+
     $sql2 = "UPDATE orders   SET contact_name='$contact_name'   where order_id='$edit_id'";
     if ($conn->query($sql2) === TRUE) {  ?>
         <script>
@@ -315,6 +343,13 @@ if ($action == 'edit_contact') {
 if ($action == 'edit_discount') {
     $edit_id = $_REQUEST['edit_id'];
     $discount = $_REQUEST['discount'];
+
+    $event_msg = "หน้าแก้ไขข้อมูล $order_id  แก้ไขส่วนลด $discount  ";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$order_id ','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+
     $sql2 = "UPDATE orders   SET discount='$discount'   where order_id='$edit_id'";
     if ($conn->query($sql2) === TRUE) {  ?>
         <script>
@@ -327,6 +362,13 @@ if ($action == 'edit_discount') {
 if ($action == 'edit_vat') {
     $edit_id = $_REQUEST['edit_id'];
     $vat = $_REQUEST['vat'];
+
+    $event_msg = "หน้าแก้ไขข้อมูล $order_id  แก้ไขรับใบกำกับภาษี  $vat  ";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$order_id ','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+
     $sql2 = "UPDATE orders   SET vat='$vat'   where order_id='$edit_id'";
     if ($conn->query($sql2) === TRUE) {  ?>
         <script>
@@ -340,6 +382,16 @@ if ($action == 'edit_vat') {
 
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
+
+    $sql5 = "SELECT * FROM order_details  where  id='$del_id' ";
+    $rs5 = $conn->query($sql5);
+    $row5 = $rs5->fetch_assoc();
+    $event_msg = "หน้าแก้ไขข้อมูล $row5[order_id]  ลบสินค้า รหัส $row5[product_id] จำนวน $row5[qty]    รวม $row5[total_price] stock1: $row5[face1_stock_out] stock2: $row5[face2_stock_out] ";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$row5[order_id]  ','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+    
     $sql = "DELETE FROM order_details WHERE  id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
         <script>
