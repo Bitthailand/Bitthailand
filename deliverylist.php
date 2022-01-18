@@ -4,7 +4,7 @@ if (isset($_SESSION["username"])) {
 } else {
     header("location:signin.php");
 }
-$emp_id=$_SESSION["username"]; 
+$emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config.php';
 $emp_id = $_SESSION["username"];
@@ -74,13 +74,13 @@ if ($action == 'add_cfx') {
         if ($conn->query($sql5) === TRUE) {
         }
     }
-   
+
 
     $sql1 = "SELECT * FROM orders WHERE order_id= '$row[order_id]'";
     $rs1 = $conn->query($sql1);
     $row1 = $rs1->fetch_assoc();
 
-    
+
     $sqlx2 = "SELECT * FROM order_details WHERE order_id = '$row[order_id]' AND ptype_id='TF'";
     $rsx2 = $conn->query($sqlx2);
     $rowx2 = $rsx2->fetch_assoc();
@@ -107,11 +107,23 @@ if ($action == 'add_cfx') {
         if ($conn->query($sqlx12) === TRUE) {
         }
     }
-    // if ($rowx3['qty']==0){
-    //     $sqlx13 = "UPDATE orders  SET order_status='5',error_status='3' WHERE order_id= '$row[order_id]' ";
-    //     if ($conn->query($sqlx13) === TRUE) {
-    //     }
-    // } 
+
+    $event_msg = "ยืนยันการส่งสินค้าวิธีรับโดย บริษัทจัดส่งสินค้า ใบสั่งชื้อ $row[order_id] เลขที่จัดส่ง $dev_id ";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$row[order_id] ','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+    if ($row['cus_back']==3){
+        $event_msg = "ยืนยันการส่งสินค้าวิธีรับโดย ลูกค้ารับกลับเอง ใบสั่งชื้อ $row[order_id] เลขที่จัดส่ง $dev_id ";
+        $sql_event = "INSERT INTO log (order_id,emp_id,event)
+        VALUES ('$row[order_id] ','$emp_id','$event_msg')";
+        if ($conn->query($sql_event) === TRUE) {
+        }
+
+        $sqlx13 = "UPDATE orders  SET order_status='5',error_status='3' WHERE order_id= '$row[order_id]' ";
+        if ($conn->query($sqlx13) === TRUE) {
+        }
+    } 
     ?>
     <script>
         $(document).ready(function() {
@@ -279,6 +291,7 @@ if ($action == 'add_hs') {
                                         <th>พนักงานตรวจสอบ</th>
                                         <th>ชื่อลูกค้า</th>
                                         <th>ประเภท</th>
+                                        <th>รับสินค้า</th>
                                         <th>เบอร์โทร</th>
                                         <th>ที่อยู่ส่ง</th>
                                         <th>Action</th>
@@ -335,16 +348,23 @@ if ($action == 'add_hs') {
                                                     echo "$row4[name]";
 
                                                     ?></td>
-                                            <td ><h5> <span class="badge badge-success  "> <?php
-                                                    $sql5 = "SELECT * FROM customer WHERE customer_id= '$row1[cus_id]'";
-                                                    $rs5 = $conn->query($sql5);
-                                                    $row5 = $rs5->fetch_assoc();
-                                                    echo $row5['customer_name']; ?></span></h5> </td>
+                                            <td>
+                                                <h5> <span class="badge badge-success  "> <?php
+                                                                                            $sql5 = "SELECT * FROM customer WHERE customer_id= '$row1[cus_id]'";
+                                                                                            $rs5 = $conn->query($sql5);
+                                                                                            $row5 = $rs5->fetch_assoc();
+                                                                                            echo $row5['customer_name']; ?></span></h5>
+                                            </td>
                                             <td> <?php
                                                     $sqlct = "SELECT * FROM customer_type  WHERE  id= '$row1[cus_type]'";
                                                     $rsct = $conn->query($sqlct);
                                                     $rowct = $rsct->fetch_assoc();
                                                     echo $rowct['name']; ?> </td>
+                                            <td> <?php
+                                                    $sqlcb = "SELECT * FROM customer_back  WHERE  id= '$row1[cus_back]'";
+                                                    $rscb = $conn->query($sqlcb);
+                                                    $rowcb = $rscb->fetch_assoc();
+                                                    echo $rowcb['name']; ?> </td>
                                             <td> <?php echo substr($row5['tel'], 0, 12);  ?> </td>
                                             <td>
                                                 <?php echo $row5['bill_address'];
@@ -362,9 +382,9 @@ if ($action == 'add_hs') {
                                                 ?>
                                             </td>
                                             <td>
-                                            <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูล Orderที่ออกใบจัดส่งแล้ว" href="/editorder_step2.php?order_id=<?= $row['order_id'] ?>&dev_id=<?= $row['dev_id'] ?>">
-                                                            <i class="i-Check font-weight-bold"></i>
-                                                        </a>
+                                                <a class="btn btn-outline-info btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูล Orderที่ออกใบจัดส่งแล้ว" href="/editorder_step2.php?order_id=<?= $row['order_id'] ?>&dev_id=<?= $row['dev_id'] ?>">
+                                                    <i class="i-Check font-weight-bold"></i>
+                                                </a>
                                                 <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/saleorder.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>" target="_blank">
                                                     <i class="i-Lock-2 font-weight-bold"></i>
                                                 </a>
@@ -385,7 +405,7 @@ if ($action == 'add_hs') {
                                                 <button data-toggle="modal" data-target="#medalemp" title="กำหนดพนักงานส่ง" data-id="<?php echo $row['id']; ?>" id="add_emp" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Add-User font-weight-bold"></i> </button>
 
                                                 <button data-toggle="modal" data-target="#medalcf" title="ยืนยันส่งสินค้า" data-id="<?php echo $row['id']; ?>" id="add_cf" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Check font-weight-bold"></i> </button>
-                                                <a class='btn btn-outline-success btn-sm line-height-1' title='คืนสินค้า' href='/refun_so.php?order_id=<?=$row['order_id']?>&so_id=<?=$row['dev_id']?>' target='_blank'> <i class='i-Repeat-2 font-weight-bold'></i></a>
+                                                <a class='btn btn-outline-success btn-sm line-height-1' title='คืนสินค้า' href='/refun_so.php?order_id=<?= $row['order_id'] ?>&so_id=<?= $row['dev_id'] ?>' target='_blank'> <i class='i-Repeat-2 font-weight-bold'></i></a>
                                             </td>
                                         </tr><?php
                                             }

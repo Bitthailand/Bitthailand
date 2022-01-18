@@ -273,6 +273,7 @@ if ($action == 'cancle_ai') {
                                             <th>กำหนดส่ง</th>
                                             <th>Order ID</th>
                                             <th>ประเภทลูกค้า</th>
+                                            <th>รับสินค้า</th>
                                             <th>ชื่อลูกค้า</th>
                                             <th>เบอร์โทร</th>
                                             <th>อำเภอ</th>
@@ -332,6 +333,14 @@ if ($action == 'cancle_ai') {
                                                     $row3 = $rs3->fetch_assoc();
                                                     ?>
                                                     <?= $row2['name'] ?>
+                                                </td>
+                                                <td><?php
+                                                    $sqlcb = "SELECT * FROM customer_back WHERE id= '$row[cus_back]'";
+                                                    $rscb = $conn->query($sqlcb);
+                                                    $rowcb = $rscb->fetch_assoc();
+                                                   
+                                                    ?>
+                                                    <?= $rowcb['name'] ?>
                                                 </td>
                                                 <td> <?php echo iconv_substr($row3['customer_name'], 0, 30, 'UTF-8'); ?> </td>
                                                 <td> <?php echo substr($row3['tel'], 0, 12);  ?> </td>
