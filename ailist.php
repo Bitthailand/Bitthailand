@@ -306,7 +306,7 @@ if ($action == 'cancle_ai') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='2'  $columx $keywordx   order by delivery_date  ASC, date_create DESC LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `orders` where status='0'  AND order_status='2'  $columx $keywordx   order by delivery_date=''  ASC ,date_create DESC ");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                             <tr>
                                                 <td>
