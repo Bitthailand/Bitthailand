@@ -257,9 +257,9 @@ if ($action == 'update') {
                                             ?>
                                                     <option value="<?= $row6['ptype_id'] ?>|<?= $row6['width'] ?>|<?= $row6['plant_id'] ?>" <?php if (isset($plantx) && ($plantx == $row6['plant_id'])) {
                                                                                                                                                 echo "selected"; ?>>
-                                                        แพที่<?= $row6['plant_id'] ?>-<?= $row6['factory'] ?>
+                                                          แพที่<?= $row6['plant_id'] ?>(<?= $row6['remark'] ?>)-<?= $row6['factory'] ?>
                                                     <?php  } else {      ?>
-                                                    <option value="<?= $row6['ptype_id'] ?>|<?= $row6['width'] ?>|<?= $row6['plant_id'] ?>"> แพที่<?= $row6['plant_id'] ?>-<?= $row6['factory'] ?>
+                                                    <option value="<?= $row6['ptype_id'] ?>|<?= $row6['width'] ?>|<?= $row6['plant_id'] ?>"> แพที่<?= $row6['plant_id'] ?>(<?= $row6['remark'] ?>)-<?= $row6['factory'] ?>
                                                     <?php } ?>
                                                     </option>
                                             <?php  }
