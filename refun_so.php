@@ -133,8 +133,8 @@ if ($action == 'add_dev') {
 
                     $add_qty1 = $row_pro['dev_qty'] - $add_qty;  //ลบยอดสั่งชื้อลง
                     $add_qty_refun = $rowx3['qty'] - $add_qty;  //เพิ่มจำนวนสินค้าเข้าไปเพื่อเอาไปคืนใน ยอดจัดส่ง
-                    $add_fac1_stock = $row_p['fac1_stock'] - $stock1; //เพิ่มสต็อกคืนโรงงาน1
-                    $add_fac2_stock = $row_p['fac2_stock'] - $stock2;
+                    $add_fac1_stock = $row_p['fac1_stock'] + $stock1; //เพิ่มสต็อกคืนโรงงาน1
+                    $add_fac2_stock = $row_p['fac2_stock'] + $stock2;
                     $add_qty_fac1 = $rowx3['face1_stock_out'] - $stock1;
                     $add_qty_fac2 = $rowx3['face2_stock_out'] - $stock2;
                     $total_price1 = $add_qty1 * $row_p['unit_price'];
