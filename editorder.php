@@ -17,7 +17,7 @@ $order_id = $_REQUEST['order_id'];
 $sql = "SELECT * FROM orders  where  order_id='$order_id' ";
 $rs = $conn->query($sql);
 $main = $rs->fetch_assoc();
-$event_msg = "อยู่หน้าแก้ไขใบสั่งชื้อเลขที่ $order_id ";
+$event_msg = "แก้ไขใบสั่งชื้อเลขที่ $order_id ";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$order_id','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {

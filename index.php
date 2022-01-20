@@ -30,7 +30,7 @@ include './get_dashbord.php';
 include './get_chart.php';
 $datex = date('Y-m');
 $d = explode("-", $datex);
-$event_msg = "อยู่หน้าแรกเว็บไซต์";
+$event_msg = "แรกเว็บไซต์";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('0','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {

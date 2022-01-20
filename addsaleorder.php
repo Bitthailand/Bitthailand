@@ -56,7 +56,7 @@ if ($row['dev_status'] == 1) {
     $strNewDate = date("Y-m-d", strtotime("+$row[date_confirm] day", strtotime($strStartDate)));
 }
 
-$event_msg = "อยู่หน้าออกใบส่งของตัดสต็อก";
+$event_msg = "ออกใบส่งของตัดสต็อก";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$order_id','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {

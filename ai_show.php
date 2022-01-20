@@ -18,7 +18,7 @@ $row = $rs->fetch_assoc();
 $datex = date($row['date_create']);
 $d = explode(" ", $datex);
 // echo"$d[0]";
-$event_msg = "อยู่หน้าแสดงรายการมัดจำ";
+$event_msg = "แสดงรายการมัดจำ";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('0','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {

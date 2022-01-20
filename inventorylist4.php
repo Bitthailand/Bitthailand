@@ -7,7 +7,7 @@ if (isset($_SESSION["username"])) {
 $emp_id = $_SESSION["username"];
 include './include/connect.php';
 error_reporting(0);
-$event_msg = "อยู่หน้ารายการสต็อก (รายงานแบบที่ 3)";
+$event_msg = "รายการสต็อก (รายงานแบบที่ 3)";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('0','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {

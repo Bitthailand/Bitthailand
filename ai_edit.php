@@ -10,7 +10,7 @@ $row = $rs->fetch_assoc();
 $datetodat = date('Y-m-d');
 echo"$row[order_id]";
 
-$event_msg = "อยู่หน้าแก้ไขรายการมัดจำ";
+$event_msg = "แก้ไขรายการมัดจำ";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$row[order_id]','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {

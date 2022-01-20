@@ -16,7 +16,7 @@ if ($conn->query($sql) === TRUE) {
 $sql2 = "DELETE FROM order_details  WHERE status_button='0' AND emp_id='$emp_id'  ";
 if ($conn->query($sql2) === TRUE) {
 }
-$event_msg="อยู่หน้ารายการสั่งซื้อ";
+$event_msg="รายการสั่งซื้อ";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('0','$emp_id','$event_msg')";
 if ($conn->query($sql_event ) === TRUE) { }

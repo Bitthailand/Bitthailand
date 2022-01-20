@@ -34,7 +34,7 @@ if ($rowS == '') {
 } else {
     $total_records_per_page = $rowS;
 }
-$event_msg = "อยู่หน้ารายการจัดส่งสินค้า";
+$event_msg = "รายการจัดส่งสินค้า";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('0 ','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {

@@ -44,7 +44,7 @@ $ai_date_end = $_REQUEST['ai_date_end'];
 $Fai_id = $_REQUEST['ai_id'];
 $status_ai = $_REQUEST['status_ai'];
 echo "$ai_date_start";
-$event_msg = "อยู่หน้าออกใบมัดจำ เลขที่ใบสั่งชื้อ $order_id  เลขที่ใบมัดจำ $ai_id";
+$event_msg = "ออกใบมัดจำ เลขที่ใบสั่งชื้อ $order_id  เลขที่ใบมัดจำ $ai_id";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$order_id','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {
