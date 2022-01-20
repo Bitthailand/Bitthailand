@@ -227,7 +227,7 @@ if ($action == 'edit') {
                                                     <p class="badge-dot-primary ul-widget6__dot"></p>
                                                 </span>
                                                 <span class="ul-widget-s6__text">
-                                                    <strong class="mr-1"><?php  echo"$row_pro[event]"; ?></strong>
+                                                    <strong class="mr-1"><?php  echo"$row_pro[event]"; ?>: <?php  echo"$row_pro[emp_id]"; ?> </strong>
                                                     <a class=" btn-primary text-white " href="saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $row_dev['dev_id'] ?>" target="_blank"><?= $row_dev['dev_id'] ?></a>
                                                 </span>
                                                 <span class="ul-widget-s6__time">
