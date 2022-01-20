@@ -188,7 +188,7 @@ if ($action == 'add_product') {
     $sql112 = "UPDATE orders_number  SET status_cf='1'  where order_id='$Forder_id'";
     if ($conn->query($sql112) === TRUE) {
     }
-    $event_msg="เพิ่มรายการสินค้ารหัส $Fproductx ชื่อสินค้า '$row5[product_name]' จำนวน $Fqty  ราคา $Funit_price บาท รวม $total_price บาท";
+    $event_msg="เพิ่มรายการสินค้ารหัส $Fproductx ชื่อสินค้า $row5[product_name] จำนวน $Fqty  ราคา $Funit_price บาท รวม $total_price บาท";
     $sql_event = "INSERT INTO log (emp_id,event,order_id)
     VALUES ('$emp_id','$event_msg','$Forder_id')";
     if ($conn->query($sql_event ) === TRUE) {  }

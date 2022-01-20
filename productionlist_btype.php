@@ -350,6 +350,7 @@ if ($action == 'del') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
                                         $count = 0;
+                                        // if($colum_po==''){}
                                         $result = mysqli_query($conn, "SELECT * FROM `production_detail`   where  status_stock='1' AND b_type >'0'  $colum_po ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) {
                                         ?>
