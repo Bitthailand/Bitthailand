@@ -388,7 +388,7 @@ if ($action == 'del') {
                                             <th>รหัสสินค้า</th>
                                             <th>จำนวนผลิต</th>
                                             <th>ชื่อสินค้า</th>
-
+                                            <th>ข้อมูลสินค้า</th>
                                             <th>หนา</th>
                                             <th>กว้าง</th>
                                             <th>ยาว</th>
@@ -456,6 +456,7 @@ if ($action == 'del') {
                                                         $rowx = $rsx->fetch_assoc();
                                                         ?>
                                                         <td><?php echo $rowx['product_name']; ?></td>
+                                                        <td><?php echo $rowx['spacial']; ?></td>
                                                         <td><?php echo $rowx['thickness']; ?></td>
                                                         <td><?php echo $rowx['width']; ?></td>
                                                         <td><?php echo $rowx['size']; ?></td>
