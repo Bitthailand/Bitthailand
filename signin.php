@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php 
+<?php
 session_start();
 // unset($_SESSION['username']);
 include './include/connect.php';
@@ -24,14 +24,27 @@ if ($action == 'login') {
             session_start();
             echo "Password verified $row[username] ";
             $_SESSION["username"] = $row['username'];
-            
+
             $_SESSION["rule"] = $row['rule'];
 
             $sql = "INSERT INTO log (emp_id,event)
             VALUES ('$row[username]','ลงชื่อเข้าระบบ')";
- if ($conn->query($sql) === TRUE) {  }
+            if ($conn->query($sql) === TRUE) {
+            }
             // $_SESSION["time"] = time() + 30000;
-            header('Location: index.php');
+         
+            if ($row['level'] == 1) {
+                header('Location: index.php');
+            }
+            if ($row['level'] == 2) {
+                header('Location: quotationlist.php');
+            }
+            if ($row['level'] == 3) {
+                header('Location: inventorylist.php');
+            }
+            if ($row['level'] == 4) {
+                header('Location: productionlist.php');
+            }
         } else {
 ?>
 
@@ -72,15 +85,15 @@ if ($action == 'login') {
                         <div class="auth-logo text-center mb-4"><img src="../../dist-assets/images/logo.png" alt=""></div>
                         <h1 class="mb-3 text-18">Sign In</h1>
 
-                       
+
                         <form method="POST">
                             <div class="form-group">
                                 <label for="username">User Name</label>
-                                <input class="form-control form-control-rounded" name="username" type="text"   placeholder="Username" required>
+                                <input class="form-control form-control-rounded" name="username" type="text" placeholder="Username" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input class="form-control form-control-rounded" name="password" type="password"  placeholder="password" required>
+                                <input class="form-control form-control-rounded" name="password" type="password" placeholder="password" required>
                             </div>
                             <input type="hidden" name="action" value="login">
                             <button class="btn btn-rounded btn-primary btn-block mt-2">Sign In</button>
