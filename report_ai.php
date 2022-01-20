@@ -24,9 +24,7 @@ include './include/config.php';
 include './get_dashbord_sale.php';
 $datex = date('Y-m-d');
 $d = explode("-", $datex);
-
 ?>
-
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
@@ -40,17 +38,13 @@ $d = explode("-", $datex);
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <!-- ============ Tab Menu ============= -->
-          
+
             <div class="tab-content">
                 <div class="main-content">
-
                     <div class="breadcrumb">
                         <h1 class="mr-2">ใบมัดจำ</h1>
                         </h1>
-
                     </div>
-
-
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
@@ -95,7 +89,7 @@ $d = explode("-", $datex);
                                                                                     <td class="text-center">
                                                                                         <?php $date = explode(" ", $row4['date_create']);
                                                                                         $dat = datethai2($date[0]);
-                                                                                        echo $dat ;
+                                                                                        echo $dat;
 
                                                                                         $sql2 = "SELECT * FROM orders WHERE order_id= '$row4[order_id]'";
                                                                                         $rs2 = $conn->query($sql2);
@@ -109,8 +103,8 @@ $d = explode("-", $datex);
                                                                                     <td class="text-left"><?php echo $row4['order_id']; ?></td>
                                                                                     <td class="text-right"><?php echo $row4['messages']; ?></td>
                                                                                     <td class="text-right"><?php echo number_format($row4['price'], '2', '.', ',') ?></td>
-                                                                                 
-                                                                                 
+
+
 
                                                                                 </tr>
                                                                         <?php }

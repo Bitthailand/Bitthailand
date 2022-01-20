@@ -86,14 +86,14 @@ if ($action == 'edit') {
         <?php include './include/header.php'; ?>
         <!-- =============== Header End ================-->
         <!-- side bar menu -->
-        
+
         <?php include './include/menu.php'; ?>
         <!-- =============== Left side End ================-->
 
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
-             <!-- แจ้งเตือน -->
-             <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
+            <!-- แจ้งเตือน -->
+            <div id="alert_placeholder" style="z-index: 9999999; left:1px; top:1%; width:100%; position:absolute;"></div>
             <!-- ปิดการแจ้งเตือน -->
             <!-- ============ Body content start ============= -->
             <div class="main-content">
@@ -211,24 +211,57 @@ if ($action == 'edit') {
                                 </div>
                             </div>
                         </div>
+                        <br>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="text-primary">LOG</h4>
+            
+                                    <?php
+                                    $sql_pro = "SELECT * FROM log  where order_id='$order_id'  order by date_create  DESC ";
+                                    $result_pro = mysqli_query($conn, $sql_pro);
+                                    if (mysqli_num_rows($result_pro) > 0) {
+                                        while ($row_pro = mysqli_fetch_assoc($result_pro)) { ?>
+                                              <div class="ul-widget-s6__item">
+                                                <span class="ul-widget-s6__badge">
+                                                    <p class="badge-dot-primary ul-widget6__dot"></p>
+                                                </span>
+                                                <span class="ul-widget-s6__text">
+                                                    <strong class="mr-1"><?php  echo"$row_pro[event]"; ?></strong>
+                                                    <a class=" btn-primary text-white " href="saleorder.php?order_id=<?= $order_id ?>&so_id=<?= $row_dev['dev_id'] ?>" target="_blank"><?= $row_dev['dev_id'] ?></a>
+                                                </span>
+                                                <span class="ul-widget-s6__time">
+                                                    <?php $date = explode(" ", $row_pro['date_create']);
+                                                    $dat = datethai2($date[0]);
+                                                    echo $dat . '-' . $date[1] ?> </span>
+                                            </div>
+                                    <?php }
+                                    } ?>
+
+                                
+                            </div>
+                        </div>
+
+
                     </div>
+
 
                     <div class="col-md-8 col-lg-8">
                         <div class="mb-3">
 
                             <div class="class-view-log card-body" id="order_create" style="padding-top:0!important;">
-                            <?php
-                                                                        $sql_or= "SELECT * FROM status_or  where id='$row[order_status]'";
-                                                                        $rs_or = $conn->query($sql_or);
-                                                                        $row_or = $rs_or->fetch_assoc();
-                                                                        // echo $rowx3['product_id'];
-                                                                        ?>
+                                <?php
+                                $sql_or = "SELECT * FROM status_or  where id='$row[order_status]'";
+                                $rs_or = $conn->query($sql_or);
+                                $row_or = $rs_or->fetch_assoc();
+                                // echo $rowx3['product_id'];
+                                ?>
                                 <!-- รายละเอียด Order -->
                                 <div class="card">
                                     <div class="col-md-12">
                                         <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
                                             <h4 class="text-muteds"><span>รายละเอียด Order: <?= $row['order_id'] ?> สถานะ Order:<?= $row_or['name'] ?>
-                                            <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button> </span></h4>
+                                                    <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button> </span></h4>
                                         </div>
                                         <div class="separator-breadcrumb border-top mb-3"></div>
                                         <div class="row">
@@ -410,47 +443,51 @@ if ($action == 'edit') {
                                 $countx = $count['total'];
                                 if ($countx > 0) {
 
-                                   
+
                                     $sql_ai = "SELECT * FROM ai_number where   order_id='$order_id'  ";
                                     $rs_ai = $conn->query($sql_ai);
                                     $row_ai = $rs_ai->fetch_assoc();
-                                ?> 
-                                <div class="card">
-                                    <div class="col-md-12">
-                                        <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
-                                            <h4 class="text-muteds"><span>ใบเสนอราคา/จ่ายเต็ม Order: <?= $row['order_id'] ?></span></h4>
-                                        </div>
-                                        <div class="separator-breadcrumb border-top mb-3"></div>
-                                        <div class="row">
+                                ?>
+                                    <div class="card">
+                                        <div class="col-md-12">
                                             <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
-                                                <h4 class="text-muted text-success"> ข้อมูลใบเสนอราคาเลขที่  <?= $row_ai['ai_num'] ?></h4>
+                                                <h4 class="text-muteds"><span>ใบเสนอราคา/จ่ายเต็ม Order: <?= $row['order_id'] ?></span></h4>
                                             </div>
-                                            <div class="col-md-12 col-12 mb-2">
-                                              ข้อความมัดจำ :
-                                                <strong class="font-weight-bold text-primary"><?= $row_ai['messages'] ?></strong>
-                                            </div>
+                                            <div class="separator-breadcrumb border-top mb-3"></div>
+                                            <div class="row">
+                                                <div class="col-mb-12 col-12 mb-2 mt-3 pt-2">
+                                                    <h4 class="text-muted text-success"> ข้อมูลใบเสนอราคาเลขที่ <?= $row_ai['ai_num'] ?></h4>
+                                                </div>
+                                                <div class="col-md-12 col-12 mb-2">
+                                                    ข้อความมัดจำ :
+                                                    <strong class="font-weight-bold text-primary"><?= $row_ai['messages'] ?></strong>
+                                                </div>
 
-                                            <div class="col-md-4 col-12 mb-2">
-                                                จำนวนเงินมัดจำ :
-                                                <strong><?php echo $row_ai['price']; ?></strong>
-                                            </div>
-                                            <div class="col-md-4 col-12 mb-2">
-                                                ประเภทการชำระเงิน :
-                                                <strong><?php if($row_ai['aix_status']==0){ echo"มัดจำ"; }
-                                                if($row_ai['aix_status']==1){ echo"จ่ายเต็ม"; }
-                                                ?></strong>
-                                            </div>
-                                            <div class="col-md-4 col-12 mb-2">
-                                                วันที่ทำรายการ :
-                                                <strong class="font-weight-bold text-primary"><?php $date = explode(" ", $row_ai['date_create']);
-                                                                    $dat = datethai2($date[0]);
-                                                                    echo $dat ?></strong>
-                                            </div>
+                                                <div class="col-md-4 col-12 mb-2">
+                                                    จำนวนเงินมัดจำ :
+                                                    <strong><?php echo $row_ai['price']; ?></strong>
+                                                </div>
+                                                <div class="col-md-4 col-12 mb-2">
+                                                    ประเภทการชำระเงิน :
+                                                    <strong><?php if ($row_ai['aix_status'] == 0) {
+                                                                echo "มัดจำ";
+                                                            }
+                                                            if ($row_ai['aix_status'] == 1) {
+                                                                echo "จ่ายเต็ม";
+                                                            }
+                                                            ?></strong>
+                                                </div>
+                                                <div class="col-md-4 col-12 mb-2">
+                                                    วันที่ทำรายการ :
+                                                    <strong class="font-weight-bold text-primary"><?php $date = explode(" ", $row_ai['date_create']);
+                                                                                                    $dat = datethai2($date[0]);
+                                                                                                    echo $dat ?></strong>
+                                                </div>
 
-                                           
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
                                 <?php } ?>
                                 <?php
