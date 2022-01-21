@@ -244,7 +244,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                                     <td class="text-left"><?php echo number_format($row4['unit_price'], '0', '.', ',') ?></td>
                                                                                   
                                                                                     
-                                                                                    <td class="text-left"><?php $total = $sum_stock * $row4['unit_price'];
+                                                                                    <td class="text-left"><?php $total = $row_dev['dev_qty'] * $row4['unit_price'];
                                                                                                             echo number_format($total, '2', '.', ',') ?></td>
 
                                                                                     <td class="text-left"><?php $totalx = $sum_all* $row4['unit_price'];
