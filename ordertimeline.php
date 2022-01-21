@@ -237,18 +237,11 @@ if ($action == 'edit') {
                                             </div>
                                     <?php }
                                     } ?>
-
-                                
                             </div>
                         </div>
-
-
                     </div>
-
-
                     <div class="col-md-8 col-lg-8">
                         <div class="mb-3">
-
                             <div class="class-view-log card-body" id="order_create" style="padding-top:0!important;">
                                 <?php
                                 $sql_or = "SELECT * FROM status_or  where id='$row[order_status]'";
@@ -324,9 +317,6 @@ if ($action == 'edit') {
                                                 <strong class="font-weight-bold text-primary"><?= $row['emp_id'] ?></strong>
                                             </div>
                                         </div>
-
-
-
                                         <div class="row">
                                             <div class="col-md-12 table-responsive">
                                                 <table class="table table-hover text-nowrap table-sm">
