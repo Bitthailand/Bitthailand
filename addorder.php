@@ -181,7 +181,7 @@ if ($action == 'add_product') {
     if ($Fcontact_name == '') {
         $Fcontact_name = '-';
     }
-    // echo "$Fcontact_name";
+    echo "$Fcontact_name";
     $sql5 = "SELECT * FROM product  where  product_id='$Fproductx' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
@@ -251,6 +251,12 @@ if ($action == 'add_product') {
             $sql2 = "SELECT * FROM orders  WHERE order_id='$Forder_id'  ";
             $result2 = mysqli_query($conn, $sql2);
             if (mysqli_num_rows($result2) > 0) {
+                $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',error='2',vat='$vat',contact_name='$Fcontact_name' where order_id='$order_idx'";
+                if ($conn->query($sql88) === TRUE) {
+                }
+                $sql112 = "UPDATE orders_number   SET status_use='2',status_cf='1' where order_id='$order_idx'";
+                if ($conn->query($sql112) === TRUE) {
+                }
             } else {
                 $sqlx5 = "INSERT INTO orders (order_id,cus_id,cus_back,cus_type,emp_id,status_button,contact_name,vat)
                                 VALUES ('$Forder_id','$Fcus_id','$Fcus_back','$Fcus_type_id','$emp_id','0','$Fcontact_name','$Fvat')";
