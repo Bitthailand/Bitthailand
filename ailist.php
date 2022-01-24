@@ -284,7 +284,7 @@ if ($action == 'cancle_ai') {
                                             <!-- <th>ก่อนรวมภาษี</th> -->
                                             <!-- <th>ภาษี</th> -->
                                             <th>ยอดรวม</th>
-                                            <th>ยอดหักมัดจำ</th>
+                                            <th>ยอดคงเหลือ</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -403,7 +403,7 @@ if ($action == 'cancle_ai') {
                                                     <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td>
-                                                    <?php $total2=$sub_total-$row_ai2['price']; ?>
+                                                    <?php $total2=$row_ai2['price']; ?>
                                                     <span class="font-weight-bold"> <?php echo number_format($total2, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td><?php if($row['pay_full']=='1'){ ?>
