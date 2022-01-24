@@ -602,6 +602,7 @@ if ($action == 'add') {
                 // $cus_back == 1 รับกลับเอง
                 // $cus_back == 2 บริษัทจัดส่ง
                 // $cus_back == 3 รับกลับเองวันหลัง
+                echo"";
 
                 if (($cus_type == 1) && ($cus_back == 2)) {
                     $sql8 = "INSERT INTO  quotation(qt_number,order_id)
