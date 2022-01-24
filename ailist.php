@@ -280,9 +280,11 @@ if ($action == 'cancle_ai') {
                                             <th>จังหวัด</th>
                                             <th>เงินมัดจำ</th>
                                             <th>ชำระเต็ม</th>
+                                            
                                             <!-- <th>ก่อนรวมภาษี</th> -->
                                             <!-- <th>ภาษี</th> -->
                                             <th>ยอดรวม</th>
+                                            <th>ยอดหักมัดจำ</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -400,7 +402,10 @@ if ($action == 'cancle_ai') {
                                                 <td>
                                                     <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
-
+                                                <td>
+                                                    <?php $total2=$sub_total-$row_ai2['price']; ?>
+                                                    <span class="font-weight-bold"> <?php echo number_format($total2, '2', '.', ',') ?> </span>
+                                                </td>
                                                 <td><?php if($row['pay_full']=='1'){ ?>
                                                     <span class="badge badge-success p-1">ชำระเต็ม</span>
                                                     <?php }else{ ?>
