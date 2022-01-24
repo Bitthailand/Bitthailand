@@ -403,7 +403,7 @@ if ($action == 'cancle_ai') {
                                                     <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td>
-                                                    <?php $total2=$sub_total-$row_ai['price']; ?>
+                                                    <?php  if($row['pay_full']=='1'){$total2=$sub_total-$row_ai2['price'];  }else{    $total2=$sub_total-$row_ai['price'];} ?>
                                                     <span class="font-weight-bold"> <?php echo number_format($total2, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td><?php if($row['pay_full']=='1'){ ?>
