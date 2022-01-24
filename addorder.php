@@ -443,14 +443,14 @@ if ($action == 'add') {
             $sqlx = "SELECT * FROM orders  WHERE order_id='$order_idx' ";
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
-                $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',error='2',vat='$vat' where order_id='$order_idx'";
+                $sql88 = "UPDATE orders   SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',error='22',vat='$vat',contact_name='$contact_name'  where order_id='$order_idx'";
                 if ($conn->query($sql88) === TRUE) {
                 }
                 $sql112 = "UPDATE orders_number   SET status_use='2',status_cf='1' where order_id='$order_idx'";
                 if ($conn->query($sql112) === TRUE) {
                 }
                 if ($delivery_date = '$delivery_date') {
-                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='3'  where order_id='$order_idx'";
+                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='33',contact_name='$contact_name'  where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
                     }
                 } //if ($delivery_date = '$delivery_date') 
