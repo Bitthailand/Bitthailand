@@ -461,7 +461,7 @@ if ($action == 'add') {
                                       VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','1')";
                 if ($conn->query($sqlx5) === TRUE) {
                 }
-                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='4'  where order_id='$order_idx'";
+                $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='4',contact_name='$contact_name'   where order_id='$order_idx'";
                 if ($conn->query($sql11) === TRUE) {
                 }
                 $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
@@ -521,7 +521,7 @@ if ($action == 'add') {
             $code = sprintf('%05d', $code_new);
             $dev_id = $dat . $code;
             // ตรวจสอบเลขจัดส่ง
-            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1',vat='$vat'  WHERE order_id= '$order_idx'";
+            $sqlx12 = "UPDATE orders  SET dev_status='1',dev_id='$dev_id',delivery_date='$datetodat',order_status='5',status_button='1',vat='$vat',contact_name='$contact_name'   WHERE order_id= '$order_idx'";
             if ($conn->query($sqlx12) === TRUE) {
             }
             $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
@@ -564,7 +564,7 @@ if ($action == 'add') {
             $result = mysqli_query($conn, $sqlx);
             if (mysqli_num_rows($result) > 0) {
                 // echo "$delivery_date";
-                $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',date_confirm='30',error='12',vat='$vat'  where order_id='$order_idx'";
+                $sql = "UPDATE orders SET cus_id='$cus_id',cus_back='$cus_back',cus_type='$cus_type',emp_id='$emp_id',status_button='1',discount='$discount',discount_text='$discount_text',tax='$tax',date_confirm='30',error='12',vat='$vat' ,contact_name='$contact_name'   where order_id='$order_idx'";
                 if ($conn->query($sql) === TRUE) {
                 }
                 $sql112 = "UPDATE orders_number   SET status_use='2' ,status_cf='1' where order_id='$order_idx'";
@@ -579,7 +579,7 @@ if ($action == 'add') {
                                             VALUES ('$order_idx','$cus_id','$cus_back','$cus_type_id','$emp_id','0')";
                     if ($conn->query($sqlx5) === TRUE) {
                     }
-                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='1' where order_id='$order_idx'";
+                    $sql11 = "UPDATE orders   SET delivery_date='$delivery_datex',delivery_address='$delivery_Address',date_confirm='30',error='1',contact_name='$contact_name'  where order_id='$order_idx'";
                     if ($conn->query($sql11) === TRUE) {
                     }
                 }
