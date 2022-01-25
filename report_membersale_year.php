@@ -22,7 +22,8 @@ $emp_id = $_SESSION["username"];
 include './include/connect.php';
 include './include/config.php';
 include './get_dashbord_sale.php';
-$year=$_REQUEST['year'];
+$datex = date('Y-m-d');
+$d = explode("-", $datex);
 
 ?>
 
@@ -43,6 +44,14 @@ $year=$_REQUEST['year'];
 
             <div class="main-content">
 
+
+                <?php $datex = date('Y-m');
+                $d = explode("-", $datex); ?>
+
+
+
+
+
                 <div class="col-lg-12 col-md-12">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
@@ -54,20 +63,10 @@ $year=$_REQUEST['year'];
                                         <div class="tab-content">
                                             <div class="ul-widget__item">
                                                 <div class="ul-widget__info">
-                                                    <h3 class="ul-widget1__title ">รายงานลูกค้าที่มียอดสั่งชื้อประจำปี <?= $year ?> </h3>
+                                                    <h3 class="ul-widget1__title ">รายงานลูกค้าที่มียอดสั่งชื้อ </h3>
 
                                                 </div>
-                                                <div class="text-left">
-                                                    <div class="row">
-                                                        <div class="col-auto">
-                                                            <div class="form-group">
-                                                                <label for="searchNameId"> Keyword</label>
-                                                                <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                               
                                             </div>
 
                                             <div class="table-responsive">
@@ -75,44 +74,27 @@ $year=$_REQUEST['year'];
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col" class="text-left">ชื่อลูกค้า</th>
-                                                            <th scope="col" class="text-left">อำเภอ</th>
-                                                            <th scope="col" class="text-left">จังหวัด</th>
-                                                            <th scope="col" class="text-left">ยอดสั่งรวม</th>
+                                                            <th scope="col" class="text-left">ประจำปี</th>
+                                                            <th scope="col" class="text-left">จำนวนลูกค้า</th>
+                                                            <th scope="col" class="text-left">ข้อมูล</th>
+                                                          
                                                         </tr>
                                                     </thead>
                                                     <tbody id="myTable">
                                                         <?php
-                                             
-                                                        $sql4 = "SELECT ROUND(SUM(deliver_detail.total_price), 2) AS sum,delivery.cus_id AS cus_id FROM  delivery
-                                                                           INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id AND  deliver_detail.order_id = delivery.order_id  AND    YEAR(delivery.dev_date) = '$year'  AND  delivery.status_payment='1'  GROUP BY  delivery.cus_id   ORDER BY SUM DESC  ";
+                                                        $datex = date('Y-m');
+                                                        $d = explode("-", $datex);
+                                                        $sql4 = "SELECT   YEAR(delivery.dev_date) AS year,COUNT(DISTINCT  delivery.cus_id )AS cus_id FROM  delivery  where  status_payment='1'  GROUP BY  year    ORDER BY year  DESC  ";
                                                         $result4 = mysqli_query($conn, $sql4);
                                                         if (mysqli_num_rows($result4) > 0) {
                                                             while ($row4 = mysqli_fetch_assoc($result4)) {
                                                         ?> <tr>
-                                                                    <th scope="row"><?= ++$idx2; ?></th>
-                                                                    <td class="text-left"><?php  
-                                                                    
-                                                                     $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[cus_id]'";
-                                                                                            $rs_cus = $conn->query($sql_cus);
-                                                                                            $row_cus = $rs_cus->fetch_assoc();
-                                                                                             echo $row_cus['customer_name'] ?>
-                                                                                             </td>
-                                                                    <td class="text-left"><?php
-                                                                                          
-
-                                                                                            $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
-                                                                                            $rs4x = $conn->query($sql4x);
-                                                                                            $row4x = $rs4x->fetch_assoc();
-                                                                                            echo $row4x['name_th'];  ?></td>
-                                                                    <td class="text-left"><?php
-                                                                                            $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
-                                                                                            $rs5 = $conn->query($sql5);
-                                                                                            $row5 = $rs5->fetch_assoc();
-                                                                                            echo $row5['name_th'];
-
-                                                                                            ?></td>
-                                                                    <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                    <th scope="row"><?= ++$idx1; ?></th>
+                                                                    <td class="text-left"><?= $row4['year'] ?></td>
+                                                                    <td class="text-left"><?= $row4['cus_id'] ?></td>
+                                                                    <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลประจำปี" href="/report_membersale.php?year=<?= $row4['year'] ?>">
+                                                                            <i class="i-Check font-weight-bold"></i> </a></td>
+                                                                  
                                                                 </tr>
                                                         <?php }
                                                         } ?>

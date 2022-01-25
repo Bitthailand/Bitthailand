@@ -293,7 +293,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                     $d = explode("-", $datex);
                                                                     $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
                                                                             ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND   MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id AND  deliver_detail.order_id = delivery.order_id  AND    MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
                                                                     $result4 = mysqli_query($conn, $sql4);
                                                                     if (mysqli_num_rows($result4) > 0) {
                                                                         while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -345,7 +345,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                                                 <tbody>
                                                                     <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
                                                                             ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'  AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND  deliver_detail.order_id = delivery.order_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'   AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
                                                                     $result4 = mysqli_query($conn, $sql4);
                                                                     if (mysqli_num_rows($result4) > 0) {
                                                                         while ($row4 = mysqli_fetch_assoc($result4)) {
