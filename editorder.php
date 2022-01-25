@@ -983,7 +983,7 @@ if ($action == 'add') {
                                     <?php } ?>
                                     <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $order_id ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
                                 <?php if($page==1){  ?>    <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการ Order</a> <?php } ?>
-                                <?php if($page==2){  ?>    <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการรอส่ง</a> <?php } ?>  
+                                <?php if($page==2){  ?>    <a class="btn btn-outline-danger m-1" href="/ailist.php" type="button">กลับหน้ารายการรอส่ง</a> <?php } ?>  
                             </div>
                             </form>
                         </div>
