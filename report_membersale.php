@@ -84,10 +84,10 @@ $d = explode("-", $datex);
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col">ชื่อลูกค้า</th>
-                                                            <th scope="col">อำเภอ</th>
-                                                            <th scope="col">จังหวัด</th>
-                                                            <th scope="col">ยอดสั่งรวม</th>
+                                                            <th scope="col" class="text-left">ชื่อลูกค้า</th>
+                                                            <th scope="col" class="text-left">อำเภอ</th>
+                                                            <th scope="col" class="text-left">จังหวัด</th>
+                                                            <th scope="col" class="text-left">ยอดสั่งรวม</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="myTable">
