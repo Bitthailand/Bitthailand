@@ -304,12 +304,13 @@ if ($action == 'edit') {
     $sql5 = "SELECT * FROM order_details  where  id='$edit_id' ";
     $rs5 = $conn->query($sql5);
     $row5 = $rs5->fetch_assoc();
+    $sum_qty_out=$qty-$row5['qty_dev'];
     $event_msg = "หน้าแก้ไขข้อมูล $Forder_id  แก้ไขสินค้า รหัส $row5[product_id] จำนวน $qty    รวม $total_price  stock1: $face1_out stock2: $face2_out  ";
     $sql_event = "INSERT INTO log (order_id,emp_id,event)
     VALUES ('$Forder_id ','$emp_id','$event_msg')";
     if ($conn->query($sql_event) === TRUE) {
     }
-    $sql2 = "UPDATE order_details    SET qty='$qty',qty_out='$qty_out',total_price='$total_price' where id='$edit_id'";
+    $sql2 = "UPDATE order_details    SET qty='$qty',qty_out='$sum_qty_out',total_price='$total_price',error='9' where id='$edit_id'";
     if ($conn->query($sql2) === TRUE) {  ?>
         <script>
             $(document).ready(function() {
