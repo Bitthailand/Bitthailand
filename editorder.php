@@ -9,6 +9,7 @@ include './include/connect.php';
 include './include/config.php';
 include './include/config_so.php';
 $status_order = $_REQUEST['status_order'];
+$page=$_REQUEST['page'];
 error_reporting(0);
 $emp_id = $_SESSION["username"];
 // echo "$status_order";
@@ -981,8 +982,9 @@ if ($action == 'add') {
                                         <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $rs['order_id'] ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
                                     <?php } ?>
                                     <a class="btn btn-outline-primary m-1" href="/quotation.php?order_id=<?= $order_id ?>" type="button" target="_blank">ออกใบเสนอราคา(QT)</a>
-                                    <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการ Order</a>
-                                </div>
+                                <?php if($page==1){  ?>    <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการ Order</a> <?php } ?>
+                                <?php if($page==2){  ?>    <a class="btn btn-outline-danger m-1" href="/quotationlist.php" type="button">กลับหน้ารายการรอส่ง</a> <?php } ?>  
+                            </div>
                             </form>
                         </div>
                         <!-- </div> -->
