@@ -414,8 +414,9 @@ if ($action == 'cancle_ai') {
                                                 </td>
                                                 <td>
 
-                                                    <?php if ($row['dev_status'] == 1) {
-                                                    ?>
+                                                    <?php if ($row['dev_status'] == 1) { ?>
+                                                         <span class="badge badge-success p-1">กำลังจัดส่ง</span>
+                                                   
                                                        
                                                     <?php
 
