@@ -206,6 +206,7 @@ if ($rowS == '') {
                                             <th>จำนวน</th>
                                             <th>ราคาต่อหน่วย</th>
                                             <th>รวม</th>
+                                            <th>สาเหตุ</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -320,6 +321,10 @@ if ($rowS == '') {
                                                         <td> <?=$row2['qty']?>  <?=$row_unit['unit_name']?></td>
                                                         <td> <?php echo number_format($row2['unit'], '2', '.', ',') ?> </td>
                                                         <td> <?php echo number_format($row['price_refun'], '2', '.', ',') ?></td>
+                                                        <?php if ($x == 0) {  echo"$row2[comment]"; ?> 
+                                                            
+                                                            <?php } ?>
+                                                        </td>
                                                         <td>
                                                             
                                                         <?php if ($x == 0) { ?> 
@@ -328,6 +333,8 @@ if ($rowS == '') {
                                                             </a>
                                                             <?php } ?>
                                                         </td>
+                                                        
+
                                                     </tr>
                                                     </tr> <?php
                                                                     }
