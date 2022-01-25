@@ -43,7 +43,7 @@ if (($column == "") && ($keyword == "")) {
     $keywordx = "";
 }
 if ($rowS == '') {
-    $total_records_per_page = 10;
+    $total_records_per_page = 500;
 } else {
     $total_records_per_page = $rowS;
 }
@@ -130,37 +130,14 @@ if ($rowS == '') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                        <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-                                                   
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                    <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
-                                                     <option value="po_id" <?php echo $column == 'po_id' ? 'selected' : ''; ?>> รหัสสั่งผลิต </option>
-                                                     <option value="po_date" <?php echo $column == 'po_date' ? 'selected' : ''; ?>> วันที่สั่งผลิต </option>
-                                                    
-                                                    </select>
-                                                </div>
-                                            </div>
+                                       
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
-                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
+                                                    <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchRowsId"> Row </label>
-                                                    <select id="searchRowsId" class="custom-select">
-                                                        <option value="10"> 10 </option>
-                                                        <option value="20" selected=""> 20 </option>
-                                                        <option value="30"> 30 </option>
-                                                        <option value="40"> 40 </option>
-                                                        <option value="50"> 50 </option>
-                                                        <option value="100"> 100 </option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                           
                                             <div class="col-auto">
 
 
@@ -191,7 +168,7 @@ if ($rowS == '') {
                                             <th>ไม่สมบูรณ์</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
                                         <?php
                                         if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
                                             $page_no = $_GET['page_no'];
@@ -633,7 +610,16 @@ $(".linkLoadModalNext").on('click', function() {
 });
 </script>
 
-
+<script>
+    $(document).ready(function() {
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 <script>
 $(function() {
     $('#orderModal').modal({

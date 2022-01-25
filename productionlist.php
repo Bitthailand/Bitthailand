@@ -337,36 +337,14 @@ if ($action == 'del') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchColumnId"> ประเภท </label>
-
-                                                    <select id="searchColumnId" class="custom-select" name="column">
-                                                        <option value="" <?php echo $column == '' ? 'selected' : ''; ?>> ไม่ระบุ </option>
-                                                        <option value="po_id" <?php echo $column == 'po_id' ? 'selected' : ''; ?>> รหัสสั่งผลิต </option>
-                                                        <option value="po_date" <?php echo $column == 'po_date' ? 'selected' : ''; ?>> วันที่สั่งผลิต </option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
-                                                    <input id="searchNameId" class="form-control" placeholder="Keyword" type="text" value="">
+                                                    <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <div class="form-group">
-                                                    <label for="searchRowsId"> Row </label>
-                                                    <select id="searchRowsId" class="custom-select">
-                                                        <option value="10" <?php echo $rowS == 10 ? 'selected' : ''; ?>> 10 </option>
-                                                        <option value="20" <?php echo $rowS == 20 ? 'selected' : ''; ?>> 20 </option>
-                                                        <option value="30" <?php echo $rowS == 30 ? 'selected' : ''; ?>> 30 </option>
-                                                        <option value="40" <?php echo $rowS == 40 ? 'selected' : ''; ?>> 40 </option>
-                                                        <option value="50" <?php echo $rowS == 50 ? 'selected' : ''; ?>> 50 </option>
-                                                        <option value="100" <?php echo $rowS == 100 ? 'selected' : ''; ?>> 100 </option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-auto">
                                                 <a href="/addproduction.php?status_po=new" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มรายการสั่งผลิต</a>
 
@@ -763,115 +741,12 @@ if ($action == 'del') {
         });
     });
 </script>
-<script>
-    $('#inputform2').on('keydown', 'input', function(event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            var $this = $(event.target);
-            var index = parseFloat($this.attr('data-index'));
-            $('[data-index="' + (index + 1).toString() + '"]').focus();
-        }
-    });
-</script>
-
-<script>
-    /* ===== search start ===== */
-    function modalLoad() {
-        $("#ModalLoadId").modal({
-            backdrop: 'static',
-            'keyboard': false,
-        });
-    };
-
-    function clickNav(page) {
-        modalLoad();
-
-        $("#FSPageId").val(page);
-        $("#FSButtonID").click();
-    }
-    $("#searchRowsId").on("change", function() {
-        modalLoad();
-
-        let row = $("#searchRowsId").val();
-        $("#FSRowId").val(row);
-        let column = $("#searchColumnId").val();
-        $("#FSColumnId").val(column);
-        $("#FSButtonID").click();
-
-    });
-    $("#searchNameId").on("change", function() {
-        // modalLoad();
-
-        let name = $("#searchNameId").val();
-        let column = $("#searchColumnId").val();
-
-        if (column == '') {
-            $("#FSKeywordId").val(name);
-            $("#FSButtonID").click();
-        } else {
-
-            $("#FSKeywordId").val(name);
-            $("#FSColumnId").val(column);
-            $("#FSButtonID").click();
-            console.log('column', column)
-            console.log('name', name)
-        }
 
 
-    });
 
-    /* ===== search end ===== */
-
-    //click next link
-    $(".linkLoadModalNext").on('click', function() {
-        $("#ModalLoadId").modal({
-            backdrop: 'static',
-            'keyboard': false,
-        });
-    });
-</script>
-<script>
-    $('#myModal_del').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var modal = $(this)
-        modal.find('#del_id').val(id)
-
-    })
-
-    //click next link
-    $(".linkLoadModalNext").on('click', function() {
-        $("#ModalLoadId").modal({
-            backdrop: 'static',
-            'keyboard': false,
-        });
-    });
-</script>
-
-
-<script>
-    $(function() {
-        $('#orderModal').modal({
-            keyboard: true,
-            backdrop: "static",
-            show: false,
-
-        }).on('show', function() {
-            var getIdFromRow = $(this).data('orderid');
-            //make your ajax call populate items or what even you need
-            $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
-        });
-
-        $(".table-striped").find('tr[data-target]').on('click', function() {
-            //or do your operations here instead of on show of modal to populate values to modal.
-            $('#orderModal').data('orderid', $(this).data('id'));
-        });
-
-    });
-</script>
 <script>
     $(document).ready(function() {
-        $("#searchNameId").on("keyup", function() {
+        $("#myInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#myTable tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
