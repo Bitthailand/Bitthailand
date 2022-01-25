@@ -370,7 +370,7 @@ if ($action == 'cancle_ai') {
                                                     ?>    
                                                 
                                                 <button data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row_ai['id']; ?>" id="edit2" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
-                                                    <span class="font-weight-bold"> <?php echo number_format($row_ai['price'], '2', '.', ',') ?></span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($row_ai['price'], '2', '.', ',');$sum_ai=$sum_ai+$row_ai['price'];  ?></span>
                                                 
                                                 </td>
                                                 <td>
@@ -382,7 +382,7 @@ if ($action == 'cancle_ai') {
                                                     ?>    
                                                 
                                                 <button data-toggle="modal" data-target="#view-modal3" data-id="<?php echo $row_ai2['id']; ?>" id="edit3" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
-                                                    <span class="font-weight-bold"> <?php echo number_format($row_ai2['price'], '2', '.', ',') ?></span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($row_ai2['price'], '2', '.', ','); $sum_ai2=$sum_ai2+$row_ai2['price']; ?></span>
                                                 
                                                 </td>
                                                 <!-- <td>
@@ -400,10 +400,10 @@ if ($action == 'cancle_ai') {
                                                 </td> -->
                                                 <!-- <td> <span class="font-weight-bold"> <?php echo number_format($tax2, '2', '.', ',') ?></span> </td> -->
                                                 <td>
-                                                    <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ',') ?> </span>
+                                                    <span class="font-weight-bold"> <?php echo number_format($sub_total, '2', '.', ','); $sum_sub_total=$sum_sub_total+$sub_total; ?> </span>
                                                 </td>
                                                 <td>
-                                                    <?php  if($row['pay_full']=='1'){$total2=$sub_total-$row_ai2['price'];  }else{    $total2=$sub_total-$row_ai['price'];} ?>
+                                                    <?php  if($row['pay_full']=='1'){$total2=$sub_total-$row_ai2['price']; $sum_total2=$sum_total2+$total2; }else{    $total2=$sub_total-$row_ai['price']; $sum_total2=$sum_total2+$total2; } ?>
                                                     <span class="font-weight-bold"> <?php echo number_format($total2, '2', '.', ',') ?> </span>
                                                 </td>
                                                 <td><?php if($row['pay_full']=='1'){ ?>
@@ -436,9 +436,28 @@ if ($action == 'cancle_ai') {
                                         mysqli_close($conn);
                                         ?>
 
+<thead>
                                         <tr>
-                                            <td colspan="14"> &nbsp;</td>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>รวม</th>
+                                            <th><?php echo number_format($sum_ai, '2', '.', ',') ?></th>
+                                            <th><?php echo number_format($sum_ai2, '2', '.', ',') ?></th>
+                                            
+                                            <!-- <th>ก่อนรวมภาษี</th> -->
+                                            <!-- <th>ภาษี</th> -->
+                                            <th><?php echo number_format($sum_sub_total, '2', '.', ',') ?></th>
+                                            <th> <?php echo number_format($sum_total2, '2', '.', ',') ?></th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
+                                    
                                     </tbody>
                                 </table>
                             </div>
