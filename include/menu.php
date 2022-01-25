@@ -92,6 +92,7 @@
                                             <li><a href="report_quotation.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">ใบเสนอราคา</span></a></li> 
                                             <li><a href="report_ai.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">ยอดมัดจำ</span></a></li> 
                                             <li><a href="report_full.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">ยอดจ่ายเต็ม</span></a></li> 
+                                            <li><a href="report_membersale.php"><i class="nav-icon mr-2 i-Duplicate-Window"></i><span class="item-name">ลกค้าที่สั่งชื้อ</span></a></li> 
                                         </ul>
                                     </div>
                                 </div>
