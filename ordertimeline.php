@@ -325,6 +325,7 @@ if ($action == 'edit') {
                                                             <th scope="col" class="text-center">No.</th>
                                                             <th scope="col" class="text-center">รหัสสินค้า/รายละเอียด</th>
                                                             <th scope="col" class="text-center">จำนวน</th>
+                                                            <th scope="col" class="text-center">จำนวนส่ง</th>
                                                             <th scope="col" class="text-center">หน่วยละ</th>
                                                             <th scope="col" class="text-center">ราคารวมภาษี</th>
                                                         </tr>
@@ -357,6 +358,7 @@ if ($action == 'edit') {
                                                                         ?>
                                                                     </td>
                                                                     <td class="text-right"><?= $row_pro['qty'] ?> <?= $row_unit['unit_name'] ?></td>
+                                                                    <td class="text-right"><?= $row_pro['qty_out'] ?> </td>
                                                                     <td class="text-right"><?php echo number_format($row_pro['unit_price'], '2', '.', ',') ?></td>
                                                                     <td class="text-right"><?php  ?><?php echo number_format($row_pro['total_price'], '2', '.', ',');
                                                                                                     $total = $total + $row_pro['total_price']; ?></td>
