@@ -424,7 +424,7 @@ if ($action == 'cancle_ai') {
                                                             <i class="i-Car-Items font-weight-bold"></i>
                                                         </a>
 
-                                                        <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>&page='2'">
+                                                        <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ไขข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>&page=2">
                                                             <i class="i-Check font-weight-bold"></i>
                                                         </a>
                                                         <button data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $row['order_id']; ?>" id="edit4" class="btn feather feather-folder-plus  btn-sm line-height-1" title="ยกเลิกรายการมัดจำ" > <i class="i-Pen-2 font-weight-bold"></i> </button>

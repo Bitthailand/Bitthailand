@@ -411,7 +411,7 @@ if ($action == 'edit') {
                                                         <i class="i-Money-Bag font-weight-bold"></i>
                                                     </a>
                                                     <button data-toggle="modal" data-target="#medal_pay" title="รับเงินเต็ม" data-id="<?php echo $row['id']; ?>" id="pay" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pound  font-weight-bold"></i> </button>
-                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>&page='1'">
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="แก้ข้ข้อมูล Order" href="/editorder.php?order_id=<?= $row['order_id'] ?>&page=1">
                                                         <i class="i-Check font-weight-bold"></i>
                                                     </a>
 <?php if($row['cus_type']==2){ ?>
