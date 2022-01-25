@@ -91,7 +91,7 @@ $d = explode("-", $datex);
                                                         ?> <tr>
                                                                     <th scope="row"><?= ++$idx1; ?></th>
                                                                     <td class="text-left"><?= $row4['year'] ?></td>
-                                                                    <td class="text-left"><?= $row4['cus_id'] ?></td>
+                                                                    <td class="text-left"><?php  $sum_cus=$row4['cus_id']-1;  echo"$sum_cus"; ?></td>
                                                                     <td class="text-left"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลประจำปี" href="/report_membersale.php?year=<?= $row4['year'] ?>">
                                                                             <i class="i-Check font-weight-bold"></i> </a></td>
                                                                   
