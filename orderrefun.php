@@ -321,7 +321,7 @@ if ($rowS == '') {
                                                         <td> <?=$row2['qty']?>  <?=$row_unit['unit_name']?></td>
                                                         <td> <?php echo number_format($row2['unit'], '2', '.', ',') ?> </td>
                                                         <td> <?php echo number_format($row['price_refun'], '2', '.', ',') ?></td>
-                                                        <?php if ($x == 0) {  echo"$row[comment]"; ?> 
+                                                        <td> <?php if ($x == 0) {  echo"$row[comment]"; ?> 
                                                             
                                                             <?php } ?>
                                                         </td>
