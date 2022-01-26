@@ -136,7 +136,7 @@ if ($action == 'add_stock') {
                             if ($conn->query($sqlx4) === TRUE) {
                             }
                             $sqlx = "INSERT INTO product_log  (product_id,stock1_in,po_id)
-                            VALUES ('$product_id','$stock_a','$po_id')";
+                            VALUES ('$rowx[product_id]','$stock_a','$po_id')";
                             if ($conn->query($sqlx) === TRUE) {
                             }
                         }
