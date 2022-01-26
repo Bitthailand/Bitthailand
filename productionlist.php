@@ -135,8 +135,8 @@ if ($action == 'add_stock') {
                             $sqlx4 = "UPDATE product   SET fac1_stock='$sum_stock1' WHERE product_id='$rowx[product_id]' ";
                             if ($conn->query($sqlx4) === TRUE) {
                             }
-                            $sqlx = "INSERT INTO product_log  (product_id,stock1_in,po_id)
-                            VALUES ('$rowx[product_id]','$stock_a','$po_id')";
+                            $sqlx = "INSERT INTO product_log  (product_id,stock1_in,po_id,stock_b1)
+                            VALUES ('$rowx[product_id]','$stock_a','$po_id','$stock_b1')";
                             if ($conn->query($sqlx) === TRUE) {
                             }
                         }
@@ -147,6 +147,10 @@ if ($action == 'add_stock') {
                             $sum_stock2 = $rowx3['fac2_stock'] + $stock_a;
                             $sqlx4 = "UPDATE product   SET fac2_stock='$sum_stock2' WHERE product_id='$rowx[product_id]' ";
                             if ($conn->query($sqlx4) === TRUE) {
+                            }
+                            $sqlx = "INSERT INTO product_log  (product_id,stock2_in,po_id,stock_b2)
+                            VALUES ('$rowx[product_id]','$stock_a','$po_id','$stock_b2')";
+                            if ($conn->query($sqlx) === TRUE) {
                             }
                         }
                         // echo"$stock_a";
