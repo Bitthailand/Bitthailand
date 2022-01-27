@@ -196,22 +196,21 @@ if (mysqli_num_rows($result) > 0) {
 
 // ผลิตย้อนหลัง 30 วัน
 
-$sql4x = "SELECT DATE_FORMAT(production_order.po_date, '%Y-%m-%d') AS po_date,SUM(production_detail.qty)AS qty,SUM(product.unit_price) AS unit_price  FROM production_detail INNER JOIN production_order ON production_order.po_id=production_detail.po_id
-INNER JOIN product ON production_detail.product_id=product.product_id AND    production_order.po_date   BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY po_date  ORDER BY po_date   DESC";
+$sql4x = "SELECT DATE_FORMAT(po_date, '%Y-%m-%d') AS po_date  FROM  production_order  where   po_date   BETWEEN NOW() - INTERVAL 30 DAY AND NOW()  ORDER BY po_date  DESC";
 $resultx = mysqli_query($conn, $sql4x);
 $a = [];
 $b= [];
 if (mysqli_num_rows($resultx) > 0) {
   while ($row4x = mysqli_fetch_assoc($resultx)) {
     
-
+// echo"$row4x[po_date]";
     $dat1_poxx = datethai4($row4x['po_date']);
-
-
-    $d = explode("-", $row4['po_date']);
-   
+    $sql_sum = "SELECT  SUM(product.unit_price*production_detail.qty)AS sumall  FROM production_detail INNER JOIN production_order ON production_order.po_id=production_detail.po_id
+    INNER JOIN product ON production_detail.product_id=product.product_id AND    production_order.po_date  ='$row4x[po_date]'  ";
+    $rs_sum = $conn->query($sql_sum);
+    $row_sum = $rs_sum->fetch_assoc();
   
-    $sumxx=$row4x['unit_price']*$row4x['qty'];
+    $sumxx=$row_sum['sumall'];
 
     // echo"$sumxx";
     $a[] = $dat1_poxx;
@@ -448,9 +447,9 @@ if (echartElemBar_po) {
       axisLabel: {
         formatter: "฿{value}",
       },
-      min: 500000,
-      max: 35000000,
-      interval: 2000000,
+      min: 50000,
+      max: 1000000,
+      interval: 50000,
       axisLine: {
         show: false,
       },
