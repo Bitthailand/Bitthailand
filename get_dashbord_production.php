@@ -71,7 +71,7 @@ if (mysqli_num_rows($result) > 0) {
 
   // วันที่ย้อนหลัง 30 วัน
 
-$sql = "SELECT  DATE_FORMAT(production_order.po_enddate, '%Y-%m-%d') AS DATE ,ROUND(SUM(production_detail.qty)) AS SUM  FROM  production_detail    INNER JOIN production_order   ON  production_order.po_id=production_detail.po_id AND production_detail.status_stock='1'  AND production_order.po_enddate BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
+$sql = "SELECT  DATE_FORMAT(production_order.po_date, '%Y-%m-%d') AS DATE ,ROUND(SUM(production_detail.qty)) AS SUM  FROM  production_detail    INNER JOIN production_order   ON  production_order.po_id=production_detail.po_id  AND production_order.po_date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY DATE  "; 
 $result = mysqli_query($conn, $sql);
 $datelast = [];
 $sumdate=[];
@@ -214,7 +214,7 @@ while ($row = mysqli_fetch_assoc($result)) {
           borderRadius: 0,
           orient: "horizontal",
           x: "right",
-          data: ["ยอดขาย"],
+          data: ["ยอดผลิต"],
         },
         grid: {
           left: "8px",
@@ -245,7 +245,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             formatter: "฿{value}",
           },
           min: 10,
-          max: 6000,
+          max: 12000,
           interval: 500,
           axisLine: {
             show: false,
