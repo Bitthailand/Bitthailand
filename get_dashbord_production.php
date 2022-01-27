@@ -242,7 +242,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         yAxis: [{
           type: "value",
           axisLabel: {
-            formatter: "฿{value}",
+            formatter: "{value}",
           },
           min: 10,
           max: 12000,
