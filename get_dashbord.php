@@ -213,7 +213,7 @@ if (mysqli_num_rows($resultx) > 0) {
   
     $sumxx=$row4x['unit_price']*$row4x['qty'];
 
-    echo"$sumxx";
+    // echo"$sumxx";
     $a[] = $dat1_poxx;
     $b[] = $sumxx;
   }
