@@ -196,7 +196,7 @@ if (mysqli_num_rows($result) > 0) {
 
 // ผลิตย้อนหลัง 30 วัน
 
-$sql4x = "SELECT DATE_FORMAT(po_date, '%Y-%m-%d') AS po_date  FROM  production_order  where   po_date   BETWEEN NOW() - INTERVAL 30 DAY AND NOW()  ORDER BY po_date  DESC";
+$sql4x = "SELECT DATE_FORMAT(po_date, '%Y-%m-%d') AS po_date  FROM  production_order  where   po_date   BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY po_date   ORDER BY po_date  DESC";
 $resultx = mysqli_query($conn, $sql4x);
 $a = [];
 $b= [];
