@@ -194,6 +194,30 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 
+// ผลิตย้อนหลัง 30 วัน
+
+$sql4x = "SELECT DATE_FORMAT(production_order.po_date, '%Y-%m-%d') AS po_date,SUM(production_detail.qty)AS qty,SUM(product.unit_price) AS unit_price  FROM production_detail INNER JOIN production_order ON production_order.po_id=production_detail.po_id
+INNER JOIN product ON production_detail.product_id=product.product_id AND    production_order.po_date   BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY po_date  ORDER BY po_date   DESC";
+$resultx = mysqli_query($conn, $sql4x);
+$a = [];
+$b= [];
+if (mysqli_num_rows($resultx) > 0) {
+  while ($row4x = mysqli_fetch_assoc($resultx)) {
+    
+
+    $dat1_poxx = datethai4($row4x['po_date']);
+
+
+    $d = explode("-", $row4['po_date']);
+   
+  
+    $sumxx=$row4x['unit_price']*$row4x['qty'];
+
+    echo"$sumxx";
+    $a[] = $dat1_poxx;
+    $b[] = $sumxx;
+  }
+}
 
 
 $sql = "SELECT  DATE_FORMAT(date_create,'%Y-%m') As MyDate   FROM deliver_detail where status_cf='1' AND payment='1' GROUP BY MyDate   ORDER BY MyDate DESC  LIMIT 12 "; //คำสั่ง เลือกข้อมูลจากตาราง report
@@ -380,6 +404,99 @@ if (mysqli_num_rows($result) > 0) {
         }, 500);
       });
     }
+
+
+
+// ยอดผลิต
+
+var echartElemBar_po = document.getElementById("eORchartBar_po");
+
+if (echartElemBar_po) {
+  var echartBar_po = echarts.init(echartElemBar_po);
+  echartBar_po.setOption({
+    legend: {
+      borderRadius: 0,
+      orient: "horizontal",
+      x: "right",
+      data: ["ยอดผลิต"],
+    },
+    grid: {
+      left: "8px",
+      right: "8px",
+      bottom: "0",
+      containLabel: true,
+    },
+    tooltip: {
+      show: true,
+      backgroundColor: "rgba(0, 0, 0, .8)",
+    },
+    xAxis: [{
+      type: "category",
+      data: <?= json_encode($a); ?>,
+      axisTick: {
+        alignWithLabel: true,
+      },
+      splitLine: {
+        show: false,
+      },
+      axisLine: {
+        show: true,
+      },
+    }, ],
+    yAxis: [{
+      type: "value",
+      axisLabel: {
+        formatter: "฿{value}",
+      },
+      min: 500000,
+      max: 35000000,
+      interval: 2000000,
+      axisLine: {
+        show: false,
+      },
+      splitLine: {
+        show: true,
+        interval: "auto",
+      },
+    }, ],
+    series: [{
+      name: "ยอดผลิต",
+      data: <?= json_encode($b); ?>,
+      label: {
+        show: false,
+        color: "#0168c1",
+      },
+      type: "line",
+      barGap: 0,
+      color: "#336699",
+      smooth: true,
+      itemStyle: {
+        emphasis: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowOffsetY: -2,
+          shadowColor: "rgba(0, 0, 0, 0.3)",
+        },
+      },
+    }, ],
+  });
+  $(window).on("resize", function() {
+    setTimeout(function() {
+      echartBar_po.resize();
+    }, 500);
+  });
+}
+
+
+
+
+
+
+// 
+
+
+
+
 
     // ยอดขายประจำปี in Dashboard version 1
     var echartElemBar = document.getElementById("echartBar");

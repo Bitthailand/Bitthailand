@@ -250,151 +250,137 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                 <div id="echartPie" style="height: 300px;"></div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12">
-                                <div class="card mb-4">
-                                    <div class="card-body">
-
-                                        <div class="ul-widget__head">
-                                            <div class="ul-widget__head-label">
-                                                <h3 class="ul-widget__head-title"> รายชื่อลูกค้าที่มียอดสั่งสูงสุด</h3>
-                                            </div>
-                                            <div class="ul-widget__head-toolbar">
-                                                <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
-                                                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__d-widget4-tab1-content" role="tab" aria-selected="true">Month</a></li>
-                                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__d-widget4-tab2-content" role="tab" aria-selected="false">Year</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="ul-widget__body">
-                                            <div class="tab-content">
-                                                <div class="tab-pane active show" id="__d-widget4-tab1-content">
-                                                    <div class="ul-widget1">
-
-                                                        <div class="table-responsive">
-                                                            <table class="table text-center" id="user_table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">#</th>
-                                                                        <th scope="col">ชื่อลูกค้า</th>
-                                                                        <th scope="col">อำเภอ</th>
-                                                                        <th scope="col">จังหวัด</th>
-                                                                        <th scope="col">ยอดสั่งรวม</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <?php
-                                                                    $datex = date('Y-m');
-                                                                    $d = explode("-", $datex);
-                                                                    $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
-                                                                            ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id AND  deliver_detail.order_id = delivery.order_id  AND    MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
-                                                                    $result4 = mysqli_query($conn, $sql4);
-                                                                    if (mysqli_num_rows($result4) > 0) {
-                                                                        while ($row4 = mysqli_fetch_assoc($result4)) {
-                                                                    ?>
-
-                                                                            <tr>
-                                                                                <th scope="row"><?= ++$idx; ?></th>
-                                                                                <td class="text-left"><?= $row4['c_name'] ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
-                                                                                                        $rs_cus = $conn->query($sql_cus);
-                                                                                                        $row_cus = $rs_cus->fetch_assoc();
-
-                                                                                                        $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
-                                                                                                        $rs4x = $conn->query($sql4x);
-                                                                                                        $row4x = $rs4x->fetch_assoc();
-                                                                                                        echo $row4x['name_th'];  ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
-                                                                                                        $rs5 = $conn->query($sql5);
-                                                                                                        $row5 = $rs5->fetch_assoc();
-                                                                                                        echo $row5['name_th'];
-
-                                                                                                        ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
-                                                                            </tr>
-                                                                    <?php }
-                                                                    } ?>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="tab-pane" id="__d-widget4-tab2-content">
-                                                    <div class="ul-widget1">
-                                                        <div class="table-responsive">
-                                                            <table class="table text-center" id="user_table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">#</th>
-                                                                        <th scope="col">ชื่อลูกค้า</th>
-                                                                        <th scope="col">อำเภอ</th>
-                                                                        <th scope="col">จังหวัด</th>
-                                                                        <th scope="col">ยอดสั่งรวม</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
-                                                                            ON customer.customer_id =delivery.cus_id 
-                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND  deliver_detail.order_id = delivery.order_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'   AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
-                                                                    $result4 = mysqli_query($conn, $sql4);
-                                                                    if (mysqli_num_rows($result4) > 0) {
-                                                                        while ($row4 = mysqli_fetch_assoc($result4)) {
-                                                                    ?> <tr>
-                                                                                <th scope="row"><?= ++$idx1; ?></th>
-                                                                                <td class="text-left"><?= $row4['c_name'] ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
-                                                                                                        $rs_cus = $conn->query($sql_cus);
-                                                                                                        $row_cus = $rs_cus->fetch_assoc();
-
-                                                                                                        $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
-                                                                                                        $rs4x = $conn->query($sql4x);
-                                                                                                        $row4x = $rs4x->fetch_assoc();
-                                                                                                        echo $row4x['name_th'];  ?></td>
-                                                                                <td class="text-left"><?php
-                                                                                                        $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
-                                                                                                        $rs5 = $conn->query($sql5);
-                                                                                                        $row5 = $rs5->fetch_assoc();
-                                                                                                        echo $row5['name_th'];
-
-                                                                                                        ?></td>
-                                                                                <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
-                                                                            </tr>
-                                                                    <?php }
-                                                                    } ?>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="ul-widget__head">
+                                    <div class="ul-widget__head-label">
+                                        <h3 class="ul-widget__head-title"> รายชื่อลูกค้าที่มียอดสั่งสูงสุด</h3>
+                                    </div>
+                                    <div class="ul-widget__head-toolbar">
+                                        <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line" role="tablist">
+                                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#__d-widget4-tab1-content" role="tab" aria-selected="true">Month</a></li>
+                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#__d-widget4-tab2-content" role="tab" aria-selected="false">Year</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card mb-4">
-                                    <div class="card-body p-0">
-                                        <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
-                                        <div id="eORchartBar" style="height: 360px;"></div>
+                                <div class="ul-widget__body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active show" id="__d-widget4-tab1-content">
+                                            <div class="ul-widget1">
+
+                                                <div class="table-responsive">
+                                                    <table class="table text-center" id="user_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">ชื่อลูกค้า</th>
+                                                                <th scope="col">อำเภอ</th>
+                                                                <th scope="col">จังหวัด</th>
+                                                                <th scope="col">ยอดสั่งรวม</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $datex = date('Y-m');
+                                                            $d = explode("-", $datex);
+                                                            $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
+                                                                            ON customer.customer_id =delivery.cus_id 
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id AND  deliver_detail.order_id = delivery.order_id  AND    MONTH(deliver_detail.date_create) = '$d[1]' AND YEAR(deliver_detail.date_create) = '$d[0]'  AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
+                                                            $result4 = mysqli_query($conn, $sql4);
+                                                            if (mysqli_num_rows($result4) > 0) {
+                                                                while ($row4 = mysqli_fetch_assoc($result4)) {
+                                                            ?>
+
+                                                                    <tr>
+                                                                        <th scope="row"><?= ++$idx; ?></th>
+                                                                        <td class="text-left"><?= $row4['c_name'] ?></td>
+                                                                        <td class="text-left"><?php
+                                                                                                $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
+                                                                                                $rs_cus = $conn->query($sql_cus);
+                                                                                                $row_cus = $rs_cus->fetch_assoc();
+
+                                                                                                $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
+                                                                                                $rs4x = $conn->query($sql4x);
+                                                                                                $row4x = $rs4x->fetch_assoc();
+                                                                                                echo $row4x['name_th'];  ?></td>
+                                                                        <td class="text-left"><?php
+                                                                                                $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
+                                                                                                $rs5 = $conn->query($sql5);
+                                                                                                $row5 = $rs5->fetch_assoc();
+                                                                                                echo $row5['name_th'];
+
+                                                                                                ?></td>
+                                                                        <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                    </tr>
+                                                            <?php }
+                                                            } ?>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="__d-widget4-tab2-content">
+                                            <div class="ul-widget1">
+                                                <div class="table-responsive">
+                                                    <table class="table text-center" id="user_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">ชื่อลูกค้า</th>
+                                                                <th scope="col">อำเภอ</th>
+                                                                <th scope="col">จังหวัด</th>
+                                                                <th scope="col">ยอดสั่งรวม</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php $sql4 = "SELECT customer.customer_id AS c_id,customer.customer_name AS c_name,deliver_detail.total_price AS total ,ROUND(SUM(deliver_detail.total_price), 2) AS sum FROM customer  INNER JOIN  delivery
+                                                                            ON customer.customer_id =delivery.cus_id 
+                                                                            INNER JOIN  deliver_detail  ON  deliver_detail.dev_id = delivery.dev_id  AND  deliver_detail.order_id = delivery.order_id  AND    YEAR(deliver_detail.date_create) = '$d[0]'   AND deliver_detail.status_cf='1' AND deliver_detail.payment='1'  GROUP BY  customer.customer_name    ORDER BY SUM DESC LIMIT 10  ";
+                                                            $result4 = mysqli_query($conn, $sql4);
+                                                            if (mysqli_num_rows($result4) > 0) {
+                                                                while ($row4 = mysqli_fetch_assoc($result4)) {
+                                                            ?> <tr>
+                                                                        <th scope="row"><?= ++$idx1; ?></th>
+                                                                        <td class="text-left"><?= $row4['c_name'] ?></td>
+                                                                        <td class="text-left"><?php
+                                                                                                $sql_cus = "SELECT * FROM customer  WHERE customer_id= '$row4[c_id]'";
+                                                                                                $rs_cus = $conn->query($sql_cus);
+                                                                                                $row_cus = $rs_cus->fetch_assoc();
+
+                                                                                                $sql4x = "SELECT * FROM amphures  WHERE id= '$row_cus[district]'";
+                                                                                                $rs4x = $conn->query($sql4x);
+                                                                                                $row4x = $rs4x->fetch_assoc();
+                                                                                                echo $row4x['name_th'];  ?></td>
+                                                                        <td class="text-left"><?php
+                                                                                                $sql5 = "SELECT * FROM provinces  WHERE id= '$row_cus[province]'";
+                                                                                                $rs5 = $conn->query($sql5);
+                                                                                                $row5 = $rs5->fetch_assoc();
+                                                                                                echo $row5['name_th'];
+
+                                                                                                ?></td>
+                                                                        <td class="text-left"><?php echo number_format($row4['sum'], '2', '.', ',') ?></td>
+                                                                    </tr>
+                                                            <?php }
+                                                            } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-sm-12">
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div class="ul-widget__head">
@@ -485,12 +471,33 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title m-0 p-3">ยอดขาย 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
+                                <div id="eORchartBar" style="height: 360px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                            <h5 class="card-title m-0 p-3">ยอดผลิต 30 วันล่าสุด <?php echo date("Y-m-d", strtotime("-30 days")); ?></h5>
+                                <div id="eORchartBar_po" style="height: 360px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
@@ -499,6 +506,8 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-body">
@@ -507,14 +516,15 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                </div><!-- end of main-content -->
-            </div>
+                </div>
+            </div><!-- end of main-content -->
+     
 
-            <!-- Header -->
-            <?php include './include/footer.php'; ?>
-            <!-- =============== Header End ================-->
+        <!-- Header -->
+        <?php include './include/footer.php'; ?>
+        <!-- =============== Header End ================-->
 
-        </div>
+    </div>
     </div>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>
