@@ -189,6 +189,69 @@ $row_order_year = $rs_order_year->fetch_assoc();
                         </div>
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="card-title">รายการผลิตประจำวัน</div>
+                                <div class="table-responsive">
+                                                            <table class="table text-center" id="user_table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">#</th>
+                                                                        <th scope="col" class="text-left">รหัสสินค้า</th>
+                                                                        <th scope="col" class="text-left">ชื่อสินค้า</th>
+                                                                        <th scope="col" class="text-left">จำนวนผลิต</th>
+                                                                        <th scope="col" class="text-left">ราคาต่อหน่วย</th>
+                                                                        <th scope="col" class="text-left">รวมราคา</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
+                                                                    $datex = date('Y-m-d');
+                                                                    $sql4 = "SELECT DATE_FORMAT(production_order.po_date, '%Y-%m-%d') AS po_date,production_detail.product_id AS product,production_detail.qty AS qty,product.unit_price AS unit_price ,(unit_price*qty) AS total  FROM production_detail INNER JOIN production_order ON production_order.po_id=production_detail.po_id
+    INNER JOIN product ON production_detail.product_id=product.product_id AND    po_date   ='$datex' ORDER BY total  DESC";
+                                                                    $result4 = mysqli_query($conn, $sql4);
+                                                                    if (mysqli_num_rows($result4) > 0) {
+                                                                        while ($row4 = mysqli_fetch_assoc($result4)) {
+                                                                    ?>
+
+                                                                            <tr>
+                                                                                <th scope="row"><?= ++$idx; ?></th>
+                                                                                <td class="text-left">
+                                                                                    <?php $sql_pro = "SELECT * FROM product   WHERE product_id= '$row4[product]'";
+                                                                                    $rs_pro = $conn->query($sql_pro);
+                                                                                    $row_pro = $rs_pro->fetch_assoc();  ?>
+                                                                                    <?= $row_pro['product_id'] ?></td>
+                                                                                    <td class="text-left"><?php echo $row_pro['product_name']; ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['qty'], '0', '.', ',');  $sum_qty=$sum_qty+$row4['qty'];  ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['unit_price'], '0', '.', ','); $sum_unit_price=$sum_unit_price+$row4['unit_price']; ?></td>
+                                                                                <td class="text-left"><?php echo number_format($row4['total'], '0', '.', ','); $sum_total=$sum_total+$row4['total']; ?></td>
+                                                                            
+                                                                            </tr>
+                                                                    <?php }
+                                                                    } ?>
+
+                                                                </tbody>
+                                                                <tr>
+                                                                        <th scope="col">#</th>
+                                                                        <th scope="col" class="text-left"></th>
+                                                                        <th scope="col" class="text-left">รวม</th>
+                                                                        <th scope="col" class="text-left"><?php echo number_format($sum_qty, '0', '.', ','); ?></th>
+                                                                        <th scope="col" class="text-left"><?php echo number_format($sum_unit_price, '0', '.', ','); ?></th>
+                                                                        <th scope="col" class="text-left"><?php echo number_format($sum_total, '0', '.', ','); ?></th>
+                                                                    </tr>
+                                                            </table>
+                                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <div class="row">
