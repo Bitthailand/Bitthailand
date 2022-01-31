@@ -544,7 +544,7 @@ if (echartElemBar_po) {
             formatter: "฿{value}",
           },
           min: 0,
-          max: 5000000,
+          max: 6000000,
           interval: 400000,
           axisLine: {
             show: false,
