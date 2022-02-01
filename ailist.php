@@ -370,7 +370,8 @@ if ($action == 'cancle_ai') {
                                                     ?>    
                                                 
                                                 <button data-toggle="modal" data-target="#view-modal2" data-id="<?php echo $row_ai['id']; ?>" id="edit2" class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
-                                                    <span class="font-weight-bold"> <?php echo number_format($row_ai['price'], '2', '.', ',');$sum_ai=$sum_ai+$row_ai['price'];  ?></span>
+
+                                                <span class="font-weight-bold"> <?php echo number_format($row_ai['price'], '2', '.', ',');$sum_ai=$sum_ai+$row_ai['price'];  ?></span>
                                                 
                                                 </td>
                                                 <td>
@@ -421,6 +422,9 @@ if ($action == 'cancle_ai') {
                                                     <?php
 
                                                     } else { ?>
+                                                      <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้าเพิ่ม" href="/addai_x.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                        <i class="i-Money-Bag font-weight-bold"></i>
+                                                    </a>
                                                         <a class="btn btn-outline-info btn-sm line-height-2" data-toggle="tooltip" title="ออกใบส่งของ(SO)" href="/addsaleorder.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                             <i class="i-Car-Items font-weight-bold"></i>
                                                         </a>

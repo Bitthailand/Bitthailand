@@ -44,7 +44,7 @@ $ai_date_end = $_REQUEST['ai_date_end'];
 $Fai_id = $_REQUEST['ai_id'];
 $status_ai = $_REQUEST['status_ai'];
 echo "$ai_date_start";
-$event_msg = "ออกใบมัดจำ เลขที่ใบสั่งชื้อ $order_id  เลขที่ใบมัดจำ $ai_id";
+$event_msg = "ออกใบมัดจำครั้งที่2 เลขที่ใบสั่งชื้อ $order_id  เลขที่ใบมัดจำ $ai_id";
 $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$order_id','$emp_id','$event_msg')";
 if ($conn->query($sql_event) === TRUE) {
@@ -53,21 +53,16 @@ if ($conn->query($sql_event) === TRUE) {
 if ($status_ai == 1) {
     $sqlx = "SELECT * FROM ai_number   WHERE order_id='$order_id'  ";
     $result = mysqli_query($conn, $sqlx);
-    if (mysqli_num_rows($result) > 0) { ?>
-        <script>
-            $(document).ready(function() {
-                showAlert("ใบมัดจำรหัสนี้ซ้ำ", "alert-danger");
-            });
-        </script>
-        <?php } else {
+    if (mysqli_num_rows($result) > 0) { 
         $sqlx5 = "INSERT INTO ai_number (order_id,ai_num,messages,price,date_create,copy)
- VALUES ('$order_id','$Fai_id','$Finput_text','$input_price','$ai_date_start','1')";
-        $event_msg = "บันทึกใบมัดจำ $order_id  เลขที่ใบมัดจำ $ai_id";
+ VALUES ('$order_id','$Fai_id','$Finput_text','$input_price','$ai_date_start','2')";
+        $event_msg = "บันทึกใบมัดจำครั้งที่ 2 เลขที่ $order_id  เลขที่ใบมัดจำ $ai_id";
         $sql_event = "INSERT INTO log (order_id,emp_id,event)
 VALUES ('$order_id','$emp_id','$event_msg')";
         if ($conn->query($sql_event) === TRUE) {
         }
-        $sql7 = "UPDATE orders SET is_ai='Y',ai_id='$Fai_id',ai_count='$input_price',ai_date_start='$ai_date_start',ai_date_end='$ai_date_end',order_status='2',ai_copy='1'  where order_id='$order_id'";
+        $sum=$row['ai_count']+$input_price; 
+        $sql7 = "UPDATE orders SET ai_count='$sum',ai_copy='2' where order_id='$order_id'";
         if ($conn->query($sql7) === TRUE) {
         }
         if ($conn->query($sqlx5) === TRUE) { ?>
