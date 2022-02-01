@@ -403,7 +403,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
 
                                                 $datex = date('Y-m');
                                                 $d = explode("-", $datex);
-                                                $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
+                                                $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE   MONTH(date_create) = '$d[1]' AND YEAR(date_create) = '$d[0]' AND payment='1'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
                                                 $result4 = mysqli_query($conn, $sql4);
                                                 if (mysqli_num_rows($result4) > 0) {
                                                     while ($row4 = mysqli_fetch_assoc($result4)) {
@@ -437,7 +437,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                                         </div>
                                         <div class="tab-pane" id="__g-widget4-tab2-content">
                                             <div class="ul-widget1">
-                                                <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE    YEAR(date_create) = '$d[0]'  GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
+                                                <?php $sql4 = "SELECT ROUND(SUM(total_price), 2) AS sum,product_id,ptype_id FROM deliver_detail  WHERE    YEAR(date_create) = '$d[0]'  AND payment='1' GROUP BY  product_id    ORDER BY SUM DESC LIMIT 5  ";
                                                 $result4 = mysqli_query($conn, $sql4);
                                                 if (mysqli_num_rows($result4) > 0) {
                                                     while ($row4 = mysqli_fetch_assoc($result4)) {
