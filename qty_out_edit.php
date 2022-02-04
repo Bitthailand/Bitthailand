@@ -10,10 +10,7 @@ $row = $rs->fetch_assoc();
 $datetodat = date('Y-m-d');
 echo"$row[order_id]";
 ?>
-
-
 <form class="tab-pane fade active show" method="post">
-
         <div class="form-group">
             <label for="delivery_date">เปลี่ยนแปลงจำนวนส่ง</label>
             <input type="text" name="qty_out" value="<?php echo $row['qty_out'] ?>">

@@ -97,6 +97,20 @@
                                     </div>
                                 </div>
                             </li>
+                            <li>
+                                <div>
+                                    <div>
+                                        <label class="toggle" for="drop-2">เครื่องมือ</label><a href="#"><i class="nav-icon i-Data-Settings mr-2"></i> เครื่องมือ</a>
+                                        <ul>
+                                            <li><a href="tools.php"><i class="nav-icon mr-2 i-Factory1"></i><span class="item-name">รายการเครื่องมือ</span></a></li>
+                                            <li><a href="tools_bin_report.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">เครื่องมือชำรุด</span></a></li>
+                                            <li><a href="tools_unit.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">หน่วยนับ</span></a></li>  
+                                         
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
                             <!-- end extra uikits-->
                         </ul>
                     </div>

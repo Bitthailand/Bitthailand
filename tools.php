@@ -7,60 +7,17 @@ if (isset($_SESSION["username"])) {
 include './include/connect.php';
 
 error_reporting(0);
-
-?>
-
-<!DOCTYPE html>
-<html lang="en" dir="">
-
-
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
-    <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
-    <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../dist-assets/css/plugins/datatables.min.css" />
-    <style>
-        .table-sm th,
-        .table-sm td {
-            padding: 0.3rem;
-            font-size: 0.813rem !important;
-        }
-    </style>
-</head>
-<style>
-    .table-sm th,
-    .table-sm td {
-        padding: 0.3rem;
-        font-size: 0.813rem !important;
-    }
-</style>
-<script>
-    function reP() {
-        window.location.href = 'stock_import.php';
-    }
-</script>
-<?php 
-
+$emp_id = $_SESSION["username"];
 $action = $_REQUEST['action'];
 if ($action == 'del') {
     $del_id = $_REQUEST['del_id'];
-    $sql = "SELECT * FROM production_import WHERE id= '$del_id'";
+    $sql = "SELECT * FROM tools WHERE id= '$del_id'";
     $rs = $conn->query($sql);
     $row = $rs->fetch_assoc();
 
-    $sql_pro = "SELECT * FROM product WHERE product_id= '$row[product_id]'";
-    $rs_pro = $conn->query($sql_pro);
-    $row_pro = $rs_pro->fetch_assoc();
 
-    $sum_stockface1 = $row_pro['fac1_stock'] - $row['qty'];
-    $sql11 = "UPDATE product   SET fac1_stock='$sum_stockface1' where product_id='$row[product_id]'";
-    if ($conn->query($sql11) === TRUE) { } 
-    $sql = "DELETE FROM production_import  WHERE id='$del_id' ";
+
+    $sql = "DELETE FROM tools WHERE id='$del_id' ";
     if ($conn->query($sql) === TRUE) { ?>
         <script>
             $(document).ready(function() {
@@ -77,43 +34,113 @@ if ($action == 'del') {
 }
 
 if ($action == 'add') {
-    $ptype_id = $_REQUEST['ptype_id'];
-    $productx1 = $_REQUEST['productx1'];
+    $name = $_REQUEST['name'];
+    $comment = $_REQUEST['comment'];
     $date_import = $_REQUEST['date_import'];
     $qty = $_REQUEST['qty'];
-    // echo "$productx1";
-    $sql = "SELECT * FROM product  WHERE product_id= '$productx1'";
-    $rs = $conn->query($sql);
-    $row = $rs->fetch_assoc();
+    $unit = $_REQUEST['unit'];
 
-    $sum_stockface1 = $row['fac1_stock'] + $qty;
-    // echo"$sum_stockface1";
-    $sqlx = "INSERT INTO production_import(product_id,ptype_id,date_import,qty,emp_id)
-VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
+    $sqlx = "INSERT INTO tools(name,qty,date_import,emp_id,unit,comment,status) 
+VALUES ('$name','$qty','$date_import','$emp_id','$unit','$comment','0')";
+
+
     if ($conn->query($sqlx) === TRUE) {
-    }
-
-    $sql11 = "UPDATE product   SET fac1_stock='$sum_stockface1' where product_id='$productx1'";
-    if ($conn->query($sql11) === TRUE) {
 
     ?> <script>
             $(document).ready(function() {
                 showAlert("บันทึกข้อมูลสต็อกสำเร็จ", "alert-success");
             });
         </script>
-<?php
+    <?php
     }
     $action = '0';
     $qty = '0';
 }
-?>
 
+if ($action == 'edit') {
+    $edit_id = $_REQUEST['edit_id'];
+    $name = $_REQUEST['name'];
+    $comment = $_REQUEST['comment'];
+    $date_import = $_REQUEST['date_import'];
+    $qty = $_REQUEST['qty'];
+    $unit = $_REQUEST['unit'];
+
+    $sqlxxx = "UPDATE tools  SET name='$name',comment='$comment',date_import='$date_import',qty='$qty',unit='$unit' where id='$edit_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("แก้ไขข้อมูลสำเร็จ", "alert-primary");
+            });
+        </script>
+    <?php }
+}
+if ($action == 'edit_bin') {
+    $edit_id = $_REQUEST['edit_id'];
+    $name = $_REQUEST['name'];
+    $comment = $_REQUEST['comment'];
+    $date_out = $_REQUEST['date_import'];
+    $qty_out = $_REQUEST['qty_out'];
+    $unit = $_REQUEST['unit'];
+
+    $sql = "SELECT * FROM tools WHERE id= '$edit_id'";
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
+
+    $sum_qty = $row['qty'] - $qty_out;
+    $sum_qtyout=$row['qty_out']+$qty_out;
+    $sqlx = "INSERT INTO tools_out(name,tools_id,emp_id,unit,comment,qty_out,date_out) 
+    VALUES ('$name','$edit_id','$emp_id','$unit','$comment','$qty_out','$date_out')";
+    if ($conn->query($sqlx) === TRUE) {
+    }
+
+    $sqlxxx = "UPDATE tools  SET qty='$sum_qty',qty_out='$sum_qtyout' where id='$edit_id'";
+    if ($conn->query($sqlxxx) === TRUE) { ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("บันทึกสินค้าชำรุดสำเร็จ", "alert-primary");
+            });
+        </script>
+<?php }
+}
+?>
+<!DOCTYPE html>
+<html lang="en" dir="">
+
+
+
+<!DOCTYPE html>
+<html lang="en" dir="">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>รายการเครื่องมือช่าง</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="../../dist-assets/css/themes/lite-purple.min.css?v=11" rel="stylesheet" />
+    <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../dist-assets/css/plugins/datatables.min.css" />
+</head>
+<style>
+    .table-sm th,
+    .table-sm td {
+        padding: 0.3rem;
+        font-size: 0.813rem !important;
+    }
+</style>
+
+<script>
+    function reP() {
+        window.location.href = 'tools.php';
+    }
+</script>
 
 <body class="text-left">
     <div class="app-admin-wrap layout-horizontal-bar">
         <!-- Header -->
-        <?php include './include/header.php';
-        include './include/config.php'; ?>
+        <?php include './include/header.php'; 
+        include './include/config.php';
+        ?>
         <!-- =============== Header End ================-->
         <!-- side bar menu -->
         <?php include './include/menu.php'; ?>
@@ -132,17 +159,17 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                             <div class="mb-1">
                                 <div class="ul-widget__item">
                                     <div class="ul-widget__info">
-                                        <h3 class="ul-widget1__title ">สต๊อกสินค้านำเข้าจำหน่าย  </h3>
-                                      
+                                        <h3 class="ul-widget1__title ">เครื่องมือช่าง </h3>
+
                                     </div>
                                     <div class="pull-right">
-                                    <div class="pull-right">
-                                    <button type="button" onclick="reP()" class="btn btn btn-success mb-2 mr-2">
-                                    <i class="text-20 i-Restore-Window"></i></button>
-                                    <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
-                                        เพิ่มสต็อกนำเข้า
-                                    </button>
-                                    </div>
+                                        <div class="pull-right">
+                                            <button type="button" onclick="reP()" class="btn btn btn-success mb-2 mr-2">
+                                                <i class="text-20 i-Restore-Window"></i></button>
+                                            <button type="button" class="btn btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#Modal-add1"><i class="fa fa-plus"></i>
+                                                เพิ่มครื่องมือ
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -153,18 +180,16 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                                         <div class="card-body">
 
                                             <div class="table-responsive">
-                                            <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
-                                                
+                                                <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
                                                     <thead>
                                                         <tr>
                                                             <th>วันที่</th>
-                                                            <th>รหัสสินค้า</th>
-                                                            <th>ประเภทสินค้า</th>
-                                                            <th>ชื่อสินค้า</th>
+                                                            <th>ชื่อเครื่องมือ</th>
                                                             <th>จำนวน</th>
-                                                            <th>โรงงาน 1</th>
+                                                            <th>นำออก</th>
 
-                                                            <th>หน่วยนับ</th>
+                                                            <th>รายละเอียด</th>
+                                                            <th>ผู้รับเข้า</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -173,39 +198,35 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
 
                                                         <?php
 
-                                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM production_import  where  status='0'  order by product_id asc ");
-                                                        $total_records = mysqli_fetch_array($result_count);
-                                                        $total_records = $total_records['total_records'];
-                                                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
-                                                        $second_last = $total_no_of_pages - 1; // total page minus 1
-                                                        $result = mysqli_query($conn, "SELECT * FROM production_import   where    status='0'   order by date_import  ASC  ");
+
+                                                        $result = mysqli_query($conn, "SELECT * FROM tools  where    status='0'   order by date_import  ASC  ");
                                                         while ($row = mysqli_fetch_array($result)) { ?>
                                                             <tr>
-                                                                <td> <?php $date = explode(" ", $row['date_import']);
-                                                                        $dat = datethai2($date[0]);
+                                                                <td> <?php 
+                                                                       
                                                                         echo $row['date_import'] ?></td>
-                                                                <td><?php echo $row["product_id"]; ?></td>
-                                                                <td><?php
-                                                                    $sql3 = "SELECT * FROM product_type WHERE ptype_id= '$row[ptype_id]'";
-                                                                    $rs3 = $conn->query($sql3);
-                                                                    $row3 = $rs3->fetch_assoc();
-                                                                    $sql_pro = "SELECT * FROM product WHERE product_id= '$row[product_id]'";
-                                                                    $rs_pro = $conn->query($sql_pro);
-                                                                    $row_pro = $rs_pro->fetch_assoc();
-                                                                    echo $row3['ptype_name'];  ?> </td>
-                                                                <td> <?php echo $row_pro["product_name"]; ?></td>
-                                                                <td> <?php echo $row["qty"]; ?> </td>
-                                                                <td> <?php echo $row_pro["fac1_stock"]; ?> </td>
+                                                                <td><?php echo $row["name"]; ?></td>
                                                                 <td> <?php
-                                                                        $sql4 = "SELECT * FROM unit WHERE id= '$row_pro[units]'";
-                                                                        $rs4 = $conn->query($sql4);
-                                                                        $row4 = $rs4->fetch_assoc();
-                                                                        echo $row4['unit_name'];
+                                                                        $sql3 = "SELECT * FROM unit_tools  WHERE id= '$row[unit]'";
+                                                                        $rs3 = $conn->query($sql3);
+                                                                        $row3 = $rs3->fetch_assoc();
 
-                                                                        ?>
-                                                                </td>
+                                                                        echo $row["qty"] . ':' . $row3['name']; ?></td>
                                                                 <td>
+                                                                <a data-toggle="modal" data-target="#view-modal4" data-id="<?php echo $row['id']; ?>" id="edit4" class="btn  btn-sm line-height-1">
+                                                                    <?php if ($row["qty_out"] > 0) {
+                                                                        echo $row["qty_out"] . ':' . $row3['name'];
+                                                                    } ?> </a></td>
+
+                                                                <td> <?php echo $row["comment"]; ?> </td>
+
+                                                                <td> <?php echo $row["emp_id"]; ?> </td>
+
+                                                                <td>
+                                                                    <button data-toggle="modal" data-target="#view-modal" data-id="<?php echo $row['id']; ?>" id="edit" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
+                                                                    <button data-toggle="modal" data-target="#Modal-move" data-id="<?php echo $row['id']; ?>" id="edit_bin" class="btn btn-outline-success btn-sm line-height-1"> <i class="i-Gear font-weight-bold" title="เครื่องมือชำรุด"></i> </button>
                                                                     <button type="button" class="btn btn-outline-info btn-sm line-height-1" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal_del"> <i class="i-Close-Window font-weight-bold"></i> </button>
+
                                                                 </td>
                                                             </tr>
                                                         <?php
@@ -214,14 +235,13 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                                                         ?>
                                                     <tfoot>
                                                         <tr>
-                                                        <th>วันที่</th>
-                                                            <th>รหัสสินค้า</th>
-                                                            <th>ประเภทสินค้า</th>
-                                                            <th>ชื่อสินค้า</th>
+                                                            <th>วันที่</th>
+                                                            <th>ชื่อเครื่องมือ</th>
                                                             <th>จำนวน</th>
-                                                            <th>โรงงาน 1</th>
+                                                            <th>นำออก</th>
 
-                                                            <th>หน่วยนับ</th>
+                                                            <th>รายละเอียด</th>
+                                                            <th>ผู้รับเข้า</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </tfoot>
@@ -251,7 +271,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                                 </div>
                             </div><!-- ============ Search UI Start ============= -->
                             <!-- Modal ADD -->
-  
+
 
                             <!-- ============ Search UI End ============= -->
                             <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
@@ -303,11 +323,79 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
         </div>
     </div>
 </div>
+<div id="view-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                                    แสดงรายการจำหน่ายออก</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <!-- mysql data will be load here -->
+                                <div id="dynamic-content4"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+<div id="Modal-move" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>เครื่องมือชำรุด จำหน่ายออก
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="box-content">
+                    <div class="form-row">
+                        <div class="modal-body">
+
+                            <!-- mysql data will be load here -->
+                            <div id="dynamic-content7"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal edit -->
+<div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i> แก้ไขข้อมูล</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+
+
+                    <div id="dynamic-content"></div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="Modal-add1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>เพิ่มสต็อกสินค้านำเข้าจำหน่าย
+                <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>เพิ่มเครื่องมือช่าง
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
@@ -316,47 +404,50 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                 <form class="form-horizontal well" action="" method="post" name="upload_excel" enctype="multipart/form-data">
                     <div class="box-content">
                         <div class="form-row">
-                            <div class="form-group col-md-5">
-                                <label for="accNameId"><strong>ประเภทสินต้า<span class="text-danger"></span></strong></label>
-                                <select name="ptype_id" id="ptype_id" class="classcus custom-select " required>
-                                    <option value="">เลือกประเภทสินค้า</option>
+                            <div class="form-group col-md-6">
+                                <label for="accNameId"><strong>ชื่อเครื่องมือช่าง<span class="text-danger"></span></strong></label>
+                                <input type="text" name="name" value="" class="form-control" require>
+
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="accNameId"><strong>รายละเอียด<span class="text-danger"></span></strong></label>
+                                <input type="text" name="comment" value="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <?php $datex = date('Y-m-d'); ?>
+                                <label for="accNameId"><strong>วันที่รับเข้า<span class="text-danger"></span></strong></label>
+                                <input id="date_import" name="date_import" value="<?php echo "$datex"; ?>" class="form-control" type="date" min="2021-06-01" require>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <?php $datex = date('Y-m-d'); ?>
+                                <label for="accNameId"><strong>จำนวน<span class="text-danger"></span></strong></label>
+                                <input id="qty" name="qty" value="<?php echo "$qty"; ?>" class="form-control" type="text" require>
+                            </div>
+                            <div class="form-group col-md-3">
+
+                                <label for="accNameId"><strong>จำนวน<span class="text-danger"></span></strong></label>
+                                <select name="unit" id="unit" class="classcus custom-select " required>
+                                    <option value="">หน่วยนับ</option>
                                     <?php
-                                    $sql6 = "SELECT *  FROM product_type  WHERE stock_m='1'   order by ptype_id ASC ";
+                                    $sql6 = "SELECT *  FROM unit_tools     order by name ASC ";
                                     $result6 = mysqli_query($conn, $sql6);
                                     if (mysqli_num_rows($result6) > 0) {
                                         while ($row6 = mysqli_fetch_assoc($result6)) {
                                     ?>
-                                            <option value="<?= $row6['ptype_id'] ?>" <?php if (isset($row['ptype_id']) && ($row['ptype_id'] == $row6['ptype_id'])) {
-                                                                                            echo "selected"; ?>>
-                                                <?= $row6['ptype_name'] ?>
+                                            <option value="<?= $row6['id'] ?>" <?php if (isset($row['unit']) && ($row['unit'] == $row6['id'])) {
+                                                                                    echo "selected"; ?>>
+                                                <?= $row6['name'] ?>
                                             <?php  } else {      ?>
-                                            <option value="<?= $row6['ptype_id'] ?>"> <?= $row6['ptype_name'] ?>
+                                            <option value="<?= $row6['id'] ?>"> <?= $row6['name'] ?>
                                             <?php } ?>
                                             </option>
                                     <?php  }
                                     }  ?>
 
                                 </select>
-
-                            </div>
-
-                            <div class="form-group col-md-5">
-                                <label for="accNameId"><strong>รหัสสินค้า<span class="text-danger"></span></strong></label>
-                                <select name="productx1" id="productx1" class="classcus custom-select" data-index="1">
-                                    <option value="">เลือกสินค้านำเข้า</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-5">
-                                <?php $datex = date('Y-m-d'); ?>
-                                <label for="accNameId"><strong>วันที่นำเข้า<span class="text-danger"></span></strong></label>
-                                <input id="date_import" name="date_import" value="<?php echo "$datex"; ?>" class="form-control" type="date" min="2021-06-01" require>
-                            </div>
-                            <div class="form-group col-md-5">
-                                <?php $datex = date('Y-m-d'); ?>
-                                <label for="accNameId"><strong>จำนวน<span class="text-danger"></span></strong></label>
-                                <input id="qty" name="qty" value="<?php echo "$qty"; ?>" class="form-control" type="text" require>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -462,7 +553,7 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
             $('#dynamic-content').html(''); // leave this div blank
             $('#modal-loader').show(); // load ajax loader on button click
             $.ajax({
-                    url: 'setting_ptype_edit.php',
+                    url: 'tools_edit.php',
                     type: 'POST',
                     data: 'id=' + uid,
                     dataType: 'html'
@@ -475,6 +566,34 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
                 })
                 .fail(function() {
                     $('#dynamic-content').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader').hide();
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit_bin', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content7').html(''); // leave this div blank
+            $('#modal-loader').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'tools_bin.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content7').html(''); // blank before load.
+                    $('#dynamic-content7').html(data); // load here
+                    $('#modal-loader').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content7').html(
                         '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                     );
                     $('#modal-loader').hide();
@@ -520,5 +639,32 @@ VALUES ('$productx1','$ptype_id','$date_import','$qty','$emp_id')";
 
     }); // multi column ordering
 </script>
-
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#edit4', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id'); // get id of clicked row
+            $('#dynamic-content4').html(''); // leave this div blank
+            $('#modal-loader4').show(); // load ajax loader on button click
+            $.ajax({
+                    url: 'tools_show.php',
+                    type: 'POST',
+                    data: 'id=' + uid,
+                    dataType: 'html'
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('#dynamic-content4').html(''); // blank before load.
+                    $('#dynamic-content4').html(data); // load here
+                    $('#modal-loader4').hide(); // hide loader  
+                })
+                .fail(function() {
+                    $('#dynamic-content4').html(
+                        '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                    $('#modal-loader4').hide();
+                });
+        });
+    });
+</script>
 </html>
