@@ -451,7 +451,7 @@ if ($action == 'edit_bin') {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">เพิ่มสต็อก</button>
+                            <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">เพิ่มรายการเครื่องมือช่าง</button>
 
                             <input type="hidden" name="action" value="add">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
