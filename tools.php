@@ -184,6 +184,7 @@ if ($action == 'edit_bin') {
                                                     <thead>
                                                         <tr>
                                                             <th>วันที่</th>
+                                                            <th>รหัสเครื่องมือ</th>
                                                             <th>ชื่อเครื่องมือ</th>
                                                             <th>จำนวน</th>
                                                             <th>นำออก</th>
@@ -205,6 +206,7 @@ if ($action == 'edit_bin') {
                                                                 <td> <?php 
                                                                        
                                                                         echo $row['date_import'] ?></td>
+                                                                         <td><?php echo $row["id"]; ?></td>
                                                                 <td><?php echo $row["name"]; ?></td>
                                                                 <td> <?php
                                                                         $sql3 = "SELECT * FROM unit_tools  WHERE id= '$row[unit]'";
@@ -236,6 +238,7 @@ if ($action == 'edit_bin') {
                                                     <tfoot>
                                                         <tr>
                                                             <th>วันที่</th>
+                                                            <th>รหัสเครื่องมือ</th>
                                                             <th>ชื่อเครื่องมือ</th>
                                                             <th>จำนวน</th>
                                                             <th>นำออก</th>
