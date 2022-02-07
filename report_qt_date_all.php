@@ -5,12 +5,9 @@ if (isset($_SESSION["username"])) {
     header("location:signin.php");
 }
 $emp_id = $_SESSION["username"];
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -19,7 +16,6 @@ $emp_id = $_SESSION["username"];
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="../../dist-assets/css/plugins/datatables.min.css" />
 </head>
 <?php
@@ -32,17 +28,14 @@ $sql_pday = "SELECT count(production_detail.product_id) AS today FROM production
 production_order.po_enddate LIKE  '$datex%'  ";
 $rs_pday = $conn->query($sql_pday);
 $row_pday = $rs_pday->fetch_assoc();
-
 $sql_pdaycf = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='0'  ";
 $rs_pdaycf = $conn->query($sql_pdaycf);
 $row_pdaycf = $rs_pdaycf->fetch_assoc();
-
 $sql_pdaycf1 = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 production_order.po_enddate LIKE  '$datex%' AND production_detail.status_stock='1'  ";
 $rs_pdaycf1 = $conn->query($sql_pdaycf1);
 $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
-
 ?>
 
 <body class="text-left">
@@ -53,7 +46,6 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
         <!-- side bar menu -->
         <?php include './include/menu.php'; ?>
         <!-- =============== Left side End ================-->
-
         <!-- =============== Horizontal bar End ================-->
         <div class="main-content-wrap d-flex flex-column">
             <!-- ============ Body content start ============= -->
@@ -76,7 +68,6 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                         <h4 class="h5 font-weight-bold"> รายงานใบเสนอทั้งหมด
                         </h4>
                     </a>
-
                 </li>
             </ul>
             <div class="tab-content">
@@ -87,14 +78,10 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                         </h1>
                         <a class="btn btn btn-success mb-2 mr-2" href="/report_qt_excel.php">export excel</a>
                     </div>
-
-
-
                     <div class="row mb-4">
                         <div class="col-md-12 mb-4">
                             <div class="card text-left">
                                 <div class="card-body">
-
                                     <div class="table-responsive">
                                         <table class="display table table-striped table-bordered" id="orderby1" style="width:100%">
                                             <thead>
@@ -102,7 +89,6 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                     <th scope="col">#</th>
                                                     <th scope="col" class="text-right">เลขที่ QT</th>
                                                     <th scope="col" class="text-right">เลขที่สั่งชื้อ</th>
-
                                                     <th scope="col" class="text-left">ลูกค้า</th>
                                                     <th scope="col" class="text-left">ประเภทลูกค้า</th>
                                                     <th scope="col" class="text-left">รับสินค้า</th>
@@ -131,23 +117,18 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                         $sql_custype = "SELECT * FROM customer_type WHERE id='$row4[cus_type]' ";
                                                         $rs_custype = $conn->query($sql_custype);
                                                         $row_custype = $rs_custype->fetch_assoc();
-
                                                         $sql_cusback = "SELECT * FROM customer_back WHERE id='$row4[cus_back]' ";
                                                         $rs_cusback = $conn->query($sql_cusback);
                                                         $row_cusback = $rs_cusback->fetch_assoc();
-
                                                         $sql_sumx = "SELECT ROUND(SUM(total_price), 2) AS sum   FROM order_details WHERE order_id='$row4[order_id]' ";
                                                         $rs_sumx = $conn->query($sql_sumx);
                                                         $row_sumx = $rs_sumx->fetch_assoc();
-
                                                         $sql_ai = "SELECT * FROM ai_number  WHERE  order_id='$row4[order_id]' ";
                                                         $rs_ai = $conn->query($sql_ai);
                                                         $row_ai = $rs_ai->fetch_assoc();
-
                                                         $sql_sumx1 = "SELECT SUM(total_price) AS sum   FROM deliver_detail  WHERE order_id='$row4[order_id]'  AND status_cf='1'";
                                                         $rs_sumx1 = $conn->query($sql_sumx1);
                                                         $row_sumx1 = $rs_sumx1->fetch_assoc();
-
                                                         if ($row4['order_status'] == 1) {
                                                             $order_status = 'เสนอราคา';
                                                         }
@@ -157,25 +138,21 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                         if ($row4['order_status'] == 5) {
                                                             $order_status = 'จัดส่งเรียบร้อย';
                                                         }
-
                                                 ?>
                                                         <tr>
                                                             <th scope="row"><?= ++$idx; ?></th>
                                                             <td class="text-right"><?php echo $row4['qt_id']; ?> </td>
                                                             <td class="text-right"><?php echo $row4['order_id']; ?> </td>
-
                                                             <td class="text-left"><?php echo $row_cus['customer_name']; ?></td>
                                                             <td class="text-left"><?php echo $row_custype['name']; ?></td>
                                                             <td class="text-left"><?php echo $row_cusback['name']; ?></td>
                                                             <td class="text-left"><?php echo $order_status; ?></td>
                                                             <td class="text-right"><?php echo number_format($row_sumx['sum'], '2', '.', ',');
                                                                                     $sum_dev = $sum_dev + $row_sumx['sum']; ?></td>
-
                                                             <td class="text-right"><?php echo number_format($row_ai['price'], '2', '.', ',');
                                                                                     $sum_total = $sum_total + $row_ai['price']; ?></td>
                                                             <td class="text-right"><?php echo number_format($row_sumx1['sum'], '2', '.', ',');
                                                                                     $sum_total2 = $sum_total2 + $row_sumx1['sum']; ?></td>
-
                                                             <td class="text-right"><a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ดูข้อมูลใบเสนอราคา" href="/report_qt_detail.php?order_id=<?= $row4['order_id'] ?>">
                                                                     <i class="i-Check font-weight-bold"></i> </a></td>
                                                             <td class="text-left"> <?php $date = explode(" ", $row4['qt_date']);
@@ -195,7 +172,6 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                                     <th scope="col" class="text-right"><?php echo number_format($sum_dev, '2', '.', ','); ?></th>
                                                     <th scope="col" class="text-right"><?php echo number_format($sum_total, '2', '.', ','); ?></th>
                                                     <th scope="col" class="text-right"><?php echo number_format($sum_total2, '2', '.', ','); ?></th>
-
                                                     <th scope="col" class="text-right"></th>
                                                     <th scope="col" class="text-right"></th>
                                                 </tr>
@@ -204,17 +180,14 @@ $row_pdaycf1 = $rs_pdaycf1->fetch_assoc();
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-               
-   
-    </div><!-- end of main-content -->
-    </div>
-    <!-- Header -->
-    <?php include './include/footer.php'; ?>
-    <!-- =============== Header End ================-->
-    </div>
+                </div><!-- end of main-content -->
+            </div>
+            <!-- Header -->
+            <?php include './include/footer.php'; ?>
+            <!-- =============== Header End ================-->
+        </div>
     </div>
     <script src="../../dist-assets/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="../../dist-assets/js/plugins/bootstrap.bundle.min.js"></script>

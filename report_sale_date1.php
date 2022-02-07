@@ -135,7 +135,7 @@ $d = explode("-", $datex);
                                                                 $rs_sum = $conn->query($sql_sum);
                                                                 $row_sum = $rs_sum->fetch_assoc();
 
-                                                                $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  delivery.dev_date ='$row4[dev_date]' AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
+                                                                $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  where  delivery.dev_date ='$row4[dev_date]' AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
                                                                 $rs_sum1 = $conn->query($sql_sum1);
                                                                 $row_sum1 = $rs_sum1->fetch_assoc();
 

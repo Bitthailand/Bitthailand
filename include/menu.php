@@ -104,6 +104,7 @@
                                         <ul>
                                             <li><a href="tools.php"><i class="nav-icon mr-2 i-Factory1"></i><span class="item-name">รายการเครื่องมือ</span></a></li>
                                             <li><a href="tools_bin_report.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">เครื่องมือชำรุด</span></a></li>
+                                            <li><a href="tools_label.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">พริ้น Lable</span></a></li>
                                             <li><a href="tools_unit.php"><i class="nav-icon mr-2 i-Code-Window"></i><span class="item-name">หน่วยนับ</span></a></li>  
                                          
 

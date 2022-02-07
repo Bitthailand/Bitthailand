@@ -43,7 +43,7 @@ if (mysqli_num_rows($result) > 0) {
         $rs_sum = $conn->query($sql_sum);
         $row_sum = $rs_sum->fetch_assoc();
 
-        $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND   MONTH(delivery.dev_date) = '$d1[1]'  AND YEAR(delivery.dev_date) = '$d1[0]'  AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
+        $sql_sum1 = "SELECT SUM(ai_number.price) AS price   FROM delivery  where   MONTH(delivery.dev_date) = '$d1[1]'  AND YEAR(delivery.dev_date) = '$d1[0]'  AND  ai_number.aix_status = '0' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1' ";
         $rs_sum1 = $conn->query($sql_sum1);
         $row_sum1 = $rs_sum1->fetch_assoc();
         $sql_sum4 = "SELECT SUM(delivery.ai_count) AS ai_count FROM delivery  INNER JOIN ai_number  ON  delivery.order_id=ai_number.order_id AND  MONTH(delivery.dev_date) = '$d1[1]' AND YEAR(delivery.dev_date) = '$d1[0]'   AND delivery.ai_status = '1' AND   delivery.status_chk='1' AND delivery.status_payment='1' AND delivery.cus_type='1'";
