@@ -171,60 +171,85 @@ error_reporting(0);
     <div class="col-12 text-right">
         <button class="btn-primary mb-sm-0 mb-3" onclick="window.print()">พิมพ์</button>
     </div>
+
+   
+
     <div align="center">
         <?php
-         $result_count = mysqli_query($conn, "SELECT qty  As sum_qty FROM tools   where    status='0' ");
-         $total_records = mysqli_fetch_array($result_count);
-         $total_records = $total_records['sum_qty'];
-        $result = mysqli_query($conn, "SELECT * FROM tools  where    status='0'   order by date_import  ASC     ");
-        echo "<table border=\"0\"  cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" ><tr>";
-        // $intRows = 0;
-        while ($row = mysqli_fetch_array($result)) {
-           
-            for ($intRowsx = 1; $intRowsx<= $row['qty']; $intRowsx++) {
-                // $intRows=$intRows+$row['qty'];
-                $intRows++;
+      $total_page_data = 0;  // เก็บจำนวนหน้า รายการทั้งหมด
+      $total_page_item = 10; // จำนวนรายการที่แสดงสูงสุดในแต่ละหน้า
+      $total_records = 0; // ไว้เก็บจำนวนรายการจริงทั้งหมด
+      $arr_data_set = array(array()); // [][];
+      $result_count = mysqli_query($conn, "SELECT SUM(qty)  As sum_qty FROM tools   where    status='0' ");
+      $total_records = mysqli_fetch_array($result_count);
+      $total_records = $total_records['sum_qty'];
+    //   echo"$total_records";
 
-           
-            // for ($x = 1; $x <= $row['qty']; $x++) {
-            // if($row['qty']< 1){ 
-            // for ($x = 0; $x <= $row['qty']; $x++) {
-               
-            echo "<td>";
-
-
+      
+        $sql = "SELECT * FROM tools  where    status='0'   order by date_import  ASC  ";
+        $result = $conn->query($sql);
+        $i = 1;
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows > 0) {  // คิวรี่ข้อมูลสำเร็จหรือไม่ และมีรายการข้อมูลหรือไม่
+            $total_page_item_all = $result->num_rows; // จำนวนรายการทั้งหมด
+            $total_page_data = ceil($total_records / $total_page_item); // หาจำนวนหน้าจากรายการทั้งหมด
           
-            ?>
+         for ($i = 1; $i <= $total_page_data; $i++) { ?>
+                <div class="page-break<?= ($i == 1) ? "-no" : "" ?>"></div>
+          <?php   echo "<table border=\"0\"  cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" ><tr>";
+            // $intRows = 0;
+
+            while ($row = mysqli_fetch_array($result)) {
                
+                for ($intRowsx = 1; $intRowsx <= $row['qty']; $intRowsx++) {
+                    // $intRows=$intRows+$row['qty'];
+                    $intRows++;
+
+                    $i++;
+                    // for ($x = 1; $x <= $row['qty']; $x++) {
+                    // if($row['qty']< 1){ 
+                    // for ($x = 0; $x <= $row['qty']; $x++) {
+
+                    echo "<td>";
+
+
+
+        ?>
+
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td height="60" class="left_right_bottom">
                                 <div align="left">
-                                    <p style="font-size: 20px;"><?=$intRows?>//<?= $row['id'] ?>::<?= $row['name'] ?><br><?= $row['comment'] ?>จำนวน<?= $row['qty'] ?></p>
+                                    <p style="font-size: 20px;"><?= $row['id'] ?>::<?= $row['name'] ?><br><?= $row['comment'] ?></p>
                                 </div>
                             </td>
                         </tr>
-               
-            
+
+
                     </table>
-                   
-            
-                  
-                <?php
-                echo "</td>";
-                if (($intRows) % 3 == 0) {
-                    echo "</tr>";
-                } else {
-                    echo "<td>";
+
+
+
+        <?php
+                    echo "</td>";
+                    if (($intRows) % 3 == 0) {
+                        echo "</tr>";
+                    } else {
+                        echo "<td>";
+                    }
+                    // }
+                    // }
                 }
-                // }
-                // }
-         } }
-            echo "</tr></table>";
-                ?>
+            }
+       
+        echo "</tr></table>";
+         }
+        }
+        ?>
 
 
     </div>
+
 </body>
 
 </html>
