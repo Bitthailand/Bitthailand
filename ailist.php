@@ -363,7 +363,7 @@ if ($action == 'cancle_ai') {
                                                 </td>
                                                 <td>
                                                 <?php
-                                                    $sql_ai = "SELECT * FROM ai_number   WHERE order_id= '$row[order_id]' AND aix_status='0' ";
+                                                    $sql_ai = "SELECT SUM(price) AS price,id AS id FROM ai_number   WHERE order_id= '$row[order_id]' AND aix_status='0' ";
                                                     $rs_ai = $conn->query($sql_ai);
                                                     $row_ai = $rs_ai->fetch_assoc();
                                                    
