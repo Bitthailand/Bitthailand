@@ -407,6 +407,9 @@ if ($action == 'edit') {
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)" href="/quotation.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-File font-weight-bold"></i>
                                                     </a>
+                                                    <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="ออกใบเสนอราคา(QT)รูปภาพ" href="/quotation_im.php?order_id=<?= $row['order_id'] ?>" target="_blank">
+                                                        <i class="i-Landscape font-weight-bold"></i>
+                                                    </a>
                                                     <a class="btn btn-outline-success btn-sm line-height-1" data-toggle="tooltip" title="มัดจำสินค้า(AI)" href="/addai.php?order_id=<?= $row['order_id'] ?>" target="_blank">
                                                         <i class="i-Money-Bag font-weight-bold"></i>
                                                     </a>
