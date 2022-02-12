@@ -77,6 +77,7 @@ $sum = $sum_totalz + $row_ai['total'] + $row_pay['totalx'] + $row_sum3['total'] 
 
 // รายปี
 
+
 $sql_month = "SELECT  DATE_FORMAT(dev_date,'%Y') As MyDate ,SUM(discount) AS discount ,SUM(pay_full) AS pay_full FROM delivery  WHERE    status_chk='1' AND status_payment='1' AND   YEAR(dev_date) = '$d[0]' ";
 $rs_month = $conn->query($sql_month);
 $row_month = $rs_month->fetch_assoc();
