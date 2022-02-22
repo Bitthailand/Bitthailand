@@ -380,6 +380,25 @@ if ($action == 'edit_vat') {
         </script>
     <?php   }
 }
+if ($action == 'edit_text') {
+    $edit_id = $_REQUEST['edit_id'];
+    $discount_text = $_REQUEST['discount_text'];
+
+    $event_msg = "หน้าแก้ไขข้อมูล $order_id  แก้ไขข้อความ  $discount_text  ";
+    $sql_event = "INSERT INTO log (order_id,emp_id,event)
+    VALUES ('$order_id ','$emp_id','$event_msg')";
+    if ($conn->query($sql_event) === TRUE) {
+    }
+
+    $sql2 = "UPDATE orders   SET discount_text='$discount_text'   where order_id='$edit_id'";
+    if ($conn->query($sql2) === TRUE) {  ?>
+        <script>
+            $(document).ready(function() {
+                showAlert("แก้ไขสถานะข้อความส่วนลดสำเร็จ", "alert-success");
+            });
+        </script>
+    <?php   }
+}
 
 
 if ($action == 'del') {
@@ -943,6 +962,7 @@ if ($action == 'add') {
 
                                     </div>
                                     <div class="form-group col-md-6">
+                                    <button data-toggle="modal" data-target="#view-modal12" data-id="<?php echo $order_id; ?>" id="edit12"  class="btn feather feather-folder-plus  btn-sm line-height-1"> <i class="i-Pen-2 font-weight-bold"></i> </button>
                                         <label for="discount_text"><strong>รายละเอียดส่วนลด <span class="text-danger"></span></strong></label>
                                         <input type="text" name="discount_text" id="discount_text" value="<?= $main['discount_text'] ?>" class="classcus form-control" placeholder="รายละเอียดส่วนลด">
                                     </div>
@@ -1301,6 +1321,26 @@ if ($action == 'add') {
         </div>
     </div>
 
+    <div id="view-modal12" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-pencil"></i>
+                        แก้ไขสถานะข้อความส่วนลด</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- mysql data will be load here -->
+                    <div id="dynamic-content12"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Modal ยืนยันส่งสินค้า -->
     <div class="modal fade" id="modalcus" tabindex="-1" role="dialog" aria-labelledby="medaltransuccess-2" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
@@ -1536,6 +1576,36 @@ if ($action == 'add') {
                             '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
                         );
                         $('#modal-loader6').hide();
+                    });
+            });
+        });
+    </script>
+
+
+<script>
+        $(document).ready(function() {
+            $(document).on('click', '#edit12', function(e) {
+                e.preventDefault();
+                var uid = $(this).data('id'); // get id of clicked row
+                $('#dynamic-content12').html(''); // leave this div blank
+                $('#modal-loader12').show(); // load ajax loader on button click
+                $.ajax({
+                        url: 'discount_text_edit.php',
+                        type: 'POST',
+                        data: 'id=' + uid,
+                        dataType: 'html'
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        $('#dynamic-content12').html(''); // blank before load.
+                        $('#dynamic-content12').html(data); // load here
+                        $('#modal-loader12').hide(); // hide loader  
+                    })
+                    .fail(function() {
+                        $('#dynamic-content12').html(
+                            '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                        $('#modal-loader12').hide();
                     });
             });
         });
