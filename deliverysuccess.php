@@ -58,7 +58,7 @@ $(document).ready(function() {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Order | เสนอราคา</title>
+    <title>ส่งสินค้าเรียบร้อย</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="../../dist-assets/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="../../dist-assets/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -185,13 +185,13 @@ $(document).ready(function() {
                                         $next_page = $page_no + 1;
                                         $adjacents = "2";
 
-                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `delivery` where  status='0' AND status_chk='1'   $columx $keywordx ORDER BY date_create DESC ");
+                                        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM `delivery` where  status='0' AND status_chk='1'  AND dev_id <>'0'  $columx $keywordx ORDER BY date_create DESC ");
                                         $total_records = mysqli_fetch_array($result_count);
                                         $total_records = $total_records['total_records'];
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
 
-                                        $result = mysqli_query($conn, "SELECT * FROM `delivery` where status='0'  AND status_chk='1'   $columx $keywordx ORDER BY date_create DESC  LIMIT $offset, $total_records_per_page");
+                                        $result = mysqli_query($conn, "SELECT * FROM `delivery` where status='0'  AND status_chk='1'  AND dev_id <>'0'    $columx $keywordx ORDER BY date_create DESC  LIMIT $offset, $total_records_per_page");
                                         while ($row = mysqli_fetch_array($result)) { ?>
                                         <tr>
                                         <td> <?= $row['dev_id'] ?> </td>
