@@ -177,7 +177,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                 </div>
                 <div class="row">
                     <!-- ICON BG-->
-                    <div class="col-md-3 col-lg-3">
+                    <div class="col-md-3 col-lg-4">
                         <div class="card mb-2">
                             <div class="card-body">
                                 <div class="ul-widget__row">
@@ -192,7 +192,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-lg-3">
+                    <div class="col-md-3 col-lg-4">
                         <div class="card mb-2">
                             <div class="card-body">
                                 <div class="ul-widget__row">
@@ -206,7 +206,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-lg-3">
+                    <div class="col-md-3 col-lg-4">
                         <div class="card mb-2">
                             <div class="card-body">
                                 <div class="ul-widget__row">
@@ -220,20 +220,7 @@ $row_order_year = $rs_order_year->fetch_assoc();
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-lg-3">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <div class="ul-widget__row">
-                                    <div class="ul-widget-stat__font"><i class="i-Add-User text-warning"></i></div>
-                                    <div class="ul-widget__content">
-                                        <p class="m-0">ลูกค้า Online : Wark-in</p>
-                                        <h4 class="heading">352 : 52</h4>
-                                        <small class="text-muted m-0">ในรอบปี 2,256 : 534</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="row">
                     <div class="col-lg-8 col-md-12">
