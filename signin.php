@@ -31,7 +31,7 @@ if ($action == 'login') {
             VALUES ('$row[username]','ลงชื่อเข้าระบบ')";
             if ($conn->query($sql) === TRUE) {
             }
-            // $_SESSION["time"] = time() + 30000;
+            $_SESSION["time"] = time() + 150000;
          
             if ($row['level'] == 1) {
                 header('Location: index.php');
