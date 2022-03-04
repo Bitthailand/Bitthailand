@@ -426,18 +426,7 @@ if ($action == 'add_hs') {
                             </table>
                         </div>
                         <!-- ============ Table End ============= -->
-                        <div class="mt-1">
-                            <span class="text-danger mr-1">**</span>
-                            <span class="text-muted">-</span>
-                        </div>
-                        <div class="">
-                            <span class="text-danger mr-1">**</span>
-                            <span class="text-muted">-</span>
-                        </div>
-                        <div class="">
-                            <span class="text-danger mr-1">**</span>
-                            <span class="text-muted">-</span>
-                        </div>
+                      
                         <div class="mb-5 mt-3">
                             <nav aria-label="Page navigation ">
                                 <ul class="pagination justify-content-center">
