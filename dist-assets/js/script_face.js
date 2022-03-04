@@ -21,7 +21,7 @@ $(function() {
             console.log('re', result)
             $.each(result, function(index, item) {
                 productxObject.append(
-                    $('<option></option>').val(item.id).html(item.product_id + item.product_name + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
+                    $('<option></option>').val(item.id).html(item.product_id + item.product_name + '  หนัก' + item.weight + '  หนา' + item.thickness + '  ขนาดลวด' + item.dia_size + '  จำนวน' + item.dia_count)
                 );
             });
         });
@@ -46,14 +46,15 @@ $(function() {
                 // var cal_cons;
 
 
+                // var cal_item = item.weight / 2400;
                 var cal_item = item.width * item.size;
-
                 if (item.area !== 'undefined') {
-                    var cal_cons = item.width * item.size * item.thickness;
+                    var cal_cons = item.weight / 2400;
                 }
                 if (item.area >= 1) {
-                    var cal_cons = item.width * item.size * item.thickness * item.area;
+                    // var cal_cons = item.width * item.size * item.thickness * item.area;
                 }
+                var cal_cons = item.weight / 2400;
 
                 console.log('=========คำนวณตรงๆ=====================');
                 console.log('item.width', item.width);

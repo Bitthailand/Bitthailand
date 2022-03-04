@@ -36,7 +36,7 @@ $query4 = mysqli_query($conn, $sql4);
         </div>
         <div class="form-group col-md-8">
             <label for="plant"><strong>สินค้าที่ผลิต <span class="text-danger"></span></strong></label>
-            <input type="text" class="classcus form-control" value="<?php echo $row3['product_id']; ?> - <?php echo $row3['product_name']; ?> - ยาว <?php echo $row3['width']; ?>  ขนาดลวด <?php echo $row3['dia_size']; ?> จำนวน <?php echo $row3['dia_count']; ?>  " placeholder="สินค้าผลิต" disabled>
+            <input type="text" class="classcus form-control" value="<?php echo $row3['product_id']; ?> - <?php echo $row3['product_name']; ?>- หนัก <?php echo $row3['weight']; ?> - ยาว <?php echo $row3['width']; ?>  ขนาดลวด <?php echo $row3['dia_size']; ?> จำนวน <?php echo $row3['dia_count']; ?>  " placeholder="สินค้าผลิต" disabled>
         </div>
     </div>
     <div class="row mt-12">
@@ -50,6 +50,8 @@ $query4 = mysqli_query($conn, $sql4);
             <input type="hidden" name="size12" id="size2" value="<?php echo $row3['size']; ?>">
             <input type="hidden" name="thickness2" id="thickness2" value="<?php echo $row3['thickness']; ?>">
             <input type="hidden" name="area2" id="area2" value="<?php echo $row3['area']; ?>">
+
+            <input type="hidden" name="weight2" id="weight2" value="<?php echo $row3['weight']; ?>">
         </div>
 
         <div class="form-group col-md-4">
@@ -79,6 +81,7 @@ $query4 = mysqli_query($conn, $sql4);
             let qty2 = $("#qty2").val();
             let concrete_cal2 = $("#concrete_cal2").val();
             let width2 = $("#width2").val();
+            let weight2 = $("#weight2").val();
             let size2 = $("#size2").val();
             let thickness2 = $("#thickness2").val();
             let area2= $("#area2").val();
@@ -93,10 +96,10 @@ $query4 = mysqli_query($conn, $sql4);
 
             var sum_sqm2 = (width2  * size2* qty2* 1000 / 1000).toFixed(3);
             if (area2 !== 'undefined') {
-            var sum_concrete2= (width2  * size2 * thickness2 * qty2* 1000 / 1000).toFixed(3);
+            var sum_concrete2= (weight2 /2400 * qty2* 1000 / 1000).toFixed(3);
             }
             if (area2 >= 1) {
-            var sum_concrete2 = (width2  * size2 * thickness2 * area2 * qty2 *  1000 / 1000).toFixed(3);
+            var sum_concrete2 = (weight2 /2400 * qty2 *  1000 / 1000).toFixed(3);
             }
 
             $("#sqm2").val(sum_sqm2);
