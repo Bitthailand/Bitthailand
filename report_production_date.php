@@ -24,9 +24,10 @@ include './include/config.php';
 $MyMonth = $_REQUEST['MyMonth'];
 
 $date1 = explode(" ", $MyMonth);
-$dat1 = datethai2($date1[0]);
+$dat1 = datethai2($MyMonth);
 include './get_dashbord_production_date.php';
 $d = explode("-", $MyMonth);
+
 $sql_pday = "SELECT count(production_detail.product_id) AS today FROM production_order INNER JOIN production_detail ON production_order.po_id=production_detail.po_id AND 
 production_order.po_enddate LIKE  '$datex%'  ";
 $rs_pday = $conn->query($sql_pday);
