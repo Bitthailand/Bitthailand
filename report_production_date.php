@@ -84,7 +84,7 @@ $row_pday = $rs_pday->fetch_assoc();
                         <div class="col-lg-12 col-md-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="card-title">ยอดผลิตประจำเดือน <?= $dat1 ?></div>
+                                    <div class="card-title">ยอดผลิตประจำเดือน <?= $MyMonth ?></div>
                                     <div id="echartBar" style="height: 300px;"></div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@ $row_pday = $rs_pday->fetch_assoc();
 
                                             <div class="ul-widget__head">
                                                 <div class="ul-widget__head-label">
-                                                    <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าแบบรายเดือน <?= $dat1 ?></h3>
+                                                    <h3 class="ul-widget__head-title">รายการสั่งผลิตสินค้าแบบรายเดือน <?= $MyMonth ?></h3>
                                                 </div>
 
                                             </div>
