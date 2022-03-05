@@ -73,7 +73,7 @@ $row_pday = $rs_pday->fetch_assoc();
                         <h1 class="mr-2">ข้อมูลสั่งผลิตสินค้า
                         </h1>
                         <ul>
-                            <li><a href="">ภาพรวมการผลิตรายเดือน <?= $dat1 ?></a></li>
+                            <li><a href="">ภาพรวมการผลิตรายเดือน <?= $MyMonth ?></a></li>
 
                         </ul>
                     </div>
