@@ -388,10 +388,10 @@ $row5 = $rs5->fetch_assoc();
                                     echo "*";
                                 }
                                 echo"&nbsp;";
-                                if ($face_out1== '') { } else {
+                                if (($face_out1== '')||($face_out1== 0)) { } else {
                                     echo "#โรงงาน1: " . $face_out1."&nbsp;";
                                 }
-                                if ($face_out2== '') { } else {
+                                if (($face_out2== '')||($face_out2== 0) ) { } else {
                                     echo "#โรงงาน2: " . $face_out2."&nbsp;";
                                 }
                               
