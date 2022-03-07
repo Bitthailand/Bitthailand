@@ -20,6 +20,7 @@ echo "$row[product_id]";
             <th>จำนวนสั่งผลิต</th>
             <th>เข้าสต็อก</th>
             <th>ชำรุด</th>
+            <th>สั่งผลิตโดย</th>
             <th>รับเข้าโดย</th>
             <th>วันที่</th>
         </tr>
@@ -27,12 +28,12 @@ echo "$row[product_id]";
     <tbody id="myTable">
         <?php
 
-        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM production_detail where  product_id= '$row[product_id]' AND status_stock='1'   ");
+        $result_count = mysqli_query($conn, "SELECT COUNT(*) As total_records FROM production_log  where  product_id= '$row[product_id]'    ");
         $total_records = mysqli_fetch_array($result_count);
         $total_records = $total_records['total_records'];
         $total_no_of_pages = ceil($total_records / $total_records_per_page);
         $second_last = $total_no_of_pages - 1; // total page minus 1
-        $result = mysqli_query($conn, "SELECT * FROM production_detail where  product_id= '$row[product_id]' AND status_stock='1'  ORDER BY date_create DESC  ");
+        $result = mysqli_query($conn, "SELECT * FROM production_log  where  product_id= '$row[product_id]'  ORDER BY date_create DESC  ");
         while ($rowx = mysqli_fetch_array($result)) { ?>
             <tr>
                 <td><?php echo $rowx["product_id"]; ?></td>
@@ -40,6 +41,7 @@ echo "$row[product_id]";
                 <td><?php echo $rowx["qty"]; $qtyx=$qtyx+$rowx["qty"]; ?></td>
                  <td> <?php echo $rowx["a_type"]; $a_type=$a_type+$rowx["a_type"]; ?> </td>
                 <td> <?php echo $rowx["b_type"]; $b_type=$b_type+$rowx["b_type"];  ?> </td>
+                <td> <?php echo $rowx["emp_check"]; ?> </td>
                 <td> <?php echo $rowx["employee_id"]; ?> </td>
                 <td> <?php $date = explode(" ", $rowx['date_create']);
                                                     $dat = datethai2($date[0]);

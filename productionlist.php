@@ -198,7 +198,7 @@ if ($action == 'add_stock') {
                             if ($conn->query($sqlx) === TRUE) {
                             }
                         }
-                        $sqlx1 = "UPDATE production_detail   SET a_type='$totalstock1',b_type='$totalstock2'  WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' AND id='$rowx[id]'  ";
+                        $sqlx1 = "UPDATE production_detail   SET a_type='$totalstock1',b_type='$totalstock2' ,employee__check='$emp_id'  WHERE po_id= '$rowx[po_id]' AND product_id='$rowx[product_id]' AND id='$rowx[id]'  ";
                         if ($conn->query($sqlx1) === TRUE) { ?>
                             <script>
                                 $(document).ready(function() {
@@ -207,6 +207,10 @@ if ($action == 'add_stock') {
                             </script>
                 <?php
                         }
+                        $sqlx5 = "INSERT INTO production_log   (po_id,product_id,a_type,b_type,emp_check,qty,employee_id)
+                        VALUES ('$rowx[po_id]','$product_id','$stock_a','$stock_b','$emp_id','$rowx[qty]','$rowx[employee_id]')";
+                            if ($conn->query($sqlx5) === TRUE) {
+                            }
                     }
                 }
             } else { ?>
