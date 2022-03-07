@@ -107,6 +107,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
                                                                             <th scope="col">#</th>
                                                                             <th scope="col" class="text-left">รหัสสินค้า</th>
                                                                             <th scope="col" class="text-left">ชื่อสินค้า</th>
+                                                                            <th scope="col" class="text-left">ข้อมูลพิเศษ</th>
                                                                             <th scope="col" class="text-left">สต็อกโรงงาน1</th>
                                                                             <th scope="col" class="text-left">สต็อกโรงงาน2</th>
                                                                             <th scope="col" class="text-left">รวมสต็อก</th>
@@ -150,6 +151,7 @@ $sum_stock_all = $sum_stock - $row_dev['dev_qty'];
 
                                                                                         ?>
                                                                                         <?= $row4['product_name'] ?></td>
+                                                                                        <td class="text-left"><?php echo $row4['spacial']; ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row4['fac1_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php echo number_format($row4['fac2_stock'], '0', '.', ',') ?></td>
                                                                                     <td class="text-left"><?php $sum_all=$row4['fac1_stock']+$row4['fac2_stock'];  echo number_format($sum_all, '0', '.', ',') ?></td>
