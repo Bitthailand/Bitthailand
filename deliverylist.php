@@ -114,12 +114,17 @@ if ($action == 'add_cfx') {
         if ($conn->query($sqlx12) === TRUE) {
         }
     }
-
+    if ($rowx3['qty'] == 0) {
+        $sqlx12 = "UPDATE orders  SET order_status='5',error_status='22' WHERE order_id= '$row[order_id]' ";
+        if ($conn->query($sqlx12) === TRUE) {
+        }
+    }
     $event_msg = "ยืนยันการส่งสินค้าวิธีรับโดย บริษัทจัดส่งสินค้า ใบสั่งชื้อ $row[order_id] เลขที่จัดส่ง $dev_id ";
     $sql_event = "INSERT INTO log (order_id,emp_id,event)
     VALUES ('$row[order_id] ','$emp_id','$event_msg')";
     if ($conn->query($sql_event) === TRUE) {
     }
+   
     if ($row['cus_back']==3){
         $event_msg = "ยืนยันการส่งสินค้าวิธีรับโดย ลูกค้ารับกลับเอง ใบสั่งชื้อ $row[order_id] เลขที่จัดส่ง $dev_id ";
         $sql_event = "INSERT INTO log (order_id,emp_id,event)
