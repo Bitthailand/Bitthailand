@@ -52,10 +52,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
   // แบ่งตามประเภทสินค้า PIE
-$sql = "SELECT product.ptype_id AS ptype, product_type.ptype_name AS pname,SUM(production_detail.qty) AS qty,SUM(product.unit_price)AS unit_price, SUM(qty*unit_price) AS CO FROM  product INNER JOIN production_detail
-ON product.product_id = production_detail.product_id 
-INNER JOIN product_type ON  product.ptype_id = product_type.ptype_id AND production_detail.status_stock='1' 
-INNER JOIN production_order ON  YEAR(production_order.po_enddate) = '$d[0]'  GROUP BY product.ptype_id"; 
+$sql = "SELECT  product_type.ptype_name AS pname,product.ptype_id,SUM(production_detail.qty)AS qty,SUM(product.unit_price)AS unit_price, SUM(qty*unit_price) AS CO FROM production_detail,production_order,product,product_type  WHERE  product.product_id = production_detail.product_id AND  production_order.po_id=production_detail.po_id  AND   YEAR(production_order.po_date) = '$d[0]'  AND product.ptype_id = product_type.ptype_id  GROUP BY  product.ptype_id "; 
 $result = mysqli_query($conn, $sql);
 $content = [];
 if (mysqli_num_rows($result) > 0) {
