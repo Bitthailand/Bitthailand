@@ -213,6 +213,8 @@ $row5 = $rs5->fetch_assoc();
             $arr_data_set['unit_price'][$i] = $row['unit_price'];
             $arr_data_set['ptype'][$i] = $row['ptype_id'];
             $arr_data_set['status_new'][$i] = $row['status_new'];
+            $arr_data_set['face_out1'][$i] = $row['face_out1'];
+            $arr_data_set['face_out2'][$i] = $row['face_out2'];
             $i++;
         }
     }
@@ -359,8 +361,12 @@ $row5 = $rs5->fetch_assoc();
                     $_ptype = isset($arr_data_set['ptype'][$item_i]) ? $arr_data_set['ptype'][$item_i] : "";
                     $_disunit = isset($arr_data_set['disunit'][$item_i]) ? $arr_data_set['disunit'][$item_i] : "";
                     $_unit_price = isset($arr_data_set['unit_price'][$item_i]) ? $arr_data_set['unit_price'][$item_i] : "";
+                    $face_out1 = isset($arr_data_set['face_out1'][$item_i]) ? $arr_data_set['face_out1'][$item_i] : "";
+                    $face_out2 = isset($arr_data_set['face_out2'][$item_i]) ? $arr_data_set['face_out2'][$item_i] : "";
                     $item_i = isset($arr_data_set['name_th'][$item_i]) ? $item_i : "";
                     $_status_new = isset($arr_data_set['status_new'][$item_i]) ? $arr_data_set['status_new'][$item_i] : "";
+                   
+                    
                 ?>
                     <?php if ($_ptype <> 'TF') { ?>
                         <tr>
@@ -372,6 +378,7 @@ $row5 = $rs5->fetch_assoc();
                                 $rsx3 = $conn->query($sqlx3);
                                 $rowx3 = $rsx3->fetch_assoc();
                                 echo $rowx3['product_name'];
+                               
                                 if ($rowx3['spacial'] == '') {
                                 } else {
                                     echo "  (" . $rowx3['spacial'] . ")";
@@ -380,6 +387,14 @@ $row5 = $rs5->fetch_assoc();
                                 if ($_status_new == 1) {
                                     echo "*";
                                 }
+                                echo"&nbsp;";
+                                if ($face_out1== '') { } else {
+                                    echo "#โรงงาน1: " . $face_out1."&nbsp;";
+                                }
+                                if ($face_out2== '') { } else {
+                                    echo "#โรงงาน2: " . $face_out2."&nbsp;";
+                                }
+                              
                                 $sql_unit = "SELECT * FROM unit  WHERE id= '$rowx3[units]' ";
                                 $rs_unit = $conn->query($sql_unit);
                                 $row_unit = $rs_unit->fetch_assoc();

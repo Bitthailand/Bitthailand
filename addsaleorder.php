@@ -204,8 +204,8 @@ if ($action == 'add_dev') {
                         $sumtotal = $sum_dis * $total_instock;
                         $sumtotalx[] = $sumtotal;
 
-                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back)
-                            VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]')";
+                        $sqlx = "INSERT INTO deliver_detail (dev_id,product_id,order_id,dev_qty,unit_price,total_price,disunit,ptype_id,cus_type,cus_back,face_out1,face_out2)
+                            VALUES ('$dev_id','$product_id','$order_id','$total_instock','$rowx[unit_price]','$sumtotal','$rowx[disunit]','$rowx[ptype_id]','$cus_type','$row_or[cus_back]','$stock1','$stock2')";
                         if ($conn->query($sqlx) === TRUE) {
                         }
                         // echo"dd";
