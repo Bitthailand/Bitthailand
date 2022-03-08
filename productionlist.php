@@ -209,8 +209,13 @@ if ($action == 'add_stock') {
                         }
                         $sqlx5 = "INSERT INTO production_log   (po_id,product_id,a_type,b_type,emp_check,qty,employee_id)
                         VALUES ('$rowx[po_id]','$product_id','$stock_a','$stock_b','$emp_id','$rowx[qty]','$rowx[employee_id]')";
-                            if ($conn->query($sqlx5) === TRUE) {
-                            }
+                        if ($conn->query($sqlx5) === TRUE) {
+                        }
+                    }
+                    $event_msg = "รับสินค้าเข้าสต็อก  " . $product_id . " สินค้าดี :$stock_a  สินค้าชำรุด :$stock_b รับเข้าโดย: $emp_id  จำนวน: $rowx[qty]";
+                    $sql_event = "INSERT INTO log (product_id,emp_id,event)
+                   VALUES ('$product_id','$emp_id','$event_msg')";
+                    if ($conn->query($sql_event) === TRUE) {
                     }
                 }
             } else { ?>
@@ -345,14 +350,14 @@ if ($action == 'del') {
                                     </div>
                                     <div class="text-left">
                                         <div class="row">
-                                            
+
                                             <div class="col-auto">
                                                 <div class="form-group">
                                                     <label for="searchNameId"> คำที่ต้องการค้น</label>
                                                     <input id="myInput" class="form-control" placeholder="Keyword" type="text" value="">
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="col-auto">
                                                 <a href="/addproduction.php?status_po=new" class="btn btn-outline-primary mt-4" role="button" aria-pressed="true"> เพิ่มรายการสั่งผลิต</a>
 
@@ -405,7 +410,8 @@ if ($action == 'del') {
                                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
                                         $second_last = $total_no_of_pages - 1; // total page minus 1
                                         $result = mysqli_query($conn, "SELECT * FROM `production_order`   where status='0'  AND status_cf='0' $colum_po ORDER BY date_create DESC LIMIT $offset, $total_records_per_page");
-                                        while ($row = mysqli_fetch_array($result)) {       $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC ");
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            $count = mysqli_query($conn, "SELECT COUNT(*) As total FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC ");
                                             $total = mysqli_fetch_array($count);
                                             $count = 0;
                                             $sqlxx = "SELECT *  FROM production_detail  where po_id = '$row[po_id]' AND status='0'   ORDER BY id ASC  ";
